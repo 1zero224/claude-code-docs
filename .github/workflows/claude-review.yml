@@ -34,17 +34,10 @@ jobs:
       id-token: write
 
     steps:
-      - name: Generate GitHub App token
-        id: app-token
-        uses: actions/create-github-app-token@v2
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ steps.app-token.outputs.token }}
+          token: ${{ github.token }}
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.event.pull_request.merge_commit_sha }}
 
@@ -75,10 +68,10 @@ jobs:
         # token's repo permissions, not by the (ignored) allowlist.
         uses: anthropics/claude-code-action@v1.0.168
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          github_token: ${{ steps.app-token.outputs.token }}
+          github_token: ${{ github.token }}
           allowed_bots: "claude-yolo[bot],github-actions[bot]"
           claude_args: |
             --model claude-sonnet-4-6

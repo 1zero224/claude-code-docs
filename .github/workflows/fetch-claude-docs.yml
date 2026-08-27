@@ -19,21 +19,10 @@ jobs:
       AWS_REGION: us-west-2
 
     steps:
-      - name: Generate GitHub App token
-        id: app-token
-        uses: actions/create-github-app-token@v2
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-
-      # Make the writable token the default for all later steps in this job
-      - name: Export token for subsequent steps
-        run: echo "GITHUB_TOKEN=${{ steps.app-token.outputs.token }}" >> "$GITHUB_ENV"
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ steps.app-token.outputs.token }}
+          token: ${{ github.token }}
 
       - name: Install uv and Python 3.14t
         uses: astral-sh/setup-uv@v7
@@ -44,7 +33,7 @@ jobs:
 
       - name: Fetch all Anthropic docs
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: uv run scripts/fetcher.py
 
       - name: Setup GitHub CLI and Git
@@ -67,10 +56,10 @@ jobs:
         # broke 'Bash(gh pr:*)' -> 3 weeks of pushed branches with no PRs.
         uses: anthropics/claude-code-action@v1.0.168
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          github_token: ${{ steps.app-token.outputs.token }}
+          github_token: ${{ github.token }}
           allowed_bots: "claude-yolo[bot]"
           show_full_output: true
           claude_args: |
@@ -191,7 +180,7 @@ jobs:
       # plain bash with real error propagation - no agent permissions involved.
       - name: Publish decision
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          GITHUB_TOKEN: ${{ github.token }}
           BARK_SERVER: ${{ secrets.BARK_SERVER }}
           BARK_DEVICES: ${{ secrets.BARK_DEVICES }}
         run: |
@@ -249,7 +238,7 @@ jobs:
       # instead of lying green. (June 2026: 31 orphan branches, all runs green.)
       - name: Verify outcome
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           BRANCH=$(git branch --show-current)
           if [ -n "$(git status --porcelain)" ]; then
