@@ -30,6 +30,7 @@ Usage:
 # ///
 
 import asyncio
+import html
 import hashlib
 import json
 import os
@@ -38,8 +39,9 @@ import sys
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from collections import defaultdict
 from datetime import datetime, timezone
+from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urljoin, urlsplit
 from typing import Dict, List, Optional
 
 import aiofiles
@@ -81,6 +83,144 @@ FETCHED_DOMAINS = {
 # Archived, deliberately not refreshed: anthropic.com is HTML-only and the
 # jina.ai proxy path was removed in 2026-07.
 FROZEN_DOMAINS = {"anthropic.com"}
+FETCHED_SURFACES = {
+    ("claude.com", "/docs/", "markdown"),
+    ("claude.com", "/blog/", "html"),
+}
+
+
+def surface_is_fetched(domain: str, prefix: str, content_format: str) -> bool:
+    """Return whether discovery's path/format surface has an archive owner."""
+    if (domain, prefix, content_format) in FETCHED_SURFACES:
+        return True
+    if domain in FROZEN_DOMAINS:
+        return True
+    # Existing sources own all Markdown pages on their respective domains.
+    # Claude.com is intentionally path-specific because /blog/ is HTML-only.
+    return domain in FETCHED_DOMAINS - {"claude.com"} and content_format == "markdown"
+
+
+class BlogHtmlExtractor(HTMLParser):
+    """Extract the article rich-text body from Claude's Webflow HTML pages."""
+
+    SKIP_TAGS = {"script", "style", "noscript", "svg", "nav", "footer"}
+    BLOCK_TAGS = {"p", "div", "section", "figure", "blockquote", "pre",
+                  "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol"}
+
+    def __init__(self, source_url: str):
+        super().__init__(convert_charrefs=True)
+        self.source_url = source_url
+        self.depth = 0
+        self.target_depth: Optional[int] = None
+        self.skip_depth: Optional[int] = None
+        self.output: List[str] = []
+        self.link_stack: List[str] = []
+        self.code_depth = 0
+        self.pre_depth = 0
+        self.list_depth = 0
+
+    @staticmethod
+    def _attrs(attrs) -> Dict[str, str]:
+        return {key: value or "" for key, value in attrs}
+
+    def _in_target(self) -> bool:
+        return self.target_depth is not None and self.depth >= self.target_depth
+
+    def _newline(self):
+        if self.output and not self.output[-1].endswith("\n"):
+            self.output.append("\n")
+
+    def handle_starttag(self, tag: str, attrs):
+        attrs_dict = self._attrs(attrs)
+        classes = set(attrs_dict.get("class", "").split())
+        self.depth += 1
+
+        if self.target_depth is None and (
+            tag == "article" or "u-rich-text-blog" in classes
+        ):
+            self.target_depth = self.depth
+        if tag in self.SKIP_TAGS and self._in_target():
+            self.skip_depth = self.depth
+        if not self._in_target() or self.skip_depth is not None:
+            return
+
+        if tag in self.BLOCK_TAGS:
+            self._newline()
+        if tag in {"h1", "h2", "h3", "h4", "h5", "h6"}:
+            self.output.append("#" * int(tag[1]) + " ")
+        elif tag == "li":
+            self._newline()
+            self.output.append("- " if self.list_depth == 0 else "  " * self.list_depth + "- ")
+        elif tag in {"ul", "ol"}:
+            self.list_depth += 1
+        elif tag == "br":
+            self._newline()
+        elif tag == "strong" or tag == "b":
+            self.output.append("**")
+        elif tag == "em" or tag == "i":
+            self.output.append("*")
+        elif tag == "code":
+            self.code_depth += 1
+            if self.pre_depth == 0:
+                self.output.append("`")
+        elif tag == "pre":
+            self.pre_depth += 1
+            self._newline()
+            self.output.append("```\n")
+        elif tag == "a" and attrs_dict.get("href"):
+            self.link_stack.append(urljoin(self.source_url, attrs_dict["href"]))
+            self.output.append("[")
+        elif tag == "img" and attrs_dict.get("src"):
+            self.output.append(f"![{attrs_dict.get('alt', '')}]({urljoin(self.source_url, attrs_dict['src'])})")
+
+    def handle_endtag(self, tag: str):
+        if self.skip_depth == self.depth:
+            self.skip_depth = None
+        if self._in_target() and self.skip_depth is None:
+            if tag in {"strong", "b"}:
+                self.output.append("**")
+            elif tag in {"em", "i"}:
+                self.output.append("*")
+            elif tag == "code":
+                self.code_depth = max(0, self.code_depth - 1)
+                if self.pre_depth == 0:
+                    self.output.append("`")
+            elif tag == "pre":
+                self.pre_depth = max(0, self.pre_depth - 1)
+                self._newline()
+                self.output.append("```\n")
+            elif tag == "a" and self.link_stack:
+                self.output.append(f"]({self.link_stack.pop()})")
+            elif tag in {"ul", "ol"}:
+                self.list_depth = max(0, self.list_depth - 1)
+            elif tag in self.BLOCK_TAGS:
+                self._newline()
+        if self.target_depth == self.depth and tag in {"article", "div"}:
+            # The rich-text div is the intended boundary; article is the fallback.
+            if tag == "article" or self.target_depth is not None:
+                self.target_depth = None
+        self.depth = max(0, self.depth - 1)
+
+    def handle_data(self, data: str):
+        if self._in_target() and self.skip_depth is None:
+            text = data if self.pre_depth else re.sub(r"\s+", " ", data)
+            if text:
+                self.output.append(html.unescape(text))
+
+    def markdown(self) -> str:
+        text = "".join(self.output)
+        text = re.sub(r"[ \t]+\n", "\n", text)
+        text = re.sub(r"\n{3,}", "\n\n", text)
+        return text.strip() + "\n" if text.strip() else ""
+
+
+def extract_blog_markdown(content: bytes, source_url: str) -> bytes:
+    parser = BlogHtmlExtractor(source_url)
+    parser.feed(content.decode("utf-8", errors="replace"))
+    markdown = parser.markdown()
+    if not markdown:
+        raise ValueError("could not find a blog article body in upstream HTML")
+    return markdown.encode("utf-8")
 
 
 def normalize_url(url: str) -> str:
@@ -136,6 +276,7 @@ class Fetcher:
         # docs sites. Found by following the redirects on 8 support articles
         # that had gone soft-404 — upstream had been pointing here for weeks.
         self.claude_com_sitemap_url = "https://claude.com/docs/sitemap.xml"
+        self.claude_com_root_sitemap_url = "https://claude.com/sitemap.xml"
 
         self.stats = {"total": 0, "downloaded": 0, "skipped": 0,
                       "failed": 0, "dead": 0, "reaped": 0}
@@ -150,6 +291,9 @@ class Fetcher:
         # Collected here and reaped after the run, not deleted inline, so the
         # circuit breaker below can see the whole batch at once.
         self.soft_404_paths: List[Path] = []
+        # HTML-derived blog files are safe to remove when their source URL is
+        # confirmed gone; ordinary Markdown archives remain human-preserved.
+        self.reap_safe_paths: set[Path] = set()
 
         # URLs already confirmed gone upstream, with the date we confirmed it.
         # Without this every dead page fails on every run forever: 123 permanent
@@ -230,8 +374,9 @@ class Fetcher:
     # -- Reverse mapping: what we already archived -------------------------
 
     # Sections of content/ whose files came from a URL we can re-derive.
-    # github/ is fetched by repo tree walk, blog/ is a frozen archive.
-    _REFETCHABLE = ("en", "mcp", "support", "claude")
+    # The old anthropic.com blog archive is excluded; only blog/claude/ is
+    # owned by the live claude.com/blog source.
+    _REFETCHABLE = ("en", "mcp", "support", "claude", "blog/claude")
 
     def existing_urls(self) -> List[str]:
         """URLs for docs already on disk — the inverse of get_output_path.
@@ -273,6 +418,9 @@ class Fetcher:
                 elif parts[0] == "claude":
                     tail = "/".join(parts[1:])
                     urls.append(f"https://claude.com/docs/{tail}")
+                elif parts[:2] == ("blog", "claude"):
+                    tail = "/".join(parts[2:])
+                    urls.append(f"https://claude.com/blog/{tail}")
         return urls
 
     # -- Output path mapping ----------------------------------------------
@@ -296,6 +444,9 @@ class Fetcher:
         elif "claude.com/docs" in url:
             path = url.replace("https://claude.com/docs/", "")
             return self.output_dir / "claude" / f"{path}.md"
+        elif "claude.com/blog" in url:
+            path = url.replace("https://claude.com/blog/", "")
+            return self.output_dir / "blog" / "claude" / f"{path}.md"
         else:
             path = url.replace("https://", "").split("/", 1)[-1]
             return self.output_dir / f"{path}.md"
@@ -382,6 +533,52 @@ class Fetcher:
                         "status": "dead" if url in self.tombstones else "failed",
                         "error": f"HTTP {e.status}",
                     }
+                self.stats["failed"] += 1
+                return {"url": url, "status": "failed", "error": f"HTTP {e.status}"}
+            except Exception as e:
+                self.stats["failed"] += 1
+                return {"url": url, "status": "failed", "error": str(e)}
+
+    async def download_blog(self, session, url, semaphore) -> Dict:
+        """Fetch a claude.com/blog HTML page and archive its article body."""
+        async with semaphore:
+            output_path = self.get_output_path(url)
+            if self.incremental and output_path.exists():
+                self.stats["skipped"] += 1
+                return {"url": url, "status": "skipped"}
+            try:
+                async with session.get(url) as r:
+                    r.raise_for_status()
+                    content = await r.read()
+                    landed = normalize_url(str(r.url))
+                    if landed != url:
+                        self.dead_now[url] = f"moved -> {landed}"
+                        if output_path.exists():
+                            self.soft_404_paths.append(output_path)
+                            self.reap_safe_paths.add(output_path)
+                        self.stats["failed"] += 1
+                        return {"url": url, "status": "dead" if url in self.tombstones else "failed",
+                                "error": f"moved to {landed}"}
+                    markdown = extract_blog_markdown(content, url)
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                async with aiofiles.open(output_path, "wb") as f:
+                    await f.write(markdown)
+                self.stats["downloaded"] += 1
+                if url in self.tombstones:
+                    self.resurrected.append(url)
+                return {"url": url, "status": "success",
+                        "path": str(output_path.relative_to(self.output_dir)),
+                        "sha256": hashlib.sha256(markdown).hexdigest(),
+                        "size": len(markdown), "format": "html-extracted"}
+            except aiohttp.ClientResponseError as e:
+                if e.status in (404, 410):
+                    if output_path.exists():
+                        self.soft_404_paths.append(output_path)
+                        self.reap_safe_paths.add(output_path)
+                    self.dead_now[url] = f"HTTP {e.status}"
+                    self.stats["failed"] += 1
+                    return {"url": url, "status": "dead" if url in self.tombstones else "failed",
+                            "error": f"HTTP {e.status}"}
                 self.stats["failed"] += 1
                 return {"url": url, "status": "failed", "error": f"HTTP {e.status}"}
             except Exception as e:
@@ -489,6 +686,12 @@ class Fetcher:
                 queued.add(url)
                 tasks.append(self.download_doc(session, url, semaphore))
 
+            def queue_blog(url: str):
+                if url in queued:
+                    return
+                queued.add(url)
+                tasks.append(self.download_blog(session, url, semaphore))
+
             # -- Platform docs --
             if self.want("api", "platform"):
                 print("Source: platform.claude.com/sitemap.xml")
@@ -526,6 +729,17 @@ class Fetcher:
             # -- Blog (anthropic.com): FROZEN 2026-07 --
             # HTML-only upstream (no llms.txt / .md variant); the jina.ai
             # proxy path was removed. content/blog/ stays as a static archive.
+
+            # -- Claude blog (claude.com): live HTML source -----------------
+            if self.want("blog"):
+                print("Source: claude.com/sitemap.xml (/blog/)")
+                xml = await self.fetch_text(session, self.claude_com_root_sitemap_url)
+                urls = self.extract_sitemap_urls(xml, "/blog/")
+                urls = [u for u in urls if u.startswith("https://claude.com/blog/")]
+                counts["blog"] = len(urls)
+                print(f"  {len(urls)} articles")
+                for url in urls:
+                    queue_blog(url)
 
             # -- Support articles --
             if self.want("support"):
@@ -788,20 +1002,18 @@ class Fetcher:
             return False
 
     def reap(self, dry_run: bool = False) -> int:
-        """Delete archived files whose upstream is gone — but only the markup.
+        """Delete gone files only when their source explicitly permits it.
 
         "Gone upstream" and "should be deleted" are different questions for an
         archive. A file holding an HTML shell is markup we failed to recognise
-        as an error; deleting it loses nothing. A file holding real markdown
-        whose URL now 404s is the opposite: Anthropic removed the page and our
-        copy may be the only one left. content/en/resources/prompt-library/ is
-        exactly that — 19 pages, ~20KB each, redirected away to a generic
-        best-practices page in 2026-08. An unattended job that merges its own
-        PRs has no business destroying those, so they are reported for a human
-        instead.
+        as an error; deleting it loses nothing. HTML-derived claude.com/blog
+        files are also explicitly managed by this source and may be removed.
+        Ordinary real Markdown whose URL now 404s is the opposite: Anthropic
+        removed the page and our copy may be the only one left, so it is
+        reported for a human instead.
         """
         candidates = sorted(set(self.soft_404_paths))
-        paths = [p for p in candidates if self._holds_markup(p)]
+        paths = [p for p in candidates if self._holds_markup(p) or p in self.reap_safe_paths]
         keep = [p for p in candidates if p not in set(paths)]
 
         if keep:
@@ -828,7 +1040,7 @@ class Fetcher:
             return 0
 
         verb = "would reap" if dry_run else "reaped"
-        print(f"\nReaping {len(paths)} file(s) gone upstream (HTML markup, no loss):")
+        print(f"\nReaping {len(paths)} file(s) gone upstream (managed source copy):")
         for p in paths:
             print(f"  {verb}: {p}")
             if not dry_run:
@@ -848,14 +1060,12 @@ class Fetcher:
         to be a signal *about*; a file that always changes says nothing when it
         changes. Capability booleans flip once, on the day the answer is news.
 
-        `serves_markdown` is the one that decides everything: it is the exact
-        test for whether this fetcher could archive the domain at all. It is why
-        academy.claude.com sits recorded-but-unfetched (725 pages, every path a
-        404 to an HTML shell) rather than being silently forgotten, and the day
-        upstream adds .md variants that `false` becomes a `true` in a diff.
+        `path_prefixes` records the exact path and content formats the fetcher
+        can see. The old domain-wide `serves_markdown` field remains as a
+        compatibility summary, but coverage decisions use path_prefixes.
         """
         out = {"serves_llms_txt": False, "serves_sitemap": False,
-               "serves_markdown": False}
+               "serves_markdown": False, "path_prefixes": {}}
         locs: List[str] = []
 
         for path in ("/llms.txt", "/docs/llms.txt"):
@@ -885,22 +1095,41 @@ class Fetcher:
                 # is a fact about the domain, not an error to swallow silently.
                 out["serves_sitemap"] = "blocked"
 
-        # Sample doc pages, not the first <loc>. The first entry is the site
+        # Sample pages by path prefix, not the first <loc>. The first entry is the site
         # root on platform.claude.com and a localised marketing page on
         # claude.com — neither has a .md twin, so a one-sample probe called both
         # domains markdown-incapable while the fetcher was busy pulling 829 .md
         # files off them. Spread the sample so one dead page cannot decide it.
-        docs = [u for u in locs if "/docs/" in u] or locs
-        step = max(1, len(docs) // 5)
-        for sample in docs[::step][:5]:
-            try:
-                async with session.get(f"{sample}.md") as r:
-                    body = await r.read()
-                    if r.status == 200 and not looks_like_html(body):
-                        out["serves_markdown"] = True
-                        break
-            except Exception:
-                pass
+        prefixes = defaultdict(list)
+        for url in locs:
+            path = urlsplit(url).path
+            prefix = "/" + path.strip("/").split("/", 1)[0] + "/" if path.strip("/") else "/"
+            prefixes[prefix].append(url)
+        for prefix, prefix_urls in prefixes.items():
+            capability = {"url_count": len(prefix_urls),
+                          "serves_markdown": False, "serves_html": False}
+            step = max(1, len(prefix_urls) // 5)
+            for sample in prefix_urls[::step][:5]:
+                try:
+                    async with session.get(f"{sample}.md") as r:
+                        body = await r.read()
+                        if r.status == 200 and not looks_like_html(body):
+                            capability["serves_markdown"] = True
+                except Exception:
+                    pass
+                try:
+                    async with session.get(sample) as r:
+                        body = await r.read()
+                        if r.status == 200 and "html" in r.headers.get("content-type", ""):
+                            if prefix == "/blog/":
+                                extract_blog_markdown(body, sample)
+                            capability["serves_html"] = True
+                except Exception:
+                    pass
+            out["path_prefixes"][prefix] = capability
+        out["serves_markdown"] = any(
+            item["serves_markdown"] for item in out["path_prefixes"].values()
+        )
         return out
 
     async def snapshot_discovery(self, session) -> dict:
@@ -953,11 +1182,16 @@ class Fetcher:
 
         fetched_repos = {r for r, _, _ in GITHUB_REPOS}
         org = sorted(await self._list_org_repos(session))
-        review = sorted(
-            f"{d}: reachable and serves .md, but not fetched"
-            for d, v in domains.items()
-            if v.get("serves_markdown") and v["status"] not in ("fetched", "frozen")
-        )
+        review = []
+        for domain, value in domains.items():
+            for prefix, capability in value.get("path_prefixes", {}).items():
+                for content_format, field in (("markdown", "serves_markdown"),
+                                              ("html", "serves_html")):
+                    if capability.get(field) and not surface_is_fetched(domain, prefix, content_format):
+                        review.append(
+                            f"{domain}{prefix}: serves {content_format}, but that path is not fetched"
+                        )
+        review.sort()
 
         snapshot = {
             "version": 1,
@@ -965,8 +1199,8 @@ class Fetcher:
                 "What the last full run could see outside sources.json. Written "
                 "by the fetcher so a new source arrives as a diff a human "
                 "reviews, not as a line in an Actions log nobody reads. Stable "
-                "facts only: a change here is always news. `review` is the "
-                "actionable list — domains we could archive today and do not."
+                "facts only: a change here is always news. `path_prefixes` records "
+                "content formats by URL path, and `review` lists uncovered surfaces."
             ),
             "updated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             "domains": domains,
@@ -1043,7 +1277,7 @@ class Fetcher:
     def validate_url(self, url: str) -> bool:
         allowed = [
             "platform.claude.com", "code.claude.com",
-            "modelcontextprotocol.io", "claude.com/docs",
+            "modelcontextprotocol.io", "claude.com/docs", "claude.com/blog",
         ]
         return any(f"https://{d}" in url for d in allowed)
 
@@ -1054,10 +1288,10 @@ class Fetcher:
             for u in invalid:
                 print(f"  {u}", file=sys.stderr)
             print("Allowed: platform.claude.com, code.claude.com, "
-              "modelcontextprotocol.io, claude.com/docs", file=sys.stderr)
+              "modelcontextprotocol.io, claude.com/docs, claude.com/blog", file=sys.stderr)
             sys.exit(1)
 
-        normalized = [u[:-3] if u.endswith(".md") else u for u in urls]
+        normalized = [normalize_url(u[:-3] if u.endswith(".md") else u) for u in urls]
         print(f"Fetching {len(normalized)} URL(s)")
 
         timeout = aiohttp.ClientTimeout(total=300)
@@ -1066,7 +1300,8 @@ class Fetcher:
             self.stats["total"] = len(normalized)
             sem = asyncio.Semaphore(self.jobs)
             results = await tqdm_asyncio.gather(
-                *(self.download_doc(session, u, sem) for u in normalized),
+                *(self.download_blog(session, u, sem) if "/blog/" in u
+                  else self.download_doc(session, u, sem) for u in normalized),
                 desc="Fetching", unit="file",
             )
             await self._save_metadata(results)
@@ -1096,6 +1331,11 @@ class Fetcher:
                 await self.fetch_text(session, self.mcp_sitemap_url))
             support_urls = self.extract_support_urls(
                 await self.fetch_text(session, self.support_sitemap_url))
+            blog_urls = [
+                u for u in self.extract_sitemap_urls(
+                    await self.fetch_text(session, self.claude_com_root_sitemap_url), "/blog/")
+                if u.startswith("https://claude.com/blog/")
+            ]
 
         def show_grouped(title, urls, strip_prefix):
             print(f"{title} ({len(urls)})")
@@ -1114,11 +1354,12 @@ class Fetcher:
         show_grouped("modelcontextprotocol.io", mcp_urls, "https://modelcontextprotocol.io/")
 
         print(f"support.claude.com: {len(support_urls)} articles")
+        print(f"claude.com/blog: {len(blog_urls)} articles (HTML extracted)")
         print("anthropic.com blog: frozen archive (not fetched)")
         print(f"GitHub repos: {len(GITHUB_REPOS)} repos configured")
         print()
 
-        total = len(cc_urls) + len(platform_urls) + len(mcp_urls) + len(support_urls)
+        total = len(cc_urls) + len(platform_urls) + len(mcp_urls) + len(support_urls) + len(blog_urls)
         print(f"Total fetchable: {total}+ (excludes GitHub repos)")
 
     # -- Discovery ---------------------------------------------------------
@@ -1242,11 +1483,12 @@ Sections:
   github        All configured GitHub repos
   support       Support articles (support.claude.com, sitemap + .md)
   products      Product docs (claude.com/docs: Claude Tag, Cowork, connectors)
+  blog          Claude blog posts (claude.com/blog: HTML extracted)
   all           Everything (default)
 
-Note: content/blog/ (anthropic.com engineering/research/news) is a
-frozen archive as of 2026-07 — the site is HTML-only and the jina.ai
-proxy path was removed.
+Note: content/blog/engineering, content/blog/research, and content/blog/news
+  remain the frozen anthropic.com archive. content/blog/claude/ is the live
+  claude.com/blog HTML-extracted source.
 
 Examples:
   fetcher.py                               Fetch everything
@@ -1266,7 +1508,7 @@ Examples:
         "--section", "-s",
         choices=[
             "claude-code", "api", "platform", "mcp",
-            "github", "support", "products", "all",
+            "github", "support", "products", "blog", "all",
         ],
     )
     parser.add_argument("--incremental", action="store_true", help="Skip existing files")

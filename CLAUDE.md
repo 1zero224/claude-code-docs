@@ -6,7 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Comprehensive archive of everything Anthropic publishes for building with
 Claude. 3,900+ docs from 12 sources; active sources auto-updated four
-times daily (blog archive frozen, see Fetcher).
+times daily (the legacy anthropic.com blog archive is frozen, while
+claude.com/blog is HTML-extracted by the Fetcher).
 
 ## Fetcher
 
@@ -14,7 +15,7 @@ times daily (blog archive frozen, see Fetcher).
 
 Sources: code.claude.com, platform.claude.com, claude.com/docs,
 modelcontextprotocol.io, support.claude.com (sitemap + .md),
-github.com/anthropics/* (10 repos). anthropic.com blog
+claude.com/blog (root sitemap + HTML extraction), github.com/anthropics/* (10 repos). anthropic.com blog
 (engineering/research/news) is a FROZEN archive as of 2026-07: the site is
 HTML-only and the jina.ai proxy path was removed.
 
@@ -39,7 +40,8 @@ Five rules keep the archive honest, all learned the hard way:
   standing failures pinning it at 96.9% would hide the next real breakage.
 - **A discovery only counts once it is a file.** `discovery.json` records what
   exists upstream that `sources.json` does not: unknown redirect targets, new
-  anthropics repos, and whether each domain serves `.md` at all. Printing it
+  anthropics repos, and whether each URL path prefix serves Markdown or HTML.
+  Printing it
   was not enough — the pipeline had logged
   `support.claude.com -> academy.claude.com` for weeks into an Actions log
   with no reader, and a human found those 725 pages by chasing a dead article.
@@ -59,7 +61,7 @@ decision. `discovery.json.review` is the actionable list: domains reachable
 and serving markdown that nothing fetches yet. Empty is the healthy state.
 
 Sections: `claude-code`, `api`, `platform`, `mcp`, `github`, `support`,
-`products`, `all`
+`products`, `blog`, `all`
 
 Source registry: `sources.json`
 Confirmed-dead URLs: `tombstones.json` (self-maintaining; an entry disappears
@@ -183,7 +185,7 @@ content/                       3,900+ files
   en/agents-and-tools/         Tool use, agent skills
   claude/                      Product docs (215)
   mcp/                         MCP protocol spec (373)
-  blog/                        Engineering, research, news
+  blog/                        Live Claude blog plus frozen Anthropic posts
   github/                      10 repos (718 files)
   support/                     Help articles (365)
 scripts/

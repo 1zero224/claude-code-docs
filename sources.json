@@ -128,6 +128,19 @@
       "notes": "Claude product docs. Sections: claude-tag (65), government (38), connectors (33), claude-science (29), third-party (28), office-agents (12), cowork (6), plugins (2), skills (2)."
     },
     {
+      "name": "claude-blog",
+      "type": "sitemap-html",
+      "sitemap": "https://claude.com/sitemap.xml",
+      "filter": "/blog/",
+      "output": "blog/claude/",
+      "pages": 228,
+      "enabled": true,
+      "section": [
+        "blog"
+      ],
+      "notes": "Live Claude blog posts. Pages are HTML-only; the fetcher extracts the article rich-text body into Markdown under content/blog/claude/."
+    },
+    {
       "name": "engineering-blog",
       "type": "sitemap-jina",
       "sitemap": "https://www.anthropic.com/sitemap.xml",

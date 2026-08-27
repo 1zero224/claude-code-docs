@@ -35,6 +35,7 @@ claude "how do I set up hooks in the Agent SDK?"
 | code.claude.com | `--section claude-code` | 198 | Claude Code + Agent SDK docs |
 | platform.claude.com | `--section api` | 1,993 | API reference, build guides |
 | claude.com/docs | `--section products` | 215 | Claude Tag, Cowork, office agents, connectors |
+| claude.com/blog | `--section blog` | 228 | Live Claude blog posts, HTML extracted to Markdown |
 | modelcontextprotocol.io | `--section mcp` | 373 | MCP spec, SDKs, governance |
 | anthropic.com | `--section engineering` | 25 | "Building Effective Agents", context engineering, tool use |
 | anthropic.com | `--section research` | 118 | Research papers |
@@ -52,6 +53,7 @@ content/
   claude/                Product docs (Claude Tag, Cowork, office agents)
   mcp/                   MCP protocol spec + community
   blog/
+    claude/               Live claude.com blog posts (HTML extracted)
     engineering/         Building Effective Agents, context engineering, ...
     research/            Research papers
     news/                Model releases
@@ -82,9 +84,10 @@ uv run scripts/fetcher.py --discover         # Probe domains for new sources
 ```
 
 GitHub repo fetching needs `GITHUB_TOKEN` or `GH_TOKEN` in the environment.
-Every fetched source serves a `.md` variant of each page, so nothing is
-converted from HTML. That is also why `content/blog/` is frozen: anthropic.com
-is HTML-only and the jina.ai proxy path it used was removed in July 2026.
+Most fetched sources serve a `.md` variant of each page. The live
+`claude.com/blog` source is HTML-only and is extracted into Markdown under
+`content/blog/claude/`; the legacy `anthropic.com` blog archive remains frozen
+because its jina.ai proxy path was removed in July 2026.
 
 See [`sources.json`](sources.json) for the complete machine-readable source
 registry.
@@ -93,9 +96,9 @@ registry.
 
 The fetcher doesn't just download from hardcoded URLs. It probes every known
 Anthropic domain for `robots.txt`, `sitemap.xml`, `llms.txt`, and — the
-question that decides everything — whether the domain serves `.md` variants at
-all. It also enumerates `github.com/anthropics` and watches the `Location`
-header on every redirect it follows.
+question that decides everything — whether each URL path prefix serves
+Markdown or HTML. It also enumerates `github.com/anthropics` and watches the
+`Location` header on every redirect it follows.
 
 Known domains: `anthropic.com`, `platform.claude.com`, `code.claude.com`,
 `support.claude.com`, `modelcontextprotocol.io`, `claude.ai`, `claude.com`,
