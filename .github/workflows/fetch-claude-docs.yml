@@ -11,12 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
-      issues: write
-      actions: read
-      id-token: write
-    env:
-      AWS_REGION: us-west-2
 
     steps:
       - name: Checkout repository
@@ -36,225 +30,20 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: uv run scripts/fetcher.py
 
-      - name: Setup GitHub CLI and Git
-        run: |
-          gh --version
-          git --version
-          git config --global user.name "claude-yolo[bot]"
-          git config --global user.email "claude-yolo@lroole.com"
-
-      # The agent ONLY decides; it runs no publish side effects. Five permission
-      # allowlist designs failed the same way (July 2026): in this action's
-      # headless SDK mode the .claude/settings.json allowlist is simply not
-      # honored - even Write(.decision/**), mkdir, tee were all denied. So the
-      # agent runs with permissions skipped, which is safe BECAUSE its blast
-      # radius is nil: it reads git and writes a gitignored scratch dir, nothing
-      # else. Every real side effect (branch/commit/push/PR/merge/notify) lives
-      # in the deterministic Publish step below - plain bash, no agent.
-      - name: Claude decides
-        # Pinned: @main changed claude_args parsing in June 2026 and silently
-        # broke 'Bash(gh pr:*)' -> 3 weeks of pushed branches with no PRs.
-        uses: anthropics/claude-code-action@v1.0.168
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          github_token: ${{ github.token }}
-          allowed_bots: "claude-yolo[bot]"
-          show_full_output: true
-          claude_args: |
-            --model claude-sonnet-4-6
-            --dangerously-skip-permissions
-          prompt: |
-            You're an AI agent responsible for evaluating Anthropic documentation updates. Think like a news editor - you decide what's worth publishing.
-
-            ## YOUR ROLE
-            You're the overnight docs editor (night shift claude-yolo).
-            The fetcher has already run; the working tree holds whatever changed upstream.
-            You DECIDE what the changes mean. You do NOT commit, push, or open PRs -
-            a deterministic publish step right after you handles all of that from
-            the decision files you write. Your day shift colleague (also you)
-            reviews the resulting PRs in the morning.
-
-            ## WHY YOU EXIST
-            Docs change constantly. Most changes are noise. Your job: filter signal from noise.
-
-            ## CONTENT SOURCES
-            - `content/en/docs/claude-code/` - Claude Code + Agent SDK docs
-            - `content/en/api/` - API reference (1500+ docs)
-            - `content/en/build-with-claude/` - Platform features
-            - `content/mcp/` - MCP protocol spec
-            - `content/blog/` - FROZEN archive (anthropic.com is HTML-only; no longer fetched)
-            - `content/github/` - GitHub repos (cookbooks, skills, plugins, courses)
-            - `content/support/` - Support articles (sitemap + .md)
-            - `content/claude/` - Product docs (Claude Tag, Cowork, office agents, connectors)
-
-            ## YOUR WORKFLOW
-
-            1. **Check what changed** (`git status`)
-               WHY: completely clean tree = write NO decision files, say "nothing new" and stop
-
-            2. **Understand the changes** (`git diff`, `git diff --stat`)
-               WHY: context determines importance
-
-            3. **Classify and write your decision files** (see below)
-
-            ## SIGNAL CRITERIA (based on WHY it matters)
-
-            **high** (WHY: humans need to know - PR stays open for day shift):
-            - Version updates in content/claude-code-manifest.json
-            - New features documented in claude-code or agent-sdk docs
-            - CHANGELOG additions
-            - API changes or new API endpoints
-            - Breaking changes
-            - Security-related updates
-            - New MCP spec versions
-            - ANY deleted files (`git status` shows `D`). The fetcher reaps
-              pages that died upstream. A page disappearing is a real editorial
-              event and a human should see it, so deletions are never `minor`
-              no matter which directory they are in. Say what went and why it
-              looks gone (moved? renamed? product sunset?).
-            - New entries in `tombstones.json` (pages newly gone upstream), or
-              entries removed from it (pages that came BACK). Both are
-              editorial news. `git diff tombstones.json` shows exactly what
-              changed - read it, do not just note that the file changed.
-            - ANY change to `discovery.json`. This is the archive finding
-              something it does not yet hold, and it is the highest-value
-              thing a run can produce - a source we are missing is worse
-              than a doc we are missing. `git diff discovery.json` and say
-              which of these happened:
-                * a domain appeared under `domains` with status `UNKNOWN` -
-                  upstream is redirecting somewhere we have never probed
-                * a `review` line appeared - a domain now serves .md and
-                  could be archived today but is not in `sources.json`
-                * `serves_markdown` flipped false -> true on a `not-fetched`
-                  domain (e.g. academy.claude.com getting .md variants)
-                * a repo appeared under `github_org_anthropics.not_fetched` -
-                  Anthropic published a new public repo
-              Name the domain or repo in the title. Adding the source is a
-              human decision; your job is to make sure it reaches one.
-
-            **minor** (WHY: archive freshness, zero human value - PR is self-merged instantly):
-            - Only github/ mirror or support/ content changed
-            - Additions and modifications only - never use `minor` if anything was deleted
-            - Only .metadata.json / timestamps changed
-            - Typo fixes, formatting tweaks, dead links, minor wording
-
-            ## DECISION FILES (your only output)
-
-            Write these four files with the Write tool into `.decision/`
-            (gitignored; the publish step consumes them):
-
-            - `.decision/signal` - exactly `high` or `minor`
-            - `.decision/version` - the Claude Code version from content/claude-code-manifest.json (e.g. `2.1.210`)
-            - `.decision/title` - ONE line, no "docs:" prefix. High: `Claude Code v{version} - {key feature}`. Minor: `{what} (minor)`
-            - `.decision/body.md` - the PR body:
-
-              ```
-              ## Night shift report
-
-              WHY THIS MATTERS: {one paragraph}
-
-              HIGHLIGHTS:
-              - {the interesting bits, most interesting first}
-
-              ---
-              *Created by night-shift claude-yolo*
-              *Day-shift claude-yolo will review and merge this in the morning*
-              ```
-
-            If the tree is clean, write NOTHING - an empty .decision/ tells the
-            publish step to skip. Never write decision files for a clean tree.
-
-            ## OUTPUT STYLE
-            - Focus on WHY changes matter, not WHAT changed
-            - Lead with the most interesting bit
-            - Skip the obvious ("files were updated" duh)
-            - Clear titles with version numbers - day shift merges from them
-
-            Remember: You're not a changelog generator. You're a smart filter that understands WHY changes matter to humans using Claude Code.
-
-            [>be me >night shift docs editor >Anthropic devs are asleep >I judge their day's work >a dumb bash script does the heavy lifting]
-
-      # Deterministic publisher: everything with side effects lives here, in
-      # plain bash with real error propagation - no agent permissions involved.
-      - name: Publish decision
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          BARK_SERVER: ${{ secrets.BARK_SERVER }}
-          BARK_DEVICES: ${{ secrets.BARK_DEVICES }}
+      - name: Commit fetched docs
         run: |
           set -euo pipefail
-          D=.decision
 
           if [ -z "$(git status --porcelain)" ]; then
-            echo "Working tree clean - nothing to publish."
+            echo "Working tree clean - nothing to commit."
             exit 0
           fi
 
-          for f in signal version title body.md; do
-            if [ ! -s "$D/$f" ]; then
-              echo "::error::Tree has changes but agent left no/empty $D/$f"
-              git status --short | head -20
-              exit 1
-            fi
-          done
-
-          SIGNAL=$(tr -d '[:space:]' < "$D/signal")
-          VERSION=$(tr -d '[:space:]' < "$D/version")
-          TITLE=$(head -1 "$D/title")
-          case "$SIGNAL" in high|minor) ;; *)
-            echo "::error::Invalid signal '$SIGNAL' (want high|minor)"; exit 1;;
-          esac
-
-          BRANCH="docs/claude-code-v${VERSION}-$(date +%Y%m%d-%H%M)"
-          git checkout -b "$BRANCH"
+          git config --global user.name "claude-yolo[bot]"
+          git config --global user.email "claude-yolo@lroole.com"
           git add -A
-          git commit -m "docs: ${TITLE}" -m "Co-Authored-By: claude-yolo[bot] <claude-yolo@lroole.com>"
-          git push -u origin HEAD
-
-          PR_URL=$(gh pr create --title "docs: ${TITLE}" --body-file "$D/body.md")
-          echo "PR created: $PR_URL"
-          echo "PR_URL=$PR_URL" >> "$GITHUB_ENV"
-
-          if [ "$SIGNAL" = "minor" ]; then
-            gh pr merge "$PR_URL" --rebase
-            echo "Minor change - self-merged."
-          elif [ -n "${BARK_SERVER:-}" ] && [ -n "${BARK_DEVICES:-}" ]; then
-            IFS=',' read -ra DEVICES <<< "$BARK_DEVICES"
-            for dev in "${DEVICES[@]}"; do
-              jq -n --arg k "$dev" --arg t "📦 Claude Code v${VERSION}" \
-                --arg b "$TITLE" --arg u "$PR_URL" \
-                '{device_key:$k, title:$t, body:$b, url:$u, group:"Claude YOLO",
-                  icon:"https://avatars.githubusercontent.com/in/1452392"}' \
-              | curl -sS -X POST "$BARK_SERVER/push" \
-                  -H 'Content-Type: application/json' -d @- \
-              || echo "::warning::bark notification failed (PR is fine: $PR_URL)"
-            done
-          fi
-
-      # Tripwire kept as belt-and-suspenders: a pushed branch without a PR, or
-      # changes left uncommitted, means publishing silently failed. Fail loudly
-      # instead of lying green. (June 2026: 31 orphan branches, all runs green.)
-      - name: Verify outcome
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          BRANCH=$(git branch --show-current)
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "::error::Workspace has uncommitted changes after publish step"
-            git status --short | head -20
-            exit 1
-          fi
-          if [ "$BRANCH" != "main" ] && [ -n "$BRANCH" ]; then
-            # --state all: minor PRs are already self-merged (branch
-            # auto-deleted) - that is success, not failure
-            PRS=$(gh pr list --head "$BRANCH" --state all --json number --jq 'length')
-            if [ "$PRS" = "0" ]; then
-              echo "::error::Branch $BRANCH pushed but no PR exists - PR creation silently failed"
-              exit 1
-            fi
-          fi
+          git commit -m "docs: refresh Anthropic documentation"
+          git push origin HEAD:main
 
       - name: Alert on failure
         if: failure()
