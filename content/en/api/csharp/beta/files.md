@@ -18,91 +18,103 @@ Upload File
 
     format: binary
 
+  - `long expiresInSeconds`
+
+    Body param: Seconds from upload until the file expires and its bytes become permanently unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
+
+    minimum: 3600, maximum: 7776000
+
   - `IReadOnlyList<AnthropicBeta> betas`
 
     Header param: Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ### Returns
 
@@ -138,7 +150,7 @@ Upload File
 
     minimum: 0
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "file"`
 
     Object type.
 
@@ -148,6 +160,12 @@ Upload File
 
     Whether the file can be downloaded.
 
+  - `DateTimeOffset? ExpiresAt`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `BetaFileScope? Scope`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -156,7 +174,7 @@ Upload File
 
       The ID of the scoping resource (e.g., the session ID).
 
-    - `JsonElement Type constant`
+    - `JsonElement Type = "session"`
 
       The type of scope (e.g., `"session"`).
 
@@ -184,6 +202,7 @@ Console.WriteLine(betaFileMetadata);
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"
@@ -193,7 +212,7 @@ Console.WriteLine(betaFileMetadata);
 
 ## List Files
 
-`FileListPageResponse Beta.Files.List(parameters, cancellationToken = default)`
+`FileListPage Beta.Files.List(parameters, cancellationToken = default)`
 
 **GET** `/v1/files`
 
@@ -203,13 +222,9 @@ List Files
 
 - `FileListParams parameters`
 
-  - `string afterID`
+  - `IReadOnlyList<string>? ids`
 
-    Query param: ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
-
-  - `string beforeID`
-
-    Query param: ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
+    Query param: Restrict the result set to Files whose `id` is in this list. At most 100 entries (after de-duplication). Mutually exclusive with `page` and `limit`. When supplied, the response is always a single page (`next_page` is null). IDs that do not resolve to a visible File — including deleted Files — are silently omitted.
 
   - `long limit`
 
@@ -219,6 +234,10 @@ List Files
 
     maximum: 1000, minimum: 1
 
+  - `string? page`
+
+    Query param: Opaque page cursor returned in a prior list response's `next_page`. Prefixed `page_`.
+
   - `string scopeID`
 
     Query param: Filter by scope ID. Only returns files associated with the specified scope (e.g., a session ID).
@@ -227,159 +246,155 @@ List Files
 
     Header param: Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ### Returns
 
-- `class FileListPageResponse:`
+- `class BetaFileMetadata:`
 
-  - `required IReadOnlyList<BetaFileMetadata> Data`
+  - `required string ID`
 
-    List of file metadata objects.
+    Unique object identifier.
+
+    The format and length of IDs may change over time.
+
+  - `required DateTimeOffset CreatedAt`
+
+    RFC 3339 datetime string representing when the file was created.
+
+    format: date-time
+
+  - `required string Filename`
+
+    Original filename of the uploaded file.
+
+    maxLength: 500, minLength: 1
+
+  - `required string MimeType`
+
+    MIME type of the file.
+
+    maxLength: 255, minLength: 1
+
+  - `required long SizeBytes`
+
+    Size of the file in bytes.
+
+    minimum: 0
+
+  - `JsonElement Type = "file"`
+
+    Object type.
+
+    For files, this is always `"file"`.
+
+  - `bool Downloadable`
+
+    Whether the file can be downloaded.
+
+  - `DateTimeOffset? ExpiresAt`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
+  - `BetaFileScope? Scope`
+
+    The scope of this file, indicating the context in which it was created (e.g., a session).
 
     - `required string ID`
 
-      Unique object identifier.
+      The ID of the scoping resource (e.g., the session ID).
 
-      The format and length of IDs may change over time.
+    - `JsonElement Type = "session"`
 
-    - `required DateTimeOffset CreatedAt`
-
-      RFC 3339 datetime string representing when the file was created.
-
-      format: date-time
-
-    - `required string Filename`
-
-      Original filename of the uploaded file.
-
-      maxLength: 500, minLength: 1
-
-    - `required string MimeType`
-
-      MIME type of the file.
-
-      maxLength: 255, minLength: 1
-
-    - `required long SizeBytes`
-
-      Size of the file in bytes.
-
-      minimum: 0
-
-    - `JsonElement Type constant`
-
-      Object type.
-
-      For files, this is always `"file"`.
-
-    - `bool Downloadable`
-
-      Whether the file can be downloaded.
-
-    - `BetaFileScope? Scope`
-
-      The scope of this file, indicating the context in which it was created (e.g., a session).
-
-      - `required string ID`
-
-        The ID of the scoping resource (e.g., the session ID).
-
-      - `JsonElement Type constant`
-
-        The type of scope (e.g., `"session"`).
-
-  - `string? FirstID`
-
-    ID of the first file in this page of results.
-
-  - `bool HasMore`
-
-    Whether there are more results available.
-
-  - `string? LastID`
-
-    ID of the last file in this page of results.
+      The type of scope (e.g., `"session"`).
 
 ### Example
 
@@ -406,15 +421,14 @@ await foreach (var item in page.Paginate())
       "size_bytes": 102400,
       "type": "file",
       "downloadable": false,
+      "expires_at": "2025-05-15T18:37:24.100435Z",
       "scope": {
         "id": "id",
         "type": "session"
       }
     }
   ],
-  "first_id": "file_011CNha8iCJcU1wXNR6q4V8w",
-  "has_more": true,
-  "last_id": "file_013Zva2CMHLNnXjNJJKqJ2EF"
+  "next_page": "next_page"
 }
 ```
 
@@ -438,87 +452,93 @@ Download File
 
     Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ### Example
 
@@ -550,87 +570,93 @@ Get File Metadata
 
     Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ### Returns
 
@@ -666,7 +692,7 @@ Get File Metadata
 
     minimum: 0
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "file"`
 
     Object type.
 
@@ -676,6 +702,12 @@ Get File Metadata
 
     Whether the file can be downloaded.
 
+  - `DateTimeOffset? ExpiresAt`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `BetaFileScope? Scope`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -684,7 +716,7 @@ Get File Metadata
 
       The ID of the scoping resource (e.g., the session ID).
 
-    - `JsonElement Type constant`
+    - `JsonElement Type = "session"`
 
       The type of scope (e.g., `"session"`).
 
@@ -709,6 +741,7 @@ Console.WriteLine(betaFileMetadata);
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"
@@ -736,87 +769,93 @@ Delete File
 
     Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ### Returns
 
@@ -901,7 +940,7 @@ Console.WriteLine(betaDeletedFile);
 
     minimum: 0
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "file"`
 
     Object type.
 
@@ -911,6 +950,12 @@ Console.WriteLine(betaDeletedFile);
 
     Whether the file can be downloaded.
 
+  - `DateTimeOffset? ExpiresAt`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `BetaFileScope? Scope`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -919,7 +964,7 @@ Console.WriteLine(betaDeletedFile);
 
       The ID of the scoping resource (e.g., the session ID).
 
-    - `JsonElement Type constant`
+    - `JsonElement Type = "session"`
 
       The type of scope (e.g., `"session"`).
 
@@ -931,6 +976,6 @@ Console.WriteLine(betaDeletedFile);
 
     The ID of the scoping resource (e.g., the session ID).
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "session"`
 
     The type of scope (e.g., `"session"`).

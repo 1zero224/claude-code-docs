@@ -2,7 +2,7 @@
 
 **POST** `/v1/organizations/users/{user_id}`
 
-For Claude Enterprise organizations, this endpoint's availability is in beta.
+Update a member's organization role.
 
 ## Path parameters
 
@@ -16,7 +16,7 @@ For Claude Enterprise organizations, this endpoint's availability is in beta.
 
   New role for the User.
 
-  The accepted values depend on the organization type. Console and API organizations accept `user`, `developer`, `billing`, and `claude_code_user`; `admin` cannot be assigned through the API. Claude Enterprise organizations (beta) accept `user` and `managed`.
+  The accepted values depend on the organization type. Console and API organizations accept `user`, `developer`, `billing`, and `claude_code_user`; `admin` cannot be assigned through the API. Claude Enterprise organizations accept `user` and `managed`.
 
   - `"billing"`
 
@@ -86,7 +86,7 @@ For Claude Enterprise organizations, this endpoint's availability is in beta.
 curl https://api.anthropic.com/v1/organizations/users/$USER_ID \
     -H 'Content-Type: application/json' \
     -H 'anthropic-version: 2023-06-01' \
-    -H "Authorization: Bearer $ANTHROPIC_OAUTH_TOKEN" \
+    -H "Authorization: Bearer $ANTHROPIC_AUTH_TOKEN" \
     -d '{
           "role": "user"
         }'

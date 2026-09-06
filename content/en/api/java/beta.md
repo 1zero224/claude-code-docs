@@ -88,13 +88,19 @@
 
   - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+  - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+  - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+  - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Beta API Error
 
 - `class BetaApiError:`
 
   - `String message`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "api_error"`
 
 ### Beta Authentication Error
 
@@ -102,7 +108,7 @@
 
   - `String message`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "authentication_error"`
 
 ### Beta Billing Error
 
@@ -110,7 +116,7 @@
 
   - `String message`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "billing_error"`
 
 ### Beta Currency
 
@@ -126,55 +132,55 @@
 
     - `String message`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "invalid_request_error"`
 
   - `class BetaAuthenticationError:`
 
     - `String message`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "authentication_error"`
 
   - `class BetaBillingError:`
 
     - `String message`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "billing_error"`
 
   - `class BetaPermissionError:`
 
     - `String message`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "permission_error"`
 
   - `class BetaNotFoundError:`
 
     - `String message`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "not_found_error"`
 
   - `class BetaRateLimitError:`
 
     - `String message`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "rate_limit_error"`
 
   - `class BetaGatewayTimeoutError:`
 
     - `String message`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "timeout_error"`
 
   - `class BetaApiError:`
 
     - `String message`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "api_error"`
 
   - `class BetaOverloadedError:`
 
     - `String message`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "overloaded_error"`
 
 ### Beta Error Response
 
@@ -186,59 +192,59 @@
 
       - `String message`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "invalid_request_error"`
 
     - `class BetaAuthenticationError:`
 
       - `String message`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "authentication_error"`
 
     - `class BetaBillingError:`
 
       - `String message`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "billing_error"`
 
     - `class BetaPermissionError:`
 
       - `String message`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "permission_error"`
 
     - `class BetaNotFoundError:`
 
       - `String message`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "not_found_error"`
 
     - `class BetaRateLimitError:`
 
       - `String message`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "rate_limit_error"`
 
     - `class BetaGatewayTimeoutError:`
 
       - `String message`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "timeout_error"`
 
     - `class BetaApiError:`
 
       - `String message`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "api_error"`
 
     - `class BetaOverloadedError:`
 
       - `String message`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "overloaded_error"`
 
   - `Optional<String> requestId`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "error"`
 
 ### Beta Gateway Timeout Error
 
@@ -246,7 +252,7 @@
 
   - `String message`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "timeout_error"`
 
 ### Beta Invalid Request Error
 
@@ -254,7 +260,7 @@
 
   - `String message`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "invalid_request_error"`
 
 ### Beta Monetary Amount
 
@@ -276,7 +282,7 @@
 
   - `String message`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "not_found_error"`
 
 ### Beta Overloaded Error
 
@@ -284,7 +290,7 @@
 
   - `String message`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "overloaded_error"`
 
 ### Beta Permission Error
 
@@ -292,7 +298,7 @@
 
   - `String message`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "permission_error"`
 
 ### Beta Rate Limit Error
 
@@ -300,7 +306,7 @@
 
   - `String message`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "rate_limit_error"`
 
 ## Beta › Models
 
@@ -419,6 +425,12 @@ The Models API response can be used to determine which models are available for 
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -550,7 +562,7 @@ The Models API response can be used to determine which models are available for 
 
     Maximum value for the `max_tokens` parameter when using this model.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "model"`
 
     Object type.
 
@@ -765,6 +777,12 @@ The Models API response can be used to determine information about a specific mo
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaModelInfo:`
@@ -895,7 +913,7 @@ The Models API response can be used to determine information about a specific mo
 
     Maximum value for the `max_tokens` parameter when using this model.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "model"`
 
     Object type.
 
@@ -1103,6 +1121,12 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<String> userProfileId`
 
     The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header.
@@ -1182,13 +1206,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             minLength: 1
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
             Create a cache control breakpoint at this content block.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "ephemeral"`
 
             - `Optional<Ttl> ttl`
 
@@ -1225,7 +1249,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 minimum: 0
 
-              - `JsonValue type constant`
+              - `JsonValue type = "char_location"`
 
             - `class BetaCitationPageLocationParam:`
 
@@ -1245,7 +1269,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 minimum: 1
 
-              - `JsonValue type constant`
+              - `JsonValue type = "page_location"`
 
             - `class BetaCitationContentBlockLocationParam:`
 
@@ -1275,7 +1299,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 minimum: 0
 
-              - `JsonValue type constant`
+              - `JsonValue type = "content_block_location"`
 
             - `class BetaCitationWebSearchResultLocationParam:`
 
@@ -1287,7 +1311,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 maxLength: 512, minLength: 1
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_search_result_location"`
 
               - `String url`
 
@@ -1325,7 +1349,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `Optional<String> title`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "search_result_location"`
 
         - `class BetaImageBlockParam:`
 
@@ -1347,11 +1371,11 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `IMAGE_WEBP("image/webp")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "base64"`
 
             - `class BetaUrlImageSource:`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -1359,9 +1383,9 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `String fileId`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "file"`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "image"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -1389,17 +1413,17 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 format: byte
 
-              - `JsonValue mediaType constant`
+              - `JsonValue mediaType = "application/pdf"`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "base64"`
 
             - `class BetaPlainTextSource:`
 
               - `String data`
 
-              - `JsonValue mediaType constant`
+              - `JsonValue mediaType = "text/plain"`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text"`
 
             - `class BetaContentBlockSource:`
 
@@ -1413,11 +1437,11 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                   - `class BetaImageBlockParam:`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "content"`
 
             - `class BetaUrlPdfSource:`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -1425,9 +1449,9 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `String fileId`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "file"`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "document"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -1453,7 +1477,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               minLength: 1
 
-            - `JsonValue type constant`
+            - `JsonValue type = "text"`
 
             - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -1465,7 +1489,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `String title`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "search_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -1485,7 +1509,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             The `thinking` text of this block as returned by the API.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "thinking"`
 
         - `class BetaRedactedThinkingBlockParam:`
 
@@ -1493,7 +1517,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "redacted_thinking"`
 
         - `class BetaToolUseBlockParam:`
 
@@ -1507,7 +1531,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             maxLength: 200, minLength: 1
 
-          - `JsonValue type constant`
+          - `JsonValue type = "tool_use"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -1521,7 +1545,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               Tool invocation directly from the model.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "direct"`
 
             - `class BetaServerToolCaller:`
 
@@ -1531,7 +1555,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "code_execution_20250825"`
 
             - `class BetaServerToolCaller20260120:`
 
@@ -1539,7 +1563,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "code_execution_20260120"`
 
           - `Optional<String> toolsetName`
 
@@ -1553,7 +1577,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             pattern: ^[a-zA-Z0-9_-]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -1581,7 +1605,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                   maxLength: 256, minLength: 1, pattern: ^[a-zA-Z0-9_-]{1,256}$
 
-                - `JsonValue type constant`
+                - `JsonValue type = "tool_reference"`
 
                 - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -1625,7 +1649,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                     Whether this tab is the active tab after this call. Whenever `tabs` is non-empty, exactly one entry is marked `active: true`.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "browser_state"`
 
                 - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -1653,7 +1677,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                       maxLength: 4096, minLength: 1, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "tab_opened"`
 
                   - `class BetaBrowserStateChangeDownloadStarted:`
 
@@ -1665,7 +1689,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                       maxLength: 4096, minLength: 1, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "download_started"`
 
                     - `String url`
 
@@ -1686,7 +1710,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                       maxLength: 4096, minLength: 1, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "download_completed"`
 
                     - `String url`
 
@@ -1716,7 +1740,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                       maxLength: 4096, minLength: 1, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "download_failed"`
 
                     - `String url`
 
@@ -1764,7 +1788,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `TOOL_SEARCH_TOOL_BM25("tool_search_tool_bm25")`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "server_tool_use"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -1794,7 +1818,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `String title`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_search_result"`
 
               - `String url`
 
@@ -1816,13 +1840,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `REQUEST_TOO_LARGE("request_too_large")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_search_tool_result_error"`
 
           - `String toolUseId`
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -1868,13 +1892,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `UNAVAILABLE("unavailable")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_fetch_tool_result_error"`
 
             - `class BetaWebFetchBlockParam:`
 
               - `BetaRequestDocumentBlock content`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_fetch_result"`
 
               - `String url`
 
@@ -1888,7 +1912,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -1930,13 +1954,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `MODEL_NOT_FOUND("model_not_found")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "advisor_tool_result_error"`
 
             - `class BetaAdvisorResultBlockParam:`
 
               - `String text`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "advisor_result"`
 
               - `Optional<String> stopReason`
 
@@ -1946,7 +1970,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 Opaque blob produced by a prior response; must be round-tripped verbatim.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "advisor_redacted_result"`
 
               - `Optional<String> stopReason`
 
@@ -1954,7 +1978,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "advisor_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -1978,7 +2002,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "code_execution_tool_result_error"`
 
             - `class BetaCodeExecutionResultBlockParam:`
 
@@ -1986,7 +2010,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `String fileId`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "code_execution_output"`
 
               - `long returnCode`
 
@@ -1994,7 +2018,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `String stdout`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "code_execution_result"`
 
             - `class BetaEncryptedCodeExecutionResultBlockParam:`
 
@@ -2004,7 +2028,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `String fileId`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "code_execution_output"`
 
               - `String encryptedStdout`
 
@@ -2012,13 +2036,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `String stderr`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "encrypted_code_execution_result"`
 
           - `String toolUseId`
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "code_execution_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -2042,7 +2066,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `OUTPUT_FILE_TOO_LARGE("output_file_too_large")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "bash_code_execution_tool_result_error"`
 
             - `class BetaBashCodeExecutionResultBlockParam:`
 
@@ -2050,7 +2074,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `String fileId`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "bash_code_execution_output"`
 
               - `long returnCode`
 
@@ -2058,13 +2082,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `String stdout`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "bash_code_execution_result"`
 
           - `String toolUseId`
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash_code_execution_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -2088,7 +2112,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `FILE_NOT_FOUND("file_not_found")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text_editor_code_execution_tool_result_error"`
 
               - `Optional<String> errorMessage`
 
@@ -2104,7 +2128,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `PDF("pdf")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text_editor_code_execution_view_result"`
 
               - `Optional<Long> numLines`
 
@@ -2116,11 +2140,11 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `boolean isFileUpdate`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text_editor_code_execution_create_result"`
 
             - `class BetaTextEditorCodeExecutionStrReplaceResultBlockParam:`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text_editor_code_execution_str_replace_result"`
 
               - `Optional<List<String>> lines`
 
@@ -2136,7 +2160,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text_editor_code_execution_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -2158,7 +2182,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tool_search_tool_result_error"`
 
               - `Optional<String> errorMessage`
 
@@ -2170,19 +2194,19 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                   maxLength: 256, minLength: 1, pattern: ^[a-zA-Z0-9_-]{1,256}$
 
-                - `JsonValue type constant`
+                - `JsonValue type = "tool_reference"`
 
                 - `Optional<BetaCacheControlEphemeral> cacheControl`
 
                   Create a cache control breakpoint at this content block.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tool_search_tool_search_result"`
 
           - `String toolUseId`
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "tool_search_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -2202,7 +2226,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             The name of the MCP server
 
-          - `JsonValue type constant`
+          - `JsonValue type = "mcp_tool_use"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -2214,7 +2238,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             pattern: ^[a-zA-Z0-9_-]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "mcp_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -2230,7 +2254,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 minLength: 1
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -2247,7 +2271,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `String fileId`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "container_upload"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -2263,7 +2287,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           When content is None, the block represents a failed compaction. The server
           treats these as no-ops. Empty string content is not allowed.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "compaction"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -2303,7 +2327,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 pattern: ^[a-zA-Z0-9_-]{1,128}$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tool_reference"`
 
             - `class BetaToolChangeMcpToolReference:`
 
@@ -2314,7 +2338,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `String serverName`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "mcp_tool_reference"`
 
             - `class BetaToolChangeMcpToolsetReference:`
 
@@ -2322,9 +2346,9 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `String serverName`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "mcp_toolset_reference"`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "tool_addition"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -2361,7 +2385,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               Reference to every tool in the named MCP server's toolset.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "tool_removal"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -2392,6 +2416,14 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
               The model that will complete your prompt.
 
               See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+              - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+                Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+              - `CLAUDE_MYTHOS_5_1("claude-mythos-5-1")`
+
+                Our most capable model for cybersecurity and biology research, available through trusted access programs
 
               - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -2457,7 +2489,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             Identifies one hop of a fallback transition.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "fallback"`
 
           - `Optional<JsonValue> trigger`
 
@@ -2470,6 +2502,36 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       - `ASSISTANT("assistant")`
 
       - `SYSTEM("system")`
+
+    - `Optional<ClearAt> clearAt`
+
+      How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
+
+      - `NEXT_USER_MESSAGE("next_user_message")`
+
+      - `NEVER("never")`
+
+    - `Optional<BetaSystemMessageOutputConfig> outputConfig`
+
+      Per-message output configuration on a role:"system" input message.
+
+      Fields here apply per-turn; `format` remains top-level only. An
+      empty `{}` is accepted on a message that carries content; a message
+      with neither content nor output_config fields is rejected.
+
+      - `Optional<Effort> effort`
+
+        All possible effort levels.
+
+        - `LOW("low")`
+
+        - `MEDIUM("medium")`
+
+        - `HIGH("high")`
+
+        - `XHIGH("xhigh")`
+
+        - `MAX("max")`
 
   - `Model model`
 
@@ -2597,7 +2659,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `String name`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "url"`
 
     - `String url`
 
@@ -2657,7 +2719,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         minLength: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "text"`
 
       - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -2749,7 +2811,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         This defines the shape of the `input` that your tool accepts and that the model will produce.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -2801,13 +2863,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaToolBash20241022:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "bash"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "bash_20241022"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -2835,13 +2897,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaToolBash20250124:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "bash"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "bash_20250124"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -2869,13 +2931,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaCodeExecutionTool20250522:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "code_execution"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "code_execution_20250522"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -2901,13 +2963,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaCodeExecutionTool20250825:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "code_execution"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "code_execution_20250825"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -2935,13 +2997,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       Code execution tool with REPL state persistence (daemon mode + gVisor checkpoint).
 
-      - `JsonValue name constant`
+      - `JsonValue name = "code_execution"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "code_execution_20260120"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -2969,13 +3031,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       Code execution tool with REPL state persistence.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "code_execution"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "code_execution_20260521"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -3006,17 +3068,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       the family's tool with any members disabled via `configs` removed
       from its schema.
 
-      - `JsonValue type constant`
-
-      - `Optional<List<AllowedCaller>> allowedCallers`
-
-        - `DIRECT("direct")`
-
-        - `CODE_EXECUTION_20250825("code_execution_20250825")`
-
-        - `CODE_EXECUTION_20260120("code_execution_20260120")`
-
-        - `CODE_EXECUTION_20260521("code_execution_20260521")`
+      - `JsonValue type = "browser_toolset_20260801"`
 
       - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -3417,13 +3469,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         minimum: 1
 
-      - `JsonValue name constant`
+      - `JsonValue name = "computer"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "computer_20241022"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -3457,13 +3509,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaMemoryTool20250818:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "memory"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "memory_20250818"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -3503,13 +3555,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         minimum: 1
 
-      - `JsonValue name constant`
+      - `JsonValue name = "computer"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "computer_20250124"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -3543,13 +3595,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaToolTextEditor20241022:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "str_replace_editor"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "text_editor_20241022"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -3589,13 +3641,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         minimum: 1
 
-      - `JsonValue name constant`
+      - `JsonValue name = "computer"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "computer_20251124"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -3642,17 +3694,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       `type`, `configs`, and `cache_control`; zoom is controlled
       via `configs.zoom.enabled`.
 
-      - `JsonValue type constant`
-
-      - `Optional<List<AllowedCaller>> allowedCallers`
-
-        - `DIRECT("direct")`
-
-        - `CODE_EXECUTION_20250825("code_execution_20250825")`
-
-        - `CODE_EXECUTION_20260120("code_execution_20260120")`
-
-        - `CODE_EXECUTION_20260521("code_execution_20260521")`
+      - `JsonValue type = "computer_toolset_20260801"`
 
       - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -3873,13 +3915,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaToolTextEditor20250124:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "str_replace_editor"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "text_editor_20250124"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -3907,13 +3949,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaToolTextEditor20250429:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "str_replace_based_edit_tool"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "text_editor_20250429"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -3941,13 +3983,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaToolTextEditor20250728:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "str_replace_based_edit_tool"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "text_editor_20250728"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -3981,13 +4023,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaWebSearchTool20250305:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_search"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_search_20250305"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -4029,7 +4071,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         Parameters for the user's location. Used to provide more relevant search results.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "approximate"`
 
         - `Optional<String> city`
 
@@ -4057,13 +4099,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaWebFetchTool20250910:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_fetch"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_fetch_20250910"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -4113,13 +4155,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaWebSearchTool20260209:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_search"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_search_20260209"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -4163,13 +4205,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaWebFetchTool20260209:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_fetch"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_fetch_20260209"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -4221,13 +4263,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       Web fetch tool with use_cache parameter for bypassing cached content.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_fetch"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_fetch_20260309"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -4281,13 +4323,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaWebSearchTool20260318:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_search"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_search_20260318"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -4339,13 +4381,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaWebFetchTool20260318:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_fetch"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_fetch_20260318"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -4413,13 +4455,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "advisor"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "advisor_20260301"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -4461,7 +4503,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaToolSearchToolBm25_20251119:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "tool_search_tool_bm25"`
 
         Name of the tool.
 
@@ -4497,7 +4539,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class BetaToolSearchToolRegex20251119:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "tool_search_tool_regex"`
 
         Name of the tool.
 
@@ -4544,7 +4586,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         maxLength: 255, minLength: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "mcp_toolset"`
 
       - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -4634,7 +4676,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       format: date-time
 
-    - `Optional<List<BetaSkill>> skills`
+    - `Optional<List<BetaContainerSkill>> skills`
 
       Skills loaded in the container
 
@@ -4713,7 +4755,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             minimum: 0
 
-          - `JsonValue type constant`
+          - `JsonValue type = "char_location"`
 
         - `class BetaCitationPageLocation:`
 
@@ -4733,7 +4775,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             minimum: 1
 
-          - `JsonValue type constant`
+          - `JsonValue type = "page_location"`
 
         - `class BetaCitationContentBlockLocation:`
 
@@ -4763,7 +4805,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             minimum: 0
 
-          - `JsonValue type constant`
+          - `JsonValue type = "content_block_location"`
 
         - `class BetaCitationsWebSearchResultLocation:`
 
@@ -4775,7 +4817,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             maxLength: 512
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search_result_location"`
 
           - `String url`
 
@@ -4811,13 +4853,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `Optional<String> title`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "search_result_location"`
 
       - `String text`
 
         maxLength: 5000000, minLength: 0
 
-      - `JsonValue type constant`
+      - `JsonValue type = "text"`
 
     - `class BetaThinkingBlock:`
 
@@ -4833,7 +4875,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         The text of Claude's thinking process for this block.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "thinking"`
 
     - `class BetaRedactedThinkingBlock:`
 
@@ -4845,7 +4887,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         See [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking#redacted-thinking-blocks) for details.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "redacted_thinking"`
 
     - `class BetaToolUseBlock:`
 
@@ -4859,7 +4901,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         minLength: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "tool_use"`
 
       - `Optional<Caller> caller`
 
@@ -4869,7 +4911,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           Tool invocation directly from the model.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "direct"`
 
         - `class BetaServerToolCaller:`
 
@@ -4879,7 +4921,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "code_execution_20250825"`
 
         - `class BetaServerToolCaller20260120:`
 
@@ -4887,7 +4929,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "code_execution_20260120"`
 
       - `Optional<String> toolsetName`
 
@@ -4921,7 +4963,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         - `TOOL_SEARCH_TOOL_BM25("tool_search_tool_bm25")`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "server_tool_use"`
 
       - `Optional<Caller> caller`
 
@@ -4957,7 +4999,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `REQUEST_TOO_LARGE("request_too_large")`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search_tool_result_error"`
 
         - `List<BetaWebSearchResultBlock>`
 
@@ -4967,7 +5009,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `String title`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search_result"`
 
           - `String url`
 
@@ -4975,7 +5017,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_search_tool_result"`
 
       - `Optional<Caller> caller`
 
@@ -5017,7 +5059,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `UNAVAILABLE("unavailable")`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch_tool_result_error"`
 
         - `class BetaWebFetchBlock:`
 
@@ -5037,29 +5079,29 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                   format: byte
 
-                - `JsonValue mediaType constant`
+                - `JsonValue mediaType = "application/pdf"`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "base64"`
 
               - `class BetaPlainTextSource:`
 
                 - `String data`
 
-                - `JsonValue mediaType constant`
+                - `JsonValue mediaType = "text/plain"`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "text"`
 
             - `Optional<String> title`
 
               The title of the document
 
-            - `JsonValue type constant`
+            - `JsonValue type = "document"`
 
           - `Optional<String> retrievedAt`
 
             ISO 8601 timestamp when the content was retrieved
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch_result"`
 
           - `String url`
 
@@ -5069,7 +5111,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_fetch_tool_result"`
 
       - `Optional<Caller> caller`
 
@@ -5107,7 +5149,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `MODEL_NOT_FOUND("model_not_found")`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "advisor_tool_result_error"`
 
         - `class BetaAdvisorResultBlock:`
 
@@ -5117,7 +5159,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `String text`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "advisor_result"`
 
         - `class BetaAdvisorRedactedResultBlock:`
 
@@ -5129,13 +5171,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             The advisor sub-inference's stop reason (same values as the top-level message `stop_reason`).
 
-          - `JsonValue type constant`
+          - `JsonValue type = "advisor_redacted_result"`
 
       - `String toolUseId`
 
         pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-      - `JsonValue type constant`
+      - `JsonValue type = "advisor_tool_result"`
 
     - `class BetaCodeExecutionToolResultBlock:`
 
@@ -5155,7 +5197,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "code_execution_tool_result_error"`
 
         - `class BetaCodeExecutionResultBlock:`
 
@@ -5163,7 +5205,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `String fileId`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "code_execution_output"`
 
           - `long returnCode`
 
@@ -5171,7 +5213,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `String stdout`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "code_execution_result"`
 
         - `class BetaEncryptedCodeExecutionResultBlock:`
 
@@ -5181,7 +5223,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `String fileId`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "code_execution_output"`
 
           - `String encryptedStdout`
 
@@ -5189,13 +5231,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `String stderr`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "encrypted_code_execution_result"`
 
       - `String toolUseId`
 
         pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-      - `JsonValue type constant`
+      - `JsonValue type = "code_execution_tool_result"`
 
     - `class BetaBashCodeExecutionToolResultBlock:`
 
@@ -5215,7 +5257,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `OUTPUT_FILE_TOO_LARGE("output_file_too_large")`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash_code_execution_tool_result_error"`
 
         - `class BetaBashCodeExecutionResultBlock:`
 
@@ -5223,7 +5265,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `String fileId`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "bash_code_execution_output"`
 
           - `long returnCode`
 
@@ -5231,13 +5273,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `String stdout`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash_code_execution_result"`
 
       - `String toolUseId`
 
         pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-      - `JsonValue type constant`
+      - `JsonValue type = "bash_code_execution_tool_result"`
 
     - `class BetaTextEditorCodeExecutionToolResultBlock:`
 
@@ -5259,7 +5301,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `Optional<String> errorMessage`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text_editor_code_execution_tool_result_error"`
 
         - `class BetaTextEditorCodeExecutionViewResultBlock:`
 
@@ -5279,13 +5321,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `Optional<Long> totalLines`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text_editor_code_execution_view_result"`
 
         - `class BetaTextEditorCodeExecutionCreateResultBlock:`
 
           - `boolean isFileUpdate`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text_editor_code_execution_create_result"`
 
         - `class BetaTextEditorCodeExecutionStrReplaceResultBlock:`
 
@@ -5299,13 +5341,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `Optional<Long> oldStart`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text_editor_code_execution_str_replace_result"`
 
       - `String toolUseId`
 
         pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-      - `JsonValue type constant`
+      - `JsonValue type = "text_editor_code_execution_tool_result"`
 
     - `class BetaToolSearchToolResultBlock:`
 
@@ -5325,7 +5367,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `Optional<String> errorMessage`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "tool_search_tool_result_error"`
 
         - `class BetaToolSearchToolSearchResultBlock:`
 
@@ -5335,15 +5377,15 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               maxLength: 256, minLength: 1, pattern: ^[a-zA-Z0-9_-]{1,256}$
 
-            - `JsonValue type constant`
+            - `JsonValue type = "tool_reference"`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "tool_search_tool_search_result"`
 
       - `String toolUseId`
 
         pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-      - `JsonValue type constant`
+      - `JsonValue type = "tool_search_tool_result"`
 
     - `class BetaMcpToolUseBlock:`
 
@@ -5361,7 +5403,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         The name of the MCP server
 
-      - `JsonValue type constant`
+      - `JsonValue type = "mcp_tool_use"`
 
     - `class BetaMcpToolResultBlock:`
 
@@ -5381,7 +5423,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             maxLength: 5000000, minLength: 0
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text"`
 
       - `boolean isError`
 
@@ -5389,7 +5431,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         pattern: ^[a-zA-Z0-9_-]+$
 
-      - `JsonValue type constant`
+      - `JsonValue type = "mcp_tool_result"`
 
     - `class BetaContainerUploadBlock:`
 
@@ -5397,7 +5439,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `String fileId`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "container_upload"`
 
     - `class BetaCompactionBlock:`
 
@@ -5415,7 +5457,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         Opaque metadata from prior compaction, to be round-tripped verbatim
 
-      - `JsonValue type constant`
+      - `JsonValue type = "compaction"`
 
     - `class BetaFallbackBlock:`
 
@@ -5440,6 +5482,14 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           The model that will complete your prompt.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+          - `CLAUDE_MYTHOS_5_1("claude-mythos-5-1")`
+
+            Our most capable model for cybersecurity and biology research, available through trusted access programs
 
           - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -5533,9 +5583,9 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "refusal"`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "fallback"`
 
   - `Optional<BetaContextManagementResponse> contextManagement`
 
@@ -5561,7 +5611,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           minimum: 0
 
-        - `JsonValue type constant`
+        - `JsonValue type = "clear_tool_uses_20250919"`
 
           The type of context management edit applied.
 
@@ -5579,7 +5629,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           minimum: 0
 
-        - `JsonValue type constant`
+        - `JsonValue type = "clear_thinking_20251015"`
 
           The type of context management edit applied.
 
@@ -5598,7 +5648,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "model_changed"`
 
       - `class BetaCacheMissSystemChanged:`
 
@@ -5606,7 +5656,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "system_changed"`
 
       - `class BetaCacheMissToolsChanged:`
 
@@ -5614,7 +5664,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "tools_changed"`
 
       - `class BetaCacheMissMessagesChanged:`
 
@@ -5622,15 +5672,15 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "messages_changed"`
 
       - `class BetaCacheMissPreviousMessageNotFound:`
 
-        - `JsonValue type constant`
+        - `JsonValue type = "previous_message_not_found"`
 
       - `class BetaCacheMissUnavailable:`
 
-        - `JsonValue type constant`
+        - `JsonValue type = "unavailable"`
 
   - `Model model`
 
@@ -5638,7 +5688,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-  - `JsonValue role constant`
+  - `JsonValue role = "assistant"`
 
     Conversational role of the generated message.
 
@@ -5727,7 +5777,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       The server's suggested retry target for this refusal. Populated when a fallback attempt could not be made (the fallback model's rate limit was exhausted, or it was overloaded); names the fallback model the caller can retry directly. Null otherwise.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "refusal"`
 
   - `Optional<BetaStopReason> stopReason`
 
@@ -5767,7 +5817,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     This value will be a non-null string if one of your custom stop sequences was generated.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "message"`
 
     Object type.
 
@@ -5831,7 +5881,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           The reprice was applied: the retry is billed as if the conversation
           had been on the retry model all along.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "redeemed"`
 
         - `class BetaFallbackCreditNotApplied:`
 
@@ -5868,7 +5918,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `WRONG_WORKSPACE("wrong_workspace")`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "not_applied"`
 
           - `Optional<List<String>> removeToRedeem`
 
@@ -5891,7 +5941,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       minimum: 0
 
-    - `Optional<List<BetaIterationsUsageItems>> iterations`
+    - `Optional<List<Iteration>> iterations`
 
       Per-iteration token usage breakdown.
 
@@ -5941,7 +5991,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           minimum: 0
 
-        - `JsonValue type constant`
+        - `JsonValue type = "message"`
 
           Usage for a sampling iteration
 
@@ -5977,7 +6027,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           minimum: 0
 
-        - `JsonValue type constant`
+        - `JsonValue type = "compaction"`
 
           Usage for a compaction iteration
 
@@ -6019,7 +6069,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           minimum: 0
 
-        - `JsonValue type constant`
+        - `JsonValue type = "advisor_message"`
 
           Usage for an advisor sub-inference iteration
 
@@ -6066,7 +6116,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           minimum: 0
 
-        - `JsonValue type constant`
+        - `JsonValue type = "fallback_message"`
 
           Usage for the fallback-model attempt that served the response
 
@@ -6132,13 +6182,65 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `FAST("fast")`
 
+  - `Optional<List<BetaThinkingDroppedInputTransformation>> inputTransformations`
+
+    Changes the API made to the request's input before showing it to the model:
+    one entry per change, in request order. Today the only entry type is
+    `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+    block from the request's `messages` that was removed from the prompt instead
+    of being shown to the model because it failed a binding check. More entry
+    types may be added over time; ignore types you do not recognize.
+
+    Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+    every such response from a model that supports extended thinking, as `[]`
+    when nothing was changed; without the beta, blocks are removed all the same
+    but nothing is reported. Removed blocks contribute nothing to
+    `usage.input_tokens`. When streaming, the array is final in `message_start`;
+    the final `message_delta` event carries it only when a server-side model
+    fallback happened mid-stream, in which case it holds the serving model's
+    entries and replaces the one in `message_start`.
+
+    - `String path`
+
+      Where the removed block was in your request, as `messages.{i}.content.{j}`:
+      `i` indexes the `messages` array you sent and `j` that message's `content`
+      array — the same form error messages use.
+
+    - `Reason reason`
+
+      Which binding check removed the block: `model_binding_mismatch` — it was
+      created by a model whose reasoning the requested model may not read;
+      `prefix_binding_mismatch` — the conversation before it differs from the
+      conversation it was created in (the rest of that turn's consecutive thinking
+      blocks are removed with it, each with this reason);
+      `organization_binding_mismatch` — it was created under a different
+      organization (an Anthropic organization, AWS account or Google Cloud project)
+      and this organization is not one of its additional organizations;
+      `end_user_binding_mismatch` — it was created for a different end user, or
+      was removed by the consumer-organization binding. A block that would fail
+      several checks reports one reason, in this order of precedence:
+      `organization_binding_mismatch`, `end_user_binding_mismatch`,
+      `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+      - `MODEL_BINDING_MISMATCH("model_binding_mismatch")`
+
+      - `PREFIX_BINDING_MISMATCH("prefix_binding_mismatch")`
+
+      - `ORGANIZATION_BINDING_MISMATCH("organization_binding_mismatch")`
+
+      - `END_USER_BINDING_MISMATCH("end_user_binding_mismatch")`
+
+    - `JsonValue type = "thinking_dropped"`
+
+      Always `thinking_dropped` for this entry type.
+
 - `class BetaRawMessageStreamEvent: union`
 
   - `class BetaRawMessageStartEvent:`
 
     - `BetaMessage message`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "message_start"`
 
   - `class BetaRawMessageDeltaEvent:`
 
@@ -6160,7 +6262,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `Optional<String> stopSequence`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "message_delta"`
 
     - `BetaMessageDeltaUsage usage`
 
@@ -6196,7 +6298,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         minimum: 0
 
-      - `Optional<List<BetaIterationsUsageItems>> iterations`
+      - `Optional<List<Iteration>> iterations`
 
         Per-iteration token usage breakdown.
 
@@ -6246,9 +6348,53 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         The number of server tool requests.
 
+    - `Optional<List<BetaThinkingDroppedInputTransformation>> inputTransformations`
+
+      Changes the API made to the request's input before showing it to the model:
+      one entry per change, in request order. Today the only entry type is
+      `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+      block from the request's `messages` that was removed from the prompt instead
+      of being shown to the model because it failed a binding check. More entry
+      types may be added over time; ignore types you do not recognize.
+
+      Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+      every such response from a model that supports extended thinking, as `[]`
+      when nothing was changed; without the beta, blocks are removed all the same
+      but nothing is reported. Removed blocks contribute nothing to
+      `usage.input_tokens`. When streaming, the array is final in `message_start`;
+      the final `message_delta` event carries it only when a server-side model
+      fallback happened mid-stream, in which case it holds the serving model's
+      entries and replaces the one in `message_start`.
+
+      - `String path`
+
+        Where the removed block was in your request, as `messages.{i}.content.{j}`:
+        `i` indexes the `messages` array you sent and `j` that message's `content`
+        array — the same form error messages use.
+
+      - `Reason reason`
+
+        Which binding check removed the block: `model_binding_mismatch` — it was
+        created by a model whose reasoning the requested model may not read;
+        `prefix_binding_mismatch` — the conversation before it differs from the
+        conversation it was created in (the rest of that turn's consecutive thinking
+        blocks are removed with it, each with this reason);
+        `organization_binding_mismatch` — it was created under a different
+        organization (an Anthropic organization, AWS account or Google Cloud project)
+        and this organization is not one of its additional organizations;
+        `end_user_binding_mismatch` — it was created for a different end user, or
+        was removed by the consumer-organization binding. A block that would fail
+        several checks reports one reason, in this order of precedence:
+        `organization_binding_mismatch`, `end_user_binding_mismatch`,
+        `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+      - `JsonValue type = "thinking_dropped"`
+
+        Always `thinking_dropped` for this entry type.
+
   - `class BetaRawMessageStopEvent:`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "message_stop"`
 
   - `class BetaRawContentBlockStartEvent:`
 
@@ -6312,7 +6458,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `long index`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "content_block_start"`
 
   - `class BetaRawContentBlockDeltaEvent:`
 
@@ -6322,13 +6468,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         - `String text`
 
-        - `JsonValue type constant`
+        - `JsonValue type = "text_delta"`
 
       - `class BetaInputJsonDelta:`
 
         - `String partialJson`
 
-        - `JsonValue type constant`
+        - `JsonValue type = "input_json_delta"`
 
       - `class BetaCitationsDelta:`
 
@@ -6344,7 +6490,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `class BetaCitationSearchResultLocation:`
 
-        - `JsonValue type constant`
+        - `JsonValue type = "citations_delta"`
 
       - `class BetaThinkingDelta:`
 
@@ -6356,7 +6502,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           The incremental `thinking` text for this content block. Concatenate the `thinking` values of successive `thinking_delta` events to assemble the block's full `thinking` value.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "thinking_delta"`
 
       - `class BetaSignatureDelta:`
 
@@ -6364,7 +6510,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           The `signature` for this thinking block: an opaque value used to verify that the block was generated by Claude when it is passed back to the API. Delivered in a `signature_delta` event just before the block's `content_block_stop` event.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "signature_delta"`
 
       - `class BetaCompactionContentBlockDelta:`
 
@@ -6374,17 +6520,17 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           Opaque metadata from prior compaction, to be round-tripped verbatim
 
-        - `JsonValue type constant`
+        - `JsonValue type = "compaction_delta"`
 
     - `long index`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "content_block_delta"`
 
   - `class BetaRawContentBlockStopEvent:`
 
     - `long index`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "content_block_stop"`
 
 #### Example
 
@@ -6497,7 +6643,7 @@ public final class Main {
         "cache_creation_input_tokens": 0,
         "cache_read_input_tokens": 0,
         "input_tokens": 0,
-        "model": "claude-sonnet-5",
+        "model": "claude-fable-5-1",
         "output_tokens": 0,
         "type": "message"
       }
@@ -6512,7 +6658,14 @@ public final class Main {
     },
     "service_tier": "standard",
     "speed": "standard"
-  }
+  },
+  "input_transformations": [
+    {
+      "path": "path",
+      "reason": "model_binding_mismatch",
+      "type": "thinking_dropped"
+    }
+  ]
 }
 ```
 
@@ -6618,6 +6771,12 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<String> userProfileId`
 
     The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header.
@@ -6685,13 +6844,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             minLength: 1
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
             Create a cache control breakpoint at this content block.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "ephemeral"`
 
             - `Optional<Ttl> ttl`
 
@@ -6728,7 +6887,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 minimum: 0
 
-              - `JsonValue type constant`
+              - `JsonValue type = "char_location"`
 
             - `class BetaCitationPageLocationParam:`
 
@@ -6748,7 +6907,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 minimum: 1
 
-              - `JsonValue type constant`
+              - `JsonValue type = "page_location"`
 
             - `class BetaCitationContentBlockLocationParam:`
 
@@ -6778,7 +6937,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 minimum: 0
 
-              - `JsonValue type constant`
+              - `JsonValue type = "content_block_location"`
 
             - `class BetaCitationWebSearchResultLocationParam:`
 
@@ -6790,7 +6949,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 maxLength: 512, minLength: 1
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_search_result_location"`
 
               - `String url`
 
@@ -6828,7 +6987,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               - `Optional<String> title`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "search_result_location"`
 
         - `class BetaImageBlockParam:`
 
@@ -6850,11 +7009,11 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `IMAGE_WEBP("image/webp")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "base64"`
 
             - `class BetaUrlImageSource:`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -6862,9 +7021,9 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               - `String fileId`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "file"`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "image"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -6892,17 +7051,17 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 format: byte
 
-              - `JsonValue mediaType constant`
+              - `JsonValue mediaType = "application/pdf"`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "base64"`
 
             - `class BetaPlainTextSource:`
 
               - `String data`
 
-              - `JsonValue mediaType constant`
+              - `JsonValue mediaType = "text/plain"`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text"`
 
             - `class BetaContentBlockSource:`
 
@@ -6916,11 +7075,11 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                   - `class BetaImageBlockParam:`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "content"`
 
             - `class BetaUrlPdfSource:`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -6928,9 +7087,9 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               - `String fileId`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "file"`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "document"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -6956,7 +7115,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               minLength: 1
 
-            - `JsonValue type constant`
+            - `JsonValue type = "text"`
 
             - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -6968,7 +7127,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
           - `String title`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "search_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -6988,7 +7147,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             The `thinking` text of this block as returned by the API.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "thinking"`
 
         - `class BetaRedactedThinkingBlockParam:`
 
@@ -6996,7 +7155,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "redacted_thinking"`
 
         - `class BetaToolUseBlockParam:`
 
@@ -7010,7 +7169,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             maxLength: 200, minLength: 1
 
-          - `JsonValue type constant`
+          - `JsonValue type = "tool_use"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7024,7 +7183,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               Tool invocation directly from the model.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "direct"`
 
             - `class BetaServerToolCaller:`
 
@@ -7034,7 +7193,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "code_execution_20250825"`
 
             - `class BetaServerToolCaller20260120:`
 
@@ -7042,7 +7201,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "code_execution_20260120"`
 
           - `Optional<String> toolsetName`
 
@@ -7056,7 +7215,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             pattern: ^[a-zA-Z0-9_-]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7084,7 +7243,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                   maxLength: 256, minLength: 1, pattern: ^[a-zA-Z0-9_-]{1,256}$
 
-                - `JsonValue type constant`
+                - `JsonValue type = "tool_reference"`
 
                 - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7128,7 +7287,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                     Whether this tab is the active tab after this call. Whenever `tabs` is non-empty, exactly one entry is marked `active: true`.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "browser_state"`
 
                 - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7156,7 +7315,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                       maxLength: 4096, minLength: 1, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "tab_opened"`
 
                   - `class BetaBrowserStateChangeDownloadStarted:`
 
@@ -7168,7 +7327,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                       maxLength: 4096, minLength: 1, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "download_started"`
 
                     - `String url`
 
@@ -7189,7 +7348,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                       maxLength: 4096, minLength: 1, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "download_completed"`
 
                     - `String url`
 
@@ -7219,7 +7378,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                       maxLength: 4096, minLength: 1, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "download_failed"`
 
                     - `String url`
 
@@ -7267,7 +7426,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             - `TOOL_SEARCH_TOOL_BM25("tool_search_tool_bm25")`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "server_tool_use"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7297,7 +7456,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               - `String title`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_search_result"`
 
               - `String url`
 
@@ -7319,13 +7478,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `REQUEST_TOO_LARGE("request_too_large")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_search_tool_result_error"`
 
           - `String toolUseId`
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7371,13 +7530,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `UNAVAILABLE("unavailable")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_fetch_tool_result_error"`
 
             - `class BetaWebFetchBlockParam:`
 
               - `BetaRequestDocumentBlock content`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_fetch_result"`
 
               - `String url`
 
@@ -7391,7 +7550,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7433,13 +7592,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `MODEL_NOT_FOUND("model_not_found")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "advisor_tool_result_error"`
 
             - `class BetaAdvisorResultBlockParam:`
 
               - `String text`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "advisor_result"`
 
               - `Optional<String> stopReason`
 
@@ -7449,7 +7608,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 Opaque blob produced by a prior response; must be round-tripped verbatim.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "advisor_redacted_result"`
 
               - `Optional<String> stopReason`
 
@@ -7457,7 +7616,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "advisor_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7481,7 +7640,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "code_execution_tool_result_error"`
 
             - `class BetaCodeExecutionResultBlockParam:`
 
@@ -7489,7 +7648,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `String fileId`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "code_execution_output"`
 
               - `long returnCode`
 
@@ -7497,7 +7656,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               - `String stdout`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "code_execution_result"`
 
             - `class BetaEncryptedCodeExecutionResultBlockParam:`
 
@@ -7507,7 +7666,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `String fileId`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "code_execution_output"`
 
               - `String encryptedStdout`
 
@@ -7515,13 +7674,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               - `String stderr`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "encrypted_code_execution_result"`
 
           - `String toolUseId`
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "code_execution_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7545,7 +7704,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `OUTPUT_FILE_TOO_LARGE("output_file_too_large")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "bash_code_execution_tool_result_error"`
 
             - `class BetaBashCodeExecutionResultBlockParam:`
 
@@ -7553,7 +7712,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `String fileId`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "bash_code_execution_output"`
 
               - `long returnCode`
 
@@ -7561,13 +7720,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               - `String stdout`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "bash_code_execution_result"`
 
           - `String toolUseId`
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash_code_execution_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7591,7 +7750,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `FILE_NOT_FOUND("file_not_found")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text_editor_code_execution_tool_result_error"`
 
               - `Optional<String> errorMessage`
 
@@ -7607,7 +7766,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `PDF("pdf")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text_editor_code_execution_view_result"`
 
               - `Optional<Long> numLines`
 
@@ -7619,11 +7778,11 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               - `boolean isFileUpdate`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text_editor_code_execution_create_result"`
 
             - `class BetaTextEditorCodeExecutionStrReplaceResultBlockParam:`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text_editor_code_execution_str_replace_result"`
 
               - `Optional<List<String>> lines`
 
@@ -7639,7 +7798,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text_editor_code_execution_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7661,7 +7820,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tool_search_tool_result_error"`
 
               - `Optional<String> errorMessage`
 
@@ -7673,19 +7832,19 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                   maxLength: 256, minLength: 1, pattern: ^[a-zA-Z0-9_-]{1,256}$
 
-                - `JsonValue type constant`
+                - `JsonValue type = "tool_reference"`
 
                 - `Optional<BetaCacheControlEphemeral> cacheControl`
 
                   Create a cache control breakpoint at this content block.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tool_search_tool_search_result"`
 
           - `String toolUseId`
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "tool_search_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7705,7 +7864,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             The name of the MCP server
 
-          - `JsonValue type constant`
+          - `JsonValue type = "mcp_tool_use"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7717,7 +7876,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             pattern: ^[a-zA-Z0-9_-]+$
 
-          - `JsonValue type constant`
+          - `JsonValue type = "mcp_tool_result"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7733,7 +7892,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 minLength: 1
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7750,7 +7909,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
           - `String fileId`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "container_upload"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7766,7 +7925,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
           When content is None, the block represents a failed compaction. The server
           treats these as no-ops. Empty string content is not allowed.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "compaction"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7806,7 +7965,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 pattern: ^[a-zA-Z0-9_-]{1,128}$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tool_reference"`
 
             - `class BetaToolChangeMcpToolReference:`
 
@@ -7817,7 +7976,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               - `String serverName`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "mcp_tool_reference"`
 
             - `class BetaToolChangeMcpToolsetReference:`
 
@@ -7825,9 +7984,9 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               - `String serverName`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "mcp_toolset_reference"`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "tool_addition"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7864,7 +8023,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               Reference to every tool in the named MCP server's toolset.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "tool_removal"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -7895,6 +8054,14 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
               The model that will complete your prompt.
 
               See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+              - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+                Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+              - `CLAUDE_MYTHOS_5_1("claude-mythos-5-1")`
+
+                Our most capable model for cybersecurity and biology research, available through trusted access programs
 
               - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -7960,7 +8127,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             Identifies one hop of a fallback transition.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "fallback"`
 
           - `Optional<JsonValue> trigger`
 
@@ -7973,6 +8140,36 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
       - `ASSISTANT("assistant")`
 
       - `SYSTEM("system")`
+
+    - `Optional<ClearAt> clearAt`
+
+      How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
+
+      - `NEXT_USER_MESSAGE("next_user_message")`
+
+      - `NEVER("never")`
+
+    - `Optional<BetaSystemMessageOutputConfig> outputConfig`
+
+      Per-message output configuration on a role:"system" input message.
+
+      Fields here apply per-turn; `format` remains top-level only. An
+      empty `{}` is accepted on a message that carries content; a message
+      with neither content nor output_config fields is rejected.
+
+      - `Optional<Effort> effort`
+
+        All possible effort levels.
+
+        - `LOW("low")`
+
+        - `MEDIUM("medium")`
+
+        - `HIGH("high")`
+
+        - `XHIGH("xhigh")`
+
+        - `MAX("max")`
 
   - `Model model`
 
@@ -7998,7 +8195,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `String name`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "url"`
 
     - `String url`
 
@@ -8036,7 +8233,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
         minLength: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "text"`
 
       - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -8128,7 +8325,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
         This defines the shape of the `input` that your tool accepts and that the model will produce.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -8180,13 +8377,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaToolBash20241022:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "bash"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "bash_20241022"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -8214,13 +8411,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaToolBash20250124:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "bash"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "bash_20250124"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -8248,13 +8445,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaCodeExecutionTool20250522:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "code_execution"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "code_execution_20250522"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -8280,13 +8477,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaCodeExecutionTool20250825:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "code_execution"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "code_execution_20250825"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -8314,13 +8511,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
       Code execution tool with REPL state persistence (daemon mode + gVisor checkpoint).
 
-      - `JsonValue name constant`
+      - `JsonValue name = "code_execution"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "code_execution_20260120"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -8348,13 +8545,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
       Code execution tool with REPL state persistence.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "code_execution"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "code_execution_20260521"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -8385,17 +8582,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
       the family's tool with any members disabled via `configs` removed
       from its schema.
 
-      - `JsonValue type constant`
-
-      - `Optional<List<AllowedCaller>> allowedCallers`
-
-        - `DIRECT("direct")`
-
-        - `CODE_EXECUTION_20250825("code_execution_20250825")`
-
-        - `CODE_EXECUTION_20260120("code_execution_20260120")`
-
-        - `CODE_EXECUTION_20260521("code_execution_20260521")`
+      - `JsonValue type = "browser_toolset_20260801"`
 
       - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -8796,13 +8983,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
         minimum: 1
 
-      - `JsonValue name constant`
+      - `JsonValue name = "computer"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "computer_20241022"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -8836,13 +9023,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaMemoryTool20250818:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "memory"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "memory_20250818"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -8882,13 +9069,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
         minimum: 1
 
-      - `JsonValue name constant`
+      - `JsonValue name = "computer"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "computer_20250124"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -8922,13 +9109,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaToolTextEditor20241022:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "str_replace_editor"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "text_editor_20241022"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -8968,13 +9155,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
         minimum: 1
 
-      - `JsonValue name constant`
+      - `JsonValue name = "computer"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "computer_20251124"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -9021,17 +9208,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
       `type`, `configs`, and `cache_control`; zoom is controlled
       via `configs.zoom.enabled`.
 
-      - `JsonValue type constant`
-
-      - `Optional<List<AllowedCaller>> allowedCallers`
-
-        - `DIRECT("direct")`
-
-        - `CODE_EXECUTION_20250825("code_execution_20250825")`
-
-        - `CODE_EXECUTION_20260120("code_execution_20260120")`
-
-        - `CODE_EXECUTION_20260521("code_execution_20260521")`
+      - `JsonValue type = "computer_toolset_20260801"`
 
       - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -9252,13 +9429,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaToolTextEditor20250124:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "str_replace_editor"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "text_editor_20250124"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -9286,13 +9463,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaToolTextEditor20250429:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "str_replace_based_edit_tool"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "text_editor_20250429"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -9320,13 +9497,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaToolTextEditor20250728:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "str_replace_based_edit_tool"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "text_editor_20250728"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -9360,13 +9537,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaWebSearchTool20250305:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_search"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_search_20250305"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -9408,7 +9585,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
         Parameters for the user's location. Used to provide more relevant search results.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "approximate"`
 
         - `Optional<String> city`
 
@@ -9436,13 +9613,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaWebFetchTool20250910:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_fetch"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_fetch_20250910"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -9492,13 +9669,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaWebSearchTool20260209:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_search"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_search_20260209"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -9542,13 +9719,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaWebFetchTool20260209:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_fetch"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_fetch_20260209"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -9600,13 +9777,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
       Web fetch tool with use_cache parameter for bypassing cached content.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_fetch"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_fetch_20260309"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -9660,13 +9837,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaWebSearchTool20260318:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_search"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_search_20260318"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -9718,13 +9895,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaWebFetchTool20260318:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_fetch"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_fetch_20260318"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -9792,13 +9969,13 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "advisor"`
 
         Name of the tool.
 
         This is how the tool will be called by the model and in `tool_use` blocks.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "advisor_20260301"`
 
       - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -9840,7 +10017,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaToolSearchToolBm25_20251119:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "tool_search_tool_bm25"`
 
         Name of the tool.
 
@@ -9876,7 +10053,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `class BetaToolSearchToolRegex20251119:`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "tool_search_tool_regex"`
 
         Name of the tool.
 
@@ -9923,7 +10100,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
         maxLength: 255, minLength: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "mcp_toolset"`
 
       - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -10110,6 +10287,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<String> userProfileId`
 
     The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
@@ -10209,13 +10392,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 minLength: 1
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
                 Create a cache control breakpoint at this content block.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "ephemeral"`
 
                 - `Optional<Ttl> ttl`
 
@@ -10252,7 +10435,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     minimum: 0
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "char_location"`
 
                 - `class BetaCitationPageLocationParam:`
 
@@ -10272,7 +10455,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     minimum: 1
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "page_location"`
 
                 - `class BetaCitationContentBlockLocationParam:`
 
@@ -10302,7 +10485,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     minimum: 0
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "content_block_location"`
 
                 - `class BetaCitationWebSearchResultLocationParam:`
 
@@ -10314,7 +10497,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     maxLength: 512, minLength: 1
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_search_result_location"`
 
                   - `String url`
 
@@ -10352,7 +10535,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `Optional<String> title`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "search_result_location"`
 
             - `class BetaImageBlockParam:`
 
@@ -10374,11 +10557,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `IMAGE_WEBP("image/webp")`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "base64"`
 
                 - `class BetaUrlImageSource:`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "url"`
 
                   - `String url`
 
@@ -10386,9 +10569,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `String fileId`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "file"`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "image"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -10416,17 +10599,17 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     format: byte
 
-                  - `JsonValue mediaType constant`
+                  - `JsonValue mediaType = "application/pdf"`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "base64"`
 
                 - `class BetaPlainTextSource:`
 
                   - `String data`
 
-                  - `JsonValue mediaType constant`
+                  - `JsonValue mediaType = "text/plain"`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "text"`
 
                 - `class BetaContentBlockSource:`
 
@@ -10440,11 +10623,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                       - `class BetaImageBlockParam:`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "content"`
 
                 - `class BetaUrlPdfSource:`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "url"`
 
                   - `String url`
 
@@ -10452,9 +10635,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `String fileId`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "file"`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "document"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -10480,7 +10663,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   minLength: 1
 
-                - `JsonValue type constant`
+                - `JsonValue type = "text"`
 
                 - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -10492,7 +10675,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `String title`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "search_result"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -10512,7 +10695,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 The `thinking` text of this block as returned by the API.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "thinking"`
 
             - `class BetaRedactedThinkingBlockParam:`
 
@@ -10520,7 +10703,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "redacted_thinking"`
 
             - `class BetaToolUseBlockParam:`
 
@@ -10534,7 +10717,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 maxLength: 200, minLength: 1
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tool_use"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -10548,7 +10731,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   Tool invocation directly from the model.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "direct"`
 
                 - `class BetaServerToolCaller:`
 
@@ -10558,7 +10741,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "code_execution_20250825"`
 
                 - `class BetaServerToolCaller20260120:`
 
@@ -10566,7 +10749,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "code_execution_20260120"`
 
               - `Optional<String> toolsetName`
 
@@ -10580,7 +10763,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 pattern: ^[a-zA-Z0-9_-]+$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tool_result"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -10608,7 +10791,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                       maxLength: 256, minLength: 1, pattern: ^[a-zA-Z0-9_-]{1,256}$
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "tool_reference"`
 
                     - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -10652,7 +10835,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                         Whether this tab is the active tab after this call. Whenever `tabs` is non-empty, exactly one entry is marked `active: true`.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "browser_state"`
 
                     - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -10680,7 +10863,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                           maxLength: 4096, minLength: 1, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                        - `JsonValue type constant`
+                        - `JsonValue type = "tab_opened"`
 
                       - `class BetaBrowserStateChangeDownloadStarted:`
 
@@ -10692,7 +10875,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                           maxLength: 4096, minLength: 1, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                        - `JsonValue type constant`
+                        - `JsonValue type = "download_started"`
 
                         - `String url`
 
@@ -10713,7 +10896,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                           maxLength: 4096, minLength: 1, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                        - `JsonValue type constant`
+                        - `JsonValue type = "download_completed"`
 
                         - `String url`
 
@@ -10743,7 +10926,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                           maxLength: 4096, minLength: 1, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                        - `JsonValue type constant`
+                        - `JsonValue type = "download_failed"`
 
                         - `String url`
 
@@ -10791,7 +10974,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `TOOL_SEARCH_TOOL_BM25("tool_search_tool_bm25")`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "server_tool_use"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -10821,7 +11004,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `String title`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_search_result"`
 
                   - `String url`
 
@@ -10843,13 +11026,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `REQUEST_TOO_LARGE("request_too_large")`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_search_tool_result_error"`
 
               - `String toolUseId`
 
                 pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_search_tool_result"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -10895,13 +11078,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `UNAVAILABLE("unavailable")`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_fetch_tool_result_error"`
 
                 - `class BetaWebFetchBlockParam:`
 
                   - `BetaRequestDocumentBlock content`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_fetch_result"`
 
                   - `String url`
 
@@ -10915,7 +11098,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_fetch_tool_result"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -10957,13 +11140,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `MODEL_NOT_FOUND("model_not_found")`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "advisor_tool_result_error"`
 
                 - `class BetaAdvisorResultBlockParam:`
 
                   - `String text`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "advisor_result"`
 
                   - `Optional<String> stopReason`
 
@@ -10973,7 +11156,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     Opaque blob produced by a prior response; must be round-tripped verbatim.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "advisor_redacted_result"`
 
                   - `Optional<String> stopReason`
 
@@ -10981,7 +11164,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "advisor_tool_result"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -11005,7 +11188,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "code_execution_tool_result_error"`
 
                 - `class BetaCodeExecutionResultBlockParam:`
 
@@ -11013,7 +11196,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `String fileId`
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "code_execution_output"`
 
                   - `long returnCode`
 
@@ -11021,7 +11204,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `String stdout`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "code_execution_result"`
 
                 - `class BetaEncryptedCodeExecutionResultBlockParam:`
 
@@ -11031,7 +11214,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `String fileId`
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "code_execution_output"`
 
                   - `String encryptedStdout`
 
@@ -11039,13 +11222,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `String stderr`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "encrypted_code_execution_result"`
 
               - `String toolUseId`
 
                 pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "code_execution_tool_result"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -11069,7 +11252,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `OUTPUT_FILE_TOO_LARGE("output_file_too_large")`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "bash_code_execution_tool_result_error"`
 
                 - `class BetaBashCodeExecutionResultBlockParam:`
 
@@ -11077,7 +11260,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `String fileId`
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "bash_code_execution_output"`
 
                   - `long returnCode`
 
@@ -11085,13 +11268,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `String stdout`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "bash_code_execution_result"`
 
               - `String toolUseId`
 
                 pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "bash_code_execution_tool_result"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -11115,7 +11298,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `FILE_NOT_FOUND("file_not_found")`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "text_editor_code_execution_tool_result_error"`
 
                   - `Optional<String> errorMessage`
 
@@ -11131,7 +11314,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `PDF("pdf")`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "text_editor_code_execution_view_result"`
 
                   - `Optional<Long> numLines`
 
@@ -11143,11 +11326,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `boolean isFileUpdate`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "text_editor_code_execution_create_result"`
 
                 - `class BetaTextEditorCodeExecutionStrReplaceResultBlockParam:`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "text_editor_code_execution_str_replace_result"`
 
                   - `Optional<List<String>> lines`
 
@@ -11163,7 +11346,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "text_editor_code_execution_tool_result"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -11185,7 +11368,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "tool_search_tool_result_error"`
 
                   - `Optional<String> errorMessage`
 
@@ -11197,19 +11380,19 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                       maxLength: 256, minLength: 1, pattern: ^[a-zA-Z0-9_-]{1,256}$
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "tool_reference"`
 
                     - `Optional<BetaCacheControlEphemeral> cacheControl`
 
                       Create a cache control breakpoint at this content block.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "tool_search_tool_search_result"`
 
               - `String toolUseId`
 
                 pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tool_search_tool_result"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -11229,7 +11412,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 The name of the MCP server
 
-              - `JsonValue type constant`
+              - `JsonValue type = "mcp_tool_use"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -11241,7 +11424,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 pattern: ^[a-zA-Z0-9_-]+$
 
-              - `JsonValue type constant`
+              - `JsonValue type = "mcp_tool_result"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -11257,7 +11440,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     minLength: 1
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "text"`
 
                   - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -11274,7 +11457,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `String fileId`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "container_upload"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -11290,7 +11473,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               When content is None, the block represents a failed compaction. The server
               treats these as no-ops. Empty string content is not allowed.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "compaction"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -11330,7 +11513,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     pattern: ^[a-zA-Z0-9_-]{1,128}$
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "tool_reference"`
 
                 - `class BetaToolChangeMcpToolReference:`
 
@@ -11341,7 +11524,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `String serverName`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "mcp_tool_reference"`
 
                 - `class BetaToolChangeMcpToolsetReference:`
 
@@ -11349,9 +11532,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `String serverName`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "mcp_toolset_reference"`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tool_addition"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -11388,7 +11571,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   Reference to every tool in the named MCP server's toolset.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tool_removal"`
 
               - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -11419,6 +11602,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                   The model that will complete your prompt.
 
                   See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+                  - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+                    Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+                  - `CLAUDE_MYTHOS_5_1("claude-mythos-5-1")`
+
+                    Our most capable model for cybersecurity and biology research, available through trusted access programs
 
                   - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -11484,7 +11675,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 Identifies one hop of a fallback transition.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "fallback"`
 
               - `Optional<JsonValue> trigger`
 
@@ -11497,6 +11688,36 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           - `ASSISTANT("assistant")`
 
           - `SYSTEM("system")`
+
+        - `Optional<ClearAt> clearAt`
+
+          How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
+
+          - `NEXT_USER_MESSAGE("next_user_message")`
+
+          - `NEVER("never")`
+
+        - `Optional<BetaSystemMessageOutputConfig> outputConfig`
+
+          Per-message output configuration on a role:"system" input message.
+
+          Fields here apply per-turn; `format` remains top-level only. An
+          empty `{}` is accepted on a message that carries content; a message
+          with neither content nor output_config fields is rejected.
+
+          - `Optional<Effort> effort`
+
+            All possible effort levels.
+
+            - `LOW("low")`
+
+            - `MEDIUM("medium")`
+
+            - `HIGH("high")`
+
+            - `XHIGH("xhigh")`
+
+            - `MAX("max")`
 
       - `Model model`
 
@@ -11562,13 +11783,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           - `class BetaClearToolUses20250919Edit:`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "clear_tool_uses_20250919"`
 
             - `Optional<BetaInputTokensClearAtLeast> clearAtLeast`
 
               Minimum number of tokens that must be cleared when triggered. Context will only be modified if at least this many tokens can be removed.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "input_tokens"`
 
               - `long value`
 
@@ -11590,7 +11811,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               Number of tool uses to retain in the conversation
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tool_uses"`
 
               - `long value`
 
@@ -11602,7 +11823,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `class BetaInputTokensTrigger:`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "input_tokens"`
 
                 - `long value`
 
@@ -11610,7 +11831,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `class BetaToolUsesTrigger:`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "tool_uses"`
 
                 - `long value`
 
@@ -11618,7 +11839,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           - `class BetaClearThinking20251015Edit:`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "clear_thinking_20251015"`
 
             - `Optional<Keep> keep`
 
@@ -11626,7 +11847,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `class BetaThinkingTurns:`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "thinking_turns"`
 
                 - `long value`
 
@@ -11634,7 +11855,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `class BetaAllThinkingTurns:`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "all"`
 
               - `JsonValue`
 
@@ -11642,7 +11863,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             Automatically compact older context when reaching the configured trigger threshold.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "compact_20260112"`
 
             - `Optional<String> instructions`
 
@@ -11754,7 +11975,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 The JSON schema of the format
 
-              - `JsonValue type constant`
+              - `JsonValue type = "json_schema"`
 
             - `Optional<BetaTokenTaskBudget> taskBudget`
 
@@ -11766,7 +11987,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 minimum: 1024
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tokens"`
 
                 The budget type. Currently only 'tokens' is supported.
 
@@ -11798,7 +12019,25 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 minimum: 1024
 
-              - `JsonValue type constant`
+              - `JsonValue type = "enabled"`
+
+              - `Optional<BetaThinkingBlockBinding> blockBinding`
+
+                Controls for block binding: what happens when a thinking block this
+                request sends back fails the conversation check. Every field is optional;
+                an empty object means every default.
+
+                - `Optional<BetaThinkingPrefixMismatchBehavior> prefixMismatchBehavior`
+
+                  What happens when a thinking block in `messages` fails the conversation
+                  check: it was created in a different conversation, or the messages before
+                  it have changed since. `"error"` (the default) fails the request with a
+                  400 error. `"drop_block"` removes the failing blocks and the request
+                  proceeds; the model no longer sees the dropped reasoning.
+
+                  - `ERROR("error")`
+
+                  - `DROP_BLOCK("drop_block")`
 
               - `Optional<Display> display`
 
@@ -11812,11 +12051,17 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `class BetaThinkingConfigDisabled:`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "disabled"`
 
             - `class BetaThinkingConfigAdaptive:`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "adaptive"`
+
+              - `Optional<BetaThinkingBlockBinding> blockBinding`
+
+                Controls for block binding: what happens when a thinking block this
+                request sends back fails the conversation check. Every field is optional;
+                an empty object means every default.
 
               - `Optional<Display> display`
 
@@ -11842,7 +12087,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `String name`
 
-        - `JsonValue type constant`
+        - `JsonValue type = "url"`
 
         - `String url`
 
@@ -11916,7 +12161,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             minLength: 1
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -11946,7 +12191,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           The model will automatically decide whether to use tools.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "auto"`
 
           - `Optional<Boolean> disableParallelToolUse`
 
@@ -11958,7 +12203,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           The model will use any available tools.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "any"`
 
           - `Optional<Boolean> disableParallelToolUse`
 
@@ -11974,7 +12219,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             The name of the tool to use.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "tool"`
 
           - `Optional<Boolean> disableParallelToolUse`
 
@@ -11986,7 +12231,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           The model will not be allowed to use tools.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "none"`
 
       - `Optional<List<BetaToolUnion>> tools`
 
@@ -12060,7 +12305,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             This defines the shape of the `input` that your tool accepts and that the model will produce.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "object"`
 
             - `Optional<Properties> properties`
 
@@ -12112,13 +12357,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaToolBash20241022:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash_20241022"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -12146,13 +12391,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaToolBash20250124:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash_20250124"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -12180,13 +12425,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaCodeExecutionTool20250522:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "code_execution"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "code_execution_20250522"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -12212,13 +12457,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaCodeExecutionTool20250825:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "code_execution"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "code_execution_20250825"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -12246,13 +12491,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           Code execution tool with REPL state persistence (daemon mode + gVisor checkpoint).
 
-          - `JsonValue name constant`
+          - `JsonValue name = "code_execution"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "code_execution_20260120"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -12280,13 +12525,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           Code execution tool with REPL state persistence.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "code_execution"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "code_execution_20260521"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -12317,17 +12562,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           the family's tool with any members disabled via `configs` removed
           from its schema.
 
-          - `JsonValue type constant`
-
-          - `Optional<List<AllowedCaller>> allowedCallers`
-
-            - `DIRECT("direct")`
-
-            - `CODE_EXECUTION_20250825("code_execution_20250825")`
-
-            - `CODE_EXECUTION_20260120("code_execution_20260120")`
-
-            - `CODE_EXECUTION_20260521("code_execution_20260521")`
+          - `JsonValue type = "browser_toolset_20260801"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -12728,13 +12963,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             minimum: 1
 
-          - `JsonValue name constant`
+          - `JsonValue name = "computer"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "computer_20241022"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -12768,13 +13003,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaMemoryTool20250818:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "memory"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "memory_20250818"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -12814,13 +13049,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             minimum: 1
 
-          - `JsonValue name constant`
+          - `JsonValue name = "computer"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "computer_20250124"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -12854,13 +13089,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaToolTextEditor20241022:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "str_replace_editor"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text_editor_20241022"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -12900,13 +13135,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             minimum: 1
 
-          - `JsonValue name constant`
+          - `JsonValue name = "computer"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "computer_20251124"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -12953,17 +13188,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           `type`, `configs`, and `cache_control`; zoom is controlled
           via `configs.zoom.enabled`.
 
-          - `JsonValue type constant`
-
-          - `Optional<List<AllowedCaller>> allowedCallers`
-
-            - `DIRECT("direct")`
-
-            - `CODE_EXECUTION_20250825("code_execution_20250825")`
-
-            - `CODE_EXECUTION_20260120("code_execution_20260120")`
-
-            - `CODE_EXECUTION_20260521("code_execution_20260521")`
+          - `JsonValue type = "computer_toolset_20260801"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -13184,13 +13409,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaToolTextEditor20250124:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "str_replace_editor"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text_editor_20250124"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -13218,13 +13443,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaToolTextEditor20250429:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "str_replace_based_edit_tool"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text_editor_20250429"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -13252,13 +13477,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaToolTextEditor20250728:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "str_replace_based_edit_tool"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "text_editor_20250728"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -13292,13 +13517,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaWebSearchTool20250305:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search_20250305"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -13340,7 +13565,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             Parameters for the user's location. Used to provide more relevant search results.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
             - `Optional<String> city`
 
@@ -13368,13 +13593,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaWebFetchTool20250910:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch_20250910"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -13424,13 +13649,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaWebSearchTool20260209:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search_20260209"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -13474,13 +13699,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaWebFetchTool20260209:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch_20260209"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -13532,13 +13757,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           Web fetch tool with use_cache parameter for bypassing cached content.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch_20260309"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -13592,13 +13817,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaWebSearchTool20260318:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search_20260318"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -13650,13 +13875,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaWebFetchTool20260318:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch_20260318"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -13724,13 +13949,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "advisor"`
 
             Name of the tool.
 
             This is how the tool will be called by the model and in `tool_use` blocks.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "advisor_20260301"`
 
           - `Optional<List<AllowedCaller>> allowedCallers`
 
@@ -13772,7 +13997,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaToolSearchToolBm25_20251119:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "tool_search_tool_bm25"`
 
             Name of the tool.
 
@@ -13808,7 +14033,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `class BetaToolSearchToolRegex20251119:`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "tool_search_tool_regex"`
 
             Name of the tool.
 
@@ -13855,7 +14080,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             maxLength: 255, minLength: 1
 
-          - `JsonValue type constant`
+          - `JsonValue type = "mcp_toolset"`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -14013,7 +14238,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     Results in the file are not guaranteed to be in the same order as requests. Use the `custom_id` field to match results to requests.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "message_batch"`
 
     Object type.
 
@@ -14178,6 +14403,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaMessageBatch:`
@@ -14270,7 +14501,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     Results in the file are not guaranteed to be in the same order as requests. Use the `custom_id` field to match results to requests.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "message_batch"`
 
     Object type.
 
@@ -14436,6 +14667,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaMessageBatch:`
@@ -14528,7 +14765,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     Results in the file are not guaranteed to be in the same order as requests. Use the `custom_id` field to match results to requests.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "message_batch"`
 
     Object type.
 
@@ -14691,6 +14928,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaMessageBatch:`
@@ -14783,7 +15026,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     Results in the file are not guaranteed to be in the same order as requests. Use the `custom_id` field to match results to requests.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "message_batch"`
 
     Object type.
 
@@ -14939,6 +15182,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaDeletedMessageBatch:`
@@ -14947,7 +15196,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     ID of the Message Batch.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "message_batch_deleted"`
 
     Deleted object type.
 
@@ -15089,6 +15338,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaMessageBatchIndividualResponse:`
@@ -15131,7 +15386,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             format: date-time
 
-          - `Optional<List<BetaSkill>> skills`
+          - `Optional<List<BetaContainerSkill>> skills`
 
             Skills loaded in the container
 
@@ -15210,7 +15465,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   minimum: 0
 
-                - `JsonValue type constant`
+                - `JsonValue type = "char_location"`
 
               - `class BetaCitationPageLocation:`
 
@@ -15230,7 +15485,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   minimum: 1
 
-                - `JsonValue type constant`
+                - `JsonValue type = "page_location"`
 
               - `class BetaCitationContentBlockLocation:`
 
@@ -15260,7 +15515,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   minimum: 0
 
-                - `JsonValue type constant`
+                - `JsonValue type = "content_block_location"`
 
               - `class BetaCitationsWebSearchResultLocation:`
 
@@ -15272,7 +15527,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   maxLength: 512
 
-                - `JsonValue type constant`
+                - `JsonValue type = "web_search_result_location"`
 
                 - `String url`
 
@@ -15308,13 +15563,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `Optional<String> title`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "search_result_location"`
 
             - `String text`
 
               maxLength: 5000000, minLength: 0
 
-            - `JsonValue type constant`
+            - `JsonValue type = "text"`
 
           - `class BetaThinkingBlock:`
 
@@ -15330,7 +15585,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               The text of Claude's thinking process for this block.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "thinking"`
 
           - `class BetaRedactedThinkingBlock:`
 
@@ -15342,7 +15597,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               See [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking#redacted-thinking-blocks) for details.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "redacted_thinking"`
 
           - `class BetaToolUseBlock:`
 
@@ -15356,7 +15611,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               minLength: 1
 
-            - `JsonValue type constant`
+            - `JsonValue type = "tool_use"`
 
             - `Optional<Caller> caller`
 
@@ -15366,7 +15621,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 Tool invocation directly from the model.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "direct"`
 
               - `class BetaServerToolCaller:`
 
@@ -15376,7 +15631,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-                - `JsonValue type constant`
+                - `JsonValue type = "code_execution_20250825"`
 
               - `class BetaServerToolCaller20260120:`
 
@@ -15384,7 +15639,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-                - `JsonValue type constant`
+                - `JsonValue type = "code_execution_20260120"`
 
             - `Optional<String> toolsetName`
 
@@ -15418,7 +15673,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `TOOL_SEARCH_TOOL_BM25("tool_search_tool_bm25")`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "server_tool_use"`
 
             - `Optional<Caller> caller`
 
@@ -15454,7 +15709,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `REQUEST_TOO_LARGE("request_too_large")`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "web_search_tool_result_error"`
 
               - `List<BetaWebSearchResultBlock>`
 
@@ -15464,7 +15719,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `String title`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "web_search_result"`
 
                 - `String url`
 
@@ -15472,7 +15727,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-            - `JsonValue type constant`
+            - `JsonValue type = "web_search_tool_result"`
 
             - `Optional<Caller> caller`
 
@@ -15514,7 +15769,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `UNAVAILABLE("unavailable")`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "web_fetch_tool_result_error"`
 
               - `class BetaWebFetchBlock:`
 
@@ -15534,29 +15789,29 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                         format: byte
 
-                      - `JsonValue mediaType constant`
+                      - `JsonValue mediaType = "application/pdf"`
 
-                      - `JsonValue type constant`
+                      - `JsonValue type = "base64"`
 
                     - `class BetaPlainTextSource:`
 
                       - `String data`
 
-                      - `JsonValue mediaType constant`
+                      - `JsonValue mediaType = "text/plain"`
 
-                      - `JsonValue type constant`
+                      - `JsonValue type = "text"`
 
                   - `Optional<String> title`
 
                     The title of the document
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "document"`
 
                 - `Optional<String> retrievedAt`
 
                   ISO 8601 timestamp when the content was retrieved
 
-                - `JsonValue type constant`
+                - `JsonValue type = "web_fetch_result"`
 
                 - `String url`
 
@@ -15566,7 +15821,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-            - `JsonValue type constant`
+            - `JsonValue type = "web_fetch_tool_result"`
 
             - `Optional<Caller> caller`
 
@@ -15604,7 +15859,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `MODEL_NOT_FOUND("model_not_found")`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "advisor_tool_result_error"`
 
               - `class BetaAdvisorResultBlock:`
 
@@ -15614,7 +15869,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `String text`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "advisor_result"`
 
               - `class BetaAdvisorRedactedResultBlock:`
 
@@ -15626,13 +15881,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   The advisor sub-inference's stop reason (same values as the top-level message `stop_reason`).
 
-                - `JsonValue type constant`
+                - `JsonValue type = "advisor_redacted_result"`
 
             - `String toolUseId`
 
               pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-            - `JsonValue type constant`
+            - `JsonValue type = "advisor_tool_result"`
 
           - `class BetaCodeExecutionToolResultBlock:`
 
@@ -15652,7 +15907,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "code_execution_tool_result_error"`
 
               - `class BetaCodeExecutionResultBlock:`
 
@@ -15660,7 +15915,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `String fileId`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "code_execution_output"`
 
                 - `long returnCode`
 
@@ -15668,7 +15923,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `String stdout`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "code_execution_result"`
 
               - `class BetaEncryptedCodeExecutionResultBlock:`
 
@@ -15678,7 +15933,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `String fileId`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "code_execution_output"`
 
                 - `String encryptedStdout`
 
@@ -15686,13 +15941,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `String stderr`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "encrypted_code_execution_result"`
 
             - `String toolUseId`
 
               pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-            - `JsonValue type constant`
+            - `JsonValue type = "code_execution_tool_result"`
 
           - `class BetaBashCodeExecutionToolResultBlock:`
 
@@ -15712,7 +15967,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `OUTPUT_FILE_TOO_LARGE("output_file_too_large")`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "bash_code_execution_tool_result_error"`
 
               - `class BetaBashCodeExecutionResultBlock:`
 
@@ -15720,7 +15975,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `String fileId`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "bash_code_execution_output"`
 
                 - `long returnCode`
 
@@ -15728,13 +15983,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `String stdout`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "bash_code_execution_result"`
 
             - `String toolUseId`
 
               pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-            - `JsonValue type constant`
+            - `JsonValue type = "bash_code_execution_tool_result"`
 
           - `class BetaTextEditorCodeExecutionToolResultBlock:`
 
@@ -15756,7 +16011,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `Optional<String> errorMessage`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "text_editor_code_execution_tool_result_error"`
 
               - `class BetaTextEditorCodeExecutionViewResultBlock:`
 
@@ -15776,13 +16031,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `Optional<Long> totalLines`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "text_editor_code_execution_view_result"`
 
               - `class BetaTextEditorCodeExecutionCreateResultBlock:`
 
                 - `boolean isFileUpdate`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "text_editor_code_execution_create_result"`
 
               - `class BetaTextEditorCodeExecutionStrReplaceResultBlock:`
 
@@ -15796,13 +16051,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `Optional<Long> oldStart`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "text_editor_code_execution_str_replace_result"`
 
             - `String toolUseId`
 
               pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-            - `JsonValue type constant`
+            - `JsonValue type = "text_editor_code_execution_tool_result"`
 
           - `class BetaToolSearchToolResultBlock:`
 
@@ -15822,7 +16077,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `Optional<String> errorMessage`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "tool_search_tool_result_error"`
 
               - `class BetaToolSearchToolSearchResultBlock:`
 
@@ -15832,15 +16087,15 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     maxLength: 256, minLength: 1, pattern: ^[a-zA-Z0-9_-]{1,256}$
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "tool_reference"`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "tool_search_tool_search_result"`
 
             - `String toolUseId`
 
               pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-            - `JsonValue type constant`
+            - `JsonValue type = "tool_search_tool_result"`
 
           - `class BetaMcpToolUseBlock:`
 
@@ -15858,7 +16113,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               The name of the MCP server
 
-            - `JsonValue type constant`
+            - `JsonValue type = "mcp_tool_use"`
 
           - `class BetaMcpToolResultBlock:`
 
@@ -15878,7 +16133,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   maxLength: 5000000, minLength: 0
 
-                - `JsonValue type constant`
+                - `JsonValue type = "text"`
 
             - `boolean isError`
 
@@ -15886,7 +16141,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               pattern: ^[a-zA-Z0-9_-]+$
 
-            - `JsonValue type constant`
+            - `JsonValue type = "mcp_tool_result"`
 
           - `class BetaContainerUploadBlock:`
 
@@ -15894,7 +16149,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `String fileId`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "container_upload"`
 
           - `class BetaCompactionBlock:`
 
@@ -15912,7 +16167,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               Opaque metadata from prior compaction, to be round-tripped verbatim
 
-            - `JsonValue type constant`
+            - `JsonValue type = "compaction"`
 
           - `class BetaFallbackBlock:`
 
@@ -15937,6 +16192,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 The model that will complete your prompt.
 
                 See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+                - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+                  Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+                - `CLAUDE_MYTHOS_5_1("claude-mythos-5-1")`
+
+                  Our most capable model for cybersecurity and biology research, available through trusted access programs
 
                 - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -16030,9 +16293,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "refusal"`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "fallback"`
 
         - `Optional<BetaContextManagementResponse> contextManagement`
 
@@ -16058,7 +16321,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 minimum: 0
 
-              - `JsonValue type constant`
+              - `JsonValue type = "clear_tool_uses_20250919"`
 
                 The type of context management edit applied.
 
@@ -16076,7 +16339,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 minimum: 0
 
-              - `JsonValue type constant`
+              - `JsonValue type = "clear_thinking_20251015"`
 
                 The type of context management edit applied.
 
@@ -16095,7 +16358,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "model_changed"`
 
             - `class BetaCacheMissSystemChanged:`
 
@@ -16103,7 +16366,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "system_changed"`
 
             - `class BetaCacheMissToolsChanged:`
 
@@ -16111,7 +16374,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "tools_changed"`
 
             - `class BetaCacheMissMessagesChanged:`
 
@@ -16119,15 +16382,15 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "messages_changed"`
 
             - `class BetaCacheMissPreviousMessageNotFound:`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "previous_message_not_found"`
 
             - `class BetaCacheMissUnavailable:`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "unavailable"`
 
         - `Model model`
 
@@ -16135,7 +16398,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-        - `JsonValue role constant`
+        - `JsonValue role = "assistant"`
 
           Conversational role of the generated message.
 
@@ -16224,7 +16487,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             The server's suggested retry target for this refusal. Populated when a fallback attempt could not be made (the fallback model's rate limit was exhausted, or it was overloaded); names the fallback model the caller can retry directly. Null otherwise.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "refusal"`
 
         - `Optional<BetaStopReason> stopReason`
 
@@ -16264,7 +16527,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           This value will be a non-null string if one of your custom stop sequences was generated.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "message"`
 
           Object type.
 
@@ -16328,7 +16591,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 The reprice was applied: the retry is billed as if the conversation
                 had been on the retry model all along.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "redeemed"`
 
               - `class BetaFallbackCreditNotApplied:`
 
@@ -16365,7 +16628,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `WRONG_WORKSPACE("wrong_workspace")`
 
-                - `JsonValue type constant`
+                - `JsonValue type = "not_applied"`
 
                 - `Optional<List<String>> removeToRedeem`
 
@@ -16388,7 +16651,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             minimum: 0
 
-          - `Optional<List<BetaIterationsUsageItems>> iterations`
+          - `Optional<List<Iteration>> iterations`
 
             Per-iteration token usage breakdown.
 
@@ -16438,7 +16701,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 minimum: 0
 
-              - `JsonValue type constant`
+              - `JsonValue type = "message"`
 
                 Usage for a sampling iteration
 
@@ -16474,7 +16737,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 minimum: 0
 
-              - `JsonValue type constant`
+              - `JsonValue type = "compaction"`
 
                 Usage for a compaction iteration
 
@@ -16516,7 +16779,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 minimum: 0
 
-              - `JsonValue type constant`
+              - `JsonValue type = "advisor_message"`
 
                 Usage for an advisor sub-inference iteration
 
@@ -16563,7 +16826,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 minimum: 0
 
-              - `JsonValue type constant`
+              - `JsonValue type = "fallback_message"`
 
                 Usage for the fallback-model attempt that served the response
 
@@ -16629,7 +16892,59 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `FAST("fast")`
 
-      - `JsonValue type constant`
+        - `Optional<List<BetaThinkingDroppedInputTransformation>> inputTransformations`
+
+          Changes the API made to the request's input before showing it to the model:
+          one entry per change, in request order. Today the only entry type is
+          `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+          block from the request's `messages` that was removed from the prompt instead
+          of being shown to the model because it failed a binding check. More entry
+          types may be added over time; ignore types you do not recognize.
+
+          Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+          every such response from a model that supports extended thinking, as `[]`
+          when nothing was changed; without the beta, blocks are removed all the same
+          but nothing is reported. Removed blocks contribute nothing to
+          `usage.input_tokens`. When streaming, the array is final in `message_start`;
+          the final `message_delta` event carries it only when a server-side model
+          fallback happened mid-stream, in which case it holds the serving model's
+          entries and replaces the one in `message_start`.
+
+          - `String path`
+
+            Where the removed block was in your request, as `messages.{i}.content.{j}`:
+            `i` indexes the `messages` array you sent and `j` that message's `content`
+            array — the same form error messages use.
+
+          - `Reason reason`
+
+            Which binding check removed the block: `model_binding_mismatch` — it was
+            created by a model whose reasoning the requested model may not read;
+            `prefix_binding_mismatch` — the conversation before it differs from the
+            conversation it was created in (the rest of that turn's consecutive thinking
+            blocks are removed with it, each with this reason);
+            `organization_binding_mismatch` — it was created under a different
+            organization (an Anthropic organization, AWS account or Google Cloud project)
+            and this organization is not one of its additional organizations;
+            `end_user_binding_mismatch` — it was created for a different end user, or
+            was removed by the consumer-organization binding. A block that would fail
+            several checks reports one reason, in this order of precedence:
+            `organization_binding_mismatch`, `end_user_binding_mismatch`,
+            `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+            - `MODEL_BINDING_MISMATCH("model_binding_mismatch")`
+
+            - `PREFIX_BINDING_MISMATCH("prefix_binding_mismatch")`
+
+            - `ORGANIZATION_BINDING_MISMATCH("organization_binding_mismatch")`
+
+            - `END_USER_BINDING_MISMATCH("end_user_binding_mismatch")`
+
+          - `JsonValue type = "thinking_dropped"`
+
+            Always `thinking_dropped` for this entry type.
+
+      - `JsonValue type = "succeeded"`
 
     - `class BetaMessageBatchErroredResult:`
 
@@ -16641,69 +16956,69 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `String message`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "invalid_request_error"`
 
           - `class BetaAuthenticationError:`
 
             - `String message`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "authentication_error"`
 
           - `class BetaBillingError:`
 
             - `String message`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "billing_error"`
 
           - `class BetaPermissionError:`
 
             - `String message`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "permission_error"`
 
           - `class BetaNotFoundError:`
 
             - `String message`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "not_found_error"`
 
           - `class BetaRateLimitError:`
 
             - `String message`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "rate_limit_error"`
 
           - `class BetaGatewayTimeoutError:`
 
             - `String message`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "timeout_error"`
 
           - `class BetaApiError:`
 
             - `String message`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "api_error"`
 
           - `class BetaOverloadedError:`
 
             - `String message`
 
-            - `JsonValue type constant`
+            - `JsonValue type = "overloaded_error"`
 
         - `Optional<String> requestId`
 
-        - `JsonValue type constant`
+        - `JsonValue type = "error"`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "errored"`
 
     - `class BetaMessageBatchCanceledResult:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "canceled"`
 
     - `class BetaMessageBatchExpiredResult:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "expired"`
 
 #### Example
 
@@ -16827,6 +17142,12 @@ Create Agent
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Model model`
 
     Model identifier. Accepts the [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison), e.g. `claude-opus-5`, or a `model_config` object for additional configuration control
@@ -16836,6 +17157,10 @@ Create Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -17061,7 +17386,7 @@ Create Agent
 
           Configuration override for the bash tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
             Must be "bash".
 
@@ -17091,7 +17416,7 @@ Create Agent
 
           Configuration override for the edit tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
             Must be "edit".
 
@@ -17117,7 +17442,7 @@ Create Agent
 
           Configuration override for the read tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
             Must be "read".
 
@@ -17143,7 +17468,7 @@ Create Agent
 
           Configuration override for the write tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
             Must be "write".
 
@@ -17169,7 +17494,7 @@ Create Agent
 
           Configuration override for the glob tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
             Must be "glob".
 
@@ -17195,7 +17520,7 @@ Create Agent
 
           Configuration override for the grep tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
             Must be "grep".
 
@@ -17221,7 +17546,7 @@ Create Agent
 
           Configuration override for the web_fetch tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
             Must be "web_fetch".
 
@@ -17261,7 +17586,7 @@ Create Agent
 
           Configuration override for the web_search tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
             Must be "web_search".
 
@@ -17295,7 +17620,7 @@ Create Agent
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -17413,7 +17738,7 @@ Create Agent
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -17468,6 +17793,10 @@ Create Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -17637,7 +17966,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -17655,7 +17984,7 @@ Create Agent
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -17663,7 +17992,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -17677,7 +18006,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -17685,7 +18014,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -17699,7 +18028,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -17707,7 +18036,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -17721,7 +18050,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -17729,7 +18058,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -17743,7 +18072,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -17751,7 +18080,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -17765,7 +18094,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -17773,7 +18102,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -17787,7 +18116,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -17803,7 +18132,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -17817,7 +18146,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -17827,7 +18156,7 @@ Create Agent
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -17925,7 +18254,7 @@ Create Agent
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -18176,6 +18505,12 @@ List Agents
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsAgent:`
@@ -18217,6 +18552,10 @@ List Agents
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -18386,7 +18725,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -18404,7 +18743,7 @@ List Agents
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -18412,7 +18751,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -18426,7 +18765,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -18434,7 +18773,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -18448,7 +18787,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -18456,7 +18795,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -18470,7 +18809,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -18478,7 +18817,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -18492,7 +18831,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -18500,7 +18839,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -18514,7 +18853,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -18522,7 +18861,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -18536,7 +18875,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -18552,7 +18891,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -18566,7 +18905,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -18576,7 +18915,7 @@ List Agents
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -18674,7 +19013,7 @@ List Agents
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -18907,6 +19246,12 @@ Get Agent
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsAgent:`
@@ -18948,6 +19293,10 @@ Get Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -19117,7 +19466,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -19135,7 +19484,7 @@ Get Agent
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -19143,7 +19492,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -19157,7 +19506,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -19165,7 +19514,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -19179,7 +19528,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -19187,7 +19536,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -19201,7 +19550,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -19209,7 +19558,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -19223,7 +19572,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -19231,7 +19580,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -19245,7 +19594,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -19253,7 +19602,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -19267,7 +19616,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -19283,7 +19632,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -19297,7 +19646,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -19307,7 +19656,7 @@ Get Agent
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -19405,7 +19754,7 @@ Get Agent
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -19627,6 +19976,12 @@ Update Agent
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<String> description`
 
     Description. Omit to preserve; send empty string or null to clear.
@@ -19664,6 +20019,10 @@ Update Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -19861,7 +20220,7 @@ Update Agent
 
           Configuration override for the bash tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
             Must be "bash".
 
@@ -19891,7 +20250,7 @@ Update Agent
 
           Configuration override for the edit tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
             Must be "edit".
 
@@ -19917,7 +20276,7 @@ Update Agent
 
           Configuration override for the read tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
             Must be "read".
 
@@ -19943,7 +20302,7 @@ Update Agent
 
           Configuration override for the write tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
             Must be "write".
 
@@ -19969,7 +20328,7 @@ Update Agent
 
           Configuration override for the glob tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
             Must be "glob".
 
@@ -19995,7 +20354,7 @@ Update Agent
 
           Configuration override for the grep tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
             Must be "grep".
 
@@ -20021,7 +20380,7 @@ Update Agent
 
           Configuration override for the web_fetch tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
             Must be "web_fetch".
 
@@ -20061,7 +20420,7 @@ Update Agent
 
           Configuration override for the web_search tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
             Must be "web_search".
 
@@ -20095,7 +20454,7 @@ Update Agent
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -20213,7 +20572,7 @@ Update Agent
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -20274,6 +20633,10 @@ Update Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -20443,7 +20806,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -20461,7 +20824,7 @@ Update Agent
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -20469,7 +20832,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -20483,7 +20846,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -20491,7 +20854,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -20505,7 +20868,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -20513,7 +20876,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -20527,7 +20890,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -20535,7 +20898,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -20549,7 +20912,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -20557,7 +20920,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -20571,7 +20934,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -20579,7 +20942,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -20593,7 +20956,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -20609,7 +20972,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -20623,7 +20986,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -20633,7 +20996,7 @@ Update Agent
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -20731,7 +21094,7 @@ Update Agent
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -20953,6 +21316,12 @@ Archive Agent
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsAgent:`
@@ -20994,6 +21363,10 @@ Archive Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -21163,7 +21536,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -21181,7 +21554,7 @@ Archive Agent
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -21189,7 +21562,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -21203,7 +21576,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -21211,7 +21584,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -21225,7 +21598,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -21233,7 +21606,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -21247,7 +21620,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -21255,7 +21628,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -21269,7 +21642,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -21277,7 +21650,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -21291,7 +21664,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -21299,7 +21672,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -21313,7 +21686,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -21329,7 +21702,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -21343,7 +21716,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -21353,7 +21726,7 @@ Archive Agent
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -21451,7 +21824,7 @@ Archive Agent
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -21685,6 +22058,12 @@ List Agent Versions
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsAgent:`
@@ -21726,6 +22105,10 @@ List Agent Versions
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -21895,7 +22278,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -21913,7 +22296,7 @@ List Agent Versions
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -21921,7 +22304,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -21935,7 +22318,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -21943,7 +22326,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -21957,7 +22340,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -21965,7 +22348,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -21979,7 +22362,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -21987,7 +22370,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -22001,7 +22384,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -22009,7 +22392,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -22023,7 +22406,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -22031,7 +22414,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -22045,7 +22428,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -22061,7 +22444,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -22075,7 +22458,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -22085,7 +22468,7 @@ List Agent Versions
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -22183,7 +22566,7 @@ List Agent Versions
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -22410,6 +22793,12 @@ Create a new environment with the specified configuration.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `String name`
 
     Human-readable name for the environment
@@ -22427,7 +22816,7 @@ Create a new environment with the specified configuration.
       Fields default to null; on update, omitted fields preserve the
       existing value.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "cloud"`
 
         Environment type
 
@@ -22439,7 +22828,7 @@ Create a new environment with the specified configuration.
 
           Unrestricted network access.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "unrestricted"`
 
             Network policy type
 
@@ -22450,7 +22839,7 @@ Create a new environment with the specified configuration.
           Fields default to null; on update, omitted fields preserve the
           existing value.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "limited"`
 
             Network policy type
 
@@ -22506,7 +22895,7 @@ Create a new environment with the specified configuration.
 
       Request params for `self_hosted` environment configuration.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "self_hosted"`
 
         Environment type
 
@@ -22558,7 +22947,7 @@ Create a new environment with the specified configuration.
 
           Unrestricted network access.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "unrestricted"`
 
             Network policy type
 
@@ -22578,7 +22967,7 @@ Create a new environment with the specified configuration.
 
             Specifies domains the container can reach.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "limited"`
 
             Network policy type
 
@@ -22614,7 +23003,7 @@ Create a new environment with the specified configuration.
 
           Package configuration type
 
-      - `JsonValue type constant`
+      - `JsonValue type = "cloud"`
 
         Environment type
 
@@ -22622,7 +23011,7 @@ Create a new environment with the specified configuration.
 
       Configuration for self-hosted environments.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "self_hosted"`
 
         Environment type
 
@@ -22642,7 +23031,7 @@ Create a new environment with the specified configuration.
 
     Human-readable name for the environment
 
-  - `JsonValue type constant`
+  - `JsonValue type = "environment"`
 
     The type of object (always 'environment')
 
@@ -22843,6 +23232,12 @@ List environments with pagination support.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaEnvironment:`
@@ -22873,7 +23268,7 @@ List environments with pagination support.
 
           Unrestricted network access.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "unrestricted"`
 
             Network policy type
 
@@ -22893,7 +23288,7 @@ List environments with pagination support.
 
             Specifies domains the container can reach.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "limited"`
 
             Network policy type
 
@@ -22929,7 +23324,7 @@ List environments with pagination support.
 
           Package configuration type
 
-      - `JsonValue type constant`
+      - `JsonValue type = "cloud"`
 
         Environment type
 
@@ -22937,7 +23332,7 @@ List environments with pagination support.
 
       Configuration for self-hosted environments.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "self_hosted"`
 
         Environment type
 
@@ -22957,7 +23352,7 @@ List environments with pagination support.
 
     Human-readable name for the environment
 
-  - `JsonValue type constant`
+  - `JsonValue type = "environment"`
 
     The type of object (always 'environment')
 
@@ -23148,6 +23543,12 @@ Retrieve a specific environment by ID.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaEnvironment:`
@@ -23178,7 +23579,7 @@ Retrieve a specific environment by ID.
 
           Unrestricted network access.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "unrestricted"`
 
             Network policy type
 
@@ -23198,7 +23599,7 @@ Retrieve a specific environment by ID.
 
             Specifies domains the container can reach.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "limited"`
 
             Network policy type
 
@@ -23234,7 +23635,7 @@ Retrieve a specific environment by ID.
 
           Package configuration type
 
-      - `JsonValue type constant`
+      - `JsonValue type = "cloud"`
 
         Environment type
 
@@ -23242,7 +23643,7 @@ Retrieve a specific environment by ID.
 
       Configuration for self-hosted environments.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "self_hosted"`
 
         Environment type
 
@@ -23262,7 +23663,7 @@ Retrieve a specific environment by ID.
 
     Human-readable name for the environment
 
-  - `JsonValue type constant`
+  - `JsonValue type = "environment"`
 
     The type of object (always 'environment')
 
@@ -23448,6 +23849,12 @@ Update an existing environment's configuration.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<Config> config`
 
     Updated environment configuration
@@ -23459,7 +23866,7 @@ Update an existing environment's configuration.
       Fields default to null; on update, omitted fields preserve the
       existing value.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "cloud"`
 
         Environment type
 
@@ -23471,7 +23878,7 @@ Update an existing environment's configuration.
 
           Unrestricted network access.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "unrestricted"`
 
             Network policy type
 
@@ -23482,7 +23889,7 @@ Update an existing environment's configuration.
           Fields default to null; on update, omitted fields preserve the
           existing value.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "limited"`
 
             Network policy type
 
@@ -23538,7 +23945,7 @@ Update an existing environment's configuration.
 
       Request params for `self_hosted` environment configuration.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "self_hosted"`
 
         Environment type
 
@@ -23596,7 +24003,7 @@ Update an existing environment's configuration.
 
           Unrestricted network access.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "unrestricted"`
 
             Network policy type
 
@@ -23616,7 +24023,7 @@ Update an existing environment's configuration.
 
             Specifies domains the container can reach.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "limited"`
 
             Network policy type
 
@@ -23652,7 +24059,7 @@ Update an existing environment's configuration.
 
           Package configuration type
 
-      - `JsonValue type constant`
+      - `JsonValue type = "cloud"`
 
         Environment type
 
@@ -23660,7 +24067,7 @@ Update an existing environment's configuration.
 
       Configuration for self-hosted environments.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "self_hosted"`
 
         Environment type
 
@@ -23680,7 +24087,7 @@ Update an existing environment's configuration.
 
     Human-readable name for the environment
 
-  - `JsonValue type constant`
+  - `JsonValue type = "environment"`
 
     The type of object (always 'environment')
 
@@ -23866,6 +24273,12 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaEnvironmentDeleteResponse:`
@@ -24010,6 +24423,12 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaEnvironment:`
@@ -24040,7 +24459,7 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
           Unrestricted network access.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "unrestricted"`
 
             Network policy type
 
@@ -24060,7 +24479,7 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
             Specifies domains the container can reach.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "limited"`
 
             Network policy type
 
@@ -24096,7 +24515,7 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
           Package configuration type
 
-      - `JsonValue type constant`
+      - `JsonValue type = "cloud"`
 
         Environment type
 
@@ -24104,7 +24523,7 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
       Configuration for self-hosted environments.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "self_hosted"`
 
         Environment type
 
@@ -24124,7 +24543,7 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
     Human-readable name for the environment
 
-  - `JsonValue type constant`
+  - `JsonValue type = "environment"`
 
     The type of object (always 'environment')
 
@@ -24316,6 +24735,12 @@ Retrieve detailed information about a specific work item.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaSelfHostedWork:`
@@ -24346,7 +24771,7 @@ Retrieve detailed information about a specific work item.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       Type of work data
 
@@ -24392,7 +24817,7 @@ Retrieve detailed information about a specific work item.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work"`
 
     The type of object (always 'work')
 
@@ -24560,6 +24985,12 @@ Long poll for work items in the queue.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<String> anthropicWorkerId`
 
     Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
@@ -24594,7 +25025,7 @@ Long poll for work items in the queue.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       Type of work data
 
@@ -24640,7 +25071,7 @@ Long poll for work items in the queue.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work"`
 
     The type of object (always 'work')
 
@@ -24795,6 +25226,12 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaSelfHostedWork:`
@@ -24825,7 +25262,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       Type of work data
 
@@ -24871,7 +25308,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work"`
 
     The type of object (always 'work')
 
@@ -25037,6 +25474,12 @@ Record a heartbeat for a work item to maintain the lease.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaSelfHostedWorkHeartbeatResponse:`
@@ -25069,7 +25512,7 @@ Record a heartbeat for a work item to maintain the lease.
 
     Effective TTL applied to the lease
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work_heartbeat"`
 
     The type of response
 
@@ -25214,6 +25657,12 @@ Stop a work item, initiating graceful or forced shutdown.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `BetaSelfHostedWorkStopRequest betaSelfHostedWorkStopRequest`
 
     Request to stop a work item.
@@ -25248,7 +25697,7 @@ Stop a work item, initiating graceful or forced shutdown.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       Type of work data
 
@@ -25294,7 +25743,7 @@ Stop a work item, initiating graceful or forced shutdown.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work"`
 
     The type of object (always 'work')
 
@@ -25462,6 +25911,12 @@ List work items in an environment.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaSelfHostedWork:`
@@ -25492,7 +25947,7 @@ List work items in an environment.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       Type of work data
 
@@ -25538,7 +25993,7 @@ List work items in an environment.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work"`
 
     The type of object (always 'work')
 
@@ -25697,6 +26152,12 @@ Update work item metadata with merge semantics.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `BetaSelfHostedWorkUpdateRequest betaSelfHostedWorkUpdateRequest`
 
     Request to update work item metadata.
@@ -25731,7 +26192,7 @@ Update work item metadata with merge semantics.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       Type of work data
 
@@ -25777,7 +26238,7 @@ Update work item metadata with merge semantics.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work"`
 
     The type of object (always 'work')
 
@@ -25802,11 +26263,9 @@ public final class Main {
         WorkUpdateParams params = WorkUpdateParams.builder()
             .environmentId("env_011CZkZ9X2dpNyB7HsEFoRfW")
             .workId("work_id")
-            .betaSelfHostedWorkUpdateRequest(BetaSelfHostedWorkUpdateRequest.builder()
-                .metadata(BetaSelfHostedWorkUpdateRequest.Metadata.builder()
-                    .putAdditionalProperty("foo", JsonValue.from("string"))
-                    .build())
-                .build())
+            .betaSelfHostedWorkUpdateRequest(BetaSelfHostedWorkUpdateRequest.of(BetaSelfHostedWorkUpdateRequest.Metadata.builder()
+                .putAdditionalProperty("foo", JsonValue.from("string"))
+                .build()))
             .build();
         BetaSelfHostedWork betaSelfHostedWork = client.beta().environments().work().update(params);
     }
@@ -25938,6 +26397,12 @@ Get statistics about the work queue for an environment.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaSelfHostedWorkQueueStats:`
@@ -25958,7 +26423,7 @@ Get statistics about the work queue for an environment.
 
     Number of work items being processed (polled but not acknowledged)
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work_queue_stats"`
 
     The type of object
 
@@ -26099,6 +26564,12 @@ Create Session
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Agent agent`
 
     Agent identifier. Accepts the `agent` ID string, which pins the latest version for the session, or an `agent` object with both id and version specified.
@@ -26162,6 +26633,10 @@ Create Session
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
           - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -26349,7 +26824,7 @@ Create Session
 
               Configuration override for the bash tool.
 
-              - `JsonValue name constant`
+              - `JsonValue name = "bash"`
 
                 Must be "bash".
 
@@ -26379,7 +26854,7 @@ Create Session
 
               Configuration override for the edit tool.
 
-              - `JsonValue name constant`
+              - `JsonValue name = "edit"`
 
                 Must be "edit".
 
@@ -26405,7 +26880,7 @@ Create Session
 
               Configuration override for the read tool.
 
-              - `JsonValue name constant`
+              - `JsonValue name = "read"`
 
                 Must be "read".
 
@@ -26431,7 +26906,7 @@ Create Session
 
               Configuration override for the write tool.
 
-              - `JsonValue name constant`
+              - `JsonValue name = "write"`
 
                 Must be "write".
 
@@ -26457,7 +26932,7 @@ Create Session
 
               Configuration override for the glob tool.
 
-              - `JsonValue name constant`
+              - `JsonValue name = "glob"`
 
                 Must be "glob".
 
@@ -26483,7 +26958,7 @@ Create Session
 
               Configuration override for the grep tool.
 
-              - `JsonValue name constant`
+              - `JsonValue name = "grep"`
 
                 Must be "grep".
 
@@ -26509,7 +26984,7 @@ Create Session
 
               Configuration override for the web_fetch tool.
 
-              - `JsonValue name constant`
+              - `JsonValue name = "web_fetch"`
 
                 Must be "web_fetch".
 
@@ -26549,7 +27024,7 @@ Create Session
 
               Configuration override for the web_search tool.
 
-              - `JsonValue name constant`
+              - `JsonValue name = "web_search"`
 
                 Must be "web_search".
 
@@ -26583,7 +27058,7 @@ Create Session
 
                 Approximate user location for search result localization.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "approximate"`
 
                   Location precision. Only "approximate" is supported.
 
@@ -26701,7 +27176,7 @@ Create Session
 
             JSON Schema for custom tool input parameters.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "object"`
 
             - `Optional<Properties> properties`
 
@@ -27075,6 +27550,10 @@ Create Session
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+        - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
         - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
           High-performance model for coding and agents
@@ -27239,7 +27718,7 @@ Create Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "bash"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -27257,7 +27736,7 @@ Create Session
 
                       - `Type type`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "bash"`
 
                 - `class BetaManagedAgentsEditToolConfig:`
 
@@ -27265,7 +27744,7 @@ Create Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "edit"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -27279,7 +27758,7 @@ Create Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "edit"`
 
                 - `class BetaManagedAgentsReadToolConfig:`
 
@@ -27287,7 +27766,7 @@ Create Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "read"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -27301,7 +27780,7 @@ Create Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "read"`
 
                 - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -27309,7 +27788,7 @@ Create Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "write"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -27323,7 +27802,7 @@ Create Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "write"`
 
                 - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -27331,7 +27810,7 @@ Create Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "glob"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -27345,7 +27824,7 @@ Create Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "glob"`
 
                 - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -27353,7 +27832,7 @@ Create Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "grep"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -27367,7 +27846,7 @@ Create Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "grep"`
 
                 - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -27375,7 +27854,7 @@ Create Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "web_fetch"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -27389,7 +27868,7 @@ Create Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_fetch"`
 
                   - `Optional<List<String>> allowedDomains`
 
@@ -27405,7 +27884,7 @@ Create Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "web_search"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -27419,7 +27898,7 @@ Create Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_search"`
 
                   - `Optional<List<String>> allowedDomains`
 
@@ -27429,7 +27908,7 @@ Create Session
 
                     Approximate user location for search result localization.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "approximate"`
 
                       Location precision. Only "approximate" is supported.
 
@@ -27527,7 +28006,7 @@ Create Session
 
                 JSON Schema for custom tool input parameters.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "object"`
 
                 - `Optional<Properties> properties`
 
@@ -27621,7 +28100,7 @@ Create Session
 
   - `List<BetaManagedAgentsOutcomeEvaluationResource> outcomeEvaluations`
 
-    Per-outcome evaluation state. One entry per define_outcome event sent to the session.
+    Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
     - `Optional<LocalDateTime> completedAt`
 
@@ -27635,7 +28114,7 @@ Create Session
 
     - `Optional<String> explanation`
 
-      Grader's verdict text from the most recent evaluation. For satisfied, explains why criteria are met; for needs_revision (intermediate), what's missing; for failed, why unrecoverable.
+      Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
     - `long iteration`
 
@@ -27763,7 +28242,7 @@ Create Session
 
     - `Optional<Double> activeSeconds`
 
-      Cumulative time in seconds the session spent in running status. Excludes idle time.
+      Cumulative time in seconds the session spent in `running` status. Excludes idle time.
 
       format: double
 
@@ -28104,7 +28583,7 @@ List Sessions
 
   - `Optional<Long> agentVersion`
 
-    Filter by agent version. Only applies when agent_id is also set.
+    Filter by agent version. Only applies when `agent_id` is also set.
 
     format: int32
 
@@ -28148,11 +28627,11 @@ List Sessions
 
   - `Optional<String> memoryStoreId`
 
-    Filter sessions whose resources contain a memory_store with this memory store ID.
+    Filter sessions whose resources contain a `memory_store` with this memory store ID.
 
   - `Optional<Order> order`
 
-    Sort direction for results, ordered by created_at. Defaults to desc (newest first).
+    Sort direction for results, ordered by `created_at`. Defaults to `desc` (newest first).
 
     - `ASC("asc")`
 
@@ -28260,6 +28739,12 @@ List Sessions
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsSession:`
@@ -28293,6 +28778,10 @@ List Sessions
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
         - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -28458,7 +28947,7 @@ List Sessions
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "bash"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -28476,7 +28965,7 @@ List Sessions
 
                       - `Type type`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "bash"`
 
                 - `class BetaManagedAgentsEditToolConfig:`
 
@@ -28484,7 +28973,7 @@ List Sessions
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "edit"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -28498,7 +28987,7 @@ List Sessions
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "edit"`
 
                 - `class BetaManagedAgentsReadToolConfig:`
 
@@ -28506,7 +28995,7 @@ List Sessions
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "read"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -28520,7 +29009,7 @@ List Sessions
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "read"`
 
                 - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -28528,7 +29017,7 @@ List Sessions
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "write"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -28542,7 +29031,7 @@ List Sessions
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "write"`
 
                 - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -28550,7 +29039,7 @@ List Sessions
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "glob"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -28564,7 +29053,7 @@ List Sessions
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "glob"`
 
                 - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -28572,7 +29061,7 @@ List Sessions
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "grep"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -28586,7 +29075,7 @@ List Sessions
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "grep"`
 
                 - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -28594,7 +29083,7 @@ List Sessions
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "web_fetch"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -28608,7 +29097,7 @@ List Sessions
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_fetch"`
 
                   - `Optional<List<String>> allowedDomains`
 
@@ -28624,7 +29113,7 @@ List Sessions
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "web_search"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -28638,7 +29127,7 @@ List Sessions
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_search"`
 
                   - `Optional<List<String>> allowedDomains`
 
@@ -28648,7 +29137,7 @@ List Sessions
 
                     Approximate user location for search result localization.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "approximate"`
 
                       Location precision. Only "approximate" is supported.
 
@@ -28746,7 +29235,7 @@ List Sessions
 
                 JSON Schema for custom tool input parameters.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "object"`
 
                 - `Optional<Properties> properties`
 
@@ -28840,7 +29329,7 @@ List Sessions
 
   - `List<BetaManagedAgentsOutcomeEvaluationResource> outcomeEvaluations`
 
-    Per-outcome evaluation state. One entry per define_outcome event sent to the session.
+    Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
     - `Optional<LocalDateTime> completedAt`
 
@@ -28854,7 +29343,7 @@ List Sessions
 
     - `Optional<String> explanation`
 
-      Grader's verdict text from the most recent evaluation. For satisfied, explains why criteria are met; for needs_revision (intermediate), what's missing; for failed, why unrecoverable.
+      Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
     - `long iteration`
 
@@ -28982,7 +29471,7 @@ List Sessions
 
     - `Optional<Double> activeSeconds`
 
-      Cumulative time in seconds the session spent in running status. Excludes idle time.
+      Cumulative time in seconds the session spent in `running` status. Excludes idle time.
 
       format: double
 
@@ -29407,6 +29896,12 @@ Get Session
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsSession:`
@@ -29440,6 +29935,10 @@ Get Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
         - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -29605,7 +30104,7 @@ Get Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "bash"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -29623,7 +30122,7 @@ Get Session
 
                       - `Type type`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "bash"`
 
                 - `class BetaManagedAgentsEditToolConfig:`
 
@@ -29631,7 +30130,7 @@ Get Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "edit"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -29645,7 +30144,7 @@ Get Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "edit"`
 
                 - `class BetaManagedAgentsReadToolConfig:`
 
@@ -29653,7 +30152,7 @@ Get Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "read"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -29667,7 +30166,7 @@ Get Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "read"`
 
                 - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -29675,7 +30174,7 @@ Get Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "write"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -29689,7 +30188,7 @@ Get Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "write"`
 
                 - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -29697,7 +30196,7 @@ Get Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "glob"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -29711,7 +30210,7 @@ Get Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "glob"`
 
                 - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -29719,7 +30218,7 @@ Get Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "grep"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -29733,7 +30232,7 @@ Get Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "grep"`
 
                 - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -29741,7 +30240,7 @@ Get Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "web_fetch"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -29755,7 +30254,7 @@ Get Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_fetch"`
 
                   - `Optional<List<String>> allowedDomains`
 
@@ -29771,7 +30270,7 @@ Get Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "web_search"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -29785,7 +30284,7 @@ Get Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_search"`
 
                   - `Optional<List<String>> allowedDomains`
 
@@ -29795,7 +30294,7 @@ Get Session
 
                     Approximate user location for search result localization.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "approximate"`
 
                       Location precision. Only "approximate" is supported.
 
@@ -29893,7 +30392,7 @@ Get Session
 
                 JSON Schema for custom tool input parameters.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "object"`
 
                 - `Optional<Properties> properties`
 
@@ -29987,7 +30486,7 @@ Get Session
 
   - `List<BetaManagedAgentsOutcomeEvaluationResource> outcomeEvaluations`
 
-    Per-outcome evaluation state. One entry per define_outcome event sent to the session.
+    Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
     - `Optional<LocalDateTime> completedAt`
 
@@ -30001,7 +30500,7 @@ Get Session
 
     - `Optional<String> explanation`
 
-      Grader's verdict text from the most recent evaluation. For satisfied, explains why criteria are met; for needs_revision (intermediate), what's missing; for failed, why unrecoverable.
+      Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
     - `long iteration`
 
@@ -30129,7 +30628,7 @@ Get Session
 
     - `Optional<Double> activeSeconds`
 
-      Cumulative time in seconds the session spent in running status. Excludes idle time.
+      Cumulative time in seconds the session spent in `running` status. Excludes idle time.
 
       format: double
 
@@ -30548,6 +31047,12 @@ Update Session
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<BetaManagedAgentsSessionAgentUpdate> agent`
 
     Mid-session agent configuration update. Only `tools` and `mcp_servers` are updatable. Full replacement: the provided array becomes the new value. To preserve existing entries, GET the session, modify the array, and POST it back.
@@ -30603,6 +31108,10 @@ Update Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
         - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -30768,7 +31277,7 @@ Update Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "bash"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -30786,7 +31295,7 @@ Update Session
 
                       - `Type type`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "bash"`
 
                 - `class BetaManagedAgentsEditToolConfig:`
 
@@ -30794,7 +31303,7 @@ Update Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "edit"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -30808,7 +31317,7 @@ Update Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "edit"`
 
                 - `class BetaManagedAgentsReadToolConfig:`
 
@@ -30816,7 +31325,7 @@ Update Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "read"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -30830,7 +31339,7 @@ Update Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "read"`
 
                 - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -30838,7 +31347,7 @@ Update Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "write"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -30852,7 +31361,7 @@ Update Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "write"`
 
                 - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -30860,7 +31369,7 @@ Update Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "glob"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -30874,7 +31383,7 @@ Update Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "glob"`
 
                 - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -30882,7 +31391,7 @@ Update Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "grep"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -30896,7 +31405,7 @@ Update Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "grep"`
 
                 - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -30904,7 +31413,7 @@ Update Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "web_fetch"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -30918,7 +31427,7 @@ Update Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_fetch"`
 
                   - `Optional<List<String>> allowedDomains`
 
@@ -30934,7 +31443,7 @@ Update Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "web_search"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -30948,7 +31457,7 @@ Update Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_search"`
 
                   - `Optional<List<String>> allowedDomains`
 
@@ -30958,7 +31467,7 @@ Update Session
 
                     Approximate user location for search result localization.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "approximate"`
 
                       Location precision. Only "approximate" is supported.
 
@@ -31056,7 +31565,7 @@ Update Session
 
                 JSON Schema for custom tool input parameters.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "object"`
 
                 - `Optional<Properties> properties`
 
@@ -31150,7 +31659,7 @@ Update Session
 
   - `List<BetaManagedAgentsOutcomeEvaluationResource> outcomeEvaluations`
 
-    Per-outcome evaluation state. One entry per define_outcome event sent to the session.
+    Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
     - `Optional<LocalDateTime> completedAt`
 
@@ -31164,7 +31673,7 @@ Update Session
 
     - `Optional<String> explanation`
 
-      Grader's verdict text from the most recent evaluation. For satisfied, explains why criteria are met; for needs_revision (intermediate), what's missing; for failed, why unrecoverable.
+      Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
     - `long iteration`
 
@@ -31292,7 +31801,7 @@ Update Session
 
     - `Optional<Double> activeSeconds`
 
-      Cumulative time in seconds the session spent in running status. Excludes idle time.
+      Cumulative time in seconds the session spent in `running` status. Excludes idle time.
 
       format: double
 
@@ -31711,6 +32220,12 @@ Delete Session
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsDeletedSession:`
@@ -31851,6 +32366,12 @@ Archive Session
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsSession:`
@@ -31884,6 +32405,10 @@ Archive Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
         - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -32049,7 +32574,7 @@ Archive Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "bash"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -32067,7 +32592,7 @@ Archive Session
 
                       - `Type type`
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "bash"`
 
                 - `class BetaManagedAgentsEditToolConfig:`
 
@@ -32075,7 +32600,7 @@ Archive Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "edit"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -32089,7 +32614,7 @@ Archive Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "edit"`
 
                 - `class BetaManagedAgentsReadToolConfig:`
 
@@ -32097,7 +32622,7 @@ Archive Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "read"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -32111,7 +32636,7 @@ Archive Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "read"`
 
                 - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -32119,7 +32644,7 @@ Archive Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "write"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -32133,7 +32658,7 @@ Archive Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "write"`
 
                 - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -32141,7 +32666,7 @@ Archive Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "glob"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -32155,7 +32680,7 @@ Archive Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "glob"`
 
                 - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -32163,7 +32688,7 @@ Archive Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "grep"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -32177,7 +32702,7 @@ Archive Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "grep"`
 
                 - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -32185,7 +32710,7 @@ Archive Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "web_fetch"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -32199,7 +32724,7 @@ Archive Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_fetch"`
 
                   - `Optional<List<String>> allowedDomains`
 
@@ -32215,7 +32740,7 @@ Archive Session
 
                   - `boolean enabled`
 
-                  - `JsonValue name constant`
+                  - `JsonValue name = "web_search"`
 
                   - `PermissionPolicy permissionPolicy`
 
@@ -32229,7 +32754,7 @@ Archive Session
 
                       Tool calls require user confirmation before execution.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "web_search"`
 
                   - `Optional<List<String>> allowedDomains`
 
@@ -32239,7 +32764,7 @@ Archive Session
 
                     Approximate user location for search result localization.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "approximate"`
 
                       Location precision. Only "approximate" is supported.
 
@@ -32337,7 +32862,7 @@ Archive Session
 
                 JSON Schema for custom tool input parameters.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "object"`
 
                 - `Optional<Properties> properties`
 
@@ -32431,7 +32956,7 @@ Archive Session
 
   - `List<BetaManagedAgentsOutcomeEvaluationResource> outcomeEvaluations`
 
-    Per-outcome evaluation state. One entry per define_outcome event sent to the session.
+    Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
     - `Optional<LocalDateTime> completedAt`
 
@@ -32445,7 +32970,7 @@ Archive Session
 
     - `Optional<String> explanation`
 
-      Grader's verdict text from the most recent evaluation. For satisfied, explains why criteria are met; for needs_revision (intermediate), what's missing; for failed, why unrecoverable.
+      Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
     - `long iteration`
 
@@ -32573,7 +33098,7 @@ Archive Session
 
     - `Optional<Double> activeSeconds`
 
-      Cumulative time in seconds the session spent in running status. Excludes idle time.
+      Cumulative time in seconds the session spent in `running` status. Excludes idle time.
 
       format: double
 
@@ -32940,7 +33465,7 @@ List Events
 
   - `Optional<Order> order`
 
-    Sort direction for results, ordered by the event's `processed_at`. Defaults to asc (chronological).
+    Sort direction for results, ordered by the event's `processed_at`. Defaults to `asc` (chronological).
 
     - `ASC("asc")`
 
@@ -32948,7 +33473,7 @@ List Events
 
   - `Optional<String> page`
 
-    Opaque pagination cursor from a previous response's next_page.
+    Opaque pagination cursor from a previous response's `next_page`.
 
   - `Optional<List<String>> types`
 
@@ -33039,6 +33564,12 @@ List Events
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -34512,6 +35043,10 @@ List Events
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+          - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
           - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
             High-performance model for coding and agents
@@ -34676,7 +35211,7 @@ List Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "bash"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -34694,7 +35229,7 @@ List Events
 
                         - `Type type`
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "bash"`
 
                   - `class BetaManagedAgentsEditToolConfig:`
 
@@ -34702,7 +35237,7 @@ List Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "edit"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -34716,7 +35251,7 @@ List Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "edit"`
 
                   - `class BetaManagedAgentsReadToolConfig:`
 
@@ -34724,7 +35259,7 @@ List Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "read"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -34738,7 +35273,7 @@ List Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "read"`
 
                   - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -34746,7 +35281,7 @@ List Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "write"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -34760,7 +35295,7 @@ List Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "write"`
 
                   - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -34768,7 +35303,7 @@ List Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "glob"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -34782,7 +35317,7 @@ List Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "glob"`
 
                   - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -34790,7 +35325,7 @@ List Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "grep"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -34804,7 +35339,7 @@ List Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "grep"`
 
                   - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -34812,7 +35347,7 @@ List Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "web_fetch"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -34826,7 +35361,7 @@ List Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "web_fetch"`
 
                     - `Optional<List<String>> allowedDomains`
 
@@ -34842,7 +35377,7 @@ List Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "web_search"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -34856,7 +35391,7 @@ List Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "web_search"`
 
                     - `Optional<List<String>> allowedDomains`
 
@@ -34866,7 +35401,7 @@ List Events
 
                       Approximate user location for search result localization.
 
-                      - `JsonValue type constant`
+                      - `JsonValue type = "approximate"`
 
                         Location precision. Only "approximate" is supported.
 
@@ -34964,7 +35499,7 @@ List Events
 
                   JSON Schema for custom tool input parameters.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "object"`
 
                   - `Optional<Properties> properties`
 
@@ -35312,6 +35847,12 @@ Send Events
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
   - `List<BetaManagedAgentsEventParams> events`
 
@@ -36280,6 +36821,12 @@ Stream Events
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsStreamSessionEvents: union`
@@ -37752,6 +38299,10 @@ Stream Events
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+          - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
           - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
             High-performance model for coding and agents
@@ -37916,7 +38467,7 @@ Stream Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "bash"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -37934,7 +38485,7 @@ Stream Events
 
                         - `Type type`
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "bash"`
 
                   - `class BetaManagedAgentsEditToolConfig:`
 
@@ -37942,7 +38493,7 @@ Stream Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "edit"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -37956,7 +38507,7 @@ Stream Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "edit"`
 
                   - `class BetaManagedAgentsReadToolConfig:`
 
@@ -37964,7 +38515,7 @@ Stream Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "read"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -37978,7 +38529,7 @@ Stream Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "read"`
 
                   - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -37986,7 +38537,7 @@ Stream Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "write"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -38000,7 +38551,7 @@ Stream Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "write"`
 
                   - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -38008,7 +38559,7 @@ Stream Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "glob"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -38022,7 +38573,7 @@ Stream Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "glob"`
 
                   - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -38030,7 +38581,7 @@ Stream Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "grep"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -38044,7 +38595,7 @@ Stream Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "grep"`
 
                   - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -38052,7 +38603,7 @@ Stream Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "web_fetch"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -38066,7 +38617,7 @@ Stream Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "web_fetch"`
 
                     - `Optional<List<String>> allowedDomains`
 
@@ -38082,7 +38633,7 @@ Stream Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "web_search"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -38096,7 +38647,7 @@ Stream Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "web_search"`
 
                     - `Optional<List<String>> allowedDomains`
 
@@ -38106,7 +38657,7 @@ Stream Events
 
                       Approximate user location for search result localization.
 
-                      - `JsonValue type constant`
+                      - `JsonValue type = "approximate"`
 
                         Location precision. Only "approximate" is supported.
 
@@ -38204,7 +38755,7 @@ Stream Events
 
                   JSON Schema for custom tool input parameters.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "object"`
 
                   - `Optional<Properties> properties`
 
@@ -38596,6 +39147,12 @@ Add Session Resource
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `BetaManagedAgentsFileResourceParams betaManagedAgentsFileResourceParams`
 
     Mount a file uploaded via the Files API into the session.
@@ -38688,7 +39245,7 @@ List Session Resources
 
   - `Optional<String> page`
 
-    Opaque cursor from a previous response's next_page field.
+    Opaque cursor from a previous response's `next_page` field.
 
   - `Optional<List<AnthropicBeta>> betas`
 
@@ -38775,6 +39332,12 @@ List Session Resources
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -39037,6 +39600,12 @@ Get Session Resource
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class ResourceRetrieveResponse: union`
@@ -39288,6 +39857,12 @@ Update Session Resource
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
   - `String authorizationToken`
 
@@ -39548,6 +40123,12 @@ Delete Session Resource
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsDeleteSessionResource:`
@@ -39616,7 +40197,7 @@ List Session Threads
 
   - `Optional<String> page`
 
-    Opaque pagination cursor from a previous response's next_page. Forward-only.
+    Opaque pagination cursor from a previous response's `next_page`. Forward-only.
 
   - `Optional<List<AnthropicBeta>> betas`
 
@@ -39704,6 +40285,12 @@ List Session Threads
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsSessionThread:`
@@ -39743,6 +40330,10 @@ List Session Threads
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
           - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -39880,7 +40471,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "bash"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -39898,7 +40489,7 @@ List Session Threads
 
                   - `Type type`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "bash"`
 
             - `class BetaManagedAgentsEditToolConfig:`
 
@@ -39906,7 +40497,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "edit"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -39920,7 +40511,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "edit"`
 
             - `class BetaManagedAgentsReadToolConfig:`
 
@@ -39928,7 +40519,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "read"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -39942,7 +40533,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "read"`
 
             - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -39950,7 +40541,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "write"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -39964,7 +40555,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "write"`
 
             - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -39972,7 +40563,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "glob"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -39986,7 +40577,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "glob"`
 
             - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -39994,7 +40585,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "grep"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -40008,7 +40599,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "grep"`
 
             - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -40016,7 +40607,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "web_fetch"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -40030,7 +40621,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_fetch"`
 
               - `Optional<List<String>> allowedDomains`
 
@@ -40046,7 +40637,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "web_search"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -40060,7 +40651,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_search"`
 
               - `Optional<List<String>> allowedDomains`
 
@@ -40070,7 +40661,7 @@ List Session Threads
 
                 Approximate user location for search result localization.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "approximate"`
 
                   Location precision. Only "approximate" is supported.
 
@@ -40168,7 +40759,7 @@ List Session Threads
 
             JSON Schema for custom tool input parameters.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "object"`
 
             - `Optional<Properties> properties`
 
@@ -40545,6 +41136,12 @@ Get Session Thread
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsSessionThread:`
@@ -40584,6 +41181,10 @@ Get Session Thread
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
           - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -40721,7 +41322,7 @@ Get Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "bash"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -40739,7 +41340,7 @@ Get Session Thread
 
                   - `Type type`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "bash"`
 
             - `class BetaManagedAgentsEditToolConfig:`
 
@@ -40747,7 +41348,7 @@ Get Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "edit"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -40761,7 +41362,7 @@ Get Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "edit"`
 
             - `class BetaManagedAgentsReadToolConfig:`
 
@@ -40769,7 +41370,7 @@ Get Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "read"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -40783,7 +41384,7 @@ Get Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "read"`
 
             - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -40791,7 +41392,7 @@ Get Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "write"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -40805,7 +41406,7 @@ Get Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "write"`
 
             - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -40813,7 +41414,7 @@ Get Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "glob"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -40827,7 +41428,7 @@ Get Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "glob"`
 
             - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -40835,7 +41436,7 @@ Get Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "grep"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -40849,7 +41450,7 @@ Get Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "grep"`
 
             - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -40857,7 +41458,7 @@ Get Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "web_fetch"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -40871,7 +41472,7 @@ Get Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_fetch"`
 
               - `Optional<List<String>> allowedDomains`
 
@@ -40887,7 +41488,7 @@ Get Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "web_search"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -40901,7 +41502,7 @@ Get Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_search"`
 
               - `Optional<List<String>> allowedDomains`
 
@@ -40911,7 +41512,7 @@ Get Session Thread
 
                 Approximate user location for search result localization.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "approximate"`
 
                   Location precision. Only "approximate" is supported.
 
@@ -41009,7 +41610,7 @@ Get Session Thread
 
             JSON Schema for custom tool input parameters.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "object"`
 
             - `Optional<Properties> properties`
 
@@ -41385,6 +41986,12 @@ Archive Session Thread
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsSessionThread:`
@@ -41424,6 +42031,10 @@ Archive Session Thread
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
           - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -41561,7 +42172,7 @@ Archive Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "bash"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -41579,7 +42190,7 @@ Archive Session Thread
 
                   - `Type type`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "bash"`
 
             - `class BetaManagedAgentsEditToolConfig:`
 
@@ -41587,7 +42198,7 @@ Archive Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "edit"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -41601,7 +42212,7 @@ Archive Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "edit"`
 
             - `class BetaManagedAgentsReadToolConfig:`
 
@@ -41609,7 +42220,7 @@ Archive Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "read"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -41623,7 +42234,7 @@ Archive Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "read"`
 
             - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -41631,7 +42242,7 @@ Archive Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "write"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -41645,7 +42256,7 @@ Archive Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "write"`
 
             - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -41653,7 +42264,7 @@ Archive Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "glob"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -41667,7 +42278,7 @@ Archive Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "glob"`
 
             - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -41675,7 +42286,7 @@ Archive Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "grep"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -41689,7 +42300,7 @@ Archive Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "grep"`
 
             - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -41697,7 +42308,7 @@ Archive Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "web_fetch"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -41711,7 +42322,7 @@ Archive Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_fetch"`
 
               - `Optional<List<String>> allowedDomains`
 
@@ -41727,7 +42338,7 @@ Archive Session Thread
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "web_search"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -41741,7 +42352,7 @@ Archive Session Thread
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_search"`
 
               - `Optional<List<String>> allowedDomains`
 
@@ -41751,7 +42362,7 @@ Archive Session Thread
 
                 Approximate user location for search result localization.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "approximate"`
 
                   Location precision. Only "approximate" is supported.
 
@@ -41849,7 +42460,7 @@ Archive Session Thread
 
             JSON Schema for custom tool input parameters.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "object"`
 
             - `Optional<Properties> properties`
 
@@ -42236,6 +42847,12 @@ List Session Thread Events
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -43709,6 +44326,10 @@ List Session Thread Events
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+          - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
           - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
             High-performance model for coding and agents
@@ -43873,7 +44494,7 @@ List Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "bash"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -43891,7 +44512,7 @@ List Session Thread Events
 
                         - `Type type`
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "bash"`
 
                   - `class BetaManagedAgentsEditToolConfig:`
 
@@ -43899,7 +44520,7 @@ List Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "edit"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -43913,7 +44534,7 @@ List Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "edit"`
 
                   - `class BetaManagedAgentsReadToolConfig:`
 
@@ -43921,7 +44542,7 @@ List Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "read"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -43935,7 +44556,7 @@ List Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "read"`
 
                   - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -43943,7 +44564,7 @@ List Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "write"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -43957,7 +44578,7 @@ List Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "write"`
 
                   - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -43965,7 +44586,7 @@ List Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "glob"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -43979,7 +44600,7 @@ List Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "glob"`
 
                   - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -43987,7 +44608,7 @@ List Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "grep"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -44001,7 +44622,7 @@ List Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "grep"`
 
                   - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -44009,7 +44630,7 @@ List Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "web_fetch"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -44023,7 +44644,7 @@ List Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "web_fetch"`
 
                     - `Optional<List<String>> allowedDomains`
 
@@ -44039,7 +44660,7 @@ List Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "web_search"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -44053,7 +44674,7 @@ List Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "web_search"`
 
                     - `Optional<List<String>> allowedDomains`
 
@@ -44063,7 +44684,7 @@ List Session Thread Events
 
                       Approximate user location for search result localization.
 
-                      - `JsonValue type constant`
+                      - `JsonValue type = "approximate"`
 
                         Location precision. Only "approximate" is supported.
 
@@ -44161,7 +44782,7 @@ List Session Thread Events
 
                   JSON Schema for custom tool input parameters.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "object"`
 
                   - `Optional<Properties> properties`
 
@@ -44512,6 +45133,12 @@ Stream Session Thread Events
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -45985,6 +46612,10 @@ Stream Session Thread Events
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+          - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
           - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
             High-performance model for coding and agents
@@ -46149,7 +46780,7 @@ Stream Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "bash"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -46167,7 +46798,7 @@ Stream Session Thread Events
 
                         - `Type type`
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "bash"`
 
                   - `class BetaManagedAgentsEditToolConfig:`
 
@@ -46175,7 +46806,7 @@ Stream Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "edit"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -46189,7 +46820,7 @@ Stream Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "edit"`
 
                   - `class BetaManagedAgentsReadToolConfig:`
 
@@ -46197,7 +46828,7 @@ Stream Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "read"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -46211,7 +46842,7 @@ Stream Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "read"`
 
                   - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -46219,7 +46850,7 @@ Stream Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "write"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -46233,7 +46864,7 @@ Stream Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "write"`
 
                   - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -46241,7 +46872,7 @@ Stream Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "glob"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -46255,7 +46886,7 @@ Stream Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "glob"`
 
                   - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -46263,7 +46894,7 @@ Stream Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "grep"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -46277,7 +46908,7 @@ Stream Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "grep"`
 
                   - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -46285,7 +46916,7 @@ Stream Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "web_fetch"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -46299,7 +46930,7 @@ Stream Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "web_fetch"`
 
                     - `Optional<List<String>> allowedDomains`
 
@@ -46315,7 +46946,7 @@ Stream Session Thread Events
 
                     - `boolean enabled`
 
-                    - `JsonValue name constant`
+                    - `JsonValue name = "web_search"`
 
                     - `PermissionPolicy permissionPolicy`
 
@@ -46329,7 +46960,7 @@ Stream Session Thread Events
 
                         Tool calls require user confirmation before execution.
 
-                    - `JsonValue type constant`
+                    - `JsonValue type = "web_search"`
 
                     - `Optional<List<String>> allowedDomains`
 
@@ -46339,7 +46970,7 @@ Stream Session Thread Events
 
                       Approximate user location for search result localization.
 
-                      - `JsonValue type constant`
+                      - `JsonValue type = "approximate"`
 
                         Location precision. Only "approximate" is supported.
 
@@ -46437,7 +47068,7 @@ Stream Session Thread Events
 
                   JSON Schema for custom tool input parameters.
 
-                  - `JsonValue type constant`
+                  - `JsonValue type = "object"`
 
                   - `Optional<Properties> properties`
 
@@ -46830,6 +47461,12 @@ Create Deployment
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
   - `Agent agent`
 
@@ -47863,7 +48500,7 @@ List Deployments
 
   - `Optional<BetaManagedAgentsDeploymentStatus> status`
 
-    Filter by status: active or paused. Omit for both. To include archived deployments, use include_archived instead; the two cannot be combined.
+    Filter by status: `active` or `paused`. Omit for both. To include archived deployments, use `include_archived` instead; the two cannot be combined.
 
   - `Optional<List<AnthropicBeta>> betas`
 
@@ -47950,6 +48587,12 @@ List Deployments
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -48660,6 +49303,12 @@ Get Deployment
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsDeployment:`
@@ -49363,6 +50012,12 @@ Update Deployment
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
   - `Optional<Agent> agent`
 
@@ -50440,6 +51095,12 @@ Archive Deployment
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsDeployment:`
@@ -51144,6 +51805,12 @@ Run Deployment Now
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsDeploymentRun:`
@@ -51342,7 +52009,7 @@ Run Deployment Now
 
   - `Optional<String> sessionId`
 
-    Populated on success. Null on creation failure. Exactly one of session_id or error is non-null.
+    Populated on success. Null on creation failure. Exactly one of `session_id` or `error` is non-null.
 
   - `BetaManagedAgentsTriggerContext triggerContext`
 
@@ -51513,6 +52180,12 @@ Pause Deployment
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -52218,6 +52891,12 @@ Unpause Deployment
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsDeployment:`
@@ -52862,11 +53541,11 @@ List Deployment Runs
 
   - `Optional<String> deploymentId`
 
-    Filter to a specific deployment. Omit to list across all deployments in the workspace. Filtering by a non-existent deployment_id returns 200 with empty data.
+    Filter to a specific deployment. Omit to list across all deployments in the workspace. Filtering by a non-existent `deployment_id` returns 200 with empty data.
 
   - `Optional<Boolean> hasError`
 
-    Filter: true for runs with non-null error, false for runs with non-null session_id. Omit for all.
+    Filter: true for runs with non-null `error`, false for runs with non-null `session_id`. Omit for all.
 
   - `Optional<Long> limit`
 
@@ -52876,7 +53555,7 @@ List Deployment Runs
 
   - `Optional<String> page`
 
-    Opaque pagination cursor. Pass next_page from the previous response. Invalid or expired cursors return 400.
+    Opaque pagination cursor. Pass `next_page` from the previous response. Invalid or expired cursors return 400.
 
   - `Optional<BetaManagedAgentsTriggerType> triggerType`
 
@@ -52967,6 +53646,12 @@ List Deployment Runs
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -53166,7 +53851,7 @@ List Deployment Runs
 
   - `Optional<String> sessionId`
 
-    Populated on success. Null on creation failure. Exactly one of session_id or error is non-null.
+    Populated on success. Null on creation failure. Exactly one of `session_id` or `error` is non-null.
 
   - `BetaManagedAgentsTriggerContext triggerContext`
 
@@ -53343,6 +54028,12 @@ Get Deployment Run
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsDeploymentRun:`
@@ -53541,7 +54232,7 @@ Get Deployment Run
 
   - `Optional<String> sessionId`
 
-    Populated on success. Null on creation failure. Exactly one of session_id or error is non-null.
+    Populated on success. Null on creation failure. Exactly one of `session_id` or `error` is non-null.
 
   - `BetaManagedAgentsTriggerContext triggerContext`
 
@@ -53712,6 +54403,12 @@ Create Vault
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
   - `String displayName`
 
@@ -53913,6 +54610,12 @@ List Vaults
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsVault:`
@@ -54093,6 +54796,12 @@ Get Vault
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsVault:`
@@ -54267,6 +54976,12 @@ Update Vault
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
   - `Optional<String> displayName`
 
@@ -54453,6 +55168,12 @@ Delete Vault
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsDeletedVault:`
@@ -54594,6 +55315,12 @@ Archive Vault
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -54771,6 +55498,12 @@ Create Credential
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
   - `Auth auth`
 
@@ -55267,6 +56000,12 @@ List Credentials
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsCredential:`
@@ -55572,6 +56311,12 @@ Get Credential
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsCredential:`
@@ -55875,6 +56620,12 @@ Update Credential
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
   - `Optional<Auth> auth`
 
@@ -56312,6 +57063,12 @@ Delete Credential
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsDeletedCredential:`
@@ -56459,6 +57216,12 @@ Archive Credential
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -56764,6 +57527,12 @@ Validate Credential
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsCredentialValidation:`
@@ -57006,6 +57775,12 @@ Create a memory store
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `String name`
 
     Human-readable name for the store. Required; 1–255 characters; no control characters. The mount-path slug under `/mnt/memory/` is derived from this name (lowercased, non-alphanumeric runs collapsed to a hyphen). Names need not be unique within a workspace.
@@ -57229,6 +58004,12 @@ List memory stores
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsMemoryStore:`
@@ -57414,6 +58195,12 @@ Retrieve a memory store
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsMemoryStore:`
@@ -57593,6 +58380,12 @@ Update a memory store
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
   - `Optional<String> description`
 
@@ -57790,6 +58583,12 @@ Delete a memory store
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsDeletedMemoryStore:`
@@ -57931,6 +58730,12 @@ Archive a memory store
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -58118,13 +58923,19 @@ Create a memory
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<String> content`
 
     UTF-8 text content for the new memory. Maximum 100 kB (102,400 bytes). Required; pass `""` explicitly to create an empty memory.
 
   - `String path`
 
-    Hierarchical path for the new memory, e.g. `/projects/foo/notes.md`. Must start with `/`, contain at least one non-empty segment, and be at most 1,024 bytes. Must not contain empty segments, `.` or `..` segments, control or format characters, and must be NFC-normalized. Paths are case-sensitive.
+    Hierarchical path for the new memory, e.g. `/projects/foo/notes.md`. Must start with `/`, contain at least one non-empty segment, and be at most 1,024 bytes. Must not contain empty segments, `.` or `..` segments, control or format characters, or the Unicode line and paragraph separators (U+2028, U+2029), and must be NFC-normalized. Paths are case-sensitive.
 
     minLength: 2, maxLength: 1024
 
@@ -58345,6 +59156,12 @@ List memories
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsMemoryListItem: union`
@@ -58558,6 +59375,12 @@ Retrieve a memory
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsMemory:`
@@ -58756,13 +59579,19 @@ Update a memory
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<String> content`
 
     New UTF-8 text content for the memory. Maximum 100 kB (102,400 bytes). Omit to leave the content unchanged (e.g., for a rename-only update).
 
   - `Optional<String> path`
 
-    New path for the memory (a rename). Must start with `/`, contain at least one non-empty segment, and be at most 1,024 bytes. Must not contain empty segments, `.` or `..` segments, control or format characters, and must be NFC-normalized. Paths are case-sensitive. The memory's `id` is preserved across renames. Omit to leave the path unchanged.
+    New path for the memory (a rename). Must start with `/`, contain at least one non-empty segment, and be at most 1,024 bytes. Must not contain empty segments, `.` or `..` segments, control or format characters, or the Unicode line and paragraph separators (U+2028, U+2029), and must be NFC-normalized. Paths are case-sensitive. The memory's `id` is preserved across renames. Omit to leave the path unchanged.
 
     minLength: 2, maxLength: 1024
 
@@ -58968,6 +59797,12 @@ Delete a memory
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsDeletedMemory:`
@@ -59162,6 +59997,12 @@ List memory versions
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsMemoryVersion:`
@@ -59262,7 +60103,7 @@ List memory versions
 
         minLength: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "service_account_actor"`
 
   - `Optional<String> path`
 
@@ -59436,6 +60277,12 @@ Retrieve a memory version
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsMemoryVersion:`
@@ -59536,7 +60383,7 @@ Retrieve a memory version
 
         minLength: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "service_account_actor"`
 
   - `Optional<String> path`
 
@@ -59705,6 +60552,12 @@ Redact a memory version
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsMemoryVersion:`
@@ -59805,7 +60658,7 @@ Redact a memory version
 
         minLength: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "service_account_actor"`
 
   - `Optional<String> path`
 
@@ -59972,11 +60825,23 @@ Upload File
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `String file`
 
     The file to upload
 
     format: binary
+
+  - `Optional<Long> expiresInSeconds`
+
+    Seconds from upload until the file expires and its bytes become permanently unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
+
+    minimum: 3600, maximum: 7776000
 
 #### Returns
 
@@ -60012,7 +60877,7 @@ Upload File
 
     minimum: 0
 
-  - `JsonValue type constant`
+  - `JsonValue type = "file"`
 
     Object type.
 
@@ -60022,6 +60887,12 @@ Upload File
 
     Whether the file can be downloaded.
 
+  - `Optional<LocalDateTime> expiresAt`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `Optional<BetaFileScope> scope`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -60030,7 +60901,7 @@ Upload File
 
       The ID of the scoping resource (e.g., the session ID).
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       The type of scope (e.g., `"session"`).
 
@@ -60070,6 +60941,7 @@ public final class Main {
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"
@@ -60089,13 +60961,9 @@ List Files
 
 - `FileListParams params`
 
-  - `Optional<String> afterId`
+  - `Optional<List<String>> ids`
 
-    ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
-
-  - `Optional<String> beforeId`
-
-    ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
+    Restrict the result set to Files whose `id` is in this list. At most 100 entries (after de-duplication). Mutually exclusive with `page` and `limit`. When supplied, the response is always a single page (`next_page` is null). IDs that do not resolve to a visible File — including deleted Files — are silently omitted.
 
   - `Optional<Long> limit`
 
@@ -60104,6 +60972,10 @@ List Files
     Defaults to `20`. Ranges from `1` to `1000`.
 
     maximum: 1000, minimum: 1
+
+  - `Optional<String> page`
+
+    Opaque page cursor returned in a prior list response's `next_page`. Prefixed `page_`.
 
   - `Optional<String> scopeId`
 
@@ -60195,6 +61067,12 @@ List Files
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaFileMetadata:`
@@ -60229,7 +61107,7 @@ List Files
 
     minimum: 0
 
-  - `JsonValue type constant`
+  - `JsonValue type = "file"`
 
     Object type.
 
@@ -60239,6 +61117,12 @@ List Files
 
     Whether the file can be downloaded.
 
+  - `Optional<LocalDateTime> expiresAt`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `Optional<BetaFileScope> scope`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -60247,7 +61131,7 @@ List Files
 
       The ID of the scoping resource (e.g., the session ID).
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       The type of scope (e.g., `"session"`).
 
@@ -60285,15 +61169,14 @@ public final class Main {
       "size_bytes": 102400,
       "type": "file",
       "downloadable": false,
+      "expires_at": "2025-05-15T18:37:24.100435Z",
       "scope": {
         "id": "id",
         "type": "session"
       }
     }
   ],
-  "first_id": "file_011CNha8iCJcU1wXNR6q4V8w",
-  "has_more": true,
-  "last_id": "file_013Zva2CMHLNnXjNJJKqJ2EF"
+  "next_page": "next_page"
 }
 ```
 
@@ -60398,6 +61281,12 @@ Download File
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Example
 
@@ -60522,6 +61411,12 @@ Get File Metadata
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaFileMetadata:`
@@ -60556,7 +61451,7 @@ Get File Metadata
 
     minimum: 0
 
-  - `JsonValue type constant`
+  - `JsonValue type = "file"`
 
     Object type.
 
@@ -60566,6 +61461,12 @@ Get File Metadata
 
     Whether the file can be downloaded.
 
+  - `Optional<LocalDateTime> expiresAt`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `Optional<BetaFileScope> scope`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -60574,7 +61475,7 @@ Get File Metadata
 
       The ID of the scoping resource (e.g., the session ID).
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       The type of scope (e.g., `"session"`).
 
@@ -60610,6 +61511,7 @@ public final class Main {
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"
@@ -60719,6 +61621,12 @@ Delete File
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaDeletedFile:`
@@ -60767,7 +61675,7 @@ public final class Main {
 
 ### Create Skill
 
-`SkillCreateResponse beta().skills().create(params, requestOptions = RequestOptions.none())`
+`BetaSkill beta().skills().create(params, requestOptions = RequestOptions.none())`
 
 **POST** `/v1/skills`
 
@@ -60863,21 +61771,27 @@ Create Skill
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `List<String> files`
 
     Files to upload for the skill.
 
     All files must be in the same top-level directory and must include a SKILL.md file at the root of that directory.
 
-  - `Optional<String> displayTitle`
+  - `Optional<String> displayName`
 
-    Display title for the skill.
-
-    This is a human-readable label that is not included in the prompt sent to the model.
+    Human-readable, single-line label for the Skill. Maximum 255 characters.
+    Always set: derived from the SKILL.md frontmatter `name` when omitted at
+    creation. Not unique.
 
 #### Returns
 
-- `class SkillCreateResponse:`
+- `class BetaSkill:`
 
   - `String id`
 
@@ -60885,40 +61799,63 @@ Create Skill
 
     The format and length of IDs may change over time.
 
-  - `String createdAt`
+  - `LocalDateTime createdAt`
 
     ISO 8601 timestamp of when the skill was created.
 
-  - `Optional<String> displayTitle`
+    format: date-time
 
-    Display title for the skill.
+  - `String displayName`
 
-    This is a human-readable label that is not included in the prompt sent to the model.
+    Human-readable, single-line label for the Skill. Maximum 255 characters.
+    Always set: derived from the SKILL.md frontmatter `name` when omitted at
+    creation. Not unique.
 
-  - `Optional<String> latestVersion`
+  - `String latestVersionId`
 
-    The latest version identifier for the skill.
+    ID of the newest Skill Version — what `latest` references resolve to. Always set: a Skill holds at least one version.
 
-    This represents the most recent version of the skill that has been created.
+  - `BetaSkillSource source`
 
-  - `String source`
+    Where the Skill comes from.
 
-    Source of the skill.
+    Possible values:
 
-    This may be one of the following values:
+    * `"custom"`: authored by the platform user; private to their workspace
+    * `"anthropic"`: published by Anthropic; shared and read-only
+    * `"anthropic_example"`: Anthropic-published sample Skill
+    * `"plugin"`: resolved from an installed plugin
 
-    * `"custom"`: the skill was created by a user
-    * `"anthropic"`: the skill was created by Anthropic
+    - `Type type`
 
-  - `String type`
+      Where the Skill comes from.
+
+      Possible values:
+
+      * `"custom"`: authored by the platform user; private to their workspace
+      * `"anthropic"`: published by Anthropic; shared and read-only
+      * `"anthropic_example"`: Anthropic-published sample Skill
+      * `"plugin"`: resolved from an installed plugin
+
+      - `CUSTOM("custom")`
+
+      - `ANTHROPIC("anthropic")`
+
+      - `ANTHROPIC_EXAMPLE("anthropic_example")`
+
+      - `PLUGIN("plugin")`
+
+  - `JsonValue type = "skill"`
 
     Object type.
 
     For Skills, this is always `"skill"`.
 
-  - `String updatedAt`
+  - `LocalDateTime updatedAt`
 
     ISO 8601 timestamp of when the skill was last updated.
+
+    format: date-time
 
 #### Example
 
@@ -60927,8 +61864,8 @@ package com.anthropic.example;
 
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.models.beta.skills.BetaSkill;
 import com.anthropic.models.beta.skills.SkillCreateParams;
-import com.anthropic.models.beta.skills.SkillCreateResponse;
 import java.io.ByteArrayInputStream;
 
 public final class Main {
@@ -60940,7 +61877,7 @@ public final class Main {
         SkillCreateParams params = SkillCreateParams.builder()
             .addFile(new ByteArrayInputStream("Example data".getBytes()))
             .build();
-        SkillCreateResponse skill = client.beta().skills().create(params);
+        BetaSkill betaSkill = client.beta().skills().create(params);
     }
 }
 ```
@@ -60951,10 +61888,12 @@ public final class Main {
 {
   "id": "skill_01JAbcdefghijklmnopqrstuvw",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "display_title": "My Custom Skill",
-  "latest_version": "1759178010641129",
-  "source": "custom",
-  "type": "type",
+  "display_name": "display_name",
+  "latest_version_id": "latest_version_id",
+  "source": {
+    "type": "custom"
+  },
+  "type": "skill",
   "updated_at": "2024-10-30T23:58:27.427722Z"
 }
 ```
@@ -60975,7 +61914,9 @@ List Skills
 
     Number of results to return per page.
 
-    Maximum value is 100. Defaults to 20.
+    Ranges from `1` to `1000`. Defaults to `20`.
+
+    minimum: 1, maximum: 1000
 
   - `Optional<String> page`
 
@@ -61078,9 +62019,15 @@ List Skills
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
-- `class SkillListResponse:`
+- `class BetaSkill:`
 
   - `String id`
 
@@ -61088,40 +62035,63 @@ List Skills
 
     The format and length of IDs may change over time.
 
-  - `String createdAt`
+  - `LocalDateTime createdAt`
 
     ISO 8601 timestamp of when the skill was created.
 
-  - `Optional<String> displayTitle`
+    format: date-time
 
-    Display title for the skill.
+  - `String displayName`
 
-    This is a human-readable label that is not included in the prompt sent to the model.
+    Human-readable, single-line label for the Skill. Maximum 255 characters.
+    Always set: derived from the SKILL.md frontmatter `name` when omitted at
+    creation. Not unique.
 
-  - `Optional<String> latestVersion`
+  - `String latestVersionId`
 
-    The latest version identifier for the skill.
+    ID of the newest Skill Version — what `latest` references resolve to. Always set: a Skill holds at least one version.
 
-    This represents the most recent version of the skill that has been created.
+  - `BetaSkillSource source`
 
-  - `String source`
+    Where the Skill comes from.
 
-    Source of the skill.
+    Possible values:
 
-    This may be one of the following values:
+    * `"custom"`: authored by the platform user; private to their workspace
+    * `"anthropic"`: published by Anthropic; shared and read-only
+    * `"anthropic_example"`: Anthropic-published sample Skill
+    * `"plugin"`: resolved from an installed plugin
 
-    * `"custom"`: the skill was created by a user
-    * `"anthropic"`: the skill was created by Anthropic
+    - `Type type`
 
-  - `String type`
+      Where the Skill comes from.
+
+      Possible values:
+
+      * `"custom"`: authored by the platform user; private to their workspace
+      * `"anthropic"`: published by Anthropic; shared and read-only
+      * `"anthropic_example"`: Anthropic-published sample Skill
+      * `"plugin"`: resolved from an installed plugin
+
+      - `CUSTOM("custom")`
+
+      - `ANTHROPIC("anthropic")`
+
+      - `ANTHROPIC_EXAMPLE("anthropic_example")`
+
+      - `PLUGIN("plugin")`
+
+  - `JsonValue type = "skill"`
 
     Object type.
 
     For Skills, this is always `"skill"`.
 
-  - `String updatedAt`
+  - `LocalDateTime updatedAt`
 
     ISO 8601 timestamp of when the skill was last updated.
+
+    format: date-time
 
 #### Example
 
@@ -61152,21 +62122,22 @@ public final class Main {
     {
       "id": "skill_01JAbcdefghijklmnopqrstuvw",
       "created_at": "2024-10-30T23:58:27.427722Z",
-      "display_title": "My Custom Skill",
-      "latest_version": "1759178010641129",
-      "source": "custom",
-      "type": "type",
+      "display_name": "display_name",
+      "latest_version_id": "latest_version_id",
+      "source": {
+        "type": "custom"
+      },
+      "type": "skill",
       "updated_at": "2024-10-30T23:58:27.427722Z"
     }
   ],
-  "has_more": true,
-  "next_page": "page_MjAyNS0wNS0xNFQwMDowMDowMFo="
+  "next_page": "next_page"
 }
 ```
 
 ### Get Skill
 
-`SkillRetrieveResponse beta().skills().retrieve(params = SkillRetrieveParams.none(), requestOptions = RequestOptions.none())`
+`BetaSkill beta().skills().retrieve(params = SkillRetrieveParams.none(), requestOptions = RequestOptions.none())`
 
 **GET** `/v1/skills/{skill_id}`
 
@@ -61268,9 +62239,15 @@ Get Skill
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
-- `class SkillRetrieveResponse:`
+- `class BetaSkill:`
 
   - `String id`
 
@@ -61278,40 +62255,63 @@ Get Skill
 
     The format and length of IDs may change over time.
 
-  - `String createdAt`
+  - `LocalDateTime createdAt`
 
     ISO 8601 timestamp of when the skill was created.
 
-  - `Optional<String> displayTitle`
+    format: date-time
 
-    Display title for the skill.
+  - `String displayName`
 
-    This is a human-readable label that is not included in the prompt sent to the model.
+    Human-readable, single-line label for the Skill. Maximum 255 characters.
+    Always set: derived from the SKILL.md frontmatter `name` when omitted at
+    creation. Not unique.
 
-  - `Optional<String> latestVersion`
+  - `String latestVersionId`
 
-    The latest version identifier for the skill.
+    ID of the newest Skill Version — what `latest` references resolve to. Always set: a Skill holds at least one version.
 
-    This represents the most recent version of the skill that has been created.
+  - `BetaSkillSource source`
 
-  - `String source`
+    Where the Skill comes from.
 
-    Source of the skill.
+    Possible values:
 
-    This may be one of the following values:
+    * `"custom"`: authored by the platform user; private to their workspace
+    * `"anthropic"`: published by Anthropic; shared and read-only
+    * `"anthropic_example"`: Anthropic-published sample Skill
+    * `"plugin"`: resolved from an installed plugin
 
-    * `"custom"`: the skill was created by a user
-    * `"anthropic"`: the skill was created by Anthropic
+    - `Type type`
 
-  - `String type`
+      Where the Skill comes from.
+
+      Possible values:
+
+      * `"custom"`: authored by the platform user; private to their workspace
+      * `"anthropic"`: published by Anthropic; shared and read-only
+      * `"anthropic_example"`: Anthropic-published sample Skill
+      * `"plugin"`: resolved from an installed plugin
+
+      - `CUSTOM("custom")`
+
+      - `ANTHROPIC("anthropic")`
+
+      - `ANTHROPIC_EXAMPLE("anthropic_example")`
+
+      - `PLUGIN("plugin")`
+
+  - `JsonValue type = "skill"`
 
     Object type.
 
     For Skills, this is always `"skill"`.
 
-  - `String updatedAt`
+  - `LocalDateTime updatedAt`
 
     ISO 8601 timestamp of when the skill was last updated.
+
+    format: date-time
 
 #### Example
 
@@ -61320,8 +62320,8 @@ package com.anthropic.example;
 
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.models.beta.skills.BetaSkill;
 import com.anthropic.models.beta.skills.SkillRetrieveParams;
-import com.anthropic.models.beta.skills.SkillRetrieveResponse;
 
 public final class Main {
     private Main() {}
@@ -61329,7 +62329,7 @@ public final class Main {
     public static void main(String[] args) {
         AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
-        SkillRetrieveResponse skill = client.beta().skills().retrieve("skill_id");
+        BetaSkill betaSkill = client.beta().skills().retrieve("skill_id");
     }
 }
 ```
@@ -61340,17 +62340,19 @@ public final class Main {
 {
   "id": "skill_01JAbcdefghijklmnopqrstuvw",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "display_title": "My Custom Skill",
-  "latest_version": "1759178010641129",
-  "source": "custom",
-  "type": "type",
+  "display_name": "display_name",
+  "latest_version_id": "latest_version_id",
+  "source": {
+    "type": "custom"
+  },
+  "type": "skill",
   "updated_at": "2024-10-30T23:58:27.427722Z"
 }
 ```
 
 ### Delete Skill
 
-`SkillDeleteResponse beta().skills().delete(params = SkillDeleteParams.none(), requestOptions = RequestOptions.none())`
+`BetaDeletedSkill beta().skills().delete(params = SkillDeleteParams.none(), requestOptions = RequestOptions.none())`
 
 **DELETE** `/v1/skills/{skill_id}`
 
@@ -61452,9 +62454,15 @@ Delete Skill
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
-- `class SkillDeleteResponse:`
+- `class BetaDeletedSkill:`
 
   - `String id`
 
@@ -61462,7 +62470,7 @@ Delete Skill
 
     The format and length of IDs may change over time.
 
-  - `String type`
+  - `JsonValue type = "skill_deleted"`
 
     Deleted object type.
 
@@ -61475,8 +62483,8 @@ package com.anthropic.example;
 
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.models.beta.skills.BetaDeletedSkill;
 import com.anthropic.models.beta.skills.SkillDeleteParams;
-import com.anthropic.models.beta.skills.SkillDeleteResponse;
 
 public final class Main {
     private Main() {}
@@ -61484,7 +62492,7 @@ public final class Main {
     public static void main(String[] args) {
         AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
-        SkillDeleteResponse skill = client.beta().skills().delete("skill_id");
+        BetaDeletedSkill betaDeletedSkill = client.beta().skills().delete("skill_id");
     }
 }
 ```
@@ -61494,7 +62502,7 @@ public final class Main {
 ```json
 {
   "id": "skill_01JAbcdefghijklmnopqrstuvw",
-  "type": "type"
+  "type": "skill_deleted"
 }
 ```
 
@@ -61502,7 +62510,7 @@ public final class Main {
 
 ### Create Skill Version
 
-`VersionCreateResponse beta().skills().versions().create(params, requestOptions = RequestOptions.none())`
+`BetaSkillVersion beta().skills().versions().create(params, requestOptions = RequestOptions.none())`
 
 **POST** `/v1/skills/{skill_id}/versions`
 
@@ -61604,6 +62612,12 @@ Create Skill Version
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `List<String> files`
 
     Files to upload for the skill.
@@ -61612,17 +62626,18 @@ Create Skill Version
 
 #### Returns
 
-- `class VersionCreateResponse:`
+- `class BetaSkillVersion:`
 
   - `String id`
 
-    Unique identifier for the skill version.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-    The format and length of IDs may change over time.
+  - `LocalDateTime createdAt`
 
-  - `String createdAt`
+    ISO 8601 timestamp of when the skill was created.
 
-    ISO 8601 timestamp of when the skill version was created.
+    format: date-time
 
   - `String description`
 
@@ -61630,33 +62645,24 @@ Create Skill Version
 
     This is extracted from the SKILL.md file in the skill upload.
 
-  - `String directory`
-
-    Directory name of the skill version.
-
-    This is the top-level directory name that was extracted from the uploaded files.
-
   - `String name`
 
-    Human-readable name of the skill version.
-
-    This is extracted from the SKILL.md file in the skill upload.
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
 
   - `String skillId`
 
-    Identifier for the skill that this version belongs to.
+    Unique identifier for the skill.
 
-  - `String type`
+    The format and length of IDs may change over time.
+
+  - `JsonValue type = "skill_version"`
 
     Object type.
 
     For Skill Versions, this is always `"skill_version"`.
-
-  - `String version`
-
-    Version identifier for the skill.
-
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
 
 #### Example
 
@@ -61665,8 +62671,8 @@ package com.anthropic.example;
 
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.models.beta.skills.versions.BetaSkillVersion;
 import com.anthropic.models.beta.skills.versions.VersionCreateParams;
-import com.anthropic.models.beta.skills.versions.VersionCreateResponse;
 import java.io.ByteArrayInputStream;
 
 public final class Main {
@@ -61679,7 +62685,7 @@ public final class Main {
             .skillId("skill_id")
             .addFile(new ByteArrayInputStream("Example data".getBytes()))
             .build();
-        VersionCreateResponse version = client.beta().skills().versions().create(params);
+        BetaSkillVersion betaSkillVersion = client.beta().skills().versions().create(params);
     }
 }
 ```
@@ -61688,14 +62694,12 @@ public final class Main {
 
 ```json
 {
-  "id": "skillver_01JAbcdefghijklmnopqrstuvw",
+  "id": "id",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "description": "A custom skill for doing something useful",
-  "directory": "my-skill",
-  "name": "my-skill",
+  "description": "description",
+  "name": "name",
   "skill_id": "skill_01JAbcdefghijklmnopqrstuvw",
-  "type": "type",
-  "version": "1759178010641129"
+  "type": "skill_version"
 }
 ```
 
@@ -61719,9 +62723,11 @@ List Skill Versions
 
   - `Optional<Long> limit`
 
-    Number of items to return per page.
+    Number of results to return per page.
 
-    Defaults to `20`. Ranges from `1` to `1000`.
+    Ranges from `1` to `1000`. Defaults to `20`.
+
+    minimum: 1, maximum: 1000
 
   - `Optional<String> page`
 
@@ -61813,19 +62819,26 @@ List Skill Versions
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
-- `class VersionListResponse:`
+- `class BetaSkillVersion:`
 
   - `String id`
 
-    Unique identifier for the skill version.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-    The format and length of IDs may change over time.
+  - `LocalDateTime createdAt`
 
-  - `String createdAt`
+    ISO 8601 timestamp of when the skill was created.
 
-    ISO 8601 timestamp of when the skill version was created.
+    format: date-time
 
   - `String description`
 
@@ -61833,33 +62846,24 @@ List Skill Versions
 
     This is extracted from the SKILL.md file in the skill upload.
 
-  - `String directory`
-
-    Directory name of the skill version.
-
-    This is the top-level directory name that was extracted from the uploaded files.
-
   - `String name`
 
-    Human-readable name of the skill version.
-
-    This is extracted from the SKILL.md file in the skill upload.
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
 
   - `String skillId`
 
-    Identifier for the skill that this version belongs to.
+    Unique identifier for the skill.
 
-  - `String type`
+    The format and length of IDs may change over time.
+
+  - `JsonValue type = "skill_version"`
 
     Object type.
 
     For Skill Versions, this is always `"skill_version"`.
-
-  - `String version`
-
-    Version identifier for the skill.
-
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
 
 #### Example
 
@@ -61888,18 +62892,15 @@ public final class Main {
 {
   "data": [
     {
-      "id": "skillver_01JAbcdefghijklmnopqrstuvw",
+      "id": "id",
       "created_at": "2024-10-30T23:58:27.427722Z",
-      "description": "A custom skill for doing something useful",
-      "directory": "my-skill",
-      "name": "my-skill",
+      "description": "description",
+      "name": "name",
       "skill_id": "skill_01JAbcdefghijklmnopqrstuvw",
-      "type": "type",
-      "version": "1759178010641129"
+      "type": "skill_version"
     }
   ],
-  "has_more": true,
-  "next_page": "page_MjAyNS0wNS0xNFQwMDowMDowMFo="
+  "next_page": "next_page"
 }
 ```
 
@@ -61923,9 +62924,9 @@ Download a skill version's content as a zip archive.
 
   - `Optional<String> version`
 
-    Version identifier for the skill.
+    Identifies the skill version by its version ID.
 
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+    Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
   - `Optional<List<AnthropicBeta>> betas`
 
@@ -62012,6 +63013,12 @@ Download a skill version's content as a zip archive.
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Example
 
@@ -62040,7 +63047,7 @@ public final class Main {
 
 ### Get Skill Version
 
-`VersionRetrieveResponse beta().skills().versions().retrieve(params, requestOptions = RequestOptions.none())`
+`BetaSkillVersion beta().skills().versions().retrieve(params, requestOptions = RequestOptions.none())`
 
 **GET** `/v1/skills/{skill_id}/versions/{version}`
 
@@ -62058,9 +63065,9 @@ Get Skill Version
 
   - `Optional<String> version`
 
-    Version identifier for the skill.
+    Identifies the skill version: a version ID, or the literal `latest` for the skill's most recent version.
 
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+    Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
   - `Optional<List<AnthropicBeta>> betas`
 
@@ -62148,19 +63155,26 @@ Get Skill Version
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
-- `class VersionRetrieveResponse:`
+- `class BetaSkillVersion:`
 
   - `String id`
 
-    Unique identifier for the skill version.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-    The format and length of IDs may change over time.
+  - `LocalDateTime createdAt`
 
-  - `String createdAt`
+    ISO 8601 timestamp of when the skill was created.
 
-    ISO 8601 timestamp of when the skill version was created.
+    format: date-time
 
   - `String description`
 
@@ -62168,33 +63182,24 @@ Get Skill Version
 
     This is extracted from the SKILL.md file in the skill upload.
 
-  - `String directory`
-
-    Directory name of the skill version.
-
-    This is the top-level directory name that was extracted from the uploaded files.
-
   - `String name`
 
-    Human-readable name of the skill version.
-
-    This is extracted from the SKILL.md file in the skill upload.
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
 
   - `String skillId`
 
-    Identifier for the skill that this version belongs to.
+    Unique identifier for the skill.
 
-  - `String type`
+    The format and length of IDs may change over time.
+
+  - `JsonValue type = "skill_version"`
 
     Object type.
 
     For Skill Versions, this is always `"skill_version"`.
-
-  - `String version`
-
-    Version identifier for the skill.
-
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
 
 #### Example
 
@@ -62203,8 +63208,8 @@ package com.anthropic.example;
 
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.models.beta.skills.versions.BetaSkillVersion;
 import com.anthropic.models.beta.skills.versions.VersionRetrieveParams;
-import com.anthropic.models.beta.skills.versions.VersionRetrieveResponse;
 
 public final class Main {
     private Main() {}
@@ -62216,7 +63221,7 @@ public final class Main {
             .skillId("skill_id")
             .version("version")
             .build();
-        VersionRetrieveResponse version = client.beta().skills().versions().retrieve(params);
+        BetaSkillVersion betaSkillVersion = client.beta().skills().versions().retrieve(params);
     }
 }
 ```
@@ -62225,20 +63230,18 @@ public final class Main {
 
 ```json
 {
-  "id": "skillver_01JAbcdefghijklmnopqrstuvw",
+  "id": "id",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "description": "A custom skill for doing something useful",
-  "directory": "my-skill",
-  "name": "my-skill",
+  "description": "description",
+  "name": "name",
   "skill_id": "skill_01JAbcdefghijklmnopqrstuvw",
-  "type": "type",
-  "version": "1759178010641129"
+  "type": "skill_version"
 }
 ```
 
 ### Delete Skill Version
 
-`VersionDeleteResponse beta().skills().versions().delete(params, requestOptions = RequestOptions.none())`
+`BetaDeletedSkillVersion beta().skills().versions().delete(params, requestOptions = RequestOptions.none())`
 
 **DELETE** `/v1/skills/{skill_id}/versions/{version}`
 
@@ -62256,9 +63259,9 @@ Delete Skill Version
 
   - `Optional<String> version`
 
-    Version identifier for the skill.
+    Identifies the skill version by its version ID.
 
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+    Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
   - `Optional<List<AnthropicBeta>> betas`
 
@@ -62346,17 +63349,22 @@ Delete Skill Version
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
-- `class VersionDeleteResponse:`
+- `class BetaDeletedSkillVersion:`
 
   - `String id`
 
-    Version identifier for the skill.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
-
-  - `String type`
+  - `JsonValue type = "skill_version_deleted"`
 
     Deleted object type.
 
@@ -62369,8 +63377,8 @@ package com.anthropic.example;
 
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.models.beta.skills.versions.BetaDeletedSkillVersion;
 import com.anthropic.models.beta.skills.versions.VersionDeleteParams;
-import com.anthropic.models.beta.skills.versions.VersionDeleteResponse;
 
 public final class Main {
     private Main() {}
@@ -62382,7 +63390,7 @@ public final class Main {
             .skillId("skill_id")
             .version("version")
             .build();
-        VersionDeleteResponse version = client.beta().skills().versions().delete(params);
+        BetaDeletedSkillVersion betaDeletedSkillVersion = client.beta().skills().versions().delete(params);
     }
 }
 ```
@@ -62391,8 +63399,8 @@ public final class Main {
 
 ```json
 {
-  "id": "1759178010641129",
-  "type": "type"
+  "id": "id",
+  "type": "skill_version_deleted"
 }
 ```
 
@@ -62496,6 +63504,12 @@ Create User Profile
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<AccessType> accessType`
 
     How the platform uses the API on behalf of the entity this profile represents. `application`: the platform sells a product that uses the API behind the scenes, and the profile represents an individual end-user of that product. `passthrough`: the platform resells raw inference, and the profile identifies the resold-to company.
@@ -62510,25 +63524,21 @@ Create User Profile
 
     minLength: 1, maxLength: 255
 
+  - `Optional<LocalDateTime> externalUserOnboardedAt`
+
+    A timestamp in RFC 3339 format
+
+    format: date-time
+
   - `Optional<Metadata> metadata`
 
     Free-form key-value data to attach to this user profile. Maximum 16 keys, with keys up to 64 characters and values up to 512 characters. Values must be non-empty strings.
 
   - `Optional<String> name`
 
-    Optional for all profiles. Real-world name of the entity this profile represents (company or individual); for a resold-to company (`relationship` `resold` / `access_type` `passthrough`), that company's name where known. Maximum 255 characters.
+    Optional for all profiles. Real-world name of the entity this profile represents (company or individual); for a company the platform resells Claude access to (`access_type` `passthrough`), that company's name where known. Maximum 255 characters.
 
     minLength: 1, maxLength: 255
-
-  - `Optional<Relationship> relationship`
-
-    How the entity behind a user profile relates to the platform that owns the API key. `external`: an individual end-user of the platform. `resold`: a company the platform resells Claude access to. `internal`: the platform's own usage.
-
-    - `EXTERNAL("external")`
-
-    - `RESOLD("resold")`
-
-    - `INTERNAL("internal")`
 
 #### Returns
 
@@ -62584,19 +63594,15 @@ Create User Profile
 
     Platform's own identifier for this user. Not enforced unique.
 
+  - `Optional<LocalDateTime> externalUserOnboardedAt`
+
+    A timestamp in RFC 3339 format
+
+    format: date-time
+
   - `Optional<String> name`
 
-    Real-world name of the entity this profile represents (company or individual). For a resold-to company (`access_type` `passthrough`, or `relationship` `resold` under the `user-profiles-2026-03-24` header) this is that company's name.
-
-  - `Optional<Relationship> relationship`
-
-    How the entity behind a user profile relates to the platform that owns the API key. `external`: an individual end-user of the platform. `resold`: a company the platform resells Claude access to. `internal`: the platform's own usage.
-
-    - `EXTERNAL("external")`
-
-    - `RESOLD("resold")`
-
-    - `INTERNAL("internal")`
+    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name.
 
 #### Example
 
@@ -62635,8 +63641,8 @@ public final class Main {
   "updated_at": "2026-03-15T10:00:00Z",
   "access_type": "application",
   "external_id": "user_12345",
-  "name": "Example User",
-  "relationship": "external"
+  "external_user_onboarded_at": "2024-11-02T08:15:00Z",
+  "name": "Example User"
 }
 ```
 
@@ -62665,6 +63671,14 @@ List User Profiles
     - `ASC("asc")`
 
     - `DESC("desc")`
+
+  - `Optional<OrderBy> orderBy`
+
+    Query parameter for order_by
+
+    - `CREATED_AT("created_at")`
+
+    - `NAME("name")`
 
   - `Optional<String> page`
 
@@ -62756,6 +63770,12 @@ List User Profiles
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaUserProfile:`
@@ -62810,19 +63830,15 @@ List User Profiles
 
     Platform's own identifier for this user. Not enforced unique.
 
+  - `Optional<LocalDateTime> externalUserOnboardedAt`
+
+    A timestamp in RFC 3339 format
+
+    format: date-time
+
   - `Optional<String> name`
 
-    Real-world name of the entity this profile represents (company or individual). For a resold-to company (`access_type` `passthrough`, or `relationship` `resold` under the `user-profiles-2026-03-24` header) this is that company's name.
-
-  - `Optional<Relationship> relationship`
-
-    How the entity behind a user profile relates to the platform that owns the API key. `external`: an individual end-user of the platform. `resold`: a company the platform resells Claude access to. `internal`: the platform's own usage.
-
-    - `EXTERNAL("external")`
-
-    - `RESOLD("resold")`
-
-    - `INTERNAL("internal")`
+    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name.
 
 #### Example
 
@@ -62863,8 +63879,8 @@ public final class Main {
       "updated_at": "2026-03-15T10:00:00Z",
       "access_type": "application",
       "external_id": "user_12345",
-      "name": "Example User",
-      "relationship": "external"
+      "external_user_onboarded_at": "2024-11-02T08:15:00Z",
+      "name": "Example User"
     }
   ],
   "next_page": "page_MjAyNS0wNS0xNFQwMDowMDowMFo="
@@ -62971,6 +63987,12 @@ Get User Profile
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaUserProfile:`
@@ -63025,19 +64047,15 @@ Get User Profile
 
     Platform's own identifier for this user. Not enforced unique.
 
+  - `Optional<LocalDateTime> externalUserOnboardedAt`
+
+    A timestamp in RFC 3339 format
+
+    format: date-time
+
   - `Optional<String> name`
 
-    Real-world name of the entity this profile represents (company or individual). For a resold-to company (`access_type` `passthrough`, or `relationship` `resold` under the `user-profiles-2026-03-24` header) this is that company's name.
-
-  - `Optional<Relationship> relationship`
-
-    How the entity behind a user profile relates to the platform that owns the API key. `external`: an individual end-user of the platform. `resold`: a company the platform resells Claude access to. `internal`: the platform's own usage.
-
-    - `EXTERNAL("external")`
-
-    - `RESOLD("resold")`
-
-    - `INTERNAL("internal")`
+    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name.
 
 #### Example
 
@@ -63076,8 +64094,8 @@ public final class Main {
   "updated_at": "2026-03-15T10:00:00Z",
   "access_type": "application",
   "external_id": "user_12345",
-  "name": "Example User",
-  "relationship": "external"
+  "external_user_onboarded_at": "2024-11-02T08:15:00Z",
+  "name": "Example User"
 }
 ```
 
@@ -63181,6 +64199,12 @@ Update User Profile
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<AccessType> accessType`
 
     How the platform uses the API on behalf of the entity this profile represents. `application`: the platform sells a product that uses the API behind the scenes, and the profile represents an individual end-user of that product. `passthrough`: the platform resells raw inference, and the profile identifies the resold-to company.
@@ -63195,6 +64219,12 @@ Update User Profile
 
     minLength: 1, maxLength: 255
 
+  - `Optional<LocalDateTime> externalUserOnboardedAt`
+
+    A timestamp in RFC 3339 format
+
+    format: date-time
+
   - `Optional<Metadata> metadata`
 
     Key-value pairs to merge into the stored metadata. Keys provided overwrite existing values. To remove a key, set its value to an empty string. Keys not provided are left unchanged. Maximum 16 keys, with keys up to 64 characters and values up to 512 characters.
@@ -63204,16 +64234,6 @@ Update User Profile
     If present, replaces the stored name. Omit to leave unchanged. Maximum 255 characters.
 
     minLength: 1, maxLength: 255
-
-  - `Optional<Relationship> relationship`
-
-    How the entity behind a user profile relates to the platform that owns the API key. `external`: an individual end-user of the platform. `resold`: a company the platform resells Claude access to. `internal`: the platform's own usage.
-
-    - `EXTERNAL("external")`
-
-    - `RESOLD("resold")`
-
-    - `INTERNAL("internal")`
 
 #### Returns
 
@@ -63269,19 +64289,15 @@ Update User Profile
 
     Platform's own identifier for this user. Not enforced unique.
 
+  - `Optional<LocalDateTime> externalUserOnboardedAt`
+
+    A timestamp in RFC 3339 format
+
+    format: date-time
+
   - `Optional<String> name`
 
-    Real-world name of the entity this profile represents (company or individual). For a resold-to company (`access_type` `passthrough`, or `relationship` `resold` under the `user-profiles-2026-03-24` header) this is that company's name.
-
-  - `Optional<Relationship> relationship`
-
-    How the entity behind a user profile relates to the platform that owns the API key. `external`: an individual end-user of the platform. `resold`: a company the platform resells Claude access to. `internal`: the platform's own usage.
-
-    - `EXTERNAL("external")`
-
-    - `RESOLD("resold")`
-
-    - `INTERNAL("internal")`
+    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name.
 
 #### Example
 
@@ -63320,8 +64336,8 @@ public final class Main {
   "updated_at": "2026-03-15T10:00:00Z",
   "access_type": "application",
   "external_id": "user_12345",
-  "name": "Example User",
-  "relationship": "external"
+  "external_user_onboarded_at": "2024-11-02T08:15:00Z",
+  "name": "Example User"
 }
 ```
 
@@ -63424,6 +64440,12 @@ Create Enrollment URL
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -63573,6 +64595,12 @@ Create a Dream
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
   - `List<BetaDreamInput> inputs`
 
@@ -63979,6 +65007,12 @@ List Dreams
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaDream:`
@@ -64295,6 +65329,12 @@ Get a Dream
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaDream:`
@@ -64606,6 +65646,12 @@ Cancel a Dream
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaDream:`
@@ -64916,6 +65962,12 @@ Archive a Dream
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -65230,6 +66282,12 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<String> displayName`
 
     Optional human-readable name for the tunnel (1-255 characters).
@@ -65266,7 +66324,7 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
     Anthropic-assigned hostname for the tunnel. MCP server URLs whose host is a subdomain of this value are routed through the tunnel. Globally unique and never reused, even after the tunnel is archived.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel"`
 
 #### Example
 
@@ -65404,6 +66462,12 @@ Fetches a tunnel by ID.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaTunnel:`
@@ -65434,7 +66498,7 @@ Fetches a tunnel by ID.
 
     Anthropic-assigned hostname for the tunnel. MCP server URLs whose host is a subdomain of this value are routed through the tunnel. Globally unique and never reused, even after the tunnel is archived.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel"`
 
 #### Example
 
@@ -65584,6 +66648,12 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaTunnel:`
@@ -65614,7 +66684,7 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
     Anthropic-assigned hostname for the tunnel. MCP server URLs whose host is a subdomain of this value are routed through the tunnel. Globally unique and never reused, even after the tunnel is archived.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel"`
 
 #### Example
 
@@ -65757,6 +66827,12 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaTunnel:`
@@ -65787,7 +66863,7 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
     Anthropic-assigned hostname for the tunnel. MCP server URLs whose host is a subdomain of this value are routed through the tunnel. Globally unique and never reused, even after the tunnel is archived.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel"`
 
 #### Example
 
@@ -65925,6 +67001,12 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaTunnelToken:`
@@ -65939,7 +67021,7 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
 
     The connector token used to run the tunnel. Treat as a credential.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel_token"`
 
 #### Example
 
@@ -66074,6 +67156,12 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<String> reason`
 
     Optional free-text reason for the rotation, recorded for audit.
@@ -66094,7 +67182,7 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
 
     The connector token used to run the tunnel. Treat as a credential.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel_token"`
 
 #### Example
 
@@ -66231,6 +67319,12 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `String caCertificatePem`
 
     PEM-encoded X.509 CA certificate. Must contain exactly one certificate and no private-key material. Maximum 8KB.
@@ -66273,7 +67367,7 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 
     ID of the tunnel the certificate is registered against.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel_certificate"`
 
 #### Example
 
@@ -66418,6 +67512,12 @@ Fetches a tunnel certificate by ID.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaTunnelCertificate:`
@@ -66454,7 +67554,7 @@ Fetches a tunnel certificate by ID.
 
     ID of the tunnel the certificate is registered against.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel_certificate"`
 
 #### Example
 
@@ -66611,6 +67711,12 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaTunnelCertificate:`
@@ -66647,7 +67753,7 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
     ID of the tunnel the certificate is registered against.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel_certificate"`
 
 #### Example
 
@@ -66793,6 +67899,12 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaTunnelCertificate:`
@@ -66829,7 +67941,7 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 
     ID of the tunnel the certificate is registered against.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel_certificate"`
 
 #### Example
 
@@ -66898,7 +68010,7 @@ Retrieve information about the organization associated with the authenticated AP
 
     Name of the Organization.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "organization"`
 
     Object type.
 
@@ -67037,7 +68149,7 @@ List API Keys
 
     - `class BetaApiKeyUserActor:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "user_actor"`
 
         Principal type. Always `"user_actor"` for a User.
 
@@ -67051,7 +68163,7 @@ List API Keys
 
         ID of the Service Account the API key acts as.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "service_account_actor"`
 
         Principal type. Always `"service_account_actor"` for a Service Account.
 
@@ -67061,13 +68173,13 @@ List API Keys
 
     - `class BetaApiKeyOrganizationScope:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "organization"`
 
         Scope type. Always `"organization"`: the API key has no Workspace. Only a principal-bound API key can have this scope.
 
     - `class BetaApiKeyWorkspaceScope:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "workspace"`
 
         Scope type. Always `"workspace"`: the API key belongs to one Workspace.
 
@@ -67087,7 +68199,7 @@ List API Keys
 
     - `INACTIVE("inactive")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "api_key"`
 
     Object type.
 
@@ -67222,7 +68334,7 @@ Get API Key
 
     - `class BetaApiKeyUserActor:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "user_actor"`
 
         Principal type. Always `"user_actor"` for a User.
 
@@ -67236,7 +68348,7 @@ Get API Key
 
         ID of the Service Account the API key acts as.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "service_account_actor"`
 
         Principal type. Always `"service_account_actor"` for a Service Account.
 
@@ -67246,13 +68358,13 @@ Get API Key
 
     - `class BetaApiKeyOrganizationScope:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "organization"`
 
         Scope type. Always `"organization"`: the API key has no Workspace. Only a principal-bound API key can have this scope.
 
     - `class BetaApiKeyWorkspaceScope:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "workspace"`
 
         Scope type. Always `"workspace"`: the API key belongs to one Workspace.
 
@@ -67272,7 +68384,7 @@ Get API Key
 
     - `INACTIVE("inactive")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "api_key"`
 
     Object type.
 
@@ -67416,7 +68528,7 @@ Update API Key
 
     - `class BetaApiKeyUserActor:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "user_actor"`
 
         Principal type. Always `"user_actor"` for a User.
 
@@ -67430,7 +68542,7 @@ Update API Key
 
         ID of the Service Account the API key acts as.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "service_account_actor"`
 
         Principal type. Always `"service_account_actor"` for a Service Account.
 
@@ -67440,13 +68552,13 @@ Update API Key
 
     - `class BetaApiKeyOrganizationScope:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "organization"`
 
         Scope type. Always `"organization"`: the API key has no Workspace. Only a principal-bound API key can have this scope.
 
     - `class BetaApiKeyWorkspaceScope:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "workspace"`
 
         Scope type. Always `"workspace"`: the API key belongs to one Workspace.
 
@@ -67466,7 +68578,7 @@ Update API Key
 
     - `INACTIVE("inactive")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "api_key"`
 
     Object type.
 
@@ -67548,11 +68660,11 @@ Create an external key config owned by the caller's organization.
 
       - `String kmsArn`
 
-        Full ARN of the AWS KMS key.
+        Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a single-Region key in your organization's own AWS account; cross-account keys, multi-Region keys, and alias ARNs are rejected.
 
         maxLength: 2048
 
-      - `JsonValue type constant`
+      - `JsonValue type = "aws"`
 
       - `Optional<String> region`
 
@@ -67562,7 +68674,7 @@ Create an external key config owned by the caller's organization.
 
         **Deprecated**
 
-        IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed intermediate role; this field is ignored.
+        IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own intermediate role (or, on Claude Platform on AWS, with credentials AWS issues for the Workspace); this field is ignored.
 
     - `class BetaGcpExternalKeyConfig:`
 
@@ -67570,7 +68682,7 @@ Create an external key config owned by the caller's organization.
 
         Full resource name of the Cloud KMS key.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "gcp"`
 
     - `class BetaAzureExternalKeyConfigParam:`
 
@@ -67584,7 +68696,7 @@ Create an external key config owned by the caller's organization.
 
         Azure AD tenant ID.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "azure"`
 
       - `String vaultUri`
 
@@ -67626,11 +68738,11 @@ Create an external key config owned by the caller's organization.
 
     - `class BetaExternalKeyAttachedAttachment:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "attached"`
 
     - `class BetaExternalKeyUnattachedAttachment:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "unattached"`
 
   - `LocalDateTime createdAt`
 
@@ -67652,11 +68764,11 @@ Create an external key config owned by the caller's organization.
 
       - `String kmsArn`
 
-        Full ARN of the AWS KMS key.
+        Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a single-Region key in your organization's own AWS account; cross-account keys, multi-Region keys, and alias ARNs are rejected.
 
         maxLength: 2048
 
-      - `JsonValue type constant`
+      - `JsonValue type = "aws"`
 
       - `Optional<String> region`
 
@@ -67666,7 +68778,7 @@ Create an external key config owned by the caller's organization.
 
         **Deprecated**
 
-        IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed intermediate role; this field is ignored.
+        IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own intermediate role (or, on Claude Platform on AWS, with credentials AWS issues for the Workspace); this field is ignored.
 
     - `class BetaGcpExternalKeyConfig:`
 
@@ -67674,7 +68786,7 @@ Create an external key config owned by the caller's organization.
 
         Full resource name of the Cloud KMS key.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "gcp"`
 
     - `class BetaAzureExternalKeyConfig:`
 
@@ -67686,7 +68798,7 @@ Create an external key config owned by the caller's organization.
 
         Azure AD tenant ID.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "azure"`
 
       - `String vaultUri`
 
@@ -67696,7 +68808,7 @@ Create an external key config owned by the caller's organization.
 
         Azure AD application (client) ID. Omit to use Anthropic's multitenant app. Provide only if using a single-tenant app registration in the customer's directory.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "external_key"`
 
   - `LocalDateTime updatedAt`
 
@@ -67793,11 +68905,11 @@ Results are ordered by creation time (newest first). Use the
 
     - `class BetaExternalKeyAttachedAttachment:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "attached"`
 
     - `class BetaExternalKeyUnattachedAttachment:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "unattached"`
 
   - `LocalDateTime createdAt`
 
@@ -67819,11 +68931,11 @@ Results are ordered by creation time (newest first). Use the
 
       - `String kmsArn`
 
-        Full ARN of the AWS KMS key.
+        Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a single-Region key in your organization's own AWS account; cross-account keys, multi-Region keys, and alias ARNs are rejected.
 
         maxLength: 2048
 
-      - `JsonValue type constant`
+      - `JsonValue type = "aws"`
 
       - `Optional<String> region`
 
@@ -67833,7 +68945,7 @@ Results are ordered by creation time (newest first). Use the
 
         **Deprecated**
 
-        IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed intermediate role; this field is ignored.
+        IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own intermediate role (or, on Claude Platform on AWS, with credentials AWS issues for the Workspace); this field is ignored.
 
     - `class BetaGcpExternalKeyConfig:`
 
@@ -67841,7 +68953,7 @@ Results are ordered by creation time (newest first). Use the
 
         Full resource name of the Cloud KMS key.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "gcp"`
 
     - `class BetaAzureExternalKeyConfig:`
 
@@ -67853,7 +68965,7 @@ Results are ordered by creation time (newest first). Use the
 
         Azure AD tenant ID.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "azure"`
 
       - `String vaultUri`
 
@@ -67863,7 +68975,7 @@ Results are ordered by creation time (newest first). Use the
 
         Azure AD application (client) ID. Omit to use Anthropic's multitenant app. Provide only if using a single-tenant app registration in the customer's directory.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "external_key"`
 
   - `LocalDateTime updatedAt`
 
@@ -67955,11 +69067,11 @@ Retrieve a single external key config in the caller's organization by ID.
 
     - `class BetaExternalKeyAttachedAttachment:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "attached"`
 
     - `class BetaExternalKeyUnattachedAttachment:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "unattached"`
 
   - `LocalDateTime createdAt`
 
@@ -67981,11 +69093,11 @@ Retrieve a single external key config in the caller's organization by ID.
 
       - `String kmsArn`
 
-        Full ARN of the AWS KMS key.
+        Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a single-Region key in your organization's own AWS account; cross-account keys, multi-Region keys, and alias ARNs are rejected.
 
         maxLength: 2048
 
-      - `JsonValue type constant`
+      - `JsonValue type = "aws"`
 
       - `Optional<String> region`
 
@@ -67995,7 +69107,7 @@ Retrieve a single external key config in the caller's organization by ID.
 
         **Deprecated**
 
-        IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed intermediate role; this field is ignored.
+        IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own intermediate role (or, on Claude Platform on AWS, with credentials AWS issues for the Workspace); this field is ignored.
 
     - `class BetaGcpExternalKeyConfig:`
 
@@ -68003,7 +69115,7 @@ Retrieve a single external key config in the caller's organization by ID.
 
         Full resource name of the Cloud KMS key.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "gcp"`
 
     - `class BetaAzureExternalKeyConfig:`
 
@@ -68015,7 +69127,7 @@ Retrieve a single external key config in the caller's organization by ID.
 
         Azure AD tenant ID.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "azure"`
 
       - `String vaultUri`
 
@@ -68025,7 +69137,7 @@ Retrieve a single external key config in the caller's organization by ID.
 
         Azure AD application (client) ID. Omit to use Anthropic's multitenant app. Provide only if using a single-tenant app registration in the customer's directory.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "external_key"`
 
   - `LocalDateTime updatedAt`
 
@@ -68116,11 +69228,11 @@ encrypted data requires the original key identity to decrypt.
 
       - `String kmsArn`
 
-        Full ARN of the AWS KMS key.
+        Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a single-Region key in your organization's own AWS account; cross-account keys, multi-Region keys, and alias ARNs are rejected.
 
         maxLength: 2048
 
-      - `JsonValue type constant`
+      - `JsonValue type = "aws"`
 
       - `Optional<String> region`
 
@@ -68130,7 +69242,7 @@ encrypted data requires the original key identity to decrypt.
 
         **Deprecated**
 
-        IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed intermediate role; this field is ignored.
+        IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own intermediate role (or, on Claude Platform on AWS, with credentials AWS issues for the Workspace); this field is ignored.
 
     - `class BetaGcpExternalKeyConfig:`
 
@@ -68138,7 +69250,7 @@ encrypted data requires the original key identity to decrypt.
 
         Full resource name of the Cloud KMS key.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "gcp"`
 
     - `class BetaAzureExternalKeyConfigParam:`
 
@@ -68152,7 +69264,7 @@ encrypted data requires the original key identity to decrypt.
 
         Azure AD tenant ID.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "azure"`
 
       - `String vaultUri`
 
@@ -68182,11 +69294,11 @@ encrypted data requires the original key identity to decrypt.
 
     - `class BetaExternalKeyAttachedAttachment:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "attached"`
 
     - `class BetaExternalKeyUnattachedAttachment:`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "unattached"`
 
   - `LocalDateTime createdAt`
 
@@ -68208,11 +69320,11 @@ encrypted data requires the original key identity to decrypt.
 
       - `String kmsArn`
 
-        Full ARN of the AWS KMS key.
+        Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a single-Region key in your organization's own AWS account; cross-account keys, multi-Region keys, and alias ARNs are rejected.
 
         maxLength: 2048
 
-      - `JsonValue type constant`
+      - `JsonValue type = "aws"`
 
       - `Optional<String> region`
 
@@ -68222,7 +69334,7 @@ encrypted data requires the original key identity to decrypt.
 
         **Deprecated**
 
-        IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed intermediate role; this field is ignored.
+        IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own intermediate role (or, on Claude Platform on AWS, with credentials AWS issues for the Workspace); this field is ignored.
 
     - `class BetaGcpExternalKeyConfig:`
 
@@ -68230,7 +69342,7 @@ encrypted data requires the original key identity to decrypt.
 
         Full resource name of the Cloud KMS key.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "gcp"`
 
     - `class BetaAzureExternalKeyConfig:`
 
@@ -68242,7 +69354,7 @@ encrypted data requires the original key identity to decrypt.
 
         Azure AD tenant ID.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "azure"`
 
       - `String vaultUri`
 
@@ -68252,7 +69364,7 @@ encrypted data requires the original key identity to decrypt.
 
         Azure AD application (client) ID. Omit to use Anthropic's multitenant app. Provide only if using a single-tenant app registration in the customer's directory.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "external_key"`
 
   - `LocalDateTime updatedAt`
 
@@ -68329,7 +69441,7 @@ The request is rejected if any workspace still references this config.
 
     ID of the deleted External Key.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "external_key_deleted"`
 
 #### Example
 
@@ -68405,7 +69517,7 @@ message if it failed or timed out.
 
     - `SUCCESS("success")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "external_key_validation"`
 
 #### Example
 
@@ -68550,6 +69662,12 @@ matched as the JWT's `iss` claim and is not fetched.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `String issuerUrl`
 
     The `iss` claim value to match against.
@@ -68574,7 +69692,7 @@ matched as the JWT's `iss` claim and is not fetched.
 
       JWKS via the issuer's OIDC discovery document.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "discovery"`
 
       - `Optional<String> caCertPem`
 
@@ -68590,7 +69708,7 @@ matched as the JWT's `iss` claim and is not fetched.
 
       JWKS fetched from a fixed endpoint.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "explicit_url"`
 
       - `String url`
 
@@ -68614,7 +69732,7 @@ matched as the JWT's `iss` claim and is not fetched.
 
         minItems: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "inline"`
 
   - `Optional<Long> maxJwtLifetimeSeconds`
 
@@ -68671,7 +69789,7 @@ matched as the JWT's `iss` claim and is not fetched.
 
       JWKS via the issuer's OIDC discovery document.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "discovery"`
 
       - `Optional<String> caCertPem`
 
@@ -68687,7 +69805,7 @@ matched as the JWT's `iss` claim and is not fetched.
 
       JWKS fetched from a fixed endpoint.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "explicit_url"`
 
       - `String url`
 
@@ -68711,7 +69829,7 @@ matched as the JWT's `iss` claim and is not fetched.
 
         minItems: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "inline"`
 
   - `Optional<LocalDateTime> jwksPollingDisabledAt`
 
@@ -68751,7 +69869,7 @@ matched as the JWT's `iss` claim and is not fetched.
 
       format: date-time
 
-  - `JsonValue type constant`
+  - `JsonValue type = "federation_issuer"`
 
   - `LocalDateTime updatedAt`
 
@@ -68934,6 +70052,12 @@ Archived issuers are excluded unless `include_archived=true`.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaFederationIssuer:`
@@ -68983,7 +70107,7 @@ Archived issuers are excluded unless `include_archived=true`.
 
       JWKS via the issuer's OIDC discovery document.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "discovery"`
 
       - `Optional<String> caCertPem`
 
@@ -68999,7 +70123,7 @@ Archived issuers are excluded unless `include_archived=true`.
 
       JWKS fetched from a fixed endpoint.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "explicit_url"`
 
       - `String url`
 
@@ -69023,7 +70147,7 @@ Archived issuers are excluded unless `include_archived=true`.
 
         minItems: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "inline"`
 
   - `Optional<LocalDateTime> jwksPollingDisabledAt`
 
@@ -69063,7 +70187,7 @@ Archived issuers are excluded unless `include_archived=true`.
 
       format: date-time
 
-  - `JsonValue type constant`
+  - `JsonValue type = "federation_issuer"`
 
   - `LocalDateTime updatedAt`
 
@@ -69235,6 +70359,12 @@ Retrieve a federation issuer by its ID (`fdis_...`).
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaFederationIssuer:`
@@ -69284,7 +70414,7 @@ Retrieve a federation issuer by its ID (`fdis_...`).
 
       JWKS via the issuer's OIDC discovery document.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "discovery"`
 
       - `Optional<String> caCertPem`
 
@@ -69300,7 +70430,7 @@ Retrieve a federation issuer by its ID (`fdis_...`).
 
       JWKS fetched from a fixed endpoint.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "explicit_url"`
 
       - `String url`
 
@@ -69324,7 +70454,7 @@ Retrieve a federation issuer by its ID (`fdis_...`).
 
         minItems: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "inline"`
 
   - `Optional<LocalDateTime> jwksPollingDisabledAt`
 
@@ -69364,7 +70494,7 @@ Retrieve a federation issuer by its ID (`fdis_...`).
 
       format: date-time
 
-  - `JsonValue type constant`
+  - `JsonValue type = "federation_issuer"`
 
   - `LocalDateTime updatedAt`
 
@@ -69538,6 +70668,12 @@ session.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<Boolean> checkJti`
 
     Whether the jwt-bearer exchange enforces JTI single-use (replay protection) for tokens from this issuer. Applies only to assertions carrying a `jti` claim; tokens without one are accepted without single-use enforcement.
@@ -69556,7 +70692,7 @@ session.
 
       JWKS via the issuer's OIDC discovery document.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "discovery"`
 
       - `Optional<String> caCertPem`
 
@@ -69572,7 +70708,7 @@ session.
 
       JWKS fetched from a fixed endpoint.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "explicit_url"`
 
       - `String url`
 
@@ -69596,7 +70732,7 @@ session.
 
         minItems: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "inline"`
 
   - `Optional<Boolean> jwksPollingDisabled`
 
@@ -69663,7 +70799,7 @@ session.
 
       JWKS via the issuer's OIDC discovery document.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "discovery"`
 
       - `Optional<String> caCertPem`
 
@@ -69679,7 +70815,7 @@ session.
 
       JWKS fetched from a fixed endpoint.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "explicit_url"`
 
       - `String url`
 
@@ -69703,7 +70839,7 @@ session.
 
         minItems: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "inline"`
 
   - `Optional<LocalDateTime> jwksPollingDisabledAt`
 
@@ -69743,7 +70879,7 @@ session.
 
       format: date-time
 
-  - `JsonValue type constant`
+  - `JsonValue type = "federation_issuer"`
 
   - `LocalDateTime updatedAt`
 
@@ -69915,6 +71051,12 @@ issuer cannot be changed), or recreate them against another issuer.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaFederationIssuer:`
@@ -69964,7 +71106,7 @@ issuer cannot be changed), or recreate them against another issuer.
 
       JWKS via the issuer's OIDC discovery document.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "discovery"`
 
       - `Optional<String> caCertPem`
 
@@ -69980,7 +71122,7 @@ issuer cannot be changed), or recreate them against another issuer.
 
       JWKS fetched from a fixed endpoint.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "explicit_url"`
 
       - `String url`
 
@@ -70004,7 +71146,7 @@ issuer cannot be changed), or recreate them against another issuer.
 
         minItems: 1
 
-      - `JsonValue type constant`
+      - `JsonValue type = "inline"`
 
   - `Optional<LocalDateTime> jwksPollingDisabledAt`
 
@@ -70044,7 +71186,7 @@ issuer cannot be changed), or recreate them against another issuer.
 
       format: date-time
 
-  - `JsonValue type constant`
+  - `JsonValue type = "federation_issuer"`
 
   - `LocalDateTime updatedAt`
 
@@ -70223,6 +71365,12 @@ manage rules whose `oauth_scope` is `workspace:developer` or
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `String issuerId`
 
     Tagged ID of the federation issuer.
@@ -70372,7 +71520,7 @@ manage rules whose `oauth_scope` is `workspace:developer` or
 
       Tagged ID of the service account to mint tokens for.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "service_account"`
 
     - `Optional<String> serviceAccountName`
 
@@ -70382,7 +71530,7 @@ manage rules whose `oauth_scope` is `workspace:developer` or
 
     Lifetime in seconds of access tokens minted via this rule. Minted tokens are capped at `max(60, min(this value, 2 × remaining assertion validity))` seconds.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "federation_rule"`
 
   - `LocalDateTime updatedAt`
 
@@ -70425,9 +71573,7 @@ public final class Main {
             .match(BetaFederationRuleMatch.builder().build())
             .name("x")
             .oauthScope("x")
-            .target(BetaServiceAccountTarget.builder()
-                .serviceAccountId("svac_01SDCCSbTxrXDpWc1phhtcfK")
-                .build())
+            .target(BetaServiceAccountTarget.of("svac_01SDCCSbTxrXDpWc1phhtcfK"))
             .build();
         BetaFederationRule betaFederationRule = client.beta().organization().federation().rules().create(params);
     }
@@ -70597,6 +71743,12 @@ unless `include_archived=true`.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaFederationRule:`
@@ -70698,7 +71850,7 @@ unless `include_archived=true`.
 
       Tagged ID of the service account to mint tokens for.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "service_account"`
 
     - `Optional<String> serviceAccountName`
 
@@ -70708,7 +71860,7 @@ unless `include_archived=true`.
 
     Lifetime in seconds of access tokens minted via this rule. Minted tokens are capped at `max(60, min(this value, 2 × remaining assertion validity))` seconds.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "federation_rule"`
 
   - `LocalDateTime updatedAt`
 
@@ -70900,6 +72052,12 @@ Retrieve a federation rule by its ID (`fdrl_...`).
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaFederationRule:`
@@ -71001,7 +72159,7 @@ Retrieve a federation rule by its ID (`fdrl_...`).
 
       Tagged ID of the service account to mint tokens for.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "service_account"`
 
     - `Optional<String> serviceAccountName`
 
@@ -71011,7 +72169,7 @@ Retrieve a federation rule by its ID (`fdrl_...`).
 
     Lifetime in seconds of access tokens minted via this rule. Minted tokens are capped at `max(60, min(this value, 2 × remaining assertion validity))` seconds.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "federation_rule"`
 
   - `LocalDateTime updatedAt`
 
@@ -71214,6 +72372,12 @@ Console session.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<Boolean> appliesToAllWorkspaces`
 
     When true, enables this rule for every workspace in the org (including workspaces created later). Setting `false` is rejected with 400 if no workspace would remain enabled; a rule with only a legacy `workspace_id` binding continues to mint.
@@ -71363,7 +72527,7 @@ Console session.
 
       Tagged ID of the service account to mint tokens for.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "service_account"`
 
     - `Optional<String> serviceAccountName`
 
@@ -71373,7 +72537,7 @@ Console session.
 
     Lifetime in seconds of access tokens minted via this rule. Minted tokens are capped at `max(60, min(this value, 2 × remaining assertion validity))` seconds.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "federation_rule"`
 
   - `LocalDateTime updatedAt`
 
@@ -71568,6 +72732,12 @@ other scopes require a Console session.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaFederationRule:`
@@ -71669,7 +72839,7 @@ other scopes require a Console session.
 
       Tagged ID of the service account to mint tokens for.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "service_account"`
 
     - `Optional<String> serviceAccountName`
 
@@ -71679,7 +72849,7 @@ other scopes require a Console session.
 
     Lifetime in seconds of access tokens minted via this rule. Minted tokens are capped at `max(60, min(this value, 2 × remaining assertion validity))` seconds.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "federation_rule"`
 
   - `LocalDateTime updatedAt`
 
@@ -71877,6 +73047,12 @@ other scopes require a Console session.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `String workspaceId`
 
     Tagged ID of the workspace to enable this rule for.
@@ -71899,7 +73075,7 @@ other scopes require a Console session.
 
     Tagged ID of the federation rule.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "federation_rule_workspace"`
 
   - `String workspaceId`
 
@@ -72067,6 +73243,12 @@ rules with `applies_to_all_workspaces` or a legacy single
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaFederationRuleWorkspace:`
@@ -72085,7 +73267,7 @@ rules with `applies_to_all_workspaces` or a legacy single
 
     Tagged ID of the federation rule.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "federation_rule_workspace"`
 
   - `String workspaceId`
 
@@ -72247,6 +73429,12 @@ Console session.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class WorkspaceRemoveResponse:`
@@ -72255,7 +73443,7 @@ Console session.
 
     Tagged ID of the federation rule.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "federation_rule_workspace_deleted"`
 
   - `String workspaceId`
 
@@ -72408,7 +73596,7 @@ On plans that draw members from a finite pool of purchased seats, the invite aut
 
     - `PENDING("pending")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "invite"`
 
     Object type.
 
@@ -72575,7 +73763,7 @@ List the organization's invites.
 
     - `PENDING("pending")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "invite"`
 
     Object type.
 
@@ -72711,7 +73899,7 @@ Retrieve an invite by ID.
 
     - `PENDING("pending")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "invite"`
 
     Object type.
 
@@ -72780,7 +73968,7 @@ Delete a pending invite.
 
     ID of the Invite.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "invite_deleted"`
 
     Deleted object type.
 
@@ -72926,6 +74114,12 @@ accounts.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `String name`
 
     Slug identifier (lowercase, digits, hyphens). Unique within the organization; a duplicate name returns 409.
@@ -72995,7 +74189,7 @@ accounts.
 
     - `DEVELOPER("developer")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "service_account"`
 
   - `LocalDateTime updatedAt`
 
@@ -73167,6 +74361,12 @@ archived service accounts.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaServiceAccount:`
@@ -73216,7 +74416,7 @@ archived service accounts.
 
     - `DEVELOPER("developer")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "service_account"`
 
   - `LocalDateTime updatedAt`
 
@@ -73376,6 +74576,12 @@ Retrieve a service account by its ID (`svac_...`).
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaServiceAccount:`
@@ -73425,7 +74631,7 @@ Retrieve a service account by its ID (`svac_...`).
 
     - `DEVELOPER("developer")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "service_account"`
 
   - `LocalDateTime updatedAt`
 
@@ -73585,6 +74791,12 @@ interactive credential (a user OAuth token or a Console session).
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<String> description`
 
     Replaces the description. Omit to leave unchanged; send `null` to clear (the field is stored as an empty string).
@@ -73648,7 +74860,7 @@ interactive credential (a user OAuth token or a Console session).
 
     - `DEVELOPER("developer")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "service_account"`
 
   - `LocalDateTime updatedAt`
 
@@ -73808,6 +75020,12 @@ those rules first or change their target to another service account.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaServiceAccount:`
@@ -73857,7 +75075,7 @@ those rules first or change their target to another service account.
 
     - `DEVELOPER("developer")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "service_account"`
 
   - `LocalDateTime updatedAt`
 
@@ -74021,6 +75239,12 @@ rejected.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `String workspaceId`
 
     Tagged workspace ID to add the service account to.
@@ -74045,7 +75269,7 @@ rejected.
 
     Tagged service account ID (`svac_...`).
 
-  - `JsonValue type constant`
+  - `JsonValue type = "service_account_workspace_member"`
 
   - `String workspaceId`
 
@@ -74233,6 +75457,12 @@ page to recover.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaServiceAccountWorkspaceMember:`
@@ -74249,7 +75479,7 @@ page to recover.
 
     Tagged service account ID (`svac_...`).
 
-  - `JsonValue type constant`
+  - `JsonValue type = "service_account_workspace_member"`
 
   - `String workspaceId`
 
@@ -74424,6 +75654,12 @@ to the implicit `workspace_user` membership. Archived workspaces return
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class WorkspaceRemoveResponse:`
@@ -74432,7 +75668,7 @@ to the implicit `workspace_user` membership. Archived workspaces return
 
     Tagged service account ID (`svac_...`) named in the delete request. Removal is idempotent; see the endpoint description for the implicit-membership no-op.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "service_account_workspace_member_deleted"`
 
   - `String workspaceId`
 
@@ -74559,7 +75795,7 @@ List the organization's members.
 
     - `USER("user")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "user"`
 
     Object type.
 
@@ -74666,7 +75902,7 @@ Retrieve a member of the organization by user ID.
 
     - `USER("user")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "user"`
 
     Object type.
 
@@ -74782,7 +76018,7 @@ Update a member's organization role.
 
     - `USER("user")`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "user"`
 
     Object type.
 
@@ -74850,7 +76086,7 @@ Remove a member from the organization.
 
     ID of the User.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "user_deleted"`
 
     Deleted object type.
 
@@ -74940,8 +76176,13 @@ List Workspaces
     customer-managed encryption key (CMEK) on AWS, reference this value in your
     KMS key-policy condition so the key is scoped to this compartment. On GCP and
     Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK integration guide for the
-    required key configuration, including the value used during key validation.
+    need to reference this value in your key configuration. See the CMEK
+    integration guide for the required key configuration; unless your organization
+    is on Claude Platform on AWS, it includes a separate value used during key
+    validation. On Claude Platform on AWS there is no separate validation value:
+    the key is validated against this Workspace's own value when it is attached, so
+    if your key policy uses the compartment condition, add this value to it before
+    attaching the key.
 
   - `LocalDateTime createdAt`
 
@@ -74978,10 +76219,14 @@ List Workspaces
     ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `String name`
 
@@ -74991,7 +76236,7 @@ List Workspaces
 
     User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "workspace"`
 
     Object type.
 
@@ -75147,6 +76392,12 @@ Create Workspace
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `String name`
 
     Name of the Workspace.
@@ -75168,10 +76419,14 @@ Create Workspace
     ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `Optional<Tags> tags`
 
@@ -75197,8 +76452,13 @@ Create Workspace
     customer-managed encryption key (CMEK) on AWS, reference this value in your
     KMS key-policy condition so the key is scoped to this compartment. On GCP and
     Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK integration guide for the
-    required key configuration, including the value used during key validation.
+    need to reference this value in your key configuration. See the CMEK
+    integration guide for the required key configuration; unless your organization
+    is on Claude Platform on AWS, it includes a separate value used during key
+    validation. On Claude Platform on AWS there is no separate validation value:
+    the key is validated against this Workspace's own value when it is attached, so
+    if your key policy uses the compartment condition, add this value to it before
+    attaching the key.
 
   - `LocalDateTime createdAt`
 
@@ -75235,10 +76495,14 @@ Create Workspace
     ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `String name`
 
@@ -75248,7 +76512,7 @@ Create Workspace
 
     User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "workspace"`
 
     Object type.
 
@@ -75338,8 +76602,13 @@ Get Workspace
     customer-managed encryption key (CMEK) on AWS, reference this value in your
     KMS key-policy condition so the key is scoped to this compartment. On GCP and
     Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK integration guide for the
-    required key configuration, including the value used during key validation.
+    need to reference this value in your key configuration. See the CMEK
+    integration guide for the required key configuration; unless your organization
+    is on Claude Platform on AWS, it includes a separate value used during key
+    validation. On Claude Platform on AWS there is no separate validation value:
+    the key is validated against this Workspace's own value when it is attached, so
+    if your key policy uses the compartment condition, add this value to it before
+    attaching the key.
 
   - `LocalDateTime createdAt`
 
@@ -75376,10 +76645,14 @@ Get Workspace
     ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `String name`
 
@@ -75389,7 +76662,7 @@ Get Workspace
 
     User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "workspace"`
 
     Object type.
 
@@ -75469,10 +76742,14 @@ Update Workspace
     ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `Optional<String> name`
 
@@ -75504,8 +76781,13 @@ Update Workspace
     customer-managed encryption key (CMEK) on AWS, reference this value in your
     KMS key-policy condition so the key is scoped to this compartment. On GCP and
     Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK integration guide for the
-    required key configuration, including the value used during key validation.
+    need to reference this value in your key configuration. See the CMEK
+    integration guide for the required key configuration; unless your organization
+    is on Claude Platform on AWS, it includes a separate value used during key
+    validation. On Claude Platform on AWS there is no separate validation value:
+    the key is validated against this Workspace's own value when it is attached, so
+    if your key policy uses the compartment condition, add this value to it before
+    attaching the key.
 
   - `LocalDateTime createdAt`
 
@@ -75542,10 +76824,14 @@ Update Workspace
     ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `String name`
 
@@ -75555,7 +76841,7 @@ Update Workspace
 
     User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "workspace"`
 
     Object type.
 
@@ -75640,8 +76926,13 @@ Archive Workspace
     customer-managed encryption key (CMEK) on AWS, reference this value in your
     KMS key-policy condition so the key is scoped to this compartment. On GCP and
     Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK integration guide for the
-    required key configuration, including the value used during key validation.
+    need to reference this value in your key configuration. See the CMEK
+    integration guide for the required key configuration; unless your organization
+    is on Claude Platform on AWS, it includes a separate value used during key
+    validation. On Claude Platform on AWS there is no separate validation value:
+    the key is validated against this Workspace's own value when it is attached, so
+    if your key policy uses the compartment condition, add this value to it before
+    attaching the key.
 
   - `LocalDateTime createdAt`
 
@@ -75678,10 +76969,14 @@ Archive Workspace
     ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `String name`
 
@@ -75691,7 +76986,7 @@ Archive Workspace
 
     User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "workspace"`
 
     Object type.
 
@@ -75756,9 +77051,9 @@ Returns only the groups and limiter types that have a workspace-level
 override. Groups without overrides inherit the organization limits and
 are not listed; use `GET /v1/organizations/rate_limits` to see those.
 
-This endpoint currently returns every matching entry in a single page
-regardless of `limit`; follow `next_page` so that clients keep working
-when pagination is enabled.
+When `limit` is omitted, every matching entry is returned in a single
+page; when `limit` truncates the result, follow `next_page` to fetch
+the remaining entries.
 
 #### Parameters
 
@@ -75788,7 +77083,7 @@ when pagination is enabled.
 
     Maximum number of items to return per page. Ranges from `1` to `1000`.
 
-    Accepted for request-shape compatibility and currently ignored: every entry is returned in a single page.
+    When omitted, every remaining entry is returned in a single page and `next_page` is `null`.
 
     maximum: 1000, minimum: 1
 
@@ -75840,7 +77135,7 @@ when pagination is enabled.
 
     The `id` of the RateLimit group this override applies to.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "workspace_rate_limit"`
 
     Object type. Always `workspace_rate_limit` for workspace rate-limit entries.
 
@@ -75933,7 +77228,7 @@ List Workspace Members
 
 - `class BetaWorkspaceMember:`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "workspace_member"`
 
     Object type.
 
@@ -76028,7 +77323,7 @@ Create Workspace Member
 
 - `class BetaWorkspaceMember:`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "workspace_member"`
 
     Object type.
 
@@ -76118,7 +77413,7 @@ Get Workspace Member
 
 - `class BetaWorkspaceMember:`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "workspace_member"`
 
     Object type.
 
@@ -76210,7 +77505,7 @@ Update Workspace Member
 
 - `class BetaWorkspaceMember:`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "workspace_member"`
 
     Object type.
 
@@ -76300,7 +77595,7 @@ Delete Workspace Member
 
 - `class MemberRemoveResponse:`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "workspace_member_deleted"`
 
     Deleted object type.
 
@@ -76472,6 +77767,12 @@ omitted from the results.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaServiceAccountWorkspaceMember:`
@@ -76488,7 +77789,7 @@ omitted from the results.
 
     Tagged service account ID (`svac_...`).
 
-  - `JsonValue type constant`
+  - `JsonValue type = "service_account_workspace_member"`
 
   - `String workspaceId`
 
@@ -76660,6 +77961,12 @@ accounts cannot be added and are rejected.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `String serviceAccountId`
 
     Tagged service account ID to add.
@@ -76684,7 +77991,7 @@ accounts cannot be added and are rejected.
 
     Tagged service account ID (`svac_...`).
 
-  - `JsonValue type constant`
+  - `JsonValue type = "service_account_workspace_member"`
 
   - `String workspaceId`
 
@@ -76859,6 +78166,12 @@ account returns 404.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaServiceAccountWorkspaceMember:`
@@ -76875,7 +78188,7 @@ account returns 404.
 
     Tagged service account ID (`svac_...`).
 
-  - `JsonValue type constant`
+  - `JsonValue type = "service_account_workspace_member"`
 
   - `String workspaceId`
 
@@ -77048,6 +78361,12 @@ rejected.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `BetaNoBillingWorkspaceRole workspaceRole`
 
     New role for the service account in this workspace.
@@ -77068,7 +78387,7 @@ rejected.
 
     Tagged service account ID (`svac_...`).
 
-  - `JsonValue type constant`
+  - `JsonValue type = "service_account_workspace_member"`
 
   - `String workspaceId`
 
@@ -77242,6 +78561,12 @@ membership. Archived workspaces return 400.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class ServiceAccountRemoveResponse:`
@@ -77250,7 +78575,7 @@ membership. Archived workspaces return 400.
 
     Tagged service account ID (`svac_...`) named in the delete request. Removal is idempotent; see the endpoint description for the implicit-membership no-op.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "service_account_workspace_member_deleted"`
 
   - `String workspaceId`
 
@@ -77305,9 +78630,9 @@ Each entry corresponds to one rate-limit group (either a model family
 or an API-surface category such as the Files API or Message Batches)
 and contains the set of limiter values that apply to it.
 
-This endpoint currently returns every matching entry in a single page
-regardless of `limit`; follow `next_page` so that clients keep working
-when pagination is enabled.
+When `limit` is omitted, every matching entry is returned in a single
+page; when `limit` truncates the result, follow `next_page` to fetch
+the remaining entries.
 
 #### Parameters
 
@@ -77333,7 +78658,7 @@ when pagination is enabled.
 
     Maximum number of items to return per page. Ranges from `1` to `1000`.
 
-    Accepted for request-shape compatibility and currently ignored: every entry is returned in a single page.
+    When omitted, every remaining entry is returned in a single page and `next_page` is `null`.
 
     maximum: 1000, minimum: 1
 
@@ -77385,7 +78710,7 @@ when pagination is enabled.
 
     Model names this entry's limits apply to, including aliases. `null` when `group_type` is not `"model_group"`.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "rate_limit"`
 
     Object type. Always `rate_limit` for organization rate-limit entries.
 
@@ -77431,5 +78756,165 @@ public final class Main {
     }
   ],
   "next_page": "next_page"
+}
+```
+
+## Beta › Organization › Compliance Settings
+
+### Get Compliance Settings
+
+`BetaComplianceSettings beta().organization().complianceSettings().retrieve(params = ComplianceSettingRetrieveParams.none(), requestOptions = RequestOptions.none())`
+
+**GET** `/v1/organizations/compliance_settings`
+
+Retrieve your organization's Compliance Settings.
+
+Compliance Settings is a singleton resource: there is exactly one per
+organization, addressed without an identifier. The `state` field reflects
+whether the Compliance API is enabled. An organization with a parent
+organization reads the state inherited from the parent's configuration.
+
+#### Parameters
+
+- `ComplianceSettingRetrieveParams params`
+
+#### Returns
+
+- `class BetaComplianceSettings:`
+
+  - `State state`
+
+    Whether the Compliance API is enabled for this organization.
+
+    - `class BetaComplianceSettingsStateEnabled:`
+
+      - `JsonValue type = "enabled"`
+
+    - `class BetaComplianceSettingsStateDisabled:`
+
+      - `JsonValue type = "disabled"`
+
+  - `JsonValue type = "compliance_settings"`
+
+#### Example
+
+```java
+package com.anthropic.example;
+
+import com.anthropic.client.AnthropicClient;
+import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.models.beta.organization.compliancesettings.BetaComplianceSettings;
+import com.anthropic.models.beta.organization.compliancesettings.ComplianceSettingRetrieveParams;
+
+public final class Main {
+    private Main() {}
+
+    public static void main(String[] args) {
+        AnthropicClient client = AnthropicOkHttpClient.fromEnv();
+
+        BetaComplianceSettings betaComplianceSettings = client.beta().organization().complianceSettings().retrieve();
+    }
+}
+```
+
+##### Response (200)
+
+```json
+{
+  "state": {
+    "type": "enabled"
+  },
+  "type": "compliance_settings"
+}
+```
+
+### Update Compliance Settings
+
+`BetaComplianceSettings beta().organization().complianceSettings().update(params, requestOptions = RequestOptions.none())`
+
+**POST** `/v1/organizations/compliance_settings`
+
+Update your organization's Compliance Settings.
+
+Setting `state` to `enabled` turns on the Compliance API and begins
+capturing organization activity events. Setting it to `disabled` turns
+both off. `state` reflects whether the Compliance API is enabled.
+
+A request that sets `state` to its current value succeeds and leaves the
+resource unchanged. A `disabled` request stays in effect until a later
+`enabled` request or the organization's next provisioning action that
+enables Access Transparency: enabling Access Transparency also enables
+the Compliance API, which serves its activity events, so such
+provisioning (including re-runs) re-enables the Compliance API even
+after a `disabled` request. Automated provisioning never disables
+compliance settings.
+
+#### Parameters
+
+- `ComplianceSettingUpdateParams params`
+
+  - `State state`
+
+    Desired state. Accepts the string shorthand "enabled" or "disabled" in place of the object form; the response always returns the canonical object form.
+
+    - `class BetaComplianceSettingsStateEnabledParam:`
+
+      - `JsonValue type = "enabled"`
+
+    - `class BetaComplianceSettingsStateDisabledParam:`
+
+      - `JsonValue type = "disabled"`
+
+#### Returns
+
+- `class BetaComplianceSettings:`
+
+  - `State state`
+
+    Whether the Compliance API is enabled for this organization.
+
+    - `class BetaComplianceSettingsStateEnabled:`
+
+      - `JsonValue type = "enabled"`
+
+    - `class BetaComplianceSettingsStateDisabled:`
+
+      - `JsonValue type = "disabled"`
+
+  - `JsonValue type = "compliance_settings"`
+
+#### Example
+
+```java
+package com.anthropic.example;
+
+import com.anthropic.client.AnthropicClient;
+import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.models.beta.organization.compliancesettings.BetaComplianceSettings;
+import com.anthropic.models.beta.organization.compliancesettings.BetaComplianceSettingsStateEnabledParam;
+import com.anthropic.models.beta.organization.compliancesettings.ComplianceSettingUpdateParams;
+
+public final class Main {
+    private Main() {}
+
+    public static void main(String[] args) {
+        AnthropicClient client = AnthropicOkHttpClient.fromEnv();
+
+        ComplianceSettingUpdateParams params = ComplianceSettingUpdateParams.builder()
+            .state(BetaComplianceSettingsStateEnabledParam.builder().build())
+            .build();
+        BetaComplianceSettings betaComplianceSettings = client.beta().organization().complianceSettings().update(params);
+    }
+}
+```
+
+##### Response (200)
+
+```json
+{
+  "state": {
+    "type": "enabled"
+  },
+  "type": "compliance_settings"
 }
 ```

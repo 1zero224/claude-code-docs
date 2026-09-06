@@ -190,19 +190,19 @@ When either limit is hit, the SDK returns a `ResultMessage` with a corresponding
 
 The budget cap covers [subagents](/docs/en/agent-sdk/subagents): their spend counts toward the total. Once spend reaches the cap, spawning another subagent fails with `Budget limit reached`, and Claude Code stops any background subagents still running. The cap-enforcement behaviors require Claude Code v2.1.217 or later.
 
-With [streaming input](/docs/en/agent-sdk/streaming-vs-single-mode), a message you send while a turn is still running stays queued when that turn ends at the max-turns limit, and it starts its own turn with its own max-turns limit.
+With [streaming input](/docs/en/agent-sdk/streaming-vs-single-mode), a message that is still queued when a turn ends at the max-turns limit stays queued. Claude Code doesn't add it to that turn's last model call. It starts a new turn for the message, and the max-turns count starts over for that turn.
 
 ### Effort level
 
 The `effort` option controls how much reasoning Claude applies. Lower effort levels use fewer tokens per turn and reduce cost. Not all models support the effort parameter. See [Effort](https://platform.claude.com/docs/en/build-with-claude/effort) for which models support it.
 
-| Level      | Behavior                          | Good for                                                                  |
-| :--------- | :-------------------------------- | :------------------------------------------------------------------------ |
-| `"low"`    | Minimal reasoning, fast responses | File lookups, listing directories                                         |
-| `"medium"` | Balanced reasoning                | Routine edits, standard tasks                                             |
-| `"high"`   | Thorough analysis                 | Refactors, debugging                                                      |
-| `"xhigh"`  | Extended reasoning depth          | Coding and agentic tasks; recommended on Fable 5, Opus 4.7+, and Sonnet 5 |
-| `"max"`    | Maximum reasoning depth           | Multi-step problems requiring deep analysis                               |
+| Level      | Behavior                          | Good for                                                                                       |
+| :--------- | :-------------------------------- | :--------------------------------------------------------------------------------------------- |
+| `"low"`    | Minimal reasoning, fast responses | File lookups, listing directories                                                              |
+| `"medium"` | Balanced reasoning                | Routine edits, standard tasks                                                                  |
+| `"high"`   | Thorough analysis                 | Refactors, debugging                                                                           |
+| `"xhigh"`  | Extended reasoning depth          | Coding and agentic tasks on the [models that support it](/docs/en/model-config#adjust-effort-level) |
+| `"max"`    | Maximum reasoning depth           | Multi-step problems requiring deep analysis                                                    |
 
 If you don't set `effort`, both SDKs leave the parameter unset and defer to the model's default behavior.
 

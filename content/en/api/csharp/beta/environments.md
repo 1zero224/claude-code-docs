@@ -29,7 +29,7 @@ Create a new environment with the specified configuration.
       Fields default to null; on update, omitted fields preserve the
       existing value.
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "cloud"`
 
         Environment type
 
@@ -41,7 +41,7 @@ Create a new environment with the specified configuration.
 
           Unrestricted network access.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "unrestricted"`
 
             Network policy type
 
@@ -52,7 +52,7 @@ Create a new environment with the specified configuration.
           Fields default to null; on update, omitted fields preserve the
           existing value.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "limited"`
 
             Network policy type
 
@@ -108,7 +108,7 @@ Create a new environment with the specified configuration.
 
       Request params for `self_hosted` environment configuration.
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "self_hosted"`
 
         Environment type
 
@@ -126,95 +126,101 @@ Create a new environment with the specified configuration.
 
     Body param: The visibility scope for this environment. 'organization' makes the environment visible to all accounts. 'account' restricts visibility to the owning account only. Only applicable for self-hosted environments. If not specified, defaults based on organization type.
 
-    - `Organization`
+    - `Organization("organization")`
 
-    - `Account`
+    - `Account("account")`
 
   - `IReadOnlyList<AnthropicBeta> betas`
 
     Header param: Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ### Returns
 
@@ -246,7 +252,7 @@ Create a new environment with the specified configuration.
 
           Unrestricted network access.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "unrestricted"`
 
             Network policy type
 
@@ -266,7 +272,7 @@ Create a new environment with the specified configuration.
 
             Specifies domains the container can reach.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "limited"`
 
             Network policy type
 
@@ -302,7 +308,7 @@ Create a new environment with the specified configuration.
 
           Package configuration type
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "cloud"`
 
         Environment type
 
@@ -310,7 +316,7 @@ Create a new environment with the specified configuration.
 
       Configuration for self-hosted environments.
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "self_hosted"`
 
         Environment type
 
@@ -330,7 +336,7 @@ Create a new environment with the specified configuration.
 
     Human-readable name for the environment
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "environment"`
 
     The type of object (always 'environment')
 
@@ -342,9 +348,9 @@ Create a new environment with the specified configuration.
 
     The visibility scope for this environment. 'organization' means visible to all accounts. 'account' means visible only to the owning account.
 
-    - `Organization`
+    - `Organization("organization")`
 
-    - `Account`
+    - `Account("account")`
 
 ### Example
 
@@ -407,7 +413,7 @@ Console.WriteLine(betaEnvironment);
 
 ## List Environments
 
-`EnvironmentListPageResponse Beta.Environments.List(parameters, cancellationToken = default)`
+`EnvironmentListPage Beta.Environments.List(parameters, cancellationToken = default)`
 
 **GET** `/v1/environments`
 
@@ -435,228 +441,223 @@ List environments with pagination support.
 
     Header param: Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ### Returns
 
-- `class EnvironmentListPageResponse:`
+- `class BetaEnvironment:`
 
-  Response when listing environments.
+  Unified Environment resource for both cloud and self-hosted environments.
 
-  This response model uses opaque cursor-based pagination. Use the `page`
-  query parameter with the value from `next_page` to fetch the next page.
+  - `required string ID`
 
-  - `required IReadOnlyList<BetaEnvironment> Data`
+    Environment identifier (e.g., 'env_...')
 
-    List of environments.
+  - `required string? ArchivedAt`
 
-    - `required string ID`
+    RFC 3339 timestamp when environment was archived, or null if not archived
 
-      Environment identifier (e.g., 'env_...')
+  - `required Config Config`
 
-    - `required string? ArchivedAt`
+    Environment configuration (either Anthropic Cloud or self-hosted)
 
-      RFC 3339 timestamp when environment was archived, or null if not archived
+    - `class BetaCloudConfig:`
 
-    - `required Config Config`
+      `cloud` environment configuration.
 
-      Environment configuration (either Anthropic Cloud or self-hosted)
+      - `required Networking Networking`
 
-      - `class BetaCloudConfig:`
+        Network configuration policy.
 
-        `cloud` environment configuration.
+        - `class BetaUnrestrictedNetwork:`
 
-        - `required Networking Networking`
+          Unrestricted network access.
 
-          Network configuration policy.
+          - `JsonElement Type = "unrestricted"`
 
-          - `class BetaUnrestrictedNetwork:`
+            Network policy type
 
-            Unrestricted network access.
+        - `class BetaLimitedNetwork:`
 
-            - `JsonElement Type constant`
+          Limited network access.
 
-              Network policy type
+          - `required bool AllowMcpServers`
 
-          - `class BetaLimitedNetwork:`
+            Permits outbound access to MCP server endpoints configured on the agent, beyond those listed in the `allowed_hosts` array.
 
-            Limited network access.
+          - `required bool AllowPackageManagers`
 
-            - `required bool AllowMcpServers`
+            Permits outbound access to public package registries (PyPI, npm, etc.) beyond those listed in the `allowed_hosts` array.
 
-              Permits outbound access to MCP server endpoints configured on the agent, beyond those listed in the `allowed_hosts` array.
+          - `required IReadOnlyList<string> AllowedHosts`
 
-            - `required bool AllowPackageManagers`
+            Specifies domains the container can reach.
 
-              Permits outbound access to public package registries (PyPI, npm, etc.) beyond those listed in the `allowed_hosts` array.
+          - `JsonElement Type = "limited"`
 
-            - `required IReadOnlyList<string> AllowedHosts`
+            Network policy type
 
-              Specifies domains the container can reach.
+      - `required BetaPackages Packages`
 
-            - `JsonElement Type constant`
+        Package manager configuration.
 
-              Network policy type
+        - `required IReadOnlyList<string> Apt`
 
-        - `required BetaPackages Packages`
+          Ubuntu/Debian packages to install
 
-          Package manager configuration.
+        - `required IReadOnlyList<string> Cargo`
 
-          - `required IReadOnlyList<string> Apt`
+          Rust packages to install
 
-            Ubuntu/Debian packages to install
+        - `required IReadOnlyList<string> Gem`
 
-          - `required IReadOnlyList<string> Cargo`
+          Ruby packages to install
 
-            Rust packages to install
+        - `required IReadOnlyList<string> Go`
 
-          - `required IReadOnlyList<string> Gem`
+          Go packages to install
 
-            Ruby packages to install
+        - `required IReadOnlyList<string> Npm`
 
-          - `required IReadOnlyList<string> Go`
+          Node.js packages to install
 
-            Go packages to install
+        - `required IReadOnlyList<string> Pip`
 
-          - `required IReadOnlyList<string> Npm`
+          Python packages to install
 
-            Node.js packages to install
+        - `Type Type`
 
-          - `required IReadOnlyList<string> Pip`
+          Package configuration type
 
-            Python packages to install
+      - `JsonElement Type = "cloud"`
 
-          - `Type Type`
+        Environment type
 
-            Package configuration type
+    - `class BetaSelfHostedConfig:`
 
-        - `JsonElement Type constant`
+      Configuration for self-hosted environments.
 
-          Environment type
+      - `JsonElement Type = "self_hosted"`
 
-      - `class BetaSelfHostedConfig:`
+        Environment type
 
-        Configuration for self-hosted environments.
+  - `required string CreatedAt`
 
-        - `JsonElement Type constant`
+    RFC 3339 timestamp when environment was created
 
-          Environment type
+  - `required string? Description`
 
-    - `required string CreatedAt`
+    User-provided description for the environment; null when unset
 
-      RFC 3339 timestamp when environment was created
+  - `required IReadOnlyDictionary<string, string> Metadata`
 
-    - `required string? Description`
+    User-provided metadata key-value pairs
 
-      User-provided description for the environment; null when unset
+  - `required string Name`
 
-    - `required IReadOnlyDictionary<string, string> Metadata`
+    Human-readable name for the environment
 
-      User-provided metadata key-value pairs
+  - `JsonElement Type = "environment"`
 
-    - `required string Name`
+    The type of object (always 'environment')
 
-      Human-readable name for the environment
+  - `required string UpdatedAt`
 
-    - `JsonElement Type constant`
+    RFC 3339 timestamp when environment was last updated
 
-      The type of object (always 'environment')
+  - `Scope Scope`
 
-    - `required string UpdatedAt`
+    The visibility scope for this environment. 'organization' means visible to all accounts. 'account' means visible only to the owning account.
 
-      RFC 3339 timestamp when environment was last updated
+    - `Organization("organization")`
 
-    - `Scope Scope`
-
-      The visibility scope for this environment. 'organization' means visible to all accounts. 'account' means visible only to the owning account.
-
-      - `Organization`
-
-      - `Account`
-
-  - `required string? NextPage`
-
-    Token for fetching the next page of results. If `null`, there are no more results available. Pass this value to the `page` parameter in the next request.
+    - `Account("account")`
 
 ### Example
 
@@ -742,87 +743,93 @@ Retrieve a specific environment by ID.
 
     Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ### Returns
 
@@ -854,7 +861,7 @@ Retrieve a specific environment by ID.
 
           Unrestricted network access.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "unrestricted"`
 
             Network policy type
 
@@ -874,7 +881,7 @@ Retrieve a specific environment by ID.
 
             Specifies domains the container can reach.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "limited"`
 
             Network policy type
 
@@ -910,7 +917,7 @@ Retrieve a specific environment by ID.
 
           Package configuration type
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "cloud"`
 
         Environment type
 
@@ -918,7 +925,7 @@ Retrieve a specific environment by ID.
 
       Configuration for self-hosted environments.
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "self_hosted"`
 
         Environment type
 
@@ -938,7 +945,7 @@ Retrieve a specific environment by ID.
 
     Human-readable name for the environment
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "environment"`
 
     The type of object (always 'environment')
 
@@ -950,9 +957,9 @@ Retrieve a specific environment by ID.
 
     The visibility scope for this environment. 'organization' means visible to all accounts. 'account' means visible only to the owning account.
 
-    - `Organization`
+    - `Organization("organization")`
 
-    - `Account`
+    - `Account("account")`
 
 ### Example
 
@@ -1043,7 +1050,7 @@ Update an existing environment's configuration.
       Fields default to null; on update, omitted fields preserve the
       existing value.
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "cloud"`
 
         Environment type
 
@@ -1055,7 +1062,7 @@ Update an existing environment's configuration.
 
           Unrestricted network access.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "unrestricted"`
 
             Network policy type
 
@@ -1066,7 +1073,7 @@ Update an existing environment's configuration.
           Fields default to null; on update, omitted fields preserve the
           existing value.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "limited"`
 
             Network policy type
 
@@ -1122,7 +1129,7 @@ Update an existing environment's configuration.
 
       Request params for `self_hosted` environment configuration.
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "self_hosted"`
 
         Environment type
 
@@ -1146,95 +1153,101 @@ Update an existing environment's configuration.
 
     Body param: The visibility scope for this environment. 'organization' makes the environment visible to all accounts. 'account' restricts visibility to the owning account only.
 
-    - `Organization`
+    - `Organization("organization")`
 
-    - `Account`
+    - `Account("account")`
 
   - `IReadOnlyList<AnthropicBeta> betas`
 
     Header param: Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ### Returns
 
@@ -1266,7 +1279,7 @@ Update an existing environment's configuration.
 
           Unrestricted network access.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "unrestricted"`
 
             Network policy type
 
@@ -1286,7 +1299,7 @@ Update an existing environment's configuration.
 
             Specifies domains the container can reach.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "limited"`
 
             Network policy type
 
@@ -1322,7 +1335,7 @@ Update an existing environment's configuration.
 
           Package configuration type
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "cloud"`
 
         Environment type
 
@@ -1330,7 +1343,7 @@ Update an existing environment's configuration.
 
       Configuration for self-hosted environments.
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "self_hosted"`
 
         Environment type
 
@@ -1350,7 +1363,7 @@ Update an existing environment's configuration.
 
     Human-readable name for the environment
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "environment"`
 
     The type of object (always 'environment')
 
@@ -1362,9 +1375,9 @@ Update an existing environment's configuration.
 
     The visibility scope for this environment. 'organization' means visible to all accounts. 'account' means visible only to the owning account.
 
-    - `Organization`
+    - `Organization("organization")`
 
-    - `Account`
+    - `Account("account")`
 
 ### Example
 
@@ -1446,87 +1459,93 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
     Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ### Returns
 
@@ -1582,87 +1601,93 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
     Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ### Returns
 
@@ -1694,7 +1719,7 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
           Unrestricted network access.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "unrestricted"`
 
             Network policy type
 
@@ -1714,7 +1739,7 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
             Specifies domains the container can reach.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "limited"`
 
             Network policy type
 
@@ -1750,7 +1775,7 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
           Package configuration type
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "cloud"`
 
         Environment type
 
@@ -1758,7 +1783,7 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
       Configuration for self-hosted environments.
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "self_hosted"`
 
         Environment type
 
@@ -1778,7 +1803,7 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
     Human-readable name for the environment
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "environment"`
 
     The type of object (always 'environment')
 
@@ -1790,9 +1815,9 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
     The visibility scope for this environment. 'organization' means visible to all accounts. 'account' means visible only to the owning account.
 
-    - `Organization`
+    - `Organization("organization")`
 
-    - `Account`
+    - `Account("account")`
 
 ### Example
 
@@ -1872,7 +1897,7 @@ Console.WriteLine(betaEnvironment);
 
       Unrestricted network access.
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "unrestricted"`
 
         Network policy type
 
@@ -1892,7 +1917,7 @@ Console.WriteLine(betaEnvironment);
 
         Specifies domains the container can reach.
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "limited"`
 
         Network policy type
 
@@ -1928,7 +1953,7 @@ Console.WriteLine(betaEnvironment);
 
       Package configuration type
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "cloud"`
 
     Environment type
 
@@ -1941,7 +1966,7 @@ Console.WriteLine(betaEnvironment);
   Fields default to null; on update, omitted fields preserve the
   existing value.
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "cloud"`
 
     Environment type
 
@@ -1953,7 +1978,7 @@ Console.WriteLine(betaEnvironment);
 
       Unrestricted network access.
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "unrestricted"`
 
         Network policy type
 
@@ -1964,7 +1989,7 @@ Console.WriteLine(betaEnvironment);
       Fields default to null; on update, omitted fields preserve the
       existing value.
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "limited"`
 
         Network policy type
 
@@ -2046,7 +2071,7 @@ Console.WriteLine(betaEnvironment);
 
           Unrestricted network access.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "unrestricted"`
 
             Network policy type
 
@@ -2066,7 +2091,7 @@ Console.WriteLine(betaEnvironment);
 
             Specifies domains the container can reach.
 
-          - `JsonElement Type constant`
+          - `JsonElement Type = "limited"`
 
             Network policy type
 
@@ -2102,7 +2127,7 @@ Console.WriteLine(betaEnvironment);
 
           Package configuration type
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "cloud"`
 
         Environment type
 
@@ -2110,7 +2135,7 @@ Console.WriteLine(betaEnvironment);
 
       Configuration for self-hosted environments.
 
-      - `JsonElement Type constant`
+      - `JsonElement Type = "self_hosted"`
 
         Environment type
 
@@ -2130,7 +2155,7 @@ Console.WriteLine(betaEnvironment);
 
     Human-readable name for the environment
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "environment"`
 
     The type of object (always 'environment')
 
@@ -2142,9 +2167,9 @@ Console.WriteLine(betaEnvironment);
 
     The visibility scope for this environment. 'organization' means visible to all accounts. 'account' means visible only to the owning account.
 
-    - `Organization`
+    - `Organization("organization")`
 
-    - `Account`
+    - `Account("account")`
 
 ### Beta Environment Delete Response
 
@@ -2178,7 +2203,7 @@ Console.WriteLine(betaEnvironment);
 
     Specifies domains the container can reach.
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "limited"`
 
     Network policy type
 
@@ -2191,7 +2216,7 @@ Console.WriteLine(betaEnvironment);
   Fields default to null; on update, omitted fields preserve the
   existing value.
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "limited"`
 
     Network policy type
 
@@ -2285,7 +2310,7 @@ Console.WriteLine(betaEnvironment);
 
   Configuration for self-hosted environments.
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "self_hosted"`
 
     Environment type
 
@@ -2295,7 +2320,7 @@ Console.WriteLine(betaEnvironment);
 
   Request params for `self_hosted` environment configuration.
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "self_hosted"`
 
     Environment type
 
@@ -2305,7 +2330,7 @@ Console.WriteLine(betaEnvironment);
 
   Unrestricted network access.
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "unrestricted"`
 
     Network policy type
 
@@ -2337,87 +2362,93 @@ Retrieve detailed information about a specific work item.
 
     Header param: Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -2449,7 +2480,7 @@ Retrieve detailed information about a specific work item.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonElement Type constant`
+    - `JsonElement Type = "session"`
 
       Type of work data
 
@@ -2477,15 +2508,15 @@ Retrieve detailed information about a specific work item.
 
     Current state of the work item
 
-    - `Queued`
+    - `Queued("queued")`
 
-    - `Starting`
+    - `Starting("starting")`
 
-    - `Active`
+    - `Active("active")`
 
-    - `Stopping`
+    - `Stopping("stopping")`
 
-    - `Stopped`
+    - `Stopped("stopped")`
 
   - `required string? StopRequestedAt`
 
@@ -2495,7 +2526,7 @@ Retrieve detailed information about a specific work item.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "work"`
 
     The type of object (always 'work')
 
@@ -2572,87 +2603,93 @@ Long poll for work items in the queue.
 
     Header param: Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
   - `string anthropicWorkerID`
 
@@ -2688,7 +2725,7 @@ Long poll for work items in the queue.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonElement Type constant`
+    - `JsonElement Type = "session"`
 
       Type of work data
 
@@ -2716,15 +2753,15 @@ Long poll for work items in the queue.
 
     Current state of the work item
 
-    - `Queued`
+    - `Queued("queued")`
 
-    - `Starting`
+    - `Starting("starting")`
 
-    - `Active`
+    - `Active("active")`
 
-    - `Stopping`
+    - `Stopping("stopping")`
 
-    - `Stopped`
+    - `Stopped("stopped")`
 
   - `required string? StopRequestedAt`
 
@@ -2734,7 +2771,7 @@ Long poll for work items in the queue.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "work"`
 
     The type of object (always 'work')
 
@@ -2802,87 +2839,93 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     Header param: Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -2914,7 +2957,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonElement Type constant`
+    - `JsonElement Type = "session"`
 
       Type of work data
 
@@ -2942,15 +2985,15 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     Current state of the work item
 
-    - `Queued`
+    - `Queued("queued")`
 
-    - `Starting`
+    - `Starting("starting")`
 
-    - `Active`
+    - `Active("active")`
 
-    - `Stopping`
+    - `Stopping("stopping")`
 
-    - `Stopped`
+    - `Stopped("stopped")`
 
   - `required string? StopRequestedAt`
 
@@ -2960,7 +3003,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "work"`
 
     The type of object (always 'work')
 
@@ -3037,87 +3080,93 @@ Record a heartbeat for a work item to maintain the lease.
 
     Header param: Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -3137,21 +3186,21 @@ Record a heartbeat for a work item to maintain the lease.
 
     Current state of the work item (active/stopping/stopped)
 
-    - `Queued`
+    - `Queued("queued")`
 
-    - `Starting`
+    - `Starting("starting")`
 
-    - `Active`
+    - `Active("active")`
 
-    - `Stopping`
+    - `Stopping("stopping")`
 
-    - `Stopped`
+    - `Stopped("stopped")`
 
   - `required long TtlSeconds`
 
     Effective TTL applied to the lease
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "work_heartbeat"`
 
     The type of response
 
@@ -3211,87 +3260,93 @@ Stop a work item, initiating graceful or forced shutdown.
 
     Header param: Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -3323,7 +3378,7 @@ Stop a work item, initiating graceful or forced shutdown.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonElement Type constant`
+    - `JsonElement Type = "session"`
 
       Type of work data
 
@@ -3351,15 +3406,15 @@ Stop a work item, initiating graceful or forced shutdown.
 
     Current state of the work item
 
-    - `Queued`
+    - `Queued("queued")`
 
-    - `Starting`
+    - `Starting("starting")`
 
-    - `Active`
+    - `Active("active")`
 
-    - `Stopping`
+    - `Stopping("stopping")`
 
-    - `Stopped`
+    - `Stopped("stopped")`
 
   - `required string? StopRequestedAt`
 
@@ -3369,7 +3424,7 @@ Stop a work item, initiating graceful or forced shutdown.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "work"`
 
     The type of object (always 'work')
 
@@ -3414,7 +3469,7 @@ Console.WriteLine(betaSelfHostedWork);
 
 ### List Work Items
 
-`BetaSelfHostedWorkListResponse Beta.Environments.Work.List(parameters, cancellationToken = default)`
+`WorkListPage Beta.Environments.Work.List(parameters, cancellationToken = default)`
 
 **GET** `/v1/environments/{environment_id}/work`
 
@@ -3444,171 +3499,173 @@ List work items in an environment.
 
     Header param: Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
-- `class BetaSelfHostedWorkListResponse:`
+- `class BetaSelfHostedWork:`
 
-  Response when listing work items with cursor-based pagination.
+  Work resource representing a unit of work in a self-hosted environment.
 
-  - `required IReadOnlyList<BetaSelfHostedWork> Data`
+  Work items are queued when sessions are created or when long-dormant sessions
+  receive new messages. The environment worker polls for work to execute in a
+  self-hosted sandbox.
 
-    List of work items
+  - `required string ID`
+
+    Work identifier (e.g., 'work_...')
+
+  - `required string? AcknowledgedAt`
+
+    RFC 3339 timestamp when the work item was acknowledged and assigned to a self-hosted sandbox
+
+  - `required string CreatedAt`
+
+    RFC 3339 timestamp when work was created
+
+  - `required BetaSessionWorkData Data`
+
+    The actual work to be performed
 
     - `required string ID`
 
-      Work identifier (e.g., 'work_...')
+      Session identifier (e.g., 'session_...')
 
-    - `required string? AcknowledgedAt`
+    - `JsonElement Type = "session"`
 
-      RFC 3339 timestamp when the work item was acknowledged and assigned to a self-hosted sandbox
+      Type of work data
 
-    - `required string CreatedAt`
+  - `required string EnvironmentID`
 
-      RFC 3339 timestamp when work was created
+    Environment identifier this work belongs to (e.g., `env_...`)
 
-    - `required BetaSessionWorkData Data`
+  - `required string? LatestHeartbeatAt`
 
-      The actual work to be performed
+    RFC 3339 timestamp of the most recent heartbeat
 
-      - `required string ID`
+  - `required IReadOnlyDictionary<string, string> Metadata`
 
-        Session identifier (e.g., 'session_...')
+    User-provided metadata key-value pairs associated with this work item
 
-      - `JsonElement Type constant`
+  - `required string? Secret`
 
-        Type of work data
+    Credential payload used by the environment worker to execute this work item. May be populated when polling for work; null on all other retrieval paths.
 
-    - `required string EnvironmentID`
+  - `required string? StartedAt`
 
-      Environment identifier this work belongs to (e.g., `env_...`)
+    RFC 3339 timestamp when work execution started
 
-    - `required string? LatestHeartbeatAt`
+  - `required State State`
 
-      RFC 3339 timestamp of the most recent heartbeat
+    Current state of the work item
 
-    - `required IReadOnlyDictionary<string, string> Metadata`
+    - `Queued("queued")`
 
-      User-provided metadata key-value pairs associated with this work item
+    - `Starting("starting")`
 
-    - `required string? Secret`
+    - `Active("active")`
 
-      Credential payload used by the environment worker to execute this work item. May be populated when polling for work; null on all other retrieval paths.
+    - `Stopping("stopping")`
 
-    - `required string? StartedAt`
+    - `Stopped("stopped")`
 
-      RFC 3339 timestamp when work execution started
+  - `required string? StopRequestedAt`
 
-    - `required State State`
+    RFC 3339 timestamp when stop was requested
 
-      Current state of the work item
+  - `required string? StoppedAt`
 
-      - `Queued`
+    RFC 3339 timestamp when work execution stopped
 
-      - `Starting`
+  - `JsonElement Type = "work"`
 
-      - `Active`
-
-      - `Stopping`
-
-      - `Stopped`
-
-    - `required string? StopRequestedAt`
-
-      RFC 3339 timestamp when stop was requested
-
-    - `required string? StoppedAt`
-
-      RFC 3339 timestamp when work execution stopped
-
-    - `JsonElement Type constant`
-
-      The type of object (always 'work')
-
-  - `required string? NextPage`
-
-    Opaque cursor for fetching the next page of results
+    The type of object (always 'work')
 
 #### Example
 
@@ -3685,87 +3742,93 @@ Update work item metadata with merge semantics.
 
     Header param: Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -3797,7 +3860,7 @@ Update work item metadata with merge semantics.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonElement Type constant`
+    - `JsonElement Type = "session"`
 
       Type of work data
 
@@ -3825,15 +3888,15 @@ Update work item metadata with merge semantics.
 
     Current state of the work item
 
-    - `Queued`
+    - `Queued("queued")`
 
-    - `Starting`
+    - `Starting("starting")`
 
-    - `Active`
+    - `Active("active")`
 
-    - `Stopping`
+    - `Stopping("stopping")`
 
-    - `Stopped`
+    - `Stopped("stopped")`
 
   - `required string? StopRequestedAt`
 
@@ -3843,7 +3906,7 @@ Update work item metadata with merge semantics.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "work"`
 
     The type of object (always 'work')
 
@@ -3905,87 +3968,93 @@ Get statistics about the work queue for an environment.
 
     Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 #### Returns
 
@@ -4007,7 +4076,7 @@ Get statistics about the work queue for an environment.
 
     Number of work items being processed (polled but not acknowledged)
 
-  - `JsonElement Type constant`
+  - `JsonElement Type = "work_queue_stats"`
 
     The type of object
 

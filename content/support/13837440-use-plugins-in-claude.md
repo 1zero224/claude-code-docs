@@ -38,9 +38,9 @@ For the full collection of Anthropic-built plugins, visit **[GitHub](https://git
 
 In Cowork, open the "Cowork" tab first, then open **Customize**.
 
-You can also upload a custom plugin file if you built one yourself or received one from a colleague. On Claude Desktop and in Cowork, plugins you add yourself are saved locally to your computer.
+You can also upload a custom plugin file if you built one yourself. On Team and Enterprise plans, a colleague can share a plugin with you directly instead of sending you the file. See **[Use a plugin shared with you](#h_ef985546b4)** below. On Claude Desktop and in Cowork, plugins you add yourself are saved locally to your computer.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2100409211/fc01614dde1a616fa31ffaa9cb04/47bacf5b-a810-45b5-a468-9769f1a58ef8?expires=1787829300&amp;signature=9f38147f9bebc433b4519e9bc802df68c0fcaf9ed764b979e4aa8b755c13e200&amp;req=diEnFs1%2BlINeWPMW1HO4zZF3IhLVMfxWxakFVfq5WwwUC7KGyBCOLNWndh3P%0A%2BIjUZmuMHtlpgotsbKo%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2100409211/fc01614dde1a616fa31ffaa9cb04/47bacf5b-a810-45b5-a468-9769f1a58ef8?expires=1788701400&amp;signature=6001e75cfb5ede1a9549f0ae6f438009904c6f02d1cde5508582a3ff4989e328&amp;req=diEnFs1%2BlINeWPMW1HO4zZF3Ih3aM%2FRRxakFVfq5Wwxwm8Jh7ZSSigzoPEji%0APXLhk%2FR%2FB112qCii7zI%3D%0A)
 
 If you're on the Enterprise plan and your organization has skill scanning turned on, plugins are checked for malicious content when they're installed or updated. A plugin with malicious content is blocked, and one that may carry risk shows a caution banner. Learn more about **[skill and plugin scanning](https://support.claude.com/en/articles/15927065)**.
 
@@ -50,7 +50,7 @@ If you're on the Enterprise plan and your organization has skill scanning turned
 
 Each plugin you install adds skills you can use while working with Claude. Type "/" or click the "+" button to see the available skills from your installed plugins, in chat and in Cowork. Click any skill to see its details.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2157396844/4a790e10f5b88df770783df1d7e9/image.png?expires=1787829300&amp;signature=7cead477d4736e6a47ccd0a84824086ab95598aaff8a528f016d135361758964&amp;req=diEiEcp3m4lbXfMW1HO4zf4NBPH0gUmXmKUxugP2BQv7Zo2AOuB5DaoLjf4H%0ABZyoPsw%2BsdfABhEvrf8%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2157396844/4a790e10f5b88df770783df1d7e9/image.png?expires=1788701400&amp;signature=9e1ef6d21a356dbab2e9d7fd7c068c945688d6837b07bc270d45fd54c25d2b36&amp;req=diEiEcp3m4lbXfMW1HO4zf4NBP77g0GQmKUxugP2BQs8skdLqk3eSIeXRwun%0AGg0%2FJ6b%2Bzk%2FsBgQ5jZ0%3D%0A)
 
 ---
 
@@ -69,6 +69,66 @@ In Cowork, you can tailor an installed plugin to better fit your workflow:
 ## Build your own plugin
 
 Want to create something from scratch? The "Plugin Create" plugin walks you through the process, and you can start from any Anthropic-built template and modify it. For details on plugin structure and formatting, see the **[Plugins reference](https://code.claude.com/docs/en/plugins-reference)** in our Claude Code docs.
+
+---
+
+## Turn on plugin sharing for your organization
+
+Owners and Primary Owners of Team and Enterprise organizations can turn on skill and plugin sharing for members of the organization. Plugin sharing uses the same settings and toggles as skill sharing.
+
+To enable plugin sharing:
+
+1. Navigate to **[Organization settings > Skills](https://claude.ai/admin-settings/skills).**
+
+2. Click the "Policy" tab.
+
+3. To enable sharing between specific people, toggle on **Skill sharing**.
+
+4. To enable sharing with groups, toggle on **Share with groups**. If you have custom roles, you also need to enable the **Share skills with groups** capability in the custom role.
+
+---
+
+## Share a plugin
+
+After an Owner or Primary Owner turns on plugin sharing, you can share a plugin you uploaded or created in Customize with specific colleagues (Team and Enterprise plans) or with a group (Enterprise plans). The people you share with get your current version, and you can stop sharing at any time. Plugins you installed from a marketplace, and plugins saved locally in Claude Desktop or Cowork, can't be shared.
+
+**Note:** If you don't see the option to share, check with your organization owner.
+
+To share a plugin:
+
+1. Navigate to **[Customize > Plugins](https://claude.ai/new#settings/customize-plugins)**.
+
+2. Find the plugin you created.
+
+3. Click the three-dot menu "..." next to it, then select "Share."
+
+4. Choose who to share with:
+
+  1. **Specific people:** Enter names or emails to share directly. Sharing creates a link that opens the item for anyone it's shared with. The plugin appears in the **Shared with you** section of each recipient's Plugins tab, grayed out until they enable it, and shows your name as the owner.
+
+  2. **A group (Enterprise plans only):** Share with a group your organization has already set up. The plugin appears in every group member's Plugins tab under **Shared with you**, grayed out until they enable it. Requires the **Share with groups** toggle.
+
+5. Click "Share."
+
+The plugin appears in each recipient's **Shared with you** section, labeled with your name, and stays off until they turn it on. Shared plugins are view-only. Recipients can enable and use the plugin, but they can't edit the contents. If you update the plugin later, recipients automatically get the updated version at next use. You can remove someone's access at any time, and access is removed automatically if they leave the organization.
+
+To copy a link to a shared plugin, click "Copy link" in the Share dialog. The link opens the plugin for people you've already shared it with; anyone else sees a message that it isn't available.
+
+## Stop sharing a plugin
+
+1. Click the "..." button next to the plugin, then select "Share."
+
+2. Click the "x" next to the person or group you want to remove.
+
+The plugin is removed from their list right away. Deleting a plugin removes it for everyone you shared it with, and anything shared with a member is removed automatically when they leave your organization.
+
+## Use a plugin shared with you
+
+When a colleague shares a plugin with you, it appears in the **Shared with you** section of the **Plugins** tab in **Customize**. It's off until you turn it on. Once it's on, its skills work the same way as any other installed plugin.
+
+You can't edit a plugin that's been shared with you. If you want to change how it works, ask the person who built it, or build your own version. If they stop sharing the plugin or delete it, it's removed from your list automatically.
+
+**Note:** Review a plugin shared with you before turning it on, the same as you would for any plugin from outside Anthropic. Learn more about **[skill and plugin scanning](https://support.claude.com/en/articles/15927065-get-started-with-skill-and-plugin-scanning)**.
 
 ---
 
@@ -98,7 +158,7 @@ To remove a marketplace, including the default Knowledge Work marketplace:
 
 ## Organization-managed plugins
 
-If you're on a Team or Enterprise plan, an owner can distribute plugins across your organization through plugin marketplaces. These work the same as any other plugin, with a couple of differences:
+If you're on a Team or Enterprise plan, an owner can distribute plugins across your organization through plugin marketplaces. These are different from plugins a colleague shares with you, which show up under **Shared with you**. Organization-managed plugins work the same as any other plugin, with a couple of differences:
 
 - You can't edit organization-managed plugins. This keeps shared tooling consistent across your team.
 

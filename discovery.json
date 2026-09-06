@@ -1,55 +1,485 @@
 {
   "version": 1,
-  "note": "What the last full run could see outside sources.json. Written by the fetcher so a new source arrives as a diff a human reviews, not as a line in an Actions log nobody reads. Stable facts only: a change here is always news. `review` is the actionable list \u2014 domains we could archive today and do not.",
-  "updated": "2026-08-27",
+  "note": "What the last full run could see outside sources.json. Written by the fetcher so a new source arrives as a diff a human reviews, not as a line in an Actions log nobody reads. Stable facts only: a change here is always news. `path_prefixes` records content formats by URL path, and `review` lists uncovered surfaces.",
+  "updated": "2026-09-06",
   "domains": {
     "anthropic.com": {
       "status": "frozen",
       "serves_llms_txt": false,
       "serves_sitemap": true,
-      "serves_markdown": false
+      "serves_markdown": false,
+      "path_prefixes": {
+        "/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/about-anthropic-interviewer/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/ai-for-science-program-rules/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/beneficial-deployments/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/candidate-ai-guidance/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/careers/": {
+          "url_count": 2,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/claude-corps/": {
+          "url_count": 3,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/claude-fable-and-mythos-5-1/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/claude/": {
+          "url_count": 5,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/company/": {
+          "url_count": 2,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/constitution/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/coordinated-vulnerability-disclosure/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/economic-futures/": {
+          "url_count": 3,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/economic-index/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/engineering/": {
+          "url_count": 26,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/events/": {
+          "url_count": 9,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/features/": {
+          "url_count": 4,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/glasswing/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/institute/": {
+          "url_count": 2,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/learn/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/legal/": {
+          "url_count": 22,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/news/": {
+          "url_count": 261,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/policy/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/policy-on-the-ai-exponential/": {
+          "url_count": 2,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/product/": {
+          "url_count": 4,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/project/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/research/": {
+          "url_count": 156,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/responsible-disclosure-policy/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/responsible-scaling-policy/": {
+          "url_count": 3,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/science/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/startup-program-official-terms/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/supported-countries/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/system-cards/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/transparency/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/vc-partner-program-official-terms/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        }
+      }
     },
     "platform.claude.com": {
       "status": "fetched",
       "serves_llms_txt": true,
       "serves_sitemap": true,
-      "serves_markdown": true
+      "serves_markdown": true,
+      "path_prefixes": {
+        "/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/docs/": {
+          "url_count": 3439,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/agent-quickstart/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/agents/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/batches/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/claude-code/": {
+          "url_count": 2,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/cost/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/deployments/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/environments/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/files/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/logs/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/memory-stores/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/playground/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/sessions/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/settings/": {
+          "url_count": 10,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/skills/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/usage/": {
+          "url_count": 3,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/vaults/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        }
+      }
     },
     "code.claude.com": {
       "status": "fetched",
       "serves_llms_txt": true,
       "serves_sitemap": true,
-      "serves_markdown": true
+      "serves_markdown": true,
+      "path_prefixes": {
+        "/docs/": {
+          "url_count": 2006,
+          "serves_markdown": true,
+          "serves_html": true
+        }
+      }
     },
     "support.claude.com": {
       "status": "fetched",
       "serves_llms_txt": true,
       "serves_sitemap": true,
-      "serves_markdown": true
+      "serves_markdown": true,
+      "path_prefixes": {
+        "/de/": {
+          "url_count": 372,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/en/": {
+          "url_count": 373,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/es/": {
+          "url_count": 372,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/fr/": {
+          "url_count": 372,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/id/": {
+          "url_count": 372,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/it/": {
+          "url_count": 372,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/ja/": {
+          "url_count": 372,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/ko/": {
+          "url_count": 371,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/pt/": {
+          "url_count": 372,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/ru/": {
+          "url_count": 372,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/zh-CN/": {
+          "url_count": 372,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/zh-TW/": {
+          "url_count": 372,
+          "serves_markdown": true,
+          "serves_html": true
+        }
+      }
     },
     "modelcontextprotocol.io": {
       "status": "fetched",
       "serves_llms_txt": true,
       "serves_sitemap": true,
-      "serves_markdown": true
+      "serves_markdown": true,
+      "path_prefixes": {
+        "/community/": {
+          "url_count": 29,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/development/": {
+          "url_count": 1,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/docs/": {
+          "url_count": 110,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/examples/": {
+          "url_count": 1,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/extensions/": {
+          "url_count": 8,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/registry/": {
+          "url_count": 11,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/seps/": {
+          "url_count": 42,
+          "serves_markdown": true,
+          "serves_html": true
+        },
+        "/specification/": {
+          "url_count": 142,
+          "serves_markdown": true,
+          "serves_html": true
+        }
+      }
     },
     "claude.ai": {
       "status": "not-fetched",
       "serves_llms_txt": false,
       "serves_sitemap": false,
-      "serves_markdown": false
+      "serves_markdown": false,
+      "path_prefixes": {}
     },
     "claude.com": {
       "status": "fetched",
       "serves_llms_txt": true,
       "serves_sitemap": true,
-      "serves_markdown": true
+      "serves_markdown": true,
+      "path_prefixes": {
+        "/docs/": {
+          "url_count": 223,
+          "serves_markdown": true,
+          "serves_html": true
+        }
+      }
     },
     "academy.claude.com": {
       "status": "not-fetched",
       "serves_llms_txt": false,
       "serves_sitemap": true,
-      "serves_markdown": false
+      "serves_markdown": false,
+      "path_prefixes": {
+        "/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/all/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/courses/": {
+          "url_count": 486,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/help/": {
+          "url_count": 2,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/tutorials/": {
+          "url_count": 120,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/use-cases/": {
+          "url_count": 149,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/products/": {
+          "url_count": 8,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/collections/": {
+          "url_count": 7,
+          "serves_markdown": false,
+          "serves_html": true
+        }
+      }
     }
   },
   "redirect_targets": [
@@ -76,15 +506,12 @@
       "anthropics/OpenROAD-flow-scripts",
       "anthropics/agent-sdk-workshop",
       "anthropics/amulet2",
-      "anthropics/anthropic-bedrock-python",
-      "anthropics/anthropic-bedrock-typescript",
       "anthropics/anthropic-cli",
       "anthropics/anthropic-sdk-csharp",
       "anthropics/anthropic-sdk-go",
       "anthropics/anthropic-sdk-java",
       "anthropics/anthropic-sdk-php",
       "anthropics/anthropic-sdk-ruby",
-      "anthropics/anthropic-tokenizer-typescript",
       "anthropics/apitools",
       "anthropics/argo-cd",
       "anthropics/beam",
@@ -105,13 +532,17 @@
       "anthropics/claude-for-legal",
       "anthropics/claude-plugins-community",
       "anthropics/claude-tag-plugins",
+      "anthropics/claude-tag-wif-gateway-sample",
       "anthropics/claudes-c-compiler",
       "anthropics/code-migration-kit-with-claude-code",
+      "anthropics/commerce-agents",
       "anthropics/cryptography-research-demo",
       "anthropics/defending-code-reference-harness",
       "anthropics/devcontainer-features",
       "anthropics/evals",
+      "anthropics/fermats-last-theorem",
       "anthropics/financial-services",
+      "anthropics/formal-math",
       "anthropics/github-mcp-server",
       "anthropics/headvis",
       "anthropics/healthcare",
@@ -141,6 +572,7 @@
       "anthropics/redis-py",
       "anthropics/riegeli-rs",
       "anthropics/s5cmd",
+      "anthropics/sandbox-runtime",
       "anthropics/scone-bench",
       "anthropics/sse-starlette",
       "anthropics/swift-markdown",
@@ -150,9 +582,57 @@
       "anthropics/tokio",
       "anthropics/torchtyping",
       "anthropics/triton",
-      "anthropics/xls",
-      "anthropics/zeta-23-lean"
+      "anthropics/xls"
     ]
   },
-  "review": []
+  "review": [
+    "academy.claude.com/: serves html, but that path is not fetched",
+    "academy.claude.com/all/: serves html, but that path is not fetched",
+    "academy.claude.com/collections/: serves html, but that path is not fetched",
+    "academy.claude.com/courses/: serves html, but that path is not fetched",
+    "academy.claude.com/help/: serves html, but that path is not fetched",
+    "academy.claude.com/products/: serves html, but that path is not fetched",
+    "academy.claude.com/tutorials/: serves html, but that path is not fetched",
+    "academy.claude.com/use-cases/: serves html, but that path is not fetched",
+    "claude.com/docs/: serves html, but that path is not fetched",
+    "code.claude.com/docs/: serves html, but that path is not fetched",
+    "modelcontextprotocol.io/community/: serves html, but that path is not fetched",
+    "modelcontextprotocol.io/development/: serves html, but that path is not fetched",
+    "modelcontextprotocol.io/docs/: serves html, but that path is not fetched",
+    "modelcontextprotocol.io/examples/: serves html, but that path is not fetched",
+    "modelcontextprotocol.io/extensions/: serves html, but that path is not fetched",
+    "modelcontextprotocol.io/registry/: serves html, but that path is not fetched",
+    "modelcontextprotocol.io/seps/: serves html, but that path is not fetched",
+    "modelcontextprotocol.io/specification/: serves html, but that path is not fetched",
+    "platform.claude.com/: serves html, but that path is not fetched",
+    "platform.claude.com/agent-quickstart/: serves html, but that path is not fetched",
+    "platform.claude.com/agents/: serves html, but that path is not fetched",
+    "platform.claude.com/batches/: serves html, but that path is not fetched",
+    "platform.claude.com/claude-code/: serves html, but that path is not fetched",
+    "platform.claude.com/cost/: serves html, but that path is not fetched",
+    "platform.claude.com/deployments/: serves html, but that path is not fetched",
+    "platform.claude.com/docs/: serves html, but that path is not fetched",
+    "platform.claude.com/environments/: serves html, but that path is not fetched",
+    "platform.claude.com/files/: serves html, but that path is not fetched",
+    "platform.claude.com/logs/: serves html, but that path is not fetched",
+    "platform.claude.com/memory-stores/: serves html, but that path is not fetched",
+    "platform.claude.com/playground/: serves html, but that path is not fetched",
+    "platform.claude.com/sessions/: serves html, but that path is not fetched",
+    "platform.claude.com/settings/: serves html, but that path is not fetched",
+    "platform.claude.com/skills/: serves html, but that path is not fetched",
+    "platform.claude.com/usage/: serves html, but that path is not fetched",
+    "platform.claude.com/vaults/: serves html, but that path is not fetched",
+    "support.claude.com/de/: serves html, but that path is not fetched",
+    "support.claude.com/en/: serves html, but that path is not fetched",
+    "support.claude.com/es/: serves html, but that path is not fetched",
+    "support.claude.com/fr/: serves html, but that path is not fetched",
+    "support.claude.com/id/: serves html, but that path is not fetched",
+    "support.claude.com/it/: serves html, but that path is not fetched",
+    "support.claude.com/ja/: serves html, but that path is not fetched",
+    "support.claude.com/ko/: serves html, but that path is not fetched",
+    "support.claude.com/pt/: serves html, but that path is not fetched",
+    "support.claude.com/ru/: serves html, but that path is not fetched",
+    "support.claude.com/zh-CN/: serves html, but that path is not fetched",
+    "support.claude.com/zh-TW/: serves html, but that path is not fetched"
+  ]
 }

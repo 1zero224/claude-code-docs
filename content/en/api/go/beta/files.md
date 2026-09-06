@@ -18,6 +18,12 @@ Upload File
 
     format: binary
 
+  - `ExpiresInSeconds param.Field[int64] Optional`
+
+    Body param: Seconds from upload until the file expires and its bytes become permanently unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
+
+    minimum: 3600, maximum: 7776000
+
   - `Betas param.Field[[]AnthropicBeta] Optional`
 
     Header param: Optional header to specify the beta version(s) you want to use.
@@ -108,6 +114,12 @@ Upload File
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 ### Returns
 
 - `type BetaFileMetadata struct{…}`
@@ -153,6 +165,12 @@ Upload File
     Whether the file can be downloaded.
 
     default: false
+
+  - `ExpiresAt Time Optional`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
 
   - `Scope BetaFileScope Optional`
 
@@ -206,6 +224,7 @@ func main() {
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"
@@ -215,7 +234,7 @@ func main() {
 
 ## List Files
 
-`client.Beta.Files.List(ctx, params) (*Page[BetaFileMetadata], error)`
+`client.Beta.Files.List(ctx, params) (*PageCursor[BetaFileMetadata], error)`
 
 **GET** `/v1/files`
 
@@ -225,13 +244,9 @@ List Files
 
 - `params BetaFileListParams`
 
-  - `AfterID param.Field[string] Optional`
+  - `IDs param.Field[[]string] Optional`
 
-    Query param: ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
-
-  - `BeforeID param.Field[string] Optional`
-
-    Query param: ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
+    Query param: Restrict the result set to Files whose `id` is in this list. At most 100 entries (after de-duplication). Mutually exclusive with `page` and `limit`. When supplied, the response is always a single page (`next_page` is null). IDs that do not resolve to a visible File — including deleted Files — are silently omitted.
 
   - `Limit param.Field[int64] Optional`
 
@@ -240,6 +255,10 @@ List Files
     Defaults to `20`. Ranges from `1` to `1000`.
 
     maximum: 1000, minimum: 1
+
+  - `Page param.Field[string] Optional`
+
+    Query param: Opaque page cursor returned in a prior list response's `next_page`. Prefixed `page_`.
 
   - `ScopeID param.Field[string] Optional`
 
@@ -335,6 +354,12 @@ List Files
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 ### Returns
 
 - `type BetaFileMetadata struct{…}`
@@ -380,6 +405,12 @@ List Files
     Whether the file can be downloaded.
 
     default: false
+
+  - `ExpiresAt Time Optional`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
 
   - `Scope BetaFileScope Optional`
 
@@ -431,15 +462,14 @@ func main() {
       "size_bytes": 102400,
       "type": "file",
       "downloadable": false,
+      "expires_at": "2025-05-15T18:37:24.100435Z",
       "scope": {
         "id": "id",
         "type": "session"
       }
     }
   ],
-  "first_id": "file_011CNha8iCJcU1wXNR6q4V8w",
-  "has_more": true,
-  "last_id": "file_013Zva2CMHLNnXjNJJKqJ2EF"
+  "next_page": "next_page"
 }
 ```
 
@@ -548,6 +578,12 @@ Download File
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 ### Returns
 
@@ -688,6 +724,12 @@ Get File Metadata
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 ### Returns
 
 - `type BetaFileMetadata struct{…}`
@@ -733,6 +775,12 @@ Get File Metadata
     Whether the file can be downloaded.
 
     default: false
+
+  - `ExpiresAt Time Optional`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
 
   - `Scope BetaFileScope Optional`
 
@@ -786,6 +834,7 @@ func main() {
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"
@@ -898,6 +947,12 @@ Delete File
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 ### Returns
 
@@ -1016,6 +1071,12 @@ func main() {
     Whether the file can be downloaded.
 
     default: false
+
+  - `ExpiresAt Time Optional`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
 
   - `Scope BetaFileScope Optional`
 

@@ -178,7 +178,7 @@ To set global instructions:
 
 3. Type your instructions in the text box and click "Save":
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2525926874/15324ac4155d7802272e8bdef04b/ec66cd09-a4db-4f1d-8f30-226c9d126333?expires=1787896800&amp;signature=c80c7c5965663c8c35febf571175f538cf1d9f14c732e38cc99331cd8acf1452&amp;req=diUlE8B8m4lYXfMW3nq%2BgcqgxG%2BD277VbVmMqW%2FkK1c%2BgcpwOAyqTbBRaoNM%0AAtKYpdmhTy2cDX%2BB6%2B1ae5VRd6Q%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2525926874/15324ac4155d7802272e8bdef04b/ec66cd09-a4db-4f1d-8f30-226c9d126333?expires=1788701400&amp;signature=ec5eaaebe53e25ac6ab71d4350ed4c4ad02ad0ead63032c3bc1a7bc839bffce5&amp;req=diUlE8B8m4lYXfMW1HO4zcDl6tDrNlC08iWjaktE9400ypoUiqbveN5cH2Pb%0AM1OgFOEH4%2FiI2nlhbXM%3D%0A)
 
 ### Folder instructions
 
@@ -282,11 +282,11 @@ For more detailed examples, see our **[use cases](https://claude.com/resources/u
 
 Some Cowork capabilities are not yet available:
 
-- **No session sharing:** Sessions can't be shared with others. On Team and Enterprise plans, you can share live artifacts within your organization. Learn more about **[using live artifacts in Claude Cowork](https://support.claude.com/en/articles/14729249)**.
+- **No session sharing:** Sessions can't be shared with others, but you can share individual artifacts you create during a session. Learn more about **[using artifacts in Claude Cowork](https://support.claude.com/en/articles/14729249)**.
 
-- **Some features are desktop-only:** Live artifacts and plugins that include local MCP servers work through the desktop app only.
+- **Some features are desktop-only:** Live artifacts created before August 19, 2026 and plugins that include local MCP servers work through the desktop app only.
 
-We're iterating on Cowork based on feedback. If you encounter issues or have suggestions, use the feedback button in the app to share feedback with our team.
+We're iterating on Cowork based on feedback. To share feedback on Free, Pro, and Max plans, use the feedback button in the app. If you're on a Team or Enterprise plan, you won't see a feedback button in the app, so you should contact your organization admin or your Anthropic Contact if you have suggestions.
 
 ---
 

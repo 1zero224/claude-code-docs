@@ -261,7 +261,7 @@ Get Messages Usage Report
 ```bash
 curl https://api.anthropic.com/v1/organizations/usage_report/messages \
     -H 'anthropic-version: 2023-06-01' \
-    -H "Authorization: Bearer $ANTHROPIC_OAUTH_TOKEN"
+    -H "Authorization: Bearer $ANTHROPIC_AUTH_TOKEN"
 ```
 
 ### Response (200)
@@ -282,7 +282,7 @@ curl https://api.anthropic.com/v1/organizations/usage_report/messages \
           "cache_read_input_tokens": 200,
           "context_window": "0-200k",
           "inference_geo": "global",
-          "model": "claude-opus-4-6",
+          "model": "claude-opus-5",
           "output_tokens": 500,
           "server_tool_use": {
             "web_search_requests": 10

@@ -14,7 +14,9 @@ List Skills
 
     Number of results to return per page.
 
-    Maximum value is 100. Defaults to 20.
+    Ranges from `1` to `1000`. Defaults to `20`.
+
+    minimum: 1, maximum: 1000
 
   - `Optional<String> page`
 
@@ -117,9 +119,15 @@ List Skills
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ## Returns
 
-- `class SkillListResponse:`
+- `class BetaSkill:`
 
   - `String id`
 
@@ -127,40 +135,63 @@ List Skills
 
     The format and length of IDs may change over time.
 
-  - `String createdAt`
+  - `LocalDateTime createdAt`
 
     ISO 8601 timestamp of when the skill was created.
 
-  - `Optional<String> displayTitle`
+    format: date-time
 
-    Display title for the skill.
+  - `String displayName`
 
-    This is a human-readable label that is not included in the prompt sent to the model.
+    Human-readable, single-line label for the Skill. Maximum 255 characters.
+    Always set: derived from the SKILL.md frontmatter `name` when omitted at
+    creation. Not unique.
 
-  - `Optional<String> latestVersion`
+  - `String latestVersionId`
 
-    The latest version identifier for the skill.
+    ID of the newest Skill Version — what `latest` references resolve to. Always set: a Skill holds at least one version.
 
-    This represents the most recent version of the skill that has been created.
+  - `BetaSkillSource source`
 
-  - `String source`
+    Where the Skill comes from.
 
-    Source of the skill.
+    Possible values:
 
-    This may be one of the following values:
+    * `"custom"`: authored by the platform user; private to their workspace
+    * `"anthropic"`: published by Anthropic; shared and read-only
+    * `"anthropic_example"`: Anthropic-published sample Skill
+    * `"plugin"`: resolved from an installed plugin
 
-    * `"custom"`: the skill was created by a user
-    * `"anthropic"`: the skill was created by Anthropic
+    - `Type type`
 
-  - `String type`
+      Where the Skill comes from.
+
+      Possible values:
+
+      * `"custom"`: authored by the platform user; private to their workspace
+      * `"anthropic"`: published by Anthropic; shared and read-only
+      * `"anthropic_example"`: Anthropic-published sample Skill
+      * `"plugin"`: resolved from an installed plugin
+
+      - `CUSTOM("custom")`
+
+      - `ANTHROPIC("anthropic")`
+
+      - `ANTHROPIC_EXAMPLE("anthropic_example")`
+
+      - `PLUGIN("plugin")`
+
+  - `JsonValue type = "skill"`
 
     Object type.
 
     For Skills, this is always `"skill"`.
 
-  - `String updatedAt`
+  - `LocalDateTime updatedAt`
 
     ISO 8601 timestamp of when the skill was last updated.
+
+    format: date-time
 
 ## Example
 
@@ -191,14 +222,15 @@ public final class Main {
     {
       "id": "skill_01JAbcdefghijklmnopqrstuvw",
       "created_at": "2024-10-30T23:58:27.427722Z",
-      "display_title": "My Custom Skill",
-      "latest_version": "1759178010641129",
-      "source": "custom",
-      "type": "type",
+      "display_name": "display_name",
+      "latest_version_id": "latest_version_id",
+      "source": {
+        "type": "custom"
+      },
+      "type": "skill",
       "updated_at": "2024-10-30T23:58:27.427722Z"
     }
   ],
-  "has_more": true,
-  "next_page": "page_MjAyNS0wNS0xNFQwMDowMDowMFo="
+  "next_page": "next_page"
 }
 ```

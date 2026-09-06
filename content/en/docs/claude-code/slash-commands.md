@@ -24,7 +24,9 @@ Claude Code includes a set of bundled skills, such as `/doctor`, `/code-review`,
 
 You invoke a bundled skill the same way as any other skill, by typing `/` followed by the skill name. Claude invokes some bundled skills automatically when relevant; others, including `/verify`, run only when you invoke them, which keeps you in control of when these longer-running checks spend time and tokens.
 
-Bundled skills are available in every session. To turn them off, use the [`disableBundledSkills`](/docs/en/settings-reference#disablebundledskills) setting, which disables every bundled skill except `/doctor`.
+Most bundled skills are available in every session. A few depend on a specific feature: `/workflow-authoring`, for example, is available only when [dynamic workflows](/docs/en/workflows) are enabled.
+
+To turn bundled skills off, use the [`disableBundledSkills`](/docs/en/settings-reference#disablebundledskills) setting, which disables every bundled skill except `/doctor`.
 
 <Note>
   The [`/doctor`](/docs/en/commands#all-commands) setup checkup stays typable when `disableBundledSkills` is on, in Claude Code v2.1.205 and later. To hide it, set the `DISABLE_DOCTOR_COMMAND` environment variable or a [`skillOverrides`](#override-skill-visibility-from-settings) entry of `"doctor": "off"`. Before v2.1.205, `/doctor` was a built-in command rather than a bundled skill.
@@ -160,9 +162,11 @@ Claude Code watches skill directories for file changes. When you add, edit, or r
 
 #### Discovery from parent and nested directories
 
-Project skills load from `.claude/skills/` in the directory where you start Claude Code and in every parent directory up to the repository root. Starting Claude in a subdirectory still picks up skills defined at the root. To load skills from a directory outside that path at startup, pass it with [`--add-dir`](/docs/en/cli-reference). Claude Code reads `.claude/skills/` inside each added directory alongside the project skills.
+Project skills load from `.claude/skills/` in the directory where you start Claude Code and in every parent directory up to the repository root. Starting Claude in a subdirectory still picks up skills defined at the root. To load skills from a directory outside that path at startup, pass it with [`--add-dir`](/docs/en/cli-reference). Claude Code reads `.claude/skills/` inside each added directory alongside the project skills. When you [move the session with `/cd`](/docs/en/permissions#move-the-session-to-another-directory) on v2.1.246 or later, Claude Code adds the new directory's project skills.
 
-Skills in nested `.claude/skills/` directories below your starting directory aren't loaded at startup. They load the first time Claude reads or edits a file inside that subdirectory, and stay available for the rest of the session. For example, after Claude edits a file under `packages/frontend/`, skills in `packages/frontend/.claude/skills/` become available. Until then, those skills don't appear in autocomplete and can't be invoked by name.
+Skills in nested `.claude/skills/` directories below your starting directory don't load at startup. They load the first time Claude reads or edits a file in the subdirectory that contains them, and stay available for the rest of the session. For example, after Claude edits a file under `packages/frontend/`, skills in `packages/frontend/.claude/skills/` become available. Until then, those skills don't appear in autocomplete, and you can't invoke them by name.
+
+To load a subdirectory's skills before Claude reads or edits a file there, run `/add-dir` with that subdirectory's path. This requires Claude Code v2.1.257 or later.
 
 <Note>
   Files in `.claude/commands/` support the same [frontmatter](#frontmatter-reference), except `name` and `paths`, which Claude Code ignores in a command file. You invoke a command file by its file name. Skills are recommended since they support additional features like [supporting files](#add-supporting-files).
@@ -170,9 +174,19 @@ Skills in nested `.claude/skills/` directories below your starting directory are
 
 #### Skills from additional directories
 
-The `--add-dir` flag and `/add-dir` command [grant file access](/docs/en/permissions#additional-directories-grant-file-access-not-configuration) rather than configuration discovery, but skills and commands are an exception: Claude Code loads `.claude/skills/` and `.claude/commands/` from each added directory automatically. This exception applies only to `--add-dir` and `/add-dir`. The `permissions.additionalDirectories` setting in `settings.json` grants file access only and doesn't load skills, commands, or subagents. See [Live change detection](#live-change-detection) for how skill edits are picked up during a session.
+The `--add-dir` flag and `/add-dir` command [grant file access](/docs/en/permissions#additional-directories-grant-file-access-not-configuration) rather than configuration discovery, but skills and commands are an exception: Claude Code loads `.claude/skills/` and `.claude/commands/` from each added directory automatically. This exception applies to `--add-dir`, `/add-dir`, and directories the Agent SDK adds through [`additionalDirectories`](/docs/en/agent-sdk/typescript#options) in TypeScript or [`add_dirs`](/docs/en/agent-sdk/python#claudeagentoptions) in Python, which the SDK passes to Claude Code as `--add-dir`.
 
-Subagents follow the same exception: when you add a directory, Claude Code loads its `.claude/agents/` folder too. It doesn't watch that folder, or the added directory's `.claude/commands/`, so after you add or edit a subagent or command file there, restart the session to load the change. Other `.claude/` configuration such as output styles is not loaded from additional directories. See the [exceptions table](/docs/en/permissions#additional-directories-grant-file-access-not-configuration) for the complete list of what is and isn't loaded, and the recommended ways to share configuration across projects.
+The `permissions.additionalDirectories` setting in `settings.json` grants file access only and doesn't load skills, commands, or subagents, even though the TypeScript option has the same name. See [Live change detection](#live-change-detection) for how skill edits are picked up during a session.
+
+Claude Code loads skills, commands, and subagents from an added directory only when the `project` [setting source](/docs/en/agent-sdk/claude-code-features#control-filesystem-settings-with-settingsources) is enabled, which is the default. If you pass [`--setting-sources`](/docs/en/cli-reference) on the CLI, or set `settingSources` or `setting_sources` explicitly in the SDK, include `project` in the list. In `--safe-mode`, Claude Code loads none of the three. A [`strictPluginOnlyCustomization`](/docs/en/settings-reference#strictpluginonlycustomization) managed policy and [bare mode](/docs/en/headless#start-faster-with-bare-mode) treat the three differently:
+
+* **Skills** in `.claude/skills/`: a policy that locks skills turns them off. Bare mode still loads them.
+* **Commands** in `.claude/commands/`: the same skills lock turns them off. Bare mode skips them.
+* **Subagents** in `.claude/agents/`: the policy's [`agents`](/docs/en/settings-reference#strictpluginonlycustomization-agents) entry turns them off, not its `skills` entry. Bare mode skips every `.claude/agents/` folder, including the project's own.
+
+Claude Code never watches `.claude/agents/` or `.claude/commands/` in an added directory, so after you add or edit a subagent or command file there, restart the session to load the change. In bare mode, Claude Code doesn't watch skill directories at all.
+
+Apart from the `enabledPlugins` and `extraKnownMarketplaces` keys in an added directory's `.claude/settings.json` and `.claude/settings.local.json`, Claude Code doesn't load other `.claude/` configuration, such as output styles, from additional directories. See the [exceptions table](/docs/en/permissions#additional-directories-grant-file-access-not-configuration) for the complete list of what is and isn't loaded, and the recommended ways to share configuration across projects.
 
 <Note>
   CLAUDE.md files from `--add-dir` directories are not loaded by default. To load them, set `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1`. See [Load from additional directories](/docs/en/memory#load-from-additional-directories).
@@ -219,7 +233,7 @@ In any other session on your machine, Claude Code loads them only after you down
   </Step>
 
   <Step title="Confirm the skills load in a local session">
-    Start an interactive session, without `CLAUDE_CODE_SYNC_SKILLS` set, and run `/skills`. The menu lists the downloaded skills under `claude.ai sync`. Every local session you start afterwards loads them from `~/.claude/skills/synced/` too.
+    Start an interactive session, without `CLAUDE_CODE_SYNC_SKILLS` set, and run `/skills`. The menu lists the downloaded skills under `claude.ai sync`. Every local session you start afterwards with the same claude.ai sign-in loads them from `~/.claude/skills/synced/` too.
   </Step>
 </Steps>
 
@@ -250,7 +264,7 @@ What Claude Code does with a synced skill's body depends on where the session ru
 
 How you remove a skill depends on where it came from:
 
-* **Personal or project skill**: delete the skill's directory, `~/.claude/skills/<skill-name>/` or `.claude/skills/<skill-name>/`. Claude Code [drops it from `/skills` in the current session](#live-change-detection); content from an invocation earlier in the session [stays in context](#skill-content-lifecycle) until the session ends.
+* **Personal or project skill**: delete the skill's directory, `~/.claude/skills/<skill-name>/` or `.claude/skills/<skill-name>/`. Claude Code [drops it from `/skills` in the current session](#live-change-detection); content Claude Code already loaded from it follows the [skill content lifecycle](#skill-content-lifecycle).
 * **Enterprise skill**: an administrator deletes the skill's directory from `.claude/skills/` inside the [managed settings directory](/docs/en/managed-settings#delivery-mechanisms), for example `/etc/claude-code/.claude/skills/<skill-name>/` on Linux.
 * **Plugin skill**: disable or uninstall the plugin that provides it, from the `/plugin` menu or with `/plugin uninstall <plugin-name>@<marketplace-name>`. Claude Code unloads the plugin's skills after you run `/reload-plugins` or restart; see [Apply plugin changes without restarting](/docs/en/discover-plugins#apply-plugin-changes-without-restarting).
 * **Skill synced from claude.ai**: turn the skill off for your claude.ai account, in the same place you [enabled it](#skills-in-cowork-and-cloud-sessions). Claude Code removes it from `~/.claude/skills/synced/` the next time it [syncs your skills](#where-synced-skills-load). If you delete the directory by hand instead, the next sync downloads it again while the skill stays enabled on claude.ai.
@@ -315,6 +329,8 @@ Your skill instructions here...
 
 All fields are optional. Only `description` is recommended so Claude knows when to use the skill.
 
+Claude Code reads the frontmatter only when the opening `---` is the file's first line. Otherwise it treats the whole file, `---` markers included, as skill content.
+
 Boolean fields accept `yes`, `no`, `on`, `off`, `1`, and `0` in any letter case, in addition to `true` and `false`. Before v2.1.218, Claude Code recognized only `true` and `false`.
 
 | Field                      | Required    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
@@ -375,7 +391,7 @@ The table below shows where the command name comes from for each layout:
 
 In a plugin skill, the frontmatter `name` replaces the directory name in the last segment of the command, so `my-plugin/skills/review/SKILL.md` with `name: fancy` becomes `/my-plugin:fancy`. The bare `/fancy` also invokes the skill unless another command already uses that name. If the `name` you write already starts with the plugin's own prefix, Claude Code doesn't add the prefix again on v2.1.246 or later. For example, `name: my-plugin:fancy` still becomes `/my-plugin:fancy`. From v2.1.216 through v2.1.245, Claude Code doubled the prefix when the `name` already carried it.
 
-In [non-interactive sessions](/docs/en/headless), Claude Code doesn't reserve the names `help` and `feedback` for their terminal-only built-in commands, so a plugin skill with one of those names keeps its bare command there. Claude Code still reserves the name of every other terminal-only built-in, such as `/login`, even though the command can't run in those sessions. In those sessions Claude Code also skips a synced skill named `help` or `feedback`, because it [skips a synced skill](#when-a-synced-skill-name-matches-another-command) whose name matches any built-in command whether or not that command can run. From v2.1.216 through v2.1.220, `help` and `feedback` were reserved too, so a plugin skill with one of those names was invocable only by its namespaced command in non-interactive sessions.
+In [non-interactive sessions](/docs/en/headless), the names `help` and `feedback` aren't reserved for their terminal-only built-in commands, so a plugin skill with one of those names keeps its bare command there. Every other terminal-only built-in's name, such as `/login`, stays reserved even though the command can't run in those sessions. A synced skill named `help` or `feedback` is still skipped there, because Claude Code [skips a synced skill](#when-a-synced-skill-name-matches-another-command) whose name matches any built-in command whether or not that command can run.
 
 For a plugin-root `SKILL.md`, there is no skill directory to take the name from, so `name` supplies the whole final segment. Without a `name` field, Claude Code falls back to the plugin's directory name.
 
@@ -385,7 +401,7 @@ Skills support string substitution for dynamic values in the skill content:
 
 | Variable                | Description                                                                                                                                                                                                                                                                                                 |
 | :---------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `$ARGUMENTS`            | All arguments passed when invoking the skill. If `$ARGUMENTS` is not present in the content, arguments are appended as `ARGUMENTS: <value>`.                                                                                                                                                                |
+| `$ARGUMENTS`            | All arguments passed when invoking the skill. When no placeholder receives an argument, Claude Code appends them as `ARGUMENTS: <value>`. See [Pass arguments to skills](#pass-arguments-to-skills).                                                                                                        |
 | `$ARGUMENTS[N]`         | Access a specific argument by 0-based index, such as `$ARGUMENTS[0]` for the first argument.                                                                                                                                                                                                                |
 | `$N`                    | Shorthand for `$ARGUMENTS[N]`, such as `$0` for the first argument or `$1` for the second.                                                                                                                                                                                                                  |
 | `$name`                 | Named argument declared in the [`arguments`](#frontmatter-reference) frontmatter list. Names map to positions in order, so with `arguments: [issue, branch]` the placeholder `$issue` expands to the first argument and `$branch` to the second.                                                            |
@@ -415,6 +431,8 @@ The `${CLAUDE_PROJECT_DIR}` substitution requires Claude Code v2.1.196 or later.
 Indexed arguments use shell-style quoting, so wrap multi-word values in quotes to pass them as a single argument. For example, `/my-skill "hello world" second` makes `$0` expand to `hello world` and `$1` to `second`. The `$ARGUMENTS` placeholder always expands to the full argument string as typed.
 
 An indexed placeholder with no corresponding argument, such as `$2` when only one argument was passed, stays in the content unchanged. A named placeholder from the [`arguments`](#frontmatter-reference) frontmatter with no matching argument expands to an empty string.
+
+If you pass an argument value that itself contains text such as `$1` or `$ARGUMENTS`, Claude Code inserts it as literal text and doesn't expand it. For example, if a skill's body contains `Summarize $0` and you run `/summarize "$ARGUMENTS from yesterday"`, Claude receives `Summarize $ARGUMENTS from yesterday`. Claude Code still replaces `${CLAUDE_*}` variables such as `${CLAUDE_SKILL_DIR}` after it inserts the arguments.
 
 To include a literal `$` before a digit, `ARGUMENTS`, or a declared argument name, such as `$1.00` in prose, escape it with a backslash: `\$1.00`. A backslash before any other `$` is left unchanged. Only a single backslash directly before the token escapes it. A doubled backslash such as `\\$1` leaves both backslashes in place, and `$1` still expands to the argument value. The backslash escape covers only these argument placeholders. A backslash doesn't prevent substitution of a `${CLAUDE_*}` variable where the variable applies.
 
@@ -496,7 +514,7 @@ Here's how the two fields affect invocation and context loading:
 
 ### Skill content lifecycle
 
-When you or Claude invoke a skill, the rendered `SKILL.md` content enters the conversation as a single message and stays there for the rest of the session. This persistence applies to the skill's instructions, not its permissions: an [`allowed-tools`](#pre-approve-tools-for-a-skill) grant clears when you send your next message. Claude Code does not re-read the skill file on later turns, so write guidance that should apply throughout a task as standing instructions rather than one-time steps.
+When you or Claude invoke a skill, the rendered `SKILL.md` content enters the conversation as a single message and stays there across later turns. This persistence applies to the skill's instructions, not its permissions: an [`allowed-tools`](#pre-approve-tools-for-a-skill) grant clears when you send your next message. Claude Code does not re-read the skill file on later turns, so write guidance that should apply throughout a task as standing instructions rather than one-time steps.
 
 When Claude re-invokes a skill whose rendered content is identical to the copy already in context, Claude Code adds a short note that the skill is already loaded rather than a second copy of the content. When the rendered content differs, because the arguments changed or a [dynamic context](#inject-dynamic-context) command produced new output, Claude Code appends the full content again.
 
@@ -547,7 +565,7 @@ Fix GitHub issue $ARGUMENTS following our coding standards.
 
 When you run `/fix-issue 123`, Claude receives "Fix GitHub issue 123 following our coding standards..."
 
-If you invoke a skill with arguments but the skill doesn't include `$ARGUMENTS`, Claude Code appends `ARGUMENTS: <your input>` to the end of the skill content so Claude still sees what you typed.
+If you invoke a skill with arguments but no placeholder in the skill's content receives one, Claude Code appends `ARGUMENTS: <your input>` to the end of the skill content so Claude still sees what you typed. A placeholder is `$ARGUMENTS`, an indexed form such as `$1`, or a named argument. An indexed placeholder with no argument at its position stays as literal text and doesn't count as receiving one. A named placeholder counts even when its position has no argument, because it expands to an empty string.
 
 You can also stack several skills at the start of one message. Typing `/write-tests /fix-issue 123` loads both skills and passes the trailing text `123` as `$ARGUMENTS` to each of them. Before v2.1.199, only the first skill loaded and received `/fix-issue 123` as literal argument text.
 
@@ -613,7 +631,6 @@ For multi-line commands, use a fenced code block opened with ` ```! ` instead of
 ## Environment
 ```!
 node --version
-npm --version
 git status --short
 ```
 ````
@@ -639,7 +656,7 @@ Either tool runs the commands the same way it runs Claude's own shell commands. 
 * **Working directory**: Claude Code runs each command in the session shell's current working directory. That directory moves when Claude runs `cd`. Use [`${CLAUDE_SKILL_DIR}` or `${CLAUDE_PROJECT_DIR}`](#available-string-substitutions) in paths that must resolve the same way every time.
 * **stderr**: with the default `bash` shell, Claude Code merges stderr into stdout. Anything the command writes to stderr appears in the injected text.
 * **Timeout**: each command runs under the Bash tool's default 2-minute [timeout](/docs/en/tools-reference#timeout-and-output-limits). When the Bash tool [moves a timed-out command to the background](/docs/en/tools-reference#background-commands), the skill still renders. The injected text reports the move and names the background task and the file collecting the command's output. When the command is one the Bash tool never auto-backgrounds, Claude Code kills it at the timeout. That failure [aborts the invocation](#when-an-injected-command-fails).
-* **Output size**: output past the Bash tool's inline ceiling arrives as a file path plus a short preview, not truncated text. [Output limits](/docs/en/tools-reference#output-limits) covers the ceiling and which variable adjusts which boundary.
+* **Output size**: output past the Bash tool's inline ceiling arrives as a file path plus a short preview, not truncated text. [Output limits](/docs/en/tools-reference#output-limits) covers the ceiling and how to adjust each boundary.
 
 The PowerShell tool applies the same timeout, backgrounding, and output-ceiling behavior to the commands it runs. See the [PowerShell tool](/docs/en/tools-reference#powershell-tool) section for its specifics.
 
@@ -752,7 +769,7 @@ Permission syntax: `Skill(name)` for exact match, `Skill(name *)` for prefix mat
 
 ### Override skill visibility from settings
 
-The `skillOverrides` setting controls skill visibility from your [settings](/docs/en/settings) instead of the skill's own frontmatter. Use it for skills whose SKILL.md you don't want to edit, such as ones checked into a shared project repo. The `/skills` menu writes it for you: highlight a skill and press `Space` to cycle states, then `Enter` to save to `.claude/settings.local.json`.
+The `skillOverrides` setting controls skill visibility from your [settings](/docs/en/settings) instead of the skill's own frontmatter. Use it for skills whose SKILL.md you don't want to edit, such as ones checked into a shared project repo. The `/skills` menu writes it for you: highlight a skill and press `Space` to cycle states, then `Esc` to save to `.claude/settings.local.json`.
 
 Each key is a skill name and each value is one of four states:
 
@@ -779,6 +796,14 @@ A skill that is absent from `skillOverrides` is treated as `"on"`. The example b
 ```
 
 Plugin skills are not affected by `skillOverrides`. Manage those through `/plugin` instead.
+
+### Find unused skills
+
+Every skill in the [skill listing](#skill-descriptions-are-cut-short) adds to your context on every turn, whether or not Claude ever uses it. Run `/skill-doctor` to see what each of your skills costs and how often it gets used, so you can decide which ones to turn off. In an interactive session, the report opens in the `/plugin` manager's **Stats** tab. In [non-interactive mode](/docs/en/headless) with `-p`, Claude Code prints it as text.
+
+The report covers the skills in your session other than bundled skills and enterprise skills. It flags skills in the listing that have never been invoked and says where to turn them off. It also lists plugins you haven't used recently.
+
+`/skill-doctor` requires Claude Code v2.1.252 or later and isn't available in sessions that skip [feature-flag fetching](/docs/en/env-vars#features-that-need-feature-flag-fetching). If you run `/skill-doctor` over [Remote Control](/docs/en/remote-control) from your phone or browser, Claude Code replies [`Skill usage reports are not available on this connection.`](/docs/en/errors#skill-usage-reports-are-not-available-on-this-connection) instead. Run `/skill-doctor` in the terminal on the machine where the session is running.
 
 ## Evaluate and iterate on a skill
 
@@ -821,7 +846,7 @@ Skills can be distributed at different scopes depending on your audience:
 
 ### Generate visual output
 
-Skills can bundle and run scripts in any language, giving Claude capabilities beyond what's possible in a single prompt. One powerful pattern is generating visual output: interactive HTML files that open in your browser for exploring data, debugging, or creating reports.
+Skills can bundle and run scripts in any language, giving Claude capabilities beyond what's possible in a single prompt. One pattern is generating visual output: interactive HTML files that open in your browser for exploring data, debugging, or creating reports.
 
 This example creates a codebase explorer: an interactive tree view where you can expand and collapse directories, see file sizes at a glance, and identify file types by color.
 
@@ -1023,6 +1048,8 @@ If Claude doesn't use your skill when expected:
 
 If the frontmatter YAML is malformed, Claude Code loads the skill body with empty metadata, so `/skill-name` still works but Claude has no `description` to match against. Run with `--debug` to see the parse error.
 
+To find `SKILL.md` files whose frontmatter doesn't parse, run [`claude plugin validate`](/docs/en/plugin-marketplaces#validate-a-plugin-or-a-directory-without-a-manifest) on the skills directory, for example `claude plugin validate .claude/skills` for project skills or `claude plugin validate ~/.claude/skills` for personal skills. Requires Claude Code v2.1.233 or later.
+
 ### Skill triggers too often
 
 If Claude uses your skill when you don't want it:
@@ -1034,7 +1061,7 @@ If Claude uses your skill when you don't want it:
 
 Claude Code loads a listing of skill names and descriptions into context so Claude knows what's available. The listing always contains every skill name, but if you have many skills, Claude Code shortens descriptions to fit the listing's character budget, which can strip the keywords Claude needs to match your request. The budget scales at 1% of the model's context window. When the listing overflows, Claude Code drops descriptions starting with the skills you invoke least, so the skills you use most keep their full text.
 
-Run `/doctor` for an estimate of the listing's context cost and its biggest contributors. When the listing exceeds its budget, Claude Code also writes a warning to the debug log, visible with [`--debug`](/docs/en/cli-reference#cli-flags).
+Run `/doctor` for an estimate of the listing's context cost and its biggest contributors. To find skills worth turning off, run [`/skill-doctor`](#find-unused-skills). When the listing exceeds its budget, Claude Code also writes a warning to the debug log, visible with [`--debug`](/docs/en/cli-reference#cli-flags).
 
 The Skills row in `/context` reports the size of the listing after the budget is applied, so it matches what the model receives. Before v2.1.196, the row counted the full text of every description and could show a value several times larger than the configured budget.
 

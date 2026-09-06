@@ -1304,7 +1304,15 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-                - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+                - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+                  - `"claude-fable-5-1"`
+
+                    Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+                  - `"claude-mythos-5-1"`
+
+                    Our most capable model for cybersecurity and biology research, available through trusted access programs
 
                   - `"claude-sonnet-5"`
 
@@ -1385,6 +1393,36 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
         - `"assistant"`
 
         - `"system"`
+
+      - `clear_at?: "next_user_message" | "never" | null`
+
+        How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
+
+        - `"next_user_message"`
+
+        - `"never"`
+
+      - `output_config?: BetaSystemMessageOutputConfig | null`
+
+        Per-message output configuration on a role:"system" input message.
+
+        Fields here apply per-turn; `format` remains top-level only. An
+        empty `{}` is accepted on a message that carries content; a message
+        with neither content nor output_config fields is rejected.
+
+        - `effort?: "low" | "medium" | "high" | 2 more | null`
+
+          All possible effort levels.
+
+          - `"low"`
+
+          - `"medium"`
+
+          - `"high"`
+
+          - `"xhigh"`
+
+          - `"max"`
 
     - `model: Model`
 
@@ -1690,6 +1728,24 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `type: "enabled"`
 
+            - `block_binding?: BetaThinkingBlockBinding | null`
+
+              Controls for block binding: what happens when a thinking block this
+              request sends back fails the conversation check. Every field is optional;
+              an empty object means every default.
+
+              - `prefix_mismatch_behavior?: BetaThinkingPrefixMismatchBehavior | null`
+
+                What happens when a thinking block in `messages` fails the conversation
+                check: it was created in a different conversation, or the messages before
+                it have changed since. `"error"` (the default) fails the request with a
+                400 error. `"drop_block"` removes the failing blocks and the request
+                proceeds; the model no longer sees the dropped reasoning.
+
+                - `"error"`
+
+                - `"drop_block"`
+
             - `display?: "summarized" | "omitted" | "updates" | null`
 
               Controls how thinking content appears in the response. When set to `summarized`, thinking is returned normally. When set to `omitted`, thinking content is redacted but a signature is returned for multi-turn continuity. Defaults to `summarized`.
@@ -1707,6 +1763,12 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           - `BetaThinkingConfigAdaptive`
 
             - `type: "adaptive"`
+
+            - `block_binding?: BetaThinkingBlockBinding | null`
+
+              Controls for block binding: what happens when a thinking block this
+              request sends back fails the conversation check. Every field is optional;
+              an empty object means every default.
 
             - `display?: "summarized" | "omitted" | "updates" | null`
 
@@ -2210,16 +2272,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
         from its schema.
 
         - `type: "browser_toolset_20260801"`
-
-        - `allowed_callers?: Array<"direct" | "code_execution_20250825" | "code_execution_20260120" | "code_execution_20260521">`
-
-          - `"direct"`
-
-          - `"code_execution_20250825"`
-
-          - `"code_execution_20260120"`
-
-          - `"code_execution_20260521"`
 
         - `cache_control?: BetaCacheControlEphemeral | null`
 
@@ -2846,16 +2898,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
         via `configs.zoom.enabled`.
 
         - `type: "computer_toolset_20260801"`
-
-        - `allowed_callers?: Array<"direct" | "code_execution_20250825" | "code_execution_20260120" | "code_execution_20260521">`
-
-          - `"direct"`
-
-          - `"code_execution_20250825"`
-
-          - `"code_execution_20260120"`
-
-          - `"code_execution_20260521"`
 
         - `cache_control?: BetaCacheControlEphemeral | null`
 
@@ -3775,7 +3817,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `(string & {})`
 
-      - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 38 more`
+      - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 41 more`
 
         - `"message-batches-2024-09-24"`
 
@@ -3858,6 +3900,12 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
         - `"thinking-display-updates-2026-08-18"`
 
         - `"ce-user-management-2026-07-13"`
+
+        - `"mid-conversation-output-config-2026-07-01"`
+
+        - `"thinking-binding-controls-2026-08-01"`
+
+        - `"mid-conversation-system-clear-at-2026-08-21"`
 
     - `user_profile_id?: string`
 
@@ -3947,7 +3995,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       format: date-time
 
-    - `skills: Array<BetaSkill> | null`
+    - `skills: Array<BetaContainerSkill> | null`
 
       Skills loaded in the container
 
@@ -4848,7 +4896,15 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-          - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+          - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+            - `"claude-fable-5-1"`
+
+              Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+            - `"claude-mythos-5-1"`
+
+              Our most capable model for cybersecurity and biology research, available through trusted access programs
 
             - `"claude-sonnet-5"`
 
@@ -4923,6 +4979,12 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
         - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
           The policy category that triggered a refusal.
+
+          - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+          - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+          - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+          - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+          - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
           - `"cyber"`
 
@@ -5084,6 +5146,12 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
     - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
       The policy category that triggered a refusal.
+
+      - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+      - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+      - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+      - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+      - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
       - `"cyber"`
 
@@ -5581,6 +5649,60 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `"fast"`
 
+  - `input_transformations?: Array<BetaThinkingDroppedInputTransformation> | null`
+
+    Changes the API made to the request's input before showing it to the model:
+    one entry per change, in request order. Today the only entry type is
+    `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+    block from the request's `messages` that was removed from the prompt instead
+    of being shown to the model because it failed a binding check. More entry
+    types may be added over time; ignore types you do not recognize.
+
+    Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+    every such response from a model that supports extended thinking, as `[]`
+    when nothing was changed; without the beta, blocks are removed all the same
+    but nothing is reported. Removed blocks contribute nothing to
+    `usage.input_tokens`. When streaming, the array is final in `message_start`;
+    the final `message_delta` event carries it only when a server-side model
+    fallback happened mid-stream, in which case it holds the serving model's
+    entries and replaces the one in `message_start`.
+
+    - `path: string`
+
+      Where the removed block was in your request, as `messages.{i}.content.{j}`:
+      `i` indexes the `messages` array you sent and `j` that message's `content`
+      array — the same form error messages use.
+
+    - `reason: "model_binding_mismatch" | "prefix_binding_mismatch" | "organization_binding_mismatch" | "end_user_binding_mismatch"`
+
+      Which binding check removed the block: `model_binding_mismatch` — it was
+      created by a model whose reasoning the requested model may not read;
+      `prefix_binding_mismatch` — the conversation before it differs from the
+      conversation it was created in (the rest of that turn's consecutive thinking
+      blocks are removed with it, each with this reason);
+      `organization_binding_mismatch` — it was created under a different
+      organization (an Anthropic organization, AWS account or Google Cloud project)
+      and this organization is not one of its additional organizations;
+      `end_user_binding_mismatch` — it was created for a different end user, or
+      was removed by the consumer-organization binding. A block that would fail
+      several checks reports one reason, in this order of precedence:
+      `organization_binding_mismatch`, `end_user_binding_mismatch`,
+      `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+      - `"model_binding_mismatch"`
+
+      - `"prefix_binding_mismatch"`
+
+      - `"organization_binding_mismatch"`
+
+      - `"end_user_binding_mismatch"`
+
+    - `type: "thinking_dropped"`
+
+      Always `thinking_dropped` for this entry type.
+
+      default: thinking_dropped
+
 - `BetaRawMessageStreamEvent = BetaRawMessageStartEvent | BetaRawMessageDeltaEvent | BetaRawMessageStopEvent | 3 more`
 
   - `BetaRawMessageStartEvent`
@@ -5677,6 +5799,52 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       - `server_tool_use: BetaServerToolUsage | null`
 
         The number of server tool requests.
+
+    - `input_transformations?: Array<BetaThinkingDroppedInputTransformation> | null`
+
+      Changes the API made to the request's input before showing it to the model:
+      one entry per change, in request order. Today the only entry type is
+      `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+      block from the request's `messages` that was removed from the prompt instead
+      of being shown to the model because it failed a binding check. More entry
+      types may be added over time; ignore types you do not recognize.
+
+      Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+      every such response from a model that supports extended thinking, as `[]`
+      when nothing was changed; without the beta, blocks are removed all the same
+      but nothing is reported. Removed blocks contribute nothing to
+      `usage.input_tokens`. When streaming, the array is final in `message_start`;
+      the final `message_delta` event carries it only when a server-side model
+      fallback happened mid-stream, in which case it holds the serving model's
+      entries and replaces the one in `message_start`.
+
+      - `path: string`
+
+        Where the removed block was in your request, as `messages.{i}.content.{j}`:
+        `i` indexes the `messages` array you sent and `j` that message's `content`
+        array — the same form error messages use.
+
+      - `reason: "model_binding_mismatch" | "prefix_binding_mismatch" | "organization_binding_mismatch" | "end_user_binding_mismatch"`
+
+        Which binding check removed the block: `model_binding_mismatch` — it was
+        created by a model whose reasoning the requested model may not read;
+        `prefix_binding_mismatch` — the conversation before it differs from the
+        conversation it was created in (the rest of that turn's consecutive thinking
+        blocks are removed with it, each with this reason);
+        `organization_binding_mismatch` — it was created under a different
+        organization (an Anthropic organization, AWS account or Google Cloud project)
+        and this organization is not one of its additional organizations;
+        `end_user_binding_mismatch` — it was created for a different end user, or
+        was removed by the consumer-organization binding. A block that would fail
+        several checks reports one reason, in this order of precedence:
+        `organization_binding_mismatch`, `end_user_binding_mismatch`,
+        `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+      - `type: "thinking_dropped"`
+
+        Always `thinking_dropped` for this entry type.
+
+        default: thinking_dropped
 
   - `BetaRawMessageStopEvent`
 
@@ -5940,7 +6108,7 @@ console.log(betaMessage.id);
         "cache_creation_input_tokens": 0,
         "cache_read_input_tokens": 0,
         "input_tokens": 0,
-        "model": "claude-sonnet-5",
+        "model": "claude-fable-5-1",
         "output_tokens": 0,
         "type": "message"
       }
@@ -5955,7 +6123,14 @@ console.log(betaMessage.id);
     },
     "service_tier": "standard",
     "speed": "standard"
-  }
+  },
+  "input_transformations": [
+    {
+      "path": "path",
+      "reason": "model_binding_mismatch",
+      "type": "thinking_dropped"
+    }
+  ]
 }
 ```
 
@@ -7249,7 +7424,15 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-              - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+              - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+                - `"claude-fable-5-1"`
+
+                  Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+                - `"claude-mythos-5-1"`
+
+                  Our most capable model for cybersecurity and biology research, available through trusted access programs
 
                 - `"claude-sonnet-5"`
 
@@ -7330,6 +7513,36 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
       - `"assistant"`
 
       - `"system"`
+
+    - `clear_at?: "next_user_message" | "never" | null`
+
+      How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
+
+      - `"next_user_message"`
+
+      - `"never"`
+
+    - `output_config?: BetaSystemMessageOutputConfig | null`
+
+      Per-message output configuration on a role:"system" input message.
+
+      Fields here apply per-turn; `format` remains top-level only. An
+      empty `{}` is accepted on a message that carries content; a message
+      with neither content nor output_config fields is rejected.
+
+      - `effort?: "low" | "medium" | "high" | 2 more | null`
+
+        All possible effort levels.
+
+        - `"low"`
+
+        - `"medium"`
+
+        - `"high"`
+
+        - `"xhigh"`
+
+        - `"max"`
 
   - `model: Model`
 
@@ -7571,6 +7784,24 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
       - `type: "enabled"`
 
+      - `block_binding?: BetaThinkingBlockBinding | null`
+
+        Controls for block binding: what happens when a thinking block this
+        request sends back fails the conversation check. Every field is optional;
+        an empty object means every default.
+
+        - `prefix_mismatch_behavior?: BetaThinkingPrefixMismatchBehavior | null`
+
+          What happens when a thinking block in `messages` fails the conversation
+          check: it was created in a different conversation, or the messages before
+          it have changed since. `"error"` (the default) fails the request with a
+          400 error. `"drop_block"` removes the failing blocks and the request
+          proceeds; the model no longer sees the dropped reasoning.
+
+          - `"error"`
+
+          - `"drop_block"`
+
       - `display?: "summarized" | "omitted" | "updates" | null`
 
         Controls how thinking content appears in the response. When set to `summarized`, thinking is returned normally. When set to `omitted`, thinking content is redacted but a signature is returned for multi-turn continuity. Defaults to `summarized`.
@@ -7588,6 +7819,12 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
     - `BetaThinkingConfigAdaptive`
 
       - `type: "adaptive"`
+
+      - `block_binding?: BetaThinkingBlockBinding | null`
+
+        Controls for block binding: what happens when a thinking block this
+        request sends back fails the conversation check. Every field is optional;
+        an empty object means every default.
 
       - `display?: "summarized" | "omitted" | "updates" | null`
 
@@ -7979,16 +8216,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
       from its schema.
 
       - `type: "browser_toolset_20260801"`
-
-      - `allowed_callers?: Array<"direct" | "code_execution_20250825" | "code_execution_20260120" | "code_execution_20260521">`
-
-        - `"direct"`
-
-        - `"code_execution_20250825"`
-
-        - `"code_execution_20260120"`
-
-        - `"code_execution_20260521"`
 
       - `cache_control?: BetaCacheControlEphemeral | null`
 
@@ -8615,16 +8842,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
       via `configs.zoom.enabled`.
 
       - `type: "computer_toolset_20260801"`
-
-      - `allowed_callers?: Array<"direct" | "code_execution_20250825" | "code_execution_20260120" | "code_execution_20260521">`
-
-        - `"direct"`
-
-        - `"code_execution_20250825"`
-
-        - `"code_execution_20260120"`
-
-        - `"code_execution_20260521"`
 
       - `cache_control?: BetaCacheControlEphemeral | null`
 
@@ -9544,7 +9761,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     - `(string & {})`
 
-    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 38 more`
+    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 41 more`
 
       - `"message-batches-2024-09-24"`
 
@@ -9627,6 +9844,12 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
       - `"thinking-display-updates-2026-08-18"`
 
       - `"ce-user-management-2026-07-13"`
+
+      - `"mid-conversation-output-config-2026-07-01"`
+
+      - `"thinking-binding-controls-2026-08-01"`
+
+      - `"mid-conversation-system-clear-at-2026-08-21"`
 
   - `user_profile_id?: string`
 
@@ -9732,7 +9955,15 @@ console.log(betaMessageTokensCount.context_management);
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-    - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+    - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+      - `"claude-fable-5-1"`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+      - `"claude-mythos-5-1"`
+
+        Our most capable model for cybersecurity and biology research, available through trusted access programs
 
       - `"claude-sonnet-5"`
 
@@ -9870,7 +10101,15 @@ console.log(betaMessageTokensCount.context_management);
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-    - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+    - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+      - `"claude-fable-5-1"`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+      - `"claude-mythos-5-1"`
+
+        Our most capable model for cybersecurity and biology research, available through trusted access programs
 
       - `"claude-sonnet-5"`
 
@@ -11218,16 +11457,6 @@ console.log(betaMessageTokensCount.context_management);
   from its schema.
 
   - `type: "browser_toolset_20260801"`
-
-  - `allowed_callers?: Array<"direct" | "code_execution_20250825" | "code_execution_20260120" | "code_execution_20260521">`
-
-    - `"direct"`
-
-    - `"code_execution_20250825"`
-
-    - `"code_execution_20260120"`
-
-    - `"code_execution_20260521"`
 
   - `cache_control?: BetaCacheControlEphemeral | null`
 
@@ -13660,16 +13889,6 @@ console.log(betaMessageTokensCount.context_management);
 
   - `type: "computer_toolset_20260801"`
 
-  - `allowed_callers?: Array<"direct" | "code_execution_20250825" | "code_execution_20260120" | "code_execution_20260521">`
-
-    - `"direct"`
-
-    - `"code_execution_20250825"`
-
-    - `"code_execution_20260120"`
-
-    - `"code_execution_20260521"`
-
   - `cache_control?: BetaCacheControlEphemeral | null`
 
     Create a cache control breakpoint at this content block.
@@ -14191,7 +14410,7 @@ console.log(betaMessageTokensCount.context_management);
 
     format: date-time
 
-  - `skills: Array<BetaSkill> | null`
+  - `skills: Array<BetaContainerSkill> | null`
 
     Skills loaded in the container
 
@@ -14250,6 +14469,32 @@ console.log(betaMessageTokensCount.context_management);
       Skill version or 'latest' for most recent version
 
       maxLength: 64, minLength: 1
+
+### Beta Container Skill
+
+- `BetaContainerSkill`
+
+  A skill that was loaded in a container (response model).
+
+  - `skill_id: string`
+
+    Skill ID
+
+    maxLength: 64, minLength: 1
+
+  - `type: "anthropic" | "custom"`
+
+    Type of skill - either 'anthropic' (built-in) or 'custom' (user-defined)
+
+    - `"anthropic"`
+
+    - `"custom"`
+
+  - `version: string`
+
+    The resolved version: a skill version ID for custom skills.
+
+    maxLength: 64, minLength: 1
 
 ### Beta Container Upload Block
 
@@ -15149,7 +15394,15 @@ console.log(betaMessageTokensCount.context_management);
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-        - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+        - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+          - `"claude-fable-5-1"`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+          - `"claude-mythos-5-1"`
+
+            Our most capable model for cybersecurity and biology research, available through trusted access programs
 
           - `"claude-sonnet-5"`
 
@@ -15224,6 +15477,12 @@ console.log(betaMessageTokensCount.context_management);
       - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
         The policy category that triggered a refusal.
+
+        - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+        - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+        - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+        - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+        - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
         - `"cyber"`
 
@@ -16476,7 +16735,15 @@ console.log(betaMessageTokensCount.context_management);
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-        - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+        - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+          - `"claude-fable-5-1"`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+          - `"claude-mythos-5-1"`
+
+            Our most capable model for cybersecurity and biology research, available through trusted access programs
 
           - `"claude-sonnet-5"`
 
@@ -17330,7 +17597,15 @@ console.log(betaMessageTokensCount.context_management);
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-      - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+      - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+        - `"claude-fable-5-1"`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+        - `"claude-mythos-5-1"`
+
+          Our most capable model for cybersecurity and biology research, available through trusted access programs
 
         - `"claude-sonnet-5"`
 
@@ -17406,6 +17681,12 @@ console.log(betaMessageTokensCount.context_management);
 
       The policy category that triggered a refusal.
 
+      - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+      - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+      - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+      - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+      - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
+
       - `"cyber"`
 
         The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
@@ -17462,7 +17743,15 @@ console.log(betaMessageTokensCount.context_management);
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-      - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+      - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+        - `"claude-fable-5-1"`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+        - `"claude-mythos-5-1"`
+
+          Our most capable model for cybersecurity and biology research, available through trusted access programs
 
         - `"claude-sonnet-5"`
 
@@ -17711,7 +18000,15 @@ console.log(betaMessageTokensCount.context_management);
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-    - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+    - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+      - `"claude-fable-5-1"`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+      - `"claude-mythos-5-1"`
+
+        Our most capable model for cybersecurity and biology research, available through trusted access programs
 
       - `"claude-sonnet-5"`
 
@@ -17787,7 +18084,15 @@ console.log(betaMessageTokensCount.context_management);
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-    - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+    - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+      - `"claude-fable-5-1"`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+      - `"claude-mythos-5-1"`
+
+        Our most capable model for cybersecurity and biology research, available through trusted access programs
 
       - `"claude-sonnet-5"`
 
@@ -17902,7 +18207,15 @@ console.log(betaMessageTokensCount.context_management);
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-    - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+    - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+      - `"claude-fable-5-1"`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+      - `"claude-mythos-5-1"`
+
+        Our most capable model for cybersecurity and biology research, available through trusted access programs
 
       - `"claude-sonnet-5"`
 
@@ -17995,7 +18308,15 @@ console.log(betaMessageTokensCount.context_management);
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-    - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+    - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+      - `"claude-fable-5-1"`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+      - `"claude-mythos-5-1"`
+
+        Our most capable model for cybersecurity and biology research, available through trusted access programs
 
       - `"claude-sonnet-5"`
 
@@ -18131,6 +18452,24 @@ console.log(betaMessageTokensCount.context_management);
 
       - `type: "enabled"`
 
+      - `block_binding?: BetaThinkingBlockBinding | null`
+
+        Controls for block binding: what happens when a thinking block this
+        request sends back fails the conversation check. Every field is optional;
+        an empty object means every default.
+
+        - `prefix_mismatch_behavior?: BetaThinkingPrefixMismatchBehavior | null`
+
+          What happens when a thinking block in `messages` fails the conversation
+          check: it was created in a different conversation, or the messages before
+          it have changed since. `"error"` (the default) fails the request with a
+          400 error. `"drop_block"` removes the failing blocks and the request
+          proceeds; the model no longer sees the dropped reasoning.
+
+          - `"error"`
+
+          - `"drop_block"`
+
       - `display?: "summarized" | "omitted" | "updates" | null`
 
         Controls how thinking content appears in the response. When set to `summarized`, thinking is returned normally. When set to `omitted`, thinking content is redacted but a signature is returned for multi-turn continuity. Defaults to `summarized`.
@@ -18148,6 +18487,12 @@ console.log(betaMessageTokensCount.context_management);
     - `BetaThinkingConfigAdaptive`
 
       - `type: "adaptive"`
+
+      - `block_binding?: BetaThinkingBlockBinding | null`
+
+        Controls for block binding: what happens when a thinking block this
+        request sends back fails the conversation check. Every field is optional;
+        an empty object means every default.
 
       - `display?: "summarized" | "omitted" | "updates" | null`
 
@@ -18168,6 +18513,12 @@ console.log(betaMessageTokensCount.context_management);
   - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
     The policy category that triggered a refusal.
+
+    - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+    - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+    - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+    - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+    - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
     - `"cyber"`
 
@@ -18207,7 +18558,15 @@ console.log(betaMessageTokensCount.context_management);
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-      - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+      - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+        - `"claude-fable-5-1"`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+        - `"claude-mythos-5-1"`
+
+          Our most capable model for cybersecurity and biology research, available through trusted access programs
 
         - `"claude-sonnet-5"`
 
@@ -18343,6 +18702,24 @@ console.log(betaMessageTokensCount.context_management);
 
         - `type: "enabled"`
 
+        - `block_binding?: BetaThinkingBlockBinding | null`
+
+          Controls for block binding: what happens when a thinking block this
+          request sends back fails the conversation check. Every field is optional;
+          an empty object means every default.
+
+          - `prefix_mismatch_behavior?: BetaThinkingPrefixMismatchBehavior | null`
+
+            What happens when a thinking block in `messages` fails the conversation
+            check: it was created in a different conversation, or the messages before
+            it have changed since. `"error"` (the default) fails the request with a
+            400 error. `"drop_block"` removes the failing blocks and the request
+            proceeds; the model no longer sees the dropped reasoning.
+
+            - `"error"`
+
+            - `"drop_block"`
+
         - `display?: "summarized" | "omitted" | "updates" | null`
 
           Controls how thinking content appears in the response. When set to `summarized`, thinking is returned normally. When set to `omitted`, thinking content is redacted but a signature is returned for multi-turn continuity. Defaults to `summarized`.
@@ -18360,6 +18737,12 @@ console.log(betaMessageTokensCount.context_management);
       - `BetaThinkingConfigAdaptive`
 
         - `type: "adaptive"`
+
+        - `block_binding?: BetaThinkingBlockBinding | null`
+
+          Controls for block binding: what happens when a thinking block this
+          request sends back fails the conversation check. Every field is optional;
+          an empty object means every default.
 
         - `display?: "summarized" | "omitted" | "updates" | null`
 
@@ -18564,7 +18947,15 @@ console.log(betaMessageTokensCount.context_management);
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-      - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+      - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+        - `"claude-fable-5-1"`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+        - `"claude-mythos-5-1"`
+
+          Our most capable model for cybersecurity and biology research, available through trusted access programs
 
         - `"claude-sonnet-5"`
 
@@ -19381,7 +19772,7 @@ console.log(betaMessageTokensCount.context_management);
 
       format: date-time
 
-    - `skills: Array<BetaSkill> | null`
+    - `skills: Array<BetaContainerSkill> | null`
 
       Skills loaded in the container
 
@@ -20282,7 +20673,15 @@ console.log(betaMessageTokensCount.context_management);
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-          - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+          - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+            - `"claude-fable-5-1"`
+
+              Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+            - `"claude-mythos-5-1"`
+
+              Our most capable model for cybersecurity and biology research, available through trusted access programs
 
             - `"claude-sonnet-5"`
 
@@ -20357,6 +20756,12 @@ console.log(betaMessageTokensCount.context_management);
         - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
           The policy category that triggered a refusal.
+
+          - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+          - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+          - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+          - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+          - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
           - `"cyber"`
 
@@ -20518,6 +20923,12 @@ console.log(betaMessageTokensCount.context_management);
     - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
       The policy category that triggered a refusal.
+
+      - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+      - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+      - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+      - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+      - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
       - `"cyber"`
 
@@ -21015,6 +21426,60 @@ console.log(betaMessageTokensCount.context_management);
 
       - `"fast"`
 
+  - `input_transformations?: Array<BetaThinkingDroppedInputTransformation> | null`
+
+    Changes the API made to the request's input before showing it to the model:
+    one entry per change, in request order. Today the only entry type is
+    `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+    block from the request's `messages` that was removed from the prompt instead
+    of being shown to the model because it failed a binding check. More entry
+    types may be added over time; ignore types you do not recognize.
+
+    Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+    every such response from a model that supports extended thinking, as `[]`
+    when nothing was changed; without the beta, blocks are removed all the same
+    but nothing is reported. Removed blocks contribute nothing to
+    `usage.input_tokens`. When streaming, the array is final in `message_start`;
+    the final `message_delta` event carries it only when a server-side model
+    fallback happened mid-stream, in which case it holds the serving model's
+    entries and replaces the one in `message_start`.
+
+    - `path: string`
+
+      Where the removed block was in your request, as `messages.{i}.content.{j}`:
+      `i` indexes the `messages` array you sent and `j` that message's `content`
+      array — the same form error messages use.
+
+    - `reason: "model_binding_mismatch" | "prefix_binding_mismatch" | "organization_binding_mismatch" | "end_user_binding_mismatch"`
+
+      Which binding check removed the block: `model_binding_mismatch` — it was
+      created by a model whose reasoning the requested model may not read;
+      `prefix_binding_mismatch` — the conversation before it differs from the
+      conversation it was created in (the rest of that turn's consecutive thinking
+      blocks are removed with it, each with this reason);
+      `organization_binding_mismatch` — it was created under a different
+      organization (an Anthropic organization, AWS account or Google Cloud project)
+      and this organization is not one of its additional organizations;
+      `end_user_binding_mismatch` — it was created for a different end user, or
+      was removed by the consumer-organization binding. A block that would fail
+      several checks reports one reason, in this order of precedence:
+      `organization_binding_mismatch`, `end_user_binding_mismatch`,
+      `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+      - `"model_binding_mismatch"`
+
+      - `"prefix_binding_mismatch"`
+
+      - `"organization_binding_mismatch"`
+
+      - `"end_user_binding_mismatch"`
+
+    - `type: "thinking_dropped"`
+
+      Always `thinking_dropped` for this entry type.
+
+      default: thinking_dropped
+
 ### Beta Message Delta Usage
 
 - `BetaMessageDeltaUsage`
@@ -21165,7 +21630,15 @@ console.log(betaMessageTokensCount.context_management);
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-        - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+        - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+          - `"claude-fable-5-1"`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+          - `"claude-mythos-5-1"`
+
+            Our most capable model for cybersecurity and biology research, available through trusted access programs
 
           - `"claude-sonnet-5"`
 
@@ -21460,7 +21933,15 @@ console.log(betaMessageTokensCount.context_management);
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-    - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+    - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+      - `"claude-fable-5-1"`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+      - `"claude-mythos-5-1"`
+
+        Our most capable model for cybersecurity and biology research, available through trusted access programs
 
       - `"claude-sonnet-5"`
 
@@ -22763,7 +23244,15 @@ console.log(betaMessageTokensCount.context_management);
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-            - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+            - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+              - `"claude-fable-5-1"`
+
+                Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+              - `"claude-mythos-5-1"`
+
+                Our most capable model for cybersecurity and biology research, available through trusted access programs
 
               - `"claude-sonnet-5"`
 
@@ -22844,6 +23333,36 @@ console.log(betaMessageTokensCount.context_management);
     - `"assistant"`
 
     - `"system"`
+
+  - `clear_at?: "next_user_message" | "never" | null`
+
+    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
+
+    - `"next_user_message"`
+
+    - `"never"`
+
+  - `output_config?: BetaSystemMessageOutputConfig | null`
+
+    Per-message output configuration on a role:"system" input message.
+
+    Fields here apply per-turn; `format` remains top-level only. An
+    empty `{}` is accepted on a message that carries content; a message
+    with neither content nor output_config fields is rejected.
+
+    - `effort?: "low" | "medium" | "high" | 2 more | null`
+
+      All possible effort levels.
+
+      - `"low"`
+
+      - `"medium"`
+
+      - `"high"`
+
+      - `"xhigh"`
+
+      - `"max"`
 
 ### Beta Message Tokens Count
 
@@ -24196,7 +24715,15 @@ console.log(betaMessageTokensCount.context_management);
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-          - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+          - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+            - `"claude-fable-5-1"`
+
+              Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+            - `"claude-mythos-5-1"`
+
+              Our most capable model for cybersecurity and biology research, available through trusted access programs
 
             - `"claude-sonnet-5"`
 
@@ -24271,6 +24798,12 @@ console.log(betaMessageTokensCount.context_management);
         - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
           The policy category that triggered a refusal.
+
+          - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+          - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+          - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+          - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+          - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
           - `"cyber"`
 
@@ -24384,7 +24917,7 @@ console.log(betaMessageTokensCount.context_management);
 
         format: date-time
 
-      - `skills: Array<BetaSkill> | null`
+      - `skills: Array<BetaContainerSkill> | null`
 
         Skills loaded in the container
 
@@ -24415,6 +24948,12 @@ console.log(betaMessageTokensCount.context_management);
       - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
         The policy category that triggered a refusal.
+
+        - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+        - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+        - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+        - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+        - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
         - `"cyber"`
 
@@ -24677,7 +25216,15 @@ console.log(betaMessageTokensCount.context_management);
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-          - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+          - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+            - `"claude-fable-5-1"`
+
+              Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+            - `"claude-mythos-5-1"`
+
+              Our most capable model for cybersecurity and biology research, available through trusted access programs
 
             - `"claude-sonnet-5"`
 
@@ -24926,6 +25473,60 @@ console.log(betaMessageTokensCount.context_management);
 
         default: 0, minimum: 0
 
+  - `input_transformations?: Array<BetaThinkingDroppedInputTransformation> | null`
+
+    Changes the API made to the request's input before showing it to the model:
+    one entry per change, in request order. Today the only entry type is
+    `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+    block from the request's `messages` that was removed from the prompt instead
+    of being shown to the model because it failed a binding check. More entry
+    types may be added over time; ignore types you do not recognize.
+
+    Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+    every such response from a model that supports extended thinking, as `[]`
+    when nothing was changed; without the beta, blocks are removed all the same
+    but nothing is reported. Removed blocks contribute nothing to
+    `usage.input_tokens`. When streaming, the array is final in `message_start`;
+    the final `message_delta` event carries it only when a server-side model
+    fallback happened mid-stream, in which case it holds the serving model's
+    entries and replaces the one in `message_start`.
+
+    - `path: string`
+
+      Where the removed block was in your request, as `messages.{i}.content.{j}`:
+      `i` indexes the `messages` array you sent and `j` that message's `content`
+      array — the same form error messages use.
+
+    - `reason: "model_binding_mismatch" | "prefix_binding_mismatch" | "organization_binding_mismatch" | "end_user_binding_mismatch"`
+
+      Which binding check removed the block: `model_binding_mismatch` — it was
+      created by a model whose reasoning the requested model may not read;
+      `prefix_binding_mismatch` — the conversation before it differs from the
+      conversation it was created in (the rest of that turn's consecutive thinking
+      blocks are removed with it, each with this reason);
+      `organization_binding_mismatch` — it was created under a different
+      organization (an Anthropic organization, AWS account or Google Cloud project)
+      and this organization is not one of its additional organizations;
+      `end_user_binding_mismatch` — it was created for a different end user, or
+      was removed by the consumer-organization binding. A block that would fail
+      several checks reports one reason, in this order of precedence:
+      `organization_binding_mismatch`, `end_user_binding_mismatch`,
+      `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+      - `"model_binding_mismatch"`
+
+      - `"prefix_binding_mismatch"`
+
+      - `"organization_binding_mismatch"`
+
+      - `"end_user_binding_mismatch"`
+
+    - `type: "thinking_dropped"`
+
+      Always `thinking_dropped` for this entry type.
+
+      default: thinking_dropped
+
 ### Beta Raw Message Start Event
 
 - `BetaRawMessageStartEvent`
@@ -24952,7 +25553,7 @@ console.log(betaMessageTokensCount.context_management);
 
         format: date-time
 
-      - `skills: Array<BetaSkill> | null`
+      - `skills: Array<BetaContainerSkill> | null`
 
         Skills loaded in the container
 
@@ -25853,7 +26454,15 @@ console.log(betaMessageTokensCount.context_management);
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-            - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+            - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+              - `"claude-fable-5-1"`
+
+                Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+              - `"claude-mythos-5-1"`
+
+                Our most capable model for cybersecurity and biology research, available through trusted access programs
 
               - `"claude-sonnet-5"`
 
@@ -25928,6 +26537,12 @@ console.log(betaMessageTokensCount.context_management);
           - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
             The policy category that triggered a refusal.
+
+            - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+            - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+            - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+            - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+            - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
             - `"cyber"`
 
@@ -26089,6 +26704,12 @@ console.log(betaMessageTokensCount.context_management);
       - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
         The policy category that triggered a refusal.
+
+        - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+        - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+        - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+        - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+        - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
         - `"cyber"`
 
@@ -26586,6 +27207,60 @@ console.log(betaMessageTokensCount.context_management);
 
         - `"fast"`
 
+    - `input_transformations?: Array<BetaThinkingDroppedInputTransformation> | null`
+
+      Changes the API made to the request's input before showing it to the model:
+      one entry per change, in request order. Today the only entry type is
+      `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+      block from the request's `messages` that was removed from the prompt instead
+      of being shown to the model because it failed a binding check. More entry
+      types may be added over time; ignore types you do not recognize.
+
+      Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+      every such response from a model that supports extended thinking, as `[]`
+      when nothing was changed; without the beta, blocks are removed all the same
+      but nothing is reported. Removed blocks contribute nothing to
+      `usage.input_tokens`. When streaming, the array is final in `message_start`;
+      the final `message_delta` event carries it only when a server-side model
+      fallback happened mid-stream, in which case it holds the serving model's
+      entries and replaces the one in `message_start`.
+
+      - `path: string`
+
+        Where the removed block was in your request, as `messages.{i}.content.{j}`:
+        `i` indexes the `messages` array you sent and `j` that message's `content`
+        array — the same form error messages use.
+
+      - `reason: "model_binding_mismatch" | "prefix_binding_mismatch" | "organization_binding_mismatch" | "end_user_binding_mismatch"`
+
+        Which binding check removed the block: `model_binding_mismatch` — it was
+        created by a model whose reasoning the requested model may not read;
+        `prefix_binding_mismatch` — the conversation before it differs from the
+        conversation it was created in (the rest of that turn's consecutive thinking
+        blocks are removed with it, each with this reason);
+        `organization_binding_mismatch` — it was created under a different
+        organization (an Anthropic organization, AWS account or Google Cloud project)
+        and this organization is not one of its additional organizations;
+        `end_user_binding_mismatch` — it was created for a different end user, or
+        was removed by the consumer-organization binding. A block that would fail
+        several checks reports one reason, in this order of precedence:
+        `organization_binding_mismatch`, `end_user_binding_mismatch`,
+        `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+        - `"model_binding_mismatch"`
+
+        - `"prefix_binding_mismatch"`
+
+        - `"organization_binding_mismatch"`
+
+        - `"end_user_binding_mismatch"`
+
+      - `type: "thinking_dropped"`
+
+        Always `thinking_dropped` for this entry type.
+
+        default: thinking_dropped
+
   - `type: "message_start"`
 
     default: message_start
@@ -26626,7 +27301,7 @@ console.log(betaMessageTokensCount.context_management);
 
           format: date-time
 
-        - `skills: Array<BetaSkill> | null`
+        - `skills: Array<BetaContainerSkill> | null`
 
           Skills loaded in the container
 
@@ -27527,7 +28202,15 @@ console.log(betaMessageTokensCount.context_management);
 
               See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-              - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+              - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+                - `"claude-fable-5-1"`
+
+                  Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+                - `"claude-mythos-5-1"`
+
+                  Our most capable model for cybersecurity and biology research, available through trusted access programs
 
                 - `"claude-sonnet-5"`
 
@@ -27602,6 +28285,12 @@ console.log(betaMessageTokensCount.context_management);
             - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
               The policy category that triggered a refusal.
+
+              - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+              - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+              - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+              - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+              - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
               - `"cyber"`
 
@@ -27763,6 +28452,12 @@ console.log(betaMessageTokensCount.context_management);
         - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
           The policy category that triggered a refusal.
+
+          - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+          - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+          - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+          - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+          - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
           - `"cyber"`
 
@@ -28260,6 +28955,60 @@ console.log(betaMessageTokensCount.context_management);
 
           - `"fast"`
 
+      - `input_transformations?: Array<BetaThinkingDroppedInputTransformation> | null`
+
+        Changes the API made to the request's input before showing it to the model:
+        one entry per change, in request order. Today the only entry type is
+        `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+        block from the request's `messages` that was removed from the prompt instead
+        of being shown to the model because it failed a binding check. More entry
+        types may be added over time; ignore types you do not recognize.
+
+        Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+        every such response from a model that supports extended thinking, as `[]`
+        when nothing was changed; without the beta, blocks are removed all the same
+        but nothing is reported. Removed blocks contribute nothing to
+        `usage.input_tokens`. When streaming, the array is final in `message_start`;
+        the final `message_delta` event carries it only when a server-side model
+        fallback happened mid-stream, in which case it holds the serving model's
+        entries and replaces the one in `message_start`.
+
+        - `path: string`
+
+          Where the removed block was in your request, as `messages.{i}.content.{j}`:
+          `i` indexes the `messages` array you sent and `j` that message's `content`
+          array — the same form error messages use.
+
+        - `reason: "model_binding_mismatch" | "prefix_binding_mismatch" | "organization_binding_mismatch" | "end_user_binding_mismatch"`
+
+          Which binding check removed the block: `model_binding_mismatch` — it was
+          created by a model whose reasoning the requested model may not read;
+          `prefix_binding_mismatch` — the conversation before it differs from the
+          conversation it was created in (the rest of that turn's consecutive thinking
+          blocks are removed with it, each with this reason);
+          `organization_binding_mismatch` — it was created under a different
+          organization (an Anthropic organization, AWS account or Google Cloud project)
+          and this organization is not one of its additional organizations;
+          `end_user_binding_mismatch` — it was created for a different end user, or
+          was removed by the consumer-organization binding. A block that would fail
+          several checks reports one reason, in this order of precedence:
+          `organization_binding_mismatch`, `end_user_binding_mismatch`,
+          `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+          - `"model_binding_mismatch"`
+
+          - `"prefix_binding_mismatch"`
+
+          - `"organization_binding_mismatch"`
+
+          - `"end_user_binding_mismatch"`
+
+        - `type: "thinking_dropped"`
+
+          Always `thinking_dropped` for this entry type.
+
+          default: thinking_dropped
+
     - `type: "message_start"`
 
       default: message_start
@@ -28350,6 +29099,52 @@ console.log(betaMessageTokensCount.context_management);
       - `server_tool_use: BetaServerToolUsage | null`
 
         The number of server tool requests.
+
+    - `input_transformations?: Array<BetaThinkingDroppedInputTransformation> | null`
+
+      Changes the API made to the request's input before showing it to the model:
+      one entry per change, in request order. Today the only entry type is
+      `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+      block from the request's `messages` that was removed from the prompt instead
+      of being shown to the model because it failed a binding check. More entry
+      types may be added over time; ignore types you do not recognize.
+
+      Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+      every such response from a model that supports extended thinking, as `[]`
+      when nothing was changed; without the beta, blocks are removed all the same
+      but nothing is reported. Removed blocks contribute nothing to
+      `usage.input_tokens`. When streaming, the array is final in `message_start`;
+      the final `message_delta` event carries it only when a server-side model
+      fallback happened mid-stream, in which case it holds the serving model's
+      entries and replaces the one in `message_start`.
+
+      - `path: string`
+
+        Where the removed block was in your request, as `messages.{i}.content.{j}`:
+        `i` indexes the `messages` array you sent and `j` that message's `content`
+        array — the same form error messages use.
+
+      - `reason: "model_binding_mismatch" | "prefix_binding_mismatch" | "organization_binding_mismatch" | "end_user_binding_mismatch"`
+
+        Which binding check removed the block: `model_binding_mismatch` — it was
+        created by a model whose reasoning the requested model may not read;
+        `prefix_binding_mismatch` — the conversation before it differs from the
+        conversation it was created in (the rest of that turn's consecutive thinking
+        blocks are removed with it, each with this reason);
+        `organization_binding_mismatch` — it was created under a different
+        organization (an Anthropic organization, AWS account or Google Cloud project)
+        and this organization is not one of its additional organizations;
+        `end_user_binding_mismatch` — it was created for a different end user, or
+        was removed by the consumer-organization binding. A block that would fail
+        several checks reports one reason, in this order of precedence:
+        `organization_binding_mismatch`, `end_user_binding_mismatch`,
+        `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+      - `type: "thinking_dropped"`
+
+        Always `thinking_dropped` for this entry type.
+
+        default: thinking_dropped
 
   - `BetaRawMessageStopEvent`
 
@@ -28546,6 +29341,12 @@ console.log(betaMessageTokensCount.context_management);
   - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
     The policy category that triggered a refusal.
+
+    - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+    - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+    - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+    - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+    - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
     - `"cyber"`
 
@@ -29592,32 +30393,6 @@ console.log(betaMessageTokensCount.context_management);
 
     default: signature_delta
 
-### Beta Skill
-
-- `BetaSkill`
-
-  A skill that was loaded in a container (response model).
-
-  - `skill_id: string`
-
-    Skill ID
-
-    maxLength: 64, minLength: 1
-
-  - `type: "anthropic" | "custom"`
-
-    Type of skill - either 'anthropic' (built-in) or 'custom' (user-defined)
-
-    - `"anthropic"`
-
-    - `"custom"`
-
-  - `version: string`
-
-    The resolved version: a skill version ID for custom skills.
-
-    maxLength: 64, minLength: 1
-
 ### Beta Skill Params
 
 - `BetaSkillParams`
@@ -29663,6 +30438,30 @@ console.log(betaMessageTokensCount.context_management);
   - `"refusal"`
 
   - `"model_context_window_exceeded"`
+
+### Beta System Message Output Config
+
+- `BetaSystemMessageOutputConfig`
+
+  Per-message output configuration on a role:"system" input message.
+
+  Fields here apply per-turn; `format` remains top-level only. An
+  empty `{}` is accepted on a message that carries content; a message
+  with neither content nor output_config fields is rejected.
+
+  - `effort?: "low" | "medium" | "high" | 2 more | null`
+
+    All possible effort levels.
+
+    - `"low"`
+
+    - `"medium"`
+
+    - `"high"`
+
+    - `"xhigh"`
+
+    - `"max"`
 
 ### Beta Text Block
 
@@ -30560,6 +31359,26 @@ console.log(betaMessageTokensCount.context_management);
 
     default: thinking
 
+### Beta Thinking Block Binding
+
+- `BetaThinkingBlockBinding`
+
+  Controls for block binding: what happens when a thinking block this
+  request sends back fails the conversation check. Every field is optional;
+  an empty object means every default.
+
+  - `prefix_mismatch_behavior?: BetaThinkingPrefixMismatchBehavior | null`
+
+    What happens when a thinking block in `messages` fails the conversation
+    check: it was created in a different conversation, or the messages before
+    it have changed since. `"error"` (the default) fails the request with a
+    400 error. `"drop_block"` removes the failing blocks and the request
+    proceeds; the model no longer sees the dropped reasoning.
+
+    - `"error"`
+
+    - `"drop_block"`
+
 ### Beta Thinking Block Param
 
 - `BetaThinkingBlockParam`
@@ -30581,6 +31400,24 @@ console.log(betaMessageTokensCount.context_management);
 - `BetaThinkingConfigAdaptive`
 
   - `type: "adaptive"`
+
+  - `block_binding?: BetaThinkingBlockBinding | null`
+
+    Controls for block binding: what happens when a thinking block this
+    request sends back fails the conversation check. Every field is optional;
+    an empty object means every default.
+
+    - `prefix_mismatch_behavior?: BetaThinkingPrefixMismatchBehavior | null`
+
+      What happens when a thinking block in `messages` fails the conversation
+      check: it was created in a different conversation, or the messages before
+      it have changed since. `"error"` (the default) fails the request with a
+      400 error. `"drop_block"` removes the failing blocks and the request
+      proceeds; the model no longer sees the dropped reasoning.
+
+      - `"error"`
+
+      - `"drop_block"`
 
   - `display?: "summarized" | "omitted" | "updates" | null`
 
@@ -30613,6 +31450,24 @@ console.log(betaMessageTokensCount.context_management);
     minimum: 1024
 
   - `type: "enabled"`
+
+  - `block_binding?: BetaThinkingBlockBinding | null`
+
+    Controls for block binding: what happens when a thinking block this
+    request sends back fails the conversation check. Every field is optional;
+    an empty object means every default.
+
+    - `prefix_mismatch_behavior?: BetaThinkingPrefixMismatchBehavior | null`
+
+      What happens when a thinking block in `messages` fails the conversation
+      check: it was created in a different conversation, or the messages before
+      it have changed since. `"error"` (the default) fails the request with a
+      400 error. `"drop_block"` removes the failing blocks and the request
+      proceeds; the model no longer sees the dropped reasoning.
+
+      - `"error"`
+
+      - `"drop_block"`
 
   - `display?: "summarized" | "omitted" | "updates" | null`
 
@@ -30648,6 +31503,24 @@ console.log(betaMessageTokensCount.context_management);
 
     - `type: "enabled"`
 
+    - `block_binding?: BetaThinkingBlockBinding | null`
+
+      Controls for block binding: what happens when a thinking block this
+      request sends back fails the conversation check. Every field is optional;
+      an empty object means every default.
+
+      - `prefix_mismatch_behavior?: BetaThinkingPrefixMismatchBehavior | null`
+
+        What happens when a thinking block in `messages` fails the conversation
+        check: it was created in a different conversation, or the messages before
+        it have changed since. `"error"` (the default) fails the request with a
+        400 error. `"drop_block"` removes the failing blocks and the request
+        proceeds; the model no longer sees the dropped reasoning.
+
+        - `"error"`
+
+        - `"drop_block"`
+
     - `display?: "summarized" | "omitted" | "updates" | null`
 
       Controls how thinking content appears in the response. When set to `summarized`, thinking is returned normally. When set to `omitted`, thinking content is redacted but a signature is returned for multi-turn continuity. Defaults to `summarized`.
@@ -30665,6 +31538,12 @@ console.log(betaMessageTokensCount.context_management);
   - `BetaThinkingConfigAdaptive`
 
     - `type: "adaptive"`
+
+    - `block_binding?: BetaThinkingBlockBinding | null`
+
+      Controls for block binding: what happens when a thinking block this
+      request sends back fails the conversation check. Every field is optional;
+      an empty object means every default.
 
     - `display?: "summarized" | "omitted" | "updates" | null`
 
@@ -30691,6 +31570,60 @@ console.log(betaMessageTokensCount.context_management);
   - `type: "thinking_delta"`
 
     default: thinking_delta
+
+### Beta Thinking Dropped Input Transformation
+
+- `BetaThinkingDroppedInputTransformation`
+
+  - `path: string`
+
+    Where the removed block was in your request, as `messages.{i}.content.{j}`:
+    `i` indexes the `messages` array you sent and `j` that message's `content`
+    array — the same form error messages use.
+
+  - `reason: "model_binding_mismatch" | "prefix_binding_mismatch" | "organization_binding_mismatch" | "end_user_binding_mismatch"`
+
+    Which binding check removed the block: `model_binding_mismatch` — it was
+    created by a model whose reasoning the requested model may not read;
+    `prefix_binding_mismatch` — the conversation before it differs from the
+    conversation it was created in (the rest of that turn's consecutive thinking
+    blocks are removed with it, each with this reason);
+    `organization_binding_mismatch` — it was created under a different
+    organization (an Anthropic organization, AWS account or Google Cloud project)
+    and this organization is not one of its additional organizations;
+    `end_user_binding_mismatch` — it was created for a different end user, or
+    was removed by the consumer-organization binding. A block that would fail
+    several checks reports one reason, in this order of precedence:
+    `organization_binding_mismatch`, `end_user_binding_mismatch`,
+    `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+    - `"model_binding_mismatch"`
+
+    - `"prefix_binding_mismatch"`
+
+    - `"organization_binding_mismatch"`
+
+    - `"end_user_binding_mismatch"`
+
+  - `type: "thinking_dropped"`
+
+    Always `thinking_dropped` for this entry type.
+
+    default: thinking_dropped
+
+### Beta Thinking Prefix Mismatch Behavior
+
+- `BetaThinkingPrefixMismatchBehavior = "error" | "drop_block"`
+
+  What happens when a thinking block in `messages` fails the conversation
+  check: it was created in a different conversation, or the messages before
+  it have changed since. `"error"` (the default) fails the request with a
+  400 error. `"drop_block"` removes the failing blocks and the request
+  proceeds; the model no longer sees the dropped reasoning.
+
+  - `"error"`
+
+  - `"drop_block"`
 
 ### Beta Thinking Turns
 
@@ -32617,16 +33550,6 @@ console.log(betaMessageTokensCount.context_management);
 
     - `type: "browser_toolset_20260801"`
 
-    - `allowed_callers?: Array<"direct" | "code_execution_20250825" | "code_execution_20260120" | "code_execution_20260521">`
-
-      - `"direct"`
-
-      - `"code_execution_20250825"`
-
-      - `"code_execution_20260120"`
-
-      - `"code_execution_20260521"`
-
     - `cache_control?: BetaCacheControlEphemeral | null`
 
       Create a cache control breakpoint at this content block.
@@ -33252,16 +34175,6 @@ console.log(betaMessageTokensCount.context_management);
     via `configs.zoom.enabled`.
 
     - `type: "computer_toolset_20260801"`
-
-    - `allowed_callers?: Array<"direct" | "code_execution_20250825" | "code_execution_20260120" | "code_execution_20260521">`
-
-      - `"direct"`
-
-      - `"code_execution_20250825"`
-
-      - `"code_execution_20260120"`
-
-      - `"code_execution_20260521"`
 
     - `cache_control?: BetaCacheControlEphemeral | null`
 
@@ -34024,7 +34937,15 @@ console.log(betaMessageTokensCount.context_management);
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-      - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+      - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+        - `"claude-fable-5-1"`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+        - `"claude-mythos-5-1"`
+
+          Our most capable model for cybersecurity and biology research, available through trusted access programs
 
         - `"claude-sonnet-5"`
 
@@ -34558,7 +35479,15 @@ console.log(betaMessageTokensCount.context_management);
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-        - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+        - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+          - `"claude-fable-5-1"`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+          - `"claude-mythos-5-1"`
+
+            Our most capable model for cybersecurity and biology research, available through trusted access programs
 
           - `"claude-sonnet-5"`
 
@@ -38001,7 +38930,15 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-                  - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+                  - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+                    - `"claude-fable-5-1"`
+
+                      Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+                    - `"claude-mythos-5-1"`
+
+                      Our most capable model for cybersecurity and biology research, available through trusted access programs
 
                     - `"claude-sonnet-5"`
 
@@ -38082,6 +39019,36 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           - `"assistant"`
 
           - `"system"`
+
+        - `clear_at?: "next_user_message" | "never" | null`
+
+          How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
+
+          - `"next_user_message"`
+
+          - `"never"`
+
+        - `output_config?: BetaSystemMessageOutputConfig | null`
+
+          Per-message output configuration on a role:"system" input message.
+
+          Fields here apply per-turn; `format` remains top-level only. An
+          empty `{}` is accepted on a message that carries content; a message
+          with neither content nor output_config fields is rejected.
+
+          - `effort?: "low" | "medium" | "high" | 2 more | null`
+
+            All possible effort levels.
+
+            - `"low"`
+
+            - `"medium"`
+
+            - `"high"`
+
+            - `"xhigh"`
+
+            - `"max"`
 
       - `model: Model`
 
@@ -38387,6 +39354,24 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `type: "enabled"`
 
+              - `block_binding?: BetaThinkingBlockBinding | null`
+
+                Controls for block binding: what happens when a thinking block this
+                request sends back fails the conversation check. Every field is optional;
+                an empty object means every default.
+
+                - `prefix_mismatch_behavior?: BetaThinkingPrefixMismatchBehavior | null`
+
+                  What happens when a thinking block in `messages` fails the conversation
+                  check: it was created in a different conversation, or the messages before
+                  it have changed since. `"error"` (the default) fails the request with a
+                  400 error. `"drop_block"` removes the failing blocks and the request
+                  proceeds; the model no longer sees the dropped reasoning.
+
+                  - `"error"`
+
+                  - `"drop_block"`
+
               - `display?: "summarized" | "omitted" | "updates" | null`
 
                 Controls how thinking content appears in the response. When set to `summarized`, thinking is returned normally. When set to `omitted`, thinking content is redacted but a signature is returned for multi-turn continuity. Defaults to `summarized`.
@@ -38404,6 +39389,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `BetaThinkingConfigAdaptive`
 
               - `type: "adaptive"`
+
+              - `block_binding?: BetaThinkingBlockBinding | null`
+
+                Controls for block binding: what happens when a thinking block this
+                request sends back fails the conversation check. Every field is optional;
+                an empty object means every default.
 
               - `display?: "summarized" | "omitted" | "updates" | null`
 
@@ -38907,16 +39898,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           from its schema.
 
           - `type: "browser_toolset_20260801"`
-
-          - `allowed_callers?: Array<"direct" | "code_execution_20250825" | "code_execution_20260120" | "code_execution_20260521">`
-
-            - `"direct"`
-
-            - `"code_execution_20250825"`
-
-            - `"code_execution_20260120"`
-
-            - `"code_execution_20260521"`
 
           - `cache_control?: BetaCacheControlEphemeral | null`
 
@@ -39543,16 +40524,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           via `configs.zoom.enabled`.
 
           - `type: "computer_toolset_20260801"`
-
-          - `allowed_callers?: Array<"direct" | "code_execution_20250825" | "code_execution_20260120" | "code_execution_20260521">`
-
-            - `"direct"`
-
-            - `"code_execution_20250825"`
-
-            - `"code_execution_20260120"`
-
-            - `"code_execution_20260521"`
 
           - `cache_control?: BetaCacheControlEphemeral | null`
 
@@ -40516,7 +41487,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `(string & {})`
 
-    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 38 more`
+    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 41 more`
 
       - `"message-batches-2024-09-24"`
 
@@ -40599,6 +41570,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
       - `"thinking-display-updates-2026-08-18"`
 
       - `"ce-user-management-2026-07-13"`
+
+      - `"mid-conversation-output-config-2026-07-01"`
+
+      - `"thinking-binding-controls-2026-08-01"`
+
+      - `"mid-conversation-system-clear-at-2026-08-21"`
 
   - `user_profile_id?: string`
 
@@ -40786,7 +41763,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `(string & {})`
 
-    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 38 more`
+    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 41 more`
 
       - `"message-batches-2024-09-24"`
 
@@ -40869,6 +41846,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
       - `"thinking-display-updates-2026-08-18"`
 
       - `"ce-user-management-2026-07-13"`
+
+      - `"mid-conversation-output-config-2026-07-01"`
+
+      - `"thinking-binding-controls-2026-08-01"`
+
+      - `"mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -41053,7 +42036,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `(string & {})`
 
-    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 38 more`
+    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 41 more`
 
       - `"message-batches-2024-09-24"`
 
@@ -41136,6 +42119,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
       - `"thinking-display-updates-2026-08-18"`
 
       - `"ce-user-management-2026-07-13"`
+
+      - `"mid-conversation-output-config-2026-07-01"`
+
+      - `"thinking-binding-controls-2026-08-01"`
+
+      - `"mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -41318,7 +42307,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `(string & {})`
 
-    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 38 more`
+    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 41 more`
 
       - `"message-batches-2024-09-24"`
 
@@ -41401,6 +42390,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
       - `"thinking-display-updates-2026-08-18"`
 
       - `"ce-user-management-2026-07-13"`
+
+      - `"mid-conversation-output-config-2026-07-01"`
+
+      - `"thinking-binding-controls-2026-08-01"`
+
+      - `"mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -41575,7 +42570,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `(string & {})`
 
-    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 38 more`
+    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 41 more`
 
       - `"message-batches-2024-09-24"`
 
@@ -41658,6 +42653,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
       - `"thinking-display-updates-2026-08-18"`
 
       - `"ce-user-management-2026-07-13"`
+
+      - `"mid-conversation-output-config-2026-07-01"`
+
+      - `"thinking-binding-controls-2026-08-01"`
+
+      - `"mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -41724,7 +42725,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `(string & {})`
 
-    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 38 more`
+    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 41 more`
 
       - `"message-batches-2024-09-24"`
 
@@ -41808,6 +42809,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
       - `"ce-user-management-2026-07-13"`
 
+      - `"mid-conversation-output-config-2026-07-01"`
+
+      - `"thinking-binding-controls-2026-08-01"`
+
+      - `"mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `BetaMessageBatchIndividualResponse`
@@ -41850,7 +42857,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             format: date-time
 
-          - `skills: Array<BetaSkill> | null`
+          - `skills: Array<BetaContainerSkill> | null`
 
             Skills loaded in the container
 
@@ -42751,7 +43758,15 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-                - `"claude-sonnet-5" | "claude-fable-5" | "claude-mythos-5" | 12 more`
+                - `"claude-fable-5-1" | "claude-mythos-5-1" | "claude-sonnet-5" | 14 more`
+
+                  - `"claude-fable-5-1"`
+
+                    Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+                  - `"claude-mythos-5-1"`
+
+                    Our most capable model for cybersecurity and biology research, available through trusted access programs
 
                   - `"claude-sonnet-5"`
 
@@ -42826,6 +43841,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
                 The policy category that triggered a refusal.
+
+                - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+                - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+                - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+                - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+                - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
                 - `"cyber"`
 
@@ -42987,6 +44008,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           - `category: "cyber" | "bio" | "frontier_llm" | 2 more | null`
 
             The policy category that triggered a refusal.
+
+            - `cyber` - The request could enable cyber harm, such as malware or exploit development. Benign cybersecurity work can also trigger this category.
+            - `bio` - The request could enable biological harm, such as dangerous lab methods. Beneficial life sciences work can also trigger this category.
+            - `frontier_llm` - The request could assist the development of competing AI models, which is restricted under [Anthropic's commercial terms](https://www.anthropic.com/legal/commercial-terms). Benign machine learning work can also trigger this category.
+            - `reasoning_extraction` - The request asks the model to reproduce its internal reasoning in the response text. To get reasoning in a structured form instead, use [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking).
+            - `general_harms` - The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
             - `"cyber"`
 
@@ -43483,6 +44510,60 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `"standard"`
 
             - `"fast"`
+
+        - `input_transformations?: Array<BetaThinkingDroppedInputTransformation> | null`
+
+          Changes the API made to the request's input before showing it to the model:
+          one entry per change, in request order. Today the only entry type is
+          `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+          block from the request's `messages` that was removed from the prompt instead
+          of being shown to the model because it failed a binding check. More entry
+          types may be added over time; ignore types you do not recognize.
+
+          Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+          every such response from a model that supports extended thinking, as `[]`
+          when nothing was changed; without the beta, blocks are removed all the same
+          but nothing is reported. Removed blocks contribute nothing to
+          `usage.input_tokens`. When streaming, the array is final in `message_start`;
+          the final `message_delta` event carries it only when a server-side model
+          fallback happened mid-stream, in which case it holds the serving model's
+          entries and replaces the one in `message_start`.
+
+          - `path: string`
+
+            Where the removed block was in your request, as `messages.{i}.content.{j}`:
+            `i` indexes the `messages` array you sent and `j` that message's `content`
+            array — the same form error messages use.
+
+          - `reason: "model_binding_mismatch" | "prefix_binding_mismatch" | "organization_binding_mismatch" | "end_user_binding_mismatch"`
+
+            Which binding check removed the block: `model_binding_mismatch` — it was
+            created by a model whose reasoning the requested model may not read;
+            `prefix_binding_mismatch` — the conversation before it differs from the
+            conversation it was created in (the rest of that turn's consecutive thinking
+            blocks are removed with it, each with this reason);
+            `organization_binding_mismatch` — it was created under a different
+            organization (an Anthropic organization, AWS account or Google Cloud project)
+            and this organization is not one of its additional organizations;
+            `end_user_binding_mismatch` — it was created for a different end user, or
+            was removed by the consumer-organization binding. A block that would fail
+            several checks reports one reason, in this order of precedence:
+            `organization_binding_mismatch`, `end_user_binding_mismatch`,
+            `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+            - `"model_binding_mismatch"`
+
+            - `"prefix_binding_mismatch"`
+
+            - `"organization_binding_mismatch"`
+
+            - `"end_user_binding_mismatch"`
+
+          - `type: "thinking_dropped"`
+
+            Always `thinking_dropped` for this entry type.
+
+            default: thinking_dropped
 
       - `type: "succeeded"`
 

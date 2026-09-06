@@ -102,6 +102,12 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `String caCertificatePem`
 
     PEM-encoded X.509 CA certificate. Must contain exactly one certificate and no private-key material. Maximum 8KB.
@@ -144,7 +150,7 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 
     ID of the tunnel the certificate is registered against.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel_certificate"`
 
 ### Example
 
@@ -289,6 +295,12 @@ Fetches a tunnel certificate by ID.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaTunnelCertificate:`
@@ -325,7 +337,7 @@ Fetches a tunnel certificate by ID.
 
     ID of the tunnel the certificate is registered against.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel_certificate"`
 
 ### Example
 
@@ -482,6 +494,12 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaTunnelCertificate:`
@@ -518,7 +536,7 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
     ID of the tunnel the certificate is registered against.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel_certificate"`
 
 ### Example
 
@@ -664,6 +682,12 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaTunnelCertificate:`
@@ -700,7 +724,7 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 
     ID of the tunnel the certificate is registered against.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel_certificate"`
 
 ### Example
 
@@ -779,4 +803,4 @@ public final class Main {
 
     ID of the tunnel the certificate is registered against.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel_certificate"`

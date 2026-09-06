@@ -98,6 +98,12 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<String> displayName`
 
     Optional human-readable name for the tunnel (1-255 characters).
@@ -134,7 +140,7 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
     Anthropic-assigned hostname for the tunnel. MCP server URLs whose host is a subdomain of this value are routed through the tunnel. Globally unique and never reused, even after the tunnel is archived.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "tunnel"`
 
 ## Example
 

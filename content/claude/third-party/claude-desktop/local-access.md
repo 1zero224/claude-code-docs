@@ -24,18 +24,18 @@ A leading `~` expands to the user's home directory, so a single profile can expr
 
 Each entry is either a plain path string or an object with these fields:
 
-| Field               | Description                                                                                                                                                                                                                      |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `path`              | The folder path (required). Subfolders are included.                                                                                                                                                                             |
-| `mode`              | `rw` (the default) or `ro`. The agent can view and search a read-only folder but cannot modify it in Cowork. In Code sessions, read-only applies to Claude's file tools only; shell commands and SSH sessions do not enforce it. |
-| `isDefaultSelected` | When `true`, the folder appears already selected on the new-task page and skips the trust prompt. Users can remove it.                                                                                                           |
+| Field               | Description                                                                                                                                                                                                                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `path`              | The folder path (required). Subfolders are included.                                                                                                                                                                                                                                       |
+| `mode`              | `rw` (the default) or `ro`. The agent can view and search a read-only folder but cannot modify it in Cowork. In Code sessions, read-only applies to Claude's file tools only; shell commands and [SSH remote sessions](/docs/third-party/claude-desktop/ssh-remote-sessions) do not enforce it. |
+| `isDefaultSelected` | When `true`, the folder appears already selected on the new-task page and skips the trust prompt. Users can remove it.                                                                                                                                                                     |
 
 For example, `[{"path": "~/Documents/Claude"}, {"path": "/Volumes/Shared/Reference", "mode": "ro"}]` lets users work in their own folder and consult the shared reference folder without changing it.
 
 The check is enforced against the **resolved** path, so symlinks and `..` traversal can't be used to escape an allowed root.
 
 <Note>
-  The allowlist controls what users can **attach**. Within an attached read/write folder, the agent can read and write every file the user's OS account can reach. To keep data out of reach entirely, leave it outside the allowed roots. To let the agent read data in Cowork without changing it, list the folder with `mode` set to `ro`.
+  The allowlist controls what users can **attach**. Within an attached read/write folder, the agent can read and write every file the user's OS account can reach. Data outside the allowed roots cannot be attached in Cowork and is out of reach of Claude's file tools in Code sessions. A Code session's shell commands are confined only by the sandbox described under [Code](/docs/third-party/claude-desktop/code#applied-as-managed-policy): where it applies they can change files only inside the roots and temporary locations but can still read outside them unless you also set [`blockReadsOutsideWorkingDirectories`](/docs/third-party/claude-desktop/configuration#blockreadsoutsideworkingdirectories), and where it does not apply (Windows devices, hosts without the sandbox dependencies) the allowlist does not confine them and that key can only turn such reads into approval prompts. To let the agent read data in Cowork without changing it, list the folder with `mode` set to `ro`.
 </Note>
 
 ## Network drives on Windows

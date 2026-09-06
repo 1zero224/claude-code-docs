@@ -28,7 +28,7 @@ In "Manually approve," Claude checks with you before it acts. What that looks li
 
 Claude creates a plan from your prompt, which you can approve before Claude starts. The plan specifies which websites you're allowing Claude to access, as well as the approach it will follow:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1843320727/8d1c859ae9b8e0cdb536d024bf40/9bc3d239-8eb6-4bae-a032-a236f88ee606?expires=1787829300&amp;signature=bd9741c5d13b05f004c59a2cabafbf028739c21700aadc645591ddd73225cb76&amp;req=dSgjFcp8nYZdXvMW1HO4zYqyZcVF%2Fou0gN0ADj5oqFBgoqTqZkq0nvgcNMqt%0A1M42LlicSPPOqlnZvUQ%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1843320727/8d1c859ae9b8e0cdb536d024bf40/9bc3d239-8eb6-4bae-a032-a236f88ee606?expires=1788701400&amp;signature=fcf9ee18c8e3c575817c5b15325ffd359a861ef9adf3b7461f4a6ced6db7028b&amp;req=dSgjFcp8nYZdXvMW1HO4zYqyZcpK%2FIOzgN0ADj5oqFCobg5jxnq20vgiKnKG%0AvZF6QQwFAiTqUwIv0rk%3D%0A)
 
 Note that Claude will only use the websites listed in the plan, so you’ll need to manually approve any additional access requests.
 
@@ -62,7 +62,7 @@ When you choose "Skip all approvals," Claude doesn't pause to ask, and nothing c
 
 There are some websites on which Claude requires approval for every action. If you navigate to one of these sites, a **New permissions required** prompt will appear in the extension side panel, Claude Cowork, or Claude Code where Claude will ask for permission before accessing the page or taking any action.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2604970825/d7b961271be69e7541b406df1efd/d845324e-6b4a-4f54-83b9-0bea86ec09c6?expires=1787829300&amp;signature=7a812125b1859c7f60129fc351d75a88d53514776950d35c4a32af88fc1ee7f7&amp;req=diYnEsB5nYldXPMW1HO4zZ3NqmF4iiXv7A4lHPBihAXNmRNT%2BvBlz6eiVA%2F8%0AvM056Wf3%2FTYdHoara20%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2604970825/d7b961271be69e7541b406df1efd/d845324e-6b4a-4f54-83b9-0bea86ec09c6?expires=1788701400&amp;signature=2645e5f50902f80b2291d9201b2afbb1aa59b2e57db1ef716f8e3788e367e3f4&amp;req=diYnEsB5nYldXPMW1HO4zZ3Nqm53iC3o7A4lHPBihAWuS21kakKKhdoMVKyh%0AaenOlCzgxqhmzWbf9t0%3D%0A)
 
 ### Permission options
 

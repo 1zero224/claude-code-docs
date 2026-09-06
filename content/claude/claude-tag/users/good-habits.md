@@ -142,7 +142,7 @@ Reading a public channel's full history, rather than what search finds, needs Cl
 
 A private channel is readable only from inside it. Inviting Claude lets it work in that channel, but Claude can't read the private channel's messages from any other channel or DM. To ask about a private channel, ask in that channel.
 
-Channels in a different workspace stay out of reach. In a Slack Connect channel, one shared with another company, Claude works only where your admin's guest setting allows it, and then with channel-only access; see [Slack Connect channels](/docs/claude-tag/admins/restrict-access#externally-shared-channels).
+Channels in a different workspace and Slack Connect channels stay out of reach.
 
 When more than one surface would work, prefer a channel. Work that happens there compounds, because Claude can draw on it in later threads and teammates can find it, redirect it, or build on it.
 
@@ -170,7 +170,7 @@ See [the admin guide to a skills repository](/docs/claude-tag/admins/skills-repo
 
 A `CLAUDE.md` carries setup as well as conventions. Sessions run in a sandbox with a standard set of preinstalled tools. If the repository needs more, such as a language runtime or a database client, put the install commands in `CLAUDE.md`, and Claude [runs them when its work needs them](/docs/claude-tag/admins/configure-github#install-project-dependencies).
 
-A `CLAUDE.md` is guidance; a required status check is a gate. If a pull request must carry a label or pass a check, make that a repository rule rather than a memory note or a skill.
+A `CLAUDE.md` is guidance; a required status check is a gate. If a pull request must carry a label or pass a check, make that a repository rule rather than a memory note or a skill. The same goes for review: to require an approval from someone other than the person who asked Claude for the change, see [Require a second approval on Claude's pull requests](/docs/claude-tag/admins/configure-github#require-a-second-approval-on-claude%E2%80%99s-pull-requests).
 
 ### Configure Claude for a channel
 

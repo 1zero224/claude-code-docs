@@ -10,13 +10,9 @@ List Files
 
 - `FileListParams params`
 
-  - `Optional<String> afterId`
+  - `Optional<List<String>> ids`
 
-    ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
-
-  - `Optional<String> beforeId`
-
-    ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
+    Restrict the result set to Files whose `id` is in this list. At most 100 entries (after de-duplication). Mutually exclusive with `page` and `limit`. When supplied, the response is always a single page (`next_page` is null). IDs that do not resolve to a visible File — including deleted Files — are silently omitted.
 
   - `Optional<Long> limit`
 
@@ -25,6 +21,10 @@ List Files
     Defaults to `20`. Ranges from `1` to `1000`.
 
     maximum: 1000, minimum: 1
+
+  - `Optional<String> page`
+
+    Opaque page cursor returned in a prior list response's `next_page`. Prefixed `page_`.
 
   - `Optional<String> scopeId`
 
@@ -116,6 +116,12 @@ List Files
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ## Returns
 
 - `class BetaFileMetadata:`
@@ -150,7 +156,7 @@ List Files
 
     minimum: 0
 
-  - `JsonValue type constant`
+  - `JsonValue type = "file"`
 
     Object type.
 
@@ -160,6 +166,12 @@ List Files
 
     Whether the file can be downloaded.
 
+  - `Optional<LocalDateTime> expiresAt`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `Optional<BetaFileScope> scope`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -168,7 +180,7 @@ List Files
 
       The ID of the scoping resource (e.g., the session ID).
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       The type of scope (e.g., `"session"`).
 
@@ -206,14 +218,13 @@ public final class Main {
       "size_bytes": 102400,
       "type": "file",
       "downloadable": false,
+      "expires_at": "2025-05-15T18:37:24.100435Z",
       "scope": {
         "id": "id",
         "type": "session"
       }
     }
   ],
-  "first_id": "file_011CNha8iCJcU1wXNR6q4V8w",
-  "has_more": true,
-  "last_id": "file_013Zva2CMHLNnXjNJJKqJ2EF"
+  "next_page": "next_page"
 }
 ```

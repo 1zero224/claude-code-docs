@@ -104,6 +104,12 @@ Retrieve detailed information about a specific work item.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaSelfHostedWork:`
@@ -134,7 +140,7 @@ Retrieve detailed information about a specific work item.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       Type of work data
 
@@ -180,7 +186,7 @@ Retrieve detailed information about a specific work item.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work"`
 
     The type of object (always 'work')
 
@@ -348,6 +354,12 @@ Long poll for work items in the queue.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<String> anthropicWorkerId`
 
     Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
@@ -382,7 +394,7 @@ Long poll for work items in the queue.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       Type of work data
 
@@ -428,7 +440,7 @@ Long poll for work items in the queue.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work"`
 
     The type of object (always 'work')
 
@@ -583,6 +595,12 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaSelfHostedWork:`
@@ -613,7 +631,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       Type of work data
 
@@ -659,7 +677,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work"`
 
     The type of object (always 'work')
 
@@ -825,6 +843,12 @@ Record a heartbeat for a work item to maintain the lease.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaSelfHostedWorkHeartbeatResponse:`
@@ -857,7 +881,7 @@ Record a heartbeat for a work item to maintain the lease.
 
     Effective TTL applied to the lease
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work_heartbeat"`
 
     The type of response
 
@@ -1002,6 +1026,12 @@ Stop a work item, initiating graceful or forced shutdown.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `BetaSelfHostedWorkStopRequest betaSelfHostedWorkStopRequest`
 
     Request to stop a work item.
@@ -1036,7 +1066,7 @@ Stop a work item, initiating graceful or forced shutdown.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       Type of work data
 
@@ -1082,7 +1112,7 @@ Stop a work item, initiating graceful or forced shutdown.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work"`
 
     The type of object (always 'work')
 
@@ -1250,6 +1280,12 @@ List work items in an environment.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaSelfHostedWork:`
@@ -1280,7 +1316,7 @@ List work items in an environment.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       Type of work data
 
@@ -1326,7 +1362,7 @@ List work items in an environment.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work"`
 
     The type of object (always 'work')
 
@@ -1485,6 +1521,12 @@ Update work item metadata with merge semantics.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `BetaSelfHostedWorkUpdateRequest betaSelfHostedWorkUpdateRequest`
 
     Request to update work item metadata.
@@ -1519,7 +1561,7 @@ Update work item metadata with merge semantics.
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       Type of work data
 
@@ -1565,7 +1607,7 @@ Update work item metadata with merge semantics.
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work"`
 
     The type of object (always 'work')
 
@@ -1590,11 +1632,9 @@ public final class Main {
         WorkUpdateParams params = WorkUpdateParams.builder()
             .environmentId("env_011CZkZ9X2dpNyB7HsEFoRfW")
             .workId("work_id")
-            .betaSelfHostedWorkUpdateRequest(BetaSelfHostedWorkUpdateRequest.builder()
-                .metadata(BetaSelfHostedWorkUpdateRequest.Metadata.builder()
-                    .putAdditionalProperty("foo", JsonValue.from("string"))
-                    .build())
-                .build())
+            .betaSelfHostedWorkUpdateRequest(BetaSelfHostedWorkUpdateRequest.of(BetaSelfHostedWorkUpdateRequest.Metadata.builder()
+                .putAdditionalProperty("foo", JsonValue.from("string"))
+                .build()))
             .build();
         BetaSelfHostedWork betaSelfHostedWork = client.beta().environments().work().update(params);
     }
@@ -1726,6 +1766,12 @@ Get statistics about the work queue for an environment.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaSelfHostedWorkQueueStats:`
@@ -1746,7 +1792,7 @@ Get statistics about the work queue for an environment.
 
     Number of work items being processed (polled but not acknowledged)
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work_queue_stats"`
 
     The type of object
 
@@ -1819,7 +1865,7 @@ public final class Main {
 
       Session identifier (e.g., 'session_...')
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       Type of work data
 
@@ -1865,7 +1911,7 @@ public final class Main {
 
     RFC 3339 timestamp when work execution stopped
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work"`
 
     The type of object (always 'work')
 
@@ -1901,7 +1947,7 @@ public final class Main {
 
     Effective TTL applied to the lease
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work_heartbeat"`
 
     The type of response
 
@@ -1935,7 +1981,7 @@ public final class Main {
 
         Session identifier (e.g., 'session_...')
 
-      - `JsonValue type constant`
+      - `JsonValue type = "session"`
 
         Type of work data
 
@@ -1981,7 +2027,7 @@ public final class Main {
 
       RFC 3339 timestamp when work execution stopped
 
-    - `JsonValue type constant`
+    - `JsonValue type = "work"`
 
       The type of object (always 'work')
 
@@ -2009,7 +2055,7 @@ public final class Main {
 
     Number of work items being processed (polled but not acknowledged)
 
-  - `JsonValue type constant`
+  - `JsonValue type = "work_queue_stats"`
 
     The type of object
 
@@ -2050,6 +2096,6 @@ public final class Main {
 
     Session identifier (e.g., 'session_...')
 
-  - `JsonValue type constant`
+  - `JsonValue type = "session"`
 
     Type of work data

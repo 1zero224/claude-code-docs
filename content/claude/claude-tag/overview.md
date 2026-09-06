@@ -13,7 +13,7 @@
     <p className="tm-hero-lede">Anyone in a channel can tag Claude into a problem and hand it work: reproduce a bug and open a pull request, turn a decision thread into a doc, assemble the state of a project. It posts a checklist in the thread as it goes, and the whole exchange stays visible to the channel.</p>
 
     <div className="tm-hero-ctas">
-      <a className="tm-btn tm-btn-dark" href="/docs/docs/claude-tag/admins/setup-overview">I'm setting it up →</a>
+      <a className="tm-btn tm-btn-dark" href="/docs/claude-tag/admins/setup-overview">I'm setting it up →</a>
       <a className="tm-btn tm-btn-light" href="#put-claude-tag-to-work">Use it in your channel ↓</a>
     </div>
   </div>
@@ -74,37 +74,37 @@ If you're choosing between Claude products for Slack-shaped work, [how Claude Ta
 
 Claude Tag works in Slack. You interact with it by writing in a Slack channel, thread, or direct message, and it replies there. Mention `@Claude` in a channel to guarantee it picks the message up.
 
-When Claude works on a task, it runs in an ephemeral sandbox hosted by Anthropic, not on your computer or inside your network. The sandbox is created when a conversation starts, holds any code or files Claude is working with, and is discarded when the conversation goes idle. See [how Claude Tag works](/docs/claude-tag/concepts/how-it-works) for the full lifecycle.
+When Claude works on a task, it runs in an ephemeral sandbox, not on your computer. The sandbox is created when a conversation starts, holds any code or files Claude is working with, and is discarded when the conversation goes idle. See [how Claude Tag works](/docs/claude-tag/concepts/how-it-works) for the full lifecycle.
 
 You extend what Claude can reach, like your repositories, ticketing systems, data warehouses, and custom tools, through [connections](/docs/claude-tag/admins/add-connections), [plugins, and skills](/docs/claude-tag/admins/customize). An Owner configures these per scope (a channel, a workspace, or the whole organization), separately from any connectors an individual user has set up in their own claude.ai account.
 
 <div className="tm-route-grid">
   <div className="tm-card">
-    <a className="tm-band tm-band-admins" href="/docs/docs/claude-tag/admins/setup-overview">
+    <a className="tm-band tm-band-admins" href="/docs/claude-tag/admins/setup-overview">
       <span className="tm-band-text">
         <span className="tm-band-label">For administrators</span>
-        <span className="tm-band-title">Provision the identity</span>
+        <span className="tm-band-title">Set up Claude Tag</span>
       </span>
 
       <img src="https://mintcdn.com/claude-ai/5JFKyLlO7sHMMf5J/images/claude-tag/illustrations/Hand-Key.svg?fit=max&auto=format&n=5JFKyLlO7sHMMf5J&q=85&s=1b7a9675728f971bc7a4663c7f1ea599" alt="" noZoom width="1000" height="1000" data-path="images/claude-tag/illustrations/Hand-Key.svg" />
     </a>
 
     <div className="tm-qrows">
-      <a className="tm-qrow" href="/docs/docs/claude-tag/admins/setup-overview">
+      <a className="tm-qrow" href="/docs/claude-tag/admins/setup-overview">
         <span className="tm-qrow-text">
           <span className="tm-qrow-q">Where do I start?</span>
-          <span className="tm-qrow-sub">The four setup steps, what to have ready, and what to test first</span>
+          <span className="tm-qrow-sub">Pair your Slack workspace, connect the services Claude will work in, launch, and test that it works</span>
         </span>
       </a>
 
-      <a className="tm-qrow" href="/docs/docs/claude-tag/concepts/agent-identity">
+      <a className="tm-qrow" href="/docs/claude-tag/concepts/agent-identity">
         <span className="tm-qrow-text">
           <span className="tm-qrow-q">What can Claude Tag access?</span>
           <span className="tm-qrow-sub">How admins set access per channel, and where credentials are stored</span>
         </span>
       </a>
 
-      <a className="tm-qrow" href="/docs/docs/claude-tag/admins/add-connections">
+      <a className="tm-qrow" href="/docs/claude-tag/admins/add-connections">
         <span className="tm-qrow-text">
           <span className="tm-qrow-q">How do I connect each service?</span>
           <span className="tm-qrow-sub">Credential types, allowed hosts, and what each connection lets Claude reach</span>
@@ -124,35 +124,35 @@ You extend what Claude can reach, like your repositories, ticketing systems, dat
     </a>
 
     <div className="tm-qrows">
-      <a className="tm-qrow" href="/docs/docs/claude-tag/users/getting-started">
+      <a className="tm-qrow" href="/docs/claude-tag/users/getting-started">
         <span className="tm-qrow-text">
           <span className="tm-qrow-q">How do I hand Claude Tag a task?</span>
           <span className="tm-qrow-sub">Mention Claude in any channel it's in, with nothing to install</span>
         </span>
       </a>
 
-      <a className="tm-qrow" href="/docs/docs/claude-tag/users/use-cases">
+      <a className="tm-qrow" href="/docs/claude-tag/users/use-cases">
         <span className="tm-qrow-text">
           <span className="tm-qrow-q">What is Claude Tag good at?</span>
-          <span className="tm-qrow-sub">Use cases for coding, data, incidents, and GTM</span>
+          <span className="tm-qrow-sub">Use cases for coding, data, incidents, and go-to-market</span>
         </span>
       </a>
 
-      <a className="tm-qrow" href="/docs/docs/claude-tag/users/good-habits">
+      <a className="tm-qrow" href="/docs/claude-tag/users/good-habits">
         <span className="tm-qrow-text">
           <span className="tm-qrow-q">How do I get good results?</span>
           <span className="tm-qrow-sub">Good habits for scoping and reviewing work</span>
         </span>
       </a>
 
-      <a className="tm-qrow" href="/docs/docs/claude-tag/users/memory">
+      <a className="tm-qrow" href="/docs/claude-tag/users/memory">
         <span className="tm-qrow-text">
           <span className="tm-qrow-q">What does Claude Tag remember?</span>
           <span className="tm-qrow-sub">Channel memory, what's shared across the workspace, and who can see what</span>
         </span>
       </a>
 
-      <a className="tm-qrow" href="/docs/docs/claude-tag/users/proactivity">
+      <a className="tm-qrow" href="/docs/claude-tag/users/proactivity">
         <span className="tm-qrow-text">
           <span className="tm-qrow-q">Can Claude Tag run tasks on a schedule?</span>
           <span className="tm-qrow-sub">Scheduled jobs, channel watching, and triggers</span>
@@ -178,26 +178,44 @@ To learn what your team's usage costs, run a pilot with a spend limit set and wa
 
 If Claude Tag is in your channel, you can use it now. (If it isn't there yet, an Owner in your Claude organization runs setup: see [Set up Claude Tag](/docs/claude-tag/admins/setup-overview).) Anyone in the channel can hand it work, and channel work bills to the organization, not to you.
 
-What it can reach depends on the channel you're in, not on who you are. The fastest way to find out is to ask it: `@Claude what can you access from this channel?` Or, if you're signed in to your Claude organization, click **Configure** in the footer of any Claude reply to see the channel's connections.
+What it can reach depends on the channel you're in, not on who you are. The fastest way to find out is to ask it: `@Claude what can you access from this channel?` Or, if you're signed in to your Claude organization, click **Configure** in the footer of a Claude reply in the channel to see its [connections](/docs/claude-tag/concepts/glossary#connection), the external services an admin has connected for that channel. Replies in org-shared channels have no Configure link.
 
 The one exception is a DM, where it runs on your own claude.ai account instead of the channel's setup. Owners can disable DMs organization-wide; see [Allow or disable direct messages](/docs/claude-tag/admins/restrict-access#allow-or-disable-direct-messages).
 
-Begin with [Get started](/docs/claude-tag/users/getting-started), which covers your first message, what you see while it works, and how to shape its behavior in your channel.
+### Common uses
+
+The list below covers common ways teams use Claude Tag. Each link opens a guide with the prompts to paste and the connections the task needs.
+
+* [Watch monitors and alerts](/docs/claude-tag/users/use-cases/watch-monitors): scheduled dashboard checks, and alerts investigated as they arrive. Needs a monitoring connection like Datadog, Sentry, or PagerDuty.
+* [Triage requests](/docs/claude-tag/users/use-cases/triage-requests): an intake channel where Claude answers what it can, flags duplicates, and routes the rest. Works on Slack content alone.
+* [Find answers in your docs](/docs/claude-tag/users/use-cases/find-answers): policy and runbook questions answered with the source. Needs a docs connection like Google Drive, Notion, or Confluence.
+* [Answer data questions](/docs/claude-tag/users/use-cases/answer-data-questions): a plain-language question becomes a warehouse query and a chart. Needs a data warehouse connection.
+* [Track projects and chase approvals](/docs/claude-tag/users/use-cases/track-projects): standing status digests and follow-ups that run until an approval lands
+* [Turn threads into docs and tickets](/docs/claude-tag/users/use-cases/create-artifacts): a settled discussion becomes the decision doc, the customer reply, or the filed tickets
+* [Fix bugs](/docs/claude-tag/users/use-cases/fix-bugs): a bug reported in the channel comes back as a draft pull request. Needs GitHub.
+* [Work from your own channel](/docs/claude-tag/users/use-cases/your-own-channel): scratch questions, digests of channels you don't follow, and follow-ups on what you said you'd do
+
+[Get started](/docs/claude-tag/users/getting-started) covers your first message, what you see while Claude works, and how to shape Claude's behavior in your channel.
 
 <div className="tm-eyebrow"><span className="tm-swatch tm-swatch-admins" />For administrators</div>
 
 ## Set Claude Tag up once for everyone
 
-Installing the Claude app in Slack is a prerequisite, not the setup. Setup is provisioning an identity. Claude Tag starts with no access to your external systems; you choose its credentials and repositories (an [Access bundle](/docs/claude-tag/concepts/glossary#access-bundle)), and which workspaces and channels they apply to.
+You set up Claude Tag once, at [`claude.ai/admin-settings/claude-tag`](https://claude.ai/admin-settings/claude-tag), and you must be an Owner in your Claude organization to do it. The setup page at that URL walks you through it:
 
-You configure this once, at [`claude.ai/admin-settings/claude-tag`](https://claude.ai/admin-settings/claude-tag), and everyone in those places can use Claude Tag immediately, with no per-user setup. You must be an Owner in your Claude organization to run setup.
+* **Pair your Slack workspace**: send `@Claude connect` in Slack to get a pairing code, then enter it on the setup page.
+* **Connect the services Claude will work in**: for each one, such as your issue tracker or data warehouse, create an account for Claude and enter its credential.
+* **Grant repositories**: choose which repositories the Claude GitHub App can reach.
+* **Set a monthly spend limit and launch**.
 
-[Set up Claude Tag](/docs/claude-tag/admins/setup-overview) walks the four provisioning steps, from creating the identity to attaching it to your first channel.
+Claude Tag starts with no access to your external systems. The services you connect during setup form an [Access bundle](/docs/claude-tag/concepts/glossary#access-bundle), the set of tools Claude can reach, attached to the workspace or channels you paired. Once you launch, everyone in a channel Claude is in can use Claude Tag immediately, with no per-user setup.
+
+[Set up Claude Tag](/docs/claude-tag/admins/setup-overview) walks through those steps with what to have ready, what each choice means, and how to verify Claude Tag works once you launch.
 
 <div className="tm-strip">
   <div className="tm-strip-head">
     <p className="tm-strip-title">Security review</p>
-    <a className="tm-strip-all" href="/docs/docs/claude-tag/concepts/security-and-data">Security and data handling</a>
+    <a className="tm-strip-all" href="/docs/claude-tag/concepts/security-and-data">Security and data handling</a>
   </div>
 
   <p>The security model, what admins can and can't restrict, audit trails, and network requirements.</p>
@@ -207,7 +225,7 @@ You configure this once, at [`claude.ai/admin-settings/claude-tag`](https://clau
 
 <CardGroup cols={2}>
   <Card title="Set up Claude Tag" icon="gear" href="/docs/claude-tag/admins/setup-overview" horizontal arrow>
-    Admins: provision the identity and connect your first channel
+    Admins: pair your Slack workspace, connect the services Claude will work in, and launch
   </Card>
 
   <Card title="Hand Claude Tag your first task" icon="paper-plane" href="/docs/claude-tag/users/getting-started" horizontal arrow>

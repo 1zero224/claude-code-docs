@@ -74,7 +74,7 @@ If you are a member of a Team or Enterprise plan organization, you can share pro
 
 ### Find shared projects
 
-Projects that others have shared with you will appear in the "Shared with me" tab on your **[Projects page](https://claude.ai/projects)**. You'll also receive an email notification when someone shares a project with you.
+Your **[Projects page](https://claude.ai/projects)** has three tabs: "Your projects," "Organization," and "Shared with you." "Your projects" lists the projects you created, and "Organization" lists projects that other members have shared with your organization. If you can't find a project, check all three tabs.
 
 ---
 
@@ -104,19 +104,19 @@ Starring a project allows for quick access from your projects and chats list, vi
 
 You can move a standalone chat into a project by clicking on the dropdown arrow next to the chat name, then “Add to project”:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784190248/0f19c8de18b494a27be252fdfaff/d4e7a5c5-25f5-4623-862b-c593d2dc0b39?expires=1787832000&amp;signature=5b5e19e59b23fd8aa4c92e2294a825a5d644b50918a338d0e8572b3ce68ac0ae&amp;req=dScvEsh3nYNbUfMW3nq%2BgXuLDiqq7D0yXv8vfZakkxGdv0DVbfkKG7vy4ABU%0ARmwpi%2FJ7Jb8ZGu%2BAIleqR%2B0WFeA%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784190248/0f19c8de18b494a27be252fdfaff/d4e7a5c5-25f5-4623-862b-c593d2dc0b39?expires=1788701400&amp;signature=75c1d10681e18c7337717009960f1654e0d0eeff65c3451402d4af6d4034f571&amp;req=dScvEsh3nYNbUfMW1HO4zQABaWlrSqERBSXNVFXQ%2FVGqSFA9lmYorUbsw4qq%0AJbVhA153bsbu4ht7SD8%3D%0A)
 
 Browse or search for the correct project in the **Move chat** modal that appears, then click on it to move the chat.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784190951/34dc256ccd4c0cf74976f31062e6/55365cf2-059d-41b2-ac95-4b00c4389a76?expires=1787832000&amp;signature=e0e17b27c7ee79debfe30287f7ded18bbed26deab87ff7b8ae7dc491323d2527&amp;req=dScvEsh3nYhaWPMW3nq%2BgaHJV1YFlIUf9yuLKq4iewp7iy%2BBT17NSHTTyL90%0AsUbyHNZTjV85pkdjScSRhuvvTMg%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784190951/34dc256ccd4c0cf74976f31062e6/55365cf2-059d-41b2-ac95-4b00c4389a76?expires=1788701400&amp;signature=79301864c138e0d56596851a54ab29910bb525b0126ba57e750a43a307dc4fc3&amp;req=dScvEsh3nYhaWPMW1HO4zSMECii3ywgFgYbpTjViBxBFbv8FZchAB0tcH7WB%0A3lGm7hsOGAX9iAm9Rns%3D%0A)
 
 You can also remove chats from projects, or move them between projects, using the same dropdown menu within the chat:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784185682/8625eac15b9fa452f148a6c47250/c53a1bc4-a991-4684-a789-5447ed789d35?expires=1787832000&amp;signature=426f82ee2fdd5f742a14ad3b54b942f6666db4911f3fc39fa6c3010a5225de85&amp;req=dScvEsh2mIdXW%2FMW3nq%2BgcRackgi6lSsCIpgXkUx%2BGGdH2GqyilRvh%2FDaBup%0Ah%2B%2FlHXVaGn97sxs5HwckKS%2BY6vw%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784185682/8625eac15b9fa452f148a6c47250/c53a1bc4-a991-4684-a789-5447ed789d35?expires=1788701400&amp;signature=935bdfc39275cf36732d2da596f6dc93bc6d0b333bcdf22d7b4b001c80f29153&amp;req=dScvEsh2mIdXW%2FMW1HO4zb6DuP8rDkQOS2r1%2FGRlqORRbUToOEsEb3paKH5G%0A6G1zgV%2B%2BBONRCTz6rfw%3D%0A)
 
 You can move chats into projects in bulk from **[Your chat history page](https://claude.ai/recents)**:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784185685/bb960063204592db277a4ba62d8d/ebbf5c69-da79-4e56-9d87-f2a97a22fe67?expires=1787832000&amp;signature=2364f0a4da14e5befbd02d092f917419618c464528da57c7e12791fdbfc79865&amp;req=dScvEsh2mIdXXPMW3nq%2BgSoMxJ7JZGtEqwQ3Kn7bRQKwTiv%2FryXl1GODsiB2%0ARrqzuCFoCwqw45BduAQovIaFo%2FQ%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784185685/bb960063204592db277a4ba62d8d/ebbf5c69-da79-4e56-9d87-f2a97a22fe67?expires=1788701400&amp;signature=5ce38dbd05a79b276b74bea8ff6e969ee09155ba99697f17671f9a086058aef5&amp;req=dScvEsh2mIdXXPMW1HO4zbParURO6funuQSB0Ebsw9dJsvY4lODzAVOk1EmK%0A9fIpCwm3WHEnR9bQUag%3D%0A)
 
 Select the chats you want to move, then click the icon next to the number of selected chats to move them into your project.
 

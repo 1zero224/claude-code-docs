@@ -4,6 +4,8 @@
 
 **POST** `/v1/organizations/workspaces/{workspace_id}/service_accounts`
 
+**Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See [Manage WIF with the Admin API](/docs/en/manage-claude/wif-admin-api).
+
 Add a service account to a workspace with the given `workspace_role`.
 
 The role determines what the service account can do in the workspace and
@@ -13,8 +15,7 @@ through federation. Every service account is already an implicit
 assigns a chosen role. If the service account is already an explicit
 member of the workspace, its `workspace_role` is replaced with the
 value supplied here. Archived workspaces return 400. Archived service
-accounts cannot be added and are rejected. Requires an OAuth bearer or
-Console session; Admin API keys are not accepted.
+accounts cannot be added and are rejected.
 
 ### Path parameters
 
@@ -56,7 +57,7 @@ Console session; Admin API keys are not accepted.
 
 - `implicit: boolean or null`
 
-  True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role workspace_user and cannot be removed.
+  True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role `workspace_user` and cannot be removed.
 
 - `service_account_id: string`
 
@@ -90,7 +91,7 @@ Console session; Admin API keys are not accepted.
 curl https://api.anthropic.com/v1/organizations/workspaces/$WORKSPACE_ID/service_accounts \
     -H 'Content-Type: application/json' \
     -H 'anthropic-version: 2023-06-01' \
-    -H "Authorization: Bearer $ANTHROPIC_OAUTH_TOKEN" \
+    -H "Authorization: Bearer $ANTHROPIC_AUTH_TOKEN" \
     -d '{
           "service_account_id": "service_account_id",
           "workspace_role": "workspace_admin"
@@ -113,6 +114,8 @@ curl https://api.anthropic.com/v1/organizations/workspaces/$WORKSPACE_ID/service
 ## Get Service Account Workspace Member
 
 **GET** `/v1/organizations/workspaces/{workspace_id}/service_accounts/{service_account_id}`
+
+**Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See [Manage WIF with the Admin API](/docs/en/manage-claude/wif-admin-api).
 
 Retrieve a service account's membership in a workspace.
 
@@ -149,7 +152,7 @@ account returns 404.
 
 - `implicit: boolean or null`
 
-  True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role workspace_user and cannot be removed.
+  True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role `workspace_user` and cannot be removed.
 
 - `service_account_id: string`
 
@@ -182,7 +185,7 @@ account returns 404.
 ```bash
 curl https://api.anthropic.com/v1/organizations/workspaces/$WORKSPACE_ID/service_accounts/$SERVICE_ACCOUNT_ID \
     -H 'anthropic-version: 2023-06-01' \
-    -H "Authorization: Bearer $ANTHROPIC_OAUTH_TOKEN"
+    -H "Authorization: Bearer $ANTHROPIC_AUTH_TOKEN"
 ```
 
 #### Response (200)
@@ -201,6 +204,8 @@ curl https://api.anthropic.com/v1/organizations/workspaces/$WORKSPACE_ID/service
 ## List Service Account Workspace Members
 
 **GET** `/v1/organizations/workspaces/{workspace_id}/service_accounts`
+
+**Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See [Manage WIF with the Admin API](/docs/en/manage-claude/wif-admin-api).
 
 List the service accounts that are members of a workspace.
 
@@ -247,7 +252,7 @@ omitted from the results.
 
   - `implicit: boolean or null`
 
-    True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role workspace_user and cannot be removed.
+    True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role `workspace_user` and cannot be removed.
 
   - `service_account_id: string`
 
@@ -284,7 +289,7 @@ omitted from the results.
 ```bash
 curl https://api.anthropic.com/v1/organizations/workspaces/$WORKSPACE_ID/service_accounts \
     -H 'anthropic-version: 2023-06-01' \
-    -H "Authorization: Bearer $ANTHROPIC_OAUTH_TOKEN"
+    -H "Authorization: Bearer $ANTHROPIC_AUTH_TOKEN"
 ```
 
 #### Response (200)
@@ -309,6 +314,8 @@ curl https://api.anthropic.com/v1/organizations/workspaces/$WORKSPACE_ID/service
 
 **POST** `/v1/organizations/workspaces/{workspace_id}/service_accounts/{service_account_id}`
 
+**Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See [Manage WIF with the Admin API](/docs/en/manage-claude/wif-admin-api).
+
 Change a service account's role in a workspace.
 
 The new `workspace_role` replaces the current one. Only explicit
@@ -316,8 +323,7 @@ memberships can be updated; to set a role on the implicit
 default-workspace membership, add the service account explicitly with
 `POST /workspaces/{workspace_id}/service_accounts`. Archived workspaces
 return 400. Archived service accounts cannot be updated and are
-rejected. Requires an OAuth bearer or Console session; Admin API keys
-are not accepted.
+rejected.
 
 ### Path parameters
 
@@ -359,7 +365,7 @@ are not accepted.
 
 - `implicit: boolean or null`
 
-  True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role workspace_user and cannot be removed.
+  True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role `workspace_user` and cannot be removed.
 
 - `service_account_id: string`
 
@@ -393,7 +399,7 @@ are not accepted.
 curl https://api.anthropic.com/v1/organizations/workspaces/$WORKSPACE_ID/service_accounts/$SERVICE_ACCOUNT_ID \
     -H 'Content-Type: application/json' \
     -H 'anthropic-version: 2023-06-01' \
-    -H "Authorization: Bearer $ANTHROPIC_OAUTH_TOKEN" \
+    -H "Authorization: Bearer $ANTHROPIC_AUTH_TOKEN" \
     -d '{
           "workspace_role": "workspace_admin"
         }'
@@ -416,14 +422,15 @@ curl https://api.anthropic.com/v1/organizations/workspaces/$WORKSPACE_ID/service
 
 **DELETE** `/v1/organizations/workspaces/{workspace_id}/service_accounts/{service_account_id}`
 
+**Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See [Manage WIF with the Admin API](/docs/en/manage-claude/wif-admin-api).
+
 Remove a service account from a workspace.
 
 Removal is idempotent (returns 200 even if the membership was already
 removed). A DELETE against the implicit default-workspace membership
 returns 200 but is a no-op and the membership persists; deleting an
 explicit default-workspace row reverts to the implicit `workspace_user`
-membership. Archived workspaces return 400. Requires an OAuth bearer or
-Console session; Admin API keys are not accepted.
+membership. Archived workspaces return 400.
 
 ### Path parameters
 
@@ -463,7 +470,7 @@ Console session; Admin API keys are not accepted.
 curl https://api.anthropic.com/v1/organizations/workspaces/$WORKSPACE_ID/service_accounts/$SERVICE_ACCOUNT_ID \
     -X DELETE \
     -H 'anthropic-version: 2023-06-01' \
-    -H "Authorization: Bearer $ANTHROPIC_OAUTH_TOKEN"
+    -H "Authorization: Bearer $ANTHROPIC_AUTH_TOKEN"
 ```
 
 #### Response (200)
@@ -488,7 +495,7 @@ curl https://api.anthropic.com/v1/organizations/workspaces/$WORKSPACE_ID/service
 
   - `implicit: boolean or null`
 
-    True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role workspace_user and cannot be removed.
+    True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role `workspace_user` and cannot be removed.
 
   - `service_account_id: string`
 
@@ -526,45 +533,7 @@ curl https://api.anthropic.com/v1/organizations/workspaces/$WORKSPACE_ID/service
 
   - `implicit: boolean or null`
 
-    True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role workspace_user and cannot be removed.
-
-  - `service_account_id: string`
-
-    Tagged service account ID (`svac_...`).
-
-  - `type: "service_account_workspace_member"`
-
-    default: service_account_workspace_member
-
-  - `workspace_id: string`
-
-    Tagged workspace ID (`wrkspc_...`).
-
-  - `workspace_role: "workspace_admin" or "workspace_billing" or "workspace_developer" or 2 more`
-
-    Role of the service account in this workspace. Service accounts cannot hold the `workspace_billing` role.
-
-    - `"workspace_admin"`
-
-    - `"workspace_billing"`
-
-    - `"workspace_developer"`
-
-    - `"workspace_restricted_developer"`
-
-    - `"workspace_user"`
-
-### Service Account List Response
-
-- `ServiceAccountListResponse object`
-
-  - `created_by_actor_id: string or null`
-
-    Tagged ID (`user_...`/`svac_...`) of the actor who created this membership.
-
-  - `implicit: boolean or null`
-
-    True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role workspace_user and cannot be removed.
+    True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role `workspace_user` and cannot be removed.
 
   - `service_account_id: string`
 
@@ -602,7 +571,45 @@ curl https://api.anthropic.com/v1/organizations/workspaces/$WORKSPACE_ID/service
 
   - `implicit: boolean or null`
 
-    True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role workspace_user and cannot be removed.
+    True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role `workspace_user` and cannot be removed.
+
+  - `service_account_id: string`
+
+    Tagged service account ID (`svac_...`).
+
+  - `type: "service_account_workspace_member"`
+
+    default: service_account_workspace_member
+
+  - `workspace_id: string`
+
+    Tagged workspace ID (`wrkspc_...`).
+
+  - `workspace_role: "workspace_admin" or "workspace_billing" or "workspace_developer" or 2 more`
+
+    Role of the service account in this workspace. Service accounts cannot hold the `workspace_billing` role.
+
+    - `"workspace_admin"`
+
+    - `"workspace_billing"`
+
+    - `"workspace_developer"`
+
+    - `"workspace_restricted_developer"`
+
+    - `"workspace_user"`
+
+### Service Account List Response
+
+- `ServiceAccountListResponse object`
+
+  - `created_by_actor_id: string or null`
+
+    Tagged ID (`user_...`/`svac_...`) of the actor who created this membership.
+
+  - `implicit: boolean or null`
+
+    True when this is the implicit default-workspace membership every service account has when no explicit membership exists. Implicit memberships have role `workspace_user` and cannot be removed.
 
   - `service_account_id: string`
 

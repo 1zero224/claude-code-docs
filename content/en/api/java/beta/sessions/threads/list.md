@@ -20,7 +20,7 @@ List Session Threads
 
   - `Optional<String> page`
 
-    Opaque pagination cursor from a previous response's next_page. Forward-only.
+    Opaque pagination cursor from a previous response's `next_page`. Forward-only.
 
   - `Optional<List<AnthropicBeta>> betas`
 
@@ -108,6 +108,12 @@ List Session Threads
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ## Returns
 
 - `class BetaManagedAgentsSessionThread:`
@@ -147,6 +153,10 @@ List Session Threads
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
           - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -284,7 +294,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "bash"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -302,7 +312,7 @@ List Session Threads
 
                   - `Type type`
 
-              - `JsonValue type constant`
+              - `JsonValue type = "bash"`
 
             - `class BetaManagedAgentsEditToolConfig:`
 
@@ -310,7 +320,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "edit"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -324,7 +334,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "edit"`
 
             - `class BetaManagedAgentsReadToolConfig:`
 
@@ -332,7 +342,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "read"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -346,7 +356,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "read"`
 
             - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -354,7 +364,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "write"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -368,7 +378,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "write"`
 
             - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -376,7 +386,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "glob"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -390,7 +400,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "glob"`
 
             - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -398,7 +408,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "grep"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -412,7 +422,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "grep"`
 
             - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -420,7 +430,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "web_fetch"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -434,7 +444,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_fetch"`
 
               - `Optional<List<String>> allowedDomains`
 
@@ -450,7 +460,7 @@ List Session Threads
 
               - `boolean enabled`
 
-              - `JsonValue name constant`
+              - `JsonValue name = "web_search"`
 
               - `PermissionPolicy permissionPolicy`
 
@@ -464,7 +474,7 @@ List Session Threads
 
                   Tool calls require user confirmation before execution.
 
-              - `JsonValue type constant`
+              - `JsonValue type = "web_search"`
 
               - `Optional<List<String>> allowedDomains`
 
@@ -474,7 +484,7 @@ List Session Threads
 
                 Approximate user location for search result localization.
 
-                - `JsonValue type constant`
+                - `JsonValue type = "approximate"`
 
                   Location precision. Only "approximate" is supported.
 
@@ -572,7 +582,7 @@ List Session Threads
 
             JSON Schema for custom tool input parameters.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "object"`
 
             - `Optional<Properties> properties`
 

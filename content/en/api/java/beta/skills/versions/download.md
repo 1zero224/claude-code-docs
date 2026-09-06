@@ -18,9 +18,9 @@ Download a skill version's content as a zip archive.
 
   - `Optional<String> version`
 
-    Version identifier for the skill.
+    Identifies the skill version by its version ID.
 
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+    Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
   - `Optional<List<AnthropicBeta>> betas`
 
@@ -107,6 +107,12 @@ Download a skill version's content as a zip archive.
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ## Example
 

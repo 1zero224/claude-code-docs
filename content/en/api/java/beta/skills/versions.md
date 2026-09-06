@@ -2,7 +2,7 @@
 
 ## Create Skill Version
 
-`VersionCreateResponse beta().skills().versions().create(params, requestOptions = RequestOptions.none())`
+`BetaSkillVersion beta().skills().versions().create(params, requestOptions = RequestOptions.none())`
 
 **POST** `/v1/skills/{skill_id}/versions`
 
@@ -104,6 +104,12 @@ Create Skill Version
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `List<String> files`
 
     Files to upload for the skill.
@@ -112,17 +118,18 @@ Create Skill Version
 
 ### Returns
 
-- `class VersionCreateResponse:`
+- `class BetaSkillVersion:`
 
   - `String id`
 
-    Unique identifier for the skill version.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-    The format and length of IDs may change over time.
+  - `LocalDateTime createdAt`
 
-  - `String createdAt`
+    ISO 8601 timestamp of when the skill was created.
 
-    ISO 8601 timestamp of when the skill version was created.
+    format: date-time
 
   - `String description`
 
@@ -130,33 +137,24 @@ Create Skill Version
 
     This is extracted from the SKILL.md file in the skill upload.
 
-  - `String directory`
-
-    Directory name of the skill version.
-
-    This is the top-level directory name that was extracted from the uploaded files.
-
   - `String name`
 
-    Human-readable name of the skill version.
-
-    This is extracted from the SKILL.md file in the skill upload.
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
 
   - `String skillId`
 
-    Identifier for the skill that this version belongs to.
+    Unique identifier for the skill.
 
-  - `String type`
+    The format and length of IDs may change over time.
+
+  - `JsonValue type = "skill_version"`
 
     Object type.
 
     For Skill Versions, this is always `"skill_version"`.
-
-  - `String version`
-
-    Version identifier for the skill.
-
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
 
 ### Example
 
@@ -165,8 +163,8 @@ package com.anthropic.example;
 
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.models.beta.skills.versions.BetaSkillVersion;
 import com.anthropic.models.beta.skills.versions.VersionCreateParams;
-import com.anthropic.models.beta.skills.versions.VersionCreateResponse;
 import java.io.ByteArrayInputStream;
 
 public final class Main {
@@ -179,7 +177,7 @@ public final class Main {
             .skillId("skill_id")
             .addFile(new ByteArrayInputStream("Example data".getBytes()))
             .build();
-        VersionCreateResponse version = client.beta().skills().versions().create(params);
+        BetaSkillVersion betaSkillVersion = client.beta().skills().versions().create(params);
     }
 }
 ```
@@ -188,14 +186,12 @@ public final class Main {
 
 ```json
 {
-  "id": "skillver_01JAbcdefghijklmnopqrstuvw",
+  "id": "id",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "description": "A custom skill for doing something useful",
-  "directory": "my-skill",
-  "name": "my-skill",
+  "description": "description",
+  "name": "name",
   "skill_id": "skill_01JAbcdefghijklmnopqrstuvw",
-  "type": "type",
-  "version": "1759178010641129"
+  "type": "skill_version"
 }
 ```
 
@@ -219,9 +215,11 @@ List Skill Versions
 
   - `Optional<Long> limit`
 
-    Number of items to return per page.
+    Number of results to return per page.
 
-    Defaults to `20`. Ranges from `1` to `1000`.
+    Ranges from `1` to `1000`. Defaults to `20`.
+
+    minimum: 1, maximum: 1000
 
   - `Optional<String> page`
 
@@ -313,19 +311,26 @@ List Skill Versions
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
-- `class VersionListResponse:`
+- `class BetaSkillVersion:`
 
   - `String id`
 
-    Unique identifier for the skill version.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-    The format and length of IDs may change over time.
+  - `LocalDateTime createdAt`
 
-  - `String createdAt`
+    ISO 8601 timestamp of when the skill was created.
 
-    ISO 8601 timestamp of when the skill version was created.
+    format: date-time
 
   - `String description`
 
@@ -333,33 +338,24 @@ List Skill Versions
 
     This is extracted from the SKILL.md file in the skill upload.
 
-  - `String directory`
-
-    Directory name of the skill version.
-
-    This is the top-level directory name that was extracted from the uploaded files.
-
   - `String name`
 
-    Human-readable name of the skill version.
-
-    This is extracted from the SKILL.md file in the skill upload.
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
 
   - `String skillId`
 
-    Identifier for the skill that this version belongs to.
+    Unique identifier for the skill.
 
-  - `String type`
+    The format and length of IDs may change over time.
+
+  - `JsonValue type = "skill_version"`
 
     Object type.
 
     For Skill Versions, this is always `"skill_version"`.
-
-  - `String version`
-
-    Version identifier for the skill.
-
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
 
 ### Example
 
@@ -388,18 +384,15 @@ public final class Main {
 {
   "data": [
     {
-      "id": "skillver_01JAbcdefghijklmnopqrstuvw",
+      "id": "id",
       "created_at": "2024-10-30T23:58:27.427722Z",
-      "description": "A custom skill for doing something useful",
-      "directory": "my-skill",
-      "name": "my-skill",
+      "description": "description",
+      "name": "name",
       "skill_id": "skill_01JAbcdefghijklmnopqrstuvw",
-      "type": "type",
-      "version": "1759178010641129"
+      "type": "skill_version"
     }
   ],
-  "has_more": true,
-  "next_page": "page_MjAyNS0wNS0xNFQwMDowMDowMFo="
+  "next_page": "next_page"
 }
 ```
 
@@ -423,9 +416,9 @@ Download a skill version's content as a zip archive.
 
   - `Optional<String> version`
 
-    Version identifier for the skill.
+    Identifies the skill version by its version ID.
 
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+    Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
   - `Optional<List<AnthropicBeta>> betas`
 
@@ -512,6 +505,12 @@ Download a skill version's content as a zip archive.
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ### Example
 
@@ -540,7 +539,7 @@ public final class Main {
 
 ## Get Skill Version
 
-`VersionRetrieveResponse beta().skills().versions().retrieve(params, requestOptions = RequestOptions.none())`
+`BetaSkillVersion beta().skills().versions().retrieve(params, requestOptions = RequestOptions.none())`
 
 **GET** `/v1/skills/{skill_id}/versions/{version}`
 
@@ -558,9 +557,9 @@ Get Skill Version
 
   - `Optional<String> version`
 
-    Version identifier for the skill.
+    Identifies the skill version: a version ID, or the literal `latest` for the skill's most recent version.
 
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+    Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
   - `Optional<List<AnthropicBeta>> betas`
 
@@ -648,19 +647,26 @@ Get Skill Version
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
-- `class VersionRetrieveResponse:`
+- `class BetaSkillVersion:`
 
   - `String id`
 
-    Unique identifier for the skill version.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-    The format and length of IDs may change over time.
+  - `LocalDateTime createdAt`
 
-  - `String createdAt`
+    ISO 8601 timestamp of when the skill was created.
 
-    ISO 8601 timestamp of when the skill version was created.
+    format: date-time
 
   - `String description`
 
@@ -668,33 +674,24 @@ Get Skill Version
 
     This is extracted from the SKILL.md file in the skill upload.
 
-  - `String directory`
-
-    Directory name of the skill version.
-
-    This is the top-level directory name that was extracted from the uploaded files.
-
   - `String name`
 
-    Human-readable name of the skill version.
-
-    This is extracted from the SKILL.md file in the skill upload.
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
 
   - `String skillId`
 
-    Identifier for the skill that this version belongs to.
+    Unique identifier for the skill.
 
-  - `String type`
+    The format and length of IDs may change over time.
+
+  - `JsonValue type = "skill_version"`
 
     Object type.
 
     For Skill Versions, this is always `"skill_version"`.
-
-  - `String version`
-
-    Version identifier for the skill.
-
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
 
 ### Example
 
@@ -703,8 +700,8 @@ package com.anthropic.example;
 
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.models.beta.skills.versions.BetaSkillVersion;
 import com.anthropic.models.beta.skills.versions.VersionRetrieveParams;
-import com.anthropic.models.beta.skills.versions.VersionRetrieveResponse;
 
 public final class Main {
     private Main() {}
@@ -716,7 +713,7 @@ public final class Main {
             .skillId("skill_id")
             .version("version")
             .build();
-        VersionRetrieveResponse version = client.beta().skills().versions().retrieve(params);
+        BetaSkillVersion betaSkillVersion = client.beta().skills().versions().retrieve(params);
     }
 }
 ```
@@ -725,20 +722,18 @@ public final class Main {
 
 ```json
 {
-  "id": "skillver_01JAbcdefghijklmnopqrstuvw",
+  "id": "id",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "description": "A custom skill for doing something useful",
-  "directory": "my-skill",
-  "name": "my-skill",
+  "description": "description",
+  "name": "name",
   "skill_id": "skill_01JAbcdefghijklmnopqrstuvw",
-  "type": "type",
-  "version": "1759178010641129"
+  "type": "skill_version"
 }
 ```
 
 ## Delete Skill Version
 
-`VersionDeleteResponse beta().skills().versions().delete(params, requestOptions = RequestOptions.none())`
+`BetaDeletedSkillVersion beta().skills().versions().delete(params, requestOptions = RequestOptions.none())`
 
 **DELETE** `/v1/skills/{skill_id}/versions/{version}`
 
@@ -756,9 +751,9 @@ Delete Skill Version
 
   - `Optional<String> version`
 
-    Version identifier for the skill.
+    Identifies the skill version by its version ID.
 
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+    Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
   - `Optional<List<AnthropicBeta>> betas`
 
@@ -846,17 +841,22 @@ Delete Skill Version
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
-- `class VersionDeleteResponse:`
+- `class BetaDeletedSkillVersion:`
 
   - `String id`
 
-    Version identifier for the skill.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
-
-  - `String type`
+  - `JsonValue type = "skill_version_deleted"`
 
     Deleted object type.
 
@@ -869,8 +869,8 @@ package com.anthropic.example;
 
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.models.beta.skills.versions.BetaDeletedSkillVersion;
 import com.anthropic.models.beta.skills.versions.VersionDeleteParams;
-import com.anthropic.models.beta.skills.versions.VersionDeleteResponse;
 
 public final class Main {
     private Main() {}
@@ -882,7 +882,7 @@ public final class Main {
             .skillId("skill_id")
             .version("version")
             .build();
-        VersionDeleteResponse version = client.beta().skills().versions().delete(params);
+        BetaDeletedSkillVersion betaDeletedSkillVersion = client.beta().skills().versions().delete(params);
     }
 }
 ```
@@ -891,7 +891,64 @@ public final class Main {
 
 ```json
 {
-  "id": "1759178010641129",
-  "type": "type"
+  "id": "id",
+  "type": "skill_version_deleted"
 }
 ```
+
+## Domain types
+
+### Beta Deleted Skill Version
+
+- `class BetaDeletedSkillVersion:`
+
+  - `String id`
+
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
+
+  - `JsonValue type = "skill_version_deleted"`
+
+    Deleted object type.
+
+    For Skill Versions, this is always `"skill_version_deleted"`.
+
+### Beta Skill Version
+
+- `class BetaSkillVersion:`
+
+  - `String id`
+
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
+
+  - `LocalDateTime createdAt`
+
+    ISO 8601 timestamp of when the skill was created.
+
+    format: date-time
+
+  - `String description`
+
+    Description of the skill version.
+
+    This is extracted from the SKILL.md file in the skill upload.
+
+  - `String name`
+
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
+
+  - `String skillId`
+
+    Unique identifier for the skill.
+
+    The format and length of IDs may change over time.
+
+  - `JsonValue type = "skill_version"`
+
+    Object type.
+
+    For Skill Versions, this is always `"skill_version"`.

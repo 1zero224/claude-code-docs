@@ -98,6 +98,12 @@ Create Agent
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Model model`
 
     Model identifier. Accepts the [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison), e.g. `claude-opus-5`, or a `model_config` object for additional configuration control
@@ -107,6 +113,10 @@ Create Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -332,7 +342,7 @@ Create Agent
 
           Configuration override for the bash tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
             Must be "bash".
 
@@ -362,7 +372,7 @@ Create Agent
 
           Configuration override for the edit tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
             Must be "edit".
 
@@ -388,7 +398,7 @@ Create Agent
 
           Configuration override for the read tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
             Must be "read".
 
@@ -414,7 +424,7 @@ Create Agent
 
           Configuration override for the write tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
             Must be "write".
 
@@ -440,7 +450,7 @@ Create Agent
 
           Configuration override for the glob tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
             Must be "glob".
 
@@ -466,7 +476,7 @@ Create Agent
 
           Configuration override for the grep tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
             Must be "grep".
 
@@ -492,7 +502,7 @@ Create Agent
 
           Configuration override for the web_fetch tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
             Must be "web_fetch".
 
@@ -532,7 +542,7 @@ Create Agent
 
           Configuration override for the web_search tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
             Must be "web_search".
 
@@ -566,7 +576,7 @@ Create Agent
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -684,7 +694,7 @@ Create Agent
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -739,6 +749,10 @@ Create Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -908,7 +922,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -926,7 +940,7 @@ Create Agent
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -934,7 +948,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -948,7 +962,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -956,7 +970,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -970,7 +984,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -978,7 +992,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -992,7 +1006,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -1000,7 +1014,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -1014,7 +1028,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -1022,7 +1036,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -1036,7 +1050,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -1044,7 +1058,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -1058,7 +1072,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -1074,7 +1088,7 @@ Create Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -1088,7 +1102,7 @@ Create Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -1098,7 +1112,7 @@ Create Agent
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -1196,7 +1210,7 @@ Create Agent
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -1447,6 +1461,12 @@ List Agents
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaManagedAgentsAgent:`
@@ -1488,6 +1508,10 @@ List Agents
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -1657,7 +1681,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -1675,7 +1699,7 @@ List Agents
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -1683,7 +1707,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -1697,7 +1721,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -1705,7 +1729,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -1719,7 +1743,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -1727,7 +1751,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -1741,7 +1765,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -1749,7 +1773,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -1763,7 +1787,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -1771,7 +1795,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -1785,7 +1809,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -1793,7 +1817,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -1807,7 +1831,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -1823,7 +1847,7 @@ List Agents
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -1837,7 +1861,7 @@ List Agents
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -1847,7 +1871,7 @@ List Agents
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -1945,7 +1969,7 @@ List Agents
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -2178,6 +2202,12 @@ Get Agent
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaManagedAgentsAgent:`
@@ -2219,6 +2249,10 @@ Get Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -2388,7 +2422,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -2406,7 +2440,7 @@ Get Agent
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -2414,7 +2448,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -2428,7 +2462,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -2436,7 +2470,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -2450,7 +2484,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -2458,7 +2492,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -2472,7 +2506,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -2480,7 +2514,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -2494,7 +2528,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -2502,7 +2536,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -2516,7 +2550,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -2524,7 +2558,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -2538,7 +2572,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -2554,7 +2588,7 @@ Get Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -2568,7 +2602,7 @@ Get Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -2578,7 +2612,7 @@ Get Agent
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -2676,7 +2710,7 @@ Get Agent
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -2898,6 +2932,12 @@ Update Agent
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `Optional<String> description`
 
     Description. Omit to preserve; send empty string or null to clear.
@@ -2935,6 +2975,10 @@ Update Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -3132,7 +3176,7 @@ Update Agent
 
           Configuration override for the bash tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
             Must be "bash".
 
@@ -3162,7 +3206,7 @@ Update Agent
 
           Configuration override for the edit tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
             Must be "edit".
 
@@ -3188,7 +3232,7 @@ Update Agent
 
           Configuration override for the read tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
             Must be "read".
 
@@ -3214,7 +3258,7 @@ Update Agent
 
           Configuration override for the write tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
             Must be "write".
 
@@ -3240,7 +3284,7 @@ Update Agent
 
           Configuration override for the glob tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
             Must be "glob".
 
@@ -3266,7 +3310,7 @@ Update Agent
 
           Configuration override for the grep tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
             Must be "grep".
 
@@ -3292,7 +3336,7 @@ Update Agent
 
           Configuration override for the web_fetch tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
             Must be "web_fetch".
 
@@ -3332,7 +3376,7 @@ Update Agent
 
           Configuration override for the web_search tool.
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
             Must be "web_search".
 
@@ -3366,7 +3410,7 @@ Update Agent
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -3484,7 +3528,7 @@ Update Agent
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -3545,6 +3589,10 @@ Update Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -3714,7 +3762,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -3732,7 +3780,7 @@ Update Agent
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -3740,7 +3788,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -3754,7 +3802,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -3762,7 +3810,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -3776,7 +3824,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -3784,7 +3832,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -3798,7 +3846,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -3806,7 +3854,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -3820,7 +3868,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -3828,7 +3876,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -3842,7 +3890,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -3850,7 +3898,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -3864,7 +3912,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -3880,7 +3928,7 @@ Update Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -3894,7 +3942,7 @@ Update Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -3904,7 +3952,7 @@ Update Agent
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -4002,7 +4050,7 @@ Update Agent
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -4224,6 +4272,12 @@ Archive Agent
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaManagedAgentsAgent:`
@@ -4265,6 +4319,10 @@ Archive Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -4434,7 +4492,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -4452,7 +4510,7 @@ Archive Agent
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -4460,7 +4518,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -4474,7 +4532,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -4482,7 +4540,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -4496,7 +4554,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -4504,7 +4562,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -4518,7 +4576,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -4526,7 +4584,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -4540,7 +4598,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -4548,7 +4606,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -4562,7 +4620,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -4570,7 +4628,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -4584,7 +4642,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -4600,7 +4658,7 @@ Archive Agent
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -4614,7 +4672,7 @@ Archive Agent
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -4624,7 +4682,7 @@ Archive Agent
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -4722,7 +4780,7 @@ Archive Agent
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -4900,6 +4958,10 @@ public final class Main {
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
         High-performance model for coding and agents
@@ -5068,7 +5130,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -5086,7 +5148,7 @@ public final class Main {
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -5094,7 +5156,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -5108,7 +5170,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -5116,7 +5178,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -5130,7 +5192,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -5138,7 +5200,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -5152,7 +5214,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -5160,7 +5222,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -5174,7 +5236,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -5182,7 +5244,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -5196,7 +5258,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -5204,7 +5266,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -5218,7 +5280,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -5234,7 +5296,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -5248,7 +5310,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -5258,7 +5320,7 @@ public final class Main {
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -5356,7 +5418,7 @@ public final class Main {
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -5406,7 +5468,7 @@ public final class Main {
 
     - `boolean enabled`
 
-    - `JsonValue name constant`
+    - `JsonValue name = "bash"`
 
     - `PermissionPolicy permissionPolicy`
 
@@ -5424,7 +5486,7 @@ public final class Main {
 
         - `Type type`
 
-    - `JsonValue type constant`
+    - `JsonValue type = "bash"`
 
   - `class BetaManagedAgentsEditToolConfig:`
 
@@ -5432,7 +5494,7 @@ public final class Main {
 
     - `boolean enabled`
 
-    - `JsonValue name constant`
+    - `JsonValue name = "edit"`
 
     - `PermissionPolicy permissionPolicy`
 
@@ -5446,7 +5508,7 @@ public final class Main {
 
         Tool calls require user confirmation before execution.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "edit"`
 
   - `class BetaManagedAgentsReadToolConfig:`
 
@@ -5454,7 +5516,7 @@ public final class Main {
 
     - `boolean enabled`
 
-    - `JsonValue name constant`
+    - `JsonValue name = "read"`
 
     - `PermissionPolicy permissionPolicy`
 
@@ -5468,7 +5530,7 @@ public final class Main {
 
         Tool calls require user confirmation before execution.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "read"`
 
   - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -5476,7 +5538,7 @@ public final class Main {
 
     - `boolean enabled`
 
-    - `JsonValue name constant`
+    - `JsonValue name = "write"`
 
     - `PermissionPolicy permissionPolicy`
 
@@ -5490,7 +5552,7 @@ public final class Main {
 
         Tool calls require user confirmation before execution.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "write"`
 
   - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -5498,7 +5560,7 @@ public final class Main {
 
     - `boolean enabled`
 
-    - `JsonValue name constant`
+    - `JsonValue name = "glob"`
 
     - `PermissionPolicy permissionPolicy`
 
@@ -5512,7 +5574,7 @@ public final class Main {
 
         Tool calls require user confirmation before execution.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "glob"`
 
   - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -5520,7 +5582,7 @@ public final class Main {
 
     - `boolean enabled`
 
-    - `JsonValue name constant`
+    - `JsonValue name = "grep"`
 
     - `PermissionPolicy permissionPolicy`
 
@@ -5534,7 +5596,7 @@ public final class Main {
 
         Tool calls require user confirmation before execution.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "grep"`
 
   - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -5542,7 +5604,7 @@ public final class Main {
 
     - `boolean enabled`
 
-    - `JsonValue name constant`
+    - `JsonValue name = "web_fetch"`
 
     - `PermissionPolicy permissionPolicy`
 
@@ -5556,7 +5618,7 @@ public final class Main {
 
         Tool calls require user confirmation before execution.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "web_fetch"`
 
     - `Optional<List<String>> allowedDomains`
 
@@ -5572,7 +5634,7 @@ public final class Main {
 
     - `boolean enabled`
 
-    - `JsonValue name constant`
+    - `JsonValue name = "web_search"`
 
     - `PermissionPolicy permissionPolicy`
 
@@ -5586,7 +5648,7 @@ public final class Main {
 
         Tool calls require user confirmation before execution.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "web_search"`
 
     - `Optional<List<String>> allowedDomains`
 
@@ -5596,7 +5658,7 @@ public final class Main {
 
       Approximate user location for search result localization.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "approximate"`
 
         Location precision. Only "approximate" is supported.
 
@@ -5632,7 +5694,7 @@ public final class Main {
 
     Configuration override for the bash tool.
 
-    - `JsonValue name constant`
+    - `JsonValue name = "bash"`
 
       Must be "bash".
 
@@ -5662,7 +5724,7 @@ public final class Main {
 
     Configuration override for the edit tool.
 
-    - `JsonValue name constant`
+    - `JsonValue name = "edit"`
 
       Must be "edit".
 
@@ -5688,7 +5750,7 @@ public final class Main {
 
     Configuration override for the read tool.
 
-    - `JsonValue name constant`
+    - `JsonValue name = "read"`
 
       Must be "read".
 
@@ -5714,7 +5776,7 @@ public final class Main {
 
     Configuration override for the write tool.
 
-    - `JsonValue name constant`
+    - `JsonValue name = "write"`
 
       Must be "write".
 
@@ -5740,7 +5802,7 @@ public final class Main {
 
     Configuration override for the glob tool.
 
-    - `JsonValue name constant`
+    - `JsonValue name = "glob"`
 
       Must be "glob".
 
@@ -5766,7 +5828,7 @@ public final class Main {
 
     Configuration override for the grep tool.
 
-    - `JsonValue name constant`
+    - `JsonValue name = "grep"`
 
       Must be "grep".
 
@@ -5792,7 +5854,7 @@ public final class Main {
 
     Configuration override for the web_fetch tool.
 
-    - `JsonValue name constant`
+    - `JsonValue name = "web_fetch"`
 
       Must be "web_fetch".
 
@@ -5832,7 +5894,7 @@ public final class Main {
 
     Configuration override for the web_search tool.
 
-    - `JsonValue name constant`
+    - `JsonValue name = "web_search"`
 
       Must be "web_search".
 
@@ -5866,7 +5928,7 @@ public final class Main {
 
       Approximate user location for search result localization.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "approximate"`
 
         Location precision. Only "approximate" is supported.
 
@@ -5954,7 +6016,7 @@ public final class Main {
 
       - `boolean enabled`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "bash"`
 
       - `PermissionPolicy permissionPolicy`
 
@@ -5972,7 +6034,7 @@ public final class Main {
 
           - `Type type`
 
-      - `JsonValue type constant`
+      - `JsonValue type = "bash"`
 
     - `class BetaManagedAgentsEditToolConfig:`
 
@@ -5980,7 +6042,7 @@ public final class Main {
 
       - `boolean enabled`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "edit"`
 
       - `PermissionPolicy permissionPolicy`
 
@@ -5994,7 +6056,7 @@ public final class Main {
 
           Tool calls require user confirmation before execution.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "edit"`
 
     - `class BetaManagedAgentsReadToolConfig:`
 
@@ -6002,7 +6064,7 @@ public final class Main {
 
       - `boolean enabled`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "read"`
 
       - `PermissionPolicy permissionPolicy`
 
@@ -6016,7 +6078,7 @@ public final class Main {
 
           Tool calls require user confirmation before execution.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "read"`
 
     - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -6024,7 +6086,7 @@ public final class Main {
 
       - `boolean enabled`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "write"`
 
       - `PermissionPolicy permissionPolicy`
 
@@ -6038,7 +6100,7 @@ public final class Main {
 
           Tool calls require user confirmation before execution.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "write"`
 
     - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -6046,7 +6108,7 @@ public final class Main {
 
       - `boolean enabled`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "glob"`
 
       - `PermissionPolicy permissionPolicy`
 
@@ -6060,7 +6122,7 @@ public final class Main {
 
           Tool calls require user confirmation before execution.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "glob"`
 
     - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -6068,7 +6130,7 @@ public final class Main {
 
       - `boolean enabled`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "grep"`
 
       - `PermissionPolicy permissionPolicy`
 
@@ -6082,7 +6144,7 @@ public final class Main {
 
           Tool calls require user confirmation before execution.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "grep"`
 
     - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -6090,7 +6152,7 @@ public final class Main {
 
       - `boolean enabled`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_fetch"`
 
       - `PermissionPolicy permissionPolicy`
 
@@ -6104,7 +6166,7 @@ public final class Main {
 
           Tool calls require user confirmation before execution.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_fetch"`
 
       - `Optional<List<String>> allowedDomains`
 
@@ -6120,7 +6182,7 @@ public final class Main {
 
       - `boolean enabled`
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_search"`
 
       - `PermissionPolicy permissionPolicy`
 
@@ -6134,7 +6196,7 @@ public final class Main {
 
           Tool calls require user confirmation before execution.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "web_search"`
 
       - `Optional<List<String>> allowedDomains`
 
@@ -6144,7 +6206,7 @@ public final class Main {
 
         Approximate user location for search result localization.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "approximate"`
 
           Location precision. Only "approximate" is supported.
 
@@ -6291,7 +6353,7 @@ public final class Main {
 
       Configuration override for the bash tool.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "bash"`
 
         Must be "bash".
 
@@ -6321,7 +6383,7 @@ public final class Main {
 
       Configuration override for the edit tool.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "edit"`
 
         Must be "edit".
 
@@ -6347,7 +6409,7 @@ public final class Main {
 
       Configuration override for the read tool.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "read"`
 
         Must be "read".
 
@@ -6373,7 +6435,7 @@ public final class Main {
 
       Configuration override for the write tool.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "write"`
 
         Must be "write".
 
@@ -6399,7 +6461,7 @@ public final class Main {
 
       Configuration override for the glob tool.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "glob"`
 
         Must be "glob".
 
@@ -6425,7 +6487,7 @@ public final class Main {
 
       Configuration override for the grep tool.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "grep"`
 
         Must be "grep".
 
@@ -6451,7 +6513,7 @@ public final class Main {
 
       Configuration override for the web_fetch tool.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_fetch"`
 
         Must be "web_fetch".
 
@@ -6491,7 +6553,7 @@ public final class Main {
 
       Configuration override for the web_search tool.
 
-      - `JsonValue name constant`
+      - `JsonValue name = "web_search"`
 
         Must be "web_search".
 
@@ -6525,7 +6587,7 @@ public final class Main {
 
         Approximate user location for search result localization.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "approximate"`
 
           Location precision. Only "approximate" is supported.
 
@@ -6662,7 +6724,7 @@ public final class Main {
 
   - `boolean enabled`
 
-  - `JsonValue name constant`
+  - `JsonValue name = "bash"`
 
   - `PermissionPolicy permissionPolicy`
 
@@ -6680,7 +6742,7 @@ public final class Main {
 
       - `Type type`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "bash"`
 
 ### Beta Managed Agents Bash Tool Config Params
 
@@ -6688,7 +6750,7 @@ public final class Main {
 
   Configuration override for the bash tool.
 
-  - `JsonValue name constant`
+  - `JsonValue name = "bash"`
 
     Must be "bash".
 
@@ -6758,7 +6820,7 @@ public final class Main {
 
     JSON Schema for custom tool input parameters.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "object"`
 
     - `Optional<Properties> properties`
 
@@ -6774,7 +6836,7 @@ public final class Main {
 
   JSON Schema for custom tool input parameters.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "object"`
 
   - `Optional<Properties> properties`
 
@@ -6796,7 +6858,7 @@ public final class Main {
 
     JSON Schema for custom tool input parameters.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "object"`
 
     - `Optional<Properties> properties`
 
@@ -6818,7 +6880,7 @@ public final class Main {
 
   - `boolean enabled`
 
-  - `JsonValue name constant`
+  - `JsonValue name = "edit"`
 
   - `PermissionPolicy permissionPolicy`
 
@@ -6836,7 +6898,7 @@ public final class Main {
 
       - `Type type`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "edit"`
 
 ### Beta Managed Agents Edit Tool Config Params
 
@@ -6844,7 +6906,7 @@ public final class Main {
 
   Configuration override for the edit tool.
 
-  - `JsonValue name constant`
+  - `JsonValue name = "edit"`
 
     Must be "edit".
 
@@ -6918,7 +6980,7 @@ public final class Main {
 
   - `boolean enabled`
 
-  - `JsonValue name constant`
+  - `JsonValue name = "glob"`
 
   - `PermissionPolicy permissionPolicy`
 
@@ -6936,7 +6998,7 @@ public final class Main {
 
       - `Type type`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "glob"`
 
 ### Beta Managed Agents Glob Tool Config Params
 
@@ -6944,7 +7006,7 @@ public final class Main {
 
   Configuration override for the glob tool.
 
-  - `JsonValue name constant`
+  - `JsonValue name = "glob"`
 
     Must be "glob".
 
@@ -6978,7 +7040,7 @@ public final class Main {
 
   - `boolean enabled`
 
-  - `JsonValue name constant`
+  - `JsonValue name = "grep"`
 
   - `PermissionPolicy permissionPolicy`
 
@@ -6996,7 +7058,7 @@ public final class Main {
 
       - `Type type`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "grep"`
 
 ### Beta Managed Agents Grep Tool Config Params
 
@@ -7004,7 +7066,7 @@ public final class Main {
 
   Configuration override for the grep tool.
 
-  - `JsonValue name constant`
+  - `JsonValue name = "grep"`
 
     Must be "grep".
 
@@ -7270,6 +7332,10 @@ public final class Main {
 
   See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+  - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+    Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
   - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
     High-performance model for coding and agents
@@ -7333,6 +7399,10 @@ public final class Main {
     The model that will power your agent.
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+    - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+      Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
     - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -7443,6 +7513,10 @@ public final class Main {
     The model that will power your agent.
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+    - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+      Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
     - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -7656,7 +7730,7 @@ public final class Main {
 
   - `boolean enabled`
 
-  - `JsonValue name constant`
+  - `JsonValue name = "read"`
 
   - `PermissionPolicy permissionPolicy`
 
@@ -7674,7 +7748,7 @@ public final class Main {
 
       - `Type type`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "read"`
 
 ### Beta Managed Agents Read Tool Config Params
 
@@ -7682,7 +7756,7 @@ public final class Main {
 
   Configuration override for the read tool.
 
-  - `JsonValue name constant`
+  - `JsonValue name = "read"`
 
     Must be "read".
 
@@ -7735,6 +7809,10 @@ public final class Main {
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -7872,7 +7950,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -7890,7 +7968,7 @@ public final class Main {
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -7898,7 +7976,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -7912,7 +7990,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -7920,7 +7998,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -7934,7 +8012,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -7942,7 +8020,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -7956,7 +8034,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -7964,7 +8042,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -7978,7 +8056,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -7986,7 +8064,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -8000,7 +8078,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -8008,7 +8086,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -8022,7 +8100,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -8038,7 +8116,7 @@ public final class Main {
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -8052,7 +8130,7 @@ public final class Main {
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -8062,7 +8140,7 @@ public final class Main {
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -8160,7 +8238,7 @@ public final class Main {
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 
@@ -8244,7 +8322,7 @@ public final class Main {
 
   Approximate user location for search result localization.
 
-  - `JsonValue type constant`
+  - `JsonValue type = "approximate"`
 
     Location precision. Only "approximate" is supported.
 
@@ -8278,7 +8356,7 @@ public final class Main {
 
   - `boolean enabled`
 
-  - `JsonValue name constant`
+  - `JsonValue name = "web_fetch"`
 
   - `PermissionPolicy permissionPolicy`
 
@@ -8296,7 +8374,7 @@ public final class Main {
 
       - `Type type`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "web_fetch"`
 
   - `Optional<List<String>> allowedDomains`
 
@@ -8312,7 +8390,7 @@ public final class Main {
 
   Configuration override for the web_fetch tool.
 
-  - `JsonValue name constant`
+  - `JsonValue name = "web_fetch"`
 
     Must be "web_fetch".
 
@@ -8360,7 +8438,7 @@ public final class Main {
 
   - `boolean enabled`
 
-  - `JsonValue name constant`
+  - `JsonValue name = "web_search"`
 
   - `PermissionPolicy permissionPolicy`
 
@@ -8378,7 +8456,7 @@ public final class Main {
 
       - `Type type`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "web_search"`
 
   - `Optional<List<String>> allowedDomains`
 
@@ -8388,7 +8466,7 @@ public final class Main {
 
     Approximate user location for search result localization.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "approximate"`
 
       Location precision. Only "approximate" is supported.
 
@@ -8420,7 +8498,7 @@ public final class Main {
 
   Configuration override for the web_search tool.
 
-  - `JsonValue name constant`
+  - `JsonValue name = "web_search"`
 
     Must be "web_search".
 
@@ -8458,7 +8536,7 @@ public final class Main {
 
     Approximate user location for search result localization.
 
-    - `JsonValue type constant`
+    - `JsonValue type = "approximate"`
 
       Location precision. Only "approximate" is supported.
 
@@ -8492,7 +8570,7 @@ public final class Main {
 
   - `boolean enabled`
 
-  - `JsonValue name constant`
+  - `JsonValue name = "write"`
 
   - `PermissionPolicy permissionPolicy`
 
@@ -8510,7 +8588,7 @@ public final class Main {
 
       - `Type type`
 
-  - `JsonValue type constant`
+  - `JsonValue type = "write"`
 
 ### Beta Managed Agents Write Tool Config Params
 
@@ -8518,7 +8596,7 @@ public final class Main {
 
   Configuration override for the write tool.
 
-  - `JsonValue name constant`
+  - `JsonValue name = "write"`
 
     Must be "write".
 
@@ -8656,6 +8734,12 @@ List Agent Versions
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 #### Returns
 
 - `class BetaManagedAgentsAgent:`
@@ -8697,6 +8781,10 @@ List Agent Versions
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_1("claude-fable-5-1")`
+
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
       - `CLAUDE_SONNET_5("claude-sonnet-5")`
 
@@ -8866,7 +8954,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "bash"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -8884,7 +8972,7 @@ List Agent Versions
 
               - `Type type`
 
-          - `JsonValue type constant`
+          - `JsonValue type = "bash"`
 
         - `class BetaManagedAgentsEditToolConfig:`
 
@@ -8892,7 +8980,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "edit"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -8906,7 +8994,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "edit"`
 
         - `class BetaManagedAgentsReadToolConfig:`
 
@@ -8914,7 +9002,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "read"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -8928,7 +9016,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "read"`
 
         - `class BetaManagedAgentsWriteToolConfig:`
 
@@ -8936,7 +9024,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "write"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -8950,7 +9038,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "write"`
 
         - `class BetaManagedAgentsGlobToolConfig:`
 
@@ -8958,7 +9046,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "glob"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -8972,7 +9060,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "glob"`
 
         - `class BetaManagedAgentsGrepToolConfig:`
 
@@ -8980,7 +9068,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "grep"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -8994,7 +9082,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "grep"`
 
         - `class BetaManagedAgentsWebFetchToolConfig:`
 
@@ -9002,7 +9090,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_fetch"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -9016,7 +9104,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_fetch"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -9032,7 +9120,7 @@ List Agent Versions
 
           - `boolean enabled`
 
-          - `JsonValue name constant`
+          - `JsonValue name = "web_search"`
 
           - `PermissionPolicy permissionPolicy`
 
@@ -9046,7 +9134,7 @@ List Agent Versions
 
               Tool calls require user confirmation before execution.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "web_search"`
 
           - `Optional<List<String>> allowedDomains`
 
@@ -9056,7 +9144,7 @@ List Agent Versions
 
             Approximate user location for search result localization.
 
-            - `JsonValue type constant`
+            - `JsonValue type = "approximate"`
 
               Location precision. Only "approximate" is supported.
 
@@ -9154,7 +9242,7 @@ List Agent Versions
 
         JSON Schema for custom tool input parameters.
 
-        - `JsonValue type constant`
+        - `JsonValue type = "object"`
 
         - `Optional<Properties> properties`
 

@@ -4,7 +4,7 @@ Claude Cowork gives you one continuous conversation with Claude that you can rea
 
 Dispatch runs your tasks on your desktop, so your computer needs to be awake and the Claude Desktop app open while Claude works. This is different from a cloud session, which runs on Anthropic's servers and keeps working even when your computer is off. For where Cowork runs on each surface, see **[Use Claude Cowork on web, desktop, and mobile](https://support.claude.com/en/articles/15520349)**.
 
-This capability is available in beta for Pro and Max plans on Claude Cowork. It requires both the Claude Desktop app and the Claude mobile app.
+This capability is in limited beta for Pro and Max plans on Claude Cowork, and it requires both the Claude Desktop app and the Claude mobile app. Dispatch is only available for some Pro and Max plans, so if you don't see Dispatch in the Cowork side panel, you should **[use Cowork in the cloud](https://support.claude.com/en/articles/15520349)** instead of the pairing flow described here.
 
 ---
 
@@ -48,11 +48,11 @@ Follow these steps to get started:
 
 5. You’ll land on a page describing the functionality. Click “Get started”:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2169954086/419674f781edb2977b93cce062b4/93b1893c-d79a-4eb6-b2f1-2fe3e043bd90?expires=1787896800&amp;signature=329e8a6c06dae6db519a6f374fa1832f5417d5c87ac15d94cc8e3ec644a61528&amp;req=diEhH8B7mYFXX%2FMW3nq%2BgUgtmyeeWYE7B5y4NuMmOh4OL3qJhes3tKg0Vvyj%0ASz6v4vKZt7I0usqUWxvbZPcUDsM%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2169954086/419674f781edb2977b93cce062b4/93b1893c-d79a-4eb6-b2f1-2fe3e043bd90?expires=1788701400&amp;signature=bdb7ec8f33c6b5870bc7e1428889ca745c154b4084ec0dd33417c86ec87ed213&amp;req=diEhH8B7mYFXX%2FMW1HO4zSZP0pqMFQ%2F7B32drIe5EDmNjaVgeE%2BEm%2BjDEiez%0AdxmA%0A)
 
 6. On the next screen, you can give Claude access to your files and keep your computer awake by toggling those on:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2169955082/de4053ee0eab8fcb9263584bb171/d39b77da-1a69-4682-9fdb-7ed488f236b0?expires=1787896800&amp;signature=08ff660ee95dc3faddd0c22d4c11c26676c55e70784157c61fdbeb40fa1caf3d&amp;req=diEhH8B7mIFXW%2FMW3nq%2BgctAEttDz%2FtkDPIGaHdOkURa6%2FuaAt9exk90oOHn%0AAMtFAFt4l%2Fm%2BgQYxg9cQfgHQrF8%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2169955082/de4053ee0eab8fcb9263584bb171/d39b77da-1a69-4682-9fdb-7ed488f236b0?expires=1788701400&amp;signature=a374c5aa0e10134461cfaa7ab14baa38dff1f54037b8d2b83dc0ac9fe7546eca&amp;req=diEhH8B7mIFXW%2FMW1HO4zaZWs9KfXQAaepuGRb1rD3I%2FGH%2F75sJ13%2BhyZoa2%0AhNeu%0A)
 
 7. Click “Finish setup.”
 

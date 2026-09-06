@@ -11,7 +11,7 @@ For per-user and time-bucketed usage and cost *reporting*, see [Analytics APIs](
 <Check>
   **Scoped Admin API key required**
 
-  These endpoints require an Admin API key with the `read:spend_limits` scope (for `GET` endpoints) or the `write:spend_limits` scope (for `POST` and `DELETE` endpoints). See [Create an Admin API key](https://platform.claude.com/docs/en/manage-claude/admin-api-keys#create-a-key-for-a-claude-enterprise-organization) for where your primary owner creates one and which scopes to select. Pass the key in the `x-api-key` header on every request.
+  These endpoints require an Admin API key with the `read:spend_limits` scope (for `GET` endpoints) or the `write:spend_limits` scope (for `POST` and `DELETE` endpoints). See [Create an Admin API key](https://platform.claude.com/docs/en/manage-claude/admin-api-keys#create-a-key-for-a-claude-enterprise-organization) for where your primary owner creates one and which scopes to select. Pass the key in the `x-api-key` header on every request, together with the [`anthropic-version`](https://platform.claude.com/docs/en/api/versioning) header.
 </Check>
 
 <Note>
@@ -40,7 +40,8 @@ List every member's effective monthly spend limit and period-to-date spend:
 
 ```bash cURL
 curl "https://api.anthropic.com/v1/organizations/spend_limits/effective?limit=20" \
-  --header "x-api-key: $ANTHROPIC_ADMIN_KEY"
+  --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+  --header "anthropic-version: 2023-06-01"
 ```
 
 ## Key concepts
@@ -81,6 +82,10 @@ Approving with `POST /v1/organizations/spend_limit_increase_requests/{id}/approv
 
 By default, Anthropic emails the member when their request is approved or denied. Pass `suppress_notification: true` on approve or deny to suppress that email (for example, when your own system notifies the member).
 
+## Versioning
+
+Send the `anthropic-version` header on every request; see [API versions](https://platform.claude.com/docs/en/api/versioning) for the available versions.
+
 ## Rate limiting
 
 All eight endpoints share a single per-organization limit of **60 requests per minute**. Requests over the limit return **429 Too Many Requests**.
@@ -113,7 +118,8 @@ For complete parameter details and response schemas, see [List effective spend l
 
 ```bash cURL
 curl "https://api.anthropic.com/v1/organizations/spend_limits/effective?limit=20" \
-  --header "x-api-key: $ANTHROPIC_ADMIN_KEY"
+  --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+  --header "anthropic-version: 2023-06-01"
 ```
 
 ```json
@@ -148,7 +154,8 @@ For complete parameter details and response schemas, see [Retrieve a spend limit
 
 ```bash cURL
 curl "https://api.anthropic.com/v1/organizations/spend_limits/spl_01AbCdEfGhIjKlMnOpQrSt" \
-  --header "x-api-key: $ANTHROPIC_ADMIN_KEY"
+  --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+  --header "anthropic-version: 2023-06-01"
 ```
 
 ### Set a per-user override
@@ -161,6 +168,7 @@ For complete parameter details and response schemas, see [Create a spend limit](
 curl --request POST "https://api.anthropic.com/v1/organizations/spend_limits" \
   --header "content-type: application/json" \
   --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+  --header "anthropic-version: 2023-06-01" \
   --data '{"scope": {"type": "user", "user_id": "user_01AbCdEfGh"}, "amount": "75000"}'
 ```
 
@@ -185,7 +193,8 @@ For complete parameter details and response schemas, see [Delete a spend limit](
 
 ```bash cURL
 curl --request DELETE "https://api.anthropic.com/v1/organizations/spend_limits/spl_01RsTuVwXyZaBcDeFgHiJk" \
-  --header "x-api-key: $ANTHROPIC_ADMIN_KEY"
+  --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+  --header "anthropic-version: 2023-06-01"
 ```
 
 ## Spend limit increase requests
@@ -197,8 +206,9 @@ curl --request DELETE "https://api.anthropic.com/v1/organizations/spend_limits/s
 For complete parameter details and response schemas, see [List spend limit increase requests](https://platform.claude.com/docs/en/api/admin/spend_limits/increase_requests/list) in the API reference.
 
 ```bash cURL
-curl "https://api.anthropic.com/v1/organizations/spend_limit_increase_requests?status[]=pending&limit=50" \
-  --header "x-api-key: $ANTHROPIC_ADMIN_KEY"
+curl --globoff "https://api.anthropic.com/v1/organizations/spend_limit_increase_requests?status[]=pending&limit=50" \
+  --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+  --header "anthropic-version: 2023-06-01"
 ```
 
 Each pending request carries a live `spend_summary` showing the requester's current effective spend limit and period-to-date spend, enough to decide without a separate lookup.
@@ -211,7 +221,8 @@ For complete parameter details and response schemas, see [Retrieve a spend limit
 
 ```bash cURL
 curl "https://api.anthropic.com/v1/organizations/spend_limit_increase_requests/slir_01AbCdEfGhIjKlMnOpQrSt" \
-  --header "x-api-key: $ANTHROPIC_ADMIN_KEY"
+  --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+  --header "anthropic-version: 2023-06-01"
 ```
 
 ### Approve an increase request
@@ -224,6 +235,7 @@ For complete parameter details and response schemas, see [Approve a spend limit 
 curl --request POST "https://api.anthropic.com/v1/organizations/spend_limit_increase_requests/slir_01AbCdEfGhIjKlMnOpQrSt/approve" \
   --header "content-type: application/json" \
   --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+  --header "anthropic-version: 2023-06-01" \
   --data '{"amount": "75000", "suppress_notification": true}'
 ```
 
@@ -237,12 +249,13 @@ For complete parameter details and response schemas, see [Deny a spend limit inc
 curl --request POST "https://api.anthropic.com/v1/organizations/spend_limit_increase_requests/slir_01AbCdEfGhIjKlMnOpQrSt/deny" \
   --header "content-type: application/json" \
   --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+  --header "anthropic-version: 2023-06-01" \
   --data '{"suppress_notification": true}'
 ```
 
 ## Example workflows
 
-These workflows combine the Spend Limits API with the [Analytics APIs](https://platform.claude.com/docs/en/manage-claude/analytics-api) cost endpoints. The Analytics cost endpoints are designed for organization-wide spend reporting across a date range. `GET /spend_limits/effective` returns the cap that currently applies to each member. Start a sweep with Analytics to discover which members to look at, then read their current caps with `/effective`.
+Some of these workflows combine the Spend Limits API with the [Analytics APIs](https://platform.claude.com/docs/en/manage-claude/analytics-api) cost endpoints. The Analytics cost endpoints are designed for organization-wide spend reporting across a date range. `GET /spend_limits/effective` returns the cap that currently applies to each member. Start a sweep with Analytics to discover which members to look at, then read their current caps with `/effective`.
 
 Spend Limits endpoints require the `spend_limits` scopes and Analytics cost endpoints require `read:analytics`; see [Analytics APIs](https://platform.claude.com/docs/en/manage-claude/analytics-api) for how to provision access. All monetary values on both are decimal strings in minor units (cents). Both APIs paginate with an opaque cursor. Set an explicit `limit` and page through `next_page` until it's `null` to cover the whole organization.
 
@@ -253,8 +266,9 @@ Run a scheduled job that fetches pending requests, applies your organization's a
 1. List pending requests:
 
    ```bash cURL
-   curl "https://api.anthropic.com/v1/organizations/spend_limit_increase_requests?status[]=pending&limit=100" \
-     --header "x-api-key: $ANTHROPIC_ADMIN_KEY"
+   curl --globoff "https://api.anthropic.com/v1/organizations/spend_limit_increase_requests?status[]=pending&limit=100" \
+     --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+     --header "anthropic-version: 2023-06-01"
    ```
 
    Each request carries the requester's `actor.user_id` and a live `spend_summary` with their current effective `amount` and `period_to_date_spend`, enough to decide without a separate lookup.
@@ -267,6 +281,7 @@ Run a scheduled job that fetches pending requests, applies your organization's a
    curl --request POST "https://api.anthropic.com/v1/organizations/spend_limit_increase_requests/{id}/approve" \
      --header "content-type: application/json" \
      --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+     --header "anthropic-version: 2023-06-01" \
      --data '{"amount": "75000", "suppress_notification": true}'
    ```
 
@@ -280,7 +295,8 @@ Find members approaching their cap so you can raise it before they're blocked.
 
    ```bash cURL
    curl "https://api.anthropic.com/v1/organizations/analytics/user_cost_report?starting_at=2026-06-01T00:00:00Z&limit=1000" \
-     --header "x-api-key: $ANALYTICS_API_KEY"
+     --header "x-api-key: $ANALYTICS_API_KEY" \
+     --header "anthropic-version: 2023-06-01"
    ```
 
    Each row carries `actor.user_id`, `actor.email`, and `amount` (the member's spend in cents). Page through `next_page` to cover the whole organization.
@@ -288,8 +304,9 @@ Find members approaching their cap so you can raise it before they're blocked.
 2. For the top spenders (or everyone above a dollar threshold), fetch effective caps in batches:
 
    ```bash cURL
-   curl "https://api.anthropic.com/v1/organizations/spend_limits/effective?user_ids[]=user_01Ab...&user_ids[]=user_01Cd...&limit=100" \
-     --header "x-api-key: $ANTHROPIC_ADMIN_KEY"
+   curl --globoff "https://api.anthropic.com/v1/organizations/spend_limits/effective?user_ids[]=user_01Ab...&user_ids[]=user_01Cd...&limit=100" \
+     --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+     --header "anthropic-version: 2023-06-01"
    ```
 
    Each row returns the cap as `amount` (`null` = unlimited, `"0"` = included usage only) alongside `period_to_date_spend`.
@@ -306,7 +323,8 @@ Surface members whose spend has jumped week over week.
 
    ```bash cURL
    curl "https://api.anthropic.com/v1/organizations/analytics/user_cost_report?starting_at=2026-06-09T00:00:00Z&ending_at=2026-06-23T00:00:00Z&bucket_width=1d&limit=1000" \
-     --header "x-api-key: $ANALYTICS_API_KEY"
+     --header "x-api-key: $ANALYTICS_API_KEY" \
+     --header "anthropic-version: 2023-06-01"
    ```
 
    With `bucket_width` set, each member spans one row per day with usage; page through `next_page` to collect every member's full series.
@@ -314,6 +332,42 @@ Surface members whose spend has jumped week over week.
 2. Group rows by `actor.user_id`. For each member, sum the most recent seven days and the prior seven days. Flag members whose recent week exceeds the prior week by your chosen multiple (for example, three). Recent-day cost is provisional and can be revised upward; for repeatable comparisons, set `ending_at` at or before a previously returned `data_refreshed_at` (see [Data availability and freshness](https://platform.claude.com/docs/en/manage-claude/analytics-api#data-availability-and-freshness)).
 
 3. Act on flagged members: adjust the cap with `POST /v1/organizations/spend_limits`, or reach out.
+
+### Temporarily raise a member's spend limit during an incident
+
+Give an incident responder room to work while an incident is open: raise their spend cap when the incident starts, and roll it back after the incident closes. Gate the raise on your incident management system, for example by requiring a live incident ID with the member assigned to it.
+
+1. Read the member's current cap, and record it for the rollback:
+
+   ```bash cURL
+   curl --globoff "https://api.anthropic.com/v1/organizations/spend_limits/effective?user_ids[]=user_01AbCdEfGh&period[]=monthly" \
+     --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+     --header "anthropic-version: 2023-06-01"
+   ```
+
+2. Raise the cap:
+
+   ```bash cURL
+   curl --request POST "https://api.anthropic.com/v1/organizations/spend_limits" \
+     --header "content-type: application/json" \
+     --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+     --header "anthropic-version: 2023-06-01" \
+     --data '{"scope": {"type": "user", "user_id": "user_01AbCdEfGh"}, "amount": "500000", "period": "monthly"}'
+   ```
+
+3. If responders need broader access during an incident, pre-provision an incident-responders group whose [custom role](https://platform.claude.com/docs/en/manage-claude/user-management#custom-roles) grants it, and add the member for the duration:
+
+   ```bash cURL
+   curl --request POST "https://api.anthropic.com/v1/organizations/rbac_groups/rbac_group_01UvWxYzAbCdEfGhIjKlMn/members" \
+     --header "content-type: application/json" \
+     --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+     --header "anthropic-version: 2023-06-01" \
+     --data '{"user_id": "user_01AbCdEfGh"}'
+   ```
+
+   See [User management](https://platform.claude.com/docs/en/manage-claude/user-management#groups) for the group endpoints.
+
+4. When your incident system marks the incident closed, roll both changes back: restore the spend limit you recorded in step 1 (or delete the override with `DELETE /v1/organizations/spend_limits/{spend_limit_id}` if the member had none), and remove the member from the group with `DELETE /v1/organizations/rbac_groups/{group_id}/members/{user_id}`.
 
 ## Frequently asked questions
 

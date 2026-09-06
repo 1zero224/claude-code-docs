@@ -14,7 +14,7 @@ Claude uses different terms depending on your plan:
 
 - **Sharing** (Team, Enterprise): Makes your artifact available within your organization only. Viewers must be logged into your Team or Enterprise account to access it.
 
-**Note:** Live artifacts created in Claude Cowork follow different rules. They can be shared on Team and Enterprise plans only, within your organization, and can't be published publicly on any plan. Learn more about **[using live artifacts in Claude Cowork](https://support.claude.com/en/articles/14729249-use-live-artifacts-in-claude-cowork)**.
+**Note:** Artifacts created in Claude Cowork follow different rules. Learn more about **[using artifacts in Claude Cowork](https://support.claude.com/en/articles/14729249-use-live-artifacts-in-claude-cowork)**.
 
 ---
 
@@ -56,11 +56,11 @@ Publishing also adds the artifact to the **[Artifacts](https://claude.ai/artifac
 
 After publishing, you'll see a “Get embed code” button.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1951684960/0cd917c4455b31e86b70a97f8234/image.png?expires=1787829300&amp;signature=8f85e25055d53ec76943eb63d6fdfe3fa26b0c45c4ca84649acea05d8b2e7b4e&amp;req=dSkiF892mYhZWfMW1HO4zdcpD1Fa5wqCR8xgMH3ra8jCPY6oYM8e6%2FcF5JQ5%0AlOp2Bn6Y%2Bbcb61n2ILY%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1951684960/0cd917c4455b31e86b70a97f8234/image.png?expires=1788701400&amp;signature=27a2d0572860ad8a9afb67365c3a2580435b5d45b082b92054886d0db4d0ef33&amp;req=dSkiF892mYhZWfMW1HO4zdcpD15V5QKFR8xgMH3ra8hehCzNmXkuTWth%2F02J%0A0TKCrqTIrbx7Hg45zkU%3D%0A)
 
 Click it to open a modal with automatically generated code you can copy and paste to embed your artifact on another website.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1951685860/6bf1aa2c57d6ff95804797779e9c/image.png?expires=1787829300&amp;signature=9df92b1052f32128b421bd2a48f603fc74e061e0465cac7e02fba112db342927&amp;req=dSkiF892mIlZWfMW1HO4zcqH796Ly41uf3CUbx4Ru6UyuYOUFpBOwlAYzk99%0A2kBaUvDDFxcYt6fzvSQ%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1951685860/6bf1aa2c57d6ff95804797779e9c/image.png?expires=1788701400&amp;signature=be5f869d007791bd609b73a4d5b0fa06b3fca2117efc2e67a104445d62e91a56&amp;req=dSkiF892mIlZWfMW1HO4zcqH79GEyYVpf3CUbx4Ru6XomH8tx%2B7ud4qDoPpl%0A0vDnkgWoC0V2KQ7TpuQ%3D%0A)
 
 You must specify which websites can embed your artifact by entering URLs in the **Allowed domains** field, separated by commas.
 
@@ -116,7 +116,7 @@ Artifacts created on Team or Enterprise accounts can only be shared within your 
 
 4. Click “Share & copy link” to make this version shareable.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1951680160/d5a38784df4c6d0cc55eda339279/Screenshot%2B2025-10-28%2Bat%2B2_00_15-E2-80-AFPM.png?expires=1787829300&amp;signature=bddc1599ab2b1ecd27d501b5bda6026bb7315d4469aeeadff32f76c700efc3f1&amp;req=dSkiF892nYBZWfMW1HO4zbvYOlbtL3CQK6hAzMpXfmPB1a0LgvCurs4Ayqlz%0AjLw34UHQnL61zaJMJBU%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1951680160/d5a38784df4c6d0cc55eda339279/Screenshot%2B2025-10-28%2Bat%2B2_00_15-E2-80-AFPM.png?expires=1788701400&amp;signature=65bbbaa07dfd150d03329cbc1f51e189251ab81f1f20b2d15ee43f07884c2d05&amp;req=dSkiF892nYBZWfMW1HO4zbvYOlniLXiXK6hAzMpXfmOcD6Q7ewwzXipWxpSi%0APRpcQhVS43Gt2sR9FlQ%3D%0A)
 
 ### Who can access shared artifacts
 
@@ -138,7 +138,7 @@ When you share an artifact, viewers also gain access to any attachments and file
 
 2. In the **Artifact shared** modal, click “Unshare.”
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1951676927/c66153a2c075c6a64404306aefd0/Screenshot%2B2025-10-28%2Bat%2B1_58_24-E2-80-AFPM.png?expires=1787829300&amp;signature=d4bf434a7affbcb16aacd19c9f9209b0cfb698c1b5c484ee1c71d7baa8e6bb51&amp;req=dSkiF895m4hdXvMW1HO4zW9Ewg61%2B32wgj8mTHivCKanZ8w1BjmKXnebsemL%0AI3IokqjPblTxZ6pGcoo%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1951676927/c66153a2c075c6a64404306aefd0/Screenshot%2B2025-10-28%2Bat%2B1_58_24-E2-80-AFPM.png?expires=1788701400&amp;signature=0cc59e6c92c9d665601f09eefb10f985682602e487422826ef0cc1b881456b47&amp;req=dSkiF895m4hdXvMW1HO4zW9EwgG6%2BXW3gj8mTHivCKbjxUquUdj%2FIHjRTXnS%0AVXHKbL2NTTkz458ie%2Fk%3D%0A)
 
 ---
 

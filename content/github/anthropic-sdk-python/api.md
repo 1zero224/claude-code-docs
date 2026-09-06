@@ -537,6 +537,7 @@ from anthropic.types.beta import (
     BetaComputerZoomConfig,
     BetaContainer,
     BetaContainerParams,
+    BetaContainerSkill,
     BetaContainerUploadBlock,
     BetaContainerUploadBlockParam,
     BetaContentBlock,
@@ -620,9 +621,9 @@ from anthropic.types.beta import (
     BetaServerToolUseBlock,
     BetaServerToolUseBlockParam,
     BetaSignatureDelta,
-    BetaSkill,
     BetaSkillParams,
     BetaStopReason,
+    BetaSystemMessageOutputConfig,
     BetaTextBlock,
     BetaTextBlockParam,
     BetaTextCitation,
@@ -639,12 +640,15 @@ from anthropic.types.beta import (
     BetaTextEditorCodeExecutionViewResultBlock,
     BetaTextEditorCodeExecutionViewResultBlockParam,
     BetaThinkingBlock,
+    BetaThinkingBlockBinding,
     BetaThinkingBlockParam,
     BetaThinkingConfigAdaptive,
     BetaThinkingConfigDisabled,
     BetaThinkingConfigEnabled,
     BetaThinkingConfigParam,
     BetaThinkingDelta,
+    BetaThinkingDroppedInputTransformation,
+    BetaThinkingPrefixMismatchBehavior,
     BetaThinkingTurns,
     BetaTokenTaskBudget,
     BetaTool,
@@ -1315,7 +1319,7 @@ from anthropic.types.beta import BetaDeletedFile, BetaFileMetadata, BetaFileScop
 
 Methods:
 
-- <code title="get /v1/files?beta=true">client.beta.files.<a href="./src/anthropic/resources/beta/files.py">list</a>(\*\*<a href="src/anthropic/types/beta/file_list_params.py">params</a>) -> <a href="./src/anthropic/types/beta/beta_file_metadata.py">SyncPage[BetaFileMetadata]</a></code>
+- <code title="get /v1/files?beta=true">client.beta.files.<a href="./src/anthropic/resources/beta/files.py">list</a>(\*\*<a href="src/anthropic/types/beta/file_list_params.py">params</a>) -> <a href="./src/anthropic/types/beta/beta_file_metadata.py">SyncPageCursor[BetaFileMetadata]</a></code>
 - <code title="delete /v1/files/{file_id}?beta=true">client.beta.files.<a href="./src/anthropic/resources/beta/files.py">delete</a>(file_id) -> <a href="./src/anthropic/types/beta/beta_deleted_file.py">BetaDeletedFile</a></code>
 - <code title="get /v1/files/{file_id}/content?beta=true">client.beta.files.<a href="./src/anthropic/resources/beta/files.py">download</a>(file_id) -> BinaryAPIResponse</code>
 - <code title="get /v1/files/{file_id}?beta=true">client.beta.files.<a href="./src/anthropic/resources/beta/files.py">retrieve_metadata</a>(file_id) -> <a href="./src/anthropic/types/beta/beta_file_metadata.py">BetaFileMetadata</a></code>
@@ -1326,40 +1330,30 @@ Methods:
 Types:
 
 ```python
-from anthropic.types.beta import (
-    SkillCreateResponse,
-    SkillRetrieveResponse,
-    SkillListResponse,
-    SkillDeleteResponse,
-)
+from anthropic.types.beta import BetaDeletedSkill, BetaSkill, BetaSkillSource
 ```
 
 Methods:
 
-- <code title="post /v1/skills?beta=true">client.beta.skills.<a href="./src/anthropic/resources/beta/skills/skills.py">create</a>(\*\*<a href="src/anthropic/types/beta/skill_create_params.py">params</a>) -> <a href="./src/anthropic/types/beta/skill_create_response.py">SkillCreateResponse</a></code>
-- <code title="get /v1/skills/{skill_id}?beta=true">client.beta.skills.<a href="./src/anthropic/resources/beta/skills/skills.py">retrieve</a>(skill_id) -> <a href="./src/anthropic/types/beta/skill_retrieve_response.py">SkillRetrieveResponse</a></code>
-- <code title="get /v1/skills?beta=true">client.beta.skills.<a href="./src/anthropic/resources/beta/skills/skills.py">list</a>(\*\*<a href="src/anthropic/types/beta/skill_list_params.py">params</a>) -> <a href="./src/anthropic/types/beta/skill_list_response.py">SyncPageCursor[SkillListResponse]</a></code>
-- <code title="delete /v1/skills/{skill_id}?beta=true">client.beta.skills.<a href="./src/anthropic/resources/beta/skills/skills.py">delete</a>(skill_id) -> <a href="./src/anthropic/types/beta/skill_delete_response.py">SkillDeleteResponse</a></code>
+- <code title="post /v1/skills?beta=true">client.beta.skills.<a href="./src/anthropic/resources/beta/skills/skills.py">create</a>(\*\*<a href="src/anthropic/types/beta/skill_create_params.py">params</a>) -> <a href="./src/anthropic/types/beta/beta_skill.py">BetaSkill</a></code>
+- <code title="get /v1/skills/{skill_id}?beta=true">client.beta.skills.<a href="./src/anthropic/resources/beta/skills/skills.py">retrieve</a>(skill_id) -> <a href="./src/anthropic/types/beta/beta_skill.py">BetaSkill</a></code>
+- <code title="get /v1/skills?beta=true">client.beta.skills.<a href="./src/anthropic/resources/beta/skills/skills.py">list</a>(\*\*<a href="src/anthropic/types/beta/skill_list_params.py">params</a>) -> <a href="./src/anthropic/types/beta/beta_skill.py">SyncPageCursor[BetaSkill]</a></code>
+- <code title="delete /v1/skills/{skill_id}?beta=true">client.beta.skills.<a href="./src/anthropic/resources/beta/skills/skills.py">delete</a>(skill_id) -> <a href="./src/anthropic/types/beta/beta_deleted_skill.py">BetaDeletedSkill</a></code>
 
 ### Versions
 
 Types:
 
 ```python
-from anthropic.types.beta.skills import (
-    VersionCreateResponse,
-    VersionRetrieveResponse,
-    VersionListResponse,
-    VersionDeleteResponse,
-)
+from anthropic.types.beta.skills import BetaDeletedSkillVersion, BetaSkillVersion
 ```
 
 Methods:
 
-- <code title="post /v1/skills/{skill_id}/versions?beta=true">client.beta.skills.versions.<a href="./src/anthropic/resources/beta/skills/versions.py">create</a>(skill_id, \*\*<a href="src/anthropic/types/beta/skills/version_create_params.py">params</a>) -> <a href="./src/anthropic/types/beta/skills/version_create_response.py">VersionCreateResponse</a></code>
-- <code title="get /v1/skills/{skill_id}/versions/{version}?beta=true">client.beta.skills.versions.<a href="./src/anthropic/resources/beta/skills/versions.py">retrieve</a>(version, \*, skill_id) -> <a href="./src/anthropic/types/beta/skills/version_retrieve_response.py">VersionRetrieveResponse</a></code>
-- <code title="get /v1/skills/{skill_id}/versions?beta=true">client.beta.skills.versions.<a href="./src/anthropic/resources/beta/skills/versions.py">list</a>(skill_id, \*\*<a href="src/anthropic/types/beta/skills/version_list_params.py">params</a>) -> <a href="./src/anthropic/types/beta/skills/version_list_response.py">SyncPageCursor[VersionListResponse]</a></code>
-- <code title="delete /v1/skills/{skill_id}/versions/{version}?beta=true">client.beta.skills.versions.<a href="./src/anthropic/resources/beta/skills/versions.py">delete</a>(version, \*, skill_id) -> <a href="./src/anthropic/types/beta/skills/version_delete_response.py">VersionDeleteResponse</a></code>
+- <code title="post /v1/skills/{skill_id}/versions?beta=true">client.beta.skills.versions.<a href="./src/anthropic/resources/beta/skills/versions.py">create</a>(skill_id, \*\*<a href="src/anthropic/types/beta/skills/version_create_params.py">params</a>) -> <a href="./src/anthropic/types/beta/skills/beta_skill_version.py">BetaSkillVersion</a></code>
+- <code title="get /v1/skills/{skill_id}/versions/{version}?beta=true">client.beta.skills.versions.<a href="./src/anthropic/resources/beta/skills/versions.py">retrieve</a>(version, \*, skill_id) -> <a href="./src/anthropic/types/beta/skills/beta_skill_version.py">BetaSkillVersion</a></code>
+- <code title="get /v1/skills/{skill_id}/versions?beta=true">client.beta.skills.versions.<a href="./src/anthropic/resources/beta/skills/versions.py">list</a>(skill_id, \*\*<a href="src/anthropic/types/beta/skills/version_list_params.py">params</a>) -> <a href="./src/anthropic/types/beta/skills/beta_skill_version.py">SyncPageCursor[BetaSkillVersion]</a></code>
+- <code title="delete /v1/skills/{skill_id}/versions/{version}?beta=true">client.beta.skills.versions.<a href="./src/anthropic/resources/beta/skills/versions.py">delete</a>(version, \*, skill_id) -> <a href="./src/anthropic/types/beta/skills/beta_deleted_skill_version.py">BetaDeletedSkillVersion</a></code>
 - <code title="get /v1/skills/{skill_id}/versions/{version}/content?beta=true">client.beta.skills.versions.<a href="./src/anthropic/resources/beta/skills/versions.py">download</a>(version, \*, skill_id) -> BinaryAPIResponse</code>
 
 ## Webhooks
@@ -1455,9 +1449,11 @@ from anthropic.types.beta import (
     BetaDreamSessionsInput,
     BetaDreamStatus,
     BetaDreamUsage,
+    BetaDreamingError,
     BetaOutputBehavior,
     BetaOutputBehaviorCreateNew,
     BetaOutputBehaviorUpdateExisting,
+    BetaTargetStoreHeldError,
 )
 ```
 
@@ -1766,3 +1762,24 @@ from anthropic.types.beta.organization import (
 Methods:
 
 - <code title="get /v1/organizations/rate_limits?beta=true">client.beta.organization.rate_limits.<a href="./src/anthropic/resources/beta/organization/rate_limits.py">list</a>(\*\*<a href="src/anthropic/types/beta/organization/rate_limit_list_params.py">params</a>) -> <a href="./src/anthropic/types/beta/organization/beta_organization_rate_limit.py">SyncPageCursor[BetaOrganizationRateLimit]</a></code>
+
+### ComplianceSettings
+
+Types:
+
+```python
+from anthropic.types.beta.organization import (
+    BetaComplianceSettings,
+    BetaComplianceSettingsState,
+    BetaComplianceSettingsStateDisabled,
+    BetaComplianceSettingsStateDisabledParam,
+    BetaComplianceSettingsStateEnabled,
+    BetaComplianceSettingsStateEnabledParam,
+    BetaComplianceSettingsStateParam,
+)
+```
+
+Methods:
+
+- <code title="get /v1/organizations/compliance_settings?beta=true">client.beta.organization.compliance_settings.<a href="./src/anthropic/resources/beta/organization/compliance_settings.py">retrieve</a>() -> <a href="./src/anthropic/types/beta/organization/beta_compliance_settings.py">BetaComplianceSettings</a></code>
+- <code title="post /v1/organizations/compliance_settings?beta=true">client.beta.organization.compliance_settings.<a href="./src/anthropic/resources/beta/organization/compliance_settings.py">update</a>(\*\*<a href="src/anthropic/types/beta/organization/compliance_setting_update_params.py">params</a>) -> <a href="./src/anthropic/types/beta/organization/beta_compliance_settings.py">BetaComplianceSettings</a></code>

@@ -28,11 +28,10 @@ Each key is scoped to the organization it was created in. A request can only eve
 
 ## Calling the API
 
-Send a GET request to `/v1/compliance/activities` on the Claude for Government host provided to you during onboarding, with your key in the `x-api-key` header.
+Send a GET request to your Claude for Government host followed by the fixed path `/gateway-api/v1/compliance/activities`, with your key in the `x-api-key` header. The Claude for Government host is the address of your organization admin portal. If you are unsure of it, ask your Anthropic representative.
 
 ```http theme={null}
-GET /v1/compliance/activities?since=2026-07-01T00:00:00Z&limit=500
-Host: <your-deployment-host>
+GET https://<claude-for-government-host>/gateway-api/v1/compliance/activities?since=2026-07-01T00:00:00Z&limit=500
 x-api-key: <your-compliance-api-key>
 ```
 
@@ -148,7 +147,7 @@ Listing and revoking existing keys in the portal remains available even when the
 
 * The Claude for Government Compliance API is served from the Claude for Government service hostname, not from `api.anthropic.com`. Use the same host you use to reach the admin portal.
 * There is no separate Splunk add-on. The polling pattern described under [Connecting to your SIEM](#connecting-to-your-siem) is the reference implementation for a Splunk HTTP Event Collector job.
-* The desktop application's OpenTelemetry export is a separate log stream configured with **Telemetry endpoint (Claude Desktop)** on the [Config](/docs/government/config/settings#telemetry-endpoint-claude-desktop) page. It carries per-session tool and telemetry events to a collector you specify, while this API carries administrative audit events. See [Telemetry and egress](/docs/third-party/claude-desktop/telemetry) for what the OpenTelemetry export includes.
+* The desktop application's OpenTelemetry export is a separate log stream configured with **Telemetry endpoint** on the [Config](/docs/government/config/settings#telemetry-endpoint) page. It carries per-session tool and telemetry events to a collector you specify, while this API carries administrative audit events. See [Telemetry and egress](/docs/third-party/claude-desktop/telemetry) for what the OpenTelemetry export includes.
 * The Compliance API returns governance and audit events only. It does not return conversation content, files, or anything your users type into Claude.
 * Each organization can hold up to 50 active keys at once. Revoked keys do not count toward this limit.
 * Events are returned newest first within each page.

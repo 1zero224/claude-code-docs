@@ -31,6 +31,7 @@ There are four additional built-in output styles:
 Pick a style in one of these ways:
 
 * **Terminal**: run `/config` and select **Output style** to pick a style from a menu. Claude Code saves your selection to `.claude/settings.local.json` at the [local project level](/docs/en/settings).
+* **VS Code extension**: open the [command menu](/docs/en/vs-code#use-the-prompt-box) with `/` and select **Output styles** to pick a style, including your custom styles. Claude Code saves your selection to `.claude/settings.local.json`, the same file the terminal menu writes. Requires Claude Code v2.1.257 or later.
 * **Desktop app**: set the `outputStyle` field in a settings file, for example `.claude/settings.local.json`, the file the terminal menu writes. When you run `/config` there, Claude Code [opens **Settings > Claude Code**](/docs/en/desktop#what’s-not-available-in-desktop) rather than a menu.
 
 <Note>The standalone `/output-style` command was deprecated in v2.1.73 and removed in v2.1.91. Use `/config` or edit the `outputStyle` setting directly.</Note>
@@ -102,8 +103,8 @@ Output style files support these frontmatter fields:
 
 Output styles directly modify Claude Code's system prompt.
 
-* Claude Code adds each output style's custom instructions to the end of the system prompt.
-* All output styles trigger reminders for Claude to adhere to the output style instructions during the conversation.
+* Claude Code adds the output style's custom instructions to the system prompt.
+* When you [select a style other than Default](#change-your-output-style), Claude Code also reminds Claude of the style during the conversation.
 * Custom output styles leave out Claude Code's built-in software engineering instructions, such as how to scope changes, write comments, and verify work, unless `keep-coding-instructions` is set to `true`.
 
 Output styles apply to the main conversation only: a [subagent runs its own system prompt](/docs/en/sub-agents#what-loads-at-startup), so styles don't change how subagents respond. A [fork](/docs/en/sub-agents#fork-the-current-conversation) is the exception, because it inherits the parent's full system prompt.

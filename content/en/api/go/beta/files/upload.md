@@ -16,6 +16,12 @@ Upload File
 
     format: binary
 
+  - `ExpiresInSeconds param.Field[int64] Optional`
+
+    Body param: Seconds from upload until the file expires and its bytes become permanently unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
+
+    minimum: 3600, maximum: 7776000
+
   - `Betas param.Field[[]AnthropicBeta] Optional`
 
     Header param: Optional header to specify the beta version(s) you want to use.
@@ -106,6 +112,12 @@ Upload File
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 ## Returns
 
 - `type BetaFileMetadata struct{…}`
@@ -151,6 +163,12 @@ Upload File
     Whether the file can be downloaded.
 
     default: false
+
+  - `ExpiresAt Time Optional`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
 
   - `Scope BetaFileScope Optional`
 
@@ -204,6 +222,7 @@ func main() {
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"

@@ -18,7 +18,7 @@ Get File Metadata
 
   - `string`
 
-  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 38 more`
+  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 41 more`
 
     - `"message-batches-2024-09-24"`
 
@@ -102,6 +102,12 @@ Get File Metadata
 
     - `"ce-user-management-2026-07-13"`
 
+    - `"mid-conversation-output-config-2026-07-01"`
+
+    - `"thinking-binding-controls-2026-08-01"`
+
+    - `"mid-conversation-system-clear-at-2026-08-21"`
+
 ## Returns
 
 - `BetaFileMetadata object`
@@ -148,6 +154,12 @@ Get File Metadata
 
     default: false
 
+  - `expires_at: optional string or null`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `scope: optional BetaFileScope or null`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -165,7 +177,6 @@ Get File Metadata
 ```bash
 curl https://api.anthropic.com/v1/files/$FILE_ID \
     -H 'anthropic-version: 2023-06-01' \
-    -H 'anthropic-beta: files-api-2025-04-14' \
     -H "X-Api-Key: $ANTHROPIC_API_KEY"
 ```
 
@@ -180,6 +191,7 @@ curl https://api.anthropic.com/v1/files/$FILE_ID \
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"

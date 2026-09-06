@@ -98,11 +98,23 @@ Upload File
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
   - `String file`
 
     The file to upload
 
     format: binary
+
+  - `Optional<Long> expiresInSeconds`
+
+    Seconds from upload until the file expires and its bytes become permanently unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
+
+    minimum: 3600, maximum: 7776000
 
 ### Returns
 
@@ -138,7 +150,7 @@ Upload File
 
     minimum: 0
 
-  - `JsonValue type constant`
+  - `JsonValue type = "file"`
 
     Object type.
 
@@ -148,6 +160,12 @@ Upload File
 
     Whether the file can be downloaded.
 
+  - `Optional<LocalDateTime> expiresAt`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `Optional<BetaFileScope> scope`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -156,7 +174,7 @@ Upload File
 
       The ID of the scoping resource (e.g., the session ID).
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       The type of scope (e.g., `"session"`).
 
@@ -196,6 +214,7 @@ public final class Main {
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"
@@ -215,13 +234,9 @@ List Files
 
 - `FileListParams params`
 
-  - `Optional<String> afterId`
+  - `Optional<List<String>> ids`
 
-    ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
-
-  - `Optional<String> beforeId`
-
-    ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
+    Restrict the result set to Files whose `id` is in this list. At most 100 entries (after de-duplication). Mutually exclusive with `page` and `limit`. When supplied, the response is always a single page (`next_page` is null). IDs that do not resolve to a visible File — including deleted Files — are silently omitted.
 
   - `Optional<Long> limit`
 
@@ -230,6 +245,10 @@ List Files
     Defaults to `20`. Ranges from `1` to `1000`.
 
     maximum: 1000, minimum: 1
+
+  - `Optional<String> page`
+
+    Opaque page cursor returned in a prior list response's `next_page`. Prefixed `page_`.
 
   - `Optional<String> scopeId`
 
@@ -321,6 +340,12 @@ List Files
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaFileMetadata:`
@@ -355,7 +380,7 @@ List Files
 
     minimum: 0
 
-  - `JsonValue type constant`
+  - `JsonValue type = "file"`
 
     Object type.
 
@@ -365,6 +390,12 @@ List Files
 
     Whether the file can be downloaded.
 
+  - `Optional<LocalDateTime> expiresAt`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `Optional<BetaFileScope> scope`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -373,7 +404,7 @@ List Files
 
       The ID of the scoping resource (e.g., the session ID).
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       The type of scope (e.g., `"session"`).
 
@@ -411,15 +442,14 @@ public final class Main {
       "size_bytes": 102400,
       "type": "file",
       "downloadable": false,
+      "expires_at": "2025-05-15T18:37:24.100435Z",
       "scope": {
         "id": "id",
         "type": "session"
       }
     }
   ],
-  "first_id": "file_011CNha8iCJcU1wXNR6q4V8w",
-  "has_more": true,
-  "last_id": "file_013Zva2CMHLNnXjNJJKqJ2EF"
+  "next_page": "next_page"
 }
 ```
 
@@ -524,6 +554,12 @@ Download File
     - `THINKING_DISPLAY_UPDATES_2026_08_18("thinking-display-updates-2026-08-18")`
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ### Example
 
@@ -648,6 +684,12 @@ Get File Metadata
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaFileMetadata:`
@@ -682,7 +724,7 @@ Get File Metadata
 
     minimum: 0
 
-  - `JsonValue type constant`
+  - `JsonValue type = "file"`
 
     Object type.
 
@@ -692,6 +734,12 @@ Get File Metadata
 
     Whether the file can be downloaded.
 
+  - `Optional<LocalDateTime> expiresAt`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `Optional<BetaFileScope> scope`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -700,7 +748,7 @@ Get File Metadata
 
       The ID of the scoping resource (e.g., the session ID).
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       The type of scope (e.g., `"session"`).
 
@@ -736,6 +784,7 @@ public final class Main {
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"
@@ -845,6 +894,12 @@ Delete File
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ### Returns
 
 - `class BetaDeletedFile:`
@@ -939,7 +994,7 @@ public final class Main {
 
     minimum: 0
 
-  - `JsonValue type constant`
+  - `JsonValue type = "file"`
 
     Object type.
 
@@ -949,6 +1004,12 @@ public final class Main {
 
     Whether the file can be downloaded.
 
+  - `Optional<LocalDateTime> expiresAt`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `Optional<BetaFileScope> scope`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -957,7 +1018,7 @@ public final class Main {
 
       The ID of the scoping resource (e.g., the session ID).
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       The type of scope (e.g., `"session"`).
 
@@ -969,6 +1030,6 @@ public final class Main {
 
     The ID of the scoping resource (e.g., the session ID).
 
-  - `JsonValue type constant`
+  - `JsonValue type = "session"`
 
     The type of scope (e.g., `"session"`).

@@ -100,6 +100,12 @@ Get File Metadata
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ## Returns
 
 - `class BetaFileMetadata:`
@@ -134,7 +140,7 @@ Get File Metadata
 
     minimum: 0
 
-  - `JsonValue type constant`
+  - `JsonValue type = "file"`
 
     Object type.
 
@@ -144,6 +150,12 @@ Get File Metadata
 
     Whether the file can be downloaded.
 
+  - `Optional<LocalDateTime> expiresAt`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `Optional<BetaFileScope> scope`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -152,7 +164,7 @@ Get File Metadata
 
       The ID of the scoping resource (e.g., the session ID).
 
-    - `JsonValue type constant`
+    - `JsonValue type = "session"`
 
       The type of scope (e.g., `"session"`).
 
@@ -188,6 +200,7 @@ public final class Main {
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"

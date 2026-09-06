@@ -31,6 +31,28 @@ Requires an API key with the `read:analytics` scope.
 
   - `"1m"`
 
+- `claude_tag_categories: optional array of "dm" or "engaged" or "monitoring" or 2 more`
+
+  Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. `dm` usage is reported under the user's product rather than `claude-tag`, so combining this filter with `products[]=claude-tag` excludes it. Use `group_by[]=claude_tag_category` to break out per-category values.
+
+  maxItems: 100
+
+  - `"dm"`
+
+  - `"engaged"`
+
+  - `"monitoring"`
+
+  - `"proactive"`
+
+  - `"scheduled"`
+
+- `claude_tag_user_ids: optional array of string`
+
+  Filter to Claude Tag (Claude in Slack) usage attributed to specific Slack users, by Slack user ID (for example `U0123ABCDEF`), not claude.ai user ID. Usage that is not Claude Tag, and Claude Tag usage not attributed to a single user, never matches. Use `group_by[]=claude_tag_user_id` to break out per-user values.
+
+  maxItems: 100
+
 - `context_windows: optional array of "0-200k" or "200k-1M"`
 
   Filter to specific context-window pricing tiers. Use `group_by[]=context_window` to break out per-tier values.
@@ -47,11 +69,15 @@ Requires an API key with the `read:analytics` scope.
 
   format: date-time
 
-- `group_by: optional array of "context_window" or "cost_type" or "inference_geo" or 6 more`
+- `group_by: optional array of "claude_tag_category" or "claude_tag_user_id" or "context_window" or 8 more`
 
   Dimensions to break each time bucket out by. Defaults to no grouping (one total per bucket). Each bucket reports at most its top 100 groups; a group beyond that cap has no row in that bucket (there is no remainder row), so grouped buckets are not exhaustive when a dimension has more than 100 distinct values.
 
   maxItems: 100
+
+  - `"claude_tag_category"`
+
+  - `"claude_tag_user_id"`
 
   - `"context_window"`
 
@@ -85,7 +111,7 @@ Requires an API key with the `read:analytics` scope.
 
 - `limit: optional number`
 
-  Maximum number of time buckets per page. Defaults and caps vary by bucket_width (1d: default 7, max 31; 1h: default 24, max 168; 1m: default 60, max 256).
+  Maximum number of time buckets per page. Defaults and caps vary by `bucket_width` (`1d`: default 7, max 31; `1h`: default 24, max 168; `1m`: default 60, max 256).
 
   minimum: 1
 
@@ -99,11 +125,25 @@ Requires an API key with the `read:analytics` scope.
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `products: optional array of string`
+- `products: optional array of "chat" or "claude-tag" or "claude_code" or 4 more`
 
-  Product surfaces to include. Defaults to all products. Use `group_by[]=product` to break out per-product values. Values include "chat", "claude_code", "cowork", "office_agent", "claude_in_chrome", "claude_design", and "claude-in-slack". "claude-in-slack" (with hyphens) is Claude Tag, the Claude product in Slack. A similarly spelled legacy value (underscores instead of hyphens) identifies the retiring v1 Slack chat bot and appears only for organizations that used it.
+  Product surfaces to include. Defaults to all products. Use `group_by[]=product` to break out per-product values.
 
   maxItems: 100
+
+  - `"chat"`
+
+  - `"claude-tag"`
+
+  - `"claude_code"`
+
+  - `"claude_design"`
+
+  - `"claude_in_chrome"`
+
+  - `"cowork"`
+
+  - `"office_agent"`
 
 - `rbac_group_ids: optional array of string`
 
@@ -155,6 +195,24 @@ Requires an API key with the `read:analytics` scope.
 
         Amount (post-discount, pre-credit) in fractional cents.
 
+      - `claude_tag_category: "dm" or "engaged" or "monitoring" or 2 more or null`
+
+        Claude Tag (Claude in Slack) spend category: `engaged` (a person addressed Claude in a channel or thread), `proactive` (Claude responded without being addressed), `scheduled` (a scheduled routine ran), `monitoring` (Claude watching a channel it was asked to monitor), or `dm` (direct messages with Claude). Populated only when `claude_tag_category` is in `group_by[]`; null for usage that is not Claude Tag. Direct-message usage is billed to the individual user and is reported under that user's product, not under `claude-tag`. New categories may be added over time.
+
+        - `"dm"`
+
+        - `"engaged"`
+
+        - `"monitoring"`
+
+        - `"proactive"`
+
+        - `"scheduled"`
+
+      - `claude_tag_user_id: string or null`
+
+        Slack user ID (for example `U0123ABCDEF`) of the member the Claude Tag (Claude in Slack) usage is attributed to, not a claude.ai user ID. Populated only when `claude_tag_user_id` is in `group_by[]`; null for usage that is not Claude Tag and for Claude Tag usage that is not attributed to a single user (for example `monitoring`, and `proactive` usage Claude initiated), so per-user rows can sum to less than the Claude Tag total. Cannot be combined with `group_by[]=rbac_group_id` or the `rbac_group_ids[]` filter.
+
       - `context_window: "0-200k" or "200k-1M" or null`
 
         Context-window pricing tier of the usage or cost. Null unless `context_window` is in `group_by[]`; it can also be null on grouped rows with no context-window tier, such as code execution.
@@ -193,15 +251,15 @@ Requires an API key with the `read:analytics` scope.
 
       - `model: string or null`
 
-        Model that produced the usage or cost, as a model name in the form the `models[]` filter accepts (for example, `claude-opus-4-6`). Null unless `model` is in `group_by[]`; it can also be null on grouped rows whose usage or cost is not attributed to a specific model, such as code execution.
+        Model that produced the usage or cost, as a model name in the form the `models[]` filter accepts (for example, `claude-opus-5`). Null unless `model` is in `group_by[]`; it can also be null on grouped rows whose usage or cost is not attributed to a specific model, such as code execution.
 
       - `product: string or null`
 
-        Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include "chat", "claude_code", "cowork", "office_agent", "claude_in_chrome", "claude_design", and "claude-in-slack". "claude-in-slack" (with hyphens) is Claude Tag, the Claude product in Slack. A similarly spelled legacy value (underscores instead of hyphens) identifies the retiring v1 Slack chat bot and appears only for organizations that used it. Some unattributed usage is reported as "other".
+        Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, and `claude-tag`. `claude-tag` is Claude Tag, the Claude product in Slack. Some unattributed usage is reported as "other".
 
       - `rbac_group_id: string or null`
 
-        RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling — the same spelling the activity resources use for this key, so the same team has ONE id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query with no group_by.
+        RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling — the same spelling the activity resources use for this key, so the same team has one id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query without `group_by[]`.
 
       - `requests: number or null`
 
@@ -275,12 +333,14 @@ curl https://api.anthropic.com/v1/organizations/analytics/cost_report \
       "results": [
         {
           "amount": "amount",
+          "claude_tag_category": "dm",
+          "claude_tag_user_id": "U0123ABCDEF",
           "context_window": "0-200k",
           "cost_type": "code_execution",
           "currency": "USD",
           "inference_geo": "global",
           "list_amount": "list_amount",
-          "model": "claude-opus-4-6",
+          "model": "claude-opus-5",
           "product": "chat",
           "rbac_group_id": "rbac_group_012rppKaSVsmTo6NqRDXQXNF",
           "requests": 0,
@@ -331,6 +391,28 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
   - `"1m"`
 
+- `claude_tag_categories: optional array of "dm" or "engaged" or "monitoring" or 2 more`
+
+  Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. `dm` usage is reported under the user's product rather than `claude-tag`, so combining this filter with `products[]=claude-tag` excludes it. Use `group_by[]=claude_tag_category` to break out per-category values.
+
+  maxItems: 100
+
+  - `"dm"`
+
+  - `"engaged"`
+
+  - `"monitoring"`
+
+  - `"proactive"`
+
+  - `"scheduled"`
+
+- `claude_tag_user_ids: optional array of string`
+
+  Filter to Claude Tag (Claude in Slack) usage attributed to specific Slack users, by Slack user ID (for example `U0123ABCDEF`), not claude.ai user ID. Usage that is not Claude Tag, and Claude Tag usage not attributed to a single user, never matches. Use `group_by[]=claude_tag_user_id` to break out per-user values.
+
+  maxItems: 100
+
 - `context_windows: optional array of "0-200k" or "200k-1M"`
 
   Filter to specific context-window pricing tiers. Use `group_by[]=context_window` to break out per-tier values.
@@ -353,11 +435,15 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
   default: false
 
-- `group_by: optional array of "context_window" or "cost_type" or "inference_geo" or 6 more`
+- `group_by: optional array of "claude_tag_category" or "claude_tag_user_id" or "context_window" or 8 more`
 
   Break each actor's row out by the given dimensions. Accepts the same values as the bucketed `/cost_report` endpoint. The `product`, `model`, `context_window`, `inference_geo`, and `speed` dimensions — and the time bucket, when `bucket_width` is set — count toward `limit`. `cost_type` and `token_type` do not: `cost_type` returns one row per cost component (tokens, web search, code execution); `token_type` returns one row per token type, each with `cost_type: "tokens"`; combining both returns the per-token-type rows plus the web-search and code-execution rows. A page can therefore contain more rows than `limit` when `cost_type` or `token_type` is requested.
 
   maxItems: 100
+
+  - `"claude_tag_category"`
+
+  - `"claude_tag_user_id"`
 
   - `"context_window"`
 
@@ -425,11 +511,25 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `products: optional array of string`
+- `products: optional array of "chat" or "claude-tag" or "claude_code" or 4 more`
 
-  Product surfaces to include. Defaults to all products. Values include "chat", "claude_code", "cowork", "office_agent", "claude_in_chrome", "claude_design", and "claude-in-slack". "claude-in-slack" (with hyphens) is Claude Tag, the Claude product in Slack. A similarly spelled legacy value (underscores instead of hyphens) identifies the retiring v1 Slack chat bot and appears only for organizations that used it.
+  Product surfaces to include. Defaults to all products.
 
   maxItems: 100
+
+  - `"chat"`
+
+  - `"claude-tag"`
+
+  - `"claude_code"`
+
+  - `"claude_design"`
+
+  - `"claude_in_chrome"`
+
+  - `"cowork"`
+
+  - `"office_agent"`
 
 - `rbac_group_ids: optional array of string`
 
@@ -473,7 +573,7 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
       - `deleted: boolean`
 
-        True when the user is no longer a member of the organization or its associated organizations: either their membership was removed (for example, deprovisioned via your identity provider) or the account itself has been deleted. The flag reflects organization membership, not account status. `name` and `email` stay populated for removed members; `name` is `"Deleted User"` and `email` null when the account has been deleted. The `user_id` is still populated for reconciliation.
+        True when the account has been deleted, or when the user is no longer a member of the organization or its associated organizations (for example, their membership was removed or they were deprovisioned via your identity provider). `email` stays populated for removed users and is null when the account has been deleted. `name` follows the rules described on that field. The `user_id` is still populated for reconciliation.
 
       - `email: string or null`
 
@@ -481,7 +581,7 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
       - `name: string or null`
 
-        The user's current name, including for users who are no longer members of the organization or its associated organizations. Null when the user has not set a name. Returns `"Deleted User"` when the account itself has been deleted. Rows for system-minted service accounts render the service name (for example, `"Claude Security"` for usage by Anthropic's security-patching service) or null.
+        The user's full name. Null when the user has not set a name. Returns `"Deleted User"` when the account itself has been deleted, or when the user is no longer a member of the organization or its associated organizations and the organization has chosen to hide the names of removed users. Otherwise, the name stays populated for removed users. Rows for system-minted service accounts render the service name (for example, `"Claude Security"` for usage by Anthropic's security-patching service) or null.
 
       - `type: "user_actor"`
 
@@ -494,6 +594,24 @@ organizations on a Claude Enterprise plan. Requires an API key with the
     - `amount: string`
 
       Amount (post-discount, pre-credit) in fractional cents (minor units).
+
+    - `claude_tag_category: "dm" or "engaged" or "monitoring" or 2 more or null`
+
+      Claude Tag (Claude in Slack) spend category: `engaged` (a person addressed Claude in a channel or thread), `proactive` (Claude responded without being addressed), `scheduled` (a scheduled routine ran), `monitoring` (Claude watching a channel it was asked to monitor), or `dm` (direct messages with Claude). Populated only when `claude_tag_category` is in `group_by[]`; null for usage that is not Claude Tag. Direct-message usage is billed to the individual user and is reported under that user's product, not under `claude-tag`. New categories may be added over time.
+
+      - `"dm"`
+
+      - `"engaged"`
+
+      - `"monitoring"`
+
+      - `"proactive"`
+
+      - `"scheduled"`
+
+    - `claude_tag_user_id: string or null`
+
+      Slack user ID (for example `U0123ABCDEF`) of the member the Claude Tag (Claude in Slack) usage is attributed to, not a claude.ai user ID. Populated only when `claude_tag_user_id` is in `group_by[]`; null for usage that is not Claude Tag and for Claude Tag usage that is not attributed to a single user (for example `monitoring`, and `proactive` usage Claude initiated), so per-user rows can sum to less than the Claude Tag total. Cannot be combined with `group_by[]=rbac_group_id` or the `rbac_group_ids[]` filter.
 
     - `context_window: "0-200k" or "200k-1M" or null`
 
@@ -539,15 +657,15 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
     - `model: string or null`
 
-      Model that produced the usage or cost, as a model name in the form the `models[]` filter accepts (for example, `claude-opus-4-6`). Null unless `model` is in `group_by[]`; it can also be null on grouped rows whose usage or cost is not attributed to a specific model, such as code execution.
+      Model that produced the usage or cost, as a model name in the form the `models[]` filter accepts (for example, `claude-opus-5`). Null unless `model` is in `group_by[]`; it can also be null on grouped rows whose usage or cost is not attributed to a specific model, such as code execution.
 
     - `product: string or null`
 
-      Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include "chat", "claude_code", "cowork", "office_agent", "claude_in_chrome", "claude_design", and "claude-in-slack". "claude-in-slack" (with hyphens) is Claude Tag, the Claude product in Slack. A similarly spelled legacy value (underscores instead of hyphens) identifies the retiring v1 Slack chat bot and appears only for organizations that used it. Some unattributed usage is reported as "other".
+      Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, and `claude-tag`. `claude-tag` is Claude Tag, the Claude product in Slack. Some unattributed usage is reported as "other".
 
     - `rbac_group_id: string or null`
 
-      RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling — the same spelling the activity resources use for this key, so the same team has ONE id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query with no group_by.
+      RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling — the same spelling the activity resources use for this key, so the same team has one id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query without `group_by[]`.
 
     - `requests: number or null`
 
@@ -573,7 +691,7 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
     - `token_type: "cache_creation.ephemeral_1h_input_tokens" or "cache_creation.ephemeral_5m_input_tokens" or "cache_read_input_tokens" or 2 more or null`
 
-      Token type when cost_type=tokens; null otherwise.
+      Token type when `cost_type` is `tokens`; null otherwise.
 
       - `"cache_creation.ephemeral_1h_input_tokens"`
 
@@ -625,13 +743,15 @@ curl https://api.anthropic.com/v1/organizations/analytics/user_cost_report \
         "user_id": "user_01AbCdEfGhIjKlMnOpQrSt"
       },
       "amount": "41280.000000",
+      "claude_tag_category": "dm",
+      "claude_tag_user_id": "U0123ABCDEF",
       "context_window": "0-200k",
       "cost_type": "code_execution",
       "currency": "USD",
       "ending_at": "2019-12-27T18:11:19.117Z",
       "inference_geo": "global",
       "list_amount": "51600.000000",
-      "model": "claude-opus-4-6",
+      "model": "claude-opus-5",
       "product": "chat",
       "rbac_group_id": "rbac_group_012rppKaSVsmTo6NqRDXQXNF",
       "requests": 128,
@@ -672,6 +792,24 @@ curl https://api.anthropic.com/v1/organizations/analytics/user_cost_report \
 
         Amount (post-discount, pre-credit) in fractional cents.
 
+      - `claude_tag_category: "dm" or "engaged" or "monitoring" or 2 more or null`
+
+        Claude Tag (Claude in Slack) spend category: `engaged` (a person addressed Claude in a channel or thread), `proactive` (Claude responded without being addressed), `scheduled` (a scheduled routine ran), `monitoring` (Claude watching a channel it was asked to monitor), or `dm` (direct messages with Claude). Populated only when `claude_tag_category` is in `group_by[]`; null for usage that is not Claude Tag. Direct-message usage is billed to the individual user and is reported under that user's product, not under `claude-tag`. New categories may be added over time.
+
+        - `"dm"`
+
+        - `"engaged"`
+
+        - `"monitoring"`
+
+        - `"proactive"`
+
+        - `"scheduled"`
+
+      - `claude_tag_user_id: string or null`
+
+        Slack user ID (for example `U0123ABCDEF`) of the member the Claude Tag (Claude in Slack) usage is attributed to, not a claude.ai user ID. Populated only when `claude_tag_user_id` is in `group_by[]`; null for usage that is not Claude Tag and for Claude Tag usage that is not attributed to a single user (for example `monitoring`, and `proactive` usage Claude initiated), so per-user rows can sum to less than the Claude Tag total. Cannot be combined with `group_by[]=rbac_group_id` or the `rbac_group_ids[]` filter.
+
       - `context_window: "0-200k" or "200k-1M" or null`
 
         Context-window pricing tier of the usage or cost. Null unless `context_window` is in `group_by[]`; it can also be null on grouped rows with no context-window tier, such as code execution.
@@ -710,15 +848,15 @@ curl https://api.anthropic.com/v1/organizations/analytics/user_cost_report \
 
       - `model: string or null`
 
-        Model that produced the usage or cost, as a model name in the form the `models[]` filter accepts (for example, `claude-opus-4-6`). Null unless `model` is in `group_by[]`; it can also be null on grouped rows whose usage or cost is not attributed to a specific model, such as code execution.
+        Model that produced the usage or cost, as a model name in the form the `models[]` filter accepts (for example, `claude-opus-5`). Null unless `model` is in `group_by[]`; it can also be null on grouped rows whose usage or cost is not attributed to a specific model, such as code execution.
 
       - `product: string or null`
 
-        Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include "chat", "claude_code", "cowork", "office_agent", "claude_in_chrome", "claude_design", and "claude-in-slack". "claude-in-slack" (with hyphens) is Claude Tag, the Claude product in Slack. A similarly spelled legacy value (underscores instead of hyphens) identifies the retiring v1 Slack chat bot and appears only for organizations that used it. Some unattributed usage is reported as "other".
+        Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, and `claude-tag`. `claude-tag` is Claude Tag, the Claude product in Slack. Some unattributed usage is reported as "other".
 
       - `rbac_group_id: string or null`
 
-        RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling — the same spelling the activity resources use for this key, so the same team has ONE id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query with no group_by.
+        RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling — the same spelling the activity resources use for this key, so the same team has one id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query without `group_by[]`.
 
       - `requests: number or null`
 
@@ -788,7 +926,7 @@ curl https://api.anthropic.com/v1/organizations/analytics/user_cost_report \
 
       - `deleted: boolean`
 
-        True when the user is no longer a member of the organization or its associated organizations: either their membership was removed (for example, deprovisioned via your identity provider) or the account itself has been deleted. The flag reflects organization membership, not account status. `name` and `email` stay populated for removed members; `name` is `"Deleted User"` and `email` null when the account has been deleted. The `user_id` is still populated for reconciliation.
+        True when the account has been deleted, or when the user is no longer a member of the organization or its associated organizations (for example, their membership was removed or they were deprovisioned via your identity provider). `email` stays populated for removed users and is null when the account has been deleted. `name` follows the rules described on that field. The `user_id` is still populated for reconciliation.
 
       - `email: string or null`
 
@@ -796,7 +934,7 @@ curl https://api.anthropic.com/v1/organizations/analytics/user_cost_report \
 
       - `name: string or null`
 
-        The user's current name, including for users who are no longer members of the organization or its associated organizations. Null when the user has not set a name. Returns `"Deleted User"` when the account itself has been deleted. Rows for system-minted service accounts render the service name (for example, `"Claude Security"` for usage by Anthropic's security-patching service) or null.
+        The user's full name. Null when the user has not set a name. Returns `"Deleted User"` when the account itself has been deleted, or when the user is no longer a member of the organization or its associated organizations and the organization has chosen to hide the names of removed users. Otherwise, the name stays populated for removed users. Rows for system-minted service accounts render the service name (for example, `"Claude Security"` for usage by Anthropic's security-patching service) or null.
 
       - `type: "user_actor"`
 
@@ -809,6 +947,24 @@ curl https://api.anthropic.com/v1/organizations/analytics/user_cost_report \
     - `amount: string`
 
       Amount (post-discount, pre-credit) in fractional cents (minor units).
+
+    - `claude_tag_category: "dm" or "engaged" or "monitoring" or 2 more or null`
+
+      Claude Tag (Claude in Slack) spend category: `engaged` (a person addressed Claude in a channel or thread), `proactive` (Claude responded without being addressed), `scheduled` (a scheduled routine ran), `monitoring` (Claude watching a channel it was asked to monitor), or `dm` (direct messages with Claude). Populated only when `claude_tag_category` is in `group_by[]`; null for usage that is not Claude Tag. Direct-message usage is billed to the individual user and is reported under that user's product, not under `claude-tag`. New categories may be added over time.
+
+      - `"dm"`
+
+      - `"engaged"`
+
+      - `"monitoring"`
+
+      - `"proactive"`
+
+      - `"scheduled"`
+
+    - `claude_tag_user_id: string or null`
+
+      Slack user ID (for example `U0123ABCDEF`) of the member the Claude Tag (Claude in Slack) usage is attributed to, not a claude.ai user ID. Populated only when `claude_tag_user_id` is in `group_by[]`; null for usage that is not Claude Tag and for Claude Tag usage that is not attributed to a single user (for example `monitoring`, and `proactive` usage Claude initiated), so per-user rows can sum to less than the Claude Tag total. Cannot be combined with `group_by[]=rbac_group_id` or the `rbac_group_ids[]` filter.
 
     - `context_window: "0-200k" or "200k-1M" or null`
 
@@ -854,15 +1010,15 @@ curl https://api.anthropic.com/v1/organizations/analytics/user_cost_report \
 
     - `model: string or null`
 
-      Model that produced the usage or cost, as a model name in the form the `models[]` filter accepts (for example, `claude-opus-4-6`). Null unless `model` is in `group_by[]`; it can also be null on grouped rows whose usage or cost is not attributed to a specific model, such as code execution.
+      Model that produced the usage or cost, as a model name in the form the `models[]` filter accepts (for example, `claude-opus-5`). Null unless `model` is in `group_by[]`; it can also be null on grouped rows whose usage or cost is not attributed to a specific model, such as code execution.
 
     - `product: string or null`
 
-      Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include "chat", "claude_code", "cowork", "office_agent", "claude_in_chrome", "claude_design", and "claude-in-slack". "claude-in-slack" (with hyphens) is Claude Tag, the Claude product in Slack. A similarly spelled legacy value (underscores instead of hyphens) identifies the retiring v1 Slack chat bot and appears only for organizations that used it. Some unattributed usage is reported as "other".
+      Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, and `claude-tag`. `claude-tag` is Claude Tag, the Claude product in Slack. Some unattributed usage is reported as "other".
 
     - `rbac_group_id: string or null`
 
-      RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling — the same spelling the activity resources use for this key, so the same team has ONE id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query with no group_by.
+      RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling — the same spelling the activity resources use for this key, so the same team has one id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query without `group_by[]`.
 
     - `requests: number or null`
 
@@ -888,7 +1044,7 @@ curl https://api.anthropic.com/v1/organizations/analytics/user_cost_report \
 
     - `token_type: "cache_creation.ephemeral_1h_input_tokens" or "cache_creation.ephemeral_5m_input_tokens" or "cache_read_input_tokens" or 2 more or null`
 
-      Token type when cost_type=tokens; null otherwise.
+      Token type when `cost_type` is `tokens`; null otherwise.
 
       - `"cache_creation.ephemeral_1h_input_tokens"`
 

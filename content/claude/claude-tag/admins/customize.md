@@ -25,16 +25,16 @@ Connections and plugins decide what Claude *can do*; instructions and memory sha
 
 Access and organization-wide behavior are set at [`claude.ai/admin-settings/claude-tag`](https://claude.ai/admin-settings/claude-tag), per scope (a scope is a channel, a workspace, or your whole organization), so the same agent can work differently in different channels. Most controls below are Owner-only.
 
-| Setting               | What it does                                                                                                                                        | More                                                                                                        |
-| :-------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------- |
-| Custom instructions   | Standing guidance read in every session on a scope, like team conventions. Outranks channel memory.                                                 | [Add custom instructions](/docs/claude-tag/admins/attach-to-scope#add-custom-instructions)                       |
-| Respond automatically | Whether Claude replies to a channel's messages without an @-mention. Channel members can change it too, from Slack or the channel's Configure page. | [Turn automatic replies on or off](/docs/claude-tag/users/when-claude-responds#turn-automatic-replies-on-or-off) |
-| Plugins               | Bundles of skills that teach Claude how to use a specific tool                                                                                      | [Attach plugins](/docs/claude-tag/admins/add-connections#attach-plugins)                                         |
-| Connections           | Which systems it can reach from each channel                                                                                                        | [Add connections](/docs/claude-tag/admins/add-connections)                                                       |
-| Default model         | Which Claude model handles sessions in a scope                                                                                                      | [Choose the model for a scope](#choose-the-model-for-a-scope)                                               |
-| Auto mode allow rules | Actions pre-approved in a scope's sessions that Claude's permission checker would otherwise flag or stop                                            | [Auto mode allow rules](#auto-mode-allow-rules)                                                             |
-| Environment           | Which cloud environment a scope's sessions run in                                                                                                   | [Configure the environment for a scope](#configure-the-environment-for-a-scope)                             |
-| Claude Tag version    | Which generation answers (New, Legacy, or Off) in a scope                                                                                           | [Migrate from the earlier Claude in Slack](/docs/claude-tag/admins/workspaces#set-the-version-for-a-scope)       |
+| Setting               | What it does                                                                                                                                                                                                | More                                                                                                        |
+| :-------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------- |
+| Custom instructions   | Standing guidance read in every session on a scope, like team conventions. Outranks channel memory.                                                                                                         | [Add custom instructions](/docs/claude-tag/admins/attach-to-scope#add-custom-instructions)                       |
+| Respond automatically | Whether Claude replies to a channel's messages without an @-mention. Channel members can change it too, from Slack or the channel's Configure page.                                                         | [Turn automatic replies on or off](/docs/claude-tag/users/when-claude-responds#turn-automatic-replies-on-or-off) |
+| Plugins               | Bundles of skills that teach Claude how to use a specific tool                                                                                                                                              | [Attach plugins](/docs/claude-tag/admins/add-connections#attach-plugins)                                         |
+| Connections           | Which systems it can reach from each channel                                                                                                                                                                | [Add connections](/docs/claude-tag/admins/add-connections)                                                       |
+| Default model         | Which Claude model handles sessions in a scope                                                                                                                                                              | [Choose the model for a scope](#choose-the-model-for-a-scope)                                               |
+| Auto mode allow rules | Actions pre-approved in a scope's sessions that Claude's permission checker would otherwise flag or stop                                                                                                    | [Auto mode allow rules](#auto-mode-allow-rules)                                                             |
+| Environment           | Which cloud environment a scope's sessions run in                                                                                                                                                           | [Configure the environment for a scope](#configure-the-environment-for-a-scope)                             |
+| Claude Tag version    | Which generation answers (New, Legacy, or Off) in a scope. On the Team plan, a single [**Enable Claude Tag** switch](/docs/claude-tag/admins/workspaces#turn-claude-tag-on-or-off-on-the-team-plan) replaces it. | [Migrate from the earlier Claude in Slack](/docs/claude-tag/admins/workspaces#set-the-version-for-a-scope)       |
 
 ### Channel connections are separate from personal connectors
 
@@ -108,11 +108,11 @@ Creating the environment and choosing it on a scope happen on two different admi
     From the **Cloud environments** page in [admin settings](https://claude.ai/admin-settings), add an [organization-shared environment](https://code.claude.com/docs/en/cloud-environments#organization-shared-environments) and fill in its setup script, environment variables, and network access level.
   </Step>
 
-  <Step title="Choose it on the scope">
-    Open [`claude.ai/admin-settings/claude-tag`](https://claude.ai/admin-settings/claude-tag), select the **Slack** tab under **Claude Tag's access**, and select the scope's row: the **Slack** row for **Default Slack access**, or the workspace or channel. Expand **Advanced** and pick the environment in the **Environment** picker.
+  <Step title="Set the scope's environment">
+    The picker is at [`claude.ai/admin-settings/claude-tag`](https://claude.ai/admin-settings/claude-tag) > **Claude Tag's access** > **Slack** > the scope (**Default Slack** is the organization-wide scope) > **Advanced** > **Environment**. Pick the environment there.
   </Step>
 
-  <Step title="Check it in a new thread">
+  <Step title="Confirm the environment in a new thread">
     Start a fresh thread in the channel and ask Claude to use what you added, such as running the tool your setup script installed. Threads already underway keep the environment they started on, so an existing thread won't show the change.
   </Step>
 </Steps>
@@ -126,7 +126,7 @@ When a session starts, Claude uses the first environment it finds, in this order
 3. The **Environment** setting on **Default Slack access**
 4. The [organization's default environment](https://code.claude.com/docs/en/cloud-environments#the-default-environment), which an Owner chooses under **Cloud sessions** at [`claude.ai/admin-settings/claude-code`](https://claude.ai/admin-settings/claude-code)
 
-If you haven't chosen an environment on a scope, its picker shows **Organization default**, but sessions there may still run on an environment you chose on the workspace or on **Default Slack access**. In a channel where Claude runs with [channel-only access](/docs/claude-tag/admins/restrict-access#how-channel-only-works) because a guest is present, sessions run on the standard environment regardless of these settings. If a channel's sessions aren't on the environment you expect, see [channel sessions use the wrong environment](/docs/claude-tag/admins/troubleshooting#channel-sessions-use-the-wrong-environment-or-can%E2%80%99t-find-one).
+If you haven't chosen an environment on a scope, its picker shows **Organization default**, but sessions there may still run on an environment you chose on the workspace or on **Default Slack access**. If a channel's sessions aren't on the environment you expect, see [channel sessions use the wrong environment](/docs/claude-tag/admins/troubleshooting#channel-sessions-use-the-wrong-environment-or-can%E2%80%99t-find-one).
 
 ## Auto mode allow rules
 
@@ -134,7 +134,7 @@ Sessions run in [auto mode](https://code.claude.com/docs/en/permission-modes#eli
 
 A rule is a plain sentence that describes work you approve in the scope, such as "Deploying to our staging cluster from a session in this channel is a normal, approved workflow." To add one:
 
-1. On [`claude.ai/admin-settings/claude-tag`](https://claude.ai/admin-settings/claude-tag), open the **Slack** tab under **Claude Tag's access** and find the scope you want to change (the organization-wide **Slack** row, a workspace, or a channel). The **Slack** row opens as **Default Slack access**.
+1. On [`claude.ai/admin-settings/claude-tag`](https://claude.ai/admin-settings/claude-tag), open the **Slack** tab under **Claude Tag's access** and find the scope you want to change (the organization-wide **Default Slack** row, a workspace, or a channel). The **Default Slack** row opens as **Default Slack access**.
 2. Open the scope's **Advanced** section and find **Auto mode allow rules**, below the [**Default model**](#choose-the-model-for-a-scope) setting.
 3. Select **Add rule** and write the rule as one plain sentence.
 

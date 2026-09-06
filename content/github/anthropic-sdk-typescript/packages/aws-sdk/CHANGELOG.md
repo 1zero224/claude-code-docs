@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.7.0 (2026-09-04)
+
+Full Changelog: [aws-sdk-v0.6.6...aws-sdk-v0.7.0](https://github.com/anthropics/anthropic-sdk-typescript/compare/aws-sdk-v0.6.6...aws-sdk-v0.7.0)
+
+### Features
+
+* **api:** add support for sending a workspace ID on more endpoints ([a11e6f1](https://github.com/anthropics/anthropic-sdk-typescript/commit/a11e6f1d3bb0e12e6369d3611a232a6234e715eb))
+
+## 0.6.6 (2026-08-27)
+
+Full Changelog: [aws-sdk-v0.6.5...aws-sdk-v0.6.6](https://github.com/anthropics/anthropic-sdk-typescript/compare/aws-sdk-v0.6.5...aws-sdk-v0.6.6)
+
+### Bug Fixes
+
+* **aws,bedrock:** prefer env credentials over AWS_PROFILE ([#436](https://github.com/anthropics/anthropic-sdk-typescript/issues/436)) ([d1fd5dd](https://github.com/anthropics/anthropic-sdk-typescript/commit/d1fd5ddb7e0e33bc5dc4f87580053aea41c2ae74))
+* **aws,bedrock:** sign repeated query keys correctly with SigV4 ([#409](https://github.com/anthropics/anthropic-sdk-typescript/issues/409)) ([6a7e22a](https://github.com/anthropics/anthropic-sdk-typescript/commit/6a7e22a00f947f15eecdfe5ac99d21df2ed0ffea))
+
 ## 0.6.5 (2026-08-19)
 
 Full Changelog: [aws-sdk-v0.6.4...aws-sdk-v0.6.5](https://github.com/anthropics/anthropic-sdk-typescript/compare/aws-sdk-v0.6.4...aws-sdk-v0.6.5)

@@ -19,7 +19,7 @@ Because a deep link is a URL, you can put one anywhere a link can go:
 
 This page covers how to [build a link](#build-a-link), [embed one in a runbook or trigger it from the shell](#examples), and [manage or disable handler registration](#registration-and-supported-platforms) on each platform.
 
-## How it works
+## How deep links work
 
 The `claude-cli://` prefix is a custom URL scheme that Claude Code registers with your operating system, similar to how `mailto:` links open your email client. When you click a deep link:
 
@@ -53,7 +53,7 @@ Add parameters to control where the session starts and what the prompt box conta
 | Parameter | Description                                                                                                                                                                                                                                 |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `q`       | Text to pre-fill in the prompt box. [URL-encode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent) the value. Use `%0A` for line breaks in multi-line prompts. Maximum 5,000 characters. |
-| `cwd`     | Absolute path to use as the working directory. Network and UNC paths are rejected, and so are paths that contain invisible or bidirectional control characters.                                                                             |
+| `cwd`     | Absolute path to use as the working directory. Network and UNC paths are rejected, and so are paths that contain `..` segments or invisible or bidirectional control characters.                                                            |
 | `repo`    | A GitHub `owner/name` slug. Claude Code resolves it to a local clone it has seen before and starts there. If you have no matching clone, the session opens in your home directory instead.                                                  |
 
 `cwd` and `repo` are [two ways to set the working directory](#choose-between-cwd-and-repo). If you pass both, `cwd` takes precedence and `repo` is ignored, even if the `cwd` path does not exist.
@@ -117,6 +117,8 @@ You can also open a deep link from a shell script, alias, or automation rather t
     ```bash theme={null}
     open "claude-cli://open?repo=acme/payments&q=review%20open%20PRs"
     ```
+
+    On success, a new terminal window opens with Claude Code running and the prompt pre-filled.
   </Tab>
 
   <Tab title="Linux">
@@ -141,6 +143,8 @@ You can also open a deep link from a shell script, alias, or automation rather t
     ```cmd theme={null}
     start "" "claude-cli://open?repo=acme/payments&q=review%20open%20PRs"
     ```
+
+    On success, a new terminal window opens with Claude Code running and the prompt pre-filled.
   </Tab>
 </Tabs>
 

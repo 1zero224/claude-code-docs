@@ -92,6 +92,12 @@
 
     - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+    - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+    - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+    - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 ### Beta API Error
 
 - `type BetaAPIError struct{…}`
@@ -536,6 +542,12 @@ The Models API response can be used to determine which models are available for 
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaModelInfo struct{…}`
@@ -890,6 +902,12 @@ The Models API response can be used to determine information about a specific mo
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -2441,6 +2459,14 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+                - `const ModelClaudeFable5_1 Model = "claude-fable-5-1"`
+
+                  Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+                - `const ModelClaudeMythos5_1 Model = "claude-mythos-5-1"`
+
+                  Our most capable model for cybersecurity and biology research, available through trusted access programs
+
                 - `const ModelClaudeSonnet5 Model = "claude-sonnet-5"`
 
                   High-performance model for coding and agents
@@ -2520,6 +2546,36 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       - `const BetaMessageParamRoleAssistant BetaMessageParamRole = "assistant"`
 
       - `const BetaMessageParamRoleSystem BetaMessageParamRole = "system"`
+
+    - `ClearAt BetaMessageParamClearAt Optional`
+
+      How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
+
+      - `const BetaMessageParamClearAtNextUserMessage BetaMessageParamClearAt = "next_user_message"`
+
+      - `const BetaMessageParamClearAtNever BetaMessageParamClearAt = "never"`
+
+    - `OutputConfig BetaSystemMessageOutputConfig Optional`
+
+      Per-message output configuration on a role:"system" input message.
+
+      Fields here apply per-turn; `format` remains top-level only. An
+      empty `{}` is accepted on a message that carries content; a message
+      with neither content nor output_config fields is rejected.
+
+      - `Effort BetaSystemMessageOutputConfigEffort Optional`
+
+        All possible effort levels.
+
+        - `const BetaSystemMessageOutputConfigEffortLow BetaSystemMessageOutputConfigEffort = "low"`
+
+        - `const BetaSystemMessageOutputConfigEffortMedium BetaSystemMessageOutputConfigEffort = "medium"`
+
+        - `const BetaSystemMessageOutputConfigEffortHigh BetaSystemMessageOutputConfigEffort = "high"`
+
+        - `const BetaSystemMessageOutputConfigEffortXhigh BetaSystemMessageOutputConfigEffort = "xhigh"`
+
+        - `const BetaSystemMessageOutputConfigEffortMax BetaSystemMessageOutputConfigEffort = "max"`
 
   - `Model param.Field[Model]`
 
@@ -3055,16 +3111,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       from its schema.
 
       - `Type BrowserToolset20260801`
-
-      - `AllowedCallers []string Optional`
-
-        - `const BetaBrowserToolset20260801AllowedCallerDirect BetaBrowserToolset20260801AllowedCaller = "direct"`
-
-        - `const BetaBrowserToolset20260801AllowedCallerCodeExecution20250825 BetaBrowserToolset20260801AllowedCaller = "code_execution_20250825"`
-
-        - `const BetaBrowserToolset20260801AllowedCallerCodeExecution20260120 BetaBrowserToolset20260801AllowedCaller = "code_execution_20260120"`
-
-        - `const BetaBrowserToolset20260801AllowedCallerCodeExecution20260521 BetaBrowserToolset20260801AllowedCaller = "code_execution_20260521"`
 
       - `CacheControl BetaCacheControlEphemeral Optional`
 
@@ -3691,16 +3737,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       via `configs.zoom.enabled`.
 
       - `Type ComputerToolset20260801`
-
-      - `AllowedCallers []string Optional`
-
-        - `const BetaComputerToolset20260801AllowedCallerDirect BetaComputerToolset20260801AllowedCaller = "direct"`
-
-        - `const BetaComputerToolset20260801AllowedCallerCodeExecution20250825 BetaComputerToolset20260801AllowedCaller = "code_execution_20250825"`
-
-        - `const BetaComputerToolset20260801AllowedCallerCodeExecution20260120 BetaComputerToolset20260801AllowedCaller = "code_execution_20260120"`
-
-        - `const BetaComputerToolset20260801AllowedCallerCodeExecution20260521 BetaComputerToolset20260801AllowedCaller = "code_execution_20260521"`
 
       - `CacheControl BetaCacheControlEphemeral Optional`
 
@@ -4704,6 +4740,12 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
   - `UserProfileID param.Field[string] Optional`
 
     Header param: The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header.
@@ -4776,7 +4818,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       format: date-time
 
-    - `Skills []BetaSkill`
+    - `Skills []BetaContainerSkill`
 
       Skills loaded in the container
 
@@ -4786,13 +4828,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         maxLength: 64, minLength: 1
 
-      - `Type BetaSkillType`
+      - `Type BetaContainerSkillType`
 
         Type of skill - either 'anthropic' (built-in) or 'custom' (user-defined)
 
-        - `const BetaSkillTypeAnthropic BetaSkillType = "anthropic"`
+        - `const BetaContainerSkillTypeAnthropic BetaContainerSkillType = "anthropic"`
 
-        - `const BetaSkillTypeCustom BetaSkillType = "custom"`
+        - `const BetaContainerSkillTypeCustom BetaContainerSkillType = "custom"`
 
       - `Version string`
 
@@ -5683,6 +5725,14 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+            - `const ModelClaudeFable5_1 Model = "claude-fable-5-1"`
+
+              Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+            - `const ModelClaudeMythos5_1 Model = "claude-mythos-5-1"`
+
+              Our most capable model for cybersecurity and biology research, available through trusted access programs
+
             - `const ModelClaudeSonnet5 Model = "claude-sonnet-5"`
 
               High-performance model for coding and agents
@@ -6414,6 +6464,60 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `const BetaUsageSpeedFast BetaUsageSpeed = "fast"`
 
+  - `InputTransformations []BetaThinkingDroppedInputTransformation Optional`
+
+    Changes the API made to the request's input before showing it to the model:
+    one entry per change, in request order. Today the only entry type is
+    `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+    block from the request's `messages` that was removed from the prompt instead
+    of being shown to the model because it failed a binding check. More entry
+    types may be added over time; ignore types you do not recognize.
+
+    Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+    every such response from a model that supports extended thinking, as `[]`
+    when nothing was changed; without the beta, blocks are removed all the same
+    but nothing is reported. Removed blocks contribute nothing to
+    `usage.input_tokens`. When streaming, the array is final in `message_start`;
+    the final `message_delta` event carries it only when a server-side model
+    fallback happened mid-stream, in which case it holds the serving model's
+    entries and replaces the one in `message_start`.
+
+    - `Path string`
+
+      Where the removed block was in your request, as `messages.{i}.content.{j}`:
+      `i` indexes the `messages` array you sent and `j` that message's `content`
+      array — the same form error messages use.
+
+    - `Reason BetaThinkingDroppedInputTransformationReason`
+
+      Which binding check removed the block: `model_binding_mismatch` — it was
+      created by a model whose reasoning the requested model may not read;
+      `prefix_binding_mismatch` — the conversation before it differs from the
+      conversation it was created in (the rest of that turn's consecutive thinking
+      blocks are removed with it, each with this reason);
+      `organization_binding_mismatch` — it was created under a different
+      organization (an Anthropic organization, AWS account or Google Cloud project)
+      and this organization is not one of its additional organizations;
+      `end_user_binding_mismatch` — it was created for a different end user, or
+      was removed by the consumer-organization binding. A block that would fail
+      several checks reports one reason, in this order of precedence:
+      `organization_binding_mismatch`, `end_user_binding_mismatch`,
+      `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+      - `const BetaThinkingDroppedInputTransformationReasonModelBindingMismatch BetaThinkingDroppedInputTransformationReason = "model_binding_mismatch"`
+
+      - `const BetaThinkingDroppedInputTransformationReasonPrefixBindingMismatch BetaThinkingDroppedInputTransformationReason = "prefix_binding_mismatch"`
+
+      - `const BetaThinkingDroppedInputTransformationReasonOrganizationBindingMismatch BetaThinkingDroppedInputTransformationReason = "organization_binding_mismatch"`
+
+      - `const BetaThinkingDroppedInputTransformationReasonEndUserBindingMismatch BetaThinkingDroppedInputTransformationReason = "end_user_binding_mismatch"`
+
+    - `Type ThinkingDropped`
+
+      Always `thinking_dropped` for this entry type.
+
+      default: thinking_dropped
+
 - `type BetaRawMessageStreamEventUnion interface{…}`
 
   - `type BetaRawMessageStartEvent struct{…}`
@@ -6510,6 +6614,52 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       - `ServerToolUse BetaServerToolUsage`
 
         The number of server tool requests.
+
+    - `InputTransformations []BetaThinkingDroppedInputTransformation Optional`
+
+      Changes the API made to the request's input before showing it to the model:
+      one entry per change, in request order. Today the only entry type is
+      `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+      block from the request's `messages` that was removed from the prompt instead
+      of being shown to the model because it failed a binding check. More entry
+      types may be added over time; ignore types you do not recognize.
+
+      Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+      every such response from a model that supports extended thinking, as `[]`
+      when nothing was changed; without the beta, blocks are removed all the same
+      but nothing is reported. Removed blocks contribute nothing to
+      `usage.input_tokens`. When streaming, the array is final in `message_start`;
+      the final `message_delta` event carries it only when a server-side model
+      fallback happened mid-stream, in which case it holds the serving model's
+      entries and replaces the one in `message_start`.
+
+      - `Path string`
+
+        Where the removed block was in your request, as `messages.{i}.content.{j}`:
+        `i` indexes the `messages` array you sent and `j` that message's `content`
+        array — the same form error messages use.
+
+      - `Reason BetaThinkingDroppedInputTransformationReason`
+
+        Which binding check removed the block: `model_binding_mismatch` — it was
+        created by a model whose reasoning the requested model may not read;
+        `prefix_binding_mismatch` — the conversation before it differs from the
+        conversation it was created in (the rest of that turn's consecutive thinking
+        blocks are removed with it, each with this reason);
+        `organization_binding_mismatch` — it was created under a different
+        organization (an Anthropic organization, AWS account or Google Cloud project)
+        and this organization is not one of its additional organizations;
+        `end_user_binding_mismatch` — it was created for a different end user, or
+        was removed by the consumer-organization binding. A block that would fail
+        several checks reports one reason, in this order of precedence:
+        `organization_binding_mismatch`, `end_user_binding_mismatch`,
+        `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+      - `Type ThinkingDropped`
+
+        Always `thinking_dropped` for this entry type.
+
+        default: thinking_dropped
 
   - `type BetaRawMessageStopEvent struct{…}`
 
@@ -6791,7 +6941,7 @@ func main() {
         "cache_creation_input_tokens": 0,
         "cache_read_input_tokens": 0,
         "input_tokens": 0,
-        "model": "claude-sonnet-5",
+        "model": "claude-fable-5-1",
         "output_tokens": 0,
         "type": "message"
       }
@@ -6806,7 +6956,14 @@ func main() {
     },
     "service_tier": "standard",
     "speed": "standard"
-  }
+  },
+  "input_transformations": [
+    {
+      "path": "path",
+      "reason": "model_binding_mismatch",
+      "type": "thinking_dropped"
+    }
+  ]
 }
 ```
 
@@ -8102,6 +8259,14 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+                - `const ModelClaudeFable5_1 Model = "claude-fable-5-1"`
+
+                  Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+                - `const ModelClaudeMythos5_1 Model = "claude-mythos-5-1"`
+
+                  Our most capable model for cybersecurity and biology research, available through trusted access programs
+
                 - `const ModelClaudeSonnet5 Model = "claude-sonnet-5"`
 
                   High-performance model for coding and agents
@@ -8181,6 +8346,36 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
       - `const BetaMessageParamRoleAssistant BetaMessageParamRole = "assistant"`
 
       - `const BetaMessageParamRoleSystem BetaMessageParamRole = "system"`
+
+    - `ClearAt BetaMessageParamClearAt Optional`
+
+      How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
+
+      - `const BetaMessageParamClearAtNextUserMessage BetaMessageParamClearAt = "next_user_message"`
+
+      - `const BetaMessageParamClearAtNever BetaMessageParamClearAt = "never"`
+
+    - `OutputConfig BetaSystemMessageOutputConfig Optional`
+
+      Per-message output configuration on a role:"system" input message.
+
+      Fields here apply per-turn; `format` remains top-level only. An
+      empty `{}` is accepted on a message that carries content; a message
+      with neither content nor output_config fields is rejected.
+
+      - `Effort BetaSystemMessageOutputConfigEffort Optional`
+
+        All possible effort levels.
+
+        - `const BetaSystemMessageOutputConfigEffortLow BetaSystemMessageOutputConfigEffort = "low"`
+
+        - `const BetaSystemMessageOutputConfigEffortMedium BetaSystemMessageOutputConfigEffort = "medium"`
+
+        - `const BetaSystemMessageOutputConfigEffortHigh BetaSystemMessageOutputConfigEffort = "high"`
+
+        - `const BetaSystemMessageOutputConfigEffortXhigh BetaSystemMessageOutputConfigEffort = "xhigh"`
+
+        - `const BetaSystemMessageOutputConfigEffortMax BetaSystemMessageOutputConfigEffort = "max"`
 
   - `Model param.Field[Model]`
 
@@ -8594,16 +8789,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
       from its schema.
 
       - `Type BrowserToolset20260801`
-
-      - `AllowedCallers []string Optional`
-
-        - `const BetaBrowserToolset20260801AllowedCallerDirect BetaBrowserToolset20260801AllowedCaller = "direct"`
-
-        - `const BetaBrowserToolset20260801AllowedCallerCodeExecution20250825 BetaBrowserToolset20260801AllowedCaller = "code_execution_20250825"`
-
-        - `const BetaBrowserToolset20260801AllowedCallerCodeExecution20260120 BetaBrowserToolset20260801AllowedCaller = "code_execution_20260120"`
-
-        - `const BetaBrowserToolset20260801AllowedCallerCodeExecution20260521 BetaBrowserToolset20260801AllowedCaller = "code_execution_20260521"`
 
       - `CacheControl BetaCacheControlEphemeral Optional`
 
@@ -9230,16 +9415,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
       via `configs.zoom.enabled`.
 
       - `Type ComputerToolset20260801`
-
-      - `AllowedCallers []string Optional`
-
-        - `const BetaComputerToolset20260801AllowedCallerDirect BetaComputerToolset20260801AllowedCaller = "direct"`
-
-        - `const BetaComputerToolset20260801AllowedCallerCodeExecution20250825 BetaComputerToolset20260801AllowedCaller = "code_execution_20250825"`
-
-        - `const BetaComputerToolset20260801AllowedCallerCodeExecution20260120 BetaComputerToolset20260801AllowedCaller = "code_execution_20260120"`
-
-        - `const BetaComputerToolset20260801AllowedCallerCodeExecution20260521 BetaComputerToolset20260801AllowedCaller = "code_execution_20260521"`
 
       - `CacheControl BetaCacheControlEphemeral Optional`
 
@@ -10242,6 +10417,12 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
   - `UserProfileID param.Field[string] Optional`
 
@@ -11643,6 +11824,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+                    - `const ModelClaudeFable5_1 Model = "claude-fable-5-1"`
+
+                      Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+                    - `const ModelClaudeMythos5_1 Model = "claude-mythos-5-1"`
+
+                      Our most capable model for cybersecurity and biology research, available through trusted access programs
+
                     - `const ModelClaudeSonnet5 Model = "claude-sonnet-5"`
 
                       High-performance model for coding and agents
@@ -11722,6 +11911,36 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           - `const BetaMessageParamRoleAssistant BetaMessageParamRole = "assistant"`
 
           - `const BetaMessageParamRoleSystem BetaMessageParamRole = "system"`
+
+        - `ClearAt BetaMessageParamClearAt Optional`
+
+          How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
+
+          - `const BetaMessageParamClearAtNextUserMessage BetaMessageParamClearAt = "next_user_message"`
+
+          - `const BetaMessageParamClearAtNever BetaMessageParamClearAt = "never"`
+
+        - `OutputConfig BetaSystemMessageOutputConfig Optional`
+
+          Per-message output configuration on a role:"system" input message.
+
+          Fields here apply per-turn; `format` remains top-level only. An
+          empty `{}` is accepted on a message that carries content; a message
+          with neither content nor output_config fields is rejected.
+
+          - `Effort BetaSystemMessageOutputConfigEffort Optional`
+
+            All possible effort levels.
+
+            - `const BetaSystemMessageOutputConfigEffortLow BetaSystemMessageOutputConfigEffort = "low"`
+
+            - `const BetaSystemMessageOutputConfigEffortMedium BetaSystemMessageOutputConfigEffort = "medium"`
+
+            - `const BetaSystemMessageOutputConfigEffortHigh BetaSystemMessageOutputConfigEffort = "high"`
+
+            - `const BetaSystemMessageOutputConfigEffortXhigh BetaSystemMessageOutputConfigEffort = "xhigh"`
+
+            - `const BetaSystemMessageOutputConfigEffortMax BetaSystemMessageOutputConfigEffort = "max"`
 
       - `Model Model`
 
@@ -12025,6 +12244,24 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `Type Enabled`
 
+              - `BlockBinding BetaThinkingBlockBinding Optional`
+
+                Controls for block binding: what happens when a thinking block this
+                request sends back fails the conversation check. Every field is optional;
+                an empty object means every default.
+
+                - `PrefixMismatchBehavior BetaThinkingPrefixMismatchBehavior Optional`
+
+                  What happens when a thinking block in `messages` fails the conversation
+                  check: it was created in a different conversation, or the messages before
+                  it have changed since. `"error"` (the default) fails the request with a
+                  400 error. `"drop_block"` removes the failing blocks and the request
+                  proceeds; the model no longer sees the dropped reasoning.
+
+                  - `const BetaThinkingPrefixMismatchBehaviorError BetaThinkingPrefixMismatchBehavior = "error"`
+
+                  - `const BetaThinkingPrefixMismatchBehaviorDropBlock BetaThinkingPrefixMismatchBehavior = "drop_block"`
+
               - `Display BetaThinkingConfigEnabledDisplay Optional`
 
                 Controls how thinking content appears in the response. When set to `summarized`, thinking is returned normally. When set to `omitted`, thinking content is redacted but a signature is returned for multi-turn continuity. Defaults to `summarized`.
@@ -12042,6 +12279,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `type BetaThinkingConfigAdaptive struct{…}`
 
               - `Type Adaptive`
+
+              - `BlockBinding BetaThinkingBlockBinding Optional`
+
+                Controls for block binding: what happens when a thinking block this
+                request sends back fails the conversation check. Every field is optional;
+                an empty object means every default.
 
               - `Display BetaThinkingConfigAdaptiveDisplay Optional`
 
@@ -12541,16 +12784,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           from its schema.
 
           - `Type BrowserToolset20260801`
-
-          - `AllowedCallers []string Optional`
-
-            - `const BetaBrowserToolset20260801AllowedCallerDirect BetaBrowserToolset20260801AllowedCaller = "direct"`
-
-            - `const BetaBrowserToolset20260801AllowedCallerCodeExecution20250825 BetaBrowserToolset20260801AllowedCaller = "code_execution_20250825"`
-
-            - `const BetaBrowserToolset20260801AllowedCallerCodeExecution20260120 BetaBrowserToolset20260801AllowedCaller = "code_execution_20260120"`
-
-            - `const BetaBrowserToolset20260801AllowedCallerCodeExecution20260521 BetaBrowserToolset20260801AllowedCaller = "code_execution_20260521"`
 
           - `CacheControl BetaCacheControlEphemeral Optional`
 
@@ -13177,16 +13410,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           via `configs.zoom.enabled`.
 
           - `Type ComputerToolset20260801`
-
-          - `AllowedCallers []string Optional`
-
-            - `const BetaComputerToolset20260801AllowedCallerDirect BetaComputerToolset20260801AllowedCaller = "direct"`
-
-            - `const BetaComputerToolset20260801AllowedCallerCodeExecution20250825 BetaComputerToolset20260801AllowedCaller = "code_execution_20250825"`
-
-            - `const BetaComputerToolset20260801AllowedCallerCodeExecution20260120 BetaComputerToolset20260801AllowedCaller = "code_execution_20260120"`
-
-            - `const BetaComputerToolset20260801AllowedCallerCodeExecution20260521 BetaComputerToolset20260801AllowedCaller = "code_execution_20260521"`
 
           - `CacheControl BetaCacheControlEphemeral Optional`
 
@@ -14234,6 +14457,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
   - `UserProfileID param.Field[string] Optional`
 
     Header param: The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
@@ -14520,6 +14749,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaMessageBatch struct{…}`
@@ -14802,6 +15037,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaMessageBatch struct{…}`
@@ -15077,6 +15318,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaMessageBatch struct{…}`
@@ -15349,6 +15596,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaDeletedMessageBatch struct{…}`
@@ -15513,6 +15766,12 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaMessageBatchIndividualResponse struct{…}`
@@ -15555,7 +15814,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             format: date-time
 
-          - `Skills []BetaSkill`
+          - `Skills []BetaContainerSkill`
 
             Skills loaded in the container
 
@@ -15565,13 +15824,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               maxLength: 64, minLength: 1
 
-            - `Type BetaSkillType`
+            - `Type BetaContainerSkillType`
 
               Type of skill - either 'anthropic' (built-in) or 'custom' (user-defined)
 
-              - `const BetaSkillTypeAnthropic BetaSkillType = "anthropic"`
+              - `const BetaContainerSkillTypeAnthropic BetaContainerSkillType = "anthropic"`
 
-              - `const BetaSkillTypeCustom BetaSkillType = "custom"`
+              - `const BetaContainerSkillTypeCustom BetaContainerSkillType = "custom"`
 
             - `Version string`
 
@@ -16462,6 +16721,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+                  - `const ModelClaudeFable5_1 Model = "claude-fable-5-1"`
+
+                    Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+                  - `const ModelClaudeMythos5_1 Model = "claude-mythos-5-1"`
+
+                    Our most capable model for cybersecurity and biology research, available through trusted access programs
+
                   - `const ModelClaudeSonnet5 Model = "claude-sonnet-5"`
 
                     High-performance model for coding and agents
@@ -17193,6 +17460,60 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `const BetaUsageSpeedFast BetaUsageSpeed = "fast"`
 
+        - `InputTransformations []BetaThinkingDroppedInputTransformation Optional`
+
+          Changes the API made to the request's input before showing it to the model:
+          one entry per change, in request order. Today the only entry type is
+          `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text`
+          block from the request's `messages` that was removed from the prompt instead
+          of being shown to the model because it failed a binding check. More entry
+          types may be added over time; ignore types you do not recognize.
+
+          Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+          every such response from a model that supports extended thinking, as `[]`
+          when nothing was changed; without the beta, blocks are removed all the same
+          but nothing is reported. Removed blocks contribute nothing to
+          `usage.input_tokens`. When streaming, the array is final in `message_start`;
+          the final `message_delta` event carries it only when a server-side model
+          fallback happened mid-stream, in which case it holds the serving model's
+          entries and replaces the one in `message_start`.
+
+          - `Path string`
+
+            Where the removed block was in your request, as `messages.{i}.content.{j}`:
+            `i` indexes the `messages` array you sent and `j` that message's `content`
+            array — the same form error messages use.
+
+          - `Reason BetaThinkingDroppedInputTransformationReason`
+
+            Which binding check removed the block: `model_binding_mismatch` — it was
+            created by a model whose reasoning the requested model may not read;
+            `prefix_binding_mismatch` — the conversation before it differs from the
+            conversation it was created in (the rest of that turn's consecutive thinking
+            blocks are removed with it, each with this reason);
+            `organization_binding_mismatch` — it was created under a different
+            organization (an Anthropic organization, AWS account or Google Cloud project)
+            and this organization is not one of its additional organizations;
+            `end_user_binding_mismatch` — it was created for a different end user, or
+            was removed by the consumer-organization binding. A block that would fail
+            several checks reports one reason, in this order of precedence:
+            `organization_binding_mismatch`, `end_user_binding_mismatch`,
+            `model_binding_mismatch`, `prefix_binding_mismatch`.
+
+            - `const BetaThinkingDroppedInputTransformationReasonModelBindingMismatch BetaThinkingDroppedInputTransformationReason = "model_binding_mismatch"`
+
+            - `const BetaThinkingDroppedInputTransformationReasonPrefixBindingMismatch BetaThinkingDroppedInputTransformationReason = "prefix_binding_mismatch"`
+
+            - `const BetaThinkingDroppedInputTransformationReasonOrganizationBindingMismatch BetaThinkingDroppedInputTransformationReason = "organization_binding_mismatch"`
+
+            - `const BetaThinkingDroppedInputTransformationReasonEndUserBindingMismatch BetaThinkingDroppedInputTransformationReason = "end_user_binding_mismatch"`
+
+          - `Type ThinkingDropped`
+
+            Always `thinking_dropped` for this entry type.
+
+            default: thinking_dropped
+
       - `Type Succeeded`
 
         default: succeeded
@@ -17380,6 +17701,10 @@ Create Agent
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
           - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -18051,6 +18376,12 @@ Create Agent
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsAgent struct{…}`
@@ -18098,6 +18429,10 @@ Create Agent
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
         - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -18816,6 +19151,12 @@ List Agents
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsAgent struct{…}`
@@ -18863,6 +19204,10 @@ List Agents
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
         - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -19563,6 +19908,12 @@ Get Agent
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsAgent struct{…}`
@@ -19610,6 +19961,10 @@ Get Agent
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
         - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -20261,6 +20616,10 @@ Update Agent
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+          - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
           - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
             High-performance model for coding and agents
@@ -20909,6 +21268,12 @@ Update Agent
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsAgent struct{…}`
@@ -20956,6 +21321,10 @@ Update Agent
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
         - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -21651,6 +22020,12 @@ Archive Agent
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsAgent struct{…}`
@@ -21698,6 +22073,10 @@ Archive Agent
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
         - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -22403,6 +22782,12 @@ List Agent Versions
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsAgent struct{…}`
@@ -22450,6 +22835,10 @@ List Agent Versions
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
         - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -23268,6 +23657,12 @@ Create a new environment with the specified configuration.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaEnvironment struct{…}`
@@ -23594,6 +23989,12 @@ List environments with pagination support.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaEnvironment struct{…}`
@@ -23910,6 +24311,12 @@ Retrieve a specific environment by ID.
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -24347,6 +24754,12 @@ Update an existing environment's configuration.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaEnvironment struct{…}`
@@ -24663,6 +25076,12 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaEnvironmentDeleteResponse struct{…}`
@@ -24820,6 +25239,12 @@ Archive an environment by ID. Archived environments cannot be used to create new
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -25145,6 +25570,12 @@ Retrieve detailed information about a specific work item.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaSelfHostedWork struct{…}`
@@ -25401,6 +25832,12 @@ Long poll for work items in the queue.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
   - `AnthropicWorkerID param.Field[string] Optional`
 
     Header param: Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
@@ -25650,6 +26087,12 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -25907,6 +26350,12 @@ Record a heartbeat for a work item to maintain the lease.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaSelfHostedWorkHeartbeatResponse struct{…}`
@@ -26101,6 +26550,12 @@ Stop a work item, initiating graceful or forced shutdown.
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -26357,6 +26812,12 @@ List work items in an environment.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaSelfHostedWork struct{…}`
@@ -26612,6 +27073,12 @@ Update work item metadata with merge semantics.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaSelfHostedWork struct{…}`
@@ -26859,6 +27326,12 @@ Get statistics about the work queue for an environment.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaSelfHostedWorkQueueStats struct{…}`
@@ -27019,6 +27492,10 @@ Create Session
               The model that will power your agent.
 
               See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+              - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+                Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
               - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -27978,6 +28455,12 @@ Create Session
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsSession struct{…}`
@@ -28017,6 +28500,10 @@ Create Session
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
           - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -28566,7 +29053,7 @@ Create Session
 
   - `OutcomeEvaluations []BetaManagedAgentsOutcomeEvaluationResource`
 
-    Per-outcome evaluation state. One entry per define_outcome event sent to the session.
+    Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
     - `CompletedAt Time`
 
@@ -28580,7 +29067,7 @@ Create Session
 
     - `Explanation string`
 
-      Grader's verdict text from the most recent evaluation. For satisfied, explains why criteria are met; for needs_revision (intermediate), what's missing; for failed, why unrecoverable.
+      Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
     - `Iteration int64`
 
@@ -28708,7 +29195,7 @@ Create Session
 
     - `ActiveSeconds float64 Optional`
 
-      Cumulative time in seconds the session spent in running status. Excludes idle time.
+      Cumulative time in seconds the session spent in `running` status. Excludes idle time.
 
       format: double
 
@@ -29054,7 +29541,7 @@ List Sessions
 
   - `AgentVersion param.Field[int64] Optional`
 
-    Query param: Filter by agent version. Only applies when agent_id is also set.
+    Query param: Filter by agent version. Only applies when `agent_id` is also set.
 
     format: int32
 
@@ -29098,11 +29585,11 @@ List Sessions
 
   - `MemoryStoreID param.Field[string] Optional`
 
-    Query param: Filter sessions whose resources contain a memory_store with this memory store ID.
+    Query param: Filter sessions whose resources contain a `memory_store` with this memory store ID.
 
   - `Order param.Field[BetaSessionListParamsOrder] Optional`
 
-    Query param: Sort direction for results, ordered by created_at. Defaults to desc (newest first).
+    Query param: Sort direction for results, ordered by `created_at`. Defaults to `desc` (newest first).
 
     - `const BetaSessionListParamsOrderAsc BetaSessionListParamsOrder = "asc"`
 
@@ -29214,6 +29701,12 @@ List Sessions
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsSession struct{…}`
@@ -29253,6 +29746,10 @@ List Sessions
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
           - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -29802,7 +30299,7 @@ List Sessions
 
   - `OutcomeEvaluations []BetaManagedAgentsOutcomeEvaluationResource`
 
-    Per-outcome evaluation state. One entry per define_outcome event sent to the session.
+    Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
     - `CompletedAt Time`
 
@@ -29816,7 +30313,7 @@ List Sessions
 
     - `Explanation string`
 
-      Grader's verdict text from the most recent evaluation. For satisfied, explains why criteria are met; for needs_revision (intermediate), what's missing; for failed, why unrecoverable.
+      Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
     - `Iteration int64`
 
@@ -29944,7 +30441,7 @@ List Sessions
 
     - `ActiveSeconds float64 Optional`
 
-      Cumulative time in seconds the session spent in running status. Excludes idle time.
+      Cumulative time in seconds the session spent in `running` status. Excludes idle time.
 
       format: double
 
@@ -30377,6 +30874,12 @@ Get Session
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsSession struct{…}`
@@ -30416,6 +30919,10 @@ Get Session
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
           - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -30965,7 +31472,7 @@ Get Session
 
   - `OutcomeEvaluations []BetaManagedAgentsOutcomeEvaluationResource`
 
-    Per-outcome evaluation state. One entry per define_outcome event sent to the session.
+    Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
     - `CompletedAt Time`
 
@@ -30979,7 +31486,7 @@ Get Session
 
     - `Explanation string`
 
-      Grader's verdict text from the most recent evaluation. For satisfied, explains why criteria are met; for needs_revision (intermediate), what's missing; for failed, why unrecoverable.
+      Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
     - `Iteration int64`
 
@@ -31107,7 +31614,7 @@ Get Session
 
     - `ActiveSeconds float64 Optional`
 
-      Cumulative time in seconds the session spent in running status. Excludes idle time.
+      Cumulative time in seconds the session spent in `running` status. Excludes idle time.
 
       format: double
 
@@ -31560,6 +32067,12 @@ Update Session
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsSession struct{…}`
@@ -31599,6 +32112,10 @@ Update Session
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
           - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -32148,7 +32665,7 @@ Update Session
 
   - `OutcomeEvaluations []BetaManagedAgentsOutcomeEvaluationResource`
 
-    Per-outcome evaluation state. One entry per define_outcome event sent to the session.
+    Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
     - `CompletedAt Time`
 
@@ -32162,7 +32679,7 @@ Update Session
 
     - `Explanation string`
 
-      Grader's verdict text from the most recent evaluation. For satisfied, explains why criteria are met; for needs_revision (intermediate), what's missing; for failed, why unrecoverable.
+      Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
     - `Iteration int64`
 
@@ -32290,7 +32807,7 @@ Update Session
 
     - `ActiveSeconds float64 Optional`
 
-      Cumulative time in seconds the session spent in running status. Excludes idle time.
+      Cumulative time in seconds the session spent in `running` status. Excludes idle time.
 
       format: double
 
@@ -32721,6 +33238,12 @@ Delete Session
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsDeletedSession struct{…}`
@@ -32873,6 +33396,12 @@ Archive Session
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsSession struct{…}`
@@ -32912,6 +33441,10 @@ Archive Session
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
           - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -33461,7 +33994,7 @@ Archive Session
 
   - `OutcomeEvaluations []BetaManagedAgentsOutcomeEvaluationResource`
 
-    Per-outcome evaluation state. One entry per define_outcome event sent to the session.
+    Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
     - `CompletedAt Time`
 
@@ -33475,7 +34008,7 @@ Archive Session
 
     - `Explanation string`
 
-      Grader's verdict text from the most recent evaluation. For satisfied, explains why criteria are met; for needs_revision (intermediate), what's missing; for failed, why unrecoverable.
+      Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
     - `Iteration int64`
 
@@ -33603,7 +34136,7 @@ Archive Session
 
     - `ActiveSeconds float64 Optional`
 
-      Cumulative time in seconds the session spent in running status. Excludes idle time.
+      Cumulative time in seconds the session spent in `running` status. Excludes idle time.
 
       format: double
 
@@ -33978,7 +34511,7 @@ List Events
 
   - `Order param.Field[BetaSessionEventListParamsOrder] Optional`
 
-    Query param: Sort direction for results, ordered by the event's `processed_at`. Defaults to asc (chronological).
+    Query param: Sort direction for results, ordered by the event's `processed_at`. Defaults to `asc` (chronological).
 
     - `const BetaSessionEventListParamsOrderAsc BetaSessionEventListParamsOrder = "asc"`
 
@@ -33986,7 +34519,7 @@ List Events
 
   - `Page param.Field[string] Optional`
 
-    Query param: Opaque pagination cursor from a previous response's next_page.
+    Query param: Opaque pagination cursor from a previous response's `next_page`.
 
   - `Types param.Field[[]string] Optional`
 
@@ -34081,6 +34614,12 @@ List Events
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -35559,6 +36098,10 @@ List Events
             The model that will power your agent.
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+            - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+              Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
             - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -36737,6 +37280,12 @@ Send Events
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsSendSessionEvents struct{…}`
@@ -37355,6 +37904,12 @@ Stream Events
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -38834,6 +39389,10 @@ Stream Events
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+            - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+              Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
             - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
               High-performance model for coding and agents
@@ -39698,6 +40257,12 @@ Add Session Resource
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsFileResource struct{…}`
@@ -39791,7 +40356,7 @@ List Session Resources
 
   - `Page param.Field[string] Optional`
 
-    Query param: Opaque cursor from a previous response's next_page field.
+    Query param: Opaque cursor from a previous response's `next_page` field.
 
   - `Betas param.Field[[]AnthropicBeta] Optional`
 
@@ -39882,6 +40447,12 @@ List Session Resources
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -40158,6 +40729,12 @@ Get Session Resource
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaSessionResourceGetResponseUnion interface{…}`
@@ -40428,6 +41005,12 @@ Update Session Resource
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaSessionResourceUpdateResponseUnion interface{…}`
@@ -40693,6 +41276,12 @@ Delete Session Resource
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsDeleteSessionResource struct{…}`
@@ -40767,7 +41356,7 @@ List Session Threads
 
   - `Page param.Field[string] Optional`
 
-    Query param: Opaque pagination cursor from a previous response's next_page. Forward-only.
+    Query param: Opaque pagination cursor from a previous response's `next_page`. Forward-only.
 
   - `Betas param.Field[[]AnthropicBeta] Optional`
 
@@ -40859,6 +41448,12 @@ List Session Threads
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsSessionThread struct{…}`
@@ -40904,6 +41499,10 @@ List Session Threads
             The model that will power your agent.
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+            - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+              Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
             - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -41722,6 +42321,12 @@ Get Session Thread
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsSessionThread struct{…}`
@@ -41767,6 +42372,10 @@ Get Session Thread
             The model that will power your agent.
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+            - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+              Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
             - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -42582,6 +43191,12 @@ Archive Session Thread
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsSessionThread struct{…}`
@@ -42627,6 +43242,10 @@ Archive Session Thread
             The model that will power your agent.
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+            - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+              Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
             - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -43453,6 +44072,12 @@ List Session Thread Events
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -44932,6 +45557,10 @@ List Session Thread Events
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+            - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+              Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
             - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
               High-performance model for coding and agents
@@ -45749,6 +46378,12 @@ Stream Session Thread Events
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -47227,6 +47862,10 @@ Stream Session Thread Events
             The model that will power your agent.
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+            - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+              Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
             - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
@@ -48460,6 +49099,12 @@ Create Deployment
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsDeployment struct{…}`
@@ -49129,7 +49774,7 @@ List Deployments
 
   - `Status param.Field[BetaManagedAgentsDeploymentStatus] Optional`
 
-    Query param: Filter by status: active or paused. Omit for both. To include archived deployments, use include_archived instead; the two cannot be combined.
+    Query param: Filter by status: `active` or `paused`. Omit for both. To include archived deployments, use `include_archived` instead; the two cannot be combined.
 
   - `Betas param.Field[[]AnthropicBeta] Optional`
 
@@ -49220,6 +49865,12 @@ List Deployments
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -49937,6 +50588,12 @@ Get Deployment
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -51026,6 +51683,12 @@ Update Deployment
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsDeployment struct{…}`
@@ -51741,6 +52404,12 @@ Archive Deployment
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -52458,6 +53127,12 @@ Run Deployment Now
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsDeploymentRun struct{…}`
@@ -52656,7 +53331,7 @@ Run Deployment Now
 
   - `SessionID string`
 
-    Populated on success. Null on creation failure. Exactly one of session_id or error is non-null.
+    Populated on success. Null on creation failure. Exactly one of `session_id` or `error` is non-null.
 
   - `TriggerContext BetaManagedAgentsTriggerContextUnion`
 
@@ -52839,6 +53514,12 @@ Pause Deployment
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -53556,6 +54237,12 @@ Unpause Deployment
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsDeployment struct{…}`
@@ -54208,11 +54895,11 @@ List Deployment Runs
 
   - `DeploymentID param.Field[string] Optional`
 
-    Query param: Filter to a specific deployment. Omit to list across all deployments in the workspace. Filtering by a non-existent deployment_id returns 200 with empty data.
+    Query param: Filter to a specific deployment. Omit to list across all deployments in the workspace. Filtering by a non-existent `deployment_id` returns 200 with empty data.
 
   - `HasError param.Field[bool] Optional`
 
-    Query param: Filter: true for runs with non-null error, false for runs with non-null session_id. Omit for all.
+    Query param: Filter: true for runs with non-null `error`, false for runs with non-null `session_id`. Omit for all.
 
   - `Limit param.Field[int64] Optional`
 
@@ -54222,7 +54909,7 @@ List Deployment Runs
 
   - `Page param.Field[string] Optional`
 
-    Query param: Opaque pagination cursor. Pass next_page from the previous response. Invalid or expired cursors return 400.
+    Query param: Opaque pagination cursor. Pass `next_page` from the previous response. Invalid or expired cursors return 400.
 
   - `TriggerType param.Field[BetaManagedAgentsTriggerType] Optional`
 
@@ -54317,6 +55004,12 @@ List Deployment Runs
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -54516,7 +55209,7 @@ List Deployment Runs
 
   - `SessionID string`
 
-    Populated on success. Null on creation failure. Exactly one of session_id or error is non-null.
+    Populated on success. Null on creation failure. Exactly one of `session_id` or `error` is non-null.
 
   - `TriggerContext BetaManagedAgentsTriggerContextUnion`
 
@@ -54701,6 +55394,12 @@ Get Deployment Run
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsDeploymentRun struct{…}`
@@ -54899,7 +55598,7 @@ Get Deployment Run
 
   - `SessionID string`
 
-    Populated on success. Null on creation failure. Exactly one of session_id or error is non-null.
+    Populated on success. Null on creation failure. Exactly one of `session_id` or `error` is non-null.
 
   - `TriggerContext BetaManagedAgentsTriggerContextUnion`
 
@@ -55092,6 +55791,12 @@ Create Vault
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -55290,6 +55995,12 @@ List Vaults
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsVault struct{…}`
@@ -55477,6 +56188,12 @@ Get Vault
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -55675,6 +56392,12 @@ Update Vault
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsVault struct{…}`
@@ -55862,6 +56585,12 @@ Delete Vault
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsDeletedVault struct{…}`
@@ -56015,6 +56744,12 @@ Archive Vault
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -56379,6 +57114,12 @@ Create Credential
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsCredential struct{…}`
@@ -56711,6 +57452,12 @@ List Credentials
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsCredential struct{…}`
@@ -57029,6 +57776,12 @@ Get Credential
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -57478,6 +58231,12 @@ Update Credential
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsCredential struct{…}`
@@ -57794,6 +58553,12 @@ Delete Credential
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsDeletedCredential struct{…}`
@@ -57953,6 +58718,12 @@ Archive Credential
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -58270,6 +59041,12 @@ Validate Credential
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsCredentialValidation struct{…}`
@@ -58538,6 +59315,12 @@ Create a memory store
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsMemoryStore struct{…}`
@@ -58752,6 +59535,12 @@ List memory stores
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsMemoryStore struct{…}`
@@ -58944,6 +59733,12 @@ Retrieve a memory store
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -59153,6 +59948,12 @@ Update a memory store
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsMemoryStore struct{…}`
@@ -59345,6 +60146,12 @@ Delete a memory store
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsDeletedMemoryStore struct{…}`
@@ -59499,6 +60306,12 @@ Archive a memory store
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsMemoryStore struct{…}`
@@ -59609,7 +60422,7 @@ Create a memory
 
   - `Path param.Field[string]`
 
-    Body param: Hierarchical path for the new memory, e.g. `/projects/foo/notes.md`. Must start with `/`, contain at least one non-empty segment, and be at most 1,024 bytes. Must not contain empty segments, `.` or `..` segments, control or format characters, and must be NFC-normalized. Paths are case-sensitive.
+    Body param: Hierarchical path for the new memory, e.g. `/projects/foo/notes.md`. Must start with `/`, contain at least one non-empty segment, and be at most 1,024 bytes. Must not contain empty segments, `.` or `..` segments, control or format characters, or the Unicode line and paragraph separators (U+2028, U+2029), and must be NFC-normalized. Paths are case-sensitive.
 
     minLength: 2, maxLength: 1024
 
@@ -59706,6 +60519,12 @@ Create a memory
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -59934,6 +60753,12 @@ List memories
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsMemoryListItemUnion interface{…}`
@@ -60161,6 +60986,12 @@ Retrieve a memory
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsMemory struct{…}`
@@ -60287,7 +61118,7 @@ Update a memory
 
   - `Path param.Field[string] Optional`
 
-    Body param: New path for the memory (a rename). Must start with `/`, contain at least one non-empty segment, and be at most 1,024 bytes. Must not contain empty segments, `.` or `..` segments, control or format characters, and must be NFC-normalized. Paths are case-sensitive. The memory's `id` is preserved across renames. Omit to leave the path unchanged.
+    Body param: New path for the memory (a rename). Must start with `/`, contain at least one non-empty segment, and be at most 1,024 bytes. Must not contain empty segments, `.` or `..` segments, control or format characters, or the Unicode line and paragraph separators (U+2028, U+2029), and must be NFC-normalized. Paths are case-sensitive. The memory's `id` is preserved across renames. Omit to leave the path unchanged.
 
     minLength: 2, maxLength: 1024
 
@@ -60384,6 +61215,12 @@ Update a memory
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -60595,6 +61432,12 @@ Delete a memory
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsDeletedMemory struct{…}`
@@ -60798,6 +61641,12 @@ List memory versions
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -61087,6 +61936,12 @@ Retrieve a memory version
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsMemoryVersion struct{…}`
@@ -61368,6 +62223,12 @@ Redact a memory version
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaManagedAgentsMemoryVersion struct{…}`
@@ -61561,6 +62422,12 @@ Upload File
 
     format: binary
 
+  - `ExpiresInSeconds param.Field[int64] Optional`
+
+    Body param: Seconds from upload until the file expires and its bytes become permanently unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
+
+    minimum: 3600, maximum: 7776000
+
   - `Betas param.Field[[]AnthropicBeta] Optional`
 
     Header param: Optional header to specify the beta version(s) you want to use.
@@ -61651,6 +62518,12 @@ Upload File
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaFileMetadata struct{…}`
@@ -61696,6 +62569,12 @@ Upload File
     Whether the file can be downloaded.
 
     default: false
+
+  - `ExpiresAt Time Optional`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
 
   - `Scope BetaFileScope Optional`
 
@@ -61749,6 +62628,7 @@ func main() {
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"
@@ -61758,7 +62638,7 @@ func main() {
 
 ### List Files
 
-`client.Beta.Files.List(ctx, params) (*Page[BetaFileMetadata], error)`
+`client.Beta.Files.List(ctx, params) (*PageCursor[BetaFileMetadata], error)`
 
 **GET** `/v1/files`
 
@@ -61768,13 +62648,9 @@ List Files
 
 - `params BetaFileListParams`
 
-  - `AfterID param.Field[string] Optional`
+  - `IDs param.Field[[]string] Optional`
 
-    Query param: ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
-
-  - `BeforeID param.Field[string] Optional`
-
-    Query param: ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
+    Query param: Restrict the result set to Files whose `id` is in this list. At most 100 entries (after de-duplication). Mutually exclusive with `page` and `limit`. When supplied, the response is always a single page (`next_page` is null). IDs that do not resolve to a visible File — including deleted Files — are silently omitted.
 
   - `Limit param.Field[int64] Optional`
 
@@ -61783,6 +62659,10 @@ List Files
     Defaults to `20`. Ranges from `1` to `1000`.
 
     maximum: 1000, minimum: 1
+
+  - `Page param.Field[string] Optional`
+
+    Query param: Opaque page cursor returned in a prior list response's `next_page`. Prefixed `page_`.
 
   - `ScopeID param.Field[string] Optional`
 
@@ -61878,6 +62758,12 @@ List Files
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaFileMetadata struct{…}`
@@ -61923,6 +62809,12 @@ List Files
     Whether the file can be downloaded.
 
     default: false
+
+  - `ExpiresAt Time Optional`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
 
   - `Scope BetaFileScope Optional`
 
@@ -61974,15 +62866,14 @@ func main() {
       "size_bytes": 102400,
       "type": "file",
       "downloadable": false,
+      "expires_at": "2025-05-15T18:37:24.100435Z",
       "scope": {
         "id": "id",
         "type": "session"
       }
     }
   ],
-  "first_id": "file_011CNha8iCJcU1wXNR6q4V8w",
-  "has_more": true,
-  "last_id": "file_013Zva2CMHLNnXjNJJKqJ2EF"
+  "next_page": "next_page"
 }
 ```
 
@@ -62091,6 +62982,12 @@ Download File
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -62231,6 +63128,12 @@ Get File Metadata
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaFileMetadata struct{…}`
@@ -62276,6 +63179,12 @@ Get File Metadata
     Whether the file can be downloaded.
 
     default: false
+
+  - `ExpiresAt Time Optional`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
 
   - `Scope BetaFileScope Optional`
 
@@ -62329,6 +63238,7 @@ func main() {
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"
@@ -62442,6 +63352,12 @@ Delete File
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaDeletedFile struct{…}`
@@ -62500,7 +63416,7 @@ func main() {
 
 ### Create Skill
 
-`client.Beta.Skills.New(ctx, params) (*BetaSkillNewResponse, error)`
+`client.Beta.Skills.New(ctx, params) (*BetaSkill, error)`
 
 **POST** `/v1/skills`
 
@@ -62516,11 +63432,11 @@ Create Skill
 
     All files must be in the same top-level directory and must include a SKILL.md file at the root of that directory.
 
-  - `DisplayTitle param.Field[string] Optional`
+  - `DisplayName param.Field[string] Optional`
 
-    Body param: Display title for the skill.
-
-    This is a human-readable label that is not included in the prompt sent to the model.
+    Body param: Human-readable, single-line label for the Skill. Maximum 255 characters.
+    Always set: derived from the SKILL.md frontmatter `name` when omitted at
+    creation. Not unique.
 
   - `Betas param.Field[[]AnthropicBeta] Optional`
 
@@ -62612,9 +63528,15 @@ Create Skill
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
-- `type BetaSkillNewResponse struct{…}`
+- `type BetaSkill struct{…}`
 
   - `ID string`
 
@@ -62622,32 +63544,53 @@ Create Skill
 
     The format and length of IDs may change over time.
 
-  - `CreatedAt string`
+  - `CreatedAt Time`
 
     ISO 8601 timestamp of when the skill was created.
 
-  - `DisplayTitle string`
+    format: date-time
 
-    Display title for the skill.
+  - `DisplayName string`
 
-    This is a human-readable label that is not included in the prompt sent to the model.
+    Human-readable, single-line label for the Skill. Maximum 255 characters.
+    Always set: derived from the SKILL.md frontmatter `name` when omitted at
+    creation. Not unique.
 
-  - `LatestVersion string`
+  - `LatestVersionID string`
 
-    The latest version identifier for the skill.
+    ID of the newest Skill Version — what `latest` references resolve to. Always set: a Skill holds at least one version.
 
-    This represents the most recent version of the skill that has been created.
+  - `Source BetaSkillSource`
 
-  - `Source string`
+    Where the Skill comes from.
 
-    Source of the skill.
+    Possible values:
 
-    This may be one of the following values:
+    * `"custom"`: authored by the platform user; private to their workspace
+    * `"anthropic"`: published by Anthropic; shared and read-only
+    * `"anthropic_example"`: Anthropic-published sample Skill
+    * `"plugin"`: resolved from an installed plugin
 
-    * `"custom"`: the skill was created by a user
-    * `"anthropic"`: the skill was created by Anthropic
+    - `Type BetaSkillSourceType`
 
-  - `Type string`
+      Where the Skill comes from.
+
+      Possible values:
+
+      * `"custom"`: authored by the platform user; private to their workspace
+      * `"anthropic"`: published by Anthropic; shared and read-only
+      * `"anthropic_example"`: Anthropic-published sample Skill
+      * `"plugin"`: resolved from an installed plugin
+
+      - `const BetaSkillSourceTypeCustom BetaSkillSourceType = "custom"`
+
+      - `const BetaSkillSourceTypeAnthropic BetaSkillSourceType = "anthropic"`
+
+      - `const BetaSkillSourceTypeAnthropicExample BetaSkillSourceType = "anthropic_example"`
+
+      - `const BetaSkillSourceTypePlugin BetaSkillSourceType = "plugin"`
+
+  - `Type Skill`
 
     Object type.
 
@@ -62655,9 +63598,11 @@ Create Skill
 
     default: skill
 
-  - `UpdatedAt string`
+  - `UpdatedAt Time`
 
     ISO 8601 timestamp of when the skill was last updated.
+
+    format: date-time
 
 #### Example
 
@@ -62678,13 +63623,13 @@ func main() {
 	client := anthropic.NewClient(
 		option.WithAPIKey("my-anthropic-api-key"),
 	)
-	skill, err := client.Beta.Skills.New(context.TODO(), anthropic.BetaSkillNewParams{
+	betaSkill, err := client.Beta.Skills.New(context.TODO(), anthropic.BetaSkillNewParams{
 		Files: []io.Reader{io.Reader(bytes.NewBuffer([]byte("Example data")))},
 	})
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", skill.ID)
+	fmt.Printf("%+v\n", betaSkill.ID)
 }
 ```
 
@@ -62694,17 +63639,19 @@ func main() {
 {
   "id": "skill_01JAbcdefghijklmnopqrstuvw",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "display_title": "My Custom Skill",
-  "latest_version": "1759178010641129",
-  "source": "custom",
-  "type": "type",
+  "display_name": "display_name",
+  "latest_version_id": "latest_version_id",
+  "source": {
+    "type": "custom"
+  },
+  "type": "skill",
   "updated_at": "2024-10-30T23:58:27.427722Z"
 }
 ```
 
 ### List Skills
 
-`client.Beta.Skills.List(ctx, params) (*PageCursor[BetaSkillListResponse], error)`
+`client.Beta.Skills.List(ctx, params) (*PageCursor[BetaSkill], error)`
 
 **GET** `/v1/skills`
 
@@ -62718,7 +63665,9 @@ List Skills
 
     Query param: Number of results to return per page.
 
-    Maximum value is 100. Defaults to 20.
+    Ranges from `1` to `1000`. Defaults to `20`.
+
+    minimum: 1, maximum: 1000
 
   - `Page param.Field[string] Optional`
 
@@ -62825,9 +63774,15 @@ List Skills
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
-- `type BetaSkillListResponse struct{…}`
+- `type BetaSkill struct{…}`
 
   - `ID string`
 
@@ -62835,32 +63790,53 @@ List Skills
 
     The format and length of IDs may change over time.
 
-  - `CreatedAt string`
+  - `CreatedAt Time`
 
     ISO 8601 timestamp of when the skill was created.
 
-  - `DisplayTitle string`
+    format: date-time
 
-    Display title for the skill.
+  - `DisplayName string`
 
-    This is a human-readable label that is not included in the prompt sent to the model.
+    Human-readable, single-line label for the Skill. Maximum 255 characters.
+    Always set: derived from the SKILL.md frontmatter `name` when omitted at
+    creation. Not unique.
 
-  - `LatestVersion string`
+  - `LatestVersionID string`
 
-    The latest version identifier for the skill.
+    ID of the newest Skill Version — what `latest` references resolve to. Always set: a Skill holds at least one version.
 
-    This represents the most recent version of the skill that has been created.
+  - `Source BetaSkillSource`
 
-  - `Source string`
+    Where the Skill comes from.
 
-    Source of the skill.
+    Possible values:
 
-    This may be one of the following values:
+    * `"custom"`: authored by the platform user; private to their workspace
+    * `"anthropic"`: published by Anthropic; shared and read-only
+    * `"anthropic_example"`: Anthropic-published sample Skill
+    * `"plugin"`: resolved from an installed plugin
 
-    * `"custom"`: the skill was created by a user
-    * `"anthropic"`: the skill was created by Anthropic
+    - `Type BetaSkillSourceType`
 
-  - `Type string`
+      Where the Skill comes from.
+
+      Possible values:
+
+      * `"custom"`: authored by the platform user; private to their workspace
+      * `"anthropic"`: published by Anthropic; shared and read-only
+      * `"anthropic_example"`: Anthropic-published sample Skill
+      * `"plugin"`: resolved from an installed plugin
+
+      - `const BetaSkillSourceTypeCustom BetaSkillSourceType = "custom"`
+
+      - `const BetaSkillSourceTypeAnthropic BetaSkillSourceType = "anthropic"`
+
+      - `const BetaSkillSourceTypeAnthropicExample BetaSkillSourceType = "anthropic_example"`
+
+      - `const BetaSkillSourceTypePlugin BetaSkillSourceType = "plugin"`
+
+  - `Type Skill`
 
     Object type.
 
@@ -62868,9 +63844,11 @@ List Skills
 
     default: skill
 
-  - `UpdatedAt string`
+  - `UpdatedAt Time`
 
     ISO 8601 timestamp of when the skill was last updated.
+
+    format: date-time
 
 #### Example
 
@@ -62905,21 +63883,22 @@ func main() {
     {
       "id": "skill_01JAbcdefghijklmnopqrstuvw",
       "created_at": "2024-10-30T23:58:27.427722Z",
-      "display_title": "My Custom Skill",
-      "latest_version": "1759178010641129",
-      "source": "custom",
-      "type": "type",
+      "display_name": "display_name",
+      "latest_version_id": "latest_version_id",
+      "source": {
+        "type": "custom"
+      },
+      "type": "skill",
       "updated_at": "2024-10-30T23:58:27.427722Z"
     }
   ],
-  "has_more": true,
-  "next_page": "page_MjAyNS0wNS0xNFQwMDowMDowMFo="
+  "next_page": "next_page"
 }
 ```
 
 ### Get Skill
 
-`client.Beta.Skills.Get(ctx, skillID, query) (*BetaSkillGetResponse, error)`
+`client.Beta.Skills.Get(ctx, skillID, query) (*BetaSkill, error)`
 
 **GET** `/v1/skills/{skill_id}`
 
@@ -63025,9 +64004,15 @@ Get Skill
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
-- `type BetaSkillGetResponse struct{…}`
+- `type BetaSkill struct{…}`
 
   - `ID string`
 
@@ -63035,32 +64020,53 @@ Get Skill
 
     The format and length of IDs may change over time.
 
-  - `CreatedAt string`
+  - `CreatedAt Time`
 
     ISO 8601 timestamp of when the skill was created.
 
-  - `DisplayTitle string`
+    format: date-time
 
-    Display title for the skill.
+  - `DisplayName string`
 
-    This is a human-readable label that is not included in the prompt sent to the model.
+    Human-readable, single-line label for the Skill. Maximum 255 characters.
+    Always set: derived from the SKILL.md frontmatter `name` when omitted at
+    creation. Not unique.
 
-  - `LatestVersion string`
+  - `LatestVersionID string`
 
-    The latest version identifier for the skill.
+    ID of the newest Skill Version — what `latest` references resolve to. Always set: a Skill holds at least one version.
 
-    This represents the most recent version of the skill that has been created.
+  - `Source BetaSkillSource`
 
-  - `Source string`
+    Where the Skill comes from.
 
-    Source of the skill.
+    Possible values:
 
-    This may be one of the following values:
+    * `"custom"`: authored by the platform user; private to their workspace
+    * `"anthropic"`: published by Anthropic; shared and read-only
+    * `"anthropic_example"`: Anthropic-published sample Skill
+    * `"plugin"`: resolved from an installed plugin
 
-    * `"custom"`: the skill was created by a user
-    * `"anthropic"`: the skill was created by Anthropic
+    - `Type BetaSkillSourceType`
 
-  - `Type string`
+      Where the Skill comes from.
+
+      Possible values:
+
+      * `"custom"`: authored by the platform user; private to their workspace
+      * `"anthropic"`: published by Anthropic; shared and read-only
+      * `"anthropic_example"`: Anthropic-published sample Skill
+      * `"plugin"`: resolved from an installed plugin
+
+      - `const BetaSkillSourceTypeCustom BetaSkillSourceType = "custom"`
+
+      - `const BetaSkillSourceTypeAnthropic BetaSkillSourceType = "anthropic"`
+
+      - `const BetaSkillSourceTypeAnthropicExample BetaSkillSourceType = "anthropic_example"`
+
+      - `const BetaSkillSourceTypePlugin BetaSkillSourceType = "plugin"`
+
+  - `Type Skill`
 
     Object type.
 
@@ -63068,9 +64074,11 @@ Get Skill
 
     default: skill
 
-  - `UpdatedAt string`
+  - `UpdatedAt Time`
 
     ISO 8601 timestamp of when the skill was last updated.
+
+    format: date-time
 
 #### Example
 
@@ -63089,7 +64097,7 @@ func main() {
 	client := anthropic.NewClient(
 		option.WithAPIKey("my-anthropic-api-key"),
 	)
-	skill, err := client.Beta.Skills.Get(
+	betaSkill, err := client.Beta.Skills.Get(
 		context.TODO(),
 		"skill_id",
 		anthropic.BetaSkillGetParams{},
@@ -63097,7 +64105,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", skill.ID)
+	fmt.Printf("%+v\n", betaSkill.ID)
 }
 ```
 
@@ -63107,17 +64115,19 @@ func main() {
 {
   "id": "skill_01JAbcdefghijklmnopqrstuvw",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "display_title": "My Custom Skill",
-  "latest_version": "1759178010641129",
-  "source": "custom",
-  "type": "type",
+  "display_name": "display_name",
+  "latest_version_id": "latest_version_id",
+  "source": {
+    "type": "custom"
+  },
+  "type": "skill",
   "updated_at": "2024-10-30T23:58:27.427722Z"
 }
 ```
 
 ### Delete Skill
 
-`client.Beta.Skills.Delete(ctx, skillID, body) (*BetaSkillDeleteResponse, error)`
+`client.Beta.Skills.Delete(ctx, skillID, body) (*BetaDeletedSkill, error)`
 
 **DELETE** `/v1/skills/{skill_id}`
 
@@ -63223,9 +64233,15 @@ Delete Skill
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
-- `type BetaSkillDeleteResponse struct{…}`
+- `type BetaDeletedSkill struct{…}`
 
   - `ID string`
 
@@ -63233,7 +64249,7 @@ Delete Skill
 
     The format and length of IDs may change over time.
 
-  - `Type string`
+  - `Type SkillDeleted`
 
     Deleted object type.
 
@@ -63258,7 +64274,7 @@ func main() {
 	client := anthropic.NewClient(
 		option.WithAPIKey("my-anthropic-api-key"),
 	)
-	skill, err := client.Beta.Skills.Delete(
+	betaDeletedSkill, err := client.Beta.Skills.Delete(
 		context.TODO(),
 		"skill_id",
 		anthropic.BetaSkillDeleteParams{},
@@ -63266,7 +64282,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", skill.ID)
+	fmt.Printf("%+v\n", betaDeletedSkill.ID)
 }
 ```
 
@@ -63275,7 +64291,7 @@ func main() {
 ```json
 {
   "id": "skill_01JAbcdefghijklmnopqrstuvw",
-  "type": "type"
+  "type": "skill_deleted"
 }
 ```
 
@@ -63283,7 +64299,7 @@ func main() {
 
 ### Create Skill Version
 
-`client.Beta.Skills.Versions.New(ctx, skillID, params) (*BetaSkillVersionNewResponse, error)`
+`client.Beta.Skills.Versions.New(ctx, skillID, params) (*BetaSkillVersion, error)`
 
 **POST** `/v1/skills/{skill_id}/versions`
 
@@ -63395,19 +64411,26 @@ Create Skill Version
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
-- `type BetaSkillVersionNewResponse struct{…}`
+- `type BetaSkillVersion struct{…}`
 
   - `ID string`
 
-    Unique identifier for the skill version.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-    The format and length of IDs may change over time.
+  - `CreatedAt Time`
 
-  - `CreatedAt string`
+    ISO 8601 timestamp of when the skill was created.
 
-    ISO 8601 timestamp of when the skill version was created.
+    format: date-time
 
   - `Description string`
 
@@ -63415,35 +64438,26 @@ Create Skill Version
 
     This is extracted from the SKILL.md file in the skill upload.
 
-  - `Directory string`
-
-    Directory name of the skill version.
-
-    This is the top-level directory name that was extracted from the uploaded files.
-
   - `Name string`
 
-    Human-readable name of the skill version.
-
-    This is extracted from the SKILL.md file in the skill upload.
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
 
   - `SkillID string`
 
-    Identifier for the skill that this version belongs to.
+    Unique identifier for the skill.
 
-  - `Type string`
+    The format and length of IDs may change over time.
+
+  - `Type SkillVersion`
 
     Object type.
 
     For Skill Versions, this is always `"skill_version"`.
 
     default: skill_version
-
-  - `Version string`
-
-    Version identifier for the skill.
-
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
 
 #### Example
 
@@ -63464,7 +64478,7 @@ func main() {
 	client := anthropic.NewClient(
 		option.WithAPIKey("my-anthropic-api-key"),
 	)
-	version, err := client.Beta.Skills.Versions.New(
+	betaSkillVersion, err := client.Beta.Skills.Versions.New(
 		context.TODO(),
 		"skill_id",
 		anthropic.BetaSkillVersionNewParams{
@@ -63474,7 +64488,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", version.ID)
+	fmt.Printf("%+v\n", betaSkillVersion.ID)
 }
 ```
 
@@ -63482,20 +64496,18 @@ func main() {
 
 ```json
 {
-  "id": "skillver_01JAbcdefghijklmnopqrstuvw",
+  "id": "id",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "description": "A custom skill for doing something useful",
-  "directory": "my-skill",
-  "name": "my-skill",
+  "description": "description",
+  "name": "name",
   "skill_id": "skill_01JAbcdefghijklmnopqrstuvw",
-  "type": "type",
-  "version": "1759178010641129"
+  "type": "skill_version"
 }
 ```
 
 ### List Skill Versions
 
-`client.Beta.Skills.Versions.List(ctx, skillID, params) (*PageCursor[BetaSkillVersionListResponse], error)`
+`client.Beta.Skills.Versions.List(ctx, skillID, params) (*PageCursor[BetaSkillVersion], error)`
 
 **GET** `/v1/skills/{skill_id}/versions`
 
@@ -63513,9 +64525,11 @@ List Skill Versions
 
   - `Limit param.Field[int64] Optional`
 
-    Query param: Number of items to return per page.
+    Query param: Number of results to return per page.
 
-    Defaults to `20`. Ranges from `1` to `1000`.
+    Ranges from `1` to `1000`. Defaults to `20`.
+
+    minimum: 1, maximum: 1000
 
   - `Page param.Field[string] Optional`
 
@@ -63611,19 +64625,26 @@ List Skill Versions
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
-- `type BetaSkillVersionListResponse struct{…}`
+- `type BetaSkillVersion struct{…}`
 
   - `ID string`
 
-    Unique identifier for the skill version.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-    The format and length of IDs may change over time.
+  - `CreatedAt Time`
 
-  - `CreatedAt string`
+    ISO 8601 timestamp of when the skill was created.
 
-    ISO 8601 timestamp of when the skill version was created.
+    format: date-time
 
   - `Description string`
 
@@ -63631,35 +64652,26 @@ List Skill Versions
 
     This is extracted from the SKILL.md file in the skill upload.
 
-  - `Directory string`
-
-    Directory name of the skill version.
-
-    This is the top-level directory name that was extracted from the uploaded files.
-
   - `Name string`
 
-    Human-readable name of the skill version.
-
-    This is extracted from the SKILL.md file in the skill upload.
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
 
   - `SkillID string`
 
-    Identifier for the skill that this version belongs to.
+    Unique identifier for the skill.
 
-  - `Type string`
+    The format and length of IDs may change over time.
+
+  - `Type SkillVersion`
 
     Object type.
 
     For Skill Versions, this is always `"skill_version"`.
 
     default: skill_version
-
-  - `Version string`
-
-    Version identifier for the skill.
-
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
 
 #### Example
 
@@ -63696,18 +64708,15 @@ func main() {
 {
   "data": [
     {
-      "id": "skillver_01JAbcdefghijklmnopqrstuvw",
+      "id": "id",
       "created_at": "2024-10-30T23:58:27.427722Z",
-      "description": "A custom skill for doing something useful",
-      "directory": "my-skill",
-      "name": "my-skill",
+      "description": "description",
+      "name": "name",
       "skill_id": "skill_01JAbcdefghijklmnopqrstuvw",
-      "type": "type",
-      "version": "1759178010641129"
+      "type": "skill_version"
     }
   ],
-  "has_more": true,
-  "next_page": "page_MjAyNS0wNS0xNFQwMDowMDowMFo="
+  "next_page": "next_page"
 }
 ```
 
@@ -63723,9 +64732,9 @@ Download a skill version's content as a zip archive.
 
 - `version string`
 
-  Version identifier for the skill.
+  Identifies the skill version by its version ID.
 
-  Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+  Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
 - `params BetaSkillVersionDownloadParams`
 
@@ -63825,6 +64834,12 @@ Download a skill version's content as a zip archive.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaSkillVersionDownloadResponse interface{…}`
@@ -63862,7 +64877,7 @@ func main() {
 
 ### Get Skill Version
 
-`client.Beta.Skills.Versions.Get(ctx, version, params) (*BetaSkillVersionGetResponse, error)`
+`client.Beta.Skills.Versions.Get(ctx, version, params) (*BetaSkillVersion, error)`
 
 **GET** `/v1/skills/{skill_id}/versions/{version}`
 
@@ -63872,9 +64887,9 @@ Get Skill Version
 
 - `version string`
 
-  Version identifier for the skill.
+  Identifies the skill version: a version ID, or the literal `latest` for the skill's most recent version.
 
-  Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+  Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
 - `params BetaSkillVersionGetParams`
 
@@ -63974,19 +64989,26 @@ Get Skill Version
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
-- `type BetaSkillVersionGetResponse struct{…}`
+- `type BetaSkillVersion struct{…}`
 
   - `ID string`
 
-    Unique identifier for the skill version.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-    The format and length of IDs may change over time.
+  - `CreatedAt Time`
 
-  - `CreatedAt string`
+    ISO 8601 timestamp of when the skill was created.
 
-    ISO 8601 timestamp of when the skill version was created.
+    format: date-time
 
   - `Description string`
 
@@ -63994,35 +65016,26 @@ Get Skill Version
 
     This is extracted from the SKILL.md file in the skill upload.
 
-  - `Directory string`
-
-    Directory name of the skill version.
-
-    This is the top-level directory name that was extracted from the uploaded files.
-
   - `Name string`
 
-    Human-readable name of the skill version.
-
-    This is extracted from the SKILL.md file in the skill upload.
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
 
   - `SkillID string`
 
-    Identifier for the skill that this version belongs to.
+    Unique identifier for the skill.
 
-  - `Type string`
+    The format and length of IDs may change over time.
+
+  - `Type SkillVersion`
 
     Object type.
 
     For Skill Versions, this is always `"skill_version"`.
 
     default: skill_version
-
-  - `Version string`
-
-    Version identifier for the skill.
-
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
 
 #### Example
 
@@ -64041,7 +65054,7 @@ func main() {
 	client := anthropic.NewClient(
 		option.WithAPIKey("my-anthropic-api-key"),
 	)
-	version, err := client.Beta.Skills.Versions.Get(
+	betaSkillVersion, err := client.Beta.Skills.Versions.Get(
 		context.TODO(),
 		"version",
 		anthropic.BetaSkillVersionGetParams{
@@ -64051,7 +65064,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", version.ID)
+	fmt.Printf("%+v\n", betaSkillVersion.ID)
 }
 ```
 
@@ -64059,20 +65072,18 @@ func main() {
 
 ```json
 {
-  "id": "skillver_01JAbcdefghijklmnopqrstuvw",
+  "id": "id",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "description": "A custom skill for doing something useful",
-  "directory": "my-skill",
-  "name": "my-skill",
+  "description": "description",
+  "name": "name",
   "skill_id": "skill_01JAbcdefghijklmnopqrstuvw",
-  "type": "type",
-  "version": "1759178010641129"
+  "type": "skill_version"
 }
 ```
 
 ### Delete Skill Version
 
-`client.Beta.Skills.Versions.Delete(ctx, version, params) (*BetaSkillVersionDeleteResponse, error)`
+`client.Beta.Skills.Versions.Delete(ctx, version, params) (*BetaDeletedSkillVersion, error)`
 
 **DELETE** `/v1/skills/{skill_id}/versions/{version}`
 
@@ -64082,9 +65093,9 @@ Delete Skill Version
 
 - `version string`
 
-  Version identifier for the skill.
+  Identifies the skill version by its version ID.
 
-  Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+  Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
 - `params BetaSkillVersionDeleteParams`
 
@@ -64184,17 +65195,22 @@ Delete Skill Version
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
-- `type BetaSkillVersionDeleteResponse struct{…}`
+- `type BetaDeletedSkillVersion struct{…}`
 
   - `ID string`
 
-    Version identifier for the skill.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
-
-  - `Type string`
+  - `Type SkillVersionDeleted`
 
     Deleted object type.
 
@@ -64219,7 +65235,7 @@ func main() {
 	client := anthropic.NewClient(
 		option.WithAPIKey("my-anthropic-api-key"),
 	)
-	version, err := client.Beta.Skills.Versions.Delete(
+	betaDeletedSkillVersion, err := client.Beta.Skills.Versions.Delete(
 		context.TODO(),
 		"version",
 		anthropic.BetaSkillVersionDeleteParams{
@@ -64229,7 +65245,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", version.ID)
+	fmt.Printf("%+v\n", betaDeletedSkillVersion.ID)
 }
 ```
 
@@ -64237,8 +65253,8 @@ func main() {
 
 ```json
 {
-  "id": "1759178010641129",
-  "type": "type"
+  "id": "id",
+  "type": "skill_version_deleted"
 }
 ```
 
@@ -64247,6 +65263,10 @@ func main() {
 ### Unwrap
 
 `client.Beta.Webhooks.Unwrap(ctx) error`
+
+Verifies the webhook signature from the `webhook-id`, `webhook-timestamp` and `webhook-signature`
+headers using your webhook signing key, then parses the payload into an event. Fails if the
+signature is missing or invalid.
 
 #### Example
 
@@ -64265,6 +65285,36 @@ func main() {
 		option.WithAPIKey("my-anthropic-api-key"),
 	)
 	err := client.Beta.Webhooks.Unwrap(context.TODO())
+	if err != nil {
+		panic(err.Error())
+	}
+}
+```
+
+### Parse Unverified
+
+`client.Beta.Webhooks.ParseUnverified(ctx) error`
+
+Parses a webhook payload into an event without verifying its signature. Prefer `unwrap()` unless
+you have already verified the signature yourself.
+
+#### Example
+
+```go
+package main
+
+import (
+	"context"
+
+	"github.com/anthropics/anthropic-sdk-go"
+	"github.com/anthropics/anthropic-sdk-go/option"
+)
+
+func main() {
+	client := anthropic.NewClient(
+		option.WithAPIKey("my-anthropic-api-key"),
+	)
+	err := client.Beta.Webhooks.ParseUnverified(context.TODO())
 	if err != nil {
 		panic(err.Error())
 	}
@@ -64299,25 +65349,21 @@ Create User Profile
 
     minLength: 1, maxLength: 255
 
+  - `ExternalUserOnboardedAt param.Field[Time] Optional`
+
+    Body param: A timestamp in RFC 3339 format
+
+    format: date-time
+
   - `Metadata param.Field[map[string, string]] Optional`
 
     Body param: Free-form key-value data to attach to this user profile. Maximum 16 keys, with keys up to 64 characters and values up to 512 characters. Values must be non-empty strings.
 
   - `Name param.Field[string] Optional`
 
-    Body param: Optional for all profiles. Real-world name of the entity this profile represents (company or individual); for a resold-to company (`relationship` `resold` / `access_type` `passthrough`), that company's name where known. Maximum 255 characters.
+    Body param: Optional for all profiles. Real-world name of the entity this profile represents (company or individual); for a company the platform resells Claude access to (`access_type` `passthrough`), that company's name where known. Maximum 255 characters.
 
     minLength: 1, maxLength: 255
-
-  - `Relationship param.Field[BetaUserProfileNewParamsRelationship] Optional`
-
-    Body param: How the entity behind a user profile relates to the platform that owns the API key. `external`: an individual end-user of the platform. `resold`: a company the platform resells Claude access to. `internal`: the platform's own usage.
-
-    - `const BetaUserProfileNewParamsRelationshipExternal BetaUserProfileNewParamsRelationship = "external"`
-
-    - `const BetaUserProfileNewParamsRelationshipResold BetaUserProfileNewParamsRelationship = "resold"`
-
-    - `const BetaUserProfileNewParamsRelationshipInternal BetaUserProfileNewParamsRelationship = "internal"`
 
   - `Betas param.Field[[]AnthropicBeta] Optional`
 
@@ -64409,6 +65455,12 @@ Create User Profile
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaUserProfile struct{…}`
@@ -64463,19 +65515,15 @@ Create User Profile
 
     Platform's own identifier for this user. Not enforced unique.
 
+  - `ExternalUserOnboardedAt Time Optional`
+
+    A timestamp in RFC 3339 format
+
+    format: date-time
+
   - `Name string Optional`
 
-    Real-world name of the entity this profile represents (company or individual). For a resold-to company (`access_type` `passthrough`, or `relationship` `resold` under the `user-profiles-2026-03-24` header) this is that company's name.
-
-  - `Relationship BetaUserProfileRelationship Optional`
-
-    How the entity behind a user profile relates to the platform that owns the API key. `external`: an individual end-user of the platform. `resold`: a company the platform resells Claude access to. `internal`: the platform's own usage.
-
-    - `const BetaUserProfileRelationshipExternal BetaUserProfileRelationship = "external"`
-
-    - `const BetaUserProfileRelationshipResold BetaUserProfileRelationship = "resold"`
-
-    - `const BetaUserProfileRelationshipInternal BetaUserProfileRelationship = "internal"`
+    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name.
 
 #### Example
 
@@ -64518,8 +65566,8 @@ func main() {
   "updated_at": "2026-03-15T10:00:00Z",
   "access_type": "application",
   "external_id": "user_12345",
-  "name": "Example User",
-  "relationship": "external"
+  "external_user_onboarded_at": "2024-11-02T08:15:00Z",
+  "name": "Example User"
 }
 ```
 
@@ -64548,6 +65596,14 @@ List User Profiles
     - `const BetaUserProfileListParamsOrderAsc BetaUserProfileListParamsOrder = "asc"`
 
     - `const BetaUserProfileListParamsOrderDesc BetaUserProfileListParamsOrder = "desc"`
+
+  - `OrderBy param.Field[BetaUserProfileListParamsOrderBy] Optional`
+
+    Query param: Query parameter for order_by
+
+    - `const BetaUserProfileListParamsOrderByCreatedAt BetaUserProfileListParamsOrderBy = "created_at"`
+
+    - `const BetaUserProfileListParamsOrderByName BetaUserProfileListParamsOrderBy = "name"`
 
   - `Page param.Field[string] Optional`
 
@@ -64643,6 +65699,12 @@ List User Profiles
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaUserProfile struct{…}`
@@ -64697,19 +65759,15 @@ List User Profiles
 
     Platform's own identifier for this user. Not enforced unique.
 
+  - `ExternalUserOnboardedAt Time Optional`
+
+    A timestamp in RFC 3339 format
+
+    format: date-time
+
   - `Name string Optional`
 
-    Real-world name of the entity this profile represents (company or individual). For a resold-to company (`access_type` `passthrough`, or `relationship` `resold` under the `user-profiles-2026-03-24` header) this is that company's name.
-
-  - `Relationship BetaUserProfileRelationship Optional`
-
-    How the entity behind a user profile relates to the platform that owns the API key. `external`: an individual end-user of the platform. `resold`: a company the platform resells Claude access to. `internal`: the platform's own usage.
-
-    - `const BetaUserProfileRelationshipExternal BetaUserProfileRelationship = "external"`
-
-    - `const BetaUserProfileRelationshipResold BetaUserProfileRelationship = "resold"`
-
-    - `const BetaUserProfileRelationshipInternal BetaUserProfileRelationship = "internal"`
+    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name.
 
 #### Example
 
@@ -64754,8 +65812,8 @@ func main() {
       "updated_at": "2026-03-15T10:00:00Z",
       "access_type": "application",
       "external_id": "user_12345",
-      "name": "Example User",
-      "relationship": "external"
+      "external_user_onboarded_at": "2024-11-02T08:15:00Z",
+      "name": "Example User"
     }
   ],
   "next_page": "page_MjAyNS0wNS0xNFQwMDowMDowMFo="
@@ -64866,6 +65924,12 @@ Get User Profile
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaUserProfile struct{…}`
@@ -64920,19 +65984,15 @@ Get User Profile
 
     Platform's own identifier for this user. Not enforced unique.
 
+  - `ExternalUserOnboardedAt Time Optional`
+
+    A timestamp in RFC 3339 format
+
+    format: date-time
+
   - `Name string Optional`
 
-    Real-world name of the entity this profile represents (company or individual). For a resold-to company (`access_type` `passthrough`, or `relationship` `resold` under the `user-profiles-2026-03-24` header) this is that company's name.
-
-  - `Relationship BetaUserProfileRelationship Optional`
-
-    How the entity behind a user profile relates to the platform that owns the API key. `external`: an individual end-user of the platform. `resold`: a company the platform resells Claude access to. `internal`: the platform's own usage.
-
-    - `const BetaUserProfileRelationshipExternal BetaUserProfileRelationship = "external"`
-
-    - `const BetaUserProfileRelationshipResold BetaUserProfileRelationship = "resold"`
-
-    - `const BetaUserProfileRelationshipInternal BetaUserProfileRelationship = "internal"`
+    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name.
 
 #### Example
 
@@ -64979,8 +66039,8 @@ func main() {
   "updated_at": "2026-03-15T10:00:00Z",
   "access_type": "application",
   "external_id": "user_12345",
-  "name": "Example User",
-  "relationship": "external"
+  "external_user_onboarded_at": "2024-11-02T08:15:00Z",
+  "name": "Example User"
 }
 ```
 
@@ -65012,6 +66072,12 @@ Update User Profile
 
     minLength: 1, maxLength: 255
 
+  - `ExternalUserOnboardedAt param.Field[Time] Optional`
+
+    Body param: A timestamp in RFC 3339 format
+
+    format: date-time
+
   - `Metadata param.Field[map[string, string]] Optional`
 
     Body param: Key-value pairs to merge into the stored metadata. Keys provided overwrite existing values. To remove a key, set its value to an empty string. Keys not provided are left unchanged. Maximum 16 keys, with keys up to 64 characters and values up to 512 characters.
@@ -65021,16 +66087,6 @@ Update User Profile
     Body param: If present, replaces the stored name. Omit to leave unchanged. Maximum 255 characters.
 
     minLength: 1, maxLength: 255
-
-  - `Relationship param.Field[BetaUserProfileUpdateParamsRelationship] Optional`
-
-    Body param: How the entity behind a user profile relates to the platform that owns the API key. `external`: an individual end-user of the platform. `resold`: a company the platform resells Claude access to. `internal`: the platform's own usage.
-
-    - `const BetaUserProfileUpdateParamsRelationshipExternal BetaUserProfileUpdateParamsRelationship = "external"`
-
-    - `const BetaUserProfileUpdateParamsRelationshipResold BetaUserProfileUpdateParamsRelationship = "resold"`
-
-    - `const BetaUserProfileUpdateParamsRelationshipInternal BetaUserProfileUpdateParamsRelationship = "internal"`
 
   - `Betas param.Field[[]AnthropicBeta] Optional`
 
@@ -65122,6 +66178,12 @@ Update User Profile
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaUserProfile struct{…}`
@@ -65176,19 +66238,15 @@ Update User Profile
 
     Platform's own identifier for this user. Not enforced unique.
 
+  - `ExternalUserOnboardedAt Time Optional`
+
+    A timestamp in RFC 3339 format
+
+    format: date-time
+
   - `Name string Optional`
 
-    Real-world name of the entity this profile represents (company or individual). For a resold-to company (`access_type` `passthrough`, or `relationship` `resold` under the `user-profiles-2026-03-24` header) this is that company's name.
-
-  - `Relationship BetaUserProfileRelationship Optional`
-
-    How the entity behind a user profile relates to the platform that owns the API key. `external`: an individual end-user of the platform. `resold`: a company the platform resells Claude access to. `internal`: the platform's own usage.
-
-    - `const BetaUserProfileRelationshipExternal BetaUserProfileRelationship = "external"`
-
-    - `const BetaUserProfileRelationshipResold BetaUserProfileRelationship = "resold"`
-
-    - `const BetaUserProfileRelationshipInternal BetaUserProfileRelationship = "internal"`
+    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name.
 
 #### Example
 
@@ -65235,8 +66293,8 @@ func main() {
   "updated_at": "2026-03-15T10:00:00Z",
   "access_type": "application",
   "external_id": "user_12345",
-  "name": "Example User",
-  "relationship": "external"
+  "external_user_onboarded_at": "2024-11-02T08:15:00Z",
+  "name": "Example User"
 }
 ```
 
@@ -65343,6 +66401,12 @@ Create Enrollment URL
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -65560,6 +66624,12 @@ Create a Dream
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -65928,6 +66998,12 @@ List Dreams
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaDream struct{…}`
@@ -66252,6 +67328,12 @@ Get a Dream
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaDream struct{…}`
@@ -66575,6 +67657,12 @@ Cancel a Dream
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaDream struct{…}`
@@ -66897,6 +67985,12 @@ Archive a Dream
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -67229,6 +68323,12 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaTunnel struct{…}`
@@ -67404,6 +68504,12 @@ Fetches a tunnel by ID.
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -67597,6 +68703,12 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaTunnel struct{…}`
@@ -67778,6 +68890,12 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaTunnel struct{…}`
@@ -67958,6 +69076,12 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaTunnelToken struct{…}`
@@ -68124,6 +69248,12 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -68293,6 +69423,12 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -68486,6 +69622,12 @@ Fetches a tunnel certificate by ID.
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -68690,6 +69832,12 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaTunnelCertificate struct{…}`
@@ -68885,6 +70033,12 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -69693,7 +70847,7 @@ Create an external key config owned by the caller's organization.
 
       - `KMSARN string`
 
-        Full ARN of the AWS KMS key.
+        Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a single-Region key in your organization's own AWS account; cross-account keys, multi-Region keys, and alias ARNs are rejected.
 
         maxLength: 2048
 
@@ -69707,7 +70861,7 @@ Create an external key config owned by the caller's organization.
 
         **Deprecated**
 
-        IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed intermediate role; this field is ignored.
+        IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own intermediate role (or, on Claude Platform on AWS, with credentials AWS issues for the Workspace); this field is ignored.
 
     - `type BetaGCPExternalKeyConfig struct{…}`
 
@@ -69801,7 +70955,7 @@ Create an external key config owned by the caller's organization.
 
       - `KMSARN string`
 
-        Full ARN of the AWS KMS key.
+        Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a single-Region key in your organization's own AWS account; cross-account keys, multi-Region keys, and alias ARNs are rejected.
 
         maxLength: 2048
 
@@ -69815,7 +70969,7 @@ Create an external key config owned by the caller's organization.
 
         **Deprecated**
 
-        IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed intermediate role; this field is ignored.
+        IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own intermediate role (or, on Claude Platform on AWS, with credentials AWS issues for the Workspace); this field is ignored.
 
     - `type BetaGCPExternalKeyConfig struct{…}`
 
@@ -69981,7 +71135,7 @@ Results are ordered by creation time (newest first). Use the
 
       - `KMSARN string`
 
-        Full ARN of the AWS KMS key.
+        Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a single-Region key in your organization's own AWS account; cross-account keys, multi-Region keys, and alias ARNs are rejected.
 
         maxLength: 2048
 
@@ -69995,7 +71149,7 @@ Results are ordered by creation time (newest first). Use the
 
         **Deprecated**
 
-        IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed intermediate role; this field is ignored.
+        IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own intermediate role (or, on Claude Platform on AWS, with credentials AWS issues for the Workspace); this field is ignored.
 
     - `type BetaGCPExternalKeyConfig struct{…}`
 
@@ -70151,7 +71305,7 @@ Retrieve a single external key config in the caller's organization by ID.
 
       - `KMSARN string`
 
-        Full ARN of the AWS KMS key.
+        Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a single-Region key in your organization's own AWS account; cross-account keys, multi-Region keys, and alias ARNs are rejected.
 
         maxLength: 2048
 
@@ -70165,7 +71319,7 @@ Retrieve a single external key config in the caller's organization by ID.
 
         **Deprecated**
 
-        IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed intermediate role; this field is ignored.
+        IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own intermediate role (or, on Claude Platform on AWS, with credentials AWS issues for the Workspace); this field is ignored.
 
     - `type BetaGCPExternalKeyConfig struct{…}`
 
@@ -70292,7 +71446,7 @@ encrypted data requires the original key identity to decrypt.
 
       - `KMSARN string`
 
-        Full ARN of the AWS KMS key.
+        Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a single-Region key in your organization's own AWS account; cross-account keys, multi-Region keys, and alias ARNs are rejected.
 
         maxLength: 2048
 
@@ -70306,7 +71460,7 @@ encrypted data requires the original key identity to decrypt.
 
         **Deprecated**
 
-        IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed intermediate role; this field is ignored.
+        IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own intermediate role (or, on Claude Platform on AWS, with credentials AWS issues for the Workspace); this field is ignored.
 
     - `type BetaGCPExternalKeyConfig struct{…}`
 
@@ -70388,7 +71542,7 @@ encrypted data requires the original key identity to decrypt.
 
       - `KMSARN string`
 
-        Full ARN of the AWS KMS key.
+        Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a single-Region key in your organization's own AWS account; cross-account keys, multi-Region keys, and alias ARNs are rejected.
 
         maxLength: 2048
 
@@ -70402,7 +71556,7 @@ encrypted data requires the original key identity to decrypt.
 
         **Deprecated**
 
-        IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed intermediate role; this field is ignored.
+        IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own intermediate role (or, on Claude Platform on AWS, with credentials AWS issues for the Workspace); this field is ignored.
 
     - `type BetaGCPExternalKeyConfig struct{…}`
 
@@ -70824,6 +71978,12 @@ matched as the JWT's `iss` claim and is not fetched.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaFederationIssuer struct{…}`
@@ -71145,6 +72305,12 @@ Archived issuers are excluded unless `include_archived=true`.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaFederationIssuer struct{…}`
@@ -71455,6 +72621,12 @@ Retrieve a federation issuer by its ID (`fdis_...`).
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -71849,6 +73021,12 @@ session.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaFederationIssuer struct{…}`
@@ -72163,6 +73341,12 @@ issuer cannot be changed), or recreate them against another issuer.
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -72534,6 +73718,12 @@ manage rules whose `oauth_scope` is `workspace:developer` or
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaFederationRule struct{…}`
@@ -72867,6 +74057,12 @@ unless `include_archived=true`.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaFederationRule struct{…}`
@@ -73179,6 +74375,12 @@ Retrieve a federation rule by its ID (`fdrl_...`).
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -73556,6 +74758,12 @@ Console session.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaFederationRule struct{…}`
@@ -73875,6 +75083,12 @@ other scopes require a Console session.
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -74203,6 +75417,12 @@ other scopes require a Console session.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaFederationRuleWorkspace struct{…}`
@@ -74401,6 +75621,12 @@ rules with `applies_to_all_workspaces` or a legacy single
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaFederationRuleWorkspace struct{…}`
@@ -74594,6 +75820,12 @@ Console session.
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -75325,6 +76557,12 @@ accounts.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaServiceAccount struct{…}`
@@ -75555,6 +76793,12 @@ archived service accounts.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaServiceAccount struct{…}`
@@ -75773,6 +77017,12 @@ Retrieve a service account by its ID (`svac_...`).
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -76011,6 +77261,12 @@ interactive credential (a user OAuth token or a Console session).
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaServiceAccount struct{…}`
@@ -76233,6 +77489,12 @@ those rules first or change their target to another service account.
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -76469,6 +77731,12 @@ rejected.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaServiceAccountWorkspaceMember struct{…}`
@@ -76684,6 +77952,12 @@ page to recover.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaServiceAccountWorkspaceMember struct{…}`
@@ -76888,6 +78162,12 @@ to the implicit `workspace_user` membership. Archived workspaces return
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -77435,8 +78715,13 @@ List Workspaces
     customer-managed encryption key (CMEK) on AWS, reference this value in your
     KMS key-policy condition so the key is scoped to this compartment. On GCP and
     Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK integration guide for the
-    required key configuration, including the value used during key validation.
+    need to reference this value in your key configuration. See the CMEK
+    integration guide for the required key configuration; unless your organization
+    is on Claude Platform on AWS, it includes a separate value used during key
+    validation. On Claude Platform on AWS there is no separate validation value:
+    the key is validated against this Workspace's own value when it is attached, so
+    if your key policy uses the compartment condition, add this value to it before
+    attaching the key.
 
   - `CreatedAt Time`
 
@@ -77473,10 +78758,14 @@ List Workspaces
     ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `Name string`
 
@@ -77583,10 +78872,14 @@ Create Workspace
     Body param: ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `Tags param.Field[map[string, string]] Optional`
 
@@ -77682,6 +78975,12 @@ Create Workspace
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaWorkspace struct{…}`
@@ -77702,8 +79001,13 @@ Create Workspace
     customer-managed encryption key (CMEK) on AWS, reference this value in your
     KMS key-policy condition so the key is scoped to this compartment. On GCP and
     Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK integration guide for the
-    required key configuration, including the value used during key validation.
+    need to reference this value in your key configuration. See the CMEK
+    integration guide for the required key configuration; unless your organization
+    is on Claude Platform on AWS, it includes a separate value used during key
+    validation. On Claude Platform on AWS there is no separate validation value:
+    the key is validated against this Workspace's own value when it is attached, so
+    if your key policy uses the compartment condition, add this value to it before
+    attaching the key.
 
   - `CreatedAt Time`
 
@@ -77740,10 +79044,14 @@ Create Workspace
     ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `Name string`
 
@@ -77846,8 +79154,13 @@ Get Workspace
     customer-managed encryption key (CMEK) on AWS, reference this value in your
     KMS key-policy condition so the key is scoped to this compartment. On GCP and
     Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK integration guide for the
-    required key configuration, including the value used during key validation.
+    need to reference this value in your key configuration. See the CMEK
+    integration guide for the required key configuration; unless your organization
+    is on Claude Platform on AWS, it includes a separate value used during key
+    validation. On Claude Platform on AWS there is no separate validation value:
+    the key is validated against this Workspace's own value when it is attached, so
+    if your key policy uses the compartment condition, add this value to it before
+    attaching the key.
 
   - `CreatedAt Time`
 
@@ -77884,10 +79197,14 @@ Get Workspace
     ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `Name string`
 
@@ -77983,10 +79300,14 @@ Update Workspace
     ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `Name param.Field[string] Optional`
 
@@ -78018,8 +79339,13 @@ Update Workspace
     customer-managed encryption key (CMEK) on AWS, reference this value in your
     KMS key-policy condition so the key is scoped to this compartment. On GCP and
     Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK integration guide for the
-    required key configuration, including the value used during key validation.
+    need to reference this value in your key configuration. See the CMEK
+    integration guide for the required key configuration; unless your organization
+    is on Claude Platform on AWS, it includes a separate value used during key
+    validation. On Claude Platform on AWS there is no separate validation value:
+    the key is validated against this Workspace's own value when it is attached, so
+    if your key policy uses the compartment condition, add this value to it before
+    attaching the key.
 
   - `CreatedAt Time`
 
@@ -78056,10 +79382,14 @@ Update Workspace
     ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `Name string`
 
@@ -78162,8 +79492,13 @@ Archive Workspace
     customer-managed encryption key (CMEK) on AWS, reference this value in your
     KMS key-policy condition so the key is scoped to this compartment. On GCP and
     Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK integration guide for the
-    required key configuration, including the value used during key validation.
+    need to reference this value in your key configuration. See the CMEK
+    integration guide for the required key configuration; unless your organization
+    is on Claude Platform on AWS, it includes a separate value used during key
+    validation. On Claude Platform on AWS there is no separate validation value:
+    the key is validated against this Workspace's own value when it is attached, so
+    if your key policy uses the compartment condition, add this value to it before
+    attaching the key.
 
   - `CreatedAt Time`
 
@@ -78200,10 +79535,14 @@ Archive Workspace
     ID of the customer-managed encryption key (CMEK) configuration to use for this
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. This
-    field is write-once: once a key is attached to a Workspace it cannot be
-    detached or replaced. To rotate key material, rotate the underlying key on
-    your cloud KMS; the `external_key_id` stays the same.
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+    single-Region key in the same AWS account and Region as the Workspace. On that
+    platform the key is validated against this Workspace when it is attached, so a
+    key-policy problem is reported as an error on this request. This field is write-once:
+    once a key is attached to a Workspace it cannot be detached or replaced. To
+    rotate key material, rotate the underlying key on your cloud KMS; the
+    `external_key_id` stays the same.
 
   - `Name string`
 
@@ -78284,9 +79623,9 @@ Returns only the groups and limiter types that have a workspace-level
 override. Groups without overrides inherit the organization limits and
 are not listed; use `GET /v1/organizations/rate_limits` to see those.
 
-This endpoint currently returns every matching entry in a single page
-regardless of `limit`; follow `next_page` so that clients keep working
-when pagination is enabled.
+When `limit` is omitted, every matching entry is returned in a single
+page; when `limit` truncates the result, follow `next_page` to fetch
+the remaining entries.
 
 #### Parameters
 
@@ -78316,7 +79655,7 @@ when pagination is enabled.
 
     Maximum number of items to return per page. Ranges from `1` to `1000`.
 
-    Accepted for request-shape compatibility and currently ignored: every entry is returned in a single page.
+    When omitted, every remaining entry is returned in a single page and `next_page` is `null`.
 
     maximum: 1000, minimum: 1
 
@@ -79054,6 +80393,12 @@ omitted from the results.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaServiceAccountWorkspaceMember struct{…}`
@@ -79264,6 +80609,12 @@ accounts cannot be added and are rejected.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaServiceAccountWorkspaceMember struct{…}`
@@ -79465,6 +80816,12 @@ account returns 404.
       - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
 
 #### Returns
 
@@ -79671,6 +81028,12 @@ rejected.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaServiceAccountWorkspaceMember struct{…}`
@@ -79872,6 +81235,12 @@ membership. Archived workspaces return 400.
 
       - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
 
+      - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+      - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+      - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
 - `type BetaOrganizationWorkspaceServiceAccountRemoveResponse struct{…}`
@@ -79943,9 +81312,9 @@ Each entry corresponds to one rate-limit group (either a model family
 or an API-surface category such as the Files API or Message Batches)
 and contains the set of limiter values that apply to it.
 
-This endpoint currently returns every matching entry in a single page
-regardless of `limit`; follow `next_page` so that clients keep working
-when pagination is enabled.
+When `limit` is omitted, every matching entry is returned in a single
+page; when `limit` truncates the result, follow `next_page` to fetch
+the remaining entries.
 
 #### Parameters
 
@@ -79971,7 +81340,7 @@ when pagination is enabled.
 
     Maximum number of items to return per page. Ranges from `1` to `1000`.
 
-    Accepted for request-shape compatibility and currently ignored: every entry is returned in a single page.
+    When omitted, every remaining entry is returned in a single page and `next_page` is `null`.
 
     maximum: 1000, minimum: 1
 
@@ -80075,5 +81444,181 @@ func main() {
     }
   ],
   "next_page": "next_page"
+}
+```
+
+## Beta › Organization › Compliance Settings
+
+### Get Compliance Settings
+
+`client.Beta.Organization.ComplianceSettings.Get(ctx) (*BetaComplianceSettings, error)`
+
+**GET** `/v1/organizations/compliance_settings`
+
+Retrieve your organization's Compliance Settings.
+
+Compliance Settings is a singleton resource: there is exactly one per
+organization, addressed without an identifier. The `state` field reflects
+whether the Compliance API is enabled. An organization with a parent
+organization reads the state inherited from the parent's configuration.
+
+#### Returns
+
+- `type BetaComplianceSettings struct{…}`
+
+  - `State BetaComplianceSettingsStateUnion`
+
+    Whether the Compliance API is enabled for this organization.
+
+    - `type BetaComplianceSettingsStateEnabled struct{…}`
+
+      - `Type Enabled`
+
+        default: enabled
+
+    - `type BetaComplianceSettingsStateDisabled struct{…}`
+
+      - `Type Disabled`
+
+        default: disabled
+
+  - `Type ComplianceSettings`
+
+    default: compliance_settings
+
+#### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/anthropics/anthropic-sdk-go"
+	"github.com/anthropics/anthropic-sdk-go/option"
+)
+
+func main() {
+	client := anthropic.NewClient(
+		option.WithAPIKey("my-anthropic-api-key"),
+	)
+	betaComplianceSettings, err := client.Beta.Organization.ComplianceSettings.Get(context.TODO())
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Printf("%+v\n", betaComplianceSettings.State)
+}
+```
+
+##### Response (200)
+
+```json
+{
+  "state": {
+    "type": "enabled"
+  },
+  "type": "compliance_settings"
+}
+```
+
+### Update Compliance Settings
+
+`client.Beta.Organization.ComplianceSettings.Update(ctx, body) (*BetaComplianceSettings, error)`
+
+**POST** `/v1/organizations/compliance_settings`
+
+Update your organization's Compliance Settings.
+
+Setting `state` to `enabled` turns on the Compliance API and begins
+capturing organization activity events. Setting it to `disabled` turns
+both off. `state` reflects whether the Compliance API is enabled.
+
+A request that sets `state` to its current value succeeds and leaves the
+resource unchanged. A `disabled` request stays in effect until a later
+`enabled` request or the organization's next provisioning action that
+enables Access Transparency: enabling Access Transparency also enables
+the Compliance API, which serves its activity events, so such
+provisioning (including re-runs) re-enables the Compliance API even
+after a `disabled` request. Automated provisioning never disables
+compliance settings.
+
+#### Parameters
+
+- `body BetaOrganizationComplianceSettingUpdateParams`
+
+  - `State param.Field[BetaOrganizationComplianceSettingUpdateParamsStateUnion]`
+
+    Desired state. Accepts the string shorthand "enabled" or "disabled" in place of the object form; the response always returns the canonical object form.
+
+    - `type BetaComplianceSettingsStateEnabledParamResp struct{…}`
+
+      - `Type Enabled`
+
+    - `type BetaComplianceSettingsStateDisabledParamResp struct{…}`
+
+      - `Type Disabled`
+
+#### Returns
+
+- `type BetaComplianceSettings struct{…}`
+
+  - `State BetaComplianceSettingsStateUnion`
+
+    Whether the Compliance API is enabled for this organization.
+
+    - `type BetaComplianceSettingsStateEnabled struct{…}`
+
+      - `Type Enabled`
+
+        default: enabled
+
+    - `type BetaComplianceSettingsStateDisabled struct{…}`
+
+      - `Type Disabled`
+
+        default: disabled
+
+  - `Type ComplianceSettings`
+
+    default: compliance_settings
+
+#### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/anthropics/anthropic-sdk-go"
+	"github.com/anthropics/anthropic-sdk-go/option"
+)
+
+func main() {
+	client := anthropic.NewClient(
+		option.WithAPIKey("my-anthropic-api-key"),
+	)
+	betaComplianceSettings, err := client.Beta.Organization.ComplianceSettings.Update(context.TODO(), anthropic.BetaOrganizationComplianceSettingUpdateParams{
+		State: anthropic.BetaOrganizationComplianceSettingUpdateParamsStateUnion{
+			OfEnabled: &anthropic.BetaComplianceSettingsStateEnabledParam{},
+		},
+	})
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Printf("%+v\n", betaComplianceSettings.State)
+}
+```
+
+##### Response (200)
+
+```json
+{
+  "state": {
+    "type": "enabled"
+  },
+  "type": "compliance_settings"
 }
 ```

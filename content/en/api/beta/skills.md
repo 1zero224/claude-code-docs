@@ -14,7 +14,7 @@ Create Skill
 
   - `string`
 
-  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 38 more`
+  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 41 more`
 
     - `"message-batches-2024-09-24"`
 
@@ -98,6 +98,12 @@ Create Skill
 
     - `"ce-user-management-2026-07-13"`
 
+    - `"mid-conversation-output-config-2026-07-01"`
+
+    - `"thinking-binding-controls-2026-08-01"`
+
+    - `"mid-conversation-system-clear-at-2026-08-21"`
+
 ### Body parameters (form-data)
 
 - `files: array of string`
@@ -106,56 +112,81 @@ Create Skill
 
   All files must be in the same top-level directory and must include a SKILL.md file at the root of that directory.
 
-- `display_title: optional string or null`
+- `display_name: optional string or null`
 
-  Display title for the skill.
-
-  This is a human-readable label that is not included in the prompt sent to the model.
+  Human-readable, single-line label for the Skill. Maximum 255 characters.
+  Always set: derived from the SKILL.md frontmatter `name` when omitted at
+  creation. Not unique.
 
 ### Returns
 
-- `id: string`
+- `BetaSkill object`
 
-  Unique identifier for the skill.
+  - `id: string`
 
-  The format and length of IDs may change over time.
+    Unique identifier for the skill.
 
-- `created_at: string`
+    The format and length of IDs may change over time.
 
-  ISO 8601 timestamp of when the skill was created.
+  - `created_at: string`
 
-- `display_title: string or null`
+    ISO 8601 timestamp of when the skill was created.
 
-  Display title for the skill.
+    format: date-time
 
-  This is a human-readable label that is not included in the prompt sent to the model.
+  - `display_name: string`
 
-- `latest_version: string or null`
+    Human-readable, single-line label for the Skill. Maximum 255 characters.
+    Always set: derived from the SKILL.md frontmatter `name` when omitted at
+    creation. Not unique.
 
-  The latest version identifier for the skill.
+  - `latest_version_id: string`
 
-  This represents the most recent version of the skill that has been created.
+    ID of the newest Skill Version — what `latest` references resolve to. Always set: a Skill holds at least one version.
 
-- `source: string`
+  - `source: BetaSkillSource`
 
-  Source of the skill.
+    Where the Skill comes from.
 
-  This may be one of the following values:
+    Possible values:
 
-  * `"custom"`: the skill was created by a user
-  * `"anthropic"`: the skill was created by Anthropic
+    * `"custom"`: authored by the platform user; private to their workspace
+    * `"anthropic"`: published by Anthropic; shared and read-only
+    * `"anthropic_example"`: Anthropic-published sample Skill
+    * `"plugin"`: resolved from an installed plugin
 
-- `type: string`
+    - `type: "custom" or "anthropic" or "anthropic_example" or "plugin"`
 
-  Object type.
+      Where the Skill comes from.
 
-  For Skills, this is always `"skill"`.
+      Possible values:
 
-  default: skill
+      * `"custom"`: authored by the platform user; private to their workspace
+      * `"anthropic"`: published by Anthropic; shared and read-only
+      * `"anthropic_example"`: Anthropic-published sample Skill
+      * `"plugin"`: resolved from an installed plugin
 
-- `updated_at: string`
+      - `"custom"`
 
-  ISO 8601 timestamp of when the skill was last updated.
+      - `"anthropic"`
+
+      - `"anthropic_example"`
+
+      - `"plugin"`
+
+  - `type: "skill"`
+
+    Object type.
+
+    For Skills, this is always `"skill"`.
+
+    default: skill
+
+  - `updated_at: string`
+
+    ISO 8601 timestamp of when the skill was last updated.
+
+    format: date-time
 
 ### Example
 
@@ -163,7 +194,6 @@ Create Skill
 curl https://api.anthropic.com/v1/skills \
     -H 'Content-Type: multipart/form-data' \
     -H 'anthropic-version: 2023-06-01' \
-    -H 'anthropic-beta: skills-2025-10-02' \
     -H "X-Api-Key: $ANTHROPIC_API_KEY" \
     -F files='["Example data"]'
 ```
@@ -174,10 +204,12 @@ curl https://api.anthropic.com/v1/skills \
 {
   "id": "skill_01JAbcdefghijklmnopqrstuvw",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "display_title": "My Custom Skill",
-  "latest_version": "1759178010641129",
-  "source": "custom",
-  "type": "type",
+  "display_name": "display_name",
+  "latest_version_id": "latest_version_id",
+  "source": {
+    "type": "custom"
+  },
+  "type": "skill",
   "updated_at": "2024-10-30T23:58:27.427722Z"
 }
 ```
@@ -194,9 +226,9 @@ List Skills
 
   Number of results to return per page.
 
-  Maximum value is 100. Defaults to 20.
+  Ranges from `1` to `1000`. Defaults to `20`.
 
-  default: 20
+  default: 20, minimum: 1, maximum: 1000
 
 - `page: optional string`
 
@@ -221,7 +253,7 @@ List Skills
 
   - `string`
 
-  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 38 more`
+  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 41 more`
 
     - `"message-batches-2024-09-24"`
 
@@ -305,9 +337,15 @@ List Skills
 
     - `"ce-user-management-2026-07-13"`
 
+    - `"mid-conversation-output-config-2026-07-01"`
+
+    - `"thinking-binding-controls-2026-08-01"`
+
+    - `"mid-conversation-system-clear-at-2026-08-21"`
+
 ### Returns
 
-- `data: array of object`
+- `data: array of BetaSkill`
 
   List of skills.
 
@@ -321,28 +359,49 @@ List Skills
 
     ISO 8601 timestamp of when the skill was created.
 
-  - `display_title: string or null`
+    format: date-time
 
-    Display title for the skill.
+  - `display_name: string`
 
-    This is a human-readable label that is not included in the prompt sent to the model.
+    Human-readable, single-line label for the Skill. Maximum 255 characters.
+    Always set: derived from the SKILL.md frontmatter `name` when omitted at
+    creation. Not unique.
 
-  - `latest_version: string or null`
+  - `latest_version_id: string`
 
-    The latest version identifier for the skill.
+    ID of the newest Skill Version — what `latest` references resolve to. Always set: a Skill holds at least one version.
 
-    This represents the most recent version of the skill that has been created.
+  - `source: BetaSkillSource`
 
-  - `source: string`
+    Where the Skill comes from.
 
-    Source of the skill.
+    Possible values:
 
-    This may be one of the following values:
+    * `"custom"`: authored by the platform user; private to their workspace
+    * `"anthropic"`: published by Anthropic; shared and read-only
+    * `"anthropic_example"`: Anthropic-published sample Skill
+    * `"plugin"`: resolved from an installed plugin
 
-    * `"custom"`: the skill was created by a user
-    * `"anthropic"`: the skill was created by Anthropic
+    - `type: "custom" or "anthropic" or "anthropic_example" or "plugin"`
 
-  - `type: string`
+      Where the Skill comes from.
+
+      Possible values:
+
+      * `"custom"`: authored by the platform user; private to their workspace
+      * `"anthropic"`: published by Anthropic; shared and read-only
+      * `"anthropic_example"`: Anthropic-published sample Skill
+      * `"plugin"`: resolved from an installed plugin
+
+      - `"custom"`
+
+      - `"anthropic"`
+
+      - `"anthropic_example"`
+
+      - `"plugin"`
+
+  - `type: "skill"`
 
     Object type.
 
@@ -354,11 +413,7 @@ List Skills
 
     ISO 8601 timestamp of when the skill was last updated.
 
-- `has_more: boolean`
-
-  Whether there are more results available.
-
-  If `true`, there are additional results that can be fetched using the `next_page` token.
+    format: date-time
 
 - `next_page: string or null`
 
@@ -371,7 +426,6 @@ List Skills
 ```bash
 curl https://api.anthropic.com/v1/skills \
     -H 'anthropic-version: 2023-06-01' \
-    -H 'anthropic-beta: skills-2025-10-02' \
     -H "X-Api-Key: $ANTHROPIC_API_KEY"
 ```
 
@@ -383,15 +437,16 @@ curl https://api.anthropic.com/v1/skills \
     {
       "id": "skill_01JAbcdefghijklmnopqrstuvw",
       "created_at": "2024-10-30T23:58:27.427722Z",
-      "display_title": "My Custom Skill",
-      "latest_version": "1759178010641129",
-      "source": "custom",
-      "type": "type",
+      "display_name": "display_name",
+      "latest_version_id": "latest_version_id",
+      "source": {
+        "type": "custom"
+      },
+      "type": "skill",
       "updated_at": "2024-10-30T23:58:27.427722Z"
     }
   ],
-  "has_more": true,
-  "next_page": "page_MjAyNS0wNS0xNFQwMDowMDowMFo="
+  "next_page": "next_page"
 }
 ```
 
@@ -417,7 +472,7 @@ Get Skill
 
   - `string`
 
-  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 38 more`
+  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 41 more`
 
     - `"message-batches-2024-09-24"`
 
@@ -501,57 +556,87 @@ Get Skill
 
     - `"ce-user-management-2026-07-13"`
 
+    - `"mid-conversation-output-config-2026-07-01"`
+
+    - `"thinking-binding-controls-2026-08-01"`
+
+    - `"mid-conversation-system-clear-at-2026-08-21"`
+
 ### Returns
 
-- `id: string`
+- `BetaSkill object`
 
-  Unique identifier for the skill.
+  - `id: string`
 
-  The format and length of IDs may change over time.
+    Unique identifier for the skill.
 
-- `created_at: string`
+    The format and length of IDs may change over time.
 
-  ISO 8601 timestamp of when the skill was created.
+  - `created_at: string`
 
-- `display_title: string or null`
+    ISO 8601 timestamp of when the skill was created.
 
-  Display title for the skill.
+    format: date-time
 
-  This is a human-readable label that is not included in the prompt sent to the model.
+  - `display_name: string`
 
-- `latest_version: string or null`
+    Human-readable, single-line label for the Skill. Maximum 255 characters.
+    Always set: derived from the SKILL.md frontmatter `name` when omitted at
+    creation. Not unique.
 
-  The latest version identifier for the skill.
+  - `latest_version_id: string`
 
-  This represents the most recent version of the skill that has been created.
+    ID of the newest Skill Version — what `latest` references resolve to. Always set: a Skill holds at least one version.
 
-- `source: string`
+  - `source: BetaSkillSource`
 
-  Source of the skill.
+    Where the Skill comes from.
 
-  This may be one of the following values:
+    Possible values:
 
-  * `"custom"`: the skill was created by a user
-  * `"anthropic"`: the skill was created by Anthropic
+    * `"custom"`: authored by the platform user; private to their workspace
+    * `"anthropic"`: published by Anthropic; shared and read-only
+    * `"anthropic_example"`: Anthropic-published sample Skill
+    * `"plugin"`: resolved from an installed plugin
 
-- `type: string`
+    - `type: "custom" or "anthropic" or "anthropic_example" or "plugin"`
 
-  Object type.
+      Where the Skill comes from.
 
-  For Skills, this is always `"skill"`.
+      Possible values:
 
-  default: skill
+      * `"custom"`: authored by the platform user; private to their workspace
+      * `"anthropic"`: published by Anthropic; shared and read-only
+      * `"anthropic_example"`: Anthropic-published sample Skill
+      * `"plugin"`: resolved from an installed plugin
 
-- `updated_at: string`
+      - `"custom"`
 
-  ISO 8601 timestamp of when the skill was last updated.
+      - `"anthropic"`
+
+      - `"anthropic_example"`
+
+      - `"plugin"`
+
+  - `type: "skill"`
+
+    Object type.
+
+    For Skills, this is always `"skill"`.
+
+    default: skill
+
+  - `updated_at: string`
+
+    ISO 8601 timestamp of when the skill was last updated.
+
+    format: date-time
 
 ### Example
 
 ```bash
 curl https://api.anthropic.com/v1/skills/$SKILL_ID \
     -H 'anthropic-version: 2023-06-01' \
-    -H 'anthropic-beta: skills-2025-10-02' \
     -H "X-Api-Key: $ANTHROPIC_API_KEY"
 ```
 
@@ -561,10 +646,12 @@ curl https://api.anthropic.com/v1/skills/$SKILL_ID \
 {
   "id": "skill_01JAbcdefghijklmnopqrstuvw",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "display_title": "My Custom Skill",
-  "latest_version": "1759178010641129",
-  "source": "custom",
-  "type": "type",
+  "display_name": "display_name",
+  "latest_version_id": "latest_version_id",
+  "source": {
+    "type": "custom"
+  },
+  "type": "skill",
   "updated_at": "2024-10-30T23:58:27.427722Z"
 }
 ```
@@ -591,7 +678,7 @@ Delete Skill
 
   - `string`
 
-  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 38 more`
+  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 41 more`
 
     - `"message-batches-2024-09-24"`
 
@@ -675,21 +762,29 @@ Delete Skill
 
     - `"ce-user-management-2026-07-13"`
 
+    - `"mid-conversation-output-config-2026-07-01"`
+
+    - `"thinking-binding-controls-2026-08-01"`
+
+    - `"mid-conversation-system-clear-at-2026-08-21"`
+
 ### Returns
 
-- `id: string`
+- `BetaDeletedSkill object`
 
-  Unique identifier for the skill.
+  - `id: string`
 
-  The format and length of IDs may change over time.
+    Unique identifier for the skill.
 
-- `type: string`
+    The format and length of IDs may change over time.
 
-  Deleted object type.
+  - `type: "skill_deleted"`
 
-  For Skills, this is always `"skill_deleted"`.
+    Deleted object type.
 
-  default: skill_deleted
+    For Skills, this is always `"skill_deleted"`.
+
+    default: skill_deleted
 
 ### Example
 
@@ -697,7 +792,6 @@ Delete Skill
 curl https://api.anthropic.com/v1/skills/$SKILL_ID \
     -X DELETE \
     -H 'anthropic-version: 2023-06-01' \
-    -H 'anthropic-beta: skills-2025-10-02' \
     -H "X-Api-Key: $ANTHROPIC_API_KEY"
 ```
 
@@ -706,62 +800,15 @@ curl https://api.anthropic.com/v1/skills/$SKILL_ID \
 ```json
 {
   "id": "skill_01JAbcdefghijklmnopqrstuvw",
-  "type": "type"
+  "type": "skill_deleted"
 }
 ```
 
 ## Domain types
 
-### Skill Create Response
+### Beta Deleted Skill
 
-- `SkillCreateResponse object`
-
-  - `id: string`
-
-    Unique identifier for the skill.
-
-    The format and length of IDs may change over time.
-
-  - `created_at: string`
-
-    ISO 8601 timestamp of when the skill was created.
-
-  - `display_title: string or null`
-
-    Display title for the skill.
-
-    This is a human-readable label that is not included in the prompt sent to the model.
-
-  - `latest_version: string or null`
-
-    The latest version identifier for the skill.
-
-    This represents the most recent version of the skill that has been created.
-
-  - `source: string`
-
-    Source of the skill.
-
-    This may be one of the following values:
-
-    * `"custom"`: the skill was created by a user
-    * `"anthropic"`: the skill was created by Anthropic
-
-  - `type: string`
-
-    Object type.
-
-    For Skills, this is always `"skill"`.
-
-    default: skill
-
-  - `updated_at: string`
-
-    ISO 8601 timestamp of when the skill was last updated.
-
-### Skill List Response
-
-- `SkillListResponse object`
+- `BetaDeletedSkill object`
 
   - `id: string`
 
@@ -769,107 +816,106 @@ curl https://api.anthropic.com/v1/skills/$SKILL_ID \
 
     The format and length of IDs may change over time.
 
-  - `created_at: string`
-
-    ISO 8601 timestamp of when the skill was created.
-
-  - `display_title: string or null`
-
-    Display title for the skill.
-
-    This is a human-readable label that is not included in the prompt sent to the model.
-
-  - `latest_version: string or null`
-
-    The latest version identifier for the skill.
-
-    This represents the most recent version of the skill that has been created.
-
-  - `source: string`
-
-    Source of the skill.
-
-    This may be one of the following values:
-
-    * `"custom"`: the skill was created by a user
-    * `"anthropic"`: the skill was created by Anthropic
-
-  - `type: string`
-
-    Object type.
-
-    For Skills, this is always `"skill"`.
-
-    default: skill
-
-  - `updated_at: string`
-
-    ISO 8601 timestamp of when the skill was last updated.
-
-### Skill Retrieve Response
-
-- `SkillRetrieveResponse object`
-
-  - `id: string`
-
-    Unique identifier for the skill.
-
-    The format and length of IDs may change over time.
-
-  - `created_at: string`
-
-    ISO 8601 timestamp of when the skill was created.
-
-  - `display_title: string or null`
-
-    Display title for the skill.
-
-    This is a human-readable label that is not included in the prompt sent to the model.
-
-  - `latest_version: string or null`
-
-    The latest version identifier for the skill.
-
-    This represents the most recent version of the skill that has been created.
-
-  - `source: string`
-
-    Source of the skill.
-
-    This may be one of the following values:
-
-    * `"custom"`: the skill was created by a user
-    * `"anthropic"`: the skill was created by Anthropic
-
-  - `type: string`
-
-    Object type.
-
-    For Skills, this is always `"skill"`.
-
-    default: skill
-
-  - `updated_at: string`
-
-    ISO 8601 timestamp of when the skill was last updated.
-
-### Skill Delete Response
-
-- `SkillDeleteResponse object`
-
-  - `id: string`
-
-    Unique identifier for the skill.
-
-    The format and length of IDs may change over time.
-
-  - `type: string`
+  - `type: "skill_deleted"`
 
     Deleted object type.
 
     For Skills, this is always `"skill_deleted"`.
 
     default: skill_deleted
+
+### Beta Skill
+
+- `BetaSkill object`
+
+  - `id: string`
+
+    Unique identifier for the skill.
+
+    The format and length of IDs may change over time.
+
+  - `created_at: string`
+
+    ISO 8601 timestamp of when the skill was created.
+
+    format: date-time
+
+  - `display_name: string`
+
+    Human-readable, single-line label for the Skill. Maximum 255 characters.
+    Always set: derived from the SKILL.md frontmatter `name` when omitted at
+    creation. Not unique.
+
+  - `latest_version_id: string`
+
+    ID of the newest Skill Version — what `latest` references resolve to. Always set: a Skill holds at least one version.
+
+  - `source: BetaSkillSource`
+
+    Where the Skill comes from.
+
+    Possible values:
+
+    * `"custom"`: authored by the platform user; private to their workspace
+    * `"anthropic"`: published by Anthropic; shared and read-only
+    * `"anthropic_example"`: Anthropic-published sample Skill
+    * `"plugin"`: resolved from an installed plugin
+
+    - `type: "custom" or "anthropic" or "anthropic_example" or "plugin"`
+
+      Where the Skill comes from.
+
+      Possible values:
+
+      * `"custom"`: authored by the platform user; private to their workspace
+      * `"anthropic"`: published by Anthropic; shared and read-only
+      * `"anthropic_example"`: Anthropic-published sample Skill
+      * `"plugin"`: resolved from an installed plugin
+
+      - `"custom"`
+
+      - `"anthropic"`
+
+      - `"anthropic_example"`
+
+      - `"plugin"`
+
+  - `type: "skill"`
+
+    Object type.
+
+    For Skills, this is always `"skill"`.
+
+    default: skill
+
+  - `updated_at: string`
+
+    ISO 8601 timestamp of when the skill was last updated.
+
+    format: date-time
+
+### Beta Skill Source
+
+- `BetaSkillSource object`
+
+  - `type: "custom" or "anthropic" or "anthropic_example" or "plugin"`
+
+    Where the Skill comes from.
+
+    Possible values:
+
+    * `"custom"`: authored by the platform user; private to their workspace
+    * `"anthropic"`: published by Anthropic; shared and read-only
+    * `"anthropic_example"`: Anthropic-published sample Skill
+    * `"plugin"`: resolved from an installed plugin
+
+    - `"custom"`
+
+    - `"anthropic"`
+
+    - `"anthropic_example"`
+
+    - `"plugin"`
 
 ## Skills › Versions
 
@@ -895,7 +941,7 @@ Create Skill Version
 
   - `string`
 
-  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 38 more`
+  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 41 more`
 
     - `"message-batches-2024-09-24"`
 
@@ -979,6 +1025,12 @@ Create Skill Version
 
     - `"ce-user-management-2026-07-13"`
 
+    - `"mid-conversation-output-config-2026-07-01"`
+
+    - `"thinking-binding-controls-2026-08-01"`
+
+    - `"mid-conversation-system-clear-at-2026-08-21"`
+
 #### Body parameters (form-data)
 
 - `files: array of string`
@@ -989,51 +1041,45 @@ Create Skill Version
 
 #### Returns
 
-- `id: string`
+- `BetaSkillVersion object`
 
-  Unique identifier for the skill version.
+  - `id: string`
 
-  The format and length of IDs may change over time.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-- `created_at: string`
+  - `created_at: string`
 
-  ISO 8601 timestamp of when the skill version was created.
+    ISO 8601 timestamp of when the skill was created.
 
-- `description: string`
+    format: date-time
 
-  Description of the skill version.
+  - `description: string`
 
-  This is extracted from the SKILL.md file in the skill upload.
+    Description of the skill version.
 
-- `directory: string`
+    This is extracted from the SKILL.md file in the skill upload.
 
-  Directory name of the skill version.
+  - `name: string`
 
-  This is the top-level directory name that was extracted from the uploaded files.
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
 
-- `name: string`
+  - `skill_id: string`
 
-  Human-readable name of the skill version.
+    Unique identifier for the skill.
 
-  This is extracted from the SKILL.md file in the skill upload.
+    The format and length of IDs may change over time.
 
-- `skill_id: string`
+  - `type: "skill_version"`
 
-  Identifier for the skill that this version belongs to.
+    Object type.
 
-- `type: string`
+    For Skill Versions, this is always `"skill_version"`.
 
-  Object type.
-
-  For Skill Versions, this is always `"skill_version"`.
-
-  default: skill_version
-
-- `version: string`
-
-  Version identifier for the skill.
-
-  Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+    default: skill_version
 
 #### Example
 
@@ -1041,7 +1087,6 @@ Create Skill Version
 curl https://api.anthropic.com/v1/skills/$SKILL_ID/versions \
     -H 'Content-Type: multipart/form-data' \
     -H 'anthropic-version: 2023-06-01' \
-    -H 'anthropic-beta: skills-2025-10-02' \
     -H "X-Api-Key: $ANTHROPIC_API_KEY" \
     -F files='["Example data"]'
 ```
@@ -1050,14 +1095,12 @@ curl https://api.anthropic.com/v1/skills/$SKILL_ID/versions \
 
 ```json
 {
-  "id": "skillver_01JAbcdefghijklmnopqrstuvw",
+  "id": "id",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "description": "A custom skill for doing something useful",
-  "directory": "my-skill",
-  "name": "my-skill",
+  "description": "description",
+  "name": "name",
   "skill_id": "skill_01JAbcdefghijklmnopqrstuvw",
-  "type": "type",
-  "version": "1759178010641129"
+  "type": "skill_version"
 }
 ```
 
@@ -1079,9 +1122,11 @@ List Skill Versions
 
 - `limit: optional number`
 
-  Number of items to return per page.
+  Number of results to return per page.
 
-  Defaults to `20`. Ranges from `1` to `1000`.
+  Ranges from `1` to `1000`. Defaults to `20`.
+
+  default: 20, minimum: 1, maximum: 1000
 
 - `page: optional string`
 
@@ -1095,7 +1140,7 @@ List Skill Versions
 
   - `string`
 
-  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 38 more`
+  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 41 more`
 
     - `"message-batches-2024-09-24"`
 
@@ -1179,21 +1224,28 @@ List Skill Versions
 
     - `"ce-user-management-2026-07-13"`
 
+    - `"mid-conversation-output-config-2026-07-01"`
+
+    - `"thinking-binding-controls-2026-08-01"`
+
+    - `"mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
-- `data: array of object`
+- `data: array of BetaSkillVersion`
 
-  List of skill versions.
+  List of skills.
 
   - `id: string`
 
-    Unique identifier for the skill version.
-
-    The format and length of IDs may change over time.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
   - `created_at: string`
 
-    ISO 8601 timestamp of when the skill version was created.
+    ISO 8601 timestamp of when the skill was created.
+
+    format: date-time
 
   - `description: string`
 
@@ -1201,23 +1253,20 @@ List Skill Versions
 
     This is extracted from the SKILL.md file in the skill upload.
 
-  - `directory: string`
-
-    Directory name of the skill version.
-
-    This is the top-level directory name that was extracted from the uploaded files.
-
   - `name: string`
 
-    Human-readable name of the skill version.
-
-    This is extracted from the SKILL.md file in the skill upload.
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
 
   - `skill_id: string`
 
-    Identifier for the skill that this version belongs to.
+    Unique identifier for the skill.
 
-  - `type: string`
+    The format and length of IDs may change over time.
+
+  - `type: "skill_version"`
 
     Object type.
 
@@ -1225,26 +1274,17 @@ List Skill Versions
 
     default: skill_version
 
-  - `version: string`
-
-    Version identifier for the skill.
-
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
-
-- `has_more: boolean`
-
-  Indicates if there are more results in the requested page direction.
-
 - `next_page: string or null`
 
-  Token to provide in as `page` in the subsequent request to retrieve the next page of data.
+  Token for fetching the next page of results.
+
+  If `null`, there are no more results available. Pass this value to the `page` parameter in the next request to get the next page.
 
 #### Example
 
 ```bash
 curl https://api.anthropic.com/v1/skills/$SKILL_ID/versions \
     -H 'anthropic-version: 2023-06-01' \
-    -H 'anthropic-beta: skills-2025-10-02' \
     -H "X-Api-Key: $ANTHROPIC_API_KEY"
 ```
 
@@ -1254,18 +1294,15 @@ curl https://api.anthropic.com/v1/skills/$SKILL_ID/versions \
 {
   "data": [
     {
-      "id": "skillver_01JAbcdefghijklmnopqrstuvw",
+      "id": "id",
       "created_at": "2024-10-30T23:58:27.427722Z",
-      "description": "A custom skill for doing something useful",
-      "directory": "my-skill",
-      "name": "my-skill",
+      "description": "description",
+      "name": "name",
       "skill_id": "skill_01JAbcdefghijklmnopqrstuvw",
-      "type": "type",
-      "version": "1759178010641129"
+      "type": "skill_version"
     }
   ],
-  "has_more": true,
-  "next_page": "page_MjAyNS0wNS0xNFQwMDowMDowMFo="
+  "next_page": "next_page"
 }
 ```
 
@@ -1285,9 +1322,9 @@ Download a skill version's content as a zip archive.
 
 - `version: string`
 
-  Version identifier for the skill.
+  Identifies the skill version by its version ID.
 
-  Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+  Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
 #### Headers
 
@@ -1297,7 +1334,7 @@ Download a skill version's content as a zip archive.
 
   - `string`
 
-  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 38 more`
+  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 41 more`
 
     - `"message-batches-2024-09-24"`
 
@@ -1381,12 +1418,17 @@ Download a skill version's content as a zip archive.
 
     - `"ce-user-management-2026-07-13"`
 
+    - `"mid-conversation-output-config-2026-07-01"`
+
+    - `"thinking-binding-controls-2026-08-01"`
+
+    - `"mid-conversation-system-clear-at-2026-08-21"`
+
 #### Example
 
 ```bash
 curl https://api.anthropic.com/v1/skills/$SKILL_ID/versions/$VERSION/content \
     -H 'anthropic-version: 2023-06-01' \
-    -H 'anthropic-beta: skills-2025-10-02' \
     -H "X-Api-Key: $ANTHROPIC_API_KEY"
 ```
 
@@ -1406,9 +1448,9 @@ Get Skill Version
 
 - `version: string`
 
-  Version identifier for the skill.
+  Identifies the skill version: a version ID, or the literal `latest` for the skill's most recent version.
 
-  Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+  Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
 #### Headers
 
@@ -1418,7 +1460,7 @@ Get Skill Version
 
   - `string`
 
-  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 38 more`
+  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 41 more`
 
     - `"message-batches-2024-09-24"`
 
@@ -1502,60 +1544,59 @@ Get Skill Version
 
     - `"ce-user-management-2026-07-13"`
 
+    - `"mid-conversation-output-config-2026-07-01"`
+
+    - `"thinking-binding-controls-2026-08-01"`
+
+    - `"mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
-- `id: string`
+- `BetaSkillVersion object`
 
-  Unique identifier for the skill version.
+  - `id: string`
 
-  The format and length of IDs may change over time.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-- `created_at: string`
+  - `created_at: string`
 
-  ISO 8601 timestamp of when the skill version was created.
+    ISO 8601 timestamp of when the skill was created.
 
-- `description: string`
+    format: date-time
 
-  Description of the skill version.
+  - `description: string`
 
-  This is extracted from the SKILL.md file in the skill upload.
+    Description of the skill version.
 
-- `directory: string`
+    This is extracted from the SKILL.md file in the skill upload.
 
-  Directory name of the skill version.
+  - `name: string`
 
-  This is the top-level directory name that was extracted from the uploaded files.
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
 
-- `name: string`
+  - `skill_id: string`
 
-  Human-readable name of the skill version.
+    Unique identifier for the skill.
 
-  This is extracted from the SKILL.md file in the skill upload.
+    The format and length of IDs may change over time.
 
-- `skill_id: string`
+  - `type: "skill_version"`
 
-  Identifier for the skill that this version belongs to.
+    Object type.
 
-- `type: string`
+    For Skill Versions, this is always `"skill_version"`.
 
-  Object type.
-
-  For Skill Versions, this is always `"skill_version"`.
-
-  default: skill_version
-
-- `version: string`
-
-  Version identifier for the skill.
-
-  Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+    default: skill_version
 
 #### Example
 
 ```bash
 curl https://api.anthropic.com/v1/skills/$SKILL_ID/versions/$VERSION \
     -H 'anthropic-version: 2023-06-01' \
-    -H 'anthropic-beta: skills-2025-10-02' \
     -H "X-Api-Key: $ANTHROPIC_API_KEY"
 ```
 
@@ -1563,14 +1604,12 @@ curl https://api.anthropic.com/v1/skills/$SKILL_ID/versions/$VERSION \
 
 ```json
 {
-  "id": "skillver_01JAbcdefghijklmnopqrstuvw",
+  "id": "id",
   "created_at": "2024-10-30T23:58:27.427722Z",
-  "description": "A custom skill for doing something useful",
-  "directory": "my-skill",
-  "name": "my-skill",
+  "description": "description",
+  "name": "name",
   "skill_id": "skill_01JAbcdefghijklmnopqrstuvw",
-  "type": "type",
-  "version": "1759178010641129"
+  "type": "skill_version"
 }
 ```
 
@@ -1590,9 +1629,9 @@ Delete Skill Version
 
 - `version: string`
 
-  Version identifier for the skill.
+  Identifies the skill version by its version ID.
 
-  Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+  Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
 #### Headers
 
@@ -1602,7 +1641,7 @@ Delete Skill Version
 
   - `string`
 
-  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 38 more`
+  - `"message-batches-2024-09-24" or "prompt-caching-2024-07-31" or "computer-use-2024-10-22" or 41 more`
 
     - `"message-batches-2024-09-24"`
 
@@ -1686,21 +1725,28 @@ Delete Skill Version
 
     - `"ce-user-management-2026-07-13"`
 
+    - `"mid-conversation-output-config-2026-07-01"`
+
+    - `"thinking-binding-controls-2026-08-01"`
+
+    - `"mid-conversation-system-clear-at-2026-08-21"`
+
 #### Returns
 
-- `id: string`
+- `BetaDeletedSkillVersion object`
 
-  Version identifier for the skill.
+  - `id: string`
 
-  Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
-- `type: string`
+  - `type: "skill_version_deleted"`
 
-  Deleted object type.
+    Deleted object type.
 
-  For Skill Versions, this is always `"skill_version_deleted"`.
+    For Skill Versions, this is always `"skill_version_deleted"`.
 
-  default: skill_version_deleted
+    default: skill_version_deleted
 
 #### Example
 
@@ -1708,7 +1754,6 @@ Delete Skill Version
 curl https://api.anthropic.com/v1/skills/$SKILL_ID/versions/$VERSION \
     -X DELETE \
     -H 'anthropic-version: 2023-06-01' \
-    -H 'anthropic-beta: skills-2025-10-02' \
     -H "X-Api-Key: $ANTHROPIC_API_KEY"
 ```
 
@@ -1716,7 +1761,7 @@ curl https://api.anthropic.com/v1/skills/$SKILL_ID/versions/$VERSION \
 
 ```json
 {
-  "id": "1759178010641129",
-  "type": "type"
+  "id": "id",
+  "type": "skill_version_deleted"
 }
 ```

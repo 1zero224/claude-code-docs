@@ -1,6 +1,6 @@
 # List Skill Versions
 
-`client.beta.skills.versions.list(skillID, params?, options?): PageCursor<VersionListResponse>`
+`client.beta.skills.versions.list(skillID, params?, options?): PageCursor<BetaSkillVersion>`
 
 **GET** `/v1/skills/{skill_id}/versions`
 
@@ -18,9 +18,11 @@ List Skill Versions
 
   - `limit?: number | null`
 
-    Query param: Number of items to return per page.
+    Query param: Number of results to return per page.
 
-    Defaults to `20`. Ranges from `1` to `1000`.
+    Ranges from `1` to `1000`. Defaults to `20`.
+
+    minimum: 1, maximum: 1000
 
   - `page?: string | null`
 
@@ -32,7 +34,7 @@ List Skill Versions
 
     - `(string & {})`
 
-    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 38 more`
+    - `"message-batches-2024-09-24" | "prompt-caching-2024-07-31" | "computer-use-2024-10-22" | 41 more`
 
       - `"message-batches-2024-09-24"`
 
@@ -116,19 +118,26 @@ List Skill Versions
 
       - `"ce-user-management-2026-07-13"`
 
+      - `"mid-conversation-output-config-2026-07-01"`
+
+      - `"thinking-binding-controls-2026-08-01"`
+
+      - `"mid-conversation-system-clear-at-2026-08-21"`
+
 ## Returns
 
-- `VersionListResponse`
+- `BetaSkillVersion`
 
   - `id: string`
 
-    Unique identifier for the skill version.
-
-    The format and length of IDs may change over time.
+    Unique identifier for this Skill Version. The id addresses the version in
+    paths and pins it in references.
 
   - `created_at: string`
 
-    ISO 8601 timestamp of when the skill version was created.
+    ISO 8601 timestamp of when the skill was created.
+
+    format: date-time
 
   - `description: string`
 
@@ -136,35 +145,26 @@ List Skill Versions
 
     This is extracted from the SKILL.md file in the skill upload.
 
-  - `directory: string`
-
-    Directory name of the skill version.
-
-    This is the top-level directory name that was extracted from the uploaded files.
-
   - `name: string`
 
-    Human-readable name of the skill version.
-
-    This is extracted from the SKILL.md file in the skill upload.
+    The Skill's immutable kebab-case slug, set at creation from the first
+    upload's SKILL.md frontmatter `name` (or its enclosing directory). Every
+    later upload must resolve to the same value. Also the top-level directory
+    of the Skill's mounted files and the base name of a downloaded archive.
 
   - `skill_id: string`
 
-    Identifier for the skill that this version belongs to.
+    Unique identifier for the skill.
 
-  - `type: string`
+    The format and length of IDs may change over time.
+
+  - `type: "skill_version"`
 
     Object type.
 
     For Skill Versions, this is always `"skill_version"`.
 
     default: skill_version
-
-  - `version: string`
-
-    Version identifier for the skill.
-
-    Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
 
 ## Example
 
@@ -176,8 +176,8 @@ const client = new Anthropic({
 });
 
 // Automatically fetches more pages as needed.
-for await (const versionListResponse of client.beta.skills.versions.list("skill_id")) {
-  console.log(versionListResponse.id);
+for await (const betaSkillVersion of client.beta.skills.versions.list("skill_id")) {
+  console.log(betaSkillVersion.id);
 }
 ```
 
@@ -187,17 +187,14 @@ for await (const versionListResponse of client.beta.skills.versions.list("skill_
 {
   "data": [
     {
-      "id": "skillver_01JAbcdefghijklmnopqrstuvw",
+      "id": "id",
       "created_at": "2024-10-30T23:58:27.427722Z",
-      "description": "A custom skill for doing something useful",
-      "directory": "my-skill",
-      "name": "my-skill",
+      "description": "description",
+      "name": "name",
       "skill_id": "skill_01JAbcdefghijklmnopqrstuvw",
-      "type": "type",
-      "version": "1759178010641129"
+      "type": "skill_version"
     }
   ],
-  "has_more": true,
-  "next_page": "page_MjAyNS0wNS0xNFQwMDowMDowMFo="
+  "next_page": "next_page"
 }
 ```

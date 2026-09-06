@@ -1,5 +1,96 @@
 # Changelog
 
+## 0.124.0 (2026-09-04)
+
+Full Changelog: [sdk-v0.123.0...sdk-v0.124.0](https://github.com/anthropics/anthropic-sdk-typescript/compare/sdk-v0.123.0...sdk-v0.124.0)
+
+### Features
+
+* **api:** add Claude Tag category and user breakdowns to usage reports ([669ff22](https://github.com/anthropics/anthropic-sdk-typescript/commit/669ff2243179acb2df775e62bfd75e3da1d60d81))
+* **api:** add named types for organization compliance settings state ([54be8da](https://github.com/anthropics/anthropic-sdk-typescript/commit/54be8da7176d7aaa2c3e62ad2e0d5289182a55ed))
+* **api:** add support for sending a workspace ID on more endpoints ([a11e6f1](https://github.com/anthropics/anthropic-sdk-typescript/commit/a11e6f1d3bb0e12e6369d3611a232a6234e715eb))
+
+
+### Bug Fixes
+
+* repair custom-code merge in messages resources ([#455](https://github.com/anthropics/anthropic-sdk-typescript/issues/455)) ([7ac43b9](https://github.com/anthropics/anthropic-sdk-typescript/commit/7ac43b92e793f06626bfa7d22ad152e2f44c4d3c))
+* **tools:** create agent-toolset files and directories owner-only ([#485](https://github.com/anthropics/anthropic-sdk-typescript/issues/485)) ([a9c2298](https://github.com/anthropics/anthropic-sdk-typescript/commit/a9c2298873db41b5084efaac01683b025ca2a4f6))
+
+
+### Chores
+
+* **internal:** bundle the mock server spec and update breaking-change detection ([8752d02](https://github.com/anthropics/anthropic-sdk-typescript/commit/8752d0242274ddec2228fdb6d99a0c5a8885e6d7))
+* **internal:** codegen related update ([a63afbc](https://github.com/anthropics/anthropic-sdk-typescript/commit/a63afbc47d527d449ab7ae2a68ae49c05cb8e6df))
+* **tests:** reword the skip reason on the path-level query param tests ([999bee5](https://github.com/anthropics/anthropic-sdk-typescript/commit/999bee5bb813bf3857cfada85a6ec89cfb2daa26))
+
+
+### Documentation
+
+* **api:** update a few doc strings ([2ef3d59](https://github.com/anthropics/anthropic-sdk-typescript/commit/2ef3d59b81d59d9b12468650a4151b61d8535387))
+
+## 0.123.0 (2026-09-01)
+
+Full Changelog: [sdk-v0.122.0...sdk-v0.123.0](https://github.com/anthropics/anthropic-sdk-typescript/compare/sdk-v0.122.0...sdk-v0.123.0)
+
+### Features
+
+* **api:** beta user profiles: add external_user_onboarded_at, remove relationship in favor of access_type ([3efb1a1](https://github.com/anthropics/anthropic-sdk-typescript/commit/3efb1a1a812e30db1da695a1a16cce50cc950cfc))
+* **api:** manual updates ([c6f0bda](https://github.com/anthropics/anthropic-sdk-typescript/commit/c6f0bdaff67aa65dfcb6a6e02b83e60f1de50ec7))
+* **api:** organization compliance settings, user-profile order_by, memory-store and toolset schema updates ([8e2f0c2](https://github.com/anthropics/anthropic-sdk-typescript/commit/8e2f0c2f7ec7edf861e40d3131939fb819113e95))
+
+
+### Bug Fixes
+
+* keep credential file access out of non-Node bundles ([ab6a4b2](https://github.com/anthropics/anthropic-sdk-typescript/commit/ab6a4b2814f09d20da12fa8ce3592d91ef2b2f89))
+
+
+### Chores
+
+* **internal:** codegen related update ([788ea8b](https://github.com/anthropics/anthropic-sdk-typescript/commit/788ea8bdaa1077c472041f5424e7250fefb71564))
+
+
+### Documentation
+
+* **changelog:** detail the beta files/skills GA-shape change ([#1175](https://github.com/anthropics/anthropic-sdk-typescript/issues/1175)) ([4951de0](https://github.com/anthropics/anthropic-sdk-typescript/commit/4951de02e8322ca353592a1546f78047a7633c4a))
+
+## 0.122.0 (2026-08-27)
+
+Full Changelog: [sdk-v0.121.0...sdk-v0.122.0](https://github.com/anthropics/anthropic-sdk-typescript/compare/sdk-v0.121.0...sdk-v0.122.0)
+
+### Features
+
+* **api:** beta files/skills namespaces use GA shapes; drop dated beta header pins ([45d693a](https://github.com/anthropics/anthropic-sdk-typescript/commit/45d693a66bc7fb1af66d9c4e3625f6d6f64bae59))
+
+  The beta Files and Skills namespaces (`client.beta.files`, `client.beta.skills`) no longer send the `files-api-2025-04-14` / `skills-2025-10-02` headers and return the same shapes as `client.files` / `client.skills` (with `Beta`-prefixed type names). Requests that still send those headers on raw HTTP keep receiving the beta shapes.
+
+  Changes in the beta namespaces:
+  - `client.beta.skills.delete()` now deletes a Skill together with all of its versions (previously refused while any version existed). It returns `BetaDeletedSkill` (was `SkillDeleteResponse`).
+  - Beta Messages type `BetaSkill` (the `{type, skill_id, version}` entry in `BetaContainer.skills`) is renamed `BetaContainerSkill`; the request-side `BetaSkillParams` keeps its name. `BetaSkill` now names the Skill object returned by `client.beta.skills.create()` / `retrieve()` / `list()` (replacing `SkillCreateResponse` / `SkillRetrieveResponse` / `SkillListResponse`), and skill versions are `BetaSkillVersion` / `BetaDeletedSkillVersion` (replacing `Version*Response`).
+  - `client.beta.files.list()` returns a `BetaFileMetadataPageCursor` (`PageCursor<BetaFileMetadata>` with `data` / `next_page`) and `FileListParams` paginates with `page` / `ids` (was `BetaFileMetadataPage`, a `Page<BetaFileMetadata>` with `data`, `has_more`, `first_id`, `last_id` and `before_id` / `after_id`); `for await` auto-pagination is unchanged. `BetaSkill` uses `display_name` (was `display_title`, also in `SkillCreateParams`) and `latest_version_id` (was `latest_version`), and `BetaSkillVersion` is addressed by its `skver_…` `id` (the Unix-timestamp `version` field is gone).
+
+  Migration guides: [Migrate from `files-api-2025-04-14`](https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14) · [Migrate from `skills-2025-10-02`](https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02)
+
+
+### Bug Fixes
+
+* **client:** classify cross-realm DOMException abort/timeout errors correctly ([1bd6395](https://github.com/anthropics/anthropic-sdk-typescript/commit/1bd639515e9948c1dc45047ce5cb4fcfc5c436b8))
+* **client:** use configured logger for SSE parse errors ([80eeaf7](https://github.com/anthropics/anthropic-sdk-typescript/commit/80eeaf7b01b49ed83abd38bb6841b4ad25b06fe6))
+* **sessions:** make event accumulator forward-compatible with new event types ([#410](https://github.com/anthropics/anthropic-sdk-typescript/issues/410)) ([2d084fd](https://github.com/anthropics/anthropic-sdk-typescript/commit/2d084fdaeb6b51a1613f321cd65e2184d55d8d1e))
+* **tools:** let read return a view_range of a file over the size cap ([#427](https://github.com/anthropics/anthropic-sdk-typescript/issues/427)) ([56b3260](https://github.com/anthropics/anthropic-sdk-typescript/commit/56b32601f6b97a0d56450f2eba19e58d1bb0202e))
+* **uploads:** default bare Blob filename on skills endpoints ([#422](https://github.com/anthropics/anthropic-sdk-typescript/issues/422)) ([e111649](https://github.com/anthropics/anthropic-sdk-typescript/commit/e1116491dd4021d0237d1bb440237677a03045f5))
+* **webhooks:** require headers to be passed to `unwrap()` ([3230804](https://github.com/anthropics/anthropic-sdk-typescript/commit/3230804e63371f535a850d1df6752284643a01fe))
+
+
+### Chores
+
+* **internal:** codegen related update ([c2f327a](https://github.com/anthropics/anthropic-sdk-typescript/commit/c2f327a30d14a4b1ee4cc777a4d0b37f5d44f0af))
+
+
+### Documentation
+
+* **api:** clarify pagination on the organization rate-limit list endpoints ([d6015b9](https://github.com/anthropics/anthropic-sdk-typescript/commit/d6015b90b3e895cd173b7d71038ec71bf467a69b))
+* document TypeScript 5.0 as the minimum supported version ([788e721](https://github.com/anthropics/anthropic-sdk-typescript/commit/788e7217937471e07af3800ab65172eafbf32e2a))
+
 ## 0.121.0 (2026-08-26)
 
 Full Changelog: [sdk-v0.120.0...sdk-v0.121.0](https://github.com/anthropics/anthropic-sdk-typescript/compare/sdk-v0.120.0...sdk-v0.121.0)

@@ -110,6 +110,12 @@ List environments with pagination support.
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ## Returns
 
 - `class BetaEnvironment:`
@@ -140,7 +146,7 @@ List environments with pagination support.
 
           Unrestricted network access.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "unrestricted"`
 
             Network policy type
 
@@ -160,7 +166,7 @@ List environments with pagination support.
 
             Specifies domains the container can reach.
 
-          - `JsonValue type constant`
+          - `JsonValue type = "limited"`
 
             Network policy type
 
@@ -196,7 +202,7 @@ List environments with pagination support.
 
           Package configuration type
 
-      - `JsonValue type constant`
+      - `JsonValue type = "cloud"`
 
         Environment type
 
@@ -204,7 +210,7 @@ List environments with pagination support.
 
       Configuration for self-hosted environments.
 
-      - `JsonValue type constant`
+      - `JsonValue type = "self_hosted"`
 
         Environment type
 
@@ -224,7 +230,7 @@ List environments with pagination support.
 
     Human-readable name for the environment
 
-  - `JsonValue type constant`
+  - `JsonValue type = "environment"`
 
     The type of object (always 'environment')
 

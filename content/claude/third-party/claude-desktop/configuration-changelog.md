@@ -8,6 +8,146 @@
 
 Configuration keys by Claude Desktop release. Each section lists keys added in that release, with the MDM key name (for plist/registry deployment) and the equivalent JSON shape (for local-file or bootstrap remote configuration).
 
+<Update label="v1.46388.4" description="2026-09-05">
+  No configuration changes in this release.
+</Update>
+
+<Update label="v1.46388.3" description="2026-09-04">
+  No configuration changes in this release.
+</Update>
+
+<Update label="v1.46388.2" description="2026-09-04">
+  No configuration changes in this release.
+</Update>
+
+<Update label="v1.46388.1" description="2026-09-04">
+  <div className="cfg-keys">
+    | MDM key                                                                                                                | Type      | Description                             |
+    | ---------------------------------------------------------------------------------------------------------------------- | --------- | --------------------------------------- |
+    | [`sshClientPath`](/docs/third-party/claude-desktop/configuration#sshclientpath) · Beta                                      | `string`  | SSH client program                      |
+    | [`configRecheckIntervalMinutes`](/docs/third-party/claude-desktop/configuration#configrecheckintervalminutes)               | `integer` | Configuration re-check interval         |
+    | [`disableBypassPermissionsMode`](/docs/third-party/claude-desktop/configuration#disablebypasspermissionsmode)               | `boolean` | Disable bypass permissions mode         |
+    | [`blockReadsOutsideWorkingDirectories`](/docs/third-party/claude-desktop/configuration#blockreadsoutsideworkingdirectories) | `boolean` | Block reads outside working directories |
+  </div>
+
+  **JSON (e.g. for non-MDM users or Bootstrap):**
+
+  ```json theme={null}
+  {
+    "codeSurface": {
+      "sshClientPath": "<string>"
+    },
+    "lifecycle": {
+      "configRecheckIntervalMinutes": "<integer>"
+    },
+    "workspace": {
+      "disableBypassPermissionsMode": "<boolean>",
+      "blockReadsOutsideWorkingDirectories": "<boolean>"
+    }
+  }
+  ```
+
+  **Changed:**
+
+  * **Breaking:** `relaunchEnforcementHours` moved in the nested served format from `bootstrap.relaunchEnforcementHours` to `lifecycle.relaunchEnforcementHours` (beside the new `lifecycle.configRecheckIntervalMinutes`). This release no longer reads the old path and earlier releases do not read the new one, so move the value under `lifecycle`; the MDM / flat key name `relaunchEnforcementHours` is unchanged. The key can now also be set from device management (availability MDM and served), and the default when no tier sets it is 24 hours (was 1).
+</Update>
+
+<Update label="v1.44121.4" description="2026-09-02">
+  No configuration changes in this release.
+</Update>
+
+<Update label="v1.44121.2" description="2026-09-02">
+  No configuration changes in this release.
+</Update>
+
+<Update label="v1.44121.1" description="2026-09-02">
+  <div className="cfg-keys">
+    | MDM key                                                                                                    | Type      | Description                                                                                                                                                                                                                                                                                                      |
+    | ---------------------------------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | [`inferenceStreamIdleTimeoutSec`](/docs/third-party/claude-desktop/configuration#inferencestreamidletimeoutsec) | `integer` | Stream idle timeout                                                                                                                                                                                                                                                                                              |
+    | [`egressProxyUrl`](/docs/third-party/claude-desktop/configuration#egressproxyurl)                               | `string`  | Proxy server URL                                                                                                                                                                                                                                                                                                 |
+    | [`egressProxyPacUrl`](/docs/third-party/claude-desktop/configuration#egressproxypacurl)                         | `string`  | Proxy auto-config (PAC) URL                                                                                                                                                                                                                                                                                      |
+    | [`claudeAiImport.automatic3pImport`](/docs/third-party/claude-desktop/configuration#claudeaiimport)             | `boolean` | New subfield (beta): when `true` and `deploymentOrganizationUuid` is set, the app copies this computer's earlier third-party sessions stored before an organization ID was configured into that organization's session store, once per device and in the background; independent of `enabled` (default `false`). |
+  </div>
+
+  **JSON (e.g. for non-MDM users or Bootstrap):**
+
+  ```json theme={null}
+  {
+    "inference": {
+      "streamIdleTimeoutSec": "<integer>"
+    },
+    "workspace": {
+      "egressProxyUrl": "<string>",
+      "egressProxyPacUrl": "<string>"
+    },
+    "claudeAiImport": {
+      "automatic3pImport": "<boolean>"
+    }
+  }
+  ```
+
+  `egressProxyUrl` and `egressProxyPacUrl` are read from device management or a local configuration file only; a value served by a bootstrap URL is not applied.
+
+  **Changed:**
+
+  * **Breaking:** `inferenceModelPricingMultiplier` and `inferenceModelPricing` no longer turn on the Usage page's cost estimate by themselves; they apply only while `inferenceModelPricingEnabled` is `true` and are ignored otherwise. A configuration that sets either without `inferenceModelPricingEnabled: true` now shows token counts only; add that key to keep the estimate.
+</Update>
+
+<Update label="v1.40609.1" description="2026-08-30">
+  No configuration changes in this release.
+</Update>
+
+<Update label="v1.40609.0" description="2026-08-27">
+  <div className="cfg-keys">
+    | MDM key                                                                                                          | Type       | Description                             |
+    | ---------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------- |
+    | [`sshHostAllowlist`](/docs/third-party/claude-desktop/configuration#sshhostallowlist) · Beta                          | `string[]` | SSH host allowlist                      |
+    | [`disableConfigDeprecationWarnings`](/docs/third-party/claude-desktop/configuration#disableconfigdeprecationwarnings) | `boolean`  | Hide configuration deprecation warnings |
+  </div>
+
+  **JSON (e.g. for non-MDM users or Bootstrap):**
+
+  ```json theme={null}
+  {
+    "codeSurface": {
+      "sshHostAllowlist": ["<string>"]
+    },
+    "bootstrap": {
+      "relaunchEnforcementHours": "<integer>"
+    },
+    "appearance": {
+      "disableConfigDeprecationWarnings": "<boolean>"
+    }
+  }
+  ```
+
+  `relaunchEnforcementHours` is read from served configuration only (a bootstrap URL); a value in a local configuration file or in device management is ignored with a warning.
+
+  **Changed:**
+
+  * `inferenceVertexProjectId` and `inferenceVertexWorkforceUserProject` now require the user's consent when delivered by a bootstrap URL the user configured themselves (`consentRequired`); a bootstrap URL set by device management, or covered by `trustBootstrapDelivery: true`, never prompts. Both keys must match the Google Cloud project format (`^[a-z0-9][a-z0-9.:-]*$`).
+  * `inferenceCredentialKind` accepts `interactive` for Vertex AI (Google sign-in); the Vertex `oauth` value is deprecated (below).
+  * `orgPluginSettings` is published as an array of `{ "serverName", "tools": [{ "toolName", "permission" }] }` entries; the `{ "mcpServers": {…} }` record form is deprecated (below).
+  * The published bootstrap JSON schema now rejects `authorityHost` on the Microsoft 365 entry, so a configuration that still uses it fails schema validation in tools that check against the schema; the app itself keeps mapping it to `azureCloud` until October 7, 2026.
+  * `allowedPluginMarketplaces` is no longer marked Beta.
+
+  **Deprecated** (each accepted until October 7, 2026, 12:00 PM Pacific Time; users see an in-app warning from September 10, 2026, which `disableConfigDeprecationWarnings` hides, and a final reminder in the 24 hours before the cut-off, which it does not):
+
+  * `inferenceGatewayHeaders`: use `inferenceCustomHeaders` instead. After the cut-off no custom inference headers are sent.
+  * `inferenceCustomHeaders`, `otlpHeaders`, `otlpResourceAttributes` and `bootstrapHeaders` written as a `"Name=value,…"` string or a `["Name: value", …]` list: use a JSON object such as `{"Name": "value"}` instead. After the cut-off a string or list value is rejected as malformed and no headers (or resource attributes) are sent.
+  * `inferenceGatewayAuthScheme: "sso"`: use `inferenceCredentialKind: "interactive"` instead. After the cut-off the value is reported as invalid and, unless another credential field says how to sign in, the gateway connection has no credential and inference does not start.
+  * `inferenceGatewayAuthScheme: "auto"`: use `"bearer"` instead, or remove the key (`bearer` is the default). After the cut-off the value is reported as invalid and the default applies.
+  * `inferenceCredentialKind: "oauth"` (Vertex AI): use `"interactive"` instead. After the cut-off `oauth` is reported as invalid and the kind is derived from the credential fields present.
+  * `inferenceCredentialKind: "interactive"` together with `inferenceVertexWorkforceAudience` (Vertex AI): use `"workforce"` instead, or remove the audience if Google sign-in is meant. After the cut-off the audience no longer implies Workforce Identity; `interactive` then needs `inferenceVertexOAuthClientId` or inference does not start.
+  * `isDxtEnabled` and `isDxtSignatureRequired`: use `isDesktopExtensionEnabled` and `isDesktopExtensionSignatureRequired` instead. After the cut-off the old names are unreadable: extensions are disabled, or only signed extensions load, until the name is updated.
+  * `trustBootstrapLocalExec`: use `trustBootstrapDelivery` instead. After the cut-off the key reads `false` and each user is asked to consent to bootstrap-delivered values.
+  * `enduserAttribution`: use `endUserAttribution` instead. After the cut-off the key reads `false` and end-user attribution stays off.
+  * `orgPluginSettings` as a `{ "mcpServers": {…} }` record: use the array form instead (read by desktop 1.15200.0 and later; older desktops ignore the array and enforce no tool locks). After the cut-off the record is rejected and every plugin-delivered MCP tool is blocked until the value is rewritten.
+  * `ask-session` in `builtinToolPolicy`, `orgPluginSettings[].tools[].permission` and `managedMcpServers[].toolPolicy`: use `ask` instead. After the cut-off it is treated as an unrecognized value: `ask` for a built-in tool, `blocked` for a plugin-delivered tool, and an invalid entry for a managed server.
+  * In `managedMcpServers` entries: replace `scopes` with `scope` (one space-separated string); remove `transport: "builtin"` and `source`; replace `authorityHost` with `azureCloud: "us-gov-high"` for a GCC High tenant; write `oauth` as `true` or an oauth object rather than a number or string; replace `oauth.scopes` (or `oauth.scope` as a list) with `oauth.scope` as one string; add `transport: "http"` (or `"sse"` / `"stdio"`) to an entry with no `transport` that is not a built-in server (a built-in Microsoft 365 or GitHub entry takes no `transport`). After the cut-off such an entry is rejected and that connector is unavailable until it is rewritten (`source` is ignored by the desktop but refused by a customer-run Apps Gateway).
+</Update>
+
 <Update label="v1.37937.3" description="2026-08-26">
   No configuration changes in this release.
 </Update>
@@ -557,7 +697,7 @@ Configuration keys by Claude Desktop release. Each section lists keys added in t
   ```
 </Update>
 
-<Update label="v1.10628.0" description="2026-06-03">
+<Update label="v1.10628.0" description="2026-06-02">
   <div className="cfg-keys">
     | MDM key                                         | Type      | Description                        |
     | ----------------------------------------------- | --------- | ---------------------------------- |
@@ -595,7 +735,7 @@ Configuration keys by Claude Desktop release. Each section lists keys added in t
   ```
 </Update>
 
-<Update label="v1.9659.0" description="2026-06-02">
+<Update label="v1.9659.0" description="2026-05-27">
   <div className="cfg-keys">
     | MDM key            | Type      | Description      |
     | ------------------ | --------- | ---------------- |
@@ -613,7 +753,7 @@ Configuration keys by Claude Desktop release. Each section lists keys added in t
   ```
 </Update>
 
-<Update label="v1.9255.0" description="2026-05-27">
+<Update label="v1.9255.0" description="2026-05-26">
   <div className="cfg-keys">
     | MDM key                    | Type     | Description                    |
     | -------------------------- | -------- | ------------------------------ |
@@ -639,7 +779,7 @@ Configuration keys by Claude Desktop release. Each section lists keys added in t
   ```
 </Update>
 
-<Update label="v1.8555.0" description="2026-05-25">
+<Update label="v1.8555.0" description="2026-05-21">
   <div className="cfg-keys">
     | MDM key                   | Type   | Description     |
     | ------------------------- | ------ | --------------- |
@@ -686,7 +826,7 @@ Configuration keys by Claude Desktop release. Each section lists keys added in t
   ```
 </Update>
 
-<Update label="v1.7196.0" description="2026-05-16">
+<Update label="v1.7196.0" description="2026-05-12">
   <div className="cfg-keys">
     | MDM key  | Type     | Description         |
     | -------- | -------- | ------------------- |
@@ -724,7 +864,7 @@ Configuration keys by Claude Desktop release. Each section lists keys added in t
   ```
 </Update>
 
-<Update label="v1.6259.0" description="2026-05-06">
+<Update label="v1.6259.0" description="2026-05-05">
   <div className="cfg-keys">
     | MDM key                        | Type     | Description        |
     | ------------------------------ | -------- | ------------------ |

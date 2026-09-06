@@ -16,13 +16,19 @@ Upload File
 
   format: binary
 
+- `expires_in_seconds: Integer`
+
+  Seconds from upload until the file expires and its bytes become permanently unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
+
+  minimum: 3600, maximum: 7776000
+
 - `betas: Array[AnthropicBeta]`
 
   Optional header to specify the beta version(s) you want to use.
 
   - `String = String`
 
-  - `AnthropicBeta = :"message-batches-2024-09-24" | :"prompt-caching-2024-07-31" | :"computer-use-2024-10-22" | 38 more`
+  - `AnthropicBeta = :"message-batches-2024-09-24" | :"prompt-caching-2024-07-31" | :"computer-use-2024-10-22" | 41 more`
 
     - `:"message-batches-2024-09-24"`
 
@@ -106,6 +112,12 @@ Upload File
 
     - `:"ce-user-management-2026-07-13"`
 
+    - `:"mid-conversation-output-config-2026-07-01"`
+
+    - `:"thinking-binding-controls-2026-08-01"`
+
+    - `:"mid-conversation-system-clear-at-2026-08-21"`
+
 ### Returns
 
 - `class BetaFileMetadata`
@@ -149,6 +161,12 @@ Upload File
   - `downloadable: bool`
 
     Whether the file can be downloaded.
+
+  - `expires_at: Time`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
 
   - `scope: BetaFileScope`
 
@@ -185,6 +203,7 @@ puts(beta_file_metadata)
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"
@@ -194,7 +213,7 @@ puts(beta_file_metadata)
 
 ## List Files
 
-`beta.files.list(**kwargs) -> Page<BetaFileMetadata>`
+`beta.files.list(**kwargs) -> PageCursor<BetaFileMetadata>`
 
 **GET** `/v1/files`
 
@@ -202,13 +221,9 @@ List Files
 
 ### Parameters
 
-- `after_id: String`
+- `ids: Array[String]`
 
-  ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
-
-- `before_id: String`
-
-  ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
+  Restrict the result set to Files whose `id` is in this list. At most 100 entries (after de-duplication). Mutually exclusive with `page` and `limit`. When supplied, the response is always a single page (`next_page` is null). IDs that do not resolve to a visible File — including deleted Files — are silently omitted.
 
 - `limit: Integer`
 
@@ -217,6 +232,10 @@ List Files
   Defaults to `20`. Ranges from `1` to `1000`.
 
   maximum: 1000, minimum: 1
+
+- `page: String`
+
+  Opaque page cursor returned in a prior list response's `next_page`. Prefixed `page_`.
 
 - `scope_id: String`
 
@@ -228,7 +247,7 @@ List Files
 
   - `String = String`
 
-  - `AnthropicBeta = :"message-batches-2024-09-24" | :"prompt-caching-2024-07-31" | :"computer-use-2024-10-22" | 38 more`
+  - `AnthropicBeta = :"message-batches-2024-09-24" | :"prompt-caching-2024-07-31" | :"computer-use-2024-10-22" | 41 more`
 
     - `:"message-batches-2024-09-24"`
 
@@ -312,6 +331,12 @@ List Files
 
     - `:"ce-user-management-2026-07-13"`
 
+    - `:"mid-conversation-output-config-2026-07-01"`
+
+    - `:"thinking-binding-controls-2026-08-01"`
+
+    - `:"mid-conversation-system-clear-at-2026-08-21"`
+
 ### Returns
 
 - `class BetaFileMetadata`
@@ -355,6 +380,12 @@ List Files
   - `downloadable: bool`
 
     Whether the file can be downloaded.
+
+  - `expires_at: Time`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
 
   - `scope: BetaFileScope`
 
@@ -393,15 +424,14 @@ puts(page)
       "size_bytes": 102400,
       "type": "file",
       "downloadable": false,
+      "expires_at": "2025-05-15T18:37:24.100435Z",
       "scope": {
         "id": "id",
         "type": "session"
       }
     }
   ],
-  "first_id": "file_011CNha8iCJcU1wXNR6q4V8w",
-  "has_more": true,
-  "last_id": "file_013Zva2CMHLNnXjNJJKqJ2EF"
+  "next_page": "next_page"
 }
 ```
 
@@ -425,7 +455,7 @@ Download File
 
   - `String = String`
 
-  - `AnthropicBeta = :"message-batches-2024-09-24" | :"prompt-caching-2024-07-31" | :"computer-use-2024-10-22" | 38 more`
+  - `AnthropicBeta = :"message-batches-2024-09-24" | :"prompt-caching-2024-07-31" | :"computer-use-2024-10-22" | 41 more`
 
     - `:"message-batches-2024-09-24"`
 
@@ -508,6 +538,12 @@ Download File
     - `:"thinking-display-updates-2026-08-18"`
 
     - `:"ce-user-management-2026-07-13"`
+
+    - `:"mid-conversation-output-config-2026-07-01"`
+
+    - `:"thinking-binding-controls-2026-08-01"`
+
+    - `:"mid-conversation-system-clear-at-2026-08-21"`
 
 ### Returns
 
@@ -545,7 +581,7 @@ Get File Metadata
 
   - `String = String`
 
-  - `AnthropicBeta = :"message-batches-2024-09-24" | :"prompt-caching-2024-07-31" | :"computer-use-2024-10-22" | 38 more`
+  - `AnthropicBeta = :"message-batches-2024-09-24" | :"prompt-caching-2024-07-31" | :"computer-use-2024-10-22" | 41 more`
 
     - `:"message-batches-2024-09-24"`
 
@@ -628,6 +664,12 @@ Get File Metadata
     - `:"thinking-display-updates-2026-08-18"`
 
     - `:"ce-user-management-2026-07-13"`
+
+    - `:"mid-conversation-output-config-2026-07-01"`
+
+    - `:"thinking-binding-controls-2026-08-01"`
+
+    - `:"mid-conversation-system-clear-at-2026-08-21"`
 
 ### Returns
 
@@ -673,6 +715,12 @@ Get File Metadata
 
     Whether the file can be downloaded.
 
+  - `expires_at: Time`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
+
   - `scope: BetaFileScope`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
@@ -708,6 +756,7 @@ puts(beta_file_metadata)
   "size_bytes": 102400,
   "type": "file",
   "downloadable": false,
+  "expires_at": "2025-05-15T18:37:24.100435Z",
   "scope": {
     "id": "id",
     "type": "session"
@@ -735,7 +784,7 @@ Delete File
 
   - `String = String`
 
-  - `AnthropicBeta = :"message-batches-2024-09-24" | :"prompt-caching-2024-07-31" | :"computer-use-2024-10-22" | 38 more`
+  - `AnthropicBeta = :"message-batches-2024-09-24" | :"prompt-caching-2024-07-31" | :"computer-use-2024-10-22" | 41 more`
 
     - `:"message-batches-2024-09-24"`
 
@@ -818,6 +867,12 @@ Delete File
     - `:"thinking-display-updates-2026-08-18"`
 
     - `:"ce-user-management-2026-07-13"`
+
+    - `:"mid-conversation-output-config-2026-07-01"`
+
+    - `:"thinking-binding-controls-2026-08-01"`
+
+    - `:"mid-conversation-system-clear-at-2026-08-21"`
 
 ### Returns
 
@@ -913,6 +968,12 @@ puts(beta_deleted_file)
   - `downloadable: bool`
 
     Whether the file can be downloaded.
+
+  - `expires_at: Time`
+
+    RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
+
+    format: date-time
 
   - `scope: BetaFileScope`
 

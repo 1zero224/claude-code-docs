@@ -1,6 +1,6 @@
 # Delete Skill
 
-`SkillDeleteResponse beta().skills().delete(params = SkillDeleteParams.none(), requestOptions = RequestOptions.none())`
+`BetaDeletedSkill beta().skills().delete(params = SkillDeleteParams.none(), requestOptions = RequestOptions.none())`
 
 **DELETE** `/v1/skills/{skill_id}`
 
@@ -102,9 +102,15 @@ Delete Skill
 
     - `CE_USER_MANAGEMENT_2026_07_13("ce-user-management-2026-07-13")`
 
+    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
 ## Returns
 
-- `class SkillDeleteResponse:`
+- `class BetaDeletedSkill:`
 
   - `String id`
 
@@ -112,7 +118,7 @@ Delete Skill
 
     The format and length of IDs may change over time.
 
-  - `String type`
+  - `JsonValue type = "skill_deleted"`
 
     Deleted object type.
 
@@ -125,8 +131,8 @@ package com.anthropic.example;
 
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.models.beta.skills.BetaDeletedSkill;
 import com.anthropic.models.beta.skills.SkillDeleteParams;
-import com.anthropic.models.beta.skills.SkillDeleteResponse;
 
 public final class Main {
     private Main() {}
@@ -134,7 +140,7 @@ public final class Main {
     public static void main(String[] args) {
         AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
-        SkillDeleteResponse skill = client.beta().skills().delete("skill_id");
+        BetaDeletedSkill betaDeletedSkill = client.beta().skills().delete("skill_id");
     }
 }
 ```
@@ -144,6 +150,6 @@ public final class Main {
 ```json
 {
   "id": "skill_01JAbcdefghijklmnopqrstuvw",
-  "type": "type"
+  "type": "skill_deleted"
 }
 ```

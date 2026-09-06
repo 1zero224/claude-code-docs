@@ -1,6 +1,6 @@
 # List Environments
 
-`EnvironmentListPageResponse Beta.Environments.List(parameters, cancellationToken = default)`
+`EnvironmentListPage Beta.Environments.List(parameters, cancellationToken = default)`
 
 **GET** `/v1/environments`
 
@@ -28,228 +28,223 @@ List environments with pagination support.
 
     Header param: Optional header to specify the beta version(s) you want to use.
 
-    - `MessageBatches2024_09_24`
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
-    - `PromptCaching2024_07_31`
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
 
-    - `ComputerUse2024_10_22`
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
-    - `ComputerUse2025_01_24`
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25`
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
 
-    - `TokenCounting2024_11_01`
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
 
-    - `TokenEfficientTools2025_02_19`
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
 
-    - `Output128k2025_02_19`
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
 
-    - `FilesApi2025_04_14`
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
-    - `McpClient2025_04_04`
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
-    - `McpClient2025_11_20`
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
 
-    - `DevFullThinking2025_05_14`
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
 
-    - `InterleavedThinking2025_05_14`
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
 
-    - `CodeExecution2025_05_22`
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11`
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
 
-    - `Context1m2025_08_07`
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
 
-    - `ContextManagement2025_06_27`
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
-    - `ModelContextWindowExceeded2025_08_26`
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
 
-    - `Skills2025_10_02`
+    - `Skills2025_10_02("skills-2025-10-02")`
 
-    - `FastMode2026_02_01`
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
-    - `Output300k2026_03_24`
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
 
-    - `UserProfiles2026_03_24`
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
 
-    - `UserProfiles2026_08_18`
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
 
-    - `AdvisorTool2026_03_01`
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
-    - `ManagedAgents2026_04_01`
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
 
-    - `CacheDiagnosis2026_04_07`
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
-    - `Dreaming2026_04_21`
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
-    - `ThinkingTokenCount2026_05_13`
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
 
-    - `ServerSideFallback2026_06_01`
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
 
-    - `ServerSideFallback2026_07_01`
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
 
-    - `FallbackCredit2026_06_01`
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
 
-    - `FallbackCredit2026_07_01`
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
 
-    - `AgentMemory2026_07_22`
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
 
-    - `MidConversationToolChanges2026_07_01`
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
 
-    - `Compact2026_01_12`
+    - `Compact2026_01_12("compact-2026-01-12")`
 
-    - `ComputerUse2025_11_24`
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
 
-    - `McpTunnels2026_06_22`
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
 
-    - `StructuredOutputs2025_11_13`
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
 
-    - `TaskBudgets2026_03_13`
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
 
-    - `ThinkingDisplayUpdates2026_08_18`
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13`
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
 
 ## Returns
 
-- `class EnvironmentListPageResponse:`
+- `class BetaEnvironment:`
 
-  Response when listing environments.
+  Unified Environment resource for both cloud and self-hosted environments.
 
-  This response model uses opaque cursor-based pagination. Use the `page`
-  query parameter with the value from `next_page` to fetch the next page.
+  - `required string ID`
 
-  - `required IReadOnlyList<BetaEnvironment> Data`
+    Environment identifier (e.g., 'env_...')
 
-    List of environments.
+  - `required string? ArchivedAt`
 
-    - `required string ID`
+    RFC 3339 timestamp when environment was archived, or null if not archived
 
-      Environment identifier (e.g., 'env_...')
+  - `required Config Config`
 
-    - `required string? ArchivedAt`
+    Environment configuration (either Anthropic Cloud or self-hosted)
 
-      RFC 3339 timestamp when environment was archived, or null if not archived
+    - `class BetaCloudConfig:`
 
-    - `required Config Config`
+      `cloud` environment configuration.
 
-      Environment configuration (either Anthropic Cloud or self-hosted)
+      - `required Networking Networking`
 
-      - `class BetaCloudConfig:`
+        Network configuration policy.
 
-        `cloud` environment configuration.
+        - `class BetaUnrestrictedNetwork:`
 
-        - `required Networking Networking`
+          Unrestricted network access.
 
-          Network configuration policy.
+          - `JsonElement Type = "unrestricted"`
 
-          - `class BetaUnrestrictedNetwork:`
+            Network policy type
 
-            Unrestricted network access.
+        - `class BetaLimitedNetwork:`
 
-            - `JsonElement Type constant`
+          Limited network access.
 
-              Network policy type
+          - `required bool AllowMcpServers`
 
-          - `class BetaLimitedNetwork:`
+            Permits outbound access to MCP server endpoints configured on the agent, beyond those listed in the `allowed_hosts` array.
 
-            Limited network access.
+          - `required bool AllowPackageManagers`
 
-            - `required bool AllowMcpServers`
+            Permits outbound access to public package registries (PyPI, npm, etc.) beyond those listed in the `allowed_hosts` array.
 
-              Permits outbound access to MCP server endpoints configured on the agent, beyond those listed in the `allowed_hosts` array.
+          - `required IReadOnlyList<string> AllowedHosts`
 
-            - `required bool AllowPackageManagers`
+            Specifies domains the container can reach.
 
-              Permits outbound access to public package registries (PyPI, npm, etc.) beyond those listed in the `allowed_hosts` array.
+          - `JsonElement Type = "limited"`
 
-            - `required IReadOnlyList<string> AllowedHosts`
+            Network policy type
 
-              Specifies domains the container can reach.
+      - `required BetaPackages Packages`
 
-            - `JsonElement Type constant`
+        Package manager configuration.
 
-              Network policy type
+        - `required IReadOnlyList<string> Apt`
 
-        - `required BetaPackages Packages`
+          Ubuntu/Debian packages to install
 
-          Package manager configuration.
+        - `required IReadOnlyList<string> Cargo`
 
-          - `required IReadOnlyList<string> Apt`
+          Rust packages to install
 
-            Ubuntu/Debian packages to install
+        - `required IReadOnlyList<string> Gem`
 
-          - `required IReadOnlyList<string> Cargo`
+          Ruby packages to install
 
-            Rust packages to install
+        - `required IReadOnlyList<string> Go`
 
-          - `required IReadOnlyList<string> Gem`
+          Go packages to install
 
-            Ruby packages to install
+        - `required IReadOnlyList<string> Npm`
 
-          - `required IReadOnlyList<string> Go`
+          Node.js packages to install
 
-            Go packages to install
+        - `required IReadOnlyList<string> Pip`
 
-          - `required IReadOnlyList<string> Npm`
+          Python packages to install
 
-            Node.js packages to install
+        - `Type Type`
 
-          - `required IReadOnlyList<string> Pip`
+          Package configuration type
 
-            Python packages to install
+      - `JsonElement Type = "cloud"`
 
-          - `Type Type`
+        Environment type
 
-            Package configuration type
+    - `class BetaSelfHostedConfig:`
 
-        - `JsonElement Type constant`
+      Configuration for self-hosted environments.
 
-          Environment type
+      - `JsonElement Type = "self_hosted"`
 
-      - `class BetaSelfHostedConfig:`
+        Environment type
 
-        Configuration for self-hosted environments.
+  - `required string CreatedAt`
 
-        - `JsonElement Type constant`
+    RFC 3339 timestamp when environment was created
 
-          Environment type
+  - `required string? Description`
 
-    - `required string CreatedAt`
+    User-provided description for the environment; null when unset
 
-      RFC 3339 timestamp when environment was created
+  - `required IReadOnlyDictionary<string, string> Metadata`
 
-    - `required string? Description`
+    User-provided metadata key-value pairs
 
-      User-provided description for the environment; null when unset
+  - `required string Name`
 
-    - `required IReadOnlyDictionary<string, string> Metadata`
+    Human-readable name for the environment
 
-      User-provided metadata key-value pairs
+  - `JsonElement Type = "environment"`
 
-    - `required string Name`
+    The type of object (always 'environment')
 
-      Human-readable name for the environment
+  - `required string UpdatedAt`
 
-    - `JsonElement Type constant`
+    RFC 3339 timestamp when environment was last updated
 
-      The type of object (always 'environment')
+  - `Scope Scope`
 
-    - `required string UpdatedAt`
+    The visibility scope for this environment. 'organization' means visible to all accounts. 'account' means visible only to the owning account.
 
-      RFC 3339 timestamp when environment was last updated
+    - `Organization("organization")`
 
-    - `Scope Scope`
-
-      The visibility scope for this environment. 'organization' means visible to all accounts. 'account' means visible only to the owning account.
-
-      - `Organization`
-
-      - `Account`
-
-  - `required string? NextPage`
-
-    Token for fetching the next page of results. If `null`, there are no more results available. Pass this value to the `page` parameter in the next request.
+    - `Account("account")`
 
 ## Example
 

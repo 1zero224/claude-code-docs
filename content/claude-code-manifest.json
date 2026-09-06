@@ -6,25 +6,25 @@
     "url": "https://github.com/anthropics/claude-code/issues"
   },
   "dist": {
-    "shasum": "c64ecfdfff0e8a7f7c79467b178344ec52e08fbe",
-    "tarball": "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-2.1.247.tgz",
+    "shasum": "724f3282ee21318b227a6a20cbc66af331ee0fa4",
+    "tarball": "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-2.1.263.tgz",
     "fileCount": 7,
-    "integrity": "sha512-2Z2UQKom3x6GBQDYlFFi00KbRciqsuGL9CpK+IN3fXmmJb7IXVitrRZ6HZyUw0ixnckr814GIp0FUaXwDEbBrw==",
+    "integrity": "sha512-kvvBK6/69iTRYnq0TKVyxVZs1CxYCJGojshQSP+2qaDb66A2xtI4zbCuqkZUWLkFGmHSRqhFf/ATpzH2UNKcwg==",
     "signatures": [
       {
-        "sig": "MEUCIQCTCj0fY9zWMr7bKZo/+kmpnYX9++NqBDjQAIBQk0MC4wIgD7Q67OtopvToafYzgG64y7jG0miGj6oRnKt3Qu7OySY=",
+        "sig": "MEQCIGPpWb/m0/Jbd+DU22aJXwwJgVwZdyGAqvWgsn/z5c+WAiB1TAgVFhknOZn7uET6VqVcrXcGBntQh/iUe45D66xcMg==",
         "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
       },
       {
-        "sig": "MEUCIQCMIO2FOJk1Gxyrz0jEfSboFYCbkTCFpjcdDjHMFm3UbgIgQGoeBph5TrfVsTdD/puq+LgVCNto6Tkwig7KJvvTmyQ=",
+        "sig": "MEYCIQD0M1sY+YBdrZF7zKpbbkjORjiF5pZ84c86Ai1S7EPiBQIhAMuNvU0zg058aXSxxyCGOnpD4MlwS1M/eSIQFiglkTvX",
         "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
       }
     ],
-    "unpackedSize": 178324
+    "unpackedSize": 182844
   },
   "name": "@anthropic-ai/claude-code",
   "type": "module",
-  "_from": "file:staged-npm/anthropic-ai-claude-code-2.1.247.tgz",
+  "_from": "file:staged-npm/anthropic-ai-claude-code-2.1.263.tgz",
   "author": {
     "name": "Anthropic",
     "email": "support@anthropic.com"
@@ -42,9 +42,9 @@
     "email": "wolffiex@anthropic.com"
   },
   "homepage": "https://github.com/anthropics/claude-code",
-  "_resolved": "/home/runner/work/claude-cli-internal/claude-cli-internal/staged-npm/anthropic-ai-claude-code-2.1.247.tgz",
-  "_integrity": "sha512-2Z2UQKom3x6GBQDYlFFi00KbRciqsuGL9CpK+IN3fXmmJb7IXVitrRZ6HZyUw0ixnckr814GIp0FUaXwDEbBrw==",
-  "_npmVersion": "11.17.0",
+  "_resolved": "/home/runner/work/claude-cli-internal/claude-cli-internal/staged-npm/anthropic-ai-claude-code-2.1.263.tgz",
+  "_integrity": "sha512-kvvBK6/69iTRYnq0TKVyxVZs1CxYCJGojshQSP+2qaDb66A2xtI4zbCuqkZUWLkFGmHSRqhFf/ATpzH2UNKcwg==",
+  "_npmVersion": "11.19.0",
   "description": "Use Claude, Anthropic's AI assistant, right from your terminal. Claude can understand your codebase, edit files, run terminal commands, and handle entire workflows for you.",
   "directories": {},
   "maintainers": [
@@ -101,24 +101,24 @@
       "email": "joan@anthropic.com"
     }
   ],
-  "_nodeVersion": "24.19.0",
+  "_nodeVersion": "24.20.0",
   "dependencies": {},
   "_hasShrinkwrap": false,
   "readmeFilename": "README.md",
   "optionalDependencies": {
-    "@anthropic-ai/claude-code-linux-x64": "2.1.247",
-    "@anthropic-ai/claude-code-win32-x64": "2.1.247",
-    "@anthropic-ai/claude-code-darwin-x64": "2.1.247",
-    "@anthropic-ai/claude-code-linux-arm64": "2.1.247",
-    "@anthropic-ai/claude-code-win32-arm64": "2.1.247",
-    "@anthropic-ai/claude-code-darwin-arm64": "2.1.247",
-    "@anthropic-ai/claude-code-linux-x64-musl": "2.1.247",
-    "@anthropic-ai/claude-code-linux-arm64-musl": "2.1.247"
+    "@anthropic-ai/claude-code-linux-x64": "2.1.263",
+    "@anthropic-ai/claude-code-win32-x64": "2.1.263",
+    "@anthropic-ai/claude-code-darwin-x64": "2.1.263",
+    "@anthropic-ai/claude-code-linux-arm64": "2.1.263",
+    "@anthropic-ai/claude-code-win32-arm64": "2.1.263",
+    "@anthropic-ai/claude-code-darwin-arm64": "2.1.263",
+    "@anthropic-ai/claude-code-linux-x64-musl": "2.1.263",
+    "@anthropic-ai/claude-code-linux-arm64-musl": "2.1.263"
   },
   "_npmOperationalInternal": {
-    "tmp": "tmp/claude-code_2.1.247_1787767320957_0.43571757369009734",
+    "tmp": "tmp/claude-code_2.1.263_1788660478301_0.4020573806869634",
     "host": "s3://npm-registry-packages-npm-production"
   },
-  "_id": "@anthropic-ai/claude-code@2.1.247",
-  "version": "2.1.247"
+  "_id": "@anthropic-ai/claude-code@2.1.263",
+  "version": "2.1.263"
 }
