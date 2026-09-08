@@ -372,7 +372,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/community/": {
-          "url_count": 29,
+          "url_count": 30,
           "serves_markdown": true,
           "serves_html": true
         },
