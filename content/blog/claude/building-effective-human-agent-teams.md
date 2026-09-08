@@ -5,7 +5,7 @@ This involves some new ways of working. At Anthropic, we’ve been testing the t
 ## **What are multiplayer agents? **
 “Multiplayer agents” is how we refer here to AI models that work with many different humans at the same time. Much like regular agents, they have their own [memory](https://platform.claude.com/docs/en/managed-agents/memory) and [skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills). But in other respects they're quite different. They have their own [credentials](https://www.anthropic.com/engineering/managed-agents) and they live in places where work happens. At Anthropic, that's inside team collaboration tools like Slack.
 Here’s an example of a human-agent team analyzing a dataset together in Slack:
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a3be9ec0c7dd123eea0fcea_85b9b96b.png)
+![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6aa0220e39cd96fb665ccaa7_human-agent1-orange.png)
 For agents to productively participate in a team channel, they need specific capabilities:
   - [**Persistent memory,**](https://platform.claude.com/docs/en/managed-agents/memory) so they can remember goals and tune their execution towards them
   - [**Credentials not tied to humans**](https://www.anthropic.com/engineering/managed-agents)**,** so they can operate within safe, predictable guardrails
@@ -25,7 +25,7 @@ Of course, some interactions are sensitive and will need to be private between a
 ## **Lesson 2: Every human and agent get a defined role with the right tools for the job**
 Human-agent teams share one roster, one set of artifacts, and one working space. Agents have their own [credentials](https://www.anthropic.com/engineering/how-we-contain-claude), [skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills), and tool access. Different agents also hold different roles: for instance, while one might own the data analysis for a project, another will hold and enforce the design standard, and a third will run research synthesis.
 When a project kicks off, humans chat with the agents to figure out which roles to assign, and how the humans and agents will work together.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a3bf2ac55e5efdefd1d06fb_LAUNCH%20ROOM.png)
+![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6aa0222b1e928c31755ba830_human-agent2-orange.png)
 Once the jobs for humans and agents are clear, an agent might spin up other agents to make sure that specific tasks are handled by the agents with the right memory and appropriate access. Importantly, they need access to all the tools required to accomplish the job: one that handles data analysis might need access to BigQuery, and one that performs QA might need access to the Playwright MCP.
 Clearly defined roles and responsibilities set human-agent teams up for success. Humans often work in the same threads the agents do, but they hold the roles only humans can hold. This ensures everything works together and human judgment is applied to the most important decisions. Without clear roles, people end up running fleets of personal AIs on the side, duplicating work and fracturing the team's context. Metrics tracking is a common case: a multiplayer agent can do the job once and let everyone see the same numbers.
 At Anthropic, having clearly defined roles on human-agent teams looks like:
