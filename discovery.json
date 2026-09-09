@@ -10,7 +10,7 @@
       "serves_markdown": false,
       "path_prefixes": {
         "/": {
-          "url_count": 1,
+          "url_count": 2,
           "serves_markdown": false,
           "serves_html": true
         },
