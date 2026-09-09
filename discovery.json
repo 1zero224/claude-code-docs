@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "What the last full run could see outside sources.json. Written by the fetcher so a new source arrives as a diff a human reviews, not as a line in an Actions log nobody reads. Stable facts only: a change here is always news. `path_prefixes` records content formats by URL path, and `review` lists uncovered surfaces.",
-  "updated": "2026-09-08",
+  "updated": "2026-09-09",
   "domains": {
     "anthropic.com": {
       "status": "frozen",
@@ -291,7 +291,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 2007,
+          "url_count": 2006,
           "serves_markdown": true,
           "serves_html": true
         }
@@ -427,7 +427,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 224,
+          "url_count": 223,
           "serves_markdown": true,
           "serves_html": true
         }
