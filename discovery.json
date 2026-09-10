@@ -140,7 +140,7 @@
           "serves_html": true
         },
         "/research/": {
-          "url_count": 157,
+          "url_count": 158,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -174,6 +174,16 @@
           "serves_markdown": false,
           "serves_html": true
         },
+        "/threat-intelligence/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/threat-intelligence-report-september-2026/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
         "/transparency/": {
           "url_count": 1,
           "serves_markdown": false,
@@ -198,7 +208,7 @@
           "serves_html": true
         },
         "/docs/": {
-          "url_count": 3440,
+          "url_count": 3368,
           "serves_markdown": true,
           "serves_html": true
         },
@@ -427,7 +437,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 223,
+          "url_count": 232,
           "serves_markdown": true,
           "serves_html": true
         }
