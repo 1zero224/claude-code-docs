@@ -40,7 +40,11 @@ Personal conversations appear only in aggregate, with no summaries, individual s
 
 ## Before you begin
 
-You'll need Owner or Primary Owner access to your Enterprise organization to enable smart reports. Once they're enabled, Primary Owners, Owners, Admins, and custom roles with analytics view access can create and view reports.
+- **Role required to enable smart reports for your Enterprise organization:** Primary Owner or Owner
+
+- **Role required to create and view reports:** Primary Owner, Owner, Admin, or a custom role with Analytics view access
+
+- **Role required to delegate access to smart reports to specific team leads or department heads without making them admins:** Primary Owner, Owner, or a custom role with both Analytics and Identity & Access permissions
 
 ## Enable smart reports for your organization
 
@@ -60,6 +64,8 @@ An Owner or Primary Owner can take the following steps to enable smart reports f
 
 After you've successfully completed these steps, smart reports are enabled for your Enterprise organization.
 
+You can manage access to let team leads or department heads run smart reports without making them admins. Learn how to **[let team members run smart reports for specific groups](https://support.claude.com/en/articles/16948886)**.
+
 ## Scope smart reports to specific teams
 
 Smart reports are more useful when they’re scoped to a functional team rather than the whole organization. For example, you can scope your report to sales, finance, marketing, or engineering. Team-level reports produce clusters specific enough to act on and keep the analysis on spend and adoption: what kinds of tasks, which surfaces and connectors, what it costs.
@@ -72,7 +78,7 @@ You can scope by:
 
 ## Create a smart report
 
-Once smart reports have been turned on for your organization, Primary Owners, Owners, Admins, and custom roles with analytics view access can create and view reports.
+Once smart reports have been turned on for your organization, Primary Owners, Owners, Admins, and custom roles with analytics view access can create and view reports. Delegates with scoped access can also create and view reports, limited to the groups, departments, or cost centers assigned to them. See **[Let team members run smart reports for specific groups](https://support.claude.com/en/articles/16948886)**.
 
 To create a smart report:
 

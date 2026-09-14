@@ -40,7 +40,7 @@ In Cowork, open the "Cowork" tab first, then open **Customize**.
 
 You can also upload a custom plugin file if you built one yourself. On Team and Enterprise plans, a colleague can share a plugin with you directly instead of sending you the file. See **[Use a plugin shared with you](#h_ef985546b4)** below. On Claude Desktop and in Cowork, plugins you add yourself are saved locally to your computer.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2100409211/fc01614dde1a616fa31ffaa9cb04/47bacf5b-a810-45b5-a468-9769f1a58ef8?expires=1789385400&amp;signature=b1d70fe188a3813de1cf1cdd8c46a3283bb7855b44af34af403d8ed049af760a&amp;req=diEnFs1%2BlINeWPMW1HO4zZF3IhzeO%2FBRxakFVfq5WwxgchrnVVPlfK6jr76d%0AbK5AEuM1C3dhv0ybKc4%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2100409211/fc01614dde1a616fa31ffaa9cb04/47bacf5b-a810-45b5-a468-9769f1a58ef8?expires=1789417800&amp;signature=3fd150c504766a891deab01b056f57b8e5c170958d352a15113c9ab4b0839bc5&amp;req=diEnFs1%2BlINeWPMW1HO4zZF3IhzZMvJdxakFVfq5Wwzq%2FIR0wxsSojzZeOhx%0Af0LZwH7O%2Bo2e%2FW%2FD1Gs%3D%0A)
 
 If you're on the Enterprise plan and your organization has skill scanning turned on, plugins are checked for malicious content when they're installed or updated. A plugin with malicious content is blocked, and one that may carry risk shows a caution banner. Learn more about **[skill and plugin scanning](https://support.claude.com/en/articles/15927065)**.
 
@@ -50,7 +50,7 @@ If you're on the Enterprise plan and your organization has skill scanning turned
 
 Each plugin you install adds skills you can use while working with Claude. Type "/" or click the "+" button to see the available skills from your installed plugins, in chat and in Cowork. Click any skill to see its details.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2157396844/4a790e10f5b88df770783df1d7e9/image.png?expires=1789385400&amp;signature=776e8d9d7aabbc0f15c8e5ec1d5a3f4a5d37c899b065e136fdd72996ce31f196&amp;req=diEiEcp3m4lbXfMW1HO4zf4NBP%2F%2Fi0WQmKUxugP2BQuVbx1%2FkG7pHcm4pvwX%0AM6g7VRTAPWNdFZ5h2X0%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2157396844/4a790e10f5b88df770783df1d7e9/image.png?expires=1789417800&amp;signature=9a2de0eb6a4b72396609c5bacb3670309a375c51eca3d31bc852b41dde7d2ad4&amp;req=diEiEcp3m4lbXfMW1HO4zf4NBP%2F4gkecmKUxugP2BQvFuxYHV8uF%2Fkmn9bVw%0ANFbsH%2F7K%2Fe3DDjLXGnc%3D%0A)
 
 ---
 
