@@ -223,6 +223,75 @@ When you remove a user from the organization, Anthropic revokes their Claude Des
 
 To return a whole fleet to [MDM](/docs/third-party/claude-desktop/mdm) or [bootstrap](/docs/third-party/claude-desktop/bootstrap) delivery, deploy the configuration profile or registry policy again. The device-managed configuration takes precedence over the configuration from the admin console from the app's next launch. From Claude Desktop 1.46388.1, a running app also notices the profile or policy at its next configuration re-check and asks the user to relaunch. Conversations created under the admin console's configuration stay on the device but no longer appear in the app's history after the switch. Users can bring them into the app's history from **Settings → Import & export** in the app, as described at the end of [Start from an existing configuration file](#start-from-an-existing-configuration-file), after you set the [`claudeAiImport`](/docs/third-party/claude-desktop/configuration#claudeaiimport) key with `enabled` set to `true` in the profile or policy you deploy.
 
+## Manage the configuration with the Admin API
+
+The configuration that the admin console edits is also available as one JSON document through the Admin API. You can keep it in version control and apply it from a pipeline.
+
+Requests authenticate with an Admin API key that the organization's Primary Owner creates. Sign in at [claude.ai](https://claude.ai), switch to your Claude Desktop deployment's organization, and open **Organization settings → API**. Click **Create key**, name the key, and select the `read:desktop_config` scope to read the configuration and `write:desktop_config` to replace it. Only that organization's **Create key** dialog lists these two scopes. A key that reads and writes needs both scopes. Copy the key when it's shown, because you can't view it again.
+
+Pass the key in the `x-api-key` header. The key determines the organization, so there is no organization ID in the path. The examples read the key from the `ANTHROPIC_ADMIN_KEY` environment variable.
+
+### Read the configuration
+
+```bash theme={null}
+curl -sS --fail-with-body https://api.anthropic.com/v1/organizations/desktop_config \
+  -H "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+  -H "anthropic-version: 2023-06-01" \
+  -o desktop-config.json.tmp \
+  && mv desktop-config.json.tmp desktop-config.json
+```
+
+On an error status, curl exits non-zero before the `mv`, so your saved copy is kept and the error message is in `desktop-config.json.tmp`. `--fail-with-body` needs curl 7.76 or later. With an older curl, use `--fail`, which discards the error message. A read returns `404` until a configuration has been saved, on the **Connection** page of the console or by a first write through this API.
+
+The response has these fields:
+
+| Field            | Contents                                                                                                                                                                                                                                                                                                       |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `config`         | The organization-wide configuration as nested JSON, in the v2 format described under [Response schema](/docs/third-party/claude-desktop/bootstrap#response-schema) for bootstrap servers. Stored header values appear as a placeholder, as described under [Replace the configuration](#replace-the-configuration). |
+| `status`         | `active` or `disabled`. A `disabled` configuration isn't served to users' apps, as the warning under [Replace the configuration](#replace-the-configuration) describes.                                                                                                                                        |
+| `group_settings` | An object whose `entries` list holds the [per-group permission policies](#per-group-permission-policies) in rank order, highest first, each with a `group_id` and its `config`. A `group_id` that matches no group is accepted and applies to nobody until a group with that ID exists.                        |
+| `version`        | An integer that increases with every change.                                                                                                                                                                                                                                                                   |
+| `checksum`       | A digest of `config` and `group_settings` as returned. It leaves out `status`, so compare `version` to detect changes.                                                                                                                                                                                         |
+| `updated_at`     | The time of the last change.                                                                                                                                                                                                                                                                                   |
+
+### Replace the configuration
+
+A write replaces the whole document and accepts only `config`, `status`, `group_settings`, and `expected_version`. Send `config`, `status`, and `group_settings` together, even the parts you are not changing. Sending `version`, `checksum`, or `updated_at` returns `400`. The `jq` line below keeps only the accepted fields, sets `expected_version`, and fails if `desktop-config.json` has no `version`.
+
+Set `expected_version` to the `version` you read, or to `0` for a first write when nothing has been saved. The write is then refused with `409` if anyone changed the configuration after you read it. Without `expected_version`, the last writer wins. Sending `update.json` unedited returns `200` without creating a new version.
+
+```bash theme={null}
+jq -e 'select(.version != null) | {config, status, group_settings, expected_version: .version}' \
+  desktop-config.json > update.json
+# Edit update.json, then:
+curl -sS --fail-with-body -X POST https://api.anthropic.com/v1/organizations/desktop_config \
+  -H "x-api-key: $ANTHROPIC_ADMIN_KEY" \
+  -H "anthropic-version: 2023-06-01" \
+  -H "content-type: application/json" \
+  -d @update.json
+```
+
+On an error status, curl prints the error body and exits non-zero (curl 7.76 or later, as under [Read the configuration](#read-the-configuration)). The response to a successful write is the stored document in the same shape as a read.
+
+Header values you save are never returned. In every `headers` or `customHeaders` map, including the request headers for your provider, OpenTelemetry export, and managed MCP servers, each stored value reads as the placeholder `[stored on server - enter a new value to replace]`. Sending the placeholder back keeps the stored value. A write that sends the placeholder is refused with `400` in two cases: nothing is stored under that header name yet (a first write, or a renamed header or server), or the same write changes where those headers are sent, for example with a new `baseUrl`. Send the actual header values in those cases.
+
+A write goes through the same checks as a save in the admin console. Users' apps pick up the change as described under [Configuration updates](#configuration-updates). Owners receive the email alert described there when a write changes where users' apps connect or sign in, what can run on their devices, or the `status`. In place of an administrator, the alert names the key by its ID (`apikey_…`).
+
+<Warning>
+  Setting `status` to `disabled` stops serving the configuration to users' apps, as if none had been saved. A running app isn't interrupted. At its next launch it shows a **Restart required** prompt whose **Restart** button returns the device to standard Claude Desktop, signed out. New sign-ins also stay in standard Claude Desktop. The admin console has no control for `status`, so only another API write can set it back to `active`. After that, users who clicked **Restart** sign in again as described under [Onboard users](#onboard-users).
+</Warning>
+
+### Admin API errors
+
+| Status | Meaning                                                                                                                                                                                                                                                       |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `400`  | The server refused the document. The message names the field and the rule, for example `config.inference.baseUrl: must not embed credentials in the URL`. Nothing is stored.                                                                                  |
+| `401`  | The key in `x-api-key` is unknown, deleted, disabled, or expired.                                                                                                                                                                                             |
+| `403`  | The key lacks the scope the request needs, or isn't an organization-level key. For a missing scope, the message lists the scopes the key has and the one required.                                                                                            |
+| `404`  | The key was created in an organization other than your Claude Desktop deployment's, the `x-api-key` header is missing or its key is malformed, or (on a read) no configuration has been saved yet.                                                            |
+| `409`  | `expected_version` is not the current version. Read the configuration again and reapply your change.                                                                                                                                                          |
+| `429`  | Admin API requests share a per-organization limit of 100 requests per minute, as described under [Rate limits](https://platform.claude.com/docs/en/manage-claude/user-management#rate-limits). Retry after the number of seconds in the `retry-after` header. |
+
 ## Limitations
 
 * The [Claude API](/docs/third-party/claude-desktop/claude-api) is not available as the inference provider with the admin console.

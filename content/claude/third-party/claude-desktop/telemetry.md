@@ -184,10 +184,10 @@ The host(s) for your configured provider. These carry conversation content.
   </Tab>
 
   <Tab title="Microsoft Foundry">
-    | Host                               | Purpose                                  |
-    | ---------------------------------- | ---------------------------------------- |
-    | `<resource>.services.ai.azure.com` | Model inference                          |
-    | `login.microsoftonline.com`        | Entra ID auth (interactive sign-in only) |
+    | Host                               | Purpose                                                                    |
+    | ---------------------------------- | -------------------------------------------------------------------------- |
+    | `<resource>.services.ai.azure.com` | Model inference. Replaced by the host of `inferenceFoundryBaseUrl` if set. |
+    | `login.microsoftonline.com`        | Entra ID auth (interactive sign-in only)                                   |
   </Tab>
 
   <Tab title="Gateway">
