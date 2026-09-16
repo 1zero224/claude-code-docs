@@ -120,17 +120,11 @@ Claude
 Claude Code
 [Claude Code](https://claude.com/product/claude-code)Claude Code
   -
-Claude Code for Enterprise
-[Claude Code for Enterprise](https://claude.com/product/claude-code/enterprise)Claude Code for Enterprise
-  -
 Claude Cowork
 [Claude Cowork](https://claude.com/product/cowork)Claude Cowork
   -
 @Claude
 [@Claude](https://claude.com/product/tag)@Claude
-  -
-Claude Design
-[Claude Design](https://claude.com/product/design)Claude Design
   -
 Claude Science
 [Claude Science](https://claude.com/product/claude-science)Claude Science
@@ -146,16 +140,29 @@ Pricing
   -
 Log in
 [Log in](https://claude.ai/login)Log in
-Features
+Capabilities
+  -
+Artifacts
+[Artifacts](https://claude.com/features/artifacts)Artifacts
+  -
+Design
+[Design](https://claude.com/product/design)Design
+  -
+Connectors
+[Connectors](https://claude.com/connectors)Connectors
+  -
+Plugins
+[Plugins](https://claude.com/plugins)Plugins
+  -
+Skills
+[Skills](https://claude.com/skills)Skills
+Extensions
   -
 Claude in Chrome
 [Claude in Chrome](https://claude.com/claude-in-chrome)Claude in Chrome
   -
 Claude for Microsoft 365
 [Claude for Microsoft 365](https://claude.com/claude-for-microsoft-365)Claude for Microsoft 365
-  -
-Skills
-[Skills](https://claude.com/skills)Skills
 Models
   -
 Mythos
@@ -172,7 +179,14 @@ Sonnet
   -
 Haiku
 [Haiku](https://www.anthropic.com/claude/haiku)Haiku
-Solutions
+Enterprise
+  -
+Overview
+[Overview](https://claude.com/solutions/enterprise)Overview
+  -
+Claude Code for Enterprise
+[Claude Code for Enterprise](https://claude.com/product/claude-code/enterprise)Claude Code for Enterprise
+Use cases
   -
 AI agents
 [AI agents](https://claude.com/solutions/agents)AI agents
@@ -185,6 +199,7 @@ Coding
   -
 Commerce
 [Commerce](https://claude.com/solutions/commerce)Commerce
+Departments
   -
 Customer support
 [Customer support](https://claude.com/solutions/customer-support)Customer support
@@ -192,8 +207,9 @@ Customer support
 Cybersecurity
 [Cybersecurity](https://claude.com/solutions/cybersecurity)Cybersecurity
   -
-Enterprise
-[Enterprise](https://claude.com/solutions/enterprise)Enterprise
+Legal
+[Legal](https://claude.com/solutions/legal)Legal
+Industries
   -
 Financial services
 [Financial services](https://claude.com/solutions/financial-services)Financial services
@@ -210,9 +226,6 @@ Higher education
 K-12 teachers
 [K-12 teachers](https://claude.com/solutions/teachers)K-12 teachers
   -
-Legal
-[Legal](https://claude.com/solutions/legal)Legal
-  -
 Life sciences
 [Life sciences](https://claude.com/solutions/life-sciences)Life sciences
   -
@@ -224,16 +237,30 @@ Sales
   -
 Small business
 [Small business](https://claude.com/solutions/small-business)Small business
-Claude Platform
+Programs
+  -
+Startups
+[Startups](https://claude.com/programs/startups)Startups
+  -
+Scientists
+[Scientists](https://claude.com/programs/team-plan-for-scientists)Scientists
+Developers
+  -
+Developer docs
+[Developer docs](https://code.claude.com/docs/en/overview)Developer docs
+  -
+Community
+[Community](https://claude.com/community)Community
+  -
+Console
+[Console](https://platform.claude.com/docs/en/home)Console
+  -
+Engineering at Anthropic
+[Engineering at Anthropic](https://www.anthropic.com/engineering)Engineering at Anthropic
+Platform
   -
 Overview
 [Overview](https://claude.com/platform/api)Overview
-  -
-Developer docs
-[Developer docs](https://platform.claude.com/docs)Developer docs
-  -
-Pricing
-[Pricing](https://claude.com/pricing#api)Pricing
   -
 Ecosystem
 [Ecosystem](https://claude.com/ecosystem)Ecosystem
@@ -249,12 +276,6 @@ Google Cloud
   -
 Microsoft Foundry
 [Microsoft Foundry](https://claude.com/partners/microsoft-foundry)Microsoft Foundry
-  -
-Regional compliance
-[Regional compliance](https://claude.com/regional-compliance)Regional compliance
-  -
-Console login
-[Console login](https://platform.claude.com/)Console login
 Resources
   -
 Blog
@@ -263,38 +284,42 @@ Blog
 Claude partner network
 [Claude partner network](https://claude.com/partners)Claude partner network
   -
-Community
-[Community](https://claude.com/community)Community
-  -
-Connectors
-[Connectors](https://claude.com/connectors)Connectors
-  -
-Courses
-[Courses](https://academy.claude.com/courses)Courses
+Claude Academy
+[Claude Academy](https://academy.claude.com/)Claude Academy
   -
 Customer stories
 [Customer stories](https://claude.com/customers)Customer stories
   -
-Engineering at Anthropic
-[Engineering at Anthropic](https://www.anthropic.com/engineering)Engineering at Anthropic
-  -
 Events
 [Events](https://www.anthropic.com/events)Events
-  -
-Plugins
-[Plugins](https://claude.com/plugins)Plugins
   -
 Powered by Claude
 [Powered by Claude](https://claude.com/partners/powered-by-claude)Powered by Claude
   -
 Service partners
 [Service partners](https://claude.com/blog/building-with-claude-managed-agents#)Service partners
+Help and security
   -
-Tutorials
-[Tutorials](https://academy.claude.com/tutorials)Tutorials
+Availability
+[Availability](https://www.anthropic.com/supported-countries)Availability
   -
-Use cases
-[Use cases](https://academy.claude.com/use-cases)Use cases
+Check files
+[Check files](https://claude.com/check-files)Check files
+  -
+Regional compliance
+[Regional compliance](https://claude.com/regional-compliance)Regional compliance
+  -
+Report abuse
+[Report abuse](https://claude.com/form/anthropic-content-reporting)Report abuse
+  -
+Security and compliance
+[Security and compliance](https://trust.anthropic.com/)Security and compliance
+  -
+Status
+[Status](https://status.anthropic.com/)Status
+  -
+Support center
+[Support center](https://support.claude.com/en/)Support center
 Company
   -
 Anthropic
@@ -306,14 +331,11 @@ Careers
 Policy
 [Policy](https://www.anthropic.com/policy)Policy
   -
-Economic Futures
-[Economic Futures](https://www.anthropic.com/economic-futures)Economic Futures
-  -
 Research
 [Research](https://www.anthropic.com/research)Research
   -
-News
-[News](https://www.anthropic.com/news)News
+Anthropic news
+[Anthropic news](https://www.anthropic.com/news)Anthropic news
   -
 Policy on the AI Exponential
 [Policy on the AI Exponential](https://www.anthropic.com/policy-on-the-ai-exponential)Policy on the AI Exponential
@@ -321,34 +343,8 @@ Policy on the AI Exponential
 Responsible Scaling Policy
 [Responsible Scaling Policy](https://www.anthropic.com/news/announcing-our-updated-responsible-scaling-policy)Responsible Scaling Policy
   -
-Security and compliance
-[Security and compliance](https://trust.anthropic.com/)Security and compliance
-  -
 Transparency
 [Transparency](https://anthropic.com/transparency)Transparency
-Programs
-  -
-Startups
-[Startups](https://claude.com/programs/startups)Startups
-  -
-Scientists
-[Scientists](https://claude.com/programs/team-plan-for-scientists)Scientists
-Help and security
-  -
-Availability
-[Availability](https://www.anthropic.com/supported-countries)Availability
-  -
-Check files
-[Check files](https://claude.com/check-files)Check files
-  -
-Report abuse
-[Report abuse](https://claude.com/form/anthropic-content-reporting)Report abuse
-  -
-Status
-[Status](https://status.anthropic.com/)Status
-  -
-Support center
-[Support center](https://support.claude.com/en/)Support center
 Terms and policies
   -
 Privacy choices
