@@ -115,7 +115,7 @@
           "serves_html": true
         },
         "/news/": {
-          "url_count": 258,
+          "url_count": 259,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -140,7 +140,7 @@
           "serves_html": true
         },
         "/research/": {
-          "url_count": 162,
+          "url_count": 163,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -301,7 +301,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 2296,
+          "url_count": 2297,
           "serves_markdown": true,
           "serves_html": true
         }
@@ -319,7 +319,7 @@
           "serves_html": true
         },
         "/en/": {
-          "url_count": 372,
+          "url_count": 371,
           "serves_markdown": true,
           "serves_html": true
         },
@@ -329,7 +329,7 @@
           "serves_html": true
         },
         "/fr/": {
-          "url_count": 371,
+          "url_count": 370,
           "serves_markdown": true,
           "serves_html": true
         },
@@ -437,7 +437,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 237,
+          "url_count": 239,
           "serves_markdown": true,
           "serves_html": true
         }
@@ -470,7 +470,7 @@
           "serves_html": true
         },
         "/tutorials/": {
-          "url_count": 123,
+          "url_count": 122,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -485,7 +485,7 @@
           "serves_html": true
         },
         "/collections/": {
-          "url_count": 7,
+          "url_count": 10,
           "serves_markdown": false,
           "serves_html": true
         }
@@ -596,6 +596,7 @@
       "anthropics/tokio",
       "anthropics/torchtyping",
       "anthropics/triton",
+      "anthropics/uplifting-biomolecular-modeling",
       "anthropics/xls"
     ]
   },
