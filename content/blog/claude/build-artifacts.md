@@ -7,7 +7,7 @@ Since launch, millions of users have created over half a billion artifacts—fro
 ### Build AI-powered apps with Claude
 Artifacts turn anyone into an app creator—no coding needed. Just tell Claude your idea to instantly create shareable apps, tools, and games.
 With our latest update, you can build even more interactive experiences. For example, rather than asking Claude to create a set of flashcards for one topic, you can ask Claude to build a [flashcard app](https://claude.ai/public/artifacts/0e6f226e-70b0-418d-a03c-77ba65e4ba14) that lets users pick their own topic and generate their own cards. Instead of a single-use artifact, you now have an interactive app you can use and share more broadly.
-Additionally, our new artifacts space makes creation seamless:
+Additionally, our new [artifacts](https://claude.com/features/artifacts) space makes creation seamless:
   - **Browse curated artifacts** for inspiration
   - **Customize existing creations** in minutes
   - **Build from scratch **through simple conversation

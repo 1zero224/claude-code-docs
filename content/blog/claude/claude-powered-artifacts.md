@@ -3,7 +3,7 @@
 ‍
 Today, we’re introducing the ability to build, host, and share interactive AI-powered apps directly in the Claude app. Now developers can iterate faster on their AI apps without worrying about the complexity and cost of scaling for a growing audience.
 ### Build and host Claude-powered apps
-Here’s what we built: Claude can now create artifacts that interact with Claude through an API— turning these artifacts into AI-powered apps, where the economics actually work for sharing.
+Here’s what we built: Claude can now create [artifacts](https://claude.com/features/artifacts) that interact with Claude through an API— turning these artifacts into AI-powered apps, where the economics actually work for sharing.
 When someone uses your Claude-powered app:
   - They authenticate with their existing Claude account
   - Their API usage counts against *their* subscription, not yours

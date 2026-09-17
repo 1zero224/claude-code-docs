@@ -209,6 +209,9 @@ Cybersecurity
   -
 Legal
 [Legal](https://claude.com/solutions/legal)Legal
+  -
+Sales
+[Sales](https://claude.com/solutions/sales)Sales
 Industries
   -
 Financial services
@@ -231,9 +234,6 @@ Life sciences
   -
 Nonprofits
 [Nonprofits](https://claude.com/solutions/nonprofits)Nonprofits
-  -
-Sales
-[Sales](https://claude.com/solutions/sales)Sales
   -
 Small business
 [Small business](https://claude.com/solutions/small-business)Small business
