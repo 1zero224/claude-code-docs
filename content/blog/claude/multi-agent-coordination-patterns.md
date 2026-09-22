@@ -296,6 +296,9 @@ Developers
 Developer docs
 [Developer docs](https://code.claude.com/docs/en/overview)Developer docs
   -
+Developer blog
+[Developer blog](https://claude.dev/)Developer blog
+  -
 Community
 [Community](https://claude.com/community)Community
   -

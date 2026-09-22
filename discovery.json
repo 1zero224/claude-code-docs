@@ -49,6 +49,11 @@
           "serves_markdown": false,
           "serves_html": true
         },
+        "/claude-opus-5-5/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
         "/claude/": {
           "url_count": 5,
           "serves_markdown": false,
@@ -208,7 +213,7 @@
           "serves_html": true
         },
         "/docs/": {
-          "url_count": 3407,
+          "url_count": 3462,
           "serves_markdown": true,
           "serves_html": true
         },
@@ -319,7 +324,7 @@
           "serves_html": true
         },
         "/en/": {
-          "url_count": 373,
+          "url_count": 374,
           "serves_markdown": true,
           "serves_html": true
         },
@@ -382,7 +387,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/community/": {
-          "url_count": 30,
+          "url_count": 31,
           "serves_markdown": true,
           "serves_html": true
         },
