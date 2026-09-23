@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "What the last full run could see outside sources.json. Written by the fetcher so a new source arrives as a diff a human reviews, not as a line in an Actions log nobody reads. Stable facts only: a change here is always news. `path_prefixes` records content formats by URL path, and `review` lists uncovered surfaces.",
-  "updated": "2026-09-22",
+  "updated": "2026-09-23",
   "domains": {
     "anthropic.com": {
       "status": "frozen",
@@ -130,7 +130,7 @@
           "serves_html": true
         },
         "/policy-on-the-ai-exponential/": {
-          "url_count": 2,
+          "url_count": 1,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -180,7 +180,7 @@
           "serves_html": true
         },
         "/threat-intelligence/": {
-          "url_count": 2,
+          "url_count": 1,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -442,7 +442,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 240,
+          "url_count": 241,
           "serves_markdown": true,
           "serves_html": true
         }
@@ -465,7 +465,7 @@
           "serves_html": true
         },
         "/courses/": {
-          "url_count": 486,
+          "url_count": 499,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -480,7 +480,7 @@
           "serves_html": true
         },
         "/use-cases/": {
-          "url_count": 149,
+          "url_count": 158,
           "serves_markdown": false,
           "serves_html": true
         },
