@@ -120,7 +120,7 @@
           "serves_html": true
         },
         "/news/": {
-          "url_count": 260,
+          "url_count": 261,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -213,7 +213,7 @@
           "serves_html": true
         },
         "/docs/": {
-          "url_count": 3462,
+          "url_count": 3498,
           "serves_markdown": true,
           "serves_html": true
         },
@@ -475,7 +475,7 @@
           "serves_html": true
         },
         "/tutorials/": {
-          "url_count": 122,
+          "url_count": 123,
           "serves_markdown": false,
           "serves_html": true
         },

@@ -196,10 +196,10 @@ Design
 [Design](https://claude.com/product/design)Design
   -
 Connectors
-[Connectors](https://claude.com/connectors)Connectors
+[Connectors](https://claude.com/marketplace/connectors-plugins)Connectors
   -
 Plugins
-[Plugins](https://claude.com/plugins)Plugins
+[Plugins](https://claude.com/marketplace/plugins)Plugins
   -
 Skills
 [Skills](https://claude.com/skills)Skills
@@ -312,11 +312,8 @@ Platform
 Overview
 [Overview](https://claude.com/platform/api)Overview
   -
-Ecosystem
-[Ecosystem](https://claude.com/ecosystem)Ecosystem
-  -
 Marketplace
-[Marketplace](https://claude.com/platform/marketplace)Marketplace
+[Marketplace](https://claude.com/marketplace)Marketplace
   -
 Claude on AWS
 [Claude on AWS](https://claude.com/partners/claude-on-aws)Claude on AWS
@@ -347,7 +344,7 @@ Powered by Claude
 [Powered by Claude](https://claude.com/partners/powered-by-claude)Powered by Claude
   -
 Service partners
-[Service partners](https://claude.com/blog/multi-agent-coordination-patterns#)Service partners
+[Service partners](https://claude.com/marketplace/service-partners)Service partners
 Help and security
   -
 Availability
