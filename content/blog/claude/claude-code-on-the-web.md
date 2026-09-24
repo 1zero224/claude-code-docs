@@ -1,4 +1,4 @@
-***Update:**** Claude Code on the web is now available in research preview for Team and Enterprise users with premium seats, in addition to Pro and Max users. Claude Code on the web is on by default for these users, and account admins can toggle access in the Claude settings. November 12, 2025*
+***Update:**** Cloud sessions (previously known as Claude Code on the web) are now generally available for Pro, Max, and Team users, and for Enterprise users with premium seats or Chat + Claude Code seats. Read the *[*docs*](https://code.claude.com/docs/en/claude-code-on-the-web)* for the latest information. September 23, 2026.*
 Today, we're introducing Claude Code on the web, a new way to delegate coding tasks directly from your browser.
 Now in beta as a research preview, you can assign multiple coding tasks to Claude that run on Anthropic-managed cloud infrastructure, perfect for tackling bug backlogs, routine fixes, or parallel development work.
 ## Run coding tasks in parallel
