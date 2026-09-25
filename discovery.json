@@ -145,7 +145,7 @@
           "serves_html": true
         },
         "/research/": {
-          "url_count": 164,
+          "url_count": 165,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -442,7 +442,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 243,
+          "url_count": 255,
           "serves_markdown": true,
           "serves_html": true
         }
