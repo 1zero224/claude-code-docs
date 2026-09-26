@@ -28,7 +28,7 @@ In "Manually approve," Claude checks with you before it acts. What that looks li
 
 Claude creates a plan from your prompt, which you can approve before Claude starts. The plan specifies which websites you're allowing Claude to access, as well as the approach it will follow:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1843320727/8d1c859ae9b8e0cdb536d024bf40/9bc3d239-8eb6-4bae-a032-a236f88ee606?expires=1790402400&amp;signature=2f3de4578c729293d9ff1b0d97594f3d0a280de968d5c4436b780b64419c94b5&amp;req=dSgjFcp8nYZdXvMW1HO4zYqyZMJJ%2FICzgN0ADj5oqFBx8hlRRTB3eX5EG9tv%0AMUWiM%2FxtT%2FDOdYeT%2B6k%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1843320727/8d1c859ae9b8e0cdb536d024bf40/9bc3d239-8eb6-4bae-a032-a236f88ee606?expires=1790419500&amp;signature=8a23c212a5f6c670bfb83901ec8dda5a5377d58a6d2a2f63db17ccb50deb1c51&amp;req=dSgjFcp8nYZdXvMW1HO4zYqyZMJJ%2FYuygN0ADj5oqFAqK3eGuAnmNAubYEPb%0As4dqp30G%2BVv6GRZBJnk%3D%0A)
 
 Note that Claude will only use the websites listed in the plan, so you’ll need to manually approve any additional access requests.
 
@@ -62,7 +62,7 @@ When you choose "Skip all approvals," Claude doesn't pause to ask, and nothing c
 
 There are some websites on which Claude requires approval for every action. If you navigate to one of these sites, a **New permissions required** prompt will appear in the extension side panel, Claude Cowork, or Claude Code where Claude will ask for permission before accessing the page or taking any action.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2604970825/d7b961271be69e7541b406df1efd/d845324e-6b4a-4f54-83b9-0bea86ec09c6?expires=1790402400&amp;signature=09b91e6716a21e542b3887460d173e0ec1d7ee81b712c236539a2901ec80d2e6&amp;req=diYnEsB5nYldXPMW1HO4zZ3Nq2Z0iC7o7A4lHPBihAVEf0jjtQMdbMiLh20P%0AKtA0XVEvw7sy4gpGMds%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2604970825/d7b961271be69e7541b406df1efd/d845324e-6b4a-4f54-83b9-0bea86ec09c6?expires=1790419500&amp;signature=e09fe2c6dcf974ae78403e39b4952b1021fad9f1836b1c7e7f2ae1ee2598cac8&amp;req=diYnEsB5nYldXPMW1HO4zZ3Nq2Z0iSXp7A4lHPBihAV0rsGE0k3lPDHOFNJM%0Ae%2F5cGXNOqULhQnIdqTU%3D%0A)
 
 ### Permission options
 
