@@ -28,7 +28,7 @@ In "Manually approve," Claude checks with you before it acts. What that looks li
 
 Claude creates a plan from your prompt, which you can approve before Claude starts. The plan specifies which websites you're allowing Claude to access, as well as the approach it will follow:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1843320727/8d1c859ae9b8e0cdb536d024bf40/9bc3d239-8eb6-4bae-a032-a236f88ee606?expires=1790489700&amp;signature=f6c31834bb2c48804bda4b9849cf6113bc8aa12a76e16857acd6fa996796d591&amp;req=dSgjFcp8nYZdXvMW1HO4zYqyZMJJ9IuwgN0ADj5oqFD0ZEmbhQXsubEu4UtB%0Ad74n5%2BhPpqhxOQRZ8Jc%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1843320727/8d1c859ae9b8e0cdb536d024bf40/9bc3d239-8eb6-4bae-a032-a236f88ee606?expires=1790508600&amp;signature=5e26fc58729c3d565d4982b9c83a0ffd7c9554778753378f52001575ff34f82c&amp;req=dSgjFcp8nYZdXvMW1HO4zYqyZMJI%2FIqxgN0ADj5oqFDbSDbhcMx995deKGxu%0AILqs5DGNWr%2BHywerwP4%3D%0A)
 
 Note that Claude will only use the websites listed in the plan, so you’ll need to manually approve any additional access requests.
 
@@ -62,7 +62,7 @@ When you choose "Skip all approvals," Claude doesn't pause to ask, and nothing c
 
 There are some websites on which Claude requires approval for every action. If you navigate to one of these sites, a **New permissions required** prompt will appear in the extension side panel, Claude Cowork, or Claude Code where Claude will ask for permission before accessing the page or taking any action.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2604970825/d7b961271be69e7541b406df1efd/d845324e-6b4a-4f54-83b9-0bea86ec09c6?expires=1790489700&amp;signature=b1a8b991c0ad9715a30d9867052954e629e6f7bbd0c72eeb84b556eb84396b26&amp;req=diYnEsB5nYldXPMW1HO4zZ3Nq2Z0gCXr7A4lHPBihAUfnGj%2BF%2FgxBnrYvAF5%0Aga3yRDI52oqTByged2k%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2604970825/d7b961271be69e7541b406df1efd/d845324e-6b4a-4f54-83b9-0bea86ec09c6?expires=1790508600&amp;signature=d674e9984ab5d30b85692b46f1de95290bf258b7e194d17416a6e828858903d2&amp;req=diYnEsB5nYldXPMW1HO4zZ3Nq2Z1iCTq7A4lHPBihAWERbmWRVV%2Bpnr3Sphv%0AEJM2X0sPf4paLURRbDc%3D%0A)
 
 ### Permission options
 
