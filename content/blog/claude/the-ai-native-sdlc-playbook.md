@@ -1,3 +1,6 @@
+Prefer a PDF?
+**This playbook is also available for download** — the same six stages, plays, and worked examples, laid out for reading offline or sharing with your team.
+[Download the PDF ↓](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/6aba736348bdf4f08183f463_AI%20Native%20SDLC%20Playbook_designv2%20(1).pdf)
 ## Code is no longer the bottleneck
 Organizations have started using AI to write code at a speed unthinkable one year ago, yet the processes around the code haven't changed at the same pace.
 Many engineering teams still have the same approval gates, reviews, handoffs, and policies, stalling productivity gains made by using agentic coding solutions like [Claude Code](https://claude.com/product/claude-code).

@@ -54,6 +54,11 @@
           "serves_markdown": false,
           "serves_html": true
         },
+        "/claude-sonnet-5-5/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
         "/claude/": {
           "url_count": 5,
           "serves_markdown": false,
@@ -278,7 +283,7 @@
           "serves_html": true
         },
         "/settings/": {
-          "url_count": 10,
+          "url_count": 11,
           "serves_markdown": false,
           "serves_html": true
         },

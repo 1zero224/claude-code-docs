@@ -1,4 +1,4 @@
-Starting today, the [Claude Marketplace](https://claude.com/platform/marketplace) brings plugins and connectors, agents and products, and service partners into one place. For customers, it provides a single destination to find the right tools and services. For builders and partners, it offers an easier way to reach teams using Claude.
+Starting today, the [Claude Marketplace](https://claude.com/marketplace) brings plugins and connectors, agents and products, and service partners into one place. For customers, it provides a single destination to find the right tools and services. For builders and partners, it offers an easier way to reach teams using Claude.
 ## **For customers: discover tools and services to help you do more with Claude**
 The Claude Marketplace is where teams find what they need to expand how they use Claude. You can:
   - **Add connectors and plugins.** Choose from more than 2,000 available today, including Atlassian, Google, Microsoft, Notion, Salesforce, and more.
