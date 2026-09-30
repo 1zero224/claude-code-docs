@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "What the last full run could see outside sources.json. Written by the fetcher so a new source arrives as a diff a human reviews, not as a line in an Actions log nobody reads. Stable facts only: a change here is always news. `path_prefixes` records content formats by URL path, and `review` lists uncovered surfaces.",
-  "updated": "2026-09-29",
+  "updated": "2026-09-30",
   "domains": {
     "anthropic.com": {
       "status": "frozen",
@@ -150,7 +150,7 @@
           "serves_html": true
         },
         "/research/": {
-          "url_count": 165,
+          "url_count": 167,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -324,62 +324,62 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/de/": {
-          "url_count": 372,
+          "url_count": 373,
           "serves_markdown": true,
           "serves_html": true
         },
         "/en/": {
-          "url_count": 374,
+          "url_count": 375,
           "serves_markdown": true,
           "serves_html": true
         },
         "/es/": {
-          "url_count": 372,
+          "url_count": 373,
           "serves_markdown": true,
           "serves_html": true
         },
         "/fr/": {
-          "url_count": 372,
+          "url_count": 373,
           "serves_markdown": true,
           "serves_html": true
         },
         "/id/": {
-          "url_count": 372,
+          "url_count": 373,
           "serves_markdown": true,
           "serves_html": true
         },
         "/it/": {
-          "url_count": 372,
+          "url_count": 373,
           "serves_markdown": true,
           "serves_html": true
         },
         "/ja/": {
-          "url_count": 372,
+          "url_count": 373,
           "serves_markdown": true,
           "serves_html": true
         },
         "/ko/": {
-          "url_count": 371,
+          "url_count": 372,
           "serves_markdown": true,
           "serves_html": true
         },
         "/pt/": {
-          "url_count": 372,
+          "url_count": 373,
           "serves_markdown": true,
           "serves_html": true
         },
         "/ru/": {
-          "url_count": 372,
+          "url_count": 373,
           "serves_markdown": true,
           "serves_html": true
         },
         "/zh-CN/": {
-          "url_count": 372,
+          "url_count": 373,
           "serves_markdown": true,
           "serves_html": true
         },
         "/zh-TW/": {
-          "url_count": 372,
+          "url_count": 373,
           "serves_markdown": true,
           "serves_html": true
         }
@@ -470,7 +470,7 @@
           "serves_html": true
         },
         "/courses/": {
-          "url_count": 499,
+          "url_count": 498,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -480,7 +480,7 @@
           "serves_html": true
         },
         "/tutorials/": {
-          "url_count": 123,
+          "url_count": 125,
           "serves_markdown": false,
           "serves_html": true
         },
