@@ -125,7 +125,7 @@
           "serves_html": true
         },
         "/news/": {
-          "url_count": 261,
+          "url_count": 262,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -150,7 +150,7 @@
           "serves_html": true
         },
         "/research/": {
-          "url_count": 168,
+          "url_count": 169,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -218,7 +218,7 @@
           "serves_html": true
         },
         "/docs/": {
-          "url_count": 3645,
+          "url_count": 3657,
           "serves_markdown": true,
           "serves_html": true
         },
@@ -447,7 +447,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 258,
+          "url_count": 259,
           "serves_markdown": true,
           "serves_html": true
         }
