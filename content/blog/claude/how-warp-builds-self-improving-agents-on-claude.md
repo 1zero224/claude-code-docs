@@ -1,4 +1,4 @@
-*In our series, , we highlight how startups are transforming their industries with AI. In this article, we share how Warp turned stateless user feedback into a self-improvement loop for its agents.*
+*In our series, we highlight how startups are transforming their industries with AI. In this article, we share how Warp turned stateless user feedback into a self-improvement loop for its agents.*
 
     The quick pitch     Name Warp   Founded 2020   Founders Zach Lloyd (CEO)   Stack Rust, Golang, GitHub Actions, internal agent orchestration platform (Oz), Claude Platform   Growth $73M raised. 800K monthly developers build on Warp. 56% of the Fortune 500 uses Warp. 10M Claude Code sessions run inside Warp to date, 400K+ per week. 40M total Warp Agent conversations.
 
