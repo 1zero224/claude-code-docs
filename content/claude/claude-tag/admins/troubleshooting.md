@@ -35,7 +35,7 @@ What you expected to see while running [setup](/docs/claude-tag/admins/setup-ove
 | The spend limit picker on the **Launch Claude Tag** step | A **Buy usage credits** step | Your organization pays by card in US dollars and has no credits loaded. Load credits, or select **Skip** to continue without; nothing runs in channels until the balance is funded. Invoiced organizations and those billing in other currencies see the spend limit picker regardless of balance. |
 | **Launch Claude Tag** to finish | "Couldn't turn on personal connectors in channels. Try again." | Launch didn't finish. Click **Launch Claude Tag** again. |
 | Claude to join the channels you selected on the **Launch Claude Tag** step | "Couldn't add Claude to some channels. Add Claude from Slack instead." | Claude Tag is on, but Claude didn't join every channel you selected. Run `/invite @Claude` in each channel it's missing from. |
-| A reply from Claude while you're still in setup | "Claude is disabled in this channel. Your admin can re-enable it here." | Claude Tag isn't turned on until you finish [Launch Claude Tag](/docs/claude-tag/admins/setup-overview#launch-claude-tag). Finish setup, then mention `@Claude` again. If the message persists after launch, see [Claude is disabled in this channel](#claude-is-disabled-in-this-channel). |
+| A reply from Claude while you're still in setup | A notice that starts "Claude isn't on in this channel yet." | Claude Tag isn't turned on until you finish [Launch Claude Tag](/docs/claude-tag/admins/setup-overview#launch-claude-tag). Finish setup, then mention `@Claude` again. A channel that's turned off after launch gets a different notice; see [Claude is disabled in this channel](#claude-is-disabled-in-this-channel). |
 | A connected tool to work in your test | “I can't reach…” | Claude isn't told about a connection added after the thread started. Ask it to use the service by name, or start a fresh thread. |
 | The **Where Claude Tag works** section with a **+ Connect** button | Only the legacy Claude in Slack toggles | Your organization isn't enabled for Claude Tag. Contact your account team. |
 | Claude to respond in Slack | "Claude Tag has been turned off for your Claude organization…" | The **Enable Claude Tag for your organization** toggle is off. An Owner turns it on at [`claude.ai/admin-settings/claude-tag`](https://claude.ai/admin-settings/claude-tag). See [the troubleshooting entry](#claude-tag-is-turned-off-for-your-organization). |
@@ -479,7 +479,7 @@ Channels in the paired workspace work normally, but some users' direct messages 
 
 **What it means**
 
-On Enterprise Grid, direct messages follow each user's home workspace, not the workspace you paired. A user homed in a Grid workspace the pairing doesn't cover gets the setup redirect in DMs.
+On Enterprise Grid, one-to-one direct messages follow each user's home workspace, not the workspace you paired. A user homed in a Grid workspace the pairing doesn't cover gets the setup redirect in DMs.
 
 **How to resolve**
 
@@ -694,7 +694,7 @@ Claude replies in the DM:
 
 **What it means**
 
-DMs run on the user's own claude.ai account and need a qualifying seat, which this user doesn't have. A seat that includes Claude Code always qualifies; on the Enterprise plan, a **Standard** or **Usage-Based Chat** seat also qualifies when the user has Cowork. Mentioning `@Claude` in a channel doesn't depend on the sender's seat.
+One-to-one DMs run on the user's own claude.ai account and need a qualifying seat, which this user doesn't have. A seat that includes Claude Code always qualifies; on the Enterprise plan, a **Standard** or **Usage-Based Chat** seat also qualifies when the user has Cowork. Mentioning `@Claude` in a channel doesn't depend on the sender's seat.
 
 **How to resolve**
 
