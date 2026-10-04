@@ -311,7 +311,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 2616,
+          "url_count": 2617,
           "serves_markdown": true,
           "serves_html": true
         }
