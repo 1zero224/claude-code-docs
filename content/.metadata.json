@@ -1,7 +1,7 @@
 {
   "metadata": {
     "version": "2.0",
-    "fetch_date": "2026-10-06T06:57:02.284978Z",
+    "fetch_date": "2026-10-06T16:58:40.793982Z",
     "section": "all"
   },
   "items": [
@@ -5924,8 +5924,8 @@
       "url": "https://code.claude.com/docs/en/admin-setup",
       "status": "success",
       "path": "en/docs/claude-code/admin-setup.md",
-      "sha256": "39aa8ab520bc64d67dd6281640b38e31affaa764bda0e9ab32d92a06fe5d4dcc",
-      "size": 26857
+      "sha256": "91a15ff4f27ffbe7bc37fb9d8659e4cdbc9d71b0612f232fa89da1e238086c0f",
+      "size": 26873
     },
     {
       "url": "https://code.claude.com/docs/en/setup",
@@ -6155,8 +6155,8 @@
       "url": "https://code.claude.com/docs/en/hipaa-setup",
       "status": "success",
       "path": "en/docs/claude-code/hipaa-setup.md",
-      "sha256": "228d0cbadf01034b3625cfd96793d5f18ffbabcda9cde27ae152b814900a4770",
-      "size": 21129
+      "sha256": "f445bad7f0d8915dabbf9568c1ced22bf9b070e3c0055bfc2648571153490007",
+      "size": 21145
     },
     {
       "url": "https://code.claude.com/docs/en/communications-kit",
@@ -8098,6 +8098,13 @@
       "size": 19172
     },
     {
+      "url": "https://modelcontextprotocol.io/seps/2127-mcp-server-cards",
+      "status": "success",
+      "path": "mcp/seps/2127-mcp-server-cards.md",
+      "sha256": "ce942520f4bf5f91b6539e0fc9e048fd03db48cbe07aff1a5583fc8c75cf154e",
+      "size": 17820
+    },
+    {
       "url": "https://modelcontextprotocol.io/seps/2133-extensions",
       "status": "success",
       "path": "mcp/seps/2133-extensions.md",
@@ -8276,8 +8283,8 @@
       "url": "https://modelcontextprotocol.io/seps",
       "status": "success",
       "path": "mcp/seps.md",
-      "sha256": "700c328289420c634f14430082c8201ddb4d3edddef8214c4ffaf79f245a72c8",
-      "size": 9582
+      "sha256": "aede25171daac11c397d9d5708524cb21b15cd27180496571c1d3782fa959a17",
+      "size": 9751
     },
     {
       "url": "https://modelcontextprotocol.io/specification/2024-11-05/architecture",
@@ -9274,2014 +9281,6 @@
       "size": 3201
     },
     {
-      "url": "https://claude.com/blog/1m-context",
-      "status": "success",
-      "path": "blog/claude/1m-context.md",
-      "sha256": "03e973a247d304e480e8bf187e739fc98b34536aa2b09d9eb353e86bfb2e75fb",
-      "size": 3590,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/1m-context-ga",
-      "status": "success",
-      "path": "blog/claude/1m-context-ga.md",
-      "sha256": "479900c1986f0c3434748c8098dba8686e47079251163779aa9f9796c2264a6c",
-      "size": 2465,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/a-field-guide-to-claude-fable-finding-your-unknowns",
-      "status": "success",
-      "path": "blog/claude/a-field-guide-to-claude-fable-finding-your-unknowns.md",
-      "sha256": "da2d493f34ce42fde56527f86b21b552865bec379fe56550ae29c72679733f19",
-      "size": 12814,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/a-guide-to-cost-visibility-and-control-in-claude",
-      "status": "success",
-      "path": "blog/claude/a-guide-to-cost-visibility-and-control-in-claude.md",
-      "sha256": "58e05ea4f8741fa25987148316fca9da56a653436695d8ad0a5087d1cd1e93b8",
-      "size": 7184,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/agent-capabilities-api",
-      "status": "success",
-      "path": "blog/claude/agent-capabilities-api.md",
-      "sha256": "8deb9bd657dab18a046ca858063f80e688e5a5cc7e8b4b4ee197faf39b4e788a",
-      "size": 6607,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/agent-identity-access-model",
-      "status": "success",
-      "path": "blog/claude/agent-identity-access-model.md",
-      "sha256": "84e5efbfd0b702dad65f958818954580d2ae003a6699a2462554abfe3ee3d33d",
-      "size": 8644,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/agent-view-in-claude-code",
-      "status": "success",
-      "path": "blog/claude/agent-view-in-claude-code.md",
-      "sha256": "9580d335c3c748a6cd593c23cc146109b6d64a9e582c31f226d00df9070924d2",
-      "size": 2589,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/agentic-coding-is-straining-ci-heres-how-we-scaled-test-impact-analysis-at-anthropic",
-      "status": "success",
-      "path": "blog/claude/agentic-coding-is-straining-ci-heres-how-we-scaled-test-impact-analysis-at-anthropic.md",
-      "sha256": "79f6883b33287dc4fb1a29139385f2838e2cd57c97bd0e93a9e3ede282affb53",
-      "size": 10515,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/agents-you-can-coach-how-asana-builds-human-agent-teams-with-claude",
-      "status": "success",
-      "path": "blog/claude/agents-you-can-coach-how-asana-builds-human-agent-teams-with-claude.md",
-      "sha256": "c42ca96f7619b187d1094684013e393b3419a914199441f97ed8f717a4426cf3",
-      "size": 14271,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/ai-ci-cd-on-call",
-      "status": "success",
-      "path": "blog/claude/ai-ci-cd-on-call.md",
-      "sha256": "ebd8a134465be067691562a4dab4179a043334cba632d731477db7d2c434e072",
-      "size": 13397,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/ai-code-migration",
-      "status": "success",
-      "path": "blog/claude/ai-code-migration.md",
-      "sha256": "8572e10486b815146053f617be78e7ec9db948cd046e4a6a5980f010b3fbc233",
-      "size": 21703,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/amazon-bedrock-general-availability",
-      "status": "success",
-      "path": "blog/claude/amazon-bedrock-general-availability.md",
-      "sha256": "17087c8f8b7eb370df940b03e4e72e57ed17e397f9c2dc1e9dfab2eb20706042",
-      "size": 4343,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/analysis-tool",
-      "status": "success",
-      "path": "blog/claude/analysis-tool.md",
-      "sha256": "d0abd0e5f3e30594550be8ceefcfd3497ad87a5356faba045955541b021b1b81",
-      "size": 2596,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/android-app",
-      "status": "success",
-      "path": "blog/claude/android-app.md",
-      "sha256": "eeb7440877c57de36df6c66057da393ff02cb7d619b2b108aeeb5096cd46c2dd",
-      "size": 1583,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/anthropics-approach-to-teaching-and-learning-ai",
-      "status": "success",
-      "path": "blog/claude/anthropics-approach-to-teaching-and-learning-ai.md",
-      "sha256": "0a57494cbc19c288c6e825ebc2577baae44908cb5692024730143977db469500",
-      "size": 8955,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/artifacts-in-claude-code",
-      "status": "success",
-      "path": "blog/claude/artifacts-in-claude-code.md",
-      "sha256": "a96766d2458fb567b647402afa6ab733063757021eac6b193c7cc6b71be7ea91",
-      "size": 5218,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/auto-mode",
-      "status": "success",
-      "path": "blog/claude/auto-mode.md",
-      "sha256": "1adeb3078b829a605aec0c30b83ec200e56f1aae3afe4633dd5a54d5f7067c18",
-      "size": 3142,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/auto-mode-default-in-claude-code",
-      "status": "success",
-      "path": "blog/claude/auto-mode-default-in-claude-code.md",
-      "sha256": "7fdde6750b877fc9b13472e07a66353b553a53de8a48a2b2ecfd384d88e1b000",
-      "size": 18251,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/auto-mode-in-production",
-      "status": "success",
-      "path": "blog/claude/auto-mode-in-production.md",
-      "sha256": "b6d0354e65fb4c6cb83709febfc014df37ab0494404a1897cba551bb5c1eb9d8",
-      "size": 9201,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/automate-security-reviews-with-claude-code",
-      "status": "success",
-      "path": "blog/claude/automate-security-reviews-with-claude-code.md",
-      "sha256": "2b59b3983a939fb7921200031eb620e88f806a91c0f07db0de2d68a0de2bd1fc",
-      "size": 4194,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/bain-company-joins-the-claude-partner-network-as-a-global-premier-partner",
-      "status": "success",
-      "path": "blog/claude/bain-company-joins-the-claude-partner-network-as-a-global-premier-partner.md",
-      "sha256": "4f0d071c26a41ea995f8a5f62ee5ac57a1135e5250adb3b11e8ce0af01c62385",
-      "size": 3160,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/behind-model-launch-what-customers-discovered-testing-claude-opus-4-6-early",
-      "status": "success",
-      "path": "blog/claude/behind-model-launch-what-customers-discovered-testing-claude-opus-4-6-early.md",
-      "sha256": "b3b6193e7cf22211624ce9b67a189cbd0004af3042cf93ae7bffcff9a59b8d90",
-      "size": 7025,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/best-practices-for-computer-and-browser-use-with-claude",
-      "status": "success",
-      "path": "blog/claude/best-practices-for-computer-and-browser-use-with-claude.md",
-      "sha256": "f44277df1a955f4b613871ddf47b527aa5740ae95e1496393abcc53460ddd3e7",
-      "size": 62897,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/best-practices-for-getting-started-with-claude-cowork",
-      "status": "success",
-      "path": "blog/claude/best-practices-for-getting-started-with-claude-cowork.md",
-      "sha256": "ae94fe28d469aed2c3e3824bcd6c12b79dd13151bfd573a7b6525c67b21c7470",
-      "size": 11982,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/best-practices-for-prompt-engineering",
-      "status": "success",
-      "path": "blog/claude/best-practices-for-prompt-engineering.md",
-      "sha256": "adca5e201e17a7d63041ecba10357d5f9cd9b7fc0ade31160b6ee5e86ca29e33",
-      "size": 23259,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/best-practices-for-using-claude-opus-4-7-with-claude-code",
-      "status": "success",
-      "path": "blog/claude/best-practices-for-using-claude-opus-4-7-with-claude-code.md",
-      "sha256": "b665f59ab9596120f81065b388cff4be368781da6f3a8cc994bcb88c66a646c2",
-      "size": 7954,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous",
-      "status": "success",
-      "path": "blog/claude/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous.md",
-      "sha256": "02546c0ce6c11ca5596bd69b80815a3ff4bc0c51da266dbe5707cdeb3e1b4654",
-      "size": 12505,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/bringing-claude-code-and-claude-cowork-to-government",
-      "status": "success",
-      "path": "blog/claude/bringing-claude-code-and-claude-cowork-to-government.md",
-      "sha256": "e91f56f08f2bd2f8ec2780b8d722c679a8c0e2f6644f86e0caf05b019a9c278b",
-      "size": 3735,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/bringing-claude-mythos-5-to-more-defenders",
-      "status": "success",
-      "path": "blog/claude/bringing-claude-mythos-5-to-more-defenders.md",
-      "sha256": "787d1074958e26981c596b03e9639403f7e7e94e3aa6b1af2a92ff7c09a09935",
-      "size": 10525,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/bringing-mcp-2026-07-28-to-claude",
-      "status": "success",
-      "path": "blog/claude/bringing-mcp-2026-07-28-to-claude.md",
-      "sha256": "50974e39de6329fff3cc0a13c363032b80cded2a3ed701ca2bc84960d459ca5a",
-      "size": 3959,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/build-artifacts",
-      "status": "success",
-      "path": "blog/claude/build-artifacts.md",
-      "sha256": "458fc756a95757974d6cfe4a849f42f1ff7457d9bf3010ea490040eb13d3e6cd",
-      "size": 2859,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/build-plugins-for-claude",
-      "status": "success",
-      "path": "blog/claude/build-plugins-for-claude.md",
-      "sha256": "703e3ed7b56587bc7a5bada8e63a0e04707c542b4e81975483b84372e3abd9fb",
-      "size": 3514,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/build-responsive-web-layouts",
-      "status": "success",
-      "path": "blog/claude/build-responsive-web-layouts.md",
-      "sha256": "9005053dc279916c7e51c9eec3be9d1767acc36833c2b6f56dd70e589757595b",
-      "size": 12493,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/building-agents-that-reach-production-systems-with-mcp",
-      "status": "success",
-      "path": "blog/claude/building-agents-that-reach-production-systems-with-mcp.md",
-      "sha256": "8f6da1a22156b820e30f83276be7dad785aa1d8bbb8ca503a5ad0ba7e54c1a24",
-      "size": 13817,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/building-agents-with-skills-equipping-agents-for-specialized-work",
-      "status": "success",
-      "path": "blog/claude/building-agents-with-skills-equipping-agents-for-specialized-work.md",
-      "sha256": "1f931baa78404ec2d9f98ef1dea97a828bc88559ca0a242e9585d4ab4386cec1",
-      "size": 13625,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/building-agents-with-the-claude-agent-sdk",
-      "status": "success",
-      "path": "blog/claude/building-agents-with-the-claude-agent-sdk.md",
-      "sha256": "2899f723501168ae16c68638d9d82da32e6e8f02c1a1edc6b8a4e643776a42aa",
-      "size": 14909,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/building-ai-agents-for-startups",
-      "status": "success",
-      "path": "blog/claude/building-ai-agents-for-startups.md",
-      "sha256": "bacc0c292f359373143997796412bcca348660297471f57bbc20b4e39e470573",
-      "size": 11704,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/building-ai-agents-for-the-enterprise",
-      "status": "success",
-      "path": "blog/claude/building-ai-agents-for-the-enterprise.md",
-      "sha256": "515337d012369460f102b31451a5115ad37e51b36350837d7ff3eba7dfe77ac9",
-      "size": 2155,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/building-ai-agents-in-financial-services",
-      "status": "success",
-      "path": "blog/claude/building-ai-agents-in-financial-services.md",
-      "sha256": "00f285112dae14e6793de8424bf216b68320ddd10f07ea3b2c5fc205911cbc17",
-      "size": 17354,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/building-ai-agents-in-healthcare-and-life-sciences",
-      "status": "success",
-      "path": "blog/claude/building-ai-agents-in-healthcare-and-life-sciences.md",
-      "sha256": "41381a5f50152924f5c73c26c5636ded82322a6a013944738654f4069cce9160",
-      "size": 15515,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/building-an-ai-native-revenue-organization",
-      "status": "success",
-      "path": "blog/claude/building-an-ai-native-revenue-organization.md",
-      "sha256": "f0800cad310ccd8ae0cdd00e491278005af5e005c76f50edf976e7560f49efe2",
-      "size": 2133,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/building-companies-with-claude-code",
-      "status": "success",
-      "path": "blog/claude/building-companies-with-claude-code.md",
-      "sha256": "387871c55a9680aeac3f32961f6a5e5a57de5ffa5fb4b45fc06875141a02e210",
-      "size": 16156,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/building-effective-human-agent-teams",
-      "status": "success",
-      "path": "blog/claude/building-effective-human-agent-teams.md",
-      "sha256": "b4f78e4d49c489214ed58d8ada9c271360bce216a275a30425d84dcfa955d12d",
-      "size": 16881,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them",
-      "status": "success",
-      "path": "blog/claude/building-multi-agent-systems-when-and-how-to-use-them.md",
-      "sha256": "75508946434468b05ae9ea424c7292f051e5b126eb7bdf40aa5117c961515375",
-      "size": 23599,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/building-verification-loops-in-claude-code-with-skills",
-      "status": "success",
-      "path": "blog/claude/building-verification-loops-in-claude-code-with-skills.md",
-      "sha256": "1df870b0852916f2a89d97b8e0eb6bf7bd626c4d2d738b1961adf01be0284dba",
-      "size": 11424,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/building-with-claude-managed-agents",
-      "status": "success",
-      "path": "blog/claude/building-with-claude-managed-agents.md",
-      "sha256": "4525ba83770aa98e4acddcf4f02769782e58b00367f336c6da85cca87657e755",
-      "size": 30293,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/carta-healthcare-clinical-abstractor",
-      "status": "success",
-      "path": "blog/claude/carta-healthcare-clinical-abstractor.md",
-      "sha256": "be3ca10f18a61956b476687f781e29fe48a362be6e44ec97879a4191ebcf3368",
-      "size": 8719,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/ciso-guide-to-agentic-ai",
-      "status": "success",
-      "path": "blog/claude/ciso-guide-to-agentic-ai.md",
-      "sha256": "b1ad794f2cc567c7b06b855d901163386b712e2bda2c2d1a5fe64f0299da6e80",
-      "size": 22572,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-2-1-prompting",
-      "status": "success",
-      "path": "blog/claude/claude-2-1-prompting.md",
-      "sha256": "145ea705e9d90e0d1880fe6b21acb8b84b7f533a874398fdfc012e9ad8c18c86",
-      "size": 7033,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-2-amazon-bedrock",
-      "status": "success",
-      "path": "blog/claude/claude-2-amazon-bedrock.md",
-      "sha256": "122a79938e1a26ba17d1e81ab6de2a2237c69b8b9d710cdc4180a09f6d3f3bd3",
-      "size": 3460,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-and-slack",
-      "status": "success",
-      "path": "blog/claude/claude-and-slack.md",
-      "sha256": "c87407bd6a4cccedfec534f1714eadf947567f0142e63157bae47f3737064890",
-      "size": 4461,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-api-skill",
-      "status": "success",
-      "path": "blog/claude/claude-api-skill.md",
-      "sha256": "d2e36bdcf5197f06164f0f42b4427083f3748cc1b7846ece2b45435bcc7ebc92",
-      "size": 2564,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-builds-visuals",
-      "status": "success",
-      "path": "blog/claude/claude-builds-visuals.md",
-      "sha256": "ef010cfa11991fbb3079e2914e417301feb11ba7ab059c7ab4ef6dcc15998867",
-      "size": 2372,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-code-and-new-admin-controls-for-business-plans",
-      "status": "success",
-      "path": "blog/claude/claude-code-and-new-admin-controls-for-business-plans.md",
-      "sha256": "b2f6b5e15d5f7cd86a10820ca4bb856d99fa0abb78e9eebbf987126110bf5312",
-      "size": 4678,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-code-and-slack",
-      "status": "success",
-      "path": "blog/claude/claude-code-and-slack.md",
-      "sha256": "1979215e72a60da708f038eb10f71a524814665e7331cfa1c8947f5297026cf6",
-      "size": 2427,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-code-desktop-redesign",
-      "status": "success",
-      "path": "blog/claude/claude-code-desktop-redesign.md",
-      "sha256": "6de02ea7890e60a06cb53386cc14a57413f0abe1b8ceccf82411d899a8fde9db",
-      "size": 3183,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-code-guide-for-startups",
-      "status": "success",
-      "path": "blog/claude/claude-code-guide-for-startups.md",
-      "sha256": "35ba08034ddb01f0712153b52800a38f9654804a3115ffdcca99fce391871ab1",
-      "size": 49795,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-code-mods",
-      "status": "success",
-      "path": "blog/claude/claude-code-mods.md",
-      "sha256": "bb28a32dfffa34e1b10570d3cfac0a0f9f4e04f3c1f8d004d503f94ba9cb11d7",
-      "size": 4585,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-code-on-the-web",
-      "status": "success",
-      "path": "blog/claude/claude-code-on-the-web.md",
-      "sha256": "5b6589674c5604f950c614df79a518672f55e372c6fbbe49781a9cfb8a24cd98",
-      "size": 3104,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-code-plugins",
-      "status": "success",
-      "path": "blog/claude/claude-code-plugins.md",
-      "sha256": "7ae070a3e11afdaf8da18d0c38e63e5724c8308e2e8745876950d74d12d1d2e4",
-      "size": 4640,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-code-remote-mcp",
-      "status": "success",
-      "path": "blog/claude/claude-code-remote-mcp.md",
-      "sha256": "28a48b1f1501fd9087e7da4f1049c07bf4f520e7240d3f76402608dce4f7c490",
-      "size": 2220,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-design-stays-on-brand-for-daily-work",
-      "status": "success",
-      "path": "blog/claude/claude-design-stays-on-brand-for-daily-work.md",
-      "sha256": "57a0caaee0bb4f12fc5a1a74bdf27b073a39303a92673909949d733a15f83bed",
-      "size": 4145,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-enterprise-inference-hooks",
-      "status": "success",
-      "path": "blog/claude/claude-enterprise-inference-hooks.md",
-      "sha256": "13ae176112ec3b21eee11e138acfc87821b2f71e69aecda5da7bff05b72c8e2e",
-      "size": 3245,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-excel-powerpoint-updates",
-      "status": "success",
-      "path": "blog/claude/claude-excel-powerpoint-updates.md",
-      "sha256": "51469acf1f1f8bf28d04d72c409e40588da20d4535299bbcf56893fd378270a9",
-      "size": 5414,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-for-chrome",
-      "status": "success",
-      "path": "blog/claude/claude-for-chrome.md",
-      "sha256": "dcdbae5f2f15559f96c58988d3505694d9174ca76a6ae00b6e20d209eb17825c",
-      "size": 10203,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-for-commerce-agents",
-      "status": "success",
-      "path": "blog/claude/claude-for-commerce-agents.md",
-      "sha256": "b3358fcfef4ea0714991066c9993b5b742ed4cc377d31ffd181435eeb9b05067",
-      "size": 5421,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-for-enterprise",
-      "status": "success",
-      "path": "blog/claude/claude-for-enterprise.md",
-      "sha256": "99ae3ebe96a3e3915578caa2df8f7925d3265019b6b3c8672e6a3ac8cadc777f",
-      "size": 5553,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-for-financial-advisors",
-      "status": "success",
-      "path": "blog/claude/claude-for-financial-advisors.md",
-      "sha256": "8e61466c088a65732f1e9dbe7d022d5e52a1e315223c840813b4f49eeede6b59",
-      "size": 9447,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-for-foundation-models",
-      "status": "success",
-      "path": "blog/claude/claude-for-foundation-models.md",
-      "sha256": "368bf99ec3b55dde8ff233484b86fb7db5e775aa132a90b435d0e6604ebf1739",
-      "size": 2321,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-for-government-is-now-generally-available",
-      "status": "success",
-      "path": "blog/claude/claude-for-government-is-now-generally-available.md",
-      "sha256": "0f99719de4d0ab016513ad12670c612ac21ce7561b28d3a4266be70d6ed1aeb2",
-      "size": 3817,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-for-small-business-launches-new-workflows-integrations-and-training-programs",
-      "status": "success",
-      "path": "blog/claude/claude-for-small-business-launches-new-workflows-integrations-and-training-programs.md",
-      "sha256": "2114cc9251bf30a45b05c820f226157ceab16816ec6de66cfcfce2f34c605092",
-      "size": 21482,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-for-teachers-now-available-for-schools-and-districts",
-      "status": "success",
-      "path": "blog/claude/claude-for-teachers-now-available-for-schools-and-districts.md",
-      "sha256": "f818092b8d9fc00b5f8ba162faad4d7a2e05ef3692ec54295349b88df50885ea",
-      "size": 4133,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-for-the-legal-industry",
-      "status": "success",
-      "path": "blog/claude/claude-for-the-legal-industry.md",
-      "sha256": "afccf80d6a4d34ebef373d45e87619362654eb810b28273a56a1ef2987451b52",
-      "size": 14309,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-in-chrome-generally-available",
-      "status": "success",
-      "path": "blog/claude/claude-in-chrome-generally-available.md",
-      "sha256": "c53ad0a8b9501fca5dfa81e8f20d9eb42b61323c5019c8e54047a75900cfa7bf",
-      "size": 8411,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-in-microsoft-foundry",
-      "status": "success",
-      "path": "blog/claude/claude-in-microsoft-foundry.md",
-      "sha256": "37f8ed26abcf7a22438fed5bb8c63731eba29a54c247e78952632e6635ab206c",
-      "size": 1893,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-managed-agents",
-      "status": "success",
-      "path": "blog/claude/claude-managed-agents.md",
-      "sha256": "e2011d9ee28a911020947a0089947f62b5e248d78df3ee2730de35f5ae8344ca",
-      "size": 6456,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-managed-agents-memory",
-      "status": "success",
-      "path": "blog/claude/claude-managed-agents-memory.md",
-      "sha256": "ec99487401f24afccb108e9953c2f56dbb9e5bde0426fe03269331da1d375937",
-      "size": 3783,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-managed-agents-updates",
-      "status": "success",
-      "path": "blog/claude/claude-managed-agents-updates.md",
-      "sha256": "bd34d722e3b8240475b707fcfccae9061b50e690af6e766a94658d2cbfd40f14",
-      "size": 6138,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-marketplace",
-      "status": "success",
-      "path": "blog/claude/claude-marketplace.md",
-      "sha256": "3bc54b1f9ed37257bb4d7be9f6567460ac8baa882fe6d2e9ec62390817733df1",
-      "size": 2881,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-model-and-effort-level-in-claude-code",
-      "status": "success",
-      "path": "blog/claude/claude-model-and-effort-level-in-claude-code.md",
-      "sha256": "febc627e9e8a4ab0b7873fd8b2d5ee9fe319193d7eb74bf9ea886f5ad5fe0eba",
-      "size": 16705,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-models-explained-choosing-the-best-model-for-your-use-case",
-      "status": "success",
-      "path": "blog/claude/claude-models-explained-choosing-the-best-model-for-your-use-case.md",
-      "sha256": "487b21396d2dda1a00720b82468353e1b38f5fd9d97cfb5aaad8ee65a6ea767a",
-      "size": 7731,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-now-available-in-microsoft-365-copilot",
-      "status": "success",
-      "path": "blog/claude/claude-now-available-in-microsoft-365-copilot.md",
-      "sha256": "7df105ef4ebb95c77f6182a24d1351eaf0e4a67c84cc96ca94ee2a0a9df0f939",
-      "size": 3166,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-on-google-cloud-fedramp-high",
-      "status": "success",
-      "path": "blog/claude/claude-on-google-cloud-fedramp-high.md",
-      "sha256": "c88a907c7dc72db9bb3f40545fde168c7ce7c46b931a6738ad8364305601ebeb",
-      "size": 2546,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-opus-5-5-built-for-coding-sessions-that-use-more-context",
-      "status": "success",
-      "path": "blog/claude/claude-opus-5-5-built-for-coding-sessions-that-use-more-context.md",
-      "sha256": "42eab01dbd78d782c5eb94b30e5afd5962d9e6a952e055dac84e2a0f85e070d1",
-      "size": 5984,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-platform-compliance-api",
-      "status": "success",
-      "path": "blog/claude/claude-platform-compliance-api.md",
-      "sha256": "5ff488f36f3ec62a0c7ba1390ad51a680a47b0288818e99ede268e8bbfc895e3",
-      "size": 2315,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-platform-on-aws",
-      "status": "success",
-      "path": "blog/claude/claude-platform-on-aws.md",
-      "sha256": "ec40fa1b0a31aa5a0e41105596e557f883c721c240c0526f34b2964f74cc0eaf",
-      "size": 4711,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-powered-artifacts",
-      "status": "success",
-      "path": "blog/claude/claude-powered-artifacts.md",
-      "sha256": "dcf65468746f7d70c5140920e9358d2671f14ffd58cf29f7cae6396bdd99eb75",
-      "size": 2474,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-security-public-beta",
-      "status": "success",
-      "path": "blog/claude/claude-security-public-beta.md",
-      "sha256": "7b910302a6529c832c16489b84d325fd9d22f08a344c74e63c0fa5e67e0207b1",
-      "size": 7999,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-tag-now-reads-even-more-of-the-room",
-      "status": "success",
-      "path": "blog/claude/claude-tag-now-reads-even-more-of-the-room.md",
-      "sha256": "d2b2c8de1c0368af02dd6c99b560ea8a411996d4503b39413bf5ae4da3947121",
-      "size": 5058,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-tag-now-supports-personal-connectors-in-channels",
-      "status": "success",
-      "path": "blog/claude/claude-tag-now-supports-personal-connectors-in-channels.md",
-      "sha256": "340acc3c4b48b53b073a63e68316eea6d5560bcc01f48a8b70a46cd70a3f9794",
-      "size": 4444,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claude-team-updates",
-      "status": "success",
-      "path": "blog/claude/claude-team-updates.md",
-      "sha256": "97e9838baa7fc9a3da8fe93203e9213256908b9835034d4bc3871a8fe22f6750",
-      "size": 1271,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/claudes-memory-works-everywhere-and-you-decide-whats-in-it",
-      "status": "success",
-      "path": "blog/claude/claudes-memory-works-everywhere-and-you-decide-whats-in-it.md",
-      "sha256": "ce20cfa2ca2afcd198b90c93a68d7f279315a1044af19b5ff7bef9293423ee8b",
-      "size": 4243,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/code-review",
-      "status": "success",
-      "path": "blog/claude/code-review.md",
-      "sha256": "b7a49698d250672a1fe77dbe2fccbfa7bf12d263cffd1d11c58dba324ac14a2a",
-      "size": 3918,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/code-w-claude-london-2026-rethinking-how-we-build",
-      "status": "success",
-      "path": "blog/claude/code-w-claude-london-2026-rethinking-how-we-build.md",
-      "sha256": "70b3446aae0e1e44b5e2b0c6bf156a9491c15a16e9bc565427d037faf2d91b64",
-      "size": 4725,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/code-w-claude-sf-2026-sf",
-      "status": "success",
-      "path": "blog/claude/code-w-claude-sf-2026-sf.md",
-      "sha256": "75ff5b8c463e3ba20f2e4a2599bae8e431cdb4af478e42d25d67756e03ceb287",
-      "size": 4347,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/code-with-claude-san-francisco-london-tokyo",
-      "status": "success",
-      "path": "blog/claude/code-with-claude-san-francisco-london-tokyo.md",
-      "sha256": "d2dcb8ac65622cc7a63a44d3d509670551351ad466fecb099b39db661898edb1",
-      "size": 1104,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/collaborate-with-claude-across-excel-powerpoint-word-and-outlook",
-      "status": "success",
-      "path": "blog/claude/collaborate-with-claude-across-excel-powerpoint-word-and-outlook.md",
-      "sha256": "230d68df29ace60b2711404903de2ad66ac928849a4c77fe2b53d65d1e8ac93e",
-      "size": 3362,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/common-workflow-patterns-for-ai-agents-and-when-to-use-them",
-      "status": "success",
-      "path": "blog/claude/common-workflow-patterns-for-ai-agents-and-when-to-use-them.md",
-      "sha256": "581257893bc4af03286efd2700bd87aa6e567b3398a75751113b7362d9b0b2d4",
-      "size": 13640,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/complete-guide-to-building-skills-for-claude",
-      "status": "success",
-      "path": "blog/claude/complete-guide-to-building-skills-for-claude.md",
-      "sha256": "1dcbd210a257f1f4c1fa3647e59fbdb6aff9633c76079314dcd3c88794c7c05b",
-      "size": 1841,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/compliance-api-cowork-and-claude-code",
-      "status": "success",
-      "path": "blog/claude/compliance-api-cowork-and-claude-code.md",
-      "sha256": "6aecfe0bf1a7a2a5c6b730b91d2af2346d51e9df200a5c81d24bedaff59360ab",
-      "size": 2334,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/compliance-api-security-partners",
-      "status": "success",
-      "path": "blog/claude/compliance-api-security-partners.md",
-      "sha256": "1b6c8a019ab9f74eeb775060f411256b1ca49b08f215e2a44bf1c507db261ae7",
-      "size": 11622,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/computer-use-skills-api-files-api",
-      "status": "success",
-      "path": "blog/claude/computer-use-skills-api-files-api.md",
-      "sha256": "6aac42e3a2ba02358cbfa71b6d48cadf7f0b92f1b3d5a6146859f139a33871f6",
-      "size": 3200,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/connectors-directory",
-      "status": "success",
-      "path": "blog/claude/connectors-directory.md",
-      "sha256": "515efb5bf9bf2b615ceeb83cacf2979aec06fcc6b5aa65071938643259f988ad",
-      "size": 2297,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/connectors-for-everyday-life",
-      "status": "success",
-      "path": "blog/claude/connectors-for-everyday-life.md",
-      "sha256": "ba343d80f9d09b4dae5c4320784e79c2de0176a235b57ccc0bdb3dbc9e4691c0",
-      "size": 3442,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/context-management",
-      "status": "success",
-      "path": "blog/claude/context-management.md",
-      "sha256": "ad92dac98cd147b91a4967e5bd355fcd1b940df2b2452171c772f821f007eea9",
-      "size": 4754,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/contribution-metrics",
-      "status": "success",
-      "path": "blog/claude/contribution-metrics.md",
-      "sha256": "12ee7fe37f0434b4f68ffb7d504ff89abad14d2a87ce2edfecb2e169720643f2",
-      "size": 2900,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/cowork-built-in-browser",
-      "status": "success",
-      "path": "blog/claude/cowork-built-in-browser.md",
-      "sha256": "0d5b63ee481fa6efed8ba158b6e44623da2388f4bb1f7a9d4fa9e2757048badc",
-      "size": 3368,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/cowork-chrome-side-panel",
-      "status": "success",
-      "path": "blog/claude/cowork-chrome-side-panel.md",
-      "sha256": "6cd95206f33675e2ee4082765695010a3571358e4d030479c11d556f5ed79570",
-      "size": 4006,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/cowork-for-enterprise",
-      "status": "success",
-      "path": "blog/claude/cowork-for-enterprise.md",
-      "sha256": "d693a020b2d8ee05879cc03c4ec14ce3f10195c357dadb654821f6d74ec849e1",
-      "size": 5223,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/cowork-is-now-claude",
-      "status": "success",
-      "path": "blog/claude/cowork-is-now-claude.md",
-      "sha256": "da49d1bd616982210f99f4e4907cc737351c36079a16c338e66da6622b9edc28",
-      "size": 3603,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/cowork-plugins",
-      "status": "success",
-      "path": "blog/claude/cowork-plugins.md",
-      "sha256": "9a4d315e83a523338d35028efe198b08be439d46526a473c4cd0b8416c488cdc",
-      "size": 3131,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/cowork-plugins-across-enterprise",
-      "status": "success",
-      "path": "blog/claude/cowork-plugins-across-enterprise.md",
-      "sha256": "5b716dc3efa6d47c05045f335e4237f2df12533d9cf0babcb5b11802d7aef303",
-      "size": 8260,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/cowork-plugins-finance",
-      "status": "success",
-      "path": "blog/claude/cowork-plugins-finance.md",
-      "sha256": "d2d5929bab506caf86e18ee37a768f87a6cb6cbe6d9aab21e098945a24293473",
-      "size": 5795,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/cowork-web-mobile",
-      "status": "success",
-      "path": "blog/claude/cowork-web-mobile.md",
-      "sha256": "7a559c5757bf9db67ec7cdbed392518e7488ab9a7abd16d9ca1edf828d12d52d",
-      "size": 3691,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/create-files",
-      "status": "success",
-      "path": "blog/claude/create-files.md",
-      "sha256": "530eb3939038553d6970dc529a9ea44af714dfcd5ed904a3d6652b44d7982e41",
-      "size": 3591,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/deploying-ai-from-pilot-to-production",
-      "status": "success",
-      "path": "blog/claude/deploying-ai-from-pilot-to-production.md",
-      "sha256": "cd010b1544c370098695c6595feca6c243bc265cff2d5be4e28b967f046996ad",
-      "size": 2358,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/deploying-claude-across-financial-services",
-      "status": "success",
-      "path": "blog/claude/deploying-claude-across-financial-services.md",
-      "sha256": "7556083bc8d54d9dbfa99f7fe57c4a8f9945f90d6dfb06d0e07af00936ebc270",
-      "size": 1839,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/deploying-claude-across-the-legal-industry",
-      "status": "success",
-      "path": "blog/claude/deploying-claude-across-the-legal-industry.md",
-      "sha256": "bb33594b413a36c33daeb6fc2ebe1c59ed8c01d342df899be85e82b87e017c96",
-      "size": 2431,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/dispatch-and-computer-use",
-      "status": "success",
-      "path": "blog/claude/dispatch-and-computer-use.md",
-      "sha256": "b291e5308e44c00c5882dab29a1fbda89ca52c465a0c232a47cf640175ad2fa4",
-      "size": 3751,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/driving-ai-transformation-with-claude",
-      "status": "success",
-      "path": "blog/claude/driving-ai-transformation-with-claude.md",
-      "sha256": "d687ca42e3463a91b1284906b4ed814133d46e815187b7a60dba853d8c61dc70",
-      "size": 11946,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/eight-trends-defining-how-software-gets-built-in-2026",
-      "status": "success",
-      "path": "blog/claude/eight-trends-defining-how-software-gets-built-in-2026.md",
-      "sha256": "0cd125fa36b91f3544b75d3279d590ee64e98ed79e28c373cdecb0491005fd20",
-      "size": 2805,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/enterprise-managed-auth",
-      "status": "success",
-      "path": "blog/claude/enterprise-managed-auth.md",
-      "sha256": "4bfb728a099c507020c5521b49f3fe46f2ed27e734c731dd74ffe8842717b613",
-      "size": 3932,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/evaluate-prompts",
-      "status": "success",
-      "path": "blog/claude/evaluate-prompts.md",
-      "sha256": "33bdbcbbbce006b764abb90c384e5f93da3fddbc93e1de7e1e2817510c4ca4ba",
-      "size": 3396,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/extending-claude-capabilities-with-skills-mcp-servers",
-      "status": "success",
-      "path": "blog/claude/extending-claude-capabilities-with-skills-mcp-servers.md",
-      "sha256": "50084534e5f717978ce6459122315c6a3c03b99a06e18343e12726a3fa7b4838",
-      "size": 12624,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/fine-tune-claude-3-haiku",
-      "status": "success",
-      "path": "blog/claude/fine-tune-claude-3-haiku.md",
-      "sha256": "6e79065c46b19544f961ddfe982b741eba2b2b03694d5ef79de5b66ef3f4a28a",
-      "size": 5531,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/fix-software-bugs-faster-with-claude",
-      "status": "success",
-      "path": "blog/claude/fix-software-bugs-faster-with-claude.md",
-      "sha256": "e5022ee116e1cfce4308751cfa3bc3536dcf9863d79c10e4e3a94f7468e6f5c2",
-      "size": 9489,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/four-role-based-claude-certifications",
-      "status": "success",
-      "path": "blog/claude/four-role-based-claude-certifications.md",
-      "sha256": "b0f1baec697fb7973fc41651e5b8b2b7946ddba8b64444fbb5a0833d6081aefd",
-      "size": 7805,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/getting-started-with-loops",
-      "status": "success",
-      "path": "blog/claude/getting-started-with-loops.md",
-      "sha256": "c35b8358a3833525581a1826ce20b49800784c9e82bee0fc4ade08ccf875c493",
-      "size": 10539,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/giving-admins-more-visibility-and-control-over-claude-usage-and-spend",
-      "status": "success",
-      "path": "blog/claude/giving-admins-more-visibility-and-control-over-claude-usage-and-spend.md",
-      "sha256": "22e035ee8c0d33658e062ccd6095a7e820ae24abb4962963e335c6ac2ab4bc9d",
-      "size": 4663,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/giving-companies-more-control-over-their-ai-agents-with-nvidia",
-      "status": "success",
-      "path": "blog/claude/giving-companies-more-control-over-their-ai-agents-with-nvidia.md",
-      "sha256": "91ac815a9be18e2b20e344909f0429847601185a145f24ccb370d5f59068b664",
-      "size": 4442,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/harnessing-claudes-intelligence",
-      "status": "success",
-      "path": "blog/claude/harnessing-claudes-intelligence.md",
-      "sha256": "d6731b6cb3bf9f5c8c1e0ab284bff4c72260961811d7446561093c5874b5f0b2",
-      "size": 15437,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-a-non-technical-project-manager-built-and-shipped-a-stress-management-app-with-claude-code-in-six-weeks",
-      "status": "success",
-      "path": "blog/claude/how-a-non-technical-project-manager-built-and-shipped-a-stress-management-app-with-claude-code-in-six-weeks.md",
-      "sha256": "bb1cc5321655a9b8fa78149c39996ef75b772babb7de4fb84638ac9b48d65881",
-      "size": 9205,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-abc-legal-turned-every-employee-into-a-builder-with-claude-managed-agents",
-      "status": "success",
-      "path": "blog/claude/how-abc-legal-turned-every-employee-into-a-builder-with-claude-managed-agents.md",
-      "sha256": "5ba399cbe12fe81be7b58da934bb7a6d51909068c30ee36deb7fa2080fcc9bdf",
-      "size": 15962,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-ai-helps-break-cost-barrier-cobol-modernization",
-      "status": "success",
-      "path": "blog/claude/how-ai-helps-break-cost-barrier-cobol-modernization.md",
-      "sha256": "f0d602bc04b5517d9ef6c9574efef4cc783a90d490ef24e0820c8ca2a4e1e4cc",
-      "size": 8073,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-an-anthropic-field-marketer-uses-claude-code-to-send-weekly-personalized-updates-to-every-sales-rep",
-      "status": "success",
-      "path": "blog/claude/how-an-anthropic-field-marketer-uses-claude-code-to-send-weekly-personalized-updates-to-every-sales-rep.md",
-      "sha256": "7397c50a915cd17f6dede2ee9bef07bd15c15a6f74fdf32a8d036932d5f38772",
-      "size": 9589,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-an-anthropic-sales-leader-uses-claude-cowork-to-run-a-4-000-account-book",
-      "status": "success",
-      "path": "blog/claude/how-an-anthropic-sales-leader-uses-claude-cowork-to-run-a-4-000-account-book.md",
-      "sha256": "8c5cdd4348c1aaca3f6d8ec8c37ec02d85a87a23d6c2eddbbd6a06919479aa4a",
-      "size": 6708,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-anthropic-employees-use-claude-tag",
-      "status": "success",
-      "path": "blog/claude/how-anthropic-employees-use-claude-tag.md",
-      "sha256": "30757d6c83a5e6f6895f284d6be47c553c0065390a4721c897c27c574bd96e98",
-      "size": 11221,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-anthropic-enables-self-service-data-analytics-with-claude",
-      "status": "success",
-      "path": "blog/claude/how-anthropic-enables-self-service-data-analytics-with-claude.md",
-      "sha256": "ec170c47e6caac741a9562ef0801f3f7024b7fd26410bef2554916b2aea1ee46",
-      "size": 32281,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-anthropic-secures-its-ai-native-software-development-lifecycle",
-      "status": "success",
-      "path": "blog/claude/how-anthropic-secures-its-ai-native-software-development-lifecycle.md",
-      "sha256": "712cbf0311c746f0cbf1bd53a5149867367c9570df4c4fdbe1688aa65a17b961",
-      "size": 19735,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-anthropic-teams-use-claude-code",
-      "status": "success",
-      "path": "blog/claude/how-anthropic-teams-use-claude-code.md",
-      "sha256": "e2eca3d274fbe261eabdeee08a2f643bcb4acbdcb8650a10a51a037d2fd2a8be",
-      "size": 7692,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-anthropic-uses-claude-cybersecurity",
-      "status": "success",
-      "path": "blog/claude/how-anthropic-uses-claude-cybersecurity.md",
-      "sha256": "c477afa899ee3ad8cbc3026c3fae2d95312be789542ade089e20355b77fba92a",
-      "size": 11169,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-anthropic-uses-claude-gtm-engineering",
-      "status": "success",
-      "path": "blog/claude/how-anthropic-uses-claude-gtm-engineering.md",
-      "sha256": "ba98168d5a76814721506a8e7c52605639c678d7d2d4d7aa3cc5f6aae5228101",
-      "size": 9331,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-anthropic-uses-claude-legal",
-      "status": "success",
-      "path": "blog/claude/how-anthropic-uses-claude-legal.md",
-      "sha256": "9b2f0ccd1e55ba14792c22285144e0e42b9ec75d105675b577e747e4d5843af0",
-      "size": 9395,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-anthropic-uses-claude-marketing",
-      "status": "success",
-      "path": "blog/claude/how-anthropic-uses-claude-marketing.md",
-      "sha256": "cce7bc304f4130974a2d576b9e011001ae179767be9b28bf39537dd69d509b9f",
-      "size": 10518,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-anthropics-business-development-team-uses-claude-to-run-inbound-and-outbound-at-scale",
-      "status": "success",
-      "path": "blog/claude/how-anthropics-business-development-team-uses-claude-to-run-inbound-and-outbound-at-scale.md",
-      "sha256": "03ce946530457c9d58f20f45eac8601a87b3f97f04f469d0523c782f2b6ac6da",
-      "size": 10682,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-anthropics-finance-team-uses-claude-to-shape-the-narrative-behind-the-numbers",
-      "status": "success",
-      "path": "blog/claude/how-anthropics-finance-team-uses-claude-to-shape-the-narrative-behind-the-numbers.md",
-      "sha256": "033ad8991a6208c4f71a2b404a7c31e4a3dc26b7c04d9380eca04d8071451a57",
-      "size": 8075,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-anthropics-marketing-operations-team-uses-claude-cowork-to-automate-reporting-and-campaign-builds",
-      "status": "success",
-      "path": "blog/claude/how-anthropics-marketing-operations-team-uses-claude-cowork-to-automate-reporting-and-campaign-builds.md",
-      "sha256": "4a03327a002cb66197cc5c82fc333757403c4f66e58e6b7e4fd57ae0e5d49db2",
-      "size": 9883,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-anthropics-sales-team-rebuilt-inbound-with-claude-managed-agents",
-      "status": "success",
-      "path": "blog/claude/how-anthropics-sales-team-rebuilt-inbound-with-claude-managed-agents.md",
-      "sha256": "b60d539fdf5e39d0e954f3c494a9776f8e6deaf88b955665972fcd40c25b92b2",
-      "size": 9195,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-brex-improves-code-quality-and-productivity-with-claude-code",
-      "status": "success",
-      "path": "blog/claude/how-brex-improves-code-quality-and-productivity-with-claude-code.md",
-      "sha256": "b77c88df287de9c138868fbbbfc44f81f72149d0ecbdaa453534a6ecd1decd74",
-      "size": 8630,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start",
-      "status": "success",
-      "path": "blog/claude/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start.md",
-      "sha256": "65cae5a199a462ab194d03bb7ec754d3ab0a79f54bd9369a5a1a89133111c6dd",
-      "size": 19324,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-coderabbit-power-digital-and-thoughtspot-scale-with-snowflake-and-vercel-on-claude-marketplace",
-      "status": "success",
-      "path": "blog/claude/how-coderabbit-power-digital-and-thoughtspot-scale-with-snowflake-and-vercel-on-claude-marketplace.md",
-      "sha256": "812e311947f43d81c38a7d4893fd85515e1c2c37894be55e10267673808ea9a3",
-      "size": 6401,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-coderabbit-used-claude-to-build-an-agent-orchestration-system",
-      "status": "success",
-      "path": "blog/claude/how-coderabbit-used-claude-to-build-an-agent-orchestration-system.md",
-      "sha256": "f44f53f06d71a8229aa2ea23dff5b2c851eac570aa8326c21b9ef213ff6a94e4",
-      "size": 7077,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-datadog-built-a-universal-machine-tool-for-claude-code",
-      "status": "success",
-      "path": "blog/claude/how-datadog-built-a-universal-machine-tool-for-claude-code.md",
-      "sha256": "51f0da685bbe54a961130bd30c05056647c15f5ae0a55b6c6cbdff9af46d8cf2",
-      "size": 11969,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-enterprises-are-building-ai-agents-in-2026",
-      "status": "success",
-      "path": "blog/claude/how-enterprises-are-building-ai-agents-in-2026.md",
-      "sha256": "32a9664908f26bf7df5865322c915b1c86bed3a704b188d9c64708b493c99f57",
-      "size": 3837,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-healthcare-organizations-use-claude-tag",
-      "status": "success",
-      "path": "blog/claude/how-healthcare-organizations-use-claude-tag.md",
-      "sha256": "2c0eb30582b5a3ad035e2f3890b56e43af59106a18d216bb8b57685b78963aa9",
-      "size": 10509,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-jetbrains-evaluates-and-deploys-claude-fable-5",
-      "status": "success",
-      "path": "blog/claude/how-jetbrains-evaluates-and-deploys-claude-fable-5.md",
-      "sha256": "cdf21c90908739ec16ad34bda17c3a1eb67edcbf14491e431821254da2d3c158",
-      "size": 5772,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-kepler-built-verifiable-ai-for-financial-services-with-claude",
-      "status": "success",
-      "path": "blog/claude/how-kepler-built-verifiable-ai-for-financial-services-with-claude.md",
-      "sha256": "a5960a113f8d44efc5edf72ee0d3481bbe8f0bf94cc9f6d8569061c77dac5f3f",
-      "size": 9332,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-leading-retailers-are-turning-ai-pilots-into-enterprise-wide-transformation",
-      "status": "success",
-      "path": "blog/claude/how-leading-retailers-are-turning-ai-pilots-into-enterprise-wide-transformation.md",
-      "sha256": "bea6add553e1feccc32be434d3aea67e9018598ddb2da4922fd28a46d5bfbd4f",
-      "size": 2585,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-monday-com-transformed-its-platform-into-an-agent-first-product-where-humans-and-agents-collaborate",
-      "status": "success",
-      "path": "blog/claude/how-monday-com-transformed-its-platform-into-an-agent-first-product-where-humans-and-agents-collaborate.md",
-      "sha256": "eaec577af46cc9acd5814fc714f0d7ffac177487e8bed1d8fd863c4922f20558",
-      "size": 10305,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-our-partners-are-putting-opus-to-work-for-cybersecurity",
-      "status": "success",
-      "path": "blog/claude/how-our-partners-are-putting-opus-to-work-for-cybersecurity.md",
-      "sha256": "2705740fc1848e35b8bda0628c35c6d07153bb314d13c128fe6e5783cc758bb8",
-      "size": 8234,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-outtake-built-a-cyber-investigator-on-claude",
-      "status": "success",
-      "path": "blog/claude/how-outtake-built-a-cyber-investigator-on-claude.md",
-      "sha256": "81dd47d687a953e34f7b171898f34363c4fe2fbdcb263f7bc089b3ae08da2dc3",
-      "size": 14041,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-people-are-using-claude-cowork",
-      "status": "success",
-      "path": "blog/claude/how-people-are-using-claude-cowork.md",
-      "sha256": "27c0e387e7c38cd4955cfdd4ab8cd49171e5f6c5b5ccb353974271570b4018dc",
-      "size": 8998,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-the-product-designer-who-built-claude-design-uses-it-to-explore-ideas-before-building-them",
-      "status": "success",
-      "path": "blog/claude/how-the-product-designer-who-built-claude-design-uses-it-to-explore-ideas-before-building-them.md",
-      "sha256": "72acea7f83bc637ab03f85715fe635aee334bb33465749ac555b5f1a7d9cffa4",
-      "size": 10993,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-to-configure-hooks",
-      "status": "success",
-      "path": "blog/claude/how-to-configure-hooks.md",
-      "sha256": "df61919ff017e8dbfd723b7f1a3c76c895498faccd33bc22c40b1fcf9370865a",
-      "size": 17920,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-to-create-skills-key-steps-limitations-and-examples",
-      "status": "success",
-      "path": "blog/claude/how-to-create-skills-key-steps-limitations-and-examples.md",
-      "sha256": "3ed9f6691d591e3408ebe4293b1662a0d64ee00d89ec8bbca7dab533a28fda77",
-      "size": 31283,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-to-prepare-for-ai-driven-code-modernization-projects",
-      "status": "success",
-      "path": "blog/claude/how-to-prepare-for-ai-driven-code-modernization-projects.md",
-      "sha256": "6f5042bb50c25719685fc33391030a695ad8c18401745519fd68c4f059562ed2",
-      "size": 21942,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/how-warp-builds-self-improving-agents-on-claude",
-      "status": "success",
-      "path": "blog/claude/how-warp-builds-self-improving-agents-on-claude.md",
-      "sha256": "1ad2843aa90fa79fd55cf9f6e3fcc6fbe81bf62d380a2402e91bf54b1814c7f5",
-      "size": 11025,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/improved-web-search-with-dynamic-filtering",
-      "status": "success",
-      "path": "blog/claude/improved-web-search-with-dynamic-filtering.md",
-      "sha256": "a9344414c189b7956401a9510256586dc110761ae0e0aacf65985a93a75c6fa2",
-      "size": 6980,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/improving-frontend-design-through-skills",
-      "status": "success",
-      "path": "blog/claude/improving-frontend-design-through-skills.md",
-      "sha256": "12c50e835d6f53d6fb3a89218df723782549faafe96be02e4f5e052a6105b51b",
-      "size": 17818,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills",
-      "status": "success",
-      "path": "blog/claude/improving-skill-creator-test-measure-and-refine-agent-skills.md",
-      "sha256": "5ab9cbbc029f040822d51d34b3c8fc108f8042b6b6240c600139ad5d04fa65bf",
-      "size": 6365,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/integrate-apis-seamlessly",
-      "status": "success",
-      "path": "blog/claude/integrate-apis-seamlessly.md",
-      "sha256": "9c3503542c41f1c0146245a2dc21e6e49617b3c5ae5f4783acb51a3d945154bf",
-      "size": 8193,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/integrations",
-      "status": "success",
-      "path": "blog/claude/integrations.md",
-      "sha256": "884209cb7b8c4bbe7510121d9f1a1d6b395f89f1cfaba996a567a6ddade2ed24",
-      "size": 5383,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/interactive-tools-in-claude",
-      "status": "success",
-      "path": "blog/claude/interactive-tools-in-claude.md",
-      "sha256": "138ff2551dd2e396d5cd968a040ca297e042235d2fab068ea5659125f814b7a4",
-      "size": 3479,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/introducing-citations-api",
-      "status": "success",
-      "path": "blog/claude/introducing-citations-api.md",
-      "sha256": "d39c892768015b71619072d83568a770a1466c36b1dc269caefd392768b2092c",
-      "size": 4342,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code",
-      "status": "success",
-      "path": "blog/claude/introducing-dynamic-workflows-in-claude-code.md",
-      "sha256": "756e9517297d2c2775b1dec6cb2f953dd12f6fad60e8e92cd1e107eb60ceed7d",
-      "size": 5095,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/introducing-routines-in-claude-code",
-      "status": "success",
-      "path": "blog/claude/introducing-routines-in-claude-code.md",
-      "sha256": "91b62a1cf30cc47a1b2ec5bb8accf45fc87bc9424231010fce197e622a52f7b2",
-      "size": 4508,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/introducing-the-claude-apps-gateway",
-      "status": "success",
-      "path": "blog/claude/introducing-the-claude-apps-gateway.md",
-      "sha256": "8389f09a0fe5c0d43f9afb5eba5decc22369336c31ecff9e798820647fec0fc0",
-      "size": 3058,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/introduction-to-agentic-coding",
-      "status": "success",
-      "path": "blog/claude/introduction-to-agentic-coding.md",
-      "sha256": "8abeef058c50dbe6b3651d90986bccc68a5c2abd3a225a86276ed882c59440c5",
-      "size": 11103,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/key-benefits-transitioning-agentic-coding",
-      "status": "success",
-      "path": "blog/claude/key-benefits-transitioning-agentic-coding.md",
-      "sha256": "843a484430843413ad74dda19e1fc45b37b58eeeb628abccded3585034cff130",
-      "size": 11398,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/making-claude-a-better-electrical-engineer",
-      "status": "success",
-      "path": "blog/claude/making-claude-a-better-electrical-engineer.md",
-      "sha256": "944ae263258c87f2b6cd716b0b571e95d492fe82d1fc975a7b19213ae172dd93",
-      "size": 5924,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/maximizing-the-value-of-your-claude-code-sessions",
-      "status": "success",
-      "path": "blog/claude/maximizing-the-value-of-your-claude-code-sessions.md",
-      "sha256": "6c3971f3cda90d7fc5aa322f51019dd1c468990085c091eaac5b1759a768188f",
-      "size": 16172,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/meet-the-winners-of-built-with-opus-4-7-claude-code-hackathon",
-      "status": "success",
-      "path": "blog/claude/meet-the-winners-of-built-with-opus-4-7-claude-code-hackathon.md",
-      "sha256": "a39d4aed3845437100bdc72660f5677674464af7acc6fdbe31d7bd871a1859c7",
-      "size": 17500,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/meet-the-winners-of-our-built-with-opus-4-6-claude-code-hackathon",
-      "status": "success",
-      "path": "blog/claude/meet-the-winners-of-our-built-with-opus-4-6-claude-code-hackathon.md",
-      "sha256": "a66bb933fc6d3b12d1780b1247f66f7440a832faa2fb2e8b2d993efe8722367d",
-      "size": 9825,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/meet-the-winners-of-our-claude-opus-4-8-build-day-hackathon",
-      "status": "success",
-      "path": "blog/claude/meet-the-winners-of-our-claude-opus-4-8-build-day-hackathon.md",
-      "sha256": "4295a5041b0ecdeb3a231f1d23532a7cade6b80cbcda5e311d4e8de778a8ccfc",
-      "size": 8665,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/memory",
-      "status": "success",
-      "path": "blog/claude/memory.md",
-      "sha256": "fa31962a483aedae6e1c53d025d2c5172da17ffda9f86d76a1d2504d5daa5593",
-      "size": 4938,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/message-batches-api",
-      "status": "success",
-      "path": "blog/claude/message-batches-api.md",
-      "sha256": "122b0a09da0d67276accbf683f1fb27098383cf08ee02b594544aeae4eee0b38",
-      "size": 3912,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/millennium-and-anthropic-are-building-a-digital-risk-analyst-with-claude",
-      "status": "success",
-      "path": "blog/claude/millennium-and-anthropic-are-building-a-digital-risk-analyst-with-claude.md",
-      "sha256": "b22318536cac6ce051e4076827fc715a788af177b8ac835c8402b754985a5f59",
-      "size": 3630,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/multi-agent-coordination-patterns",
-      "status": "success",
-      "path": "blog/claude/multi-agent-coordination-patterns.md",
-      "sha256": "2373f66700a5344d1821dbb3b0a2eb046b00cbd18f4ec0091d4dc4d77a79b842",
-      "size": 31169,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/new-guide-deploying-claude-across-the-enterprise-with-claude-cowork",
-      "status": "success",
-      "path": "blog/claude/new-guide-deploying-claude-across-the-enterprise-with-claude-cowork.md",
-      "sha256": "a425c54f6dca85c656701a2b198a2790df552da671ff8b211d04ae371c4a1321",
-      "size": 2218,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/new-in-claude-managed-agents",
-      "status": "success",
-      "path": "blog/claude/new-in-claude-managed-agents.md",
-      "sha256": "97fc44b3ce53091b055cb09fda0c847fe93b43460d1811ced460f88d6b64577a",
-      "size": 6633,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/observability-for-developers-building-connectors",
-      "status": "success",
-      "path": "blog/claude/observability-for-developers-building-connectors.md",
-      "sha256": "18f9ae4e2f1aea92f4b0cabcc03dfb2a1895b705c1490e1e5ed7831934bfed32",
-      "size": 1748,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/onboarding-claude-code-like-a-new-developer-lessons-from-17-years-of-development",
-      "status": "success",
-      "path": "blog/claude/onboarding-claude-code-like-a-new-developer-lessons-from-17-years-of-development.md",
-      "sha256": "82689cb6fb70c87488ec4240bf3d296f046b0f899fed83d0b804a3c1c38fb255",
-      "size": 10323,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/optimize-code-performance-quickly",
-      "status": "success",
-      "path": "blog/claude/optimize-code-performance-quickly.md",
-      "sha256": "faf45d04701af0561416b71eb0a240595ae322698da7e6b4933f645b21cd164e",
-      "size": 9862,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/opus-4-6-finance",
-      "status": "success",
-      "path": "blog/claude/opus-4-6-finance.md",
-      "sha256": "81d9a115ba98a23d3314625600ff7736dc8fcc78502bb61814f98475158ad0c5",
-      "size": 9598,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/organization-skills-and-directory",
-      "status": "success",
-      "path": "blog/claude/organization-skills-and-directory.md",
-      "sha256": "5a19a351b8dc4266eaa8d4690a7d590db6fab946c8fdec5341365e27054f8a11",
-      "size": 2576,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense",
-      "status": "success",
-      "path": "blog/claude/preparing-your-security-program-for-ai-accelerated-offense.md",
-      "sha256": "2b53a368b6ad8ec82bc4540564ada7c5c45c43a68e05be62857d3bc767dd5442",
-      "size": 26913,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/preview-review-and-merge-with-claude-code",
-      "status": "success",
-      "path": "blog/claude/preview-review-and-merge-with-claude-code.md",
-      "sha256": "5b4642ad0df479fde9e1d4849d0577477288bb8317c7c2cfd7f1edb35c9a8e3f",
-      "size": 2826,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/product-development-in-the-agentic-era",
-      "status": "success",
-      "path": "blog/claude/product-development-in-the-agentic-era.md",
-      "sha256": "b1a4c60949d61b47151ea5cff631acf7325500ddabba1c8273f9ac9d2d931124",
-      "size": 5882,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/product-management-on-the-ai-exponential",
-      "status": "success",
-      "path": "blog/claude/product-management-on-the-ai-exponential.md",
-      "sha256": "a67764a1d97ff3550b708573c3d72340fcdb59cb5689445bc7f86365184a4613",
-      "size": 12867,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/productivity-platforms",
-      "status": "success",
-      "path": "blog/claude/productivity-platforms.md",
-      "sha256": "a79e2b7ac9dfb1cd373bedf151fbe684a0263c889577e3c8e8c440e84457382e",
-      "size": 2944,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/projects-redesigned",
-      "status": "success",
-      "path": "blog/claude/projects-redesigned.md",
-      "sha256": "35c6dcecaa9b771f429c7cef96cda17087e8bfc896aa79b2989afeefb558cedb",
-      "size": 4441,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/prompt-caching",
-      "status": "success",
-      "path": "blog/claude/prompt-caching.md",
-      "sha256": "a7739192b7f2170f07b13bffaecdb42b519e0e98b519ff339003d54e892695fe",
-      "size": 4370,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/prompt-generator",
-      "status": "success",
-      "path": "blog/claude/prompt-generator.md",
-      "sha256": "d567fb83f35c2c9d772538f3c36d5a1af388a4fdfdd864c6216b4abe26ee49ff",
-      "size": 5145,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/prompt-improver",
-      "status": "success",
-      "path": "blog/claude/prompt-improver.md",
-      "sha256": "c4c0f0353246299fc6118ab2f757d00f96973f27a6ee1d14bee3d8f80e664b3c",
-      "size": 4871,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/reducing-cost-and-improving-performance-with-claude-platform",
-      "status": "success",
-      "path": "blog/claude/reducing-cost-and-improving-performance-with-claude-platform.md",
-      "sha256": "f993e2dc919c0c4f65065b841164aee4265fa3a5db9a2574145a347bce854259",
-      "size": 18837,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/research",
-      "status": "success",
-      "path": "blog/claude/research.md",
-      "sha256": "ba9421004decd0ad46b794fd0bfbdf74695c7f0e9e78a2c98d24e979654cf25d",
-      "size": 5746,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/run-claude-code-sessions-on-your-own-compute",
-      "status": "success",
-      "path": "blog/claude/run-claude-code-sessions-on-your-own-compute.md",
-      "sha256": "ba6e6ac145d0b49bfcc9a687e99430f61781e705a71848e47bede4e1d02fa6dd",
-      "size": 3601,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/running-an-ai-native-engineering-org",
-      "status": "success",
-      "path": "blog/claude/running-an-ai-native-engineering-org.md",
-      "sha256": "6c713cd4866db9fe4eded26fc460f9d74ea2f07f0515e68846a90f250b2e163d",
-      "size": 9012,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/salesforce-in-claude",
-      "status": "success",
-      "path": "blog/claude/salesforce-in-claude.md",
-      "sha256": "2707e1b61cb235a0d528bd83d7df54a84d3b7f0b04db83c5d8c3635b2d402bb9",
-      "size": 5539,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/scaling-agentic-coding",
-      "status": "success",
-      "path": "blog/claude/scaling-agentic-coding.md",
-      "sha256": "8135d6634852f0c0204dbd8f06a8879a9584bcf1ace4f0a7b740fb4a2511c675",
-      "size": 13084,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/self-serve-enterprise",
-      "status": "success",
-      "path": "blog/claude/self-serve-enterprise.md",
-      "sha256": "9ea0af8390a233ab042a40ca0a9d9f4bf4ae60ac4a312a3619c31cf8456ead15",
-      "size": 4646,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/self-service-data-analytics-in-slack-how-anthropic-deploys-claude-tag-for-ad-hoc-questions",
-      "status": "success",
-      "path": "blog/claude/self-service-data-analytics-in-slack-how-anthropic-deploys-claude-tag-for-ad-hoc-questions.md",
-      "sha256": "ee1b56219dc36412385b7103e44c293ecd3a5a99278d2d318edddc2633a05c1d",
-      "size": 16229,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/skills",
-      "status": "success",
-      "path": "blog/claude/skills.md",
-      "sha256": "11b5048e8c307e0a46fac55c30448f610b505c9f22354994fd0e5bfd3a120e89",
-      "size": 5519,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/skills-explained",
-      "status": "success",
-      "path": "blog/claude/skills-explained.md",
-      "sha256": "0654fe6cdcfbd2614b3f3ec5c4eafbed92ada46dc0cf42992b9cde0186770926",
-      "size": 20575,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more",
-      "status": "success",
-      "path": "blog/claude/steering-claude-code-skills-hooks-rules-subagents-and-more.md",
-      "sha256": "da6829c72a2ebb48084124bf0518acc2a478272196b68de12aed3f53177ad702",
-      "size": 18895,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/structured-outputs-on-the-claude-developer-platform",
-      "status": "success",
-      "path": "blog/claude/structured-outputs-on-the-claude-developer-platform.md",
-      "sha256": "641867c6581cc34037c96f28e35a9e500bf47df6ee709fc7a36fdd3ea0e336ed",
-      "size": 2826,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/subagents-in-claude-code",
-      "status": "success",
-      "path": "blog/claude/subagents-in-claude-code.md",
-      "sha256": "1031168b983235b7cbd5b0f96b5c17eb9c2ae7a920baf989aa5e76810f1529b2",
-      "size": 16861,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/t-rowe-price-brings-more-of-claude-to-its-investment-process",
-      "status": "success",
-      "path": "blog/claude/t-rowe-price-brings-more-of-claude-to-its-investment-process.md",
-      "sha256": "3bd05f346591ddc96adf93020fdd5655e6e9b68160bc780467942a6350ad0e18",
-      "size": 2837,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/team-plan-and-ios",
-      "status": "success",
-      "path": "blog/claude/team-plan-and-ios.md",
-      "sha256": "2eba8ffd6a05aa54f4edae165fbced55170e6395c5481f753a0f851cf972b43f",
-      "size": 4177,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/the-advisor-strategy",
-      "status": "success",
-      "path": "blog/claude/the-advisor-strategy.md",
-      "sha256": "f9943fcadeafcd724d45802d3bef7bca6c002114f494ad7d596b4aea6eb439b5",
-      "size": 6313,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/the-ai-native-sdlc-playbook",
-      "status": "success",
-      "path": "blog/claude/the-ai-native-sdlc-playbook.md",
-      "sha256": "7277511cfe2badbe8a8ebc1e1b64063cb04d24605b3675aa29e09cbb71a91a54",
-      "size": 73327,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/the-anatomy-of-effective-commerce-agents",
-      "status": "success",
-      "path": "blog/claude/the-anatomy-of-effective-commerce-agents.md",
-      "sha256": "0271faed26bf612e8ef3f316db672f75ad2b62c69031144711d793453090230a",
-      "size": 40535,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/the-claude-cowork-product-guide",
-      "status": "success",
-      "path": "blog/claude/the-claude-cowork-product-guide.md",
-      "sha256": "e9e28a40ec294565f2af774f42c131e5b05dcea42d451cf7f1578b45efa1f477",
-      "size": 1788,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/the-founders-playbook",
-      "status": "success",
-      "path": "blog/claude/the-founders-playbook.md",
-      "sha256": "1142cebf73e4607f24a554dbdfad8f7088f388b54e0c80f0595f96f45c3c684e",
-      "size": 1710,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/the-full-claude-desktop-experience-on-aws-google-cloud-and-microsoft-foundry",
-      "status": "success",
-      "path": "blog/claude/the-full-claude-desktop-experience-on-aws-google-cloud-and-microsoft-foundry.md",
-      "sha256": "113f876f4059d547fb7bbbb70f7bfc10ac3ce7897c985e1836b28c7359295b14",
-      "size": 3271,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/think-through-hard-problems-in-voice-mode",
-      "status": "success",
-      "path": "blog/claude/think-through-hard-problems-in-voice-mode.md",
-      "sha256": "3b7544cb74f8e1ca478c15849f5238d5573393735291e629ca55628c7479b4b2",
-      "size": 3969,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/token-saving-updates",
-      "status": "success",
-      "path": "blog/claude/token-saving-updates.md",
-      "sha256": "2a22e483c72a8b36406aa2b74f7af3144a49213b957f0a3c313744115d39d8b4",
-      "size": 5642,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/tool-use-ga",
-      "status": "success",
-      "path": "blog/claude/tool-use-ga.md",
-      "sha256": "e09c625d4135ed41fb3db397ecd1bfc7496ffcb51dd48f13aaff31a619d9fe56",
-      "size": 4863,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/trainium2-and-distillation",
-      "status": "success",
-      "path": "blog/claude/trainium2-and-distillation.md",
-      "sha256": "2ec984f664ce22c45c1b880fa1931159daa82c8ff04dbdcbca0c5d78b6592b5d",
-      "size": 4420,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/turning-conversation-into-knowledge-how-slack-builds-human-agent-teams",
-      "status": "success",
-      "path": "blog/claude/turning-conversation-into-knowledge-how-slack-builds-human-agent-teams.md",
-      "sha256": "3b6a051cfdcccf4cb7cb3b7fe3fb73c6b525b102639bb9370e60c574646858a5",
-      "size": 9093,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/upgraded-anthropic-console",
-      "status": "success",
-      "path": "blog/claude/upgraded-anthropic-console.md",
-      "sha256": "9c038809103930e0359e76c36be7113f42e3415245c76848fc09b33edcb11034",
-      "size": 4200,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/using-claude-code-session-management-and-1m-context",
-      "status": "success",
-      "path": "blog/claude/using-claude-code-session-management-and-1m-context.md",
-      "sha256": "5062f49f912c16d15835dd772bdfd345441b5bd1f046c036d47025a463c7453d",
-      "size": 12725,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/using-claude-md-files",
-      "status": "success",
-      "path": "blog/claude/using-claude-md-files.md",
-      "sha256": "7eadc5df0653b63b30c53f0c262cb1a597a68b64f0346c1ff6bd5855366f7754",
-      "size": 16403,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/using-llms-to-secure-source-code",
-      "status": "success",
-      "path": "blog/claude/using-llms-to-secure-source-code.md",
-      "sha256": "5840913a279695a162c0f5f107722f279f497bcee2c9264ebcc28f9112859fd3",
-      "size": 30793,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/web-search",
-      "status": "success",
-      "path": "blog/claude/web-search.md",
-      "sha256": "aee5f6c1096b59a846c8089332709692f348ea0327ee457173f2e3f456b6ec6f",
-      "size": 1945,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/web-search-api",
-      "status": "success",
-      "path": "blog/claude/web-search-api.md",
-      "sha256": "f163a1491d704544011fd21e5de8eb9ecd1d157f27f5f800b51ae4b6854a95e6",
-      "size": 4994,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/what-1-000-small-business-owners-taught-us-about-ai",
-      "status": "success",
-      "path": "blog/claude/what-1-000-small-business-owners-taught-us-about-ai.md",
-      "sha256": "3cdf08d38082ddc32ad899f4e8c551bfdbb4ea7ba7641bc2d735a3acde9dd178",
-      "size": 12793,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/what-is-model-context-protocol",
-      "status": "success",
-      "path": "blog/claude/what-is-model-context-protocol.md",
-      "sha256": "c7aa206e2486357b1575b033cab396a54949683ef256bb594fabbb753bb711ec",
-      "size": 9565,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/whats-new-in-claude-managed-agents",
-      "status": "success",
-      "path": "blog/claude/whats-new-in-claude-managed-agents.md",
-      "sha256": "f6f2dfc2fd28e3b42c8487e4968305ac7342934b72192a9bef76cf7657bddae0",
-      "size": 5040,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/working-at-the-frontier-cursor",
-      "status": "success",
-      "path": "blog/claude/working-at-the-frontier-cursor.md",
-      "sha256": "96c3142c5484a0fcb2c299987104c990750a2190c7de4703204805ffe341022e",
-      "size": 7323,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/working-at-the-frontier-how-balyasny-asset-management-evaluates-and-governs-claude-fable-5",
-      "status": "success",
-      "path": "blog/claude/working-at-the-frontier-how-balyasny-asset-management-evaluates-and-governs-claude-fable-5.md",
-      "sha256": "cbe407aaae87899d5fe5d290ade3111f24773d1bf7096e5c4f2d494402cdd2d9",
-      "size": 8280,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/working-at-the-frontier-how-cognition-trusts-claude-fable-5-to-work-through-the-night",
-      "status": "success",
-      "path": "blog/claude/working-at-the-frontier-how-cognition-trusts-claude-fable-5-to-work-through-the-night.md",
-      "sha256": "40f7c486eba1e6c05a4212a352937eeb87bc8fc8ce94cb021504094ad8ab4f44",
-      "size": 5137,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/working-at-the-frontier-how-hebbia-builds-ai-for-financial-diligence-that-cant-miss-a-detail",
-      "status": "success",
-      "path": "blog/claude/working-at-the-frontier-how-hebbia-builds-ai-for-financial-diligence-that-cant-miss-a-detail.md",
-      "sha256": "055c457c2b86e2c9db6d3eada4b2b5cdca30501132c1615692d82375b31fab2a",
-      "size": 7493,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/working-at-the-frontier-how-thomson-reuters-builds-ai-for-high--stakes-professional-work",
-      "status": "success",
-      "path": "blog/claude/working-at-the-frontier-how-thomson-reuters-builds-ai-for-high--stakes-professional-work.md",
-      "sha256": "16d087b988ac4d8be80f72ba4570e4a74d389f47fbddd2444124f7798b559e3e",
-      "size": 8743,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/working-at-the-frontier-rakuten",
-      "status": "success",
-      "path": "blog/claude/working-at-the-frontier-rakuten.md",
-      "sha256": "d4433c14f27426451ab81ecfc82e1f64ab040296005aa6c3757b3ea42b6005bc",
-      "size": 7889,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/working-at-the-frontier-why-base44-trusts-claude-fable-5-with-their-most-challenging-engineering-work",
-      "status": "success",
-      "path": "blog/claude/working-at-the-frontier-why-base44-trusts-claude-fable-5-with-their-most-challenging-engineering-work.md",
-      "sha256": "5e380baa56bb9f81c81be6aa1a79661459dfb11b279f6462e27fd382da2b9fa2",
-      "size": 5315,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/working-with-claude-fable-5-in-claude-cowork",
-      "status": "success",
-      "path": "blog/claude/working-with-claude-fable-5-in-claude-cowork.md",
-      "sha256": "6fbde32928f99c726f0022192cdddffd7462337e56853b240f0955499a3d011b",
-      "size": 16543,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/workload-identity-federation",
-      "status": "success",
-      "path": "blog/claude/workload-identity-federation.md",
-      "sha256": "e67bcd3d15ee4c3304f0f02a22557c262beac6afcb4ffafb3880565f1cd15a95",
-      "size": 2900,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/workspaces",
-      "status": "success",
-      "path": "blog/claude/workspaces.md",
-      "sha256": "d5b862e112dccbe75153525a3043ae31e1e48b51a1030974765ff37e6902a1fb",
-      "size": 1906,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/your-thinking-partner",
-      "status": "success",
-      "path": "blog/claude/your-thinking-partner.md",
-      "sha256": "4ad0aae584e54afd175681a69b63713a8a8cfe4417a77bf0d150602d056c7ed9",
-      "size": 2253,
-      "format": "html-extracted"
-    },
-    {
-      "url": "https://claude.com/blog/zero-trust-for-ai-agents",
-      "status": "success",
-      "path": "blog/claude/zero-trust-for-ai-agents.md",
-      "sha256": "4403adcaa85423d0fdb2a02e491682a655a98e22a6e5481195520db245b0d942",
-      "size": 2814,
-      "format": "html-extracted"
-    },
-    {
       "url": "https://support.claude.com/en/articles/7996845-what-are-some-things-i-can-use-claude-for",
       "status": "success",
       "path": "support/7996845-what-are-some-things-i-can-use-claude-for.md",
@@ -11362,8 +9361,8 @@
       "url": "https://support.claude.com/en/articles/8114491-get-started-with-claude",
       "status": "success",
       "path": "support/8114491-get-started-with-claude.md",
-      "sha256": "be98ec36163632b695cf8f39452ddb9161f5aa20b5ba45943893425fb882107e",
-      "size": 5203
+      "sha256": "21cd1715c26bbc2e5cab3a2a407b09e5c088a590efb2499f165767c97ddb8f1e",
+      "size": 5207
     },
     {
       "url": "https://support.claude.com/en/articles/8114494-how-up-to-date-is-claude-s-training-data",
@@ -11439,8 +9438,8 @@
       "url": "https://support.claude.com/en/articles/8230524-delete-or-rename-a-conversation",
       "status": "success",
       "path": "support/8230524-delete-or-rename-a-conversation.md",
-      "sha256": "42a0bc0fe16e77d6cfb089fdaa8b5898c9979ce5188cd44a4352a1129184c3f6",
-      "size": 5887
+      "sha256": "55e9cd11f0a8b3400115d42da119d52537751fdc96aeafad522a3965b260c711",
+      "size": 5877
     },
     {
       "url": "https://support.claude.com/en/articles/8241126-upload-files-to-claude",
@@ -11509,8 +9508,8 @@
       "url": "https://support.claude.com/en/articles/8325618-paid-plan-billing-faqs",
       "status": "success",
       "path": "support/8325618-paid-plan-billing-faqs.md",
-      "sha256": "71a8e7798ff1b0f0be1f6d097e0177c6227b39106f1acaac093f9de99a1fe756",
-      "size": 4555
+      "sha256": "7004fb0ffe1ff04b3a35aad52aa7f58cf0c89127c94ab013ff5c38b60a6a24b1",
+      "size": 4551
     },
     {
       "url": "https://support.claude.com/en/articles/8325621-i-would-like-to-input-sensitive-data-into-my-chats-with-claude-who-can-view-my-conversations",
@@ -11572,8 +9571,8 @@
       "url": "https://support.claude.com/en/articles/8887527-customizing-your-appearance-settings",
       "status": "success",
       "path": "support/8887527-customizing-your-appearance-settings.md",
-      "sha256": "2a4e15d75027f221842bda76bdb457589b8d10aa0105a86bada7cb5617edb705",
-      "size": 1870
+      "sha256": "214a1cfe79a37e6b05f4004bb35b173fc4af77dfdab4f6215c457dbced03529e",
+      "size": 1874
     },
     {
       "url": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler",
@@ -11747,8 +9746,8 @@
       "url": "https://support.claude.com/en/articles/9267400-move-your-personal-claude-account-to-a-team-or-enterprise-organization",
       "status": "success",
       "path": "support/9267400-move-your-personal-claude-account-to-a-team-or-enterprise-organization.md",
-      "sha256": "00abbf75b1694fbca33486288df2ea379a6dfb3e3a748c79514c0b535641f7fa",
-      "size": 9858
+      "sha256": "5e36c49a85f66e0b463fe91656dbb1018567f4c2bcff35368da71091f8d98e1a",
+      "size": 9862
     },
     {
       "url": "https://support.claude.com/en/articles/9301722-updates-to-our-acceptable-use-policy-now-usage-policy-consumer-terms-of-service-and-privacy-policy",
@@ -11789,8 +9788,8 @@
       "url": "https://support.claude.com/en/articles/9519177-how-can-i-create-and-manage-projects",
       "status": "success",
       "path": "support/9519177-how-can-i-create-and-manage-projects.md",
-      "sha256": "5d2170775047d2047ddd6b424605ae253bf7b1554dabe02505d1ea8f70235423",
-      "size": 9267
+      "sha256": "4e83143c35e51960a2e34ff1ae9b93230c847cf01f9b6b41c71a061c79583f91",
+      "size": 9265
     },
     {
       "url": "https://support.claude.com/en/articles/9519189-manage-project-visibility-and-sharing",
@@ -11817,7 +9816,7 @@
       "url": "https://support.claude.com/en/articles/9534590-cost-and-usage-reporting-in-the-claude-console",
       "status": "success",
       "path": "support/9534590-cost-and-usage-reporting-in-the-claude-console.md",
-      "sha256": "8e68b8fb6dff5521218d29ae2706b5d7882720f69d50837199504172974bc384",
+      "sha256": "25514d0c8a8bfd5b9eec27293748f4de34c03309b5d080532aea44dc7b1568d2",
       "size": 5098
     },
     {
@@ -12041,15 +10040,15 @@
       "url": "https://support.claude.com/en/articles/10310342-how-do-i-log-out-of-all-active-sessions",
       "status": "success",
       "path": "support/10310342-how-do-i-log-out-of-all-active-sessions.md",
-      "sha256": "82a6c1928e9864243132a433543fcfdfc1f1c04d3cdf9547a4d7f60af220d7b4",
+      "sha256": "33a8fc3021e2c98b9d28b7587b65c59db0f827089555d465f813431a22cd2515",
       "size": 2494
     },
     {
       "url": "https://support.claude.com/en/articles/10366376-how-can-i-delete-my-claude-console-account",
       "status": "success",
       "path": "support/10366376-how-can-i-delete-my-claude-console-account.md",
-      "sha256": "d29dfe4319fe98873ee566d189aa7cda9112097caec2ea7510275214603c13ab",
-      "size": 3167
+      "sha256": "a44e219697c50980c70703cc217e954ecbb6d2f59e683ccb47569bb3b58e0d72",
+      "size": 3163
     },
     {
       "url": "https://support.claude.com/en/articles/10366389-how-can-i-get-higher-rate-limits-on-the-claude-api",
@@ -12090,15 +10089,15 @@
       "url": "https://support.claude.com/en/articles/10504844-manage-user-feedback-settings-on-team-and-enterprise-plans",
       "status": "success",
       "path": "support/10504844-manage-user-feedback-settings-on-team-and-enterprise-plans.md",
-      "sha256": "50ea2c11c28d85029e8e7182d313438ea3a5cc11fee4899fb0e589d8a7bcdc38",
+      "sha256": "b52e49c5961ad0de4fdc3e59dbc7b607e28a61bc6187fa0f3f29cadcc4eed2c3",
       "size": 1038
     },
     {
       "url": "https://support.claude.com/en/articles/10504853-manage-user-feedback-settings-on-claude-console",
       "status": "success",
       "path": "support/10504853-manage-user-feedback-settings-on-claude-console.md",
-      "sha256": "e88fd3d589e7c82333e94413b802a003723e14abb2ef3734175d60b5de5f84d7",
-      "size": 1001
+      "sha256": "9ffb7648a40f2e5464c73d436e82cbb836c6e5debdcf8c3d29c8e7bc1db32935",
+      "size": 999
     },
     {
       "url": "https://support.claude.com/en/articles/10534883-use-the-claude-widget-on-android",
@@ -12111,8 +10110,8 @@
       "url": "https://support.claude.com/en/articles/10593882-share-and-unshare-chats",
       "status": "success",
       "path": "support/10593882-share-and-unshare-chats.md",
-      "sha256": "3638266bbe889268d150ae5abb3d295323880abebc0e121641b9848ae16d057c",
-      "size": 4014
+      "sha256": "6337f1539849d931aa48bbb1230c25929df17c1948e22f5510c2b9f7806c5e06",
+      "size": 4012
     },
     {
       "url": "https://support.claude.com/en/articles/10684626-enable-and-use-web-search",
@@ -12139,7 +10138,7 @@
       "url": "https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop",
       "status": "success",
       "path": "support/10949351-getting-started-with-local-mcp-servers-on-claude-desktop.md",
-      "sha256": "1aa322402976ef67cfca7764c532cc58ceb2a53491cae9387fd0c1bf506d9ccf",
+      "sha256": "64bef9f13b6b1b2e2a44c277b8aadc63415966441bfc3d7169cfb75e695d6b6e",
       "size": 8392
     },
     {
@@ -12174,8 +10173,8 @@
       "url": "https://support.claude.com/en/articles/11101966-use-voice-mode",
       "status": "success",
       "path": "support/11101966-use-voice-mode.md",
-      "sha256": "2fcf2ea313a0b73e793a47fbb5847dbdd4a163a8fe6e0e63bd145e691aa5feed",
-      "size": 10553
+      "sha256": "5efa59c6c19d2a85f6dc0789b8187fedbf1e20bd875599fe0bebc426a4220244",
+      "size": 10563
     },
     {
       "url": "https://support.claude.com/en/articles/11107691-why-is-a-coupon-or-promotion-not-available-for-my-account",
@@ -12307,8 +10306,8 @@
       "url": "https://support.claude.com/en/articles/11725453-set-up-the-claude-lti-in-canvas-by-instructure",
       "status": "success",
       "path": "support/11725453-set-up-the-claude-lti-in-canvas-by-instructure.md",
-      "sha256": "507cea1101ee82b32337f4916c0f741310d509f94fbe2d70e6505756f7151f7a",
-      "size": 2750
+      "sha256": "1244277bab50a99e6ae7ccd6ed62100d52877ae00f678db38d59b56ded571ed4",
+      "size": 2752
     },
     {
       "url": "https://support.claude.com/en/articles/11732894-who-owns-and-manages-the-data-of-my-claude-for-education-account",
@@ -12321,15 +10320,15 @@
       "url": "https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context",
       "status": "success",
       "path": "support/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context.md",
-      "sha256": "a835a44ec63996e9b0db0944d411cf2a08e8b07b1cef8ddb84616df8d9111b4f",
-      "size": 28336
+      "sha256": "82517e69b969ff45a8ca688bb072cf3b3dc73b78e3f2f692dba1a2bb6cdc5385",
+      "size": 28344
     },
     {
       "url": "https://support.claude.com/en/articles/11818288-why-am-i-being-asked-to-verify-my-payment-method",
       "status": "success",
       "path": "support/11818288-why-am-i-being-asked-to-verify-my-payment-method.md",
-      "sha256": "e6f716b9767c943b628ac1dc3ca96ade7df3151d0bb95351f5d6da2dba41dac8",
-      "size": 824
+      "sha256": "e5a99e35691ab1848d4cd5f4bcc3795f4d31baae270c797a2f511862fdee3228",
+      "size": 814
     },
     {
       "url": "https://support.claude.com/en/articles/11825384-how-to-update-claude-for-ios",
@@ -12363,7 +10362,7 @@
       "url": "https://support.claude.com/en/articles/11869629-use-claude-with-android-apps",
       "status": "success",
       "path": "support/11869629-use-claude-with-android-apps.md",
-      "sha256": "c87182dd7c4b30b33edb89135d9729938dfd720059d1d57f9b654932891523eb",
+      "sha256": "3c4985d77d9115340f34e18fb959c37af7a68c0061fb69bb4dc30aa932a6995d",
       "size": 13993
     },
     {
@@ -12398,15 +10397,15 @@
       "url": "https://support.claude.com/en/articles/12005970-manage-usage-credits-for-team-and-seat-based-enterprise-plans",
       "status": "success",
       "path": "support/12005970-manage-usage-credits-for-team-and-seat-based-enterprise-plans.md",
-      "sha256": "37472f6a3c3457f894ee2a05bce1c76d0ccec19aaf94cf413dc0a669f7ab58cc",
+      "sha256": "33e19680dc6512d6df2b4827aef7b24e6a9b26e4aa24874ad1d60ccbe8078265",
       "size": 9713
     },
     {
       "url": "https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome",
       "status": "success",
       "path": "support/12012173-get-started-with-claude-in-chrome.md",
-      "sha256": "5f4ea3de5701f73c408b078d99108d38d93ee3f637e4605b84e55ef8d5f18175",
-      "size": 14853
+      "sha256": "4ec5653d4aba655802cb8bff8546051f1fbaf104c4dda4bb6f231e5ac01cbd17",
+      "size": 14855
     },
     {
       "url": "https://support.claude.com/en/articles/12053672-what-happens-to-a-user-s-data-when-they-are-removed-from-a-team-or-enterprise-organization",
@@ -12433,8 +10432,8 @@
       "url": "https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude",
       "status": "success",
       "path": "support/12111783-create-and-edit-files-with-claude.md",
-      "sha256": "34eebc04de39472712349c8bbf57f818dddb7d51b7296264d6209063dd78e072",
-      "size": 17964
+      "sha256": "027846d56177d1cfbc10ff1da9422fa3e5b7ec94415681a67feab0d4ba1fa968",
+      "size": 17960
     },
     {
       "url": "https://support.claude.com/en/articles/12119250-model-safety-bug-bounty-program",
@@ -12461,22 +10460,22 @@
       "url": "https://support.claude.com/en/articles/12157520-claude-code-usage-analytics",
       "status": "success",
       "path": "support/12157520-claude-code-usage-analytics.md",
-      "sha256": "e3bcc020b4ca471799b2edceaa682b02105531a8751a44792eb0787c9dfb8e57",
-      "size": 6435
+      "sha256": "66bd1f33ed1dc258458909483152f6a51da71b088b91e8c013eed1521bdf082a",
+      "size": 6431
     },
     {
       "url": "https://support.claude.com/en/articles/12260368-use-incognito-chats",
       "status": "success",
       "path": "support/12260368-use-incognito-chats.md",
-      "sha256": "390881e72dd99106a938b326030f8c06ad75199796e654b0be571168fef490b9",
-      "size": 4374
+      "sha256": "900b81ea985a641a8a36d1a86aaed454ed32b06ab2704a902a5679925f74c5d4",
+      "size": 4376
     },
     {
       "url": "https://support.claude.com/en/articles/12293051-use-claude-in-xcode",
       "status": "success",
       "path": "support/12293051-use-claude-in-xcode.md",
-      "sha256": "92c0be91bbd7c697ec2b430dc4a9a3ff911705154f93ffa2b21f0b1e7e7bf030",
-      "size": 1909
+      "sha256": "5ad4259777f79253b22d3818cafff643fdaabbc61bf7becdaa488d318c3c6a39",
+      "size": 1911
     },
     {
       "url": "https://support.claude.com/en/articles/12304248-manage-api-key-environment-variables-in-claude-code",
@@ -12517,14 +10516,14 @@
       "url": "https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans",
       "status": "success",
       "path": "support/12429409-manage-usage-credits-for-paid-claude-plans.md",
-      "sha256": "f81e6c8778fdb3c2039b61296692dc2157c1ec7cc2645e4425cbdd63449f8953",
+      "sha256": "3ac229a4ec4775c055de7b80d2af200b1c362ed78f89b20a6844915c3b22f091",
       "size": 6407
     },
     {
       "url": "https://support.claude.com/en/articles/12466728-troubleshoot-claude-error-messages",
       "status": "success",
       "path": "support/12466728-troubleshoot-claude-error-messages.md",
-      "sha256": "8bff183a3a9b566a90a9f6084b218321543044487de2319840eb544b17cc7f88",
+      "sha256": "0bb3ae071964906899f50b8acf47f20ce48533f2a375838ab7faa98141d609a6",
       "size": 4232
     },
     {
@@ -12545,7 +10544,7 @@
       "url": "https://support.claude.com/en/articles/12512180-use-skills-in-claude",
       "status": "success",
       "path": "support/12512180-use-skills-in-claude.md",
-      "sha256": "50fed3d7517c9c63daf6338f11021721fb97d0f7d0a0af37657fa802e96fb010",
+      "sha256": "cb69de2251e98bc286562f01a88ec30a439c3d6306973198c09e7c5c72a75b89",
       "size": 19148
     },
     {
@@ -12566,8 +10565,8 @@
       "url": "https://support.claude.com/en/articles/12592343-enabling-and-using-the-desktop-extension-allowlist",
       "status": "success",
       "path": "support/12592343-enabling-and-using-the-desktop-extension-allowlist.md",
-      "sha256": "20154233550f05ae2452634f782b6a60f3eeb07e4edc4906ebcafe9f3bff832c",
-      "size": 5712
+      "sha256": "95d79e865fbfaab9fdad857e865d01161a0e7c974cbdb9a15fec33d09f32c411",
+      "size": 5718
     },
     {
       "url": "https://support.claude.com/en/articles/12611117-deploy-claude-desktop-for-macos",
@@ -12580,8 +10579,8 @@
       "url": "https://support.claude.com/en/articles/12618689-claude-code-on-the-web",
       "status": "success",
       "path": "support/12618689-claude-code-on-the-web.md",
-      "sha256": "470a79624247e0384ff6dcf0481e2b5400fbb4361a4e9609eea07048fbdd7825",
-      "size": 10970
+      "sha256": "bb468f793fb153216cbc12b33f6630b5e7d8c2e8fd002e043a528b6ea5e6ac9e",
+      "size": 10968
     },
     {
       "url": "https://support.claude.com/en/articles/12622667-enterprise-configuration-for-claude-desktop",
@@ -12601,8 +10600,8 @@
       "url": "https://support.claude.com/en/articles/12626668-use-quick-entry-with-claude-desktop-on-mac",
       "status": "success",
       "path": "support/12626668-use-quick-entry-with-claude-desktop-on-mac.md",
-      "sha256": "0d933510ada50c451ab2940010b5c71dcc3733bf7a8d19501cde1b8de9be035e",
-      "size": 5976
+      "sha256": "33021d618abfe87623a56e8188bb629cd774ba3b85f91ee436fa0efc1631ee4a",
+      "size": 5972
     },
     {
       "url": "https://support.claude.com/en/articles/12684923-microsoft-365-connector-security-guide",
@@ -12636,7 +10635,7 @@
       "url": "https://support.claude.com/en/articles/12883420-view-usage-analytics-for-team-and-enterprise-plans",
       "status": "success",
       "path": "support/12883420-view-usage-analytics-for-team-and-enterprise-plans.md",
-      "sha256": "63290324df7f91f76ebd9fb1682e78e67e993b91b19e2a8fe112646c63f2b20a",
+      "sha256": "dc15a34528dfacac5031dd5f79b03bcf5d0fad58e89fd49acbc754e4ab14b036",
       "size": 15087
     },
     {
@@ -12657,8 +10656,8 @@
       "url": "https://support.claude.com/en/articles/12902446-claude-in-chrome-permissions-guide",
       "status": "success",
       "path": "support/12902446-claude-in-chrome-permissions-guide.md",
-      "sha256": "ee12ca30dd8f344b94036ac65a1c3a8a4dfb3a4c9ae48acde09d0cfaeaa20cd2",
-      "size": 9571
+      "sha256": "c9df5ed985235a85f037eb8aa5be255c2442cd0fdee958592024568f794c159c",
+      "size": 9569
     },
     {
       "url": "https://support.claude.com/en/articles/12938627-how-to-gift-a-claude-subscription",
@@ -12685,7 +10684,7 @@
       "url": "https://support.claude.com/en/articles/12997503-team-plan-billing-faqs",
       "status": "success",
       "path": "support/12997503-team-plan-billing-faqs.md",
-      "sha256": "835defc7a8e9a4feb404544431f70f7cba51f52bf7486e76936f9b9030b6869c",
+      "sha256": "b2ea1021c7c135bd3c19b19b6a0f839fdd06fe8c33560c2ad9bd37ea6e53ce21",
       "size": 5019
     },
     {
@@ -12734,15 +10733,15 @@
       "url": "https://support.claude.com/en/articles/13132885-set-up-single-sign-on-sso",
       "status": "success",
       "path": "support/13132885-set-up-single-sign-on-sso.md",
-      "sha256": "efe19227df345086dba68336ad60868ba16c226284509b321c3d8c8aa029afe8",
-      "size": 13331
+      "sha256": "c7c956089bf1e9b40c11023b3220a3ccba678cff0ff221d0234d68b211d78e4e",
+      "size": 13319
     },
     {
       "url": "https://support.claude.com/en/articles/13133195-set-up-jit-or-scim-provisioning",
       "status": "success",
       "path": "support/13133195-set-up-jit-or-scim-provisioning.md",
-      "sha256": "b46a88e2fa97f4bec873ff79caa79ff127f36d5e90aa8608d49718f30229febf",
-      "size": 20344
+      "sha256": "661a927dc54bd0f2d1d16f455d7f403a946229e40fc95f5543a9ba58a21b975f",
+      "size": 20346
     },
     {
       "url": "https://support.claude.com/en/articles/13133750-manage-members-on-team-and-enterprise-plans",
@@ -12769,8 +10768,8 @@
       "url": "https://support.claude.com/en/articles/13163631-configuring-session-security-settings",
       "status": "success",
       "path": "support/13163631-configuring-session-security-settings.md",
-      "sha256": "5fd167dfc3ca1b93fa17911c9f171246bd2d19958eedd7e5837b94b292cc530b",
-      "size": 3696
+      "sha256": "9a1205edbeb9e48d65f14faa51d35a8beb72a0e9c97ef6000c052142b3e89aab",
+      "size": 3704
     },
     {
       "url": "https://support.claude.com/en/articles/13171706-crisis-helpline-support-in-claude",
@@ -12783,8 +10782,8 @@
       "url": "https://support.claude.com/en/articles/13189465-log-in-to-your-claude-account",
       "status": "success",
       "path": "support/13189465-log-in-to-your-claude-account.md",
-      "sha256": "c080e1b2e39e88ae7d5ecaad6a85085ee57f1db069b13c361db5ef7d31da445c",
-      "size": 7038
+      "sha256": "14b7979dec2d967c47a561c40a5f4d24e9fdb1dc140015bf6fb45dc3e19dc8c3",
+      "size": 7040
     },
     {
       "url": "https://support.claude.com/en/articles/13198485-enforce-network-level-access-control-with-tenant-restrictions",
@@ -12811,21 +10810,21 @@
       "url": "https://support.claude.com/en/articles/13325567-account-management-faqs",
       "status": "success",
       "path": "support/13325567-account-management-faqs.md",
-      "sha256": "a04278f5ff48afdcaa64f2967af216583a64bf5b14dac50c539676349e2ffd66",
-      "size": 2634
+      "sha256": "f45286bf0031173fc55b36d8bd6b36f7473355198c17e63bc5f948230fd92291",
+      "size": 2636
     },
     {
       "url": "https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork",
       "status": "success",
       "path": "support/13345190-get-started-with-claude-cowork.md",
-      "sha256": "bd419f3bc61f8151fdbc2574ce7811f41e6e239a9ed58e65d7dcfc55411b0d2b",
-      "size": 23335
+      "sha256": "cd8a5707bab483660f470b49b1d9773fa455f3139d6c457500c709765663d94a",
+      "size": 23339
     },
     {
       "url": "https://support.claude.com/en/articles/13346458-customizing-your-console-appearance-settings",
       "status": "success",
       "path": "support/13346458-customizing-your-console-appearance-settings.md",
-      "sha256": "47f99f88d74ecbab4f8c40cd8f9fbe84d827ac7574d30f2db13e2429d3b77650",
+      "sha256": "2ee2955c4320de8e9b68842053f43d3f6d5aa000e49601a537ad0508a4eed1eb",
       "size": 609
     },
     {
@@ -12846,7 +10845,7 @@
       "url": "https://support.claude.com/en/articles/13371040-log-in-to-your-console-account",
       "status": "success",
       "path": "support/13371040-log-in-to-your-console-account.md",
-      "sha256": "6531f3f8395c09c7d97c0de34d61e6cb293f2a5828af0d059dec6a4af7e6e96b",
+      "sha256": "f59253d647eba1ae22fc71333ef3a853181805e2c784e3761925ed7c6133adfd",
       "size": 4609
     },
     {
@@ -12902,8 +10901,8 @@
       "url": "https://support.claude.com/en/articles/13641943-visual-and-interactive-content",
       "status": "success",
       "path": "support/13641943-visual-and-interactive-content.md",
-      "sha256": "b7c13a6d495214ecc5f9e4a459752e5001d7ae37e85c3596562f2bdcfe17f3d4",
-      "size": 6511
+      "sha256": "a2226cf01e3378e1767bb22491d0ff4526912887477a7def0899104c082bd929",
+      "size": 6509
     },
     {
       "url": "https://support.claude.com/en/articles/13663666-use-visual-and-interactive-content-on-team-and-enterprise-plans",
@@ -12958,8 +10957,8 @@
       "url": "https://support.claude.com/en/articles/13837440-use-plugins-in-claude",
       "status": "success",
       "path": "support/13837440-use-plugins-in-claude.md",
-      "sha256": "3e61e7880b7bf6dc845bb7e2c9d46c46e7bb997b6b7f00183a9298cb2aa1ac5d",
-      "size": 15022
+      "sha256": "045f022b26a11cd8ef35ec81bc3938f4ca74fc2880d9bff3c6adf158442d91a2",
+      "size": 15026
     },
     {
       "url": "https://support.claude.com/en/articles/13854387-schedule-recurring-tasks-in-claude-cowork",
@@ -13056,8 +11055,8 @@
       "url": "https://support.claude.com/en/articles/13947068-assign-tasks-from-anywhere-in-claude-cowork",
       "status": "success",
       "path": "support/13947068-assign-tasks-from-anywhere-in-claude-cowork.md",
-      "sha256": "7b853b53ec21353541f58e6530268ab95badf2ecbe185fcbddeb635880e7ae83",
-      "size": 9239
+      "sha256": "42d582f352c604811410da9ce55b0bfcac850c32b4c3a4e3100d4568f9e041eb",
+      "size": 9231
     },
     {
       "url": "https://support.claude.com/en/articles/13979539-custom-visuals-in-chat-and-cowork",
@@ -13077,8 +11076,8 @@
       "url": "https://support.claude.com/en/articles/14116274-organize-your-tasks-with-projects-in-claude-cowork",
       "status": "success",
       "path": "support/14116274-organize-your-tasks-with-projects-in-claude-cowork.md",
-      "sha256": "cc9518974f132cf89cfb1b083c59a2f2f155dd6e1de7a99925283dd15d8c6f5f",
-      "size": 6818
+      "sha256": "b4c2c360ea2713bd39dc96c72df09525fe3e43c2514326a3481a0cca21a5eb3d",
+      "size": 6830
     },
     {
       "url": "https://support.claude.com/en/articles/14128542-let-claude-use-your-computer-in-cowork",
@@ -13147,8 +11146,8 @@
       "url": "https://support.claude.com/en/articles/14499648-how-scim-sync-works-for-enterprise-organizations",
       "status": "success",
       "path": "support/14499648-how-scim-sync-works-for-enterprise-organizations.md",
-      "sha256": "585c19da1ccb7a7e45d612a18d6a3cc860371003aaa492802947623432912952",
-      "size": 7674
+      "sha256": "a9a9ec063b9648d925e9fc490c1a92b0fba88f923f9ecf11a295de07a3220aac",
+      "size": 7680
     },
     {
       "url": "https://support.claude.com/en/articles/14503520-available-beta-and-research-preview-features",
@@ -13378,7 +11377,7 @@
       "url": "https://support.claude.com/en/articles/15330088-set-a-default-model-for-your-organization",
       "status": "success",
       "path": "support/15330088-set-a-default-model-for-your-organization.md",
-      "sha256": "56dd096abc172934a0346b8ddb9dead799c2b8238765513a4232f8220af6651c",
+      "sha256": "da0eb760cf869f05bb24c54abae2d5e157fac6522c38a3d1dce689d19265f861",
       "size": 10789
     },
     {
@@ -13490,8 +11489,8 @@
       "url": "https://support.claude.com/en/articles/15694740-manage-model-access-for-your-organization",
       "status": "success",
       "path": "support/15694740-manage-model-access-for-your-organization.md",
-      "sha256": "6a1189ab2c83442abdd02831b0f6b4b52d4f3b87b83e4489da1cee0db029cf1e",
-      "size": 10160
+      "sha256": "129558ed189f955da4a78806f3e8f355bfa982ed83add988ceccd05047616951",
+      "size": 10152
     },
     {
       "url": "https://support.claude.com/en/articles/15707726-using-claude-for-legal-work-privilege-confidentiality-and-how-to-think-about-configuration",
@@ -13525,8 +11524,8 @@
       "url": "https://support.claude.com/en/articles/15936181-get-started-with-1password-for-claude",
       "status": "success",
       "path": "support/15936181-get-started-with-1password-for-claude.md",
-      "sha256": "400b1f89a4a904aaff015c626b33ca7173992f8a7413226e2964d0cd3f8ed47b",
-      "size": 5062
+      "sha256": "edb2ad5263bbbaedc39ea5dce999cd2821b9abf7b75638cdebc8e1f72ae9c409",
+      "size": 5058
     },
     {
       "url": "https://support.claude.com/en/articles/16049681-why-claude-switched-models-in-your-conversation-with-opus-5-or-opus-5-5",
@@ -13574,7 +11573,7 @@
       "url": "https://support.claude.com/en/articles/16607638-understanding-your-pro-or-max-plan-invoices",
       "status": "success",
       "path": "support/16607638-understanding-your-pro-or-max-plan-invoices.md",
-      "sha256": "4d16c8efc12face682fe347abd3559aa182052af8291e515c1a38b70e7da0d4e",
+      "sha256": "acfb0593c8839e354bc90f6e40bc17ba595c02276363b4063ea5a9846cfee344",
       "size": 5437
     },
     {
@@ -13644,8 +11643,8 @@
       "url": "https://support.claude.com/en/articles/16764810-assign-a-program-to-workspaces-in-claude-console",
       "status": "success",
       "path": "support/16764810-assign-a-program-to-workspaces-in-claude-console.md",
-      "sha256": "0539691576b10c79e415f3dd1f5a74371f94a6630d052dff9d84df58a8eb45f0",
-      "size": 5103
+      "sha256": "fa5cbfd4957e4c5f8304dc30a50af7f6b57028224fe62db281e93353e8b7b9a0",
+      "size": 5095
     },
     {
       "url": "https://support.claude.com/en/articles/16824617-turn-on-data-retention-for-a-workspace-in-a-zero-data-retention-organization",
@@ -13658,8 +11657,8 @@
       "url": "https://support.claude.com/en/articles/16893491-get-started-with-smart-reports",
       "status": "success",
       "path": "support/16893491-get-started-with-smart-reports.md",
-      "sha256": "fabeb8025544fd857f1495fad7c2b64dcad11cdb2509f3574b5642d0ff9c348b",
-      "size": 15487
+      "sha256": "6c6da712fa58baa55bc4324ec64b74bd7861a9fcdba62715a01239c0ff228b28",
+      "size": 15497
     },
     {
       "url": "https://support.claude.com/en/articles/16923645-get-started-with-claude-docs",
@@ -13679,8 +11678,8 @@
       "url": "https://support.claude.com/en/articles/16951679-use-claude-in-google-docs-sheets-and-slides",
       "status": "success",
       "path": "support/16951679-use-claude-in-google-docs-sheets-and-slides.md",
-      "sha256": "cec1f237fa2722348393ea37b175df5567fef565267ab95a143f72a2d6d8cbfa",
-      "size": 20231
+      "sha256": "708e595d55fec61290e1ca2645cfb06cd7d0e4ea097ad32602a15ce277506c2d",
+      "size": 21133
     },
     {
       "url": "https://support.claude.com/en/articles/16952184-set-up-salesforce-in-claude-for-your-organization",
@@ -14918,15 +12917,15 @@
       "url": "https://claude.com/docs/government/deploy-desktop/configure",
       "status": "success",
       "path": "claude/government/deploy-desktop/configure.md",
-      "sha256": "e13285ec57daddb6f976a45006641f956cdd3d3a9ac58c73fee95fe6c3cf63aa",
-      "size": 38342
+      "sha256": "3efb7acf1d937bdd4d330eb56770d04dc2a23c8ae8cc8b75827aa3ba6627b5c5",
+      "size": 38878
     },
     {
       "url": "https://claude.com/docs/government/deploy-desktop/windows-checklist",
       "status": "success",
       "path": "claude/government/deploy-desktop/windows-checklist.md",
-      "sha256": "6c474dc5bdd814c4299b19ea1ed6afd1ba02b42ccd24a0ed732f8264f29dccaa",
-      "size": 13088
+      "sha256": "67cfd257bf43a7c31830f8d44b86fa0549c7defdbdd7e829c0c7e55ec6fd0f92",
+      "size": 13333
     },
     {
       "url": "https://claude.com/docs/government/deploy-microsoft-365/configure",
@@ -15492,8 +13491,8 @@
       "url": "https://claude.com/docs/third-party/claude-desktop/installation",
       "status": "success",
       "path": "claude/third-party/claude-desktop/installation.md",
-      "sha256": "9cd62790ff8ff8aec701aedcc53e754a644ee34068aa7759886d67c5586b0436",
-      "size": 20076
+      "sha256": "b2c059df8fbafc48f216f22c1917986c74df1494f94d071ed80a5aebbd27bd89",
+      "size": 24884
     },
     {
       "url": "https://claude.com/docs/third-party/claude-desktop/legal",
@@ -30875,7 +28874,1012 @@
       "size": 170
     }
   ],
-  "failures": [],
+  "failures": [
+    {
+      "url": "https://claude.com/blog/workload-identity-federation",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/automate-security-reviews-with-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/build-plugins-for-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-for-commerce-agents",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/making-claude-a-better-electrical-engineer",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/opus-4-6-finance",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-anthropics-marketing-operations-team-uses-claude-cowork-to-automate-reporting-and-campaign-builds",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-platform-on-aws",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-in-chrome-generally-available",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/building-companies-with-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/working-at-the-frontier-how-balyasny-asset-management-evaluates-and-governs-claude-fable-5",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/analysis-tool",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-now-available-in-microsoft-365-copilot",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/structured-outputs-on-the-claude-developer-platform",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-abc-legal-turned-every-employee-into-a-builder-with-claude-managed-agents",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-for-enterprise",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/new-guide-deploying-claude-across-the-enterprise-with-claude-cowork",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/meet-the-winners-of-built-with-opus-4-7-claude-code-hackathon",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/improved-web-search-with-dynamic-filtering",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/complete-guide-to-building-skills-for-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/optimize-code-performance-quickly",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/self-service-data-analytics-in-slack-how-anthropic-deploys-claude-tag-for-ad-hoc-questions",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-monday-com-transformed-its-platform-into-an-agent-first-product-where-humans-and-agents-collaborate",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/common-workflow-patterns-for-ai-agents-and-when-to-use-them",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/integrate-apis-seamlessly",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/compliance-api-security-partners",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/what-is-model-context-protocol",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-for-government-is-now-generally-available",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/best-practices-for-computer-and-browser-use-with-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-kepler-built-verifiable-ai-for-financial-services-with-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-anthropic-employees-use-claude-tag",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/cowork-chrome-side-panel",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/token-saving-updates",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-and-slack",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-anthropics-sales-team-rebuilt-inbound-with-claude-managed-agents",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/fine-tune-claude-3-haiku",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claudes-memory-works-everywhere-and-you-decide-whats-in-it",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/working-at-the-frontier-how-cognition-trusts-claude-fable-5-to-work-through-the-night",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/team-plan-and-ios",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/building-agents-with-the-claude-agent-sdk",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-ai-helps-break-cost-barrier-cobol-modernization",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/getting-started-with-loops",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/whats-new-in-claude-managed-agents",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-coderabbit-used-claude-to-build-an-agent-orchestration-system",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-powered-artifacts",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/preview-review-and-merge-with-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-for-small-business-launches-new-workflows-integrations-and-training-programs",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-code-remote-mcp",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/cowork-web-mobile",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/behind-model-launch-what-customers-discovered-testing-claude-opus-4-6-early",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/connectors-directory",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-anthropic-enables-self-service-data-analytics-with-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/cowork-built-in-browser",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/working-at-the-frontier-cursor",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/create-files",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/driving-ai-transformation-with-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/scaling-agentic-coding",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-to-create-skills-key-steps-limitations-and-examples",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-design-stays-on-brand-for-daily-work",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-2-amazon-bedrock",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/cowork-for-enterprise",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-for-the-legal-industry",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/workspaces",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/maximizing-the-value-of-your-claude-code-sessions",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/turning-conversation-into-knowledge-how-slack-builds-human-agent-teams",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/artifacts-in-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-on-google-cloud-fedramp-high",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/building-verification-loops-in-claude-code-with-skills",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/best-practices-for-getting-started-with-claude-cowork",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-anthropic-uses-claude-gtm-engineering",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/meet-the-winners-of-our-claude-opus-4-8-build-day-hackathon",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-enterprise-inference-hooks",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-datadog-built-a-universal-machine-tool-for-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/auto-mode-default-in-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/agentic-coding-is-straining-ci-heres-how-we-scaled-test-impact-analysis-at-anthropic",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/building-agents-with-skills-equipping-agents-for-specialized-work",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/fix-software-bugs-faster-with-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/a-field-guide-to-claude-fable-finding-your-unknowns",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-the-product-designer-who-built-claude-design-uses-it-to-explore-ideas-before-building-them",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/ai-ci-cd-on-call",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/productivity-platforms",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/auto-mode-in-production",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/research",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/1m-context-ga",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-for-foundation-models",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/building-ai-agents-in-healthcare-and-life-sciences",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-code-on-the-web",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/bringing-claude-mythos-5-to-more-defenders",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-anthropics-business-development-team-uses-claude-to-run-inbound-and-outbound-at-scale",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/ciso-guide-to-agentic-ai",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/new-in-claude-managed-agents",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/carta-healthcare-clinical-abstractor",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/deploying-claude-across-financial-services",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/deploying-claude-across-the-legal-industry",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/giving-admins-more-visibility-and-control-over-claude-usage-and-spend",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-warp-builds-self-improving-agents-on-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/agent-view-in-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/building-agents-that-reach-production-systems-with-mcp",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/bringing-mcp-2026-07-28-to-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/building-ai-agents-for-startups",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-anthropic-secures-its-ai-native-software-development-lifecycle",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/working-with-claude-fable-5-in-claude-cowork",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/collaborate-with-claude-across-excel-powerpoint-word-and-outlook",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/zero-trust-for-ai-agents",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/improving-frontend-design-through-skills",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-code-guide-for-startups",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/code-w-claude-sf-2026-sf",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/auto-mode",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/bain-company-joins-the-claude-partner-network-as-a-global-premier-partner",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-anthropic-uses-claude-marketing",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/message-batches-api",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/building-ai-agents-in-financial-services",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/the-claude-cowork-product-guide",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/self-serve-enterprise",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/multi-agent-coordination-patterns",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-team-updates",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/best-practices-for-using-claude-opus-4-7-with-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/agent-capabilities-api",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-in-microsoft-foundry",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/introducing-the-claude-apps-gateway",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/meet-the-winners-of-our-built-with-opus-4-6-claude-code-hackathon",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-code-and-new-admin-controls-for-business-plans",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-enterprises-are-building-ai-agents-in-2026",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/bringing-claude-code-and-claude-cowork-to-government",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/amazon-bedrock-general-availability",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/cowork-plugins",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/what-1-000-small-business-owners-taught-us-about-ai",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/1m-context",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/enterprise-managed-auth",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/eight-trends-defining-how-software-gets-built-in-2026",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/anthropics-approach-to-teaching-and-learning-ai",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-api-skill",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-platform-compliance-api",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-leading-retailers-are-turning-ai-pilots-into-enterprise-wide-transformation",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-outtake-built-a-cyber-investigator-on-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-builds-visuals",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-to-prepare-for-ai-driven-code-modernization-projects",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/harnessing-claudes-intelligence",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/interactive-tools-in-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/t-rowe-price-brings-more-of-claude-to-its-investment-process",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/contribution-metrics",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-an-anthropic-sales-leader-uses-claude-cowork-to-run-a-4-000-account-book",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-managed-agents-updates",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-models-explained-choosing-the-best-model-for-your-use-case",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/computer-use-skills-api-files-api",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/web-search",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/skills-explained",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-code-plugins",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/build-responsive-web-layouts",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/deploying-ai-from-pilot-to-production",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/cowork-plugins-finance",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-to-configure-hooks",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/working-at-the-frontier-rakuten",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/working-at-the-frontier-why-base44-trusts-claude-fable-5-with-their-most-challenging-engineering-work",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/prompt-caching",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/trainium2-and-distillation",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/extending-claude-capabilities-with-skills-mcp-servers",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/the-founders-playbook",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/agent-identity-access-model",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/agents-you-can-coach-how-asana-builds-human-agent-teams-with-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/running-an-ai-native-engineering-org",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/using-claude-md-files",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/introducing-routines-in-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-code-and-slack",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/salesforce-in-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/evaluate-prompts",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/upgraded-anthropic-console",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-for-teachers-now-available-for-schools-and-districts",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-our-partners-are-putting-opus-to-work-for-cybersecurity",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/context-management",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/android-app",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/product-development-in-the-agentic-era",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/the-full-claude-desktop-experience-on-aws-google-cloud-and-microsoft-foundry",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/cowork-is-now-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-marketplace",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/building-effective-human-agent-teams",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/onboarding-claude-code-like-a-new-developer-lessons-from-17-years-of-development",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/prompt-generator",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/working-at-the-frontier-how-hebbia-builds-ai-for-financial-diligence-that-cant-miss-a-detail",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/subagents-in-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/web-search-api",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/integrations",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-tag-now-reads-even-more-of-the-room",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/run-claude-code-sessions-on-your-own-compute",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/cowork-plugins-across-enterprise",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/building-ai-agents-for-the-enterprise",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/key-benefits-transitioning-agentic-coding",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-healthcare-organizations-use-claude-tag",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/code-with-claude-san-francisco-london-tokyo",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/millennium-and-anthropic-are-building-a-digital-risk-analyst-with-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-an-anthropic-field-marketer-uses-claude-code-to-send-weekly-personalized-updates-to-every-sales-rep",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/a-guide-to-cost-visibility-and-control-in-claude",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-for-financial-advisors",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-2-1-prompting",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/prompt-improver",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/dispatch-and-computer-use",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/using-claude-code-session-management-and-1m-context",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/building-with-claude-managed-agents",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-opus-5-5-built-for-coding-sessions-that-use-more-context",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-coderabbit-power-digital-and-thoughtspot-scale-with-snowflake-and-vercel-on-claude-marketplace",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/four-role-based-claude-certifications",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/building-an-ai-native-revenue-organization",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-a-non-technical-project-manager-built-and-shipped-a-stress-management-app-with-claude-code-in-six-weeks",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/the-advisor-strategy",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-managed-agents-memory",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/giving-companies-more-control-over-their-ai-agents-with-nvidia",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-anthropic-teams-use-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/your-thinking-partner",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/using-llms-to-secure-source-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/think-through-hard-problems-in-voice-mode",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-anthropic-uses-claude-legal",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-people-are-using-claude-cowork",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-anthropic-uses-claude-cybersecurity",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-code-desktop-redesign",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-tag-now-supports-personal-connectors-in-channels",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-jetbrains-evaluates-and-deploys-claude-fable-5",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-for-chrome",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/compliance-api-cowork-and-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/memory",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/reducing-cost-and-improving-performance-with-claude-platform",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/connectors-for-everyday-life",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/tool-use-ga",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/the-anatomy-of-effective-commerce-agents",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/product-management-on-the-ai-exponential",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/organization-skills-and-directory",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/code-w-claude-london-2026-rethinking-how-we-build",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/working-at-the-frontier-how-thomson-reuters-builds-ai-for-high--stakes-professional-work",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/code-review",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-excel-powerpoint-updates",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-model-and-effort-level-in-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-brex-improves-code-quality-and-productivity-with-claude-code",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/how-anthropics-finance-team-uses-claude-to-shape-the-narrative-behind-the-numbers",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/introduction-to-agentic-coding",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/introducing-citations-api",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/projects-redesigned",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/ai-code-migration",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/observability-for-developers-building-connectors",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/the-ai-native-sdlc-playbook",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-code-mods",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-managed-agents",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/best-practices-for-prompt-engineering",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/build-artifacts",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/claude-security-public-beta",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/skills",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them",
+      "error": "HTTP 404"
+    }
+  ],
   "dead": [
     {
       "url": "https://code.claude.com/docs/en/claude-tag",
@@ -32011,11 +31015,11 @@
     }
   ],
   "summary": {
-    "total": 4657,
-    "downloaded": 4374,
+    "total": 4658,
+    "downloaded": 4124,
     "skipped": 0,
     "failed": 0,
-    "dead": 283,
+    "dead": 534,
     "success_rate": 100.0
   }
 }

@@ -120,7 +120,7 @@
           "serves_html": true
         },
         "/legal/": {
-          "url_count": 22,
+          "url_count": 23,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -422,7 +422,7 @@
           "serves_html": true
         },
         "/seps/": {
-          "url_count": 43,
+          "url_count": 44,
           "serves_markdown": true,
           "serves_html": true
         },

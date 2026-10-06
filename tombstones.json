@@ -3,8 +3,724 @@
   "note": "URLs confirmed gone upstream. Kept so a page that died once does not report as a fresh failure on every later run, which would bury the failure that is actually new. An entry clears itself if the URL answers again -- but only while something still probes it. Entries whose local file was removed are no longer fetched, so they stay as a record of the restructure rather than a live check.",
   "updated": "2026-10-06",
   "urls": {
+    "https://claude.com/blog/1m-context": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/1m-context-ga": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/a-field-guide-to-claude-fable-finding-your-unknowns": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/a-guide-to-cost-visibility-and-control-in-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
     "https://claude.com/blog/a-harness-for-every-task-dynamic-workflows-in-claude-code": {
       "since": "2026-09-22",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/agent-capabilities-api": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/agent-identity-access-model": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/agent-view-in-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/agentic-coding-is-straining-ci-heres-how-we-scaled-test-impact-analysis-at-anthropic": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/agents-you-can-coach-how-asana-builds-human-agent-teams-with-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/ai-ci-cd-on-call": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/ai-code-migration": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/amazon-bedrock-general-availability": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/analysis-tool": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/android-app": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/anthropics-approach-to-teaching-and-learning-ai": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/artifacts-in-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/auto-mode": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/auto-mode-default-in-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/auto-mode-in-production": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/automate-security-reviews-with-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/bain-company-joins-the-claude-partner-network-as-a-global-premier-partner": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/behind-model-launch-what-customers-discovered-testing-claude-opus-4-6-early": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/best-practices-for-computer-and-browser-use-with-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/best-practices-for-getting-started-with-claude-cowork": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/best-practices-for-prompt-engineering": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/best-practices-for-using-claude-opus-4-7-with-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/bringing-claude-code-and-claude-cowork-to-government": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/bringing-claude-mythos-5-to-more-defenders": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/bringing-mcp-2026-07-28-to-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/build-artifacts": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/build-plugins-for-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/build-responsive-web-layouts": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/building-agents-that-reach-production-systems-with-mcp": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/building-agents-with-skills-equipping-agents-for-specialized-work": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/building-agents-with-the-claude-agent-sdk": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/building-ai-agents-for-startups": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/building-ai-agents-for-the-enterprise": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/building-ai-agents-in-financial-services": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/building-ai-agents-in-healthcare-and-life-sciences": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/building-an-ai-native-revenue-organization": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/building-companies-with-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/building-effective-human-agent-teams": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/building-verification-loops-in-claude-code-with-skills": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/building-with-claude-managed-agents": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/carta-healthcare-clinical-abstractor": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/ciso-guide-to-agentic-ai": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-2-1-prompting": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-2-amazon-bedrock": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-and-slack": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-api-skill": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-builds-visuals": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-code-and-new-admin-controls-for-business-plans": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-code-and-slack": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-code-desktop-redesign": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-code-guide-for-startups": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-code-mods": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-code-on-the-web": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-code-plugins": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-code-remote-mcp": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-design-stays-on-brand-for-daily-work": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-enterprise-inference-hooks": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-excel-powerpoint-updates": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-for-chrome": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-for-commerce-agents": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-for-enterprise": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-for-financial-advisors": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-for-foundation-models": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-for-government-is-now-generally-available": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-for-small-business-launches-new-workflows-integrations-and-training-programs": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-for-teachers-now-available-for-schools-and-districts": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-for-the-legal-industry": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-in-chrome-generally-available": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-in-microsoft-foundry": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-managed-agents": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-managed-agents-memory": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-managed-agents-updates": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-marketplace": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-model-and-effort-level-in-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-models-explained-choosing-the-best-model-for-your-use-case": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-now-available-in-microsoft-365-copilot": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-on-google-cloud-fedramp-high": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-opus-5-5-built-for-coding-sessions-that-use-more-context": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-platform-compliance-api": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-platform-on-aws": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-powered-artifacts": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-security-public-beta": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-tag-now-reads-even-more-of-the-room": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-tag-now-supports-personal-connectors-in-channels": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claude-team-updates": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/claudes-memory-works-everywhere-and-you-decide-whats-in-it": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/code-review": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/code-w-claude-london-2026-rethinking-how-we-build": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/code-w-claude-sf-2026-sf": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/code-with-claude-san-francisco-london-tokyo": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/collaborate-with-claude-across-excel-powerpoint-word-and-outlook": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/common-workflow-patterns-for-ai-agents-and-when-to-use-them": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/complete-guide-to-building-skills-for-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/compliance-api-cowork-and-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/compliance-api-security-partners": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/computer-use-skills-api-files-api": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/connectors-directory": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/connectors-for-everyday-life": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/context-management": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/contribution-metrics": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/cowork-built-in-browser": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/cowork-chrome-side-panel": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/cowork-for-enterprise": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/cowork-is-now-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/cowork-plugins": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/cowork-plugins-across-enterprise": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/cowork-plugins-finance": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/cowork-web-mobile": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/create-files": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/deploying-ai-from-pilot-to-production": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/deploying-claude-across-financial-services": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/deploying-claude-across-the-legal-industry": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/dispatch-and-computer-use": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/driving-ai-transformation-with-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/eight-trends-defining-how-software-gets-built-in-2026": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/enterprise-managed-auth": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/evaluate-prompts": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/extending-claude-capabilities-with-skills-mcp-servers": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/fine-tune-claude-3-haiku": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/fix-software-bugs-faster-with-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/four-role-based-claude-certifications": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/getting-started-with-loops": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/giving-admins-more-visibility-and-control-over-claude-usage-and-spend": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/giving-companies-more-control-over-their-ai-agents-with-nvidia": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/harnessing-claudes-intelligence": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-a-non-technical-project-manager-built-and-shipped-a-stress-management-app-with-claude-code-in-six-weeks": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-abc-legal-turned-every-employee-into-a-builder-with-claude-managed-agents": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-ai-helps-break-cost-barrier-cobol-modernization": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-an-anthropic-field-marketer-uses-claude-code-to-send-weekly-personalized-updates-to-every-sales-rep": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-an-anthropic-sales-leader-uses-claude-cowork-to-run-a-4-000-account-book": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-anthropic-employees-use-claude-tag": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-anthropic-enables-self-service-data-analytics-with-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-anthropic-secures-its-ai-native-software-development-lifecycle": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-anthropic-teams-use-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-anthropic-uses-claude-cybersecurity": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-anthropic-uses-claude-gtm-engineering": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-anthropic-uses-claude-legal": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-anthropic-uses-claude-marketing": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-anthropics-business-development-team-uses-claude-to-run-inbound-and-outbound-at-scale": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-anthropics-finance-team-uses-claude-to-shape-the-narrative-behind-the-numbers": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-anthropics-marketing-operations-team-uses-claude-cowork-to-automate-reporting-and-campaign-builds": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-anthropics-sales-team-rebuilt-inbound-with-claude-managed-agents": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-brex-improves-code-quality-and-productivity-with-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-coderabbit-power-digital-and-thoughtspot-scale-with-snowflake-and-vercel-on-claude-marketplace": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-coderabbit-used-claude-to-build-an-agent-orchestration-system": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-datadog-built-a-universal-machine-tool-for-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-enterprises-are-building-ai-agents-in-2026": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-healthcare-organizations-use-claude-tag": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-jetbrains-evaluates-and-deploys-claude-fable-5": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-kepler-built-verifiable-ai-for-financial-services-with-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-leading-retailers-are-turning-ai-pilots-into-enterprise-wide-transformation": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-monday-com-transformed-its-platform-into-an-agent-first-product-where-humans-and-agents-collaborate": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-our-partners-are-putting-opus-to-work-for-cybersecurity": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-outtake-built-a-cyber-investigator-on-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-people-are-using-claude-cowork": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-the-product-designer-who-built-claude-design-uses-it-to-explore-ideas-before-building-them": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-to-configure-hooks": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-to-create-skills-key-steps-limitations-and-examples": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-to-prepare-for-ai-driven-code-modernization-projects": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/how-warp-builds-self-improving-agents-on-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/improved-web-search-with-dynamic-filtering": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/improving-frontend-design-through-skills": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/integrate-apis-seamlessly": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/integrations": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/interactive-tools-in-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/introducing-citations-api": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/introducing-routines-in-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/introducing-the-claude-apps-gateway": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/introduction-to-agentic-coding": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/key-benefits-transitioning-agentic-coding": {
+      "since": "2026-10-06",
       "reason": "HTTP 404"
     },
     "https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills": {
@@ -15,21 +731,309 @@
       "since": "2026-09-22",
       "reason": "HTTP 404"
     },
+    "https://claude.com/blog/making-claude-a-better-electrical-engineer": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/maximizing-the-value-of-your-claude-code-sessions": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/meet-the-winners-of-built-with-opus-4-7-claude-code-hackathon": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/meet-the-winners-of-our-built-with-opus-4-6-claude-code-hackathon": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/meet-the-winners-of-our-claude-opus-4-8-build-day-hackathon": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/memory": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/message-batches-api": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/millennium-and-anthropic-are-building-a-digital-risk-analyst-with-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/multi-agent-coordination-patterns": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/new-guide-deploying-claude-across-the-enterprise-with-claude-cowork": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/new-in-claude-managed-agents": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/observability-for-developers-building-connectors": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/onboarding-claude-code-like-a-new-developer-lessons-from-17-years-of-development": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/optimize-code-performance-quickly": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/opus-4-6-finance": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/organization-skills-and-directory": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/preview-review-and-merge-with-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/product-development-in-the-agentic-era": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/product-management-on-the-ai-exponential": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/productivity-platforms": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/projects-redesigned": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/prompt-caching": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/prompt-generator": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/prompt-improver": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/reducing-cost-and-improving-performance-with-claude-platform": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/research": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/run-claude-code-sessions-on-your-own-compute": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/running-an-ai-native-engineering-org": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/salesforce-in-claude": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/scaling-agentic-coding": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
     "https://claude.com/blog/seeing-like-an-agent": {
       "since": "2026-09-22",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/self-serve-enterprise": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/self-service-data-analytics-in-slack-how-anthropic-deploys-claude-tag-for-ad-hoc-questions": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/skills": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/skills-explained": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/structured-outputs-on-the-claude-developer-platform": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/subagents-in-claude-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/t-rowe-price-brings-more-of-claude-to-its-investment-process": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/team-plan-and-ios": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/the-advisor-strategy": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/the-ai-native-sdlc-playbook": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/the-anatomy-of-effective-commerce-agents": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/the-claude-cowork-product-guide": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/the-founders-playbook": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/the-full-claude-desktop-experience-on-aws-google-cloud-and-microsoft-foundry": {
+      "since": "2026-10-06",
       "reason": "HTTP 404"
     },
     "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models": {
       "since": "2026-09-22",
       "reason": "HTTP 404"
     },
+    "https://claude.com/blog/think-through-hard-problems-in-voice-mode": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/token-saving-updates": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/tool-use-ga": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/trainium2-and-distillation": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/turning-conversation-into-knowledge-how-slack-builds-human-agent-teams": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/upgraded-anthropic-console": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/using-claude-code-session-management-and-1m-context": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
     "https://claude.com/blog/using-claude-code-the-unreasonable-effectiveness-of-html": {
       "since": "2026-09-22",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/using-claude-md-files": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/using-llms-to-secure-source-code": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/web-search": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/web-search-api": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/what-1-000-small-business-owners-taught-us-about-ai": {
+      "since": "2026-10-06",
       "reason": "HTTP 404"
     },
     "https://claude.com/blog/what-a-task-costs-on-opus-5-5": {
       "since": "2026-09-25",
       "reason": "moved -> https://claude.dev/blog/what-a-task-costs-on-opus-5-5"
+    },
+    "https://claude.com/blog/what-is-model-context-protocol": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/whats-new-in-claude-managed-agents": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/working-at-the-frontier-cursor": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/working-at-the-frontier-how-balyasny-asset-management-evaluates-and-governs-claude-fable-5": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/working-at-the-frontier-how-cognition-trusts-claude-fable-5-to-work-through-the-night": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/working-at-the-frontier-how-hebbia-builds-ai-for-financial-diligence-that-cant-miss-a-detail": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/working-at-the-frontier-how-thomson-reuters-builds-ai-for-high--stakes-professional-work": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/working-at-the-frontier-rakuten": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/working-at-the-frontier-why-base44-trusts-claude-fable-5-with-their-most-challenging-engineering-work": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/working-with-claude-fable-5-in-claude-cowork": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/workload-identity-federation": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/workspaces": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/your-thinking-partner": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
+    },
+    "https://claude.com/blog/zero-trust-for-ai-agents": {
+      "since": "2026-10-06",
+      "reason": "HTTP 404"
     },
     "https://claude.com/docs/claude-science/annotations": {
       "since": "2026-09-06",
