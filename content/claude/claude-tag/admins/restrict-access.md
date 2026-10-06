@@ -351,6 +351,7 @@ A member whose custom role includes the permission is a Claude Tag admin. A Clau
 * Turn Claude on or off for a workspace or a channel with its **Enable Claude Tag** switch, or for every channel with the **Respond in all channels** switch on the **Slack** page
 * Add and remove [channel managers](#delegate-channel-setup-to-channel-managers), if the role also sets **Identity & Access** to **Can manage**
 * Set up [**Managed by**](/docs/claude-tag/admins/managed-by) for a channel, on the **Admin** tab of the channel's Configure page
+* Open [on-call setup](/docs/claude-tag/admins/setup-oncall) at [`claude.ai/oncall`](https://claude.ai/oncall)
 * Set a scope's [**How should Claude work in channels with guests**](#restrict-guest-channels) setting to **Restrict** or **Channel only**; choosing **Full access** or setting a scope back to **Inherit** stays with Owners
 
 Some actions stay outside the permission:

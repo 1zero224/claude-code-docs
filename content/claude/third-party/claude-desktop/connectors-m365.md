@@ -35,6 +35,8 @@ Anthropic's connector service receives the desktop's delegated access token on e
 
 Setup takes about fifteen minutes and requires a Global Administrator or Cloud Application Administrator in your Entra tenant.
 
+The hosted M365 server has not been evaluated for HIPAA compliance. If your organization follows HIPAA compliance, please use the [local connector](#local-connector) instead.
+
 ### How the connection works
 
 Three applications participate in the sign-in chain. Understanding which one each ID refers to makes the setup steps below easier to follow.

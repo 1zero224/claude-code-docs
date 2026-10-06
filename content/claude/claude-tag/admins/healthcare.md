@@ -12,7 +12,7 @@ export const BetaNote = () => <Info>Claude Tag is in public beta. Features and b
 
 Claude Tag, the Claude app that works in your Slack channels, is not covered by Anthropic's Business Associate Agreement (BAA). A healthcare organization can use it for work that doesn't involve protected health information (PHI) by configuring it so that PHI never enters a channel, direct message, or connected tool that Claude can read.
 
-If your Claude organization has the HIPAA configuration applied to Claude Code (local mode) and Cowork (local mode), Claude Tag isn't available in that organization. [Plan and organization requirements](#plan-and-organization-requirements) describes the alternative.
+If your Claude organization has the [HIPAA configuration](https://support.claude.com/en/articles/17318731) applied to Claude Code (local mode) and Cowork (local mode), Claude Tag isn't available in that organization. [Plan and organization requirements](#plan-and-organization-requirements) describes the alternative.
 
 This page is for the Claude organization's Owners and the compliance lead deciding where Claude works. It describes how to configure Claude Tag so PHI stays out of Claude's reach. It is not legal advice. Review your setup with your legal and compliance teams before you turn Claude on.
 

@@ -23070,7 +23070,7 @@ Create Agent
 
 - `tools: Array[BetaManagedAgentsAgentToolset20260401Params | BetaManagedAgentsMCPToolsetParams | BetaManagedAgentsCustomToolParams]`
 
-  Tool configurations available to the agent. Maximum of 128 tools across all toolsets allowed.
+  Tool configurations available to the agent. Maximum of 256 tools across all toolsets allowed.
 
   - `class BetaManagedAgentsAgentToolset20260401Params`
 
@@ -26227,7 +26227,7 @@ Update Agent
 
 - `tools: Array[BetaManagedAgentsAgentToolset20260401Params | BetaManagedAgentsMCPToolsetParams | BetaManagedAgentsCustomToolParams]`
 
-  Tool configurations available to the agent. Full replacement. Omit to preserve; send empty array or null to clear. Maximum of 128 tools across all toolsets allowed.
+  Tool configurations available to the agent. Full replacement. Omit to preserve; send empty array or null to clear. Maximum of 256 tools across all toolsets allowed.
 
   - `class BetaManagedAgentsAgentToolset20260401Params`
 
@@ -95624,15 +95624,21 @@ The RBAC Roles API is available to Claude Enterprise organizations only.
 
     format: date-time
 
-  - `name: String`
+  - `display_name: String`
 
-    Name of the RBAC Role.
+    Name of the RBAC Role. For a role created by Anthropic, this name can differ from the label claude.ai shows, and Anthropic may change the name. To keep a lasting reference to a role, store its `id`.
 
   - `updated_at: Time`
 
     RFC 3339 datetime string indicating when the RBAC Role was last updated.
 
     format: date-time
+
+  - `name: String`
+
+    **Deprecated**: Use `display_name` instead; `name` always has the same value.
+
+    Deprecated: use `display_name` instead. Name of the RBAC Role; always the same value as `display_name`.
 
 #### Example
 
@@ -95654,6 +95660,7 @@ puts(page)
     {
       "id": "rbac_role_016J8xVtKpDq3Wy9ZmN2hR4s",
       "created_at": "2024-10-30T23:58:27.427722Z",
+      "display_name": "Project Editor",
       "name": "Project Editor",
       "type": "rbac_role",
       "updated_at": "2024-10-30T23:58:27.427722Z"
@@ -95700,15 +95707,21 @@ The RBAC Roles API is available to Claude Enterprise organizations only.
 
     format: date-time
 
-  - `name: String`
+  - `display_name: String`
 
-    Name of the RBAC Role.
+    Name of the RBAC Role. For a role created by Anthropic, this name can differ from the label claude.ai shows, and Anthropic may change the name. To keep a lasting reference to a role, store its `id`.
 
   - `updated_at: Time`
 
     RFC 3339 datetime string indicating when the RBAC Role was last updated.
 
     format: date-time
+
+  - `name: String`
+
+    **Deprecated**: Use `display_name` instead; `name` always has the same value.
+
+    Deprecated: use `display_name` instead. Name of the RBAC Role; always the same value as `display_name`.
 
 #### Example
 
@@ -95728,6 +95741,7 @@ puts(beta_rbac_role)
 {
   "id": "rbac_role_016J8xVtKpDq3Wy9ZmN2hR4s",
   "created_at": "2024-10-30T23:58:27.427722Z",
+  "display_name": "Project Editor",
   "name": "Project Editor",
   "type": "rbac_role",
   "updated_at": "2024-10-30T23:58:27.427722Z"

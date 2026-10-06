@@ -15,7 +15,7 @@ The HIPAA configuration is an organization setting on Claude Enterprise plans, f
   * Claude Code in the Code tab of Claude Desktop
   * Cowork in Claude Desktop
 
-  The Claude Code extensions for VS Code and JetBrains aren't part of (local mode). They keep working with the HIPAA configuration applied, but your BAA doesn't cover them. See the [Implementation Guide](https://trust.anthropic.com/resources?s=rgirr4qe8u7ek8c2igx3\&name=claude-for-enterprise-hipaa-ready-offering-implementation-guide) for the full list of Eligible Services.
+  The Claude Code extensions for VS Code and JetBrains aren't part of (local mode). They keep working with the HIPAA configuration applied, but your BAA doesn't cover them. See the [Implementation Guide](https://trust.anthropic.com/resources?s=l1wrssd9hsbi4gak0tp5a6\&name=%5Banthropic%5D-hipaa-ready-offering-implementation-guide) for the full list of Eligible Services.
 </Note>
 
 This page is for the IT or security administrator who manages the macOS and Windows computers where members run [Cowork](/docs/cowork/overview) in Claude Desktop. Other readers start on a different page:
@@ -56,15 +56,13 @@ On an older version, members see an **Update required** dialog that tells them t
 
 ### Allow network access for Claude Desktop
 
-Allow the hosts in this table through your proxy and firewall, over HTTPS on port 443. The table lists the hosts that the tasks on this page depend on, and leaves out the rest.
+Allow the Anthropic hosts listed in [Desktop network access requirements](https://code.claude.com/docs/en/desktop#network-access-requirements) through your proxy and firewall. Claude Desktop reaches them over HTTPS on port 443. The table shows what Claude Desktop uses three of those hosts for. The setup on this page depends on all three.
 
 | Host | Needed for |
 | :- | :- |
 | `claude.ai` | Sign-in, the Claude Desktop interface, and your organization's settings |
 | `api.anthropic.com` | Claude API requests, update checks, and the status that tells Claude Desktop the HIPAA configuration is on |
 | `downloads.claude.ai` | The virtual machine image that Cowork runs shell commands in, the Claude Code binary, and app updates |
-
-[Desktop network access requirements](https://code.claude.com/docs/en/desktop#network-access-requirements) lists the Anthropic hosts to allow for Claude Desktop.
 
 ### Deploy the Claude Desktop policy
 
@@ -185,6 +183,8 @@ If Cowork tasks need other hosts, such as a package registry, the Owner turns on
 * **Domain allowlist**: the Owner selects a preset list of domains. With the HIPAA configuration applied, the **All domains** option is unavailable
 * **Additional allowed domains**: the Owner adds each domain your organization needs
 
+If **All domains** is still selected when your organization applies the HIPAA configuration, the VM reaches only `anthropic.com` and `claude.com` hosts, plus your OpenTelemetry collector if Cowork monitoring is set up. Entries in **Additional allowed domains** have no effect. To avoid or undo this, ask the Owner to select a different **Domain allowlist** option.
+
 ### Turn off web search in Cowork
 
 Web search in Cowork follows your organization's web search setting. Applying the HIPAA configuration doesn't change it. If web search is on and your organization's own policy forbids it, turn it off at one of these levels:
@@ -258,7 +258,7 @@ The table shows what each location holds, and whether Claude Desktop deletes it 
 
 | Location | What it holds | Deleted automatically |
 | :- | :- | :- |
-| Task folders in `local-agent-mode-sessions`, in the Claude Desktop data folder | One folder per Cowork task, with the task's transcript, uploaded files, and outputs | Yes, [after `cleanupPeriodDays`](#when-claude-desktop-deletes-cowork-tasks), except for the background sessions that Dispatch creates |
+| Task folders in `local-agent-mode-sessions`, in the Claude Desktop data folder | One folder per Cowork task, with the task's transcript, uploaded files, and outputs | Yes, [after `cleanupPeriodDays`](#when-claude-desktop-deletes-cowork-tasks), with one exception |
 | Everything else in `local-agent-mode-sessions`, in the Claude Desktop data folder | Data that Cowork keeps between tasks, such as memory and plugins | No |
 | `vm_bundles`, in the Claude Desktop data folder | The disk images of the virtual machine that runs shell commands | No |
 | The Cowork files folder, `~/Claude` by default | Artifacts, scheduled tasks, and project files | No |
@@ -274,7 +274,7 @@ You can set `cleanupPeriodDays` in Claude Code's [managed settings](https://code
 
 If your organization also uses [server-managed settings](https://code.claude.com/docs/en/server-managed-settings), have an Owner set `cleanupPeriodDays` there too. Claude Desktop reads server-managed settings for this check, and [uses one managed source at a time](https://code.claude.com/docs/en/managed-settings#how-claude-code-combines-managed-sources).
 
-With the HIPAA configuration applied, Claude Desktop deletes Cowork tasks that have been inactive for longer than `cleanupPeriodDays`, including starred and archived ones. Running or opening a task counts as activity.
+With the HIPAA configuration applied, Claude Desktop deletes Cowork tasks that have been inactive for longer than `cleanupPeriodDays`, including starred and archived ones. Running or opening a task counts as activity. Task folders for background sessions that Dispatch created before your organization applied the HIPAA configuration stay until you delete them.
 
 Claude Desktop checks for tasks to delete after it starts, and every six hours while it stays open. The check needs all of these conditions:
 

@@ -19,20 +19,20 @@ You link GitHub once for your Claude organization, then choose which repositorie
 ## Link your GitHub organization
 
 <Note>
-  The person who completes the link must be both an **owner of the GitHub organization** and an **Owner in your Claude organization**. If you aren't a GitHub organization owner, use **Copy message** under **Not a GitHub account owner?** on the GitHub settings page to send the link to someone who is.
+  The person who completes the link must be both an **owner of the GitHub organization** and an **Owner in your Claude organization**. If you aren't a GitHub organization owner, click the **Not the GitHub owner? Send instructions** link in the **GitHub** section of [**Organization settings > Git providers**](https://claude.ai/admin-settings/source-control). In the dialog that opens, click **Copy message** to copy a request you can send to someone who is.
 </Note>
 
 <Steps>
-  <Step title="Open the GitHub settings page">
-    Open [`claude.ai/admin-settings/github`](https://claude.ai/admin-settings/github). This page is shared with Claude Code; one connection serves both products. Until the Claude GitHub App is installed, you can also reach this page from Claude Tag admin settings. On the **Connectors** tab under **Claude's access**, click **Add** and select **GitHub**.
+  <Step title="Open the Git providers page">
+    Go to **Organization settings > Git providers** at [`claude.ai/admin-settings/source-control`](https://claude.ai/admin-settings/source-control). This page is shared with Claude Code; one connection serves both products. Until the Claude GitHub App is installed, you can also reach this page from Claude Tag admin settings. On the **Connectors** tab under **Claude's access**, click **Add** and select **GitHub**.
   </Step>
 
-  <Step title="Connect Claude to GitHub">
-    Click **Connect Claude to GitHub** (**Connect**, once any account is already linked) and complete the GitHub authorization. After authorizing, the **Connected GitHub accounts** table lists the GitHub accounts the Claude GitHub App is installed on. The **Type** column reads **Organization** or **Personal**. An account already linked to your Claude organization shows **Connected**, and one that still needs linking shows **Not linked**.
+  <Step title="Connect GitHub">
+    Beside the **GitHub** heading, click **Connect** (the button reads **Add organization** once a GitHub account is connected) and complete the GitHub authorization. After authorizing, the table in the **GitHub** section lists the GitHub accounts the Claude GitHub App is installed on. The **Type** column reads **Organization** or **Personal**. In the **Status** column, an account already linked to your Claude organization shows **Connected**, and one that still needs linking shows **Not linked**.
   </Step>
 
   <Step title="Link or install">
-    If your organization's row reads **Not linked**, select the **Link** button next to it. If it isn't listed at all, click **Install on another organization** and complete the install on github.com; you're returned to this page with the organization under **Connected GitHub accounts** as **Connected**.
+    If your organization's row reads **Not linked**, select the **Link** button next to it. If it isn't listed at all, click **Add organization** beside the **GitHub** heading and complete the install on github.com; you're returned to this page with the organization's row showing **Connected**.
 
     An organization can also be missing from the table because single sign-on (SSO) on GitHub hides it. A note under the table counts the organizations hidden that way. To make them appear, authorize the Claude app for those organizations on GitHub.
 
@@ -90,7 +90,7 @@ A [bundle](/docs/claude-tag/admins/add-connections#create-a-bundle)'s places dec
 
 ## Verify GitHub access
 
-* The GitHub organization shows as **Connected** under **Connected GitHub accounts** at [`claude.ai/admin-settings/github`](https://claude.ai/admin-settings/github).
+* The GitHub organization shows as **Connected** in the **GitHub** section at [`claude.ai/admin-settings/source-control`](https://claude.ai/admin-settings/source-control).
 * On the **Connectors** tab under **Claude's access**, select **GitHub**. Its page shows how many GitHub accounts the Claude GitHub App is installed on. Its **Access from** table lists each repository picked for a place and each repository a bundle holds. The **Set by** column reads **Here** for a repository picked for a place, or names the bundle that holds it, and **Used at** names where each one applies.
 * For the end-to-end check, open a draft PR from a test channel; see [Verify the bundle is live](/docs/claude-tag/admins/attach-to-scope#verify-the-bundle-is-live).
 
@@ -100,7 +100,7 @@ When Claude replies "That environment or repo isn't configured for Claude Code",
 
 | Check | Where |
 | :- | :- |
-| The GitHub organization that owns the repository shows **Connected** under **Connected GitHub accounts** | [`claude.ai/admin-settings/github`](https://claude.ai/admin-settings/github). An installation still waiting on a GitHub organization owner shows **Needs permissions**; **Review permissions** opens the approval on github.com. |
+| The GitHub organization that owns the repository shows **Connected** in the **GitHub** section | [`claude.ai/admin-settings/source-control`](https://claude.ai/admin-settings/source-control). An installation still waiting on a GitHub organization owner shows **Needs permissions**; **Review permissions** opens the approval on github.com. |
 | The repository reaches the channel | In [**Organization settings > Claude Tag**](https://claude.ai/admin-settings/claude-tag), open the channel's page from the **Channels** tab under **Claude's access**, and look for the repository in its **Claude's access** table. A repository granted in a bundle that doesn't apply to the channel isn't reachable there. |
 
 After granting a repository, start a fresh thread in the channel and name the repository in the first message.
