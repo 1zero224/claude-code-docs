@@ -500,7 +500,7 @@
           "serves_html": true
         },
         "/collections/": {
-          "url_count": 10,
+          "url_count": 11,
           "serves_markdown": false,
           "serves_html": true
         }
