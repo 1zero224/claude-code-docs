@@ -5,8 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Repository Purpose
 
 Comprehensive archive of everything Anthropic publishes for building with
-Claude. 3,900+ docs from 12 sources; active sources auto-updated four
-times daily (the legacy anthropic.com blog archive is frozen, while
+Claude. 3,900+ docs from 12 sources; active sources auto-updated every
+2 days (the legacy anthropic.com blog archive is frozen, while
 claude.com/blog is HTML-extracted by the Fetcher).
 
 ## Fetcher
@@ -14,10 +14,14 @@ claude.com/blog is HTML-extracted by the Fetcher).
 `scripts/fetcher.py` -- single-file multi-source fetcher.
 
 Sources: code.claude.com, platform.claude.com, claude.com/docs,
-modelcontextprotocol.io, support.claude.com (sitemap + .md),
+modelcontextprotocol.io, support.claude.com (sitemap + .md; en + zh-CN),
 claude.com/blog (root sitemap + HTML extraction), github.com/anthropics/* (10 repos). anthropic.com blog
 (engineering/research/news) is a FROZEN archive as of 2026-07: the site is
 HTML-only and the jina.ai proxy path was removed.
+
+Localized docs: platform.claude.com, code.claude.com and support.claude.com
+are archived in `en` and `zh-CN` only (`SUPPORTED_LANGS` in `fetcher.py`).
+Upstream also serves de/es/fr/id/it/ja/ko/pt-BR/ru/zh-TW; those are not fetched.
 
 Five rules keep the archive honest, all learned the hard way:
 

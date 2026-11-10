@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "updated": "2026-09-09",
+  "updated": "2026-11-10",
   "description": "Complete Anthropic content source registry. Discovered via robots.txt/sitemap/llms.txt probing across all known Anthropic domains, GitHub API enumeration, and package registry checks. Discovery surfaces are treated as incomplete: the fetcher also refreshes every doc already on disk, because upstream de-indexes pages it still serves.",
   "domains": {
     "anthropic.com": {
@@ -15,19 +15,19 @@
       "sitemap": true,
       "llms_txt": true,
       "llms_full": true,
-      "notes": "API/platform docs (1541 en pages)"
+      "notes": "API/platform docs (895 en + 315 zh-CN pages; the other ten locales are not fetched)"
     },
     "code.claude.com": {
       "robots": true,
       "sitemap": true,
       "llms_txt": true,
-      "notes": "Claude Code + Agent SDK docs (141 en pages, 9 languages)"
+      "notes": "Claude Code + Agent SDK docs (227 en via llms.txt + 226 zh-CN via sitemap; upstream also serves ten other locales)"
     },
     "support.claude.com": {
       "robots": true,
       "sitemap": true,
       "llms_txt": true,
-      "notes": "Help articles (Intercom-hosted); llms.txt with direct .md links since ~2026-07"
+      "notes": "Help articles (Intercom-hosted); every article serves a .md variant. 374 en + 370 zh-CN fetched; zh-CN uses content/support/zh-CN/."
     },
     "modelcontextprotocol.io": {
       "robots": true,
@@ -67,13 +67,17 @@
       "sitemap": "https://platform.claude.com/sitemap.xml",
       "filter": "/docs/en/",
       "output": "en/",
-      "pages": 584,
+      "languages": [
+        "en",
+        "zh-CN"
+      ],
+      "pages": 1210,
       "enabled": true,
       "section": [
         "api",
         "platform"
       ],
-      "notes": "584 pages in sitemap/llms.txt. ~1,400 per-language SDK reference pages (api/python, api/typescript, api/go, api/java, api/ruby, api/php, api/csharp, api/cli) were dropped from both surfaces in 2026-07 but are still live and edited; they are kept fresh by the on-disk refresh pass, not by discovery. api/terraform 404s entirely."
+      "notes": "895 en + 315 zh-CN pages in the sitemap (SUPPORTED_LANGS in fetcher.py); zh-CN is written to content/zh-CN/. ~1,400 per-language SDK reference pages (api/python, api/typescript, api/go, api/java, api/ruby, api/php, api/csharp, api/cli) were dropped from both surfaces in 2026-07 but are still live and edited; they are kept fresh by the on-disk refresh pass, not by discovery. api/terraform 404s entirely."
     },
     {
       "name": "claude-code-docs",
@@ -81,12 +85,16 @@
       "url": "https://code.claude.com/docs/llms.txt",
       "alt_sitemap": "https://code.claude.com/sitemap.xml",
       "output": "en/docs/claude-code/",
-      "pages": 141,
+      "languages": [
+        "en",
+        "zh-CN"
+      ],
+      "pages": 453,
       "enabled": true,
       "section": [
         "claude-code"
       ],
-      "notes": "Sitemap has lastmod timestamps; llms.txt does not"
+      "notes": "English comes from llms.txt (227 pages); zh-CN comes from the sitemap (226 pages) because no per-language llms.txt exists. Sitemap has lastmod timestamps; llms.txt does not."
     },
     {
       "name": "mcp-docs",
@@ -106,12 +114,16 @@
       "type": "sitemap-md",
       "filter": "/en/articles/",
       "output": "support/",
-      "pages": 345,
+      "languages": [
+        "en",
+        "zh-CN"
+      ],
+      "pages": 744,
       "enabled": true,
       "section": [
         "support"
       ],
-      "notes": "Intercom-hosted; every article serves a .md variant directly (since ~2026-07), fetched sitemap + .md suffix. Previously jina.ai proxy. English-only filter.",
+      "notes": "Intercom-hosted; every article serves a .md variant directly (since ~2026-07), fetched sitemap + .md suffix. Previously jina.ai proxy. Fetches 374 en + 370 zh-CN articles; zh-CN lives under content/support/zh-CN/.",
       "sitemap": "https://support.claude.com/sitemap.xml"
     },
     {

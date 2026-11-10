@@ -2,7 +2,7 @@
 
 > Auto-updating archive of Anthropic's builder documentation: every source
 > that publishes markdown, plus claude.com/blog extracted from HTML, fetched
-> 4x daily. 4,100 files from seven live sources, plus a frozen archive of the
+> every 2 days. 4,100 files from seven live sources, plus a frozen archive of the
 > engineering blog.
 
 [![fetch](https://github.com/thevibeworks/claude-code-docs/actions/workflows/fetch-claude-docs.yml/badge.svg)](https://github.com/thevibeworks/claude-code-docs/actions/workflows/fetch-claude-docs.yml)
@@ -46,6 +46,10 @@ prints them live.
 | support.claude.com | `--section support` | 372 | Help articles |
 | anthropic.com | frozen 2026-07-08 | 158 | Engineering, research, news posts -- see below |
 
+`zh-CN` versions of platform.claude.com, code.claude.com and support.claude.com
+are archived alongside English (315 + 226 + 370 pages); the other ten upstream
+locales are not fetched.
+
 `anthropic.com` has no `--section` flag: it is HTML-only, the jina.ai proxy the
 fetcher used was removed in July 2026, and `content/blog/` has been a static
 archive since 2026-07-08. What is in it, against what anthropic.com's sitemap
@@ -69,6 +73,7 @@ content/
   en/build-with-claude/  Platform features
   en/agents-and-tools/   Tool use, agent skills
   en/manage-claude/      Admin, billing, managed agents
+  zh-CN/                 platform + code.claude docs (Chinese)
   claude/                Product docs (Claude Tag, Cowork, office agents)
   mcp/                   MCP protocol spec + community
   blog/
@@ -86,12 +91,13 @@ content/
     code-action/         GitHub Actions for Claude Code
     sdk-python/          Python SDK reference
     sdk-typescript/      TypeScript SDK reference
-  support/               365 help articles
+  support/               365 help articles (en)
+    zh-CN/               370 help articles (zh-CN)
 ```
 
 ## Fetching
 
-Auto-updates four times daily via GitHub Actions. To fetch manually:
+Auto-updates every 2 days via GitHub Actions. To fetch manually:
 
 ```bash
 # Requires: uv (https://docs.astral.sh/uv/)

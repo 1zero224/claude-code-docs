@@ -3,10 +3,11 @@
 Fetch Anthropic documentation from all known sources.
 
 Sources (see sources.json for the complete registry):
-  - platform.claude.com     -> API/platform docs (sitemap + .md suffix)
-  - code.claude.com         -> Claude Code + Agent SDK (llms.txt + .md suffix)
+  - platform.claude.com     -> API/platform docs, en + zh-CN (sitemap + .md)
+  - code.claude.com         -> Claude Code + Agent SDK, en (llms.txt) + zh-CN
+                               (sitemap), .md suffix
   - modelcontextprotocol.io -> MCP spec (sitemap + .md suffix)
-  - support.claude.com      -> Help articles (sitemap + .md suffix)
+  - support.claude.com      -> Help articles, en + zh-CN (sitemap + .md)
   - claude.com/docs         -> Product docs (sitemap + .md suffix)
   - anthropic.com blog      -> FROZEN 2026-07 (HTML-only, no .md variant;
                                the jina.ai proxy path was removed)
@@ -41,7 +42,7 @@ from collections import defaultdict
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urljoin, urlsplit
+from urllib.parse import unquote, urljoin, urlsplit
 from typing import Dict, List, Optional
 
 import aiofiles
@@ -87,6 +88,12 @@ FETCHED_SURFACES = {
     ("claude.com", "/docs/", "markdown"),
     ("claude.com", "/blog/", "html"),
 }
+
+# Locales archived from the three localized doc sites. Upstream serves 11
+# non-English locales (de, es, fr, id, it, ja, ko, pt-BR, ru, zh-CN, zh-TW);
+# only zh-CN is archived, on request (2026-11). Adding a locale here is
+# enough for the fetcher; update sources.json and the README counts too.
+SUPPORTED_LANGS = ("en", "zh-CN")
 
 
 def surface_is_fetched(domain: str, prefix: str, content_format: str) -> bool:
@@ -268,6 +275,9 @@ class Fetcher:
 
         self.platform_sitemap_url = "https://platform.claude.com/sitemap.xml"
         self.claude_code_llms_url = "https://code.claude.com/docs/llms.txt"
+        # llms.txt is English-only; localized Claude Code pages come from the
+        # sitemap instead (no per-language llms.txt exists — zh-CN 404s).
+        self.claude_code_sitemap_url = "https://code.claude.com/sitemap.xml"
         self.mcp_sitemap_url = "https://modelcontextprotocol.io/sitemap.xml"
         self.support_sitemap_url = "https://support.claude.com/sitemap.xml"
         # claude.com stopped being a marketing redirect: since ~2026-08 it hosts
@@ -361,6 +371,13 @@ class Fetcher:
         urls = []
         for match in re.findall(r'\(https://code\.claude\.com/docs/en/[^)]+\.md\)', content):
             urls.append(match[1:-4])  # strip parens and .md
+        # English comes from llms.txt; every other supported locale comes from
+        # the sitemap, because there is no per-language llms.txt.
+        sitemap = await self.fetch_text(session, self.claude_code_sitemap_url)
+        for lang in SUPPORTED_LANGS:
+            if lang == "en":
+                continue
+            urls.extend(self.extract_sitemap_urls(sitemap, f"/docs/{lang}/"))
         return urls
 
     def extract_support_urls(self, sitemap_xml: str) -> List[str]:
@@ -368,7 +385,7 @@ class Fetcher:
         # download_doc applies; sitemap covers more articles than llms.txt.
         return [
             url for url in self.extract_sitemap_urls(sitemap_xml)
-            if "/en/articles/" in url
+            if any(f"/{lang}/articles/" in url for lang in SUPPORTED_LANGS)
         ]
 
     # -- Reverse mapping: what we already archived -------------------------
@@ -376,7 +393,7 @@ class Fetcher:
     # Sections of content/ whose files came from a URL we can re-derive.
     # The old anthropic.com blog archive is excluded; only blog/claude/ is
     # owned by the live claude.com/blog source.
-    _REFETCHABLE = ("en", "mcp", "support", "claude", "blog/claude")
+    _REFETCHABLE = (*SUPPORTED_LANGS, "mcp", "support", "claude", "blog/claude")
 
     def existing_urls(self) -> List[str]:
         """URLs for docs already on disk — the inverse of get_output_path.
@@ -402,10 +419,11 @@ class Fetcher:
             for path in base.rglob("*.md"):
                 rel = path.relative_to(self.output_dir).with_suffix("")
                 parts = rel.parts
-                if parts[0] == "en":
+                if parts[0] in SUPPORTED_LANGS:
+                    lang = parts[0]
                     if parts[1:3] == ("docs", "claude-code"):
                         tail = "/".join(parts[3:])
-                        urls.append(f"https://code.claude.com/docs/en/{tail}")
+                        urls.append(f"https://code.claude.com/docs/{lang}/{tail}")
                     else:
                         tail = "/".join(parts)
                         urls.append(f"https://platform.claude.com/docs/{tail}")
@@ -413,8 +431,12 @@ class Fetcher:
                     tail = "/".join(parts[1:])
                     urls.append(f"https://modelcontextprotocol.io/{tail}")
                 elif parts[0] == "support":
-                    tail = "/".join(parts[1:])
-                    urls.append(f"https://support.claude.com/en/articles/{tail}")
+                    if len(parts) > 2 and parts[1] in SUPPORTED_LANGS and parts[1] != "en":
+                        tail = "/".join(parts[2:])
+                        urls.append(f"https://support.claude.com/{parts[1]}/articles/{tail}")
+                    else:
+                        tail = "/".join(parts[1:])
+                        urls.append(f"https://support.claude.com/en/articles/{tail}")
                 elif parts[0] == "claude":
                     tail = "/".join(parts[1:])
                     urls.append(f"https://claude.com/docs/{tail}")
@@ -439,7 +461,16 @@ class Fetcher:
             path = url.replace("https://modelcontextprotocol.io/", "")
             return self.output_dir / "mcp" / f"{path}.md"
         elif "support.claude.com" in url:
-            path = url.replace("https://support.claude.com/en/articles/", "")
+            match = re.match(
+                r"https://support\.claude\.com/([^/]+)/articles/(.+)", url)
+            if match:
+                lang, slug = match.group(1), match.group(2)
+                # English stays at support/<slug>.md for backward compatibility;
+                # other locales live under support/<lang>/<slug>.md.
+                if lang == "en":
+                    return self.output_dir / "support" / f"{slug}.md"
+                return self.output_dir / "support" / lang / f"{slug}.md"
+            path = url.replace("https://support.claude.com/", "")
             return self.output_dir / "support" / f"{path}.md"
         elif "claude.com/docs" in url:
             path = url.replace("https://claude.com/docs/", "")
@@ -481,8 +512,11 @@ class Fetcher:
                         # release-notes/system-prompts split into per-model pages,
                         # the 471KB history was replaced by the 3.7KB overview it
                         # redirects to. The target has its own entry in the fetch
-                        # set, so drop this one and record the move.
-                        landed = normalize_url(str(r.url))
+                        # set, so drop this one and record the move. Decode
+                        # first: aiohttp percent-encodes non-ASCII paths
+                        # (zh-CN support slugs), and an encoded redirect to the
+                        # same page is not a move.
+                        landed = normalize_url(unquote(str(r.url)))
                         if landed.removesuffix(".md") != url:
                             self.dead_now[url] = f"moved -> {landed.removesuffix('.md')}"
                             if output_path.exists():
@@ -550,7 +584,10 @@ class Fetcher:
                 async with session.get(url) as r:
                     r.raise_for_status()
                     content = await r.read()
-                    landed = normalize_url(str(r.url))
+                    # aiohttp percent-encodes non-ASCII paths; decode before
+                    # comparing or an encoded but unchanged URL looks like a
+                    # redirect.
+                    landed = normalize_url(unquote(str(r.url)))
                     if landed != url:
                         self.dead_now[url] = f"moved -> {landed}"
                         if output_path.exists():
@@ -696,7 +733,9 @@ class Fetcher:
             if self.want("api", "platform"):
                 print("Source: platform.claude.com/sitemap.xml")
                 xml = await self.fetch_text(session, self.platform_sitemap_url)
-                urls = self.extract_sitemap_urls(xml, "/docs/en/")
+                urls = []
+                for lang in SUPPORTED_LANGS:
+                    urls.extend(self.extract_sitemap_urls(xml, f"/docs/{lang}/"))
                 # Terraform provider reference serves no .md variant (404s)
                 terraform = [u for u in urls if "/api/terraform/" in u]
                 urls = [u for u in urls if "/api/terraform/" not in u]
@@ -1277,7 +1316,8 @@ class Fetcher:
     def validate_url(self, url: str) -> bool:
         allowed = [
             "platform.claude.com", "code.claude.com",
-            "modelcontextprotocol.io", "claude.com/docs", "claude.com/blog",
+            "modelcontextprotocol.io", "support.claude.com",
+            "claude.com/docs", "claude.com/blog",
         ]
         return any(f"https://{d}" in url for d in allowed)
 
@@ -1288,7 +1328,8 @@ class Fetcher:
             for u in invalid:
                 print(f"  {u}", file=sys.stderr)
             print("Allowed: platform.claude.com, code.claude.com, "
-              "modelcontextprotocol.io, claude.com/docs, claude.com/blog", file=sys.stderr)
+              "modelcontextprotocol.io, support.claude.com, claude.com/docs, "
+              "claude.com/blog", file=sys.stderr)
             sys.exit(1)
 
         normalized = [normalize_url(u[:-3] if u.endswith(".md") else u) for u in urls]
@@ -1324,8 +1365,10 @@ class Fetcher:
         print("Fetching source indexes...\n")
         timeout = aiohttp.ClientTimeout(total=60)
         async with aiohttp.ClientSession(timeout=timeout) as session:
-            platform_urls = self.extract_sitemap_urls(
-                await self.fetch_text(session, self.platform_sitemap_url), "/docs/en/")
+            platform_xml = await self.fetch_text(session, self.platform_sitemap_url)
+            platform_urls = []
+            for lang in SUPPORTED_LANGS:
+                platform_urls.extend(self.extract_sitemap_urls(platform_xml, f"/docs/{lang}/"))
             cc_urls = await self.fetch_claude_code_urls(session)
             mcp_urls = self.extract_sitemap_urls(
                 await self.fetch_text(session, self.mcp_sitemap_url))
@@ -1349,8 +1392,8 @@ class Fetcher:
                 print(f"  {sec}/ ({len(groups[sec])})")
             print()
 
-        show_grouped("code.claude.com", cc_urls, "https://code.claude.com/docs/en/")
-        show_grouped("platform.claude.com", platform_urls, "https://platform.claude.com/docs/en/")
+        show_grouped("code.claude.com", cc_urls, "https://code.claude.com/docs/")
+        show_grouped("platform.claude.com", platform_urls, "https://platform.claude.com/docs/")
         show_grouped("modelcontextprotocol.io", mcp_urls, "https://modelcontextprotocol.io/")
 
         print(f"support.claude.com: {len(support_urls)} articles")
