@@ -6,13 +6,13 @@
 
 > Browse verified and community MCP connectors in the Connectors Directory, one catalog for claude.ai, Claude Desktop, mobile, Claude Code, and Cowork
 
-The Connectors Directory is a catalog of [MCP](/docs/connectors/building/mcp) servers that work across all Claude products: claude.ai, Claude Desktop, Claude Mobile, Claude Code, and Cowork.
+The Connectors Directory is a catalog of [MCP](https://claude.com/docs/connectors/building/mcp.md) servers that work across all Claude products: claude.ai, Claude Desktop, Claude Mobile, Claude Code, and Cowork.
 
-The directory contains both verified connectors and community connectors. Verification isn't a security audit. [Connector verification](/docs/connectors/verification) explains what each label means.
+The directory contains both verified connectors and community connectors. Verification isn't a security audit. [Connector verification](https://claude.com/docs/connectors/verification.md) explains what each label means.
 
-<Note>
-  All connectors in the directory are subject to the [Anthropic Software Directory Policy](https://support.claude.com/en/articles/13145358-anthropic-software-directory-policy) and the [Anthropic Software Directory Terms](https://support.claude.com/en/articles/13145338-anthropic-software-directory-terms).
-</Note>
+> [!NOTE]
+>
+> All connectors in the directory are subject to the [Anthropic Software Directory Policy](https://support.claude.com/en/articles/13145358-anthropic-software-directory-policy) and the [Anthropic Software Directory Terms](https://support.claude.com/en/articles/13145338-anthropic-software-directory-terms).
 
 ## Understand how the directory works
 
@@ -22,7 +22,7 @@ The directory contains both verified connectors and community connectors. Verifi
 * No domain-ownership proof (DNS or `.well-known`) is required. That requirement applies only to the open MCP Registry, not the Anthropic Directory
 * The help-docs link shown in the in-product connector setup flow is not partner-customizable
 
-Directory connectors and custom connectors run on the same infrastructure. See [directory vs custom](/docs/connectors/building/directory-vs-custom).
+Directory connectors and custom connectors run on the same infrastructure. See [directory vs custom](https://claude.com/docs/connectors/building/directory-vs-custom.md).
 
 ## Browse the directory
 
@@ -58,24 +58,22 @@ To move to the new endpoint, remove the connector and re-add it from the directo
 
 Organizations can submit their MCP servers for review and inclusion in the directory:
 
-<Steps>
-  <Step title="Review the submission guidelines">
-    Review the [submission guidelines](/docs/connectors/building/submission).
-  </Step>
+**1. Review the submission guidelines**
 
-  <Step title="Meet the standards">
-    Ensure your server meets security and compatibility standards.
-  </Step>
+Review the [submission guidelines](https://claude.com/docs/connectors/building/submission.md).
 
-  <Step title="Submit in the developer portal">
-    Submit through the developer portal at [claude.ai/directory/manage](https://claude.ai/directory/manage).
-  </Step>
-</Steps>
+**2. Meet the standards**
 
-Anyone on a paid Claude plan can submit, and on Team and Enterprise an Owner submits; see [who can submit to the directory](/docs/directory/publish#confirm-you-can-submit-to-the-directory) for the role and organization requirements. After publication, the same dashboard shows your server's health and usage; see [Manage your directory listing](/docs/connectors/building/managing-your-listing).
+Ensure your server meets security and compatibility standards.
+
+**3. Submit in the developer portal**
+
+Submit through the developer portal at [claude.ai/directory/manage](https://claude.ai/directory/manage).
+
+Anyone on a paid Claude plan can submit, and on Team and Enterprise an Owner submits; see [who can submit to the directory](https://claude.com/docs/directory/publish.md#confirm-you-can-submit-to-the-directory) for the role and organization requirements. After publication, the same dashboard shows your server's health and usage; see [Manage your directory listing](https://claude.com/docs/connectors/building/managing-your-listing.md).
 
 ## Next steps
 
-* [Connector verification](/docs/connectors/verification): what the Verified and Community labels mean
-* [Get started with connectors](/docs/connectors/getting-started): set up a connector and use it in conversations
-* [Build an MCP server for Claude](/docs/connectors/building/index): create your own MCP server
+* [Connector verification](https://claude.com/docs/connectors/verification.md): what the Verified and Community labels mean
+* [Get started with connectors](https://claude.com/docs/connectors/getting-started.md): set up a connector and use it in conversations
+* [Build an MCP server for Claude](https://claude.com/docs/connectors/building/index.md): create your own MCP server

@@ -32,13 +32,13 @@ No current Visual Studio 2022 integration exists. Claude Code currently supports
 
 While there isn't a turnkey PR reviewer solution yet, you can use the **[Claude Code GitHub Actions integration](https://support.claude.com/en/articles/11932705-automated-security-reviews-in-claude-code)** for automated reviews. For now, you can use the security review action as a template and customize it for general PR reviews. This is also a good use case for the **[Claude Code SDK](https://docs.claude.com/en/docs/claude-code/sdk/sdk-overview)**.
 
-## I’m getting an error message that “Claude Max or Pro is required to connect to Claude Code” but I should have access through my organization’s Team or Enterprise plan. How can I troubleshoot?
+## I’m getting an error message that Claude Max, Ultra, or Pro is required to connect to Claude Code but I should have access through my organization’s Team or Enterprise plan. How can I troubleshoot?
 
 This indicates that you selected the wrong login method from the Claude Code setup screen. Try running /login again and selecting the account associated with your primary work email address. If you’re still unable to connect, see **[Having trouble using your Team or Enterprise account to access Claude Code?](https://support.claude.com/en/articles/11845131-using-claude-code-with-your-team-or-enterprise-plan#h_540f9e65d8)**
 
 ## What data is sent to Anthropic when using Claude Code with Bedrock/Vertex API keys?
 
-When configured with Bedrock/Vertex and CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC is set, only essential telemetry is sent. All model API requests go directly to your Bedrock/Vertex endpoints. Review the [d**ata flow documentation**](https://docs.claude.com/en/docs/claude-code/security) for complete details.
+When configured with Bedrock/Vertex and CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC is set, only essential telemetry is sent. All model API requests go directly to your Bedrock/Vertex endpoints. Review the **[data flow documentation](https://docs.claude.com/en/docs/claude-code/security)** for complete details.
 
 ## Is there a way to access Claude Code via Bedrock/Vertex without exposing a secret key/access key?
 
@@ -94,4 +94,4 @@ Yes, Claude Code integrates with GitHub Actions for CI/CD, supports git operatio
 
 ## Why am I seeing "Workflow validation failed" errors in GitHub Actions?
 
-This typically occurs with reusable workflows. Check that your workflow syntax is correct and that all required parameters are passed. If the error persists, file an issue here with your workflow configuration: **[github.com/anthropics/claude-code-action](http://github.com/anthropics/claude-code-action)**.
+This typically occurs with reusable workflows. Check that your workflow syntax is correct and that all required parameters are passed. If the error persists, file an issue here with your workflow configuration: **[github.com/anthropics/claude-code-action](https://github.com/anthropics/claude-code-action)**.

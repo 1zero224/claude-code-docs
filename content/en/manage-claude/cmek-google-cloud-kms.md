@@ -1,566 +1,259 @@
 ---
-title: Configure Google Cloud KMS for CMEK
+title: Set up CMEK with Google Cloud KMS
 url: https://platform.claude.com/docs/en/manage-claude/cmek-google-cloud-kms
-description: Use Google Cloud KMS to provide an encryption key for your organization.
+description: Create a Google Cloud KMS key, give Anthropic access to it, and put it to use in Claude Platform or Claude Enterprise.
 ---
 
-```bash Configure with the /claude-api skill in Claude Code
-claude "/claude-api help me configure a customer-managed encryption key with Google Cloud KMS"
+Let Claude Code set up this feature for you
+
+```text
+/claude-api help me configure a customer-managed encryption key with Google Cloud KMS
 ```
 
-This guide walks through configuring a Google Cloud KMS key as a [customer-managed encryption key (CMEK)](https://platform.claude.com/docs/en/manage-claude/cmek) for your Anthropic organization.
+## Before you start
 
-<Warning>
-  Enabling CMEK is permanent. If your KMS key is deleted or disabled, Anthropic cannot recover the data encrypted under it. Review the [warnings and limitations](https://platform.claude.com/docs/en/manage-claude/cmek) before you begin.
-</Warning>
+In Claude:
 
-## Prerequisites
+* Customer-managed encryption keys (CMEK) are [turned on for your organization](https://platform.claude.com/docs/en/manage-claude/cmek#availability).
+* You have your Anthropic organization ID, the UUID without the `org_` prefix. Copy it from [Organization](https://platform.claude.com/settings/organization) in the Claude Console, or from **Organization settings > Organization and access** on claude.ai. Whoever creates the key needs it.
+* You’re an Organization Admin on Claude Platform, or an Owner or Primary Owner on Claude Enterprise.
+* On Claude Platform, you have a workspace that [retains data](https://platform.claude.com/docs/en/manage-claude/cmek-data-retention#data-retention), ideally a new one, because [existing data stays under Anthropic’s key](https://platform.claude.com/docs/en/manage-claude/cmek-how-it-works#when-your-key-takes-effect).
+* On Claude Enterprise, you know [which features turn off or change](https://platform.claude.com/docs/en/manage-claude/cmek-coverage-claude-enterprise#turned-off-or-changed).
 
-* A Google Cloud project with billing enabled.
-* The Cloud KMS API enabled (`cloudkms.googleapis.com`).
-* Permissions to create KMS key rings and keys, and to set IAM policy on them (`roles/cloudkms.admin` or equivalent).
-* An Anthropic Admin API key for your organization.
-* The [`gcloud` CLI](https://cloud.google.com/cli) installed and authenticated.
-* Cloud KMS **Data Access audit logs** enabled for the project (IAM & Admin > Audit Logs > Cloud Key Management Service, with `DATA_READ` and `DATA_WRITE`). These are off by default; without them, Anthropic's encrypt and decrypt operations produce no entries in Cloud Logging.
+In Google Cloud:
 
-## Anthropic service account email
+* The Cloud KMS API is turned on.
+* You can create key rings and keys, and set IAM policy on them (`roles/cloudkms.admin` or equivalent).
+* Cloud KMS [Data Access audit logs](https://docs.cloud.google.com/logging/docs/audit/configure-data-access) (Data Read and Data Write) are on, so Cloud Logging records Anthropic’s use of your key. They’re off by default.
+* If your Google Cloud organization enforces domain restricted sharing (`constraints/iam.allowedPolicyMemberDomains`), it blocks the grant to Anthropic’s service account. Add a project-level exception, or allow Anthropic’s Cloud Identity customer ID. Contact Anthropic for the ID.
 
-To have Anthropic use your encryption key, you must give Anthropic's service account a key it can use for encrypting data. The service account email for Anthropic CMEK is:
+## In Google Cloud: create the key
+
+After a failed **Verify** or **Add**, see the [fixes for Google Cloud KMS](https://platform.claude.com/docs/en/manage-claude/cmek-troubleshooting#google-cloud-kms).
+
+These steps label the key with your Anthropic organization ID in lowercase (`<ORGANIZATION_UUID>`) and grant access to Anthropic’s service account:
 
 ```text wrap
 anthropic-cmek-client-us@gcp-anthropic-cmek-clients.iam.gserviceaccount.com
 ```
 
-<Warning>
-  Use only this published service account email. Never trust an identifier provided over email, chat, or any onboarding channel.
-</Warning>
+Use only this address, never one sent by email or chat.
 
-<Note>
-  **Domain restricted sharing:** If your project is under a Google Cloud organization that enforces `constraints/iam.allowedPolicyMemberDomains`, the following IAM bindings are rejected because the Anthropic service account is outside your organization. You need either a project-level carve-out on that constraint, or to add Anthropic's Cloud Identity customer ID (format `C0xxxxxxxx`) to the allowed list. Contact Anthropic for the customer ID if needed.
-</Note>
+You can use any Cloud KMS location. For the lowest latency, use `us-east5` or `us-central1`. Anthropic strongly recommends HSM protection.
 
-## Encryption key setup
-
-<Steps>
-  <Step title="Create or choose a key ring">
-    Skip this step if you already have a key ring to reuse. Key rings are regional. Choose a single-region US location such as `us-east5` that matches the Anthropic geography you are configuring. Multi-region locations like `us` and `global` are not supported.
-
-    ```bash
-    gcloud kms keyrings create <your-keyring-name> \
-      --project=<your-project-id> \
-      --location=<region>
-    ```
-  </Step>
-
-  <Step title="Create the crypto key">
-    Create a symmetric key with the `ENCRYPT_DECRYPT` purpose. Anthropic strongly recommends HSM protection: Cloud KMS HSM keys are FIPS 140-2 Level 3 validated, and the cost delta over software keys is small.
-
-    The `--labels` option adds the organization label, `anthropic-org-<ORGANIZATION_UUID>` with the value `true`, where `<ORGANIZATION_UUID>` is your Anthropic organization ID in lowercase. The label is required for Anthropic to validate the key.
-
-    <Note>
-      **Finding your organization ID:** Copy the **Organization ID** field under **Settings > Organization** in the Claude Console, or under **Organization settings > Organization** in claude.ai, or read the `id` field from the [Organization Info](https://platform.claude.com/docs/en/api/organization/retrieve) endpoint. Use the bare UUID, not the `org_`-prefixed ID.
-    </Note>
-
-    ```bash
-    gcloud kms keys create <KEY_NAME> \
-      --project=<PROJECT_ID> \
-      --location=<REGION> \
-      --keyring=<KEYRING_NAME> \
-      --purpose=encryption \
-      --protection-level=hsm \
-      --labels=anthropic-org-<ORGANIZATION_UUID>=true
-    ```
-
-    For software protection instead, omit `--protection-level=hsm`. Nothing else in this guide changes.
-
-    You can also create the key from the Google Cloud Console. Open the key ring, click **Create key**, select **Generated key**, set the purpose and algorithm to symmetric encrypt and decrypt, and choose **HSM** under protection level.
-
-    <Frame caption="Create an HSM-protected symmetric encrypt/decrypt key with the organization label.">
-      ![Google Cloud KMS Create key page with HSM protection, symmetric encrypt/decrypt, and the anthropic-org label set to true.](https://platform.claude.com/docs/images/cmek/gcp-create-key-label.png)
-    </Frame>
-
-    To share one key among several Anthropic organizations, add one such label for each organization. A key can carry at most 64 labels, including your own.
-
-    <Note>
-      To add the label to a key that doesn't have it, run `gcloud kms keys update <KEY_NAME> --project=<PROJECT_ID> --location=<REGION> --keyring=<KEYRING_NAME> --update-labels=anthropic-org-<ORGANIZATION_UUID>=true`. It merges the label with any labels the key already has.
-    </Note>
-  </Step>
-
-  <Step title="Grant Anthropic's service account access to the key">
-    Two key-level IAM bindings are required. Both are scoped to the single crypto key, not project-wide or keyring-wide.
-
-    Encrypt and decrypt, which Anthropic uses to encrypt and decrypt the data keys that protect your workspace data (envelope encryption):
-
-    ```bash
-    gcloud kms keys add-iam-policy-binding <your-key-name> \
-      --project=<your-project-id> \
-      --location=<region> \
-      --keyring=<your-keyring-name> \
-      --member="serviceAccount:anthropic-cmek-client-us@gcp-anthropic-cmek-clients.iam.gserviceaccount.com" \
-      --role=roles/cloudkms.cryptoKeyEncrypterDecrypter
-    ```
-
-    Viewer, for the metadata read (`cryptoKeys.get`) Anthropic performs at startup to validate the key's purpose and algorithm:
-
-    ```bash
-    gcloud kms keys add-iam-policy-binding <your-key-name> \
-      --project=<your-project-id> \
-      --location=<region> \
-      --keyring=<your-keyring-name> \
-      --member="serviceAccount:anthropic-cmek-client-us@gcp-anthropic-cmek-clients.iam.gserviceaccount.com" \
-      --role=roles/cloudkms.viewer
-    ```
-
-    From the Console, select the key, open the **Permissions** panel, click **Grant access**, and add the service account with both the Cloud KMS CryptoKey Encrypter/Decrypter and Cloud KMS Viewer roles. Make sure you are on the key's permissions page, not the key ring or project, so the grant is scoped to this key only.
-
-    <Frame caption="Grant the Anthropic service account both roles, scoped to the key.">
-      ![Grant access dialog with the Anthropic service account assigned Cloud KMS CryptoKey Encrypter/Decrypter and Viewer roles.](https://platform.claude.com/docs/images/cmek/gcp-grant-access.png)
-    </Frame>
-  </Step>
-
-  <Step title="Note the full key resource name">
-    You pass this to Anthropic when you register the key. The format is:
-
-    ```text wrap
-    projects/<your-project-id>/locations/<region>/keyRings/<your-keyring-name>/cryptoKeys/<your-key-name>
-    ```
-
-    Retrieve it with:
-
-    ```bash
-    gcloud kms keys describe <your-key-name> \
-      --project=<your-project-id> \
-      --location=<region> \
-      --keyring=<your-keyring-name> \
-      --format="value(name)"
-    ```
-
-    From the Console, open the key's details page and click **Copy resource name**.
-
-    <Frame caption="Copy the key's full resource name from the actions menu.">
-      ![Google Cloud key ring details with the Copy resource name action highlighted in the key's actions menu.](https://platform.claude.com/docs/images/cmek/gcp-copy-resource-name.png)
-    </Frame>
-  </Step>
-</Steps>
-
-## Register the key with Anthropic
-
-How you register the key depends on which product you use.
+To use a key you already have, [add the organization label](https://platform.claude.com/docs/en/manage-claude/cmek-google-cloud-kms#organization-label) first.
 
 <Tabs>
-  <Tab title="Claude Platform">
-    You can set up the key in the Claude Console or through the Admin API, with the same result.
-
-    <Tabs>
-      <Tab title="Claude Console">
-        <Steps>
-          <Step title="Register the key with Anthropic">
-            In the Claude Console, go to the [Data retention](https://platform.claude.com/settings/privacy#encryption-keys) page (`platform.claude.com/settings/privacy`). If you don't see **Encryption keys**, select **Organization** from the dropdown menu at the top of the page. Under **Encryption keys**, click **Add key**. Enter a display name, choose **Google Cloud KMS**, and click **Continue**. Paste the full key resource name into **Key resource name**, and click **Add**.
-
-            The key details step shows the organization label. Add it to the key, as [the create step](https://platform.claude.com/docs/en/manage-claude/cmek-google-cloud-kms#organization-label) describes, before you click **Add**.
-          </Step>
-
-          <Step title="Validate the key">
-            In the **Encryption keys** list, click **Verify** next to the key. **Connected** appears when the check passes. If it fails, a message gives the reason.
-          </Step>
-
-          <Step title="Attach the key to a workspace">
-            In the Claude Console, go to the [Data retention](https://platform.claude.com/settings/privacy) page (`platform.claude.com/settings/privacy`) and select the workspace from the dropdown menu at the top of the page. Under **Encryption key**, select the key, click **Save**, and confirm. Attaching a key can't be undone. For a workspace that already receives requests, the key can take [up to a day to take effect](https://platform.claude.com/docs/en/manage-claude/cmek#how-it-works).
-          </Step>
-        </Steps>
-      </Tab>
-
-      <Tab title="API">
-        <Steps>
-          <Step title="Register the key with Anthropic">
-            Create an external key configuration through the Admin API, using the resource name from the Note the full key resource name step under Encryption key setup.
-
-            <CodeGroup>
-              ```bash cURL
-              curl -sS "https://api.anthropic.com/v1/organizations/external_keys" \
-                -H "x-api-key: $ANTHROPIC_API_KEY" \
-                -H "anthropic-version: 2023-06-01" \
-                -H "content-type: application/json" \
-                -d '{
-                  "display_name": "<friendly-name>",
-                  "geo": "us",
-                  "provider_config": {
-                    "type": "gcp",
-                    "key_name": "projects/<your-project-id>/locations/<region>/keyRings/<your-keyring-name>/cryptoKeys/<your-key-name>"
-                  }
-                }'
-              ```
-
-              ```bash CLI
-              ant organization:external-keys create <<'YAML'
-              display_name: "<friendly-name>"
-              geo: us
-              provider_config:
-                type: gcp
-                key_name: "projects/<your-project-id>/locations/<region>/keyRings/<your-keyring-name>/cryptoKeys/<your-key-name>"
-              YAML
-              ```
-
-              ```python Python
-              client = anthropic.Anthropic()
-
-              external_key = client.organization.external_keys.create(
-                  display_name="<friendly-name>",
-                  geo="us",
-                  provider_config={
-                      "type": "gcp",
-                      "key_name": "projects/<your-project-id>/locations/<region>/keyRings/<your-keyring-name>/cryptoKeys/<your-key-name>",
-                  },
-              )
-
-              print(f"id: {external_key.id}")
-              print(f"display_name: {external_key.display_name}")
-              ```
-
-              ```typescript TypeScript
-              const client = new Anthropic();
-
-              const externalKey = await client.organization.externalKeys.create({
-                display_name: "<friendly-name>",
-                geo: "us",
-                provider_config: {
-                  type: "gcp",
-                  key_name:
-                    "projects/<your-project-id>/locations/<region>/keyRings/<your-keyring-name>/cryptoKeys/<your-key-name>"
-                }
-              });
-
-              console.log(`id: ${externalKey.id}`);
-              console.log(`display_name: ${externalKey.display_name}`);
-              ```
-
-              ```csharp C#
-              using Anthropic.Models.Organization.ExternalKeys;
-
-              AnthropicClient client = new();
-
-              var externalKey = await client.Organization.ExternalKeys.Create(new()
-              {
-                  DisplayName = "<friendly-name>",
-                  Geo = Geo.Us,
-                  ProviderConfig = new GcpExternalKeyConfig
-                  {
-                      KeyName = "projects/<your-project-id>/locations/<region>/keyRings/<your-keyring-name>/cryptoKeys/<your-key-name>"
-                  }
-              });
-
-              Console.WriteLine($"id: {externalKey.ID}");
-              Console.WriteLine($"display_name: {externalKey.DisplayName}");
-              ```
-
-              ```go Go
-              client := anthropic.NewClient()
-
-              externalKey, err := client.Organization.ExternalKeys.New(context.Background(), anthropic.OrganizationExternalKeyNewParams{
-              	DisplayName: anthropic.String("<friendly-name>"),
-              	Geo:         anthropic.OrganizationExternalKeyNewParamsGeoUs,
-              	ProviderConfig: anthropic.OrganizationExternalKeyNewParamsProviderConfigUnion{
-              		OfGCP: &anthropic.GCPExternalKeyConfigParam{
-              			KeyName: "projects/<your-project-id>/locations/<region>/keyRings/<your-keyring-name>/cryptoKeys/<your-key-name>",
-              		},
-              	},
-              })
-              if err != nil {
-              	log.Fatal(err)
-              }
-
-              fmt.Printf("id: %s\n", externalKey.ID)
-              fmt.Printf("display_name: %s\n", externalKey.DisplayName)
-              ```
-
-              ```java Java
-              import com.anthropic.models.organization.externalkeys.ExternalKeyCreateParams;
-
-              void main() {
-                  AnthropicClient client = AnthropicOkHttpClient.fromEnv();
-
-                  var params = ExternalKeyCreateParams.builder()
-                      .displayName("<friendly-name>")
-                      .geo(ExternalKeyCreateParams.Geo.US)
-                      .gcpProviderConfig("projects/<your-project-id>/locations/<region>/keyRings/<your-keyring-name>/cryptoKeys/<your-key-name>")
-                      .build();
-                  var externalKey = client.organization().externalKeys().create(params);
-
-                  IO.println("id: " + externalKey.id());
-                  IO.println("display_name: " + externalKey.displayName().orElseThrow());
-              }
-              ```
-
-              ```php PHP
-              use Anthropic\Organization\ExternalKeys\ExternalKeyCreateParams\Geo;
-              // ...
-
-              $client = new Client();
-
-              $externalKey = $client->organization->externalKeys->create(
-                  displayName: '<friendly-name>',
-                  geo: Geo::US,
-                  providerConfig: [
-                      'type' => 'gcp',
-                      'keyName' => 'projects/<your-project-id>/locations/<region>/keyRings/<your-keyring-name>/cryptoKeys/<your-key-name>',
-                  ],
-              );
-
-              echo "id: {$externalKey->id}\n";
-              echo "display_name: {$externalKey->displayName}\n";
-              ```
-
-              ```ruby Ruby
-              client = Anthropic::Client.new
-
-              external_key = client.organization.external_keys.create(
-                display_name: "<friendly-name>",
-                geo: :us,
-                provider_config: {
-                  type: :gcp,
-                  key_name: "projects/<your-project-id>/locations/<region>/keyRings/<your-keyring-name>/cryptoKeys/<your-key-name>"
-                }
-              )
-
-              puts "id: #{external_key.id}"
-              puts "display_name: #{external_key.display_name}"
-              ```
-            </CodeGroup>
-
-            The response contains the external key ID:
-
-            ```json
-            {
-              "type": "external_key",
-              "id": "ekey_<id>",
-              "display_name": "<friendly-name>"
-            }
-            ```
-          </Step>
-
-          <Step title="Validate the key">
-            Trigger an encrypt and decrypt round-trip against your key.
-
-            <CodeGroup>
-              ```bash cURL
-              curl -sS -X POST "https://api.anthropic.com/v1/organizations/external_keys/ekey_<id>/validate" \
-                -H "x-api-key: $ANTHROPIC_API_KEY" \
-                -H "anthropic-version: 2023-06-01"
-              ```
-
-              ```bash CLI
-              ant organization:external-keys validate --external-key-id "ekey_<id>"
-              ```
-
-              ```python Python
-              client = anthropic.Anthropic()
-
-              validation = client.organization.external_keys.validate("ekey_<id>")
-
-              print(f"status: {validation.status}")
-              print(f"error: {validation.error}")
-              ```
-
-              ```typescript TypeScript
-              const client = new Anthropic();
-
-              const validation = await client.organization.externalKeys.validate("ekey_<id>");
-
-              console.log(`status: ${validation.status}`);
-              console.log(`error: ${validation.error}`);
-              ```
-
-              ```csharp C#
-              AnthropicClient client = new();
-
-              var validation = await client.Organization.ExternalKeys.Validate("ekey_<id>");
-
-              Console.WriteLine($"status: {validation.Status.Raw()}");
-              Console.WriteLine($"error: {validation.Error}");
-              ```
-
-              ```go Go
-              client := anthropic.NewClient()
-
-              validation, err := client.Organization.ExternalKeys.Validate(context.Background(), "ekey_<id>")
-              if err != nil {
-              	log.Fatal(err)
-              }
-
-              fmt.Printf("status: %s\n", validation.Status)
-              fmt.Printf("error: %s\n", validation.Error)
-              ```
-
-              ```java Java
-              AnthropicClient client = AnthropicOkHttpClient.fromEnv();
-
-              var validation = client.organization().externalKeys().validate("ekey_<id>");
-
-              IO.println("status: " + validation.status().asString());
-              IO.println("error: " + validation.error().orElse(""));
-              ```
-
-              ```php PHP
-              $client = new Client();
-
-              $validation = $client->organization->externalKeys->validate(
-                  externalKeyID: 'ekey_<id>',
-              );
-
-              echo "status: {$validation->status}\n";
-              echo "error: {$validation->error}\n";
-              ```
-
-              ```ruby Ruby
-              client = Anthropic::Client.new
-
-              external_key_id = "ekey_<id>"
-              validation = client.organization.external_keys.validate(external_key_id)
-
-              puts "status: #{validation.status}"
-              puts "error: #{validation.error}"
-              ```
-            </CodeGroup>
-
-            A successful response looks like this:
-
-            ```json
-            { "type": "external_key_validation", "status": "success", "error": null }
-            ```
-
-            If validation fails, common causes are:
-
-            * **VPC Service Controls:** if a service perimeter protects Cloud KMS in your project, add Anthropic to an access level on the perimeter (or exclude the key's project) so Anthropic can reach the key.
-            * **Domain restricted sharing:** the `constraints/iam.allowedPolicyMemberDomains` org policy can strip the Anthropic service account binding (see the earlier note). Confirm the binding is present with `gcloud kms keys get-iam-policy <your-key-name> --project=<your-project-id> --location=<region> --keyring=<your-keyring-name>`.
-            * **Disabled or destroyed key version:** confirm the key's primary version is enabled, and not disabled, scheduled for destruction, or destroyed.
-          </Step>
-
-          <Step title="Attach the key to a workspace">
-            Once the key is validated, attach it to a new workspace before you send any requests to that workspace. For a workspace that already receives requests, the key can take [up to a day to take effect](https://platform.claude.com/docs/en/manage-claude/cmek#how-it-works).
-
-            <CodeGroup>
-              ```bash cURL
-              curl -sS -X POST "https://api.anthropic.com/v1/organizations/workspaces/<workspace-id>" \
-                -H "x-api-key: $ANTHROPIC_API_KEY" \
-                -H "anthropic-version: 2023-06-01" \
-                -H "content-type: application/json" \
-                -d '{
-                  "external_key_id": "ekey_<id>"
-                }'
-              ```
-
-              ```bash CLI
-              ant organization:workspaces update \
-                --workspace-id "<workspace-id>" \
-                --external-key-id "ekey_<id>"
-              ```
-
-              ```python Python
-              client = anthropic.Anthropic()
-
-              workspace = client.organization.workspaces.update(
-                  "<workspace-id>", external_key_id="ekey_<id>"
-              )
-
-              print(f"id: {workspace.id}")
-              print(f"external_key_id: {workspace.external_key_id}")
-              ```
-
-              ```typescript TypeScript
-              const client = new Anthropic();
-
-              const workspace = await client.organization.workspaces.update("<workspace-id>", {
-                external_key_id: "ekey_<id>"
-              });
-
-              console.log(`id: ${workspace.id}`);
-              console.log(`external_key_id: ${workspace.external_key_id}`);
-              ```
-
-              ```csharp C#
-              AnthropicClient client = new();
-
-              var workspace = await client.Organization.Workspaces.Update("<workspace-id>", new()
-              {
-                  ExternalKeyID = "ekey_<id>"
-              });
-
-              Console.WriteLine($"id: {workspace.ID}");
-              Console.WriteLine($"external_key_id: {workspace.ExternalKeyID}");
-              ```
-
-              ```go Go
-              client := anthropic.NewClient()
-
-              workspace, err := client.Organization.Workspaces.Update(
-              	context.Background(),
-              	"<workspace-id>",
-              	anthropic.OrganizationWorkspaceUpdateParams{
-              		ExternalKeyID: anthropic.String("ekey_<id>"),
-              	},
-              )
-              if err != nil {
-              	log.Fatal(err)
-              }
-
-              fmt.Printf("id: %s\n", workspace.ID)
-              fmt.Printf("external_key_id: %s\n", workspace.ExternalKeyID)
-              ```
-
-              ```java Java
-              import com.anthropic.models.organization.workspaces.WorkspaceUpdateParams;
-
-              void main() {
-                  AnthropicClient client = AnthropicOkHttpClient.fromEnv();
-
-                  var params = WorkspaceUpdateParams.builder()
-                      .externalKeyId("ekey_<id>")
-                      .build();
-                  var workspace = client.organization().workspaces().update("<workspace-id>", params);
-
-                  IO.println("id: " + workspace.id());
-                  IO.println("external_key_id: " + workspace.externalKeyId().orElseThrow());
-              }
-              ```
-
-              ```php PHP
-              $client = new Client();
-
-              $workspace = $client->organization->workspaces->update(
-                  workspaceID: '<workspace-id>',
-                  externalKeyID: 'ekey_<id>',
-              );
-
-              echo "id: {$workspace->id}\n";
-              echo "external_key_id: {$workspace->externalKeyID}\n";
-              ```
-
-              ```ruby Ruby
-              client = Anthropic::Client.new
-
-              workspace_id = "<workspace-id>"
-              workspace = client.organization.workspaces.update(
-                workspace_id,
-                external_key_id: "ekey_<id>"
-              )
-
-              puts "id: #{workspace.id}"
-              puts "external_key_id: #{workspace.external_key_id}"
-              ```
-            </CodeGroup>
-          </Step>
-        </Steps>
-      </Tab>
-    </Tabs>
+  <Tab title="Google Cloud Console">
+    <Steps>
+      <Step title="Create or choose a key ring">
+        In the Google Cloud console, go to the [Key management](https://console.cloud.google.com/security/kms) page. Open a key ring, or create one in a location such as `us-east5`.
+      </Step>
+
+      <Step title="Configure the key">
+        Click **Create key** and enter a name. Select these options:
+
+        * **Protection level:** HSM
+        * **Key material:** Generated key
+        * **Purpose:** Symmetric encrypt/decrypt
+        * **Algorithm:** Google symmetric key
+      </Step>
+
+      <Step title="Add the organization label">
+        Click **Additional settings**, then **Add label**. Enter the organization label:
+
+        * **Key 1:** `anthropic-org-<ORGANIZATION_UUID>`
+        * **Value 1:** `true`
+
+        Click **Create**.
+
+        <Frame caption="An HSM-protected symmetric encrypt/decrypt key with the organization label.">
+          ![Google Cloud KMS Create key page with HSM protection, symmetric encrypt/decrypt, and the anthropic-org label set to true.](https://platform.claude.com/docs/images/cmek/gcp-create-key-label.png)
+        </Frame>
+      </Step>
+
+      <Step title="Open the key’s permissions">
+        On the key ring details page, select the checkbox next to the key. Open the **Permissions** panel and click **Grant access**.
+      </Step>
+
+      <Step title="Grant Anthropic’s service account access to the key">
+        Check that **Resource** shows the key, not the key ring or project. Enter these values:
+
+        * **New principals:** `anthropic-cmek-client-us@gcp-anthropic-cmek-clients.iam.gserviceaccount.com`
+        * **Role:** Cloud KMS CryptoKey Encrypter/Decrypter
+
+        Click **Add another role** and select **Cloud KMS Viewer**. Click **Save**.
+
+        <Frame caption="Grant the Anthropic service account both roles, scoped to the key.">
+          ![Grant access dialog with the Anthropic service account assigned Cloud KMS CryptoKey Encrypter/Decrypter and Viewer roles.](https://platform.claude.com/docs/images/cmek/gcp-grant-access.png)
+        </Frame>
+      </Step>
+
+      <Step title="Copy the full key resource name">
+        On the key ring details page, open the key’s **Actions** menu and click **Copy resource name**.
+
+        <Frame caption="Copy the key's full resource name from the actions menu.">
+          ![Google Cloud key ring details with the Copy resource name action highlighted in the key's actions menu.](https://platform.claude.com/docs/images/cmek/gcp-copy-resource-name.png)
+        </Frame>
+      </Step>
+    </Steps>
   </Tab>
 
-  <Tab title="Claude Enterprise">
-    In [claude.ai > Organization settings > Data and privacy](https://claude.ai/admin-settings/data-privacy-controls), open **Encryption keys**, then click **Add key**. Choose **Google Cloud**, paste the full key resource name from the previous step, and click **Continue**. Anthropic validates the key with an encrypt and decrypt round-trip. Once it shows as verified, your organization is CMEK-protected from that point forward.
+  <Tab title="gcloud CLI">
+    In each command, replace these placeholders:
 
-    On Claude Enterprise, CMEK applies to the whole organization, so there is no separate workspace attach step, and an organization can have only one key.
+    * **`<your-project-id>`:** your Google Cloud project ID
+    * **`<region>`:** the key’s location, such as `us-east5`
+    * **`<your-keyring-name>`:** the key ring’s name
+    * **`<your-key-name>`:** the key’s name
+    * **`<ORGANIZATION_UUID>`:** your Anthropic organization ID in lowercase
+
+    <Steps>
+      <Step title="Create or choose a key ring">
+        Skip this step if you already have a key ring to reuse.
+
+        ```bash
+        gcloud kms keyrings create <your-keyring-name> \
+          --project=<your-project-id> \
+          --location=<region>
+        ```
+      </Step>
+
+      <Step title="Create the key">
+        ```bash
+        gcloud kms keys create <your-key-name> \
+          --project=<your-project-id> \
+          --location=<region> \
+          --keyring=<your-keyring-name> \
+          --purpose=encryption \
+          --protection-level=hsm \
+          --labels=anthropic-org-<ORGANIZATION_UUID>=true
+        ```
+
+        For software protection, omit `--protection-level=hsm`.
+      </Step>
+
+      <Step title="Grant Anthropic’s service account access to the key">
+        Run both commands:
+
+        ```bash
+        gcloud kms keys add-iam-policy-binding <your-key-name> \
+          --project=<your-project-id> \
+          --location=<region> \
+          --keyring=<your-keyring-name> \
+          --member="serviceAccount:anthropic-cmek-client-us@gcp-anthropic-cmek-clients.iam.gserviceaccount.com" \
+          --role=roles/cloudkms.cryptoKeyEncrypterDecrypter
+        ```
+
+        ```bash
+        gcloud kms keys add-iam-policy-binding <your-key-name> \
+          --project=<your-project-id> \
+          --location=<region> \
+          --keyring=<your-keyring-name> \
+          --member="serviceAccount:anthropic-cmek-client-us@gcp-anthropic-cmek-clients.iam.gserviceaccount.com" \
+          --role=roles/cloudkms.viewer
+        ```
+      </Step>
+
+      <Step title="Get the full key resource name">
+        ```bash
+        gcloud kms keys describe <your-key-name> \
+          --project=<your-project-id> \
+          --location=<region> \
+          --keyring=<your-keyring-name> \
+          --format="value(name)"
+        ```
+      </Step>
+    </Steps>
   </Tab>
 </Tabs>
 
-## Terraform
+Whoever adds the key in Claude needs its full resource name, in this format:
 
-For infrastructure-as-code deployments, the same steps map to the `google` provider with the `google_kms_key_ring`, `google_kms_crypto_key`, and `google_kms_crypto_key_iam_member` resources.
+```text wrap
+projects/<your-project-id>/locations/<region>/keyRings/<your-keyring-name>/cryptoKeys/<your-key-name>
+```
+
+### Add the organization label to a key you already have
+
+Verification fails unless the key has the label `anthropic-org-<ORGANIZATION_UUID>` set to `true`, with your Anthropic organization ID in lowercase. To add the label, run:
+
+```bash
+gcloud kms keys update <your-key-name> \
+  --project=<your-project-id> \
+  --location=<region> \
+  --keyring=<your-keyring-name> \
+  --update-labels=anthropic-org-<ORGANIZATION_UUID>=true
+```
+
+The other values are in the key’s full resource name, and the command keeps existing labels. Then skip to [the steps that grant access](https://platform.claude.com/docs/en/manage-claude/cmek-google-cloud-kms#encryption-key-setup).
+
+## In Claude: add and attach the key
+
+To script this part on Claude Platform, [use the Admin API](https://platform.claude.com/docs/en/manage-claude/cmek-admin-api) instead.
+
+<Tabs>
+  <Tab title="Claude Platform">
+    <Steps>
+      <Step title="Open the encryption key settings">
+        In the Claude Console, open [Encryption keys](https://platform.claude.com/settings/privacy#encryption-keys) on the Data retention page. If the section isn’t there, select **Organization** from the dropdown menu at the top.
+      </Step>
+
+      <Step title="Add the key">
+        Under **Encryption keys**, click **Add key**. Enter a **Display name**, select **Google Cloud KMS**, and click **Continue**.
+      </Step>
+
+      <Step title="Enter the key resource name">
+        Check that your key has the **Organization label** shown in the dialog box. Paste the key’s full resource name into **Key resource name** and click **Add**.
+      </Step>
+
+      <Step title="Verify the key">
+        In the **Encryption keys** list, click **Verify** next to the key. **Connected** appears when the check passes. If **Connection failed** appears instead, see [Troubleshoot CMEK](https://platform.claude.com/docs/en/manage-claude/cmek-troubleshooting).
+      </Step>
+
+      <Step title="Attach the key to a workspace">
+        <Warning>
+          Attaching a key [can’t be undone](https://platform.claude.com/docs/en/manage-claude/cmek-key-lifecycle#what-each-action-does). You can’t remove it from the workspace or replace it. If the key is deleted, Anthropic can’t recover the data it protects.
+        </Warning>
+
+        1. At the top of the Data retention page, select the workspace from the dropdown menu.
+        2. Under **Encryption key**, select the key and click **Save**.
+        3. Select the checkbox to confirm that you have read the CMEK documentation, then click **Confirm**.
+
+        You see **Workspace settings updated.** Once the key [takes effect](https://platform.claude.com/docs/en/manage-claude/cmek-how-it-works#when-your-key-takes-effect), your cloud provider’s audit log shows Anthropic’s calls to the key.
+
+        In a [ZDR organization](https://platform.claude.com/docs/en/manage-claude/cmek-data-retention#zdr-organizations), after you select the workspace, select **Standard data retention** so that **Encryption key** appears. After you click **Save**, click **Accept** on the data retention terms.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Claude Enterprise">
+    On Claude Enterprise, CMEK applies to the whole organization, and you can add only one key.
+
+    <Warning>
+      Adding a key [can’t be undone](https://platform.claude.com/docs/en/manage-claude/cmek-key-lifecycle#what-each-action-does). You can’t remove it from the organization or replace it. If the key is deleted, Anthropic can’t recover the data it protects.
+    </Warning>
+
+    Adding the key [turns off or changes some features](https://platform.claude.com/docs/en/manage-claude/cmek-coverage-claude-enterprise#turned-off-or-changed) for every user. To try CMEK first, use a separate organization.
+
+    <Steps>
+      <Step title="Open the encryption key settings">
+        Go to [claude.ai > Organization settings > Data and privacy](https://claude.ai/admin-settings/data-privacy-controls) and find **Encryption keys**.
+      </Step>
+
+      <Step title="Add the key">
+        Click **Add key**. Enter a **Display name** and select **Google Cloud KMS**. Select the checkbox to confirm that you have read the CMEK documentation, then click **Continue**.
+      </Step>
+
+      <Step title="Enter the key resource name">
+        Check that your key has the **Organization label** shown in the dialog box. Paste the key’s full resource name into **Key resource name** and click **Add**.
+      </Step>
+
+      <Step title="Confirm that the key was added">
+        The check can take up to 30 seconds. When **Encryption key configured.** appears, click **Done**. If **The encryption key couldn’t be added.** appears instead, [find the cause and retry](https://platform.claude.com/docs/en/manage-claude/cmek-troubleshooting#claude-ai-add-fails).
+
+        Your key protects data written from then on. Tell your users [which features changed](https://platform.claude.com/docs/en/manage-claude/cmek-coverage-claude-enterprise#turned-off-or-changed).
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>

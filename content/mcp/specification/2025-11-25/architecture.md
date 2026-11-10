@@ -4,8 +4,6 @@
 
 # Architecture
 
-<div id="enable-section-numbers" />
-
 The Model Context Protocol (MCP) follows a client-host-server architecture where each
 host can run multiple client instances. This architecture enables users to integrate AI
 capabilities across applications while maintaining clear security boundaries and
@@ -164,12 +162,12 @@ sequenceDiagram
 Each capability unlocks specific protocol features for use during the session. For
 example:
 
-* Implemented [server features](/specification/2025-11-25/server) must be advertised in the
+* Implemented [server features](https://modelcontextprotocol.io/specification/2025-11-25/server.md) must be advertised in the
   server's capabilities
 * Emitting resource subscription notifications requires the server to declare
   subscription support
 * Tool invocation requires the server to declare tool capabilities
-* [Sampling](/specification/2025-11-25/client/sampling) requires the client to declare support in its
+* [Sampling](https://modelcontextprotocol.io/specification/2025-11-25/client/sampling.md) requires the client to declare support in its
   capabilities
 
 This capability negotiation ensures clients and servers have a clear understanding of

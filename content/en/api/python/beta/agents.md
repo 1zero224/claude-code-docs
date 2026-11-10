@@ -7,7 +7,7 @@ url: https://platform.claude.com/docs/en/api/python/beta/agents
 
 ## Create Agent
 
-`beta.agents.create(**kwargs)  -> BetaManagedAgentsAgent`
+`beta.agents.create(**kwargs) -> BetaManagedAgentsAgent`
 
 **POST** `/v1/agents`
 
@@ -19,7 +19,15 @@ Create Agent
 
   Model identifier. Accepts the [model string](https://platform.claude.com/docs/en/about-claude/models/overview?sdk_languages=python#latest-models-comparison), e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration control
 
-  - `Union[Literal["claude-haiku-5-5", "claude-sonnet-5-5", "claude-opus-5-5", 14 more], str]`
+  - `type BetaManagedAgentsModel = Union[Literal["claude-fable-5-2", "claude-haiku-5-5", "claude-sonnet-5-5", 15 more], str]`
+
+    The model that will power your agent.
+
+    See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+    - `"claude-fable-5-2"`
+
+      Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
     - `"claude-haiku-5-5"`
 
@@ -101,76 +109,6 @@ Create Agent
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-      - `"claude-haiku-5-5"`
-
-        Fastest model for high-volume, real-time tasks
-
-      - `"claude-sonnet-5-5"`
-
-        Efficient model for coding and agents
-
-      - `"claude-opus-5-5"`
-
-        Powerful intelligence for coding, knowledge work, and long-running agents
-
-      - `"claude-fable-5-1"`
-
-        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
-
-      - `"claude-sonnet-5"`
-
-        Efficient model for coding and agents
-
-      - `"claude-fable-5"`
-
-        Next generation of intelligence for the hardest knowledge work and coding problems
-
-      - `"claude-opus-5"`
-
-        Powerful intelligence for long-running agents and coding
-
-      - `"claude-opus-4-8"`
-
-        Powerful intelligence for long-running agents and coding
-
-      - `"claude-opus-4-7"`
-
-        Powerful intelligence for long-running agents and coding
-
-      - `"claude-opus-4-6"`
-
-        Powerful intelligence for long-running agents and coding
-
-      - `"claude-sonnet-4-6"`
-
-        Best combination of speed and intelligence
-
-      - `"claude-haiku-4-5"`
-
-      - `"claude-haiku-4-5-20251001"`
-
-      - `"claude-opus-4-5"`
-
-        Powerful intelligence for long-running agents and coding
-
-      - `"claude-opus-4-5-20251101"`
-
-        Powerful intelligence for long-running agents and coding
-
-      - `"claude-sonnet-4-5"`
-
-        **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
-
-        High-performance model for agents and coding
-
-      - `"claude-sonnet-4-5-20250929"`
-
-        **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
-
-        High-performance model for agents and coding
-
-      - `str`
-
     - `effort: Optional[Effort]`
 
       How hard Claude works on each inference call. Accepts a bare level string (`"high"`) or `{"type": "high"}`. On create, omitting it resolves the per-model default; on update, omitting it leaves the stored value unchanged.
@@ -231,7 +169,7 @@ Create Agent
 
     - `speed: Optional[Literal["standard", "fast"]]`
 
-      Inference speed mode. Defaults to `standard`.
+      Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
       - `"standard"`
 
@@ -248,6 +186,28 @@ Create Agent
   Description of what the agent does.
 
   maxLength: 2048
+
+- `execution_identity: Optional[BetaManagedAgentsExecutionIdentityParams]`
+
+  Execution principal for runs of this agent. Omitting it, sending null, or sending `{"type": "service_account"}` stores the default.
+
+  - `class BetaManagedAgentsAWSRoleExecutionIdentityParams`
+
+    An AWS IAM role principal.
+
+    - `type: Literal["aws_role"]`
+
+    - `role_arn: str`
+
+      The IAM role's ARN, e.g. "arn:aws:iam::123456789012:role/my-agent-runner". Maximum 2048 characters.
+
+      maxLength: 2048, pattern: ^arn:aws(-[a-z]+)*:iam::[0-9]{12}:role/[\w+=,.@/-]+$
+
+  - `class BetaManagedAgentsServiceAccountExecutionIdentityParams`
+
+    The Anthropic-managed service account — the default execution principal. Carries no identifier.
+
+    - `type: Literal["service_account"]`
 
 - `mcp_servers: Optional[Iterable[BetaManagedAgentsURLMCPServerParams]]`
 
@@ -729,7 +689,9 @@ Create Agent
 
             Which custom tools' results contribute URLs that may be fetched: "all" (the default), "none", or an only or except list. Each name in a list must be a custom tool in the same tools array.
 
-            - `Literal["all", "none"]`
+            - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
+
+              String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
               - `"all"`
 
@@ -799,11 +761,9 @@ Create Agent
 
             Whether URLs in the text of user messages may be fetched: "all" (the default) or "none".
 
-            - `Literal["all", "none"]`
+            - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
 
-              - `"all"`
-
-              - `"none"`
+              String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
             - `type BetaManagedAgentsWebFetchURLSourceUserInput = ...`
 
@@ -872,6 +832,8 @@ Create Agent
           - `country: Optional[str]`
 
             Two-letter ISO 3166-1 country code, uppercase.
+
+            pattern: ^[A-Z]{2}$
 
           - `region: Optional[str]`
 
@@ -1001,11 +963,11 @@ Create Agent
 
       Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-      minLength: 1, maxLength: 128
+      minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `str`
 
@@ -1109,6 +1071,18 @@ Create Agent
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1139,6 +1113,26 @@ Create Agent
 
   - `description: Optional[str]`
 
+  - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `type: Literal["aws_role"]`
+
+      - `role_arn: str`
+
+        The IAM role's ARN.
+
+    - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `type: Literal["service_account"]`
+
   - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
 
     - `type: Literal["url"]`
@@ -1158,6 +1152,10 @@ Create Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -1766,6 +1764,8 @@ Create Agent
             - `country: Optional[str]`
 
               Two-letter ISO 3166-1 country code, uppercase.
+
+              pattern: ^[A-Z]{2}$
 
             - `region: Optional[str]`
 
@@ -1909,6 +1909,9 @@ print(beta_managed_agents_agent.id)
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -2002,7 +2005,7 @@ print(beta_managed_agents_agent.id)
 
 ## List Agents
 
-`beta.agents.list(**kwargs)  -> SyncPageCursor[BetaManagedAgentsAgent]`
+`beta.agents.list(**kwargs) -> SyncPageCursor[BetaManagedAgentsAgent]`
 
 **GET** `/v1/agents`
 
@@ -2038,7 +2041,7 @@ List Agents
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `str`
 
@@ -2142,6 +2145,18 @@ List Agents
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -2172,6 +2187,26 @@ List Agents
 
   - `description: Optional[str]`
 
+  - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `type: Literal["aws_role"]`
+
+      - `role_arn: str`
+
+        The IAM role's ARN.
+
+    - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `type: Literal["service_account"]`
+
   - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
 
     - `type: Literal["url"]`
@@ -2191,6 +2226,10 @@ List Agents
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -2799,6 +2838,8 @@ List Agents
             - `country: Optional[str]`
 
               Two-letter ISO 3166-1 country code, uppercase.
+
+              pattern: ^[A-Z]{2}$
 
             - `region: Optional[str]`
 
@@ -2942,6 +2983,9 @@ print(page.id)
       "archived_at": null,
       "created_at": "2026-03-15T10:00:00Z",
       "description": "A general-purpose starter agent.",
+      "execution_identity": {
+        "type": "service_account"
+      },
       "mcp_servers": [
         {
           "name": "example-mcp",
@@ -3038,7 +3082,7 @@ print(page.id)
 
 ## Get Agent
 
-`beta.agents.retrieve(agent_id, **kwargs)  -> BetaManagedAgentsAgent`
+`beta.agents.retrieve(agent_id, **kwargs) -> BetaManagedAgentsAgent`
 
 **GET** `/v1/agents/{agent_id}`
 
@@ -3058,7 +3102,7 @@ Get Agent
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `str`
 
@@ -3162,6 +3206,18 @@ Get Agent
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -3192,6 +3248,26 @@ Get Agent
 
   - `description: Optional[str]`
 
+  - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `type: Literal["aws_role"]`
+
+      - `role_arn: str`
+
+        The IAM role's ARN.
+
+    - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `type: Literal["service_account"]`
+
   - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
 
     - `type: Literal["url"]`
@@ -3211,6 +3287,10 @@ Get Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -3820,6 +3900,8 @@ Get Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `region: Optional[str]`
 
               Region or state name.
@@ -3961,6 +4043,9 @@ print(beta_managed_agents_agent.id)
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -4054,7 +4139,7 @@ print(beta_managed_agents_agent.id)
 
 ## Update Agent
 
-`beta.agents.update(agent_id, **kwargs)  -> BetaManagedAgentsAgent`
+`beta.agents.update(agent_id, **kwargs) -> BetaManagedAgentsAgent`
 
 **POST** `/v1/agents/{agent_id}`
 
@@ -4071,6 +4156,28 @@ Update Agent
   Description. Omit to preserve; send empty string or null to clear.
 
   maxLength: 2048
+
+- `execution_identity: Optional[BetaManagedAgentsExecutionIdentityParams]`
+
+  Execution principal for runs of this agent. Full replacement. Omit to preserve; send null or `{"type": "service_account"}` to restore the default.
+
+  - `class BetaManagedAgentsAWSRoleExecutionIdentityParams`
+
+    An AWS IAM role principal.
+
+    - `type: Literal["aws_role"]`
+
+    - `role_arn: str`
+
+      The IAM role's ARN, e.g. "arn:aws:iam::123456789012:role/my-agent-runner". Maximum 2048 characters.
+
+      maxLength: 2048, pattern: ^arn:aws(-[a-z]+)*:iam::[0-9]{12}:role/[\w+=,.@/-]+$
+
+  - `class BetaManagedAgentsServiceAccountExecutionIdentityParams`
+
+    The Anthropic-managed service account — the default execution principal. Carries no identifier.
+
+    - `type: Literal["service_account"]`
 
 - `mcp_servers: Optional[Iterable[BetaManagedAgentsURLMCPServerParams]]`
 
@@ -4098,7 +4205,15 @@ Update Agent
 
   Model identifier. Accepts the [model string](https://platform.claude.com/docs/en/about-claude/models/overview?sdk_languages=python#latest-models-comparison), e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration control. Omit to preserve. Cannot be cleared.
 
-  - `Union[Literal["claude-haiku-5-5", "claude-sonnet-5-5", "claude-opus-5-5", 14 more], str]`
+  - `type BetaManagedAgentsModel = Union[Literal["claude-fable-5-2", "claude-haiku-5-5", "claude-sonnet-5-5", 15 more], str]`
+
+    The model that will power your agent.
+
+    See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+    - `"claude-fable-5-2"`
+
+      Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
     - `"claude-haiku-5-5"`
 
@@ -4180,76 +4295,6 @@ Update Agent
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-      - `"claude-haiku-5-5"`
-
-        Fastest model for high-volume, real-time tasks
-
-      - `"claude-sonnet-5-5"`
-
-        Efficient model for coding and agents
-
-      - `"claude-opus-5-5"`
-
-        Powerful intelligence for coding, knowledge work, and long-running agents
-
-      - `"claude-fable-5-1"`
-
-        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
-
-      - `"claude-sonnet-5"`
-
-        Efficient model for coding and agents
-
-      - `"claude-fable-5"`
-
-        Next generation of intelligence for the hardest knowledge work and coding problems
-
-      - `"claude-opus-5"`
-
-        Powerful intelligence for long-running agents and coding
-
-      - `"claude-opus-4-8"`
-
-        Powerful intelligence for long-running agents and coding
-
-      - `"claude-opus-4-7"`
-
-        Powerful intelligence for long-running agents and coding
-
-      - `"claude-opus-4-6"`
-
-        Powerful intelligence for long-running agents and coding
-
-      - `"claude-sonnet-4-6"`
-
-        Best combination of speed and intelligence
-
-      - `"claude-haiku-4-5"`
-
-      - `"claude-haiku-4-5-20251001"`
-
-      - `"claude-opus-4-5"`
-
-        Powerful intelligence for long-running agents and coding
-
-      - `"claude-opus-4-5-20251101"`
-
-        Powerful intelligence for long-running agents and coding
-
-      - `"claude-sonnet-4-5"`
-
-        **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
-
-        High-performance model for agents and coding
-
-      - `"claude-sonnet-4-5-20250929"`
-
-        **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
-
-        High-performance model for agents and coding
-
-      - `str`
-
     - `effort: Optional[Effort]`
 
       How hard Claude works on each inference call. Accepts a bare level string (`"high"`) or `{"type": "high"}`. On create, omitting it resolves the per-model default; on update, omitting it leaves the stored value unchanged.
@@ -4310,7 +4355,7 @@ Update Agent
 
     - `speed: Optional[Literal["standard", "fast"]]`
 
-      Inference speed mode. Defaults to `standard`.
+      Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
       - `"standard"`
 
@@ -4780,7 +4825,9 @@ Update Agent
 
             Which custom tools' results contribute URLs that may be fetched: "all" (the default), "none", or an only or except list. Each name in a list must be a custom tool in the same tools array.
 
-            - `Literal["all", "none"]`
+            - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
+
+              String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
               - `"all"`
 
@@ -4850,11 +4897,9 @@ Update Agent
 
             Whether URLs in the text of user messages may be fetched: "all" (the default) or "none".
 
-            - `Literal["all", "none"]`
+            - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
 
-              - `"all"`
-
-              - `"none"`
+              String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
             - `type BetaManagedAgentsWebFetchURLSourceUserInput = ...`
 
@@ -4923,6 +4968,8 @@ Update Agent
           - `country: Optional[str]`
 
             Two-letter ISO 3166-1 country code, uppercase.
+
+            pattern: ^[A-Z]{2}$
 
           - `region: Optional[str]`
 
@@ -5052,7 +5099,7 @@ Update Agent
 
       Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-      minLength: 1, maxLength: 128
+      minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
 - `version: Optional[int]`
 
@@ -5062,7 +5109,7 @@ Update Agent
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `str`
 
@@ -5166,6 +5213,18 @@ Update Agent
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -5196,6 +5255,26 @@ Update Agent
 
   - `description: Optional[str]`
 
+  - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `type: Literal["aws_role"]`
+
+      - `role_arn: str`
+
+        The IAM role's ARN.
+
+    - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `type: Literal["service_account"]`
+
   - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
 
     - `type: Literal["url"]`
@@ -5215,6 +5294,10 @@ Update Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -5823,6 +5906,8 @@ Update Agent
             - `country: Optional[str]`
 
               Two-letter ISO 3166-1 country code, uppercase.
+
+              pattern: ^[A-Z]{2}$
 
             - `region: Optional[str]`
 
@@ -5966,6 +6051,9 @@ print(beta_managed_agents_agent.id)
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -6059,7 +6147,7 @@ print(beta_managed_agents_agent.id)
 
 ## Archive Agent
 
-`beta.agents.archive(agent_id, **kwargs)  -> BetaManagedAgentsAgent`
+`beta.agents.archive(agent_id, **kwargs) -> BetaManagedAgentsAgent`
 
 **POST** `/v1/agents/{agent_id}/archive`
 
@@ -6073,7 +6161,7 @@ Archive Agent
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `str`
 
@@ -6177,6 +6265,18 @@ Archive Agent
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -6207,6 +6307,26 @@ Archive Agent
 
   - `description: Optional[str]`
 
+  - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `type: Literal["aws_role"]`
+
+      - `role_arn: str`
+
+        The IAM role's ARN.
+
+    - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `type: Literal["service_account"]`
+
   - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
 
     - `type: Literal["url"]`
@@ -6226,6 +6346,10 @@ Archive Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -6834,6 +6958,8 @@ Archive Agent
             - `country: Optional[str]`
 
               Two-letter ISO 3166-1 country code, uppercase.
+
+              pattern: ^[A-Z]{2}$
 
             - `region: Optional[str]`
 
@@ -6976,6 +7102,9 @@ print(beta_managed_agents_agent.id)
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -7105,6 +7234,26 @@ print(beta_managed_agents_agent.id)
 
   - `description: Optional[str]`
 
+  - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `type: Literal["aws_role"]`
+
+      - `role_arn: str`
+
+        The IAM role's ARN.
+
+    - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `type: Literal["service_account"]`
+
   - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
 
     - `type: Literal["url"]`
@@ -7124,6 +7273,10 @@ print(beta_managed_agents_agent.id)
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -7732,6 +7885,8 @@ print(beta_managed_agents_agent.id)
             - `country: Optional[str]`
 
               Two-letter ISO 3166-1 country code, uppercase.
+
+              pattern: ^[A-Z]{2}$
 
             - `region: Optional[str]`
 
@@ -8189,6 +8344,8 @@ print(beta_managed_agents_agent.id)
 
         Two-letter ISO 3166-1 country code, uppercase.
 
+        pattern: ^[A-Z]{2}$
+
       - `region: Optional[str]`
 
         Region or state name.
@@ -8445,7 +8602,9 @@ print(beta_managed_agents_agent.id)
 
         Which custom tools' results contribute URLs that may be fetched: "all" (the default), "none", or an only or except list. Each name in a list must be a custom tool in the same tools array.
 
-        - `Literal["all", "none"]`
+        - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
+
+          String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
           - `"all"`
 
@@ -8515,11 +8674,9 @@ print(beta_managed_agents_agent.id)
 
         Whether URLs in the text of user messages may be fetched: "all" (the default) or "none".
 
-        - `Literal["all", "none"]`
+        - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
 
-          - `"all"`
-
-          - `"none"`
+          String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
         - `type BetaManagedAgentsWebFetchURLSourceUserInput = ...`
 
@@ -8588,6 +8745,8 @@ print(beta_managed_agents_agent.id)
       - `country: Optional[str]`
 
         Two-letter ISO 3166-1 country code, uppercase.
+
+        pattern: ^[A-Z]{2}$
 
       - `region: Optional[str]`
 
@@ -8991,6 +9150,8 @@ print(beta_managed_agents_agent.id)
 
           Two-letter ISO 3166-1 country code, uppercase.
 
+          pattern: ^[A-Z]{2}$
+
         - `region: Optional[str]`
 
           Region or state name.
@@ -9360,7 +9521,9 @@ print(beta_managed_agents_agent.id)
 
           Which custom tools' results contribute URLs that may be fetched: "all" (the default), "none", or an only or except list. Each name in a list must be a custom tool in the same tools array.
 
-          - `Literal["all", "none"]`
+          - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
+
+            String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
             - `"all"`
 
@@ -9430,11 +9593,9 @@ print(beta_managed_agents_agent.id)
 
           Whether URLs in the text of user messages may be fetched: "all" (the default) or "none".
 
-          - `Literal["all", "none"]`
+          - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
 
-            - `"all"`
-
-            - `"none"`
+            String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
           - `type BetaManagedAgentsWebFetchURLSourceUserInput = ...`
 
@@ -9503,6 +9664,8 @@ print(beta_managed_agents_agent.id)
         - `country: Optional[str]`
 
           Two-letter ISO 3166-1 country code, uppercase.
+
+          pattern: ^[A-Z]{2}$
 
         - `region: Optional[str]`
 
@@ -9630,6 +9793,32 @@ print(beta_managed_agents_agent.id)
   The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
 
   - `type: Literal["auto"]`
+
+### Beta Managed Agents AWS Role Execution Identity
+
+- `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+  An AWS IAM role principal as returned in API responses.
+
+  - `type: Literal["aws_role"]`
+
+  - `role_arn: str`
+
+    The IAM role's ARN.
+
+### Beta Managed Agents AWS Role Execution Identity Params
+
+- `class BetaManagedAgentsAWSRoleExecutionIdentityParams`
+
+  An AWS IAM role principal.
+
+  - `type: Literal["aws_role"]`
+
+  - `role_arn: str`
+
+    The IAM role's ARN, e.g. "arn:aws:iam::123456789012:role/my-agent-runner". Maximum 2048 characters.
+
+    maxLength: 2048, pattern: ^arn:aws(-[a-z]+)*:iam::[0-9]{12}:role/[\w+=,.@/-]+$
 
 ### Beta Managed Agents Bash Tool Config
 
@@ -9797,7 +9986,7 @@ print(beta_managed_agents_agent.id)
 
     Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-    minLength: 1, maxLength: 128
+    minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
 ### Beta Managed Agents Edit Tool Config
 
@@ -9910,6 +10099,52 @@ print(beta_managed_agents_agent.id)
   Extra-high effort. Not all models accept this level.
 
   - `type: Literal["xhigh"]`
+
+### Beta Managed Agents Execution Identity
+
+- `type BetaManagedAgentsExecutionIdentity = ...`
+
+  Execution principal for runs of this agent as returned in API responses.
+
+  - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+    An AWS IAM role principal as returned in API responses.
+
+    - `type: Literal["aws_role"]`
+
+    - `role_arn: str`
+
+      The IAM role's ARN.
+
+  - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+    The Anthropic-managed service account as returned in API responses.
+
+    - `type: Literal["service_account"]`
+
+### Beta Managed Agents Execution Identity Params
+
+- `type BetaManagedAgentsExecutionIdentityParams = ...`
+
+  Execution principal for runs of this agent: `service_account` (the default) or `aws_role`.
+
+  - `class BetaManagedAgentsAWSRoleExecutionIdentityParams`
+
+    An AWS IAM role principal.
+
+    - `type: Literal["aws_role"]`
+
+    - `role_arn: str`
+
+      The IAM role's ARN, e.g. "arn:aws:iam::123456789012:role/my-agent-runner". Maximum 2048 characters.
+
+      maxLength: 2048, pattern: ^arn:aws(-[a-z]+)*:iam::[0-9]{12}:role/[\w+=,.@/-]+$
+
+  - `class BetaManagedAgentsServiceAccountExecutionIdentityParams`
+
+    The Anthropic-managed service account — the default execution principal. Carries no identifier.
+
+    - `type: Literal["service_account"]`
 
 ### Beta Managed Agents Glob Tool Config
 
@@ -10333,11 +10568,15 @@ print(beta_managed_agents_agent.id)
 
 ### Beta Managed Agents Model
 
-- `type BetaManagedAgentsModel = Union[Literal["claude-haiku-5-5", "claude-sonnet-5-5", "claude-opus-5-5", 14 more], str]`
+- `type BetaManagedAgentsModel = Union[Literal["claude-fable-5-2", "claude-haiku-5-5", "claude-sonnet-5-5", 15 more], str]`
 
   The model that will power your agent.
 
   See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+  - `"claude-fable-5-2"`
+
+    Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
   - `"claude-haiku-5-5"`
 
@@ -10420,6 +10659,10 @@ print(beta_managed_agents_agent.id)
     The model that will power your agent.
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+    - `"claude-fable-5-2"`
+
+      Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
     - `"claude-haiku-5-5"`
 
@@ -10548,6 +10791,10 @@ print(beta_managed_agents_agent.id)
     The model that will power your agent.
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+    - `"claude-fable-5-2"`
+
+      Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
     - `"claude-haiku-5-5"`
 
@@ -10679,7 +10926,7 @@ print(beta_managed_agents_agent.id)
 
   - `speed: Optional[Literal["standard", "fast"]]`
 
-    Inference speed mode. Defaults to `standard`.
+    Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
     - `"standard"`
 
@@ -11699,6 +11946,22 @@ print(beta_managed_agents_agent.id)
 
       - `type: Literal["auto"]`
 
+### Beta Managed Agents Service Account Execution Identity
+
+- `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+  The Anthropic-managed service account as returned in API responses.
+
+  - `type: Literal["service_account"]`
+
+### Beta Managed Agents Service Account Execution Identity Params
+
+- `class BetaManagedAgentsServiceAccountExecutionIdentityParams`
+
+  The Anthropic-managed service account — the default execution principal. Carries no identifier.
+
+  - `type: Literal["service_account"]`
+
 ### Beta Managed Agents Session Thread Agent
 
 - `class BetaManagedAgentsSessionThreadAgent`
@@ -11710,6 +11973,26 @@ print(beta_managed_agents_agent.id)
   - `id: str`
 
   - `description: Optional[str]`
+
+  - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+    Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `type: Literal["aws_role"]`
+
+      - `role_arn: str`
+
+        The IAM role's ARN.
+
+    - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `type: Literal["service_account"]`
 
   - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
 
@@ -11728,6 +12011,10 @@ print(beta_managed_agents_agent.id)
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -12199,6 +12486,8 @@ print(beta_managed_agents_agent.id)
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `region: Optional[str]`
 
               Region or state name.
@@ -12388,6 +12677,8 @@ print(beta_managed_agents_agent.id)
   - `country: Optional[str]`
 
     Two-letter ISO 3166-1 country code, uppercase.
+
+    pattern: ^[A-Z]{2}$
 
   - `region: Optional[str]`
 
@@ -12579,7 +12870,9 @@ print(beta_managed_agents_agent.id)
 
       Which custom tools' results contribute URLs that may be fetched: "all" (the default), "none", or an only or except list. Each name in a list must be a custom tool in the same tools array.
 
-      - `Literal["all", "none"]`
+      - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
+
+        String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
         - `"all"`
 
@@ -12649,11 +12942,9 @@ print(beta_managed_agents_agent.id)
 
       Whether URLs in the text of user messages may be fetched: "all" (the default) or "none".
 
-      - `Literal["all", "none"]`
+      - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
 
-        - `"all"`
-
-        - `"none"`
+        String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
       - `type BetaManagedAgentsWebFetchURLSourceUserInput = ...`
 
@@ -12801,7 +13092,9 @@ print(beta_managed_agents_agent.id)
 
   Which tools' results contribute URLs that may be fetched. Accepts the string "all" or "none", or an object whose type is "all", "none", "only" or "except". Responses use the object form.
 
-  - `Literal["all", "none"]`
+  - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
+
+    String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
     - `"all"`
 
@@ -12903,7 +13196,9 @@ print(beta_managed_agents_agent.id)
 
   Whether URLs in the text of user messages may be fetched. Accepts the string "all" or "none", or the object {"type": "all"} or {"type": "none"}. Responses use the object form.
 
-  - `Literal["all", "none"]`
+  - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
+
+    String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
     - `"all"`
 
@@ -13013,7 +13308,9 @@ print(beta_managed_agents_agent.id)
 
     Which custom tools' results contribute URLs that may be fetched: "all" (the default), "none", or an only or except list. Each name in a list must be a custom tool in the same tools array.
 
-    - `Literal["all", "none"]`
+    - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
+
+      String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
       - `"all"`
 
@@ -13083,11 +13380,9 @@ print(beta_managed_agents_agent.id)
 
     Whether URLs in the text of user messages may be fetched: "all" (the default) or "none".
 
-    - `Literal["all", "none"]`
+    - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
 
-      - `"all"`
-
-      - `"none"`
+      String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
     - `type BetaManagedAgentsWebFetchURLSourceUserInput = ...`
 
@@ -13156,6 +13451,8 @@ print(beta_managed_agents_agent.id)
     - `country: Optional[str]`
 
       Two-letter ISO 3166-1 country code, uppercase.
+
+      pattern: ^[A-Z]{2}$
 
     - `region: Optional[str]`
 
@@ -13232,6 +13529,8 @@ print(beta_managed_agents_agent.id)
     - `country: Optional[str]`
 
       Two-letter ISO 3166-1 country code, uppercase.
+
+      pattern: ^[A-Z]{2}$
 
     - `region: Optional[str]`
 
@@ -13321,7 +13620,7 @@ print(beta_managed_agents_agent.id)
 
 ### List Agent Versions
 
-`beta.agents.versions.list(agent_id, **kwargs)  -> SyncPageCursor[BetaManagedAgentsAgent]`
+`beta.agents.versions.list(agent_id, **kwargs) -> SyncPageCursor[BetaManagedAgentsAgent]`
 
 **GET** `/v1/agents/{agent_id}/versions`
 
@@ -13345,7 +13644,7 @@ List Agent Versions
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `str`
 
@@ -13449,6 +13748,18 @@ List Agent Versions
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -13479,6 +13790,26 @@ List Agent Versions
 
   - `description: Optional[str]`
 
+  - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `type: Literal["aws_role"]`
+
+      - `role_arn: str`
+
+        The IAM role's ARN.
+
+    - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `type: Literal["service_account"]`
+
   - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
 
     - `type: Literal["url"]`
@@ -13498,6 +13829,10 @@ List Agent Versions
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -14107,6 +14442,8 @@ List Agent Versions
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `region: Optional[str]`
 
               Region or state name.
@@ -14251,6 +14588,9 @@ print(page.id)
       "archived_at": null,
       "created_at": "2026-03-15T10:00:00Z",
       "description": "A general-purpose starter agent.",
+      "execution_identity": {
+        "type": "service_account"
+      },
       "mcp_servers": [
         {
           "name": "example-mcp",

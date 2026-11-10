@@ -16,7 +16,7 @@ with Claude"
     </HomeQuickChip>
 
     <HomeQuickChip icon="Key" href="https://platform.claude.com/settings/keys">
-      Get API key
+      Get API key in Claude Console
     </HomeQuickChip>
 
     <HomeQuickChip icon="CodeBrackets" href="https://platform.claude.com/docs/en/api/overview">
@@ -66,7 +66,7 @@ with Claude"
     ```
 
     ```go Go
-    import "github.com/anthropics/anthropic-sdk-go"
+    import "github.com/anthropics/anthropic-sdk-go/v2"
 
     client := anthropic.NewClient()
     msg, _ := client.Messages.New(
@@ -96,7 +96,7 @@ with Claude"
 
     var msg = client.messages().create(
       MessageCreateParams.builder()
-        .model("claude-opus-5-5")
+        .model(Model.CLAUDE_OPUS_5_5)
         .maxTokens(1024)
         .addUserMessage("Hello, Claude")
         .build()
@@ -150,10 +150,9 @@ with Claude"
 
     var msg = await client.Messages
       .Create(new() {
-        Model = "claude-opus-5-5",
+        Model = Model.ClaudeOpus5_5,
         MaxTokens = 1024,
-        Messages = [new() {
-          Role = Role.User,
+        Messages = [new UserMessageParam {
           Content = "Hello, Claude"
         }]
       });
@@ -170,7 +169,7 @@ with Claude"
     curl https://api.anthropic.com/v1/messages \
       -H "content-type: application/json" \
       -H "x-api-key: $ANTHROPIC_API_KEY" \
-      -H "anthropic-version: 2023-06-01" \
+      -H "anthropic-version: 2026-10-21" \
       -d '{
         "model": "claude-opus-5-5",
         "max_tokens": 1024,
@@ -230,7 +229,7 @@ with Claude"
         Amazon Bedrock
       </HomeCloudPartnerLink>
 
-      <HomeCloudPartnerLink icon="cloud" href="https://platform.claude.com/docs/en/build-with-claude/claude-on-vertex-ai">
+      <HomeCloudPartnerLink icon="cloud" href="https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/overview">
         Google Cloud
       </HomeCloudPartnerLink>
 
@@ -251,7 +250,7 @@ with Claude"
           </HomeJourneyLink>
 
           <HomeJourneyLink icon="lock" href="https://platform.claude.com/settings/keys">
-            Get API key
+            Get API key in Claude Console
           </HomeJourneyLink>
 
           <HomeJourneyLink icon="settings" href="https://platform.claude.com/docs/en/models/overview">
@@ -263,7 +262,7 @@ with Claude"
           </HomeJourneyLink>
 
           <HomeJourneyLink icon="message" href="https://platform.claude.com/playground">
-            Try the API in playground
+            Try the API in Console playground
           </HomeJourneyLink>
         </HomeJourneyStep>
 
@@ -337,10 +336,10 @@ with Claude"
           </HomeJourneyLink>
 
           <HomeJourneyLink icon="lock" href="https://platform.claude.com/settings/keys">
-            API key management
+            API keys in Claude Console
           </HomeJourneyLink>
 
-          <HomeJourneyLink icon="chart" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api">
+          <HomeJourneyLink icon="chart" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api">
             Usage monitoring
           </HomeJourneyLink>
 
@@ -357,7 +356,7 @@ with Claude"
           </HomeJourneyLink>
 
           <HomeJourneyLink icon="lock" href="https://platform.claude.com/settings/keys">
-            Get API key
+            Get API key in Claude Console
           </HomeJourneyLink>
 
           <HomeJourneyLink icon="message" href="https://platform.claude.com/docs/en/managed-agents/onboarding">
@@ -395,10 +394,10 @@ with Claude"
           </HomeJourneyLink>
 
           <HomeJourneyLink icon="lock" href="https://platform.claude.com/settings/keys">
-            API key management
+            API keys in Claude Console
           </HomeJourneyLink>
 
-          <HomeJourneyLink icon="chart" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api">
+          <HomeJourneyLink icon="chart" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api">
             Usage monitoring
           </HomeJourneyLink>
         </HomeJourneyStep>
@@ -409,7 +408,7 @@ with Claude"
   <HomeSection>
     <HomeSectionHeader label="Models" title="The Claude model family" description="Choose the right model for your use case." />
 
-    * [Claude Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/overview) (`claude-fable-5-1`) — New — *For demanding reasoning and long-horizon agentic work* — Most capable · Research · Multi-day tasks
+    * [Claude Fable 5.2](https://platform.claude.com/docs/en/models/fable-5-2/overview) (`claude-fable-5-2`) — New — *For demanding reasoning and long-horizon agentic work* — Most capable · Research · Multi-day tasks
     * [Claude Opus 5.5](https://platform.claude.com/docs/en/models/opus-5-5/overview) (`claude-opus-5-5`) — New — *For long-running agentic coding and knowledge work* — Complex projects · Agents · Coding
     * [Claude Sonnet 5.5](https://platform.claude.com/docs/en/models/sonnet-5-5/overview) (`claude-sonnet-5-5`) — New — *The best combination of speed and intelligence* — Everyday tasks · Writing · Cost-efficient
     * [Claude Haiku 5.5](https://platform.claude.com/docs/en/models/haiku-5-5/overview) (`claude-haiku-5-5`) — New — *For high-volume, latency-sensitive tasks such as classification, extraction, and routing* — Fastest · Lowest cost · High volume
@@ -423,15 +422,15 @@ with Claude"
         Interactive courses to master Claude.
       </Card>
 
-      <Card icon="book" title="Cookbook" href="https://platform.claude.com/cookbook">
+      <Card icon="book" title="Claude Cookbook" href="https://platform.claude.com/cookbook">
         Code samples and patterns.
       </Card>
 
-      <Card icon="play" title="Quickstarts" href="https://github.com/anthropics/anthropic-quickstarts">
+      <Card icon="play" title="Quickstarts" href="https://github.com/anthropics/claude-quickstarts">
         Deployable starter apps.
       </Card>
 
-      <Card icon="star" title="What's new" href="https://platform.claude.com/docs/en/release-notes/overview">
+      <Card icon="star" title="What’s new" href="https://platform.claude.com/docs/en/release-notes/overview">
         Latest features and updates.
       </Card>
 

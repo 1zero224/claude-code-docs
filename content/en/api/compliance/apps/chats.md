@@ -544,13 +544,19 @@ Retrieves message history and file metadata for a specific chat.
 
         default: text
 
+      - `added_as_context: boolean`
+
+        True when this text block was added to a human message as context for the assistant: the user did not type it in the message box. The wording of the app's own notes for the assistant is not exported: such a block has an empty `text`. Other added text is exported and can include content that the user or their app chose. False does not mean that the user typed the text. Always false on the last text block of a message, on assistant messages, and on messages sent before 2026-10-09, whose notes are exported in full.
+
+        default: false
+
       - `text: string`
 
         Text content from human or assistant
 
       - `thinking_redacted: boolean`
 
-        True when content enclosed in the assistant's internal-reasoning tags (or the tag markup itself) was removed from `text` during export. Removal never occurs with this field false. Always false on human messages, whose text is exported verbatim.
+        True when content enclosed in the assistant's internal-reasoning tags (or the tag markup itself) was removed from `text` during export. Removal never occurs with this field false. Always false on human messages.
 
         default: false
 
@@ -813,7 +819,8 @@ curl https://api.anthropic.com/v1/compliance/apps/chats/$CLAUDE_CHAT_ID/messages
           "type": "text",
           "text": "Can you help me draft requirements for our new dashboard feature?",
           "truncated": false,
-          "thinking_redacted": false
+          "thinking_redacted": false,
+          "added_as_context": false
         }
       ],
       "files": [
@@ -836,7 +843,8 @@ curl https://api.anthropic.com/v1/compliance/apps/chats/$CLAUDE_CHAT_ID/messages
           "type": "text",
           "text": "I'd be happy to help you draft requirements for your dashboard feature...",
           "truncated": false,
-          "thinking_redacted": false
+          "thinking_redacted": false,
+          "added_as_context": false
         }
       ],
       "artifacts": [
@@ -857,7 +865,8 @@ curl https://api.anthropic.com/v1/compliance/apps/chats/$CLAUDE_CHAT_ID/messages
           "type": "text",
           "text": "Are there any open support tickets about the dashboard?",
           "truncated": false,
-          "thinking_redacted": false
+          "thinking_redacted": false,
+          "added_as_context": false
         }
       ]
     },
@@ -894,7 +903,8 @@ curl https://api.anthropic.com/v1/compliance/apps/chats/$CLAUDE_CHAT_ID/messages
           "type": "text",
           "text": "There are two open tickets: one about slow loading and one about a missing export button.",
           "truncated": false,
-          "thinking_redacted": false
+          "thinking_redacted": false,
+          "added_as_context": false
         }
       ]
     }
@@ -919,7 +929,7 @@ download the bytes.
 
 - `claude_file_id: string`
 
-  The file ID (tagged ID, e.g., claude_file_abc123)
+  The file ID (tagged ID, e.g., claude_file_abc123). Also use this endpoint for any id in `chat_messages[].generated_files[].id` that starts with `claude_file_`.
 
 #### Headers
 
@@ -1057,7 +1067,7 @@ Downloads the binary content of a file referenced in chat messages.
 
 - `claude_file_id: string`
 
-  The file ID (tagged ID, e.g., claude_file_abc123)
+  The file ID (tagged ID, e.g., claude_file_abc123). Also use this endpoint for any id in `chat_messages[].generated_files[].id` that starts with `claude_file_`.
 
 #### Headers
 
@@ -1091,7 +1101,7 @@ Use the sibling `/content` endpoint to download the bytes.
 
 - `claude_gen_file_id: string`
 
-  The generated-file id (e.g., 'claude_gen_file_abc123') as returned in `chat_messages[].generated_files[].id` from GET /apps/chats/{claude_chat_id}/messages.
+  The generated-file id (e.g., 'claude_gen_file_abc123') as returned in `chat_messages[].generated_files[].id` from `GET /v1/compliance/apps/chats/{claude_chat_id}/messages`. An id that does not start with `claude_gen_file_` returns a 400 error. `generated_files` can also list ids that start with `claude_file_`; request those from `GET /v1/compliance/apps/chats/files/{claude_file_id}` instead.
 
 #### Headers
 
@@ -1167,7 +1177,7 @@ Downloads the binary content of a file the assistant created via tool use.
 
 - `claude_gen_file_id: string`
 
-  The generated-file id (e.g., 'claude_gen_file_abc123') as returned in `chat_messages[].generated_files[].id` from GET /apps/chats/{claude_chat_id}/messages.
+  The generated-file id (e.g., 'claude_gen_file_abc123') as returned in `chat_messages[].generated_files[].id` from `GET /v1/compliance/apps/chats/{claude_chat_id}/messages`. An id that does not start with `claude_gen_file_` returns a 400 error. `generated_files` can also list ids that start with `claude_file_`; request those from `GET /v1/compliance/apps/chats/files/{claude_file_id}/content` instead.
 
 #### Headers
 

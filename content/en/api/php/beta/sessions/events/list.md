@@ -15,39 +15,45 @@ List Events
 
 - `sessionID: string` (path parameter)
 
-- `createdAtGt?:optional \Datetime` (query parameter)
+- `createdAtGt?: optional \Datetime` (query parameter)
 
   Return events created after this time (exclusive). Compared against the event's `processed_at` value.
 
-- `createdAtGte?:optional \Datetime` (query parameter)
+- `createdAtGte?: optional \Datetime` (query parameter)
 
   Return events created at or after this time (inclusive). Compared against the event's `processed_at` value.
 
-- `createdAtLt?:optional \Datetime` (query parameter)
+- `createdAtLt?: optional \Datetime` (query parameter)
 
   Return events created before this time (exclusive). Compared against the event's `processed_at` value.
 
-- `createdAtLte?:optional \Datetime` (query parameter)
+- `createdAtLte?: optional \Datetime` (query parameter)
 
   Return events created at or before this time (inclusive). Compared against the event's `processed_at` value.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
-- `order?:optional Order` (query parameter)
+- `order?: optional Order` (query parameter)
 
   Sort direction for results, ordered by the event's `processed_at`. Defaults to `asc` (chronological).
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor from a previous response's `next_page`.
 
-- `types?:optional list<ManagedAgentsSessionEventType>` (query parameter)
+- `types?: optional list<ManagedAgentsSessionEventType>` (query parameter)
 
   Filter by event type. Values match the `type` field on returned events (for example, `user.message` or `agent.tool_use`). Omit to return all event types.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -61,7 +67,7 @@ List Events
 
   - `class ManagedAgentsUserMessageEvent`
 
-    - `Type type`
+    - `"user.message" type`
 
     - `string id`
 
@@ -77,7 +83,7 @@ List Events
 
   - `class ManagedAgentsUserInterruptEvent`
 
-    - `Type type`
+    - `"user.interrupt" type`
 
     - `string id`
 
@@ -93,7 +99,7 @@ List Events
 
   - `class ManagedAgentsUserToolConfirmationEvent`
 
-    - `Type type`
+    - `"user.tool_confirmation" type`
 
     - `string id`
 
@@ -121,7 +127,7 @@ List Events
 
   - `class ManagedAgentsUserCustomToolResultEvent`
 
-    - `Type type`
+    - `"user.custom_tool_result" type`
 
     - `string id`
 
@@ -149,7 +155,7 @@ List Events
 
   - `class ManagedAgentsAgentCustomToolUseEvent`
 
-    - `Type type`
+    - `"agent.custom_tool_use" type`
 
     - `string id`
 
@@ -173,7 +179,7 @@ List Events
 
   - `class ManagedAgentsAgentMessageEvent`
 
-    - `Type type`
+    - `"agent.message" type`
 
     - `string id`
 
@@ -189,7 +195,7 @@ List Events
 
   - `class ManagedAgentsAgentThinkingEvent`
 
-    - `Type type`
+    - `"agent.thinking" type`
 
     - `string id`
 
@@ -201,7 +207,7 @@ List Events
 
   - `class ManagedAgentsAgentMCPToolUseEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_use" type`
 
     - `string id`
 
@@ -237,7 +243,7 @@ List Events
 
   - `class ManagedAgentsAgentMCPToolResultEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_result" type`
 
     - `string id`
 
@@ -261,7 +267,7 @@ List Events
 
   - `class ManagedAgentsAgentToolUseEvent`
 
-    - `Type type`
+    - `"agent.tool_use" type`
 
     - `string id`
 
@@ -293,7 +299,7 @@ List Events
 
   - `class ManagedAgentsAgentToolResultEvent`
 
-    - `Type type`
+    - `"agent.tool_result" type`
 
     - `string id`
 
@@ -317,7 +323,7 @@ List Events
 
   - `class ManagedAgentsAgentThreadMessageReceivedEvent`
 
-    - `Type type`
+    - `"agent.thread_message_received" type`
 
     - `string id`
 
@@ -341,7 +347,7 @@ List Events
 
   - `class ManagedAgentsAgentThreadMessageSentEvent`
 
-    - `Type type`
+    - `"agent.thread_message_sent" type`
 
     - `string id`
 
@@ -365,7 +371,7 @@ List Events
 
   - `class ManagedAgentsAgentThreadContextCompactedEvent`
 
-    - `Type type`
+    - `"agent.thread_context_compacted" type`
 
     - `string id`
 
@@ -377,7 +383,7 @@ List Events
 
   - `class ManagedAgentsSessionErrorEvent`
 
-    - `Type type`
+    - `"session.error" type`
 
     - `string id`
 
@@ -391,7 +397,7 @@ List Events
 
   - `class ManagedAgentsSessionStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.status_rescheduled" type`
 
     - `string id`
 
@@ -403,7 +409,7 @@ List Events
 
   - `class ManagedAgentsSessionStatusRunningEvent`
 
-    - `Type type`
+    - `"session.status_running" type`
 
     - `string id`
 
@@ -415,7 +421,7 @@ List Events
 
   - `class ManagedAgentsSessionStatusIdleEvent`
 
-    - `Type type`
+    - `"session.status_idle" type`
 
     - `string id`
 
@@ -433,7 +439,7 @@ List Events
 
   - `class ManagedAgentsSessionStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.status_terminated" type`
 
     - `string id`
 
@@ -445,7 +451,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadCreatedEvent`
 
-    - `Type type`
+    - `"session.thread_created" type`
 
     - `string id`
 
@@ -469,7 +475,7 @@ List Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationStartEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_start" type`
 
     - `string id`
 
@@ -489,7 +495,7 @@ List Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationEndEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_end" type`
 
     - `string id`
 
@@ -525,7 +531,7 @@ List Events
 
   - `class ManagedAgentsSpanModelRequestStartEvent`
 
-    - `Type type`
+    - `"span.model_request_start" type`
 
     - `string id`
 
@@ -537,7 +543,7 @@ List Events
 
   - `class ManagedAgentsSpanModelRequestEndEvent`
 
-    - `Type type`
+    - `"span.model_request_end" type`
 
     - `string id`
 
@@ -561,7 +567,7 @@ List Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationOngoingEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_ongoing" type`
 
     - `string id`
 
@@ -581,7 +587,7 @@ List Events
 
   - `class ManagedAgentsUserDefineOutcomeEvent`
 
-    - `Type type`
+    - `"user.define_outcome" type`
 
     - `string id`
 
@@ -609,7 +615,7 @@ List Events
 
   - `class ManagedAgentsSessionDeletedEvent`
 
-    - `Type type`
+    - `"session.deleted" type`
 
     - `string id`
 
@@ -621,7 +627,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadStatusRunningEvent`
 
-    - `Type type`
+    - `"session.thread_status_running" type`
 
     - `string id`
 
@@ -641,7 +647,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadStatusIdleEvent`
 
-    - `Type type`
+    - `"session.thread_status_idle" type`
 
     - `string id`
 
@@ -667,7 +673,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.thread_status_terminated" type`
 
     - `string id`
 
@@ -687,7 +693,7 @@ List Events
 
   - `class BetaManagedAgentsUserToolResultEvent`
 
-    - `Type type`
+    - `"user.tool_result" type`
 
     - `string id`
 
@@ -715,7 +721,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.thread_status_rescheduled" type`
 
     - `string id`
 
@@ -735,7 +741,7 @@ List Events
 
   - `class BetaManagedAgentsSessionUpdatedEvent`
 
-    - `Type type`
+    - `"session.updated" type`
 
     - `string id`
 
@@ -763,7 +769,7 @@ List Events
 
   - `class BetaManagedAgentsSystemMessageEvent`
 
-    - `Type type`
+    - `"system.message" type`
 
     - `string id`
 
@@ -779,7 +785,7 @@ List Events
 
   - `class BetaManagedAgentsSessionUsageEvent`
 
-    - `Type type`
+    - `"session.usage" type`
 
     - `string id`
 
@@ -947,6 +953,10 @@ List Events
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Sessions\Events\ManagedAgentsSessionEventType;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

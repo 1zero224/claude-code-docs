@@ -139,6 +139,16 @@ Future models and features will not be compatible with Text Completions. See our
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 ### Body parameters
 
 - `max_tokens_to_sample: number`
@@ -243,18 +253,10 @@ Future models and features will not be compatible with Text Completions. See our
 
   The prompt that you want Claude to complete.
 
-  For proper response generation you will need to format your prompt using alternating `
-
-  Human:`and`
-
-  Assistant:` conversational turns. For example:
+  For proper response generation you will need to format your prompt using alternating `\n\nHuman:` and `\n\nAssistant:` conversational turns. For example:
 
   ```
-  "
-  
-  Human: {userQuestion}
-  
-  Assistant:"
+  "\n\nHuman: {userQuestion}\n\nAssistant:"
   ```
 
   See [prompt validation](https://platform.claude.com/docs/en/build-with-claude/working-with-messages?sdk_languages=http) and our guide to [prompt design](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview?sdk_languages=http) for more details.
@@ -277,9 +279,7 @@ Future models and features will not be compatible with Text Completions. See our
 
   Sequences that will cause the model to stop generating.
 
-  Our models stop on `"
-
-  Human:"`, and may include additional built-in stop sequences in the future. By providing the stop_sequences parameter, you may include additional strings that will cause the model to stop generating.
+  Our models stop on `"\n\nHuman:"`, and may include additional built-in stop sequences in the future. By providing the stop_sequences parameter, you may include additional strings that will cause the model to stop generating.
 
 - `stream: optional boolean`
 
@@ -449,8 +449,8 @@ Future models and features will not be compatible with Text Completions. See our
 ```bash
 curl https://api.anthropic.com/v1/complete \
     -H 'Content-Type: application/json' \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY" \
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     --max-time 600 \
     -d '{
           "max_tokens_to_sample": 256,

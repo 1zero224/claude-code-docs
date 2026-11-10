@@ -1,6 +1,6 @@
 # Request a refund for a paid Claude plan
 
-**Important:** Except as expressly provided in our **[Consumer Terms of Service](https://www.anthropic.com/legal/consumer-terms)** or where required by law, all payments are non-refundable.
+**Important:** Except as expressly provided in our **[Consumer Terms of Service](https://www.anthropic.com/legal/consumer-terms)**, where required by law, or in cases of fraud, all payments are non-refundable.
 
 To request a refund for a payment defined as refundable in our Terms of Service, follow these instructions:
 
@@ -18,7 +18,7 @@ To request a refund for a payment defined as refundable in our Terms of Service,
 
 7. If eligible, continue in the support messenger to cancel and refund your plan.
 
-**Note:** If you’ve claimed monthly API credits on a Max or Team plan, new credits stop when your plan is refunded. Credits you already have stay usable until they expire and can’t be refunded.
+**Note:** If you’ve claimed monthly API credits on a Max, Ultra, or Team plan, new credits stop when your plan is refunded. Credits you already have stay usable until they expire and can’t be refunded.
 
 ---
 
@@ -27,6 +27,14 @@ To request a refund for a payment defined as refundable in our Terms of Service,
 In the European Economic Area and the United Kingdom, you may receive a refund within 14 days of purchase. You may find this option available in your **Settings**. Your refunds will be prorated according to your use.
 
 ---
+
+## Refunds for usage credits
+
+Usage credit purchases are non-refundable, including when you cancel your subscription or delete your account. Credits you've already used are never refunded.
+
+The exceptions are where local law gives you a refund right for unused credits, and cases of fraud.
+
+If you're eligible, follow the refund request steps at the top of this article. Learn more about **[managing usage credits for paid Claude plans](https://support.claude.com/en/articles/12429409)**.
 
 ## What should I do if I can't access the account I'm requesting a refund for?
 
@@ -49,7 +57,7 @@ To request a refund from Apple:
 
 Apple will review your request and notify you of their decision. You can check the status of your request any time by returning to reportaproblem.apple.com. Refunds for App Store purchases are granted at Apple's discretion.
 
-**Note:** Requesting a refund doesn't cancel your subscription. To avoid future charges, you'll also need to cancel. For instructions, see **[Cancel your Pro or Max subscription](https://support.claude.com/en/articles/8325617)**.
+**Note:** Requesting a refund doesn't cancel your subscription. To avoid future charges, you'll also need to cancel. For instructions, see **[Cancel your Pro, Max, or Ultra subscription](https://support.claude.com/en/articles/8325617)**.
 
 For more details, see Apple's guide: **[Request a refund for apps or content that you bought from Apple](https://support.apple.com/en-us/118223)**.
 
@@ -59,13 +67,13 @@ If you have an active subscription purchased on **[Claude for Android](https://s
 
 If you're requesting a refund for an inactive subscription, you'll need to **[contact our Support team](https://support.claude.com/en/articles/9015913-how-to-get-support)** with the email address associated with your Google Play account or your GPA order number (found on your Google Play receipt, formatted GPA.xxxx-xxxx-xxxx-xxxxx) to further review the charge and refund eligibility.
 
-### I upgraded from Pro or Max to Team—when do I get my refund?
+### I upgraded from Pro, Max, or Ultra to Team—when do I get my refund?
 
-When you upgrade to a Team plan from a Pro or Max plan, your individual subscription is cancelled automatically and you receive a prorated refund for the unused portion of your billing period. You don't need to request it manually. The refund is issued about 24 hours after your Team payment goes through, and depending on your bank, it can take several more business days to appear on your statement. Google Play purchases don't have this wait, but the refund can take a few days to appear. Any prepaid usage credits on your individual account are refunded.
+When you upgrade to a Team plan from a Pro, Max, or Ultra plan, your individual subscription is cancelled automatically and you receive a prorated refund for the unused portion of your billing period. You don't need to request it manually. The refund is issued about 24 hours after your Team payment goes through, and depending on your bank, it can take several more business days to appear on your statement. Google Play purchases don't have this wait, but the refund can take a few days to appear. Any prepaid usage credits on your individual account are refunded.
 
-If you claimed monthly API credits on your Max plan, your Max link ends. A Team Owner or Primary Owner can claim the team’s credits once the Team plan has been active for seven days.
+If you claimed monthly API credits on your Max or Ultra plan, your Max/Ultra link ends. A Team Owner or Primary Owner can claim the team’s credits once the Team plan has been active for seven days.
 
-If you signed up for Pro or Max through the Apple App Store, you can't upgrade to Team in place. **[Cancel your iOS subscription](https://support.claude.com/en/articles/8325617-cancel-your-pro-or-max-subscription#h_54384c9962)** through your Apple ID settings first, then start the Team upgrade. App Store subscription refunds need to be requested through Apple directly, as described above.
+If you signed up for Pro, Max, or Ultra through the Apple App Store, you can't upgrade to Team in place. **[Cancel your iOS subscription](https://support.claude.com/en/articles/8325617-cancel-your-pro-or-max-subscription#h_54384c9962)** through your Apple ID settings first, then start the Team upgrade. App Store subscription refunds need to be requested through Apple directly, as described above.
 
 For full upgrade details, see **[Get started with the Team plan](https://support.claude.com/en/articles/9267247-get-started-with-the-team-plan#h_830eec632d)**.
 

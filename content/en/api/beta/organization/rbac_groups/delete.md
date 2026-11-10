@@ -27,25 +27,27 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
 ## Returns
 
-- `type: "rbac_group_deleted"`
+- `BetaDeletedRBACGroup object`
 
-  Deleted object type.
+  - `type: "rbac_group_deleted"`
 
-  For RBAC Groups, this is always `"rbac_group_deleted"`.
+    Deleted object type.
 
-  default: rbac_group_deleted
+    For RBAC Groups, this is always `"rbac_group_deleted"`.
 
-- `id: string`
+    default: rbac_group_deleted
 
-  ID of the RBAC Group.
+  - `id: string`
+
+    ID of the RBAC Group.
 
 ## Example
 
 ```bash
 curl https://api.anthropic.com/v1/organizations/rbac_groups/$RBAC_GROUP_ID \
     -X DELETE \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ### Response (200)

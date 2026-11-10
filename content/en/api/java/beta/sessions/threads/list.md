@@ -17,7 +17,7 @@ List Session Threads
 
   - `Optional<String> sessionId` (path parameter)
 
-  - `Optional<Long> limit` (query parameter)
+  - `Optional<Integer> limit` (query parameter)
 
     Maximum results per page. Defaults to 1000.
 
@@ -43,7 +43,7 @@ List Session Threads
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -145,6 +145,18 @@ List Session Threads
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -157,7 +169,7 @@ List Session Threads
 
   An execution thread within a `session`. Each session has one primary thread plus zero or more child threads.
 
-  - `Type type`
+  - `JsonValue type = "session_thread"`
 
   - `String id`
 
@@ -171,15 +183,37 @@ List Session Threads
 
       Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-      - `Type type`
+      - `JsonValue type = "agent"`
 
       - `String id`
 
       - `Optional<String> description`
 
+      - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `JsonValue type = "aws_role"`
+
+          - `String roleArn`
+
+            The IAM role's ARN.
+
+        - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `JsonValue type = "service_account"`
+
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-        - `Type type`
+        - `JsonValue type = "url"`
+
+        - `String name`
 
         - `String name`
 
@@ -194,6 +228,10 @@ List Session Threads
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -271,31 +309,31 @@ List Session Threads
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "low"`
 
           - `class BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "medium"`
 
           - `class BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "high"`
 
           - `class BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type type`
+            - `JsonValue type = "xhigh"`
 
           - `class BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type type`
+            - `JsonValue type = "max"`
 
         - `Optional<String> inferenceGeo`
 
@@ -317,7 +355,9 @@ List Session Threads
 
           A resolved Anthropic-managed skill.
 
-          - `Type type`
+          - `JsonValue type = "anthropic"`
+
+          - `String skillId`
 
           - `String skillId`
 
@@ -327,7 +367,9 @@ List Session Threads
 
           A resolved user-created custom skill.
 
-          - `Type type`
+          - `JsonValue type = "custom"`
+
+          - `String skillId`
 
           - `String skillId`
 
@@ -339,7 +381,7 @@ List Session Threads
 
         - `class BetaManagedAgentsAgentToolset20260401`
 
-          - `Type type`
+          - `JsonValue type = "agent_toolset_20260401"`
 
           - `List<BetaManagedAgentsAgentToolConfig> configs`
 
@@ -361,13 +403,13 @@ List Session Threads
 
                   Tool calls are automatically approved without user confirmation.
 
-                  - `Type type`
+                  - `JsonValue type = "always_allow"`
 
                 - `class BetaManagedAgentsAlwaysAskPolicy`
 
                   Tool calls require user confirmation before execution.
 
-                  - `Type type`
+                  - `JsonValue type = "always_ask"`
 
                 - `class BetaManagedAgentsAutoPolicy`
 
@@ -611,7 +653,7 @@ List Session Threads
 
               - `Optional<List<String>> blockedDomains`
 
-              - `Optional<Long> maxContentTokens`
+              - `Optional<Integer> maxContentTokens`
 
                 format: int32
 
@@ -663,6 +705,8 @@ List Session Threads
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `Optional<String> region`
 
                   Region or state name.
@@ -699,7 +743,7 @@ List Session Threads
 
         - `class BetaManagedAgentsMcpToolset`
 
-          - `Type type`
+          - `JsonValue type = "mcp_toolset"`
 
           - `List<BetaManagedAgentsMcpToolConfig> configs`
 
@@ -751,7 +795,7 @@ List Session Threads
 
           A custom tool as returned in API responses.
 
-          - `Type type`
+          - `JsonValue type = "custom"`
 
           - `String description`
 
@@ -767,7 +811,7 @@ List Session Threads
 
           - `String name`
 
-      - `long version`
+      - `int version`
 
         format: int32
 
@@ -775,7 +819,7 @@ List Session Threads
 
       Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-      - `Type type`
+      - `JsonValue type = "advisor"`
 
       - `String model`
 
@@ -789,9 +833,13 @@ List Session Threads
 
       - `Optional<String> description`
 
+      - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+        The session's execution principal.
+
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-        - `Type type`
+        - `JsonValue type = "url"`
 
         - `String name`
 
@@ -827,13 +875,13 @@ List Session Threads
 
           A custom tool as returned in API responses.
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the thread was archived. Null if not archived.
 
     format: date-time
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     When the thread was created.
 
@@ -881,7 +929,7 @@ List Session Threads
 
     - `TERMINATED("terminated")`
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     When the thread was last updated.
 
@@ -901,25 +949,25 @@ List Session Threads
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `Optional<Long> ephemeral1hInputTokens`
+      - `Optional<Integer> ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
         format: int32
 
-      - `Optional<Long> ephemeral5mInputTokens`
+      - `Optional<Integer> ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
         format: int32
 
-    - `Optional<Long> cacheReadInputTokens`
+    - `Optional<Integer> cacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
       format: int32
 
-    - `Optional<Long> inputTokens`
+    - `Optional<Integer> inputTokens`
 
       Total input tokens consumed across all turns.
 
@@ -933,11 +981,13 @@ List Session Threads
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `BetaCurrency currency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `Optional<Long> outputTokens`
+    - `Optional<Integer> outputTokens`
 
       Total output tokens generated across all turns.
 
@@ -947,13 +997,13 @@ List Session Threads
 
       Cumulative server-executed tool usage across all turns of this thread. Absent until server-tool tracking is available for the thread.
 
-      - `Optional<Long> webFetchRequests`
+      - `Optional<Integer> webFetchRequests`
 
         Number of server-executed web fetch requests.
 
         format: int32
 
-      - `Optional<Long> webSearchRequests`
+      - `Optional<Integer> webSearchRequests`
 
         Number of server-executed web search requests.
 
@@ -994,6 +1044,9 @@ public final class Main {
       "agent": {
         "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
         "description": "A focused research subagent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",

@@ -25,6 +25,28 @@ Update Agent
 
     maxLength: 2048
 
+  - `execution_identity?: BetaManagedAgentsExecutionIdentityParams | null`
+
+    Execution principal for runs of this agent. Full replacement. Omit to preserve; send null or `{"type": "service_account"}` to restore the default.
+
+    - `interface BetaManagedAgentsAWSRoleExecutionIdentityParams`
+
+      An AWS IAM role principal.
+
+      - `type: "aws_role"`
+
+      - `role_arn: string`
+
+        The IAM role's ARN, e.g. "arn:aws:iam::123456789012:role/my-agent-runner". Maximum 2048 characters.
+
+        maxLength: 2048, pattern: ^arn:aws(-[a-z]+)*:iam::[0-9]{12}:role/[\w+=,.@/-]+$
+
+    - `interface BetaManagedAgentsServiceAccountExecutionIdentityParams`
+
+      The Anthropic-managed service account — the default execution principal. Carries no identifier.
+
+      - `type: "service_account"`
+
   - `mcp_servers?: Array<BetaManagedAgentsURLMCPServerParams> | null`
 
     MCP servers. Full replacement. Omit to preserve; send empty array or `null` to clear. Names must be unique. Maximum 20. Every server must be referenced by an `mcp_toolset` in the agent's resulting `tools`; unreferenced servers are rejected. See the [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector?sdk_languages=typescript).
@@ -51,11 +73,15 @@ Update Agent
 
     Model identifier. Accepts the [model string](https://platform.claude.com/docs/en/about-claude/models/overview?sdk_languages=typescript#latest-models-comparison), e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration control. Omit to preserve. Cannot be cleared.
 
-    - `type BetaManagedAgentsModel = "claude-haiku-5-5" | "claude-sonnet-5-5" | "claude-opus-5-5" | 14 more | (string & {})`
+    - `type BetaManagedAgentsModel = "claude-fable-5-2" | "claude-haiku-5-5" | "claude-sonnet-5-5" | 15 more | (string & {})`
 
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -197,7 +223,7 @@ Update Agent
 
       - `speed?: "standard" | "fast" | null`
 
-        Inference speed mode. Defaults to `standard`.
+        Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
         - `"standard"`
 
@@ -811,6 +837,8 @@ Update Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `region?: string | null`
 
               Region or state name.
@@ -939,7 +967,7 @@ Update Agent
 
         Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-        minLength: 1, maxLength: 128
+        minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
   - `version?: number`
 
@@ -949,7 +977,7 @@ Update Agent
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -1053,6 +1081,18 @@ Update Agent
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1083,6 +1123,26 @@ Update Agent
 
   - `description: string | null`
 
+  - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `type: "aws_role"`
+
+      - `role_arn: string`
+
+        The IAM role's ARN.
+
+    - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `type: "service_account"`
+
   - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
     - `type: "url"`
@@ -1102,6 +1162,10 @@ Update Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -1711,6 +1775,8 @@ Update Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `region?: string | null`
 
               Region or state name.
@@ -1852,6 +1918,9 @@ console.log(betaManagedAgentsAgent.id);
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",

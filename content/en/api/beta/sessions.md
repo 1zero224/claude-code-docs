@@ -15,9 +15,13 @@ Create Session
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -121,6 +125,18 @@ Create Session
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -187,11 +203,15 @@ Create Session
 
       Replacement model. Accepts the model string, e.g. `claude-opus-5-5`, or a `model_config` object. Omit to use the agent's model.
 
-      - `BetaManagedAgentsModel = "claude-haiku-5-5" or "claude-sonnet-5-5" or "claude-opus-5-5" or 14 more or string`
+      - `BetaManagedAgentsModel = "claude-fable-5-2" or "claude-haiku-5-5" or "claude-sonnet-5-5" or 15 more or string`
 
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -333,7 +353,7 @@ Create Session
 
         - `speed: optional "standard" or "fast" or null`
 
-          Inference speed mode. Defaults to `standard`.
+          Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
           - `"standard"`
 
@@ -781,6 +801,8 @@ Create Session
 
                 Two-letter ISO 3166-1 country code, uppercase.
 
+                pattern: ^[A-Z]{2}$
+
               - `region: optional string or null`
 
                 Region or state name.
@@ -909,7 +931,7 @@ Create Session
 
           Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-          minLength: 1, maxLength: 128
+          minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
     - `version: optional number`
 
@@ -936,6 +958,8 @@ Create Session
     - `amount: string`
 
       Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+      pattern: ^(0|[1-9]\d*)$
 
     - `currency: BetaCurrency`
 
@@ -1191,7 +1215,7 @@ Create Session
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `mount_path: optional string or null`
 
@@ -1226,6 +1250,8 @@ Create Session
     - `memory_store_id: string`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `access: optional "read_write" or "read_only" or null`
 
@@ -1271,6 +1297,26 @@ Create Session
 
     - `description: string or null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
       - `type: "url"`
@@ -1288,6 +1334,10 @@ Create Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -1428,6 +1478,10 @@ Create Session
             - `id: string`
 
             - `description: string or null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -1795,6 +1849,8 @@ Create Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region: optional string or null`
 
                         Region or state name.
@@ -1975,6 +2031,10 @@ Create Session
 
               - `description: string or null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -2022,6 +2082,10 @@ Create Session
               - `id: string`
 
               - `description: string or null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -2094,6 +2158,8 @@ Create Session
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -2187,7 +2253,7 @@ Create Session
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `BetaManagedAgentsFileResource object`
 
@@ -2220,6 +2286,8 @@ Create Session
       - `memory_store_id: string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `access: optional "read_write" or "read_only" or null`
 
@@ -2366,9 +2434,9 @@ Create Session
 ```bash
 curl https://api.anthropic.com/v1/sessions \
     -H 'Content-Type: application/json' \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY" \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
           "agent": "agent_011CZkYpogX7uDKUyvBTophP",
           "environment_id": "env_011CZkZ9X2dpNyB7HsEFoRfW",
@@ -2395,6 +2463,9 @@ curl https://api.anthropic.com/v1/sessions \
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -2415,6 +2486,9 @@ curl https://api.anthropic.com/v1/sessions \
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -2677,9 +2751,13 @@ List Sessions
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -2783,6 +2861,18 @@ List Sessions
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -2809,6 +2899,26 @@ List Sessions
 
     - `description: string or null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
       - `type: "url"`
@@ -2826,6 +2936,10 @@ List Sessions
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -2966,6 +3080,10 @@ List Sessions
             - `id: string`
 
             - `description: string or null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -3333,6 +3451,8 @@ List Sessions
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region: optional string or null`
 
                         Region or state name.
@@ -3513,6 +3633,10 @@ List Sessions
 
               - `description: string or null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -3560,6 +3684,10 @@ List Sessions
               - `id: string`
 
               - `description: string or null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -3632,6 +3760,8 @@ List Sessions
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -3725,7 +3855,7 @@ List Sessions
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `BetaManagedAgentsFileResource object`
 
@@ -3758,6 +3888,8 @@ List Sessions
       - `memory_store_id: string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `access: optional "read_write" or "read_only" or null`
 
@@ -3911,9 +4043,9 @@ List Sessions
 
 ```bash
 curl https://api.anthropic.com/v1/sessions \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -3926,6 +4058,9 @@ curl https://api.anthropic.com/v1/sessions \
       "agent": {
         "id": "agent_011CZkYpogX7uDKUyvBTophP",
         "description": "A general-purpose starter agent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",
@@ -3946,6 +4081,9 @@ curl https://api.anthropic.com/v1/sessions \
             {
               "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
               "description": "A focused research subagent.",
+              "execution_identity": {
+                "type": "service_account"
+              },
               "mcp_servers": [
                 {
                   "name": "example-mcp",
@@ -4130,9 +4268,13 @@ Get Session
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -4236,6 +4378,18 @@ Get Session
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -4262,6 +4416,26 @@ Get Session
 
     - `description: string or null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
       - `type: "url"`
@@ -4279,6 +4453,10 @@ Get Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -4419,6 +4597,10 @@ Get Session
             - `id: string`
 
             - `description: string or null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -4786,6 +4968,8 @@ Get Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region: optional string or null`
 
                         Region or state name.
@@ -4966,6 +5150,10 @@ Get Session
 
               - `description: string or null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -5013,6 +5201,10 @@ Get Session
               - `id: string`
 
               - `description: string or null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -5085,6 +5277,8 @@ Get Session
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -5178,7 +5372,7 @@ Get Session
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `BetaManagedAgentsFileResource object`
 
@@ -5211,6 +5405,8 @@ Get Session
       - `memory_store_id: string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `access: optional "read_write" or "read_only" or null`
 
@@ -5356,9 +5552,9 @@ Get Session
 
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -5369,6 +5565,9 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID \
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -5389,6 +5588,9 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID \
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -5569,9 +5771,13 @@ Update Session
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -5674,6 +5880,18 @@ Update Session
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `"anthropic-workspace-id": optional string`
 
@@ -6101,6 +6319,8 @@ Update Session
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `region: optional string or null`
 
               Region or state name.
@@ -6229,7 +6449,7 @@ Update Session
 
         Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-        minLength: 1, maxLength: 128
+        minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
 - `budget: optional BetaManagedAgentsBudgetLimit or null`
 
@@ -6244,6 +6464,8 @@ Update Session
     - `amount: string`
 
       Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+      pattern: ^(0|[1-9]\d*)$
 
     - `currency: BetaCurrency`
 
@@ -6283,6 +6505,26 @@ Update Session
 
     - `description: string or null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
       - `type: "url"`
@@ -6300,6 +6542,10 @@ Update Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -6440,6 +6686,10 @@ Update Session
             - `id: string`
 
             - `description: string or null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -6807,6 +7057,8 @@ Update Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region: optional string or null`
 
                         Region or state name.
@@ -6987,6 +7239,10 @@ Update Session
 
               - `description: string or null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -7034,6 +7290,10 @@ Update Session
               - `id: string`
 
               - `description: string or null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -7106,6 +7366,8 @@ Update Session
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -7199,7 +7461,7 @@ Update Session
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `BetaManagedAgentsFileResource object`
 
@@ -7232,6 +7494,8 @@ Update Session
       - `memory_store_id: string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `access: optional "read_write" or "read_only" or null`
 
@@ -7378,9 +7642,9 @@ Update Session
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID \
     -H 'Content-Type: application/json' \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY" \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
           "title": "Order #1234 inquiry"
         }'
@@ -7394,6 +7658,9 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID \
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -7414,6 +7681,9 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID \
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -7594,9 +7864,13 @@ Delete Session
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -7700,6 +7974,18 @@ Delete Session
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -7721,9 +8007,9 @@ Delete Session
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID \
     -X DELETE \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -7749,9 +8035,13 @@ Archive Session
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -7854,6 +8144,18 @@ Archive Session
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `"anthropic-workspace-id": optional string`
 
@@ -7881,6 +8183,26 @@ Archive Session
 
     - `description: string or null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
       - `type: "url"`
@@ -7898,6 +8220,10 @@ Archive Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -8038,6 +8364,10 @@ Archive Session
             - `id: string`
 
             - `description: string or null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -8405,6 +8735,8 @@ Archive Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region: optional string or null`
 
                         Region or state name.
@@ -8585,6 +8917,10 @@ Archive Session
 
               - `description: string or null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -8632,6 +8968,10 @@ Archive Session
               - `id: string`
 
               - `description: string or null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -8704,6 +9044,8 @@ Archive Session
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -8797,7 +9139,7 @@ Archive Session
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `BetaManagedAgentsFileResource object`
 
@@ -8830,6 +9172,8 @@ Archive Session
       - `memory_store_id: string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `access: optional "read_write" or "read_only" or null`
 
@@ -8976,9 +9320,9 @@ Archive Session
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
     -X POST \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -8989,6 +9333,9 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -9009,6 +9356,9 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -9267,11 +9617,15 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
     Replacement model. Accepts the model string, e.g. `claude-opus-5-5`, or a `model_config` object. Omit to use the agent's model.
 
-    - `BetaManagedAgentsModel = "claude-haiku-5-5" or "claude-sonnet-5-5" or "claude-opus-5-5" or 14 more or string`
+    - `BetaManagedAgentsModel = "claude-fable-5-2" or "claude-haiku-5-5" or "claude-sonnet-5-5" or 15 more or string`
 
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -9413,7 +9767,7 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
       - `speed: optional "standard" or "fast" or null`
 
-        Inference speed mode. Defaults to `standard`.
+        Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
         - `"standard"`
 
@@ -9861,6 +10215,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `region: optional string or null`
 
               Region or state name.
@@ -9989,7 +10345,7 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
         Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-        minLength: 1, maxLength: 128
+        minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
   - `version: optional number`
 
@@ -10025,6 +10381,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
       Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+      pattern: ^(0|[1-9]\d*)$
+
     - `currency: BetaCurrency`
 
       Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -10057,7 +10415,7 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
     Full commit SHA to check out.
 
-    minLength: 7, maxLength: 64
+    minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
 ### Beta Managed Agents Deleted Session
 
@@ -10195,7 +10553,7 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
         Full commit SHA to check out.
 
-        minLength: 7, maxLength: 64
+        minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `mount_path: optional string or null`
 
@@ -10214,6 +10572,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
   - `memory_store_id: string`
 
     The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+    pattern: ^memstore_[a-zA-Z0-9_]+$
 
   - `access: optional "read_write" or "read_only" or null`
 
@@ -10649,6 +11009,26 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
     - `description: string or null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
       - `type: "url"`
@@ -10666,6 +11046,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -10806,6 +11190,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
             - `id: string`
 
             - `description: string or null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -11173,6 +11561,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region: optional string or null`
 
                         Region or state name.
@@ -11353,6 +11743,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
               - `description: string or null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -11401,6 +11795,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
               - `description: string or null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -11425,137 +11823,139 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
             - `type: "disabled"`
 
-    - `name: string`
+      - `type: "multiagent_20261001"`
 
-    - `skills: array of BetaManagedAgentsAnthropicSkill or BetaManagedAgentsCustomSkill`
+      - `advisor: BetaManagedAgentsMultiagentAdvisor`
 
-      - `BetaManagedAgentsAnthropicSkill object`
+        Whether the session's primary thread can consult an advisor model.
 
-        A resolved Anthropic-managed skill.
+        - `BetaManagedAgentsMultiagentAdvisorEnabled object`
 
-      - `BetaManagedAgentsCustomSkill object`
+          The session's primary thread can consult `model` mid-turn.
 
-        A resolved user-created custom skill.
+          - `type: "enabled"`
 
-    - `system: string or null`
+          - `model: string`
 
-    - `tools: array of BetaManagedAgentsAgentToolset20260401 or BetaManagedAgentsMCPToolset or BetaManagedAgentsCustomTool`
+            The advisor model id.
 
-      - `BetaManagedAgentsAgentToolset20260401 object`
+        - `BetaManagedAgentsMultiagentAdvisorDisabled object`
 
-      - `BetaManagedAgentsMCPToolset object`
+          The agent has no advisor.
 
-      - `BetaManagedAgentsCustomTool object`
+          - `type: "disabled"`
 
-        A custom tool as returned in API responses.
+      - `subagents: BetaManagedAgentsSessionMultiagentSubagents`
 
     - `version: number`
 
-      format: int32
+          The agent can spawn session threads.
 
-  - `archived_at: string or null`
+          - `type: "enabled"`
 
     When the session was archived. Null if not archived.
 
-    format: date-time
+            Whether the agent can define inline agents, which are not saved, when it spawns session threads.
 
-  - `budget: BetaManagedAgentsBudgetLimit or null`
+            - `BetaManagedAgentsMultiagentInlineAgentsEnabled object`
 
     The session's enforced spend ceiling, or null when no budget is set.
 
     - `type: "limit"`
 
-    - `max_list_cost: BetaMonetaryAmount`
+              - `type: "enabled"`
 
       Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
 
-      - `amount: string`
+              The agent cannot define inline agents.
 
-        Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+              - `type: "disabled"`
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
-        Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
+            Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
   - `created_at: string`
 
-    A timestamp in RFC 3339 format
+            - `description: string or null`
 
-    format: date-time
+            - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
-  - `environment_id: string`
+            - `model: BetaManagedAgentsModelConfig`
 
-  - `metadata: map[string]`
+              Model identifier and configuration.
 
-  - `outcome_evaluations: array of BetaManagedAgentsOutcomeEvaluationResource`
+            - `name: string`
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
     - `type: "outcome_evaluation"`
 
-    - `completed_at: string or null`
+            - `system: string or null`
 
       When the outcome reached a terminal result. Null while `pending`/`running`/`evaluating`.
 
-      format: date-time
+            - `version: number`
 
-    - `description: string`
+              format: int32
 
-      What the agent should produce.
+        - `BetaManagedAgentsMultiagentSubagentsDisabled object`
 
-    - `explanation: string or null`
+          The agent cannot spawn session threads.
 
       Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
-    - `iteration: number`
+      - `workflows: BetaManagedAgentsSessionMultiagentWorkflows`
 
-      0-indexed revision cycle the outcome is currently on.
+        Whether the agent can start workflow runs.
 
-      format: int32
+        - `BetaManagedAgentsSessionMultiagentWorkflowsEnabled object`
 
-    - `outcome_id: string`
+          The agent can start workflow runs.
 
-      Server-generated outc_ ID for this outcome.
+          - `type: "enabled"`
 
-    - `result: string`
+          - `inline_agents: BetaManagedAgentsMultiagentInlineAgents`
 
-      Current evaluation state. `pending` before the agent begins work; `running` while producing or revising; `evaluating` while the grader scores; `satisfied`/`max_iterations_reached`/`failed`/`interrupted` are terminal.
+            Whether a run's plan can define inline agents, which are not saved.
 
   - `resources: array of BetaManagedAgentsSessionResource`
 
-    - `BetaManagedAgentsGitHubRepositoryResource object`
+            - `type: "agent"`
 
       - `type: "github_repository"`
 
       - `id: string`
 
-      - `created_at: string`
+            - `description: string or null`
 
-        A timestamp in RFC 3339 format
+            - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
-        format: date-time
+            - `model: BetaManagedAgentsModelConfig`
 
-      - `mount_path: string`
+              Model identifier and configuration.
 
       - `updated_at: string`
 
-        A timestamp in RFC 3339 format
+            - `system: string or null`
 
-        format: date-time
+            - `tools: array of BetaManagedAgentsAgentToolset20260401 or BetaManagedAgentsMCPToolset or BetaManagedAgentsCustomTool`
 
-      - `url: string`
+            - `version: number`
 
-      - `checkout: optional BetaManagedAgentsBranchCheckout or BetaManagedAgentsCommitCheckout or null`
+              format: int32
 
-        - `BetaManagedAgentsBranchCheckout object`
+        - `BetaManagedAgentsMultiagentWorkflowsDisabled object`
 
           - `type: "branch"`
 
           - `name: string`
 
-            Branch name to check out.
+          - `type: "disabled"`
 
-            minLength: 1, maxLength: 255
+  - `name: string`
 
         - `BetaManagedAgentsCommitCheckout object`
 
@@ -11563,31 +11963,31 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
           - `sha: string`
 
-            Full commit SHA to check out.
+    - `BetaManagedAgentsCustomSkill object`
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
-    - `BetaManagedAgentsFileResource object`
+  - `tools: array of BetaManagedAgentsAgentToolset20260401 or BetaManagedAgentsMCPToolset or BetaManagedAgentsCustomTool`
 
       - `type: "file"`
 
       - `id: string`
 
-      - `created_at: string`
+    - `BetaManagedAgentsMCPToolset object`
 
-        A timestamp in RFC 3339 format
+    - `BetaManagedAgentsCustomTool object`
 
-        format: date-time
+      A custom tool as returned in API responses.
 
-      - `file_id: string`
+  - `version: number`
 
-      - `mount_path: string`
+    format: int32
 
       - `updated_at: string`
 
-        A timestamp in RFC 3339 format
+  Mid-session agent configuration update. Only `tools` and `mcp_servers` are updatable. Full replacement: the provided array becomes the new value. To preserve existing entries, GET the session, modify the array, and POST it back.
 
-        format: date-time
+  - `mcp_servers: optional array of BetaManagedAgentsURLMCPServerParams`
 
     - `BetaManagedAgentsMemoryStoreResource object`
 
@@ -11598,6 +11998,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
       - `memory_store_id: string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `access: optional "read_write" or "read_only" or null`
 
@@ -11751,6 +12153,26 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
   - `description: string or null`
 
+  - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+    Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `type: "aws_role"`
+
+      - `role_arn: string`
+
+        The IAM role's ARN.
+
+    - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `type: "service_account"`
+
   - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
     - `type: "url"`
@@ -11759,15 +12181,19 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
     - `url: string`
 
-  - `model: BetaManagedAgentsModelConfig`
+      Endpoint URL for the MCP server.
 
-    Model identifier and configuration.
+      maxLength: 2048
 
-    - `id: BetaManagedAgentsModel`
+  - `tools: optional array of BetaManagedAgentsAgentToolset20260401Params or BetaManagedAgentsMCPToolsetParams or BetaManagedAgentsCustomToolParams`
 
-      The model that will power your agent.
+    Replacement tool list. Full replacement: the provided array becomes the new value. Send an empty array to clear; omit to preserve.
 
-      See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+    - `BetaManagedAgentsAgentToolset20260401Params object`
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -11837,53 +12263,53 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
         High-performance model for agents and coding
 
-      - `string`
+          - `permission_policy: optional BetaManagedAgentsAlwaysAllowPolicy or BetaManagedAgentsAlwaysAskPolicy or BetaManagedAgentsAutoPolicy or null`
 
-    - `effort: optional BetaManagedAgentsEffortLow or BetaManagedAgentsEffortMedium or BetaManagedAgentsEffortHigh or 2 more`
+            Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
       How hard Claude works on each inference call. One of `low`, `medium`, `high`, `xhigh`, `max`. Always present; resolved to the per-model default at save time when not supplied.
 
-      - `BetaManagedAgentsEffortLow object`
+              Tool calls are automatically approved without user confirmation.
 
-        Low effort. Favors latency over reasoning depth.
+            - `BetaManagedAgentsAlwaysAskPolicy object`
 
-        - `type: "low"`
+              Tool calls require user confirmation before execution.
 
-      - `BetaManagedAgentsEffortMedium object`
+            - `BetaManagedAgentsAutoPolicy object`
 
-        Medium effort. Balances latency and reasoning depth.
+              The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
 
-        - `type: "medium"`
+        - `BetaManagedAgentsReadToolConfigParams object`
 
-      - `BetaManagedAgentsEffortHigh object`
+          Configuration override for the read tool.
 
-        High effort. Favors reasoning depth.
+          - `type: optional "read"`
 
-        - `type: "high"`
+          - `name: "read"`
 
-      - `BetaManagedAgentsEffortXhigh object`
+            Must be "read".
 
-        Extra-high effort. Not all models accept this level.
+          - `enabled: optional boolean or null`
 
-        - `type: "xhigh"`
+            Whether this tool is enabled and available to Claude. Overrides the default_config setting.
 
-      - `BetaManagedAgentsEffortMax object`
+          - `permission_policy: optional BetaManagedAgentsAlwaysAllowPolicy or BetaManagedAgentsAlwaysAskPolicy or BetaManagedAgentsAutoPolicy or null`
 
-        Maximum effort. Favors reasoning depth over latency.
+            Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
-        - `type: "max"`
+            - `BetaManagedAgentsAlwaysAllowPolicy object`
 
-    - `inference_geo: optional string`
+              Tool calls are automatically approved without user confirmation.
 
-      Geographic region for model inference. When unset, requests fall through to the workspace's default_inference_geo.
+            - `BetaManagedAgentsAlwaysAskPolicy object`
 
-    - `speed: optional "standard" or "fast"`
+              Tool calls require user confirmation before execution.
 
       Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
-      - `"standard"`
+              The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
 
-      - `"fast"`
+        - `BetaManagedAgentsWriteToolConfigParams object`
 
   - `multiagent: BetaManagedAgentsSessionMultiagent or null`
 
@@ -11908,6 +12334,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
           - `id: string`
 
           - `description: string or null`
+
+          - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+            Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
           - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -12275,6 +12705,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
                       Two-letter ISO 3166-1 country code, uppercase.
 
+                      pattern: ^[A-Z]{2}$
+
                     - `region: optional string or null`
 
                       Region or state name.
@@ -12455,6 +12887,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
             - `description: string or null`
 
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
             - `model: BetaManagedAgentsModelConfig`
@@ -12503,6 +12939,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
             - `description: string or null`
 
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
             - `model: BetaManagedAgentsModelConfig`
@@ -12527,75 +12967,75 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
           - `type: "disabled"`
 
-  - `name: string`
+    - `type: "multiagent_20261001"`
 
-  - `skills: array of BetaManagedAgentsAnthropicSkill or BetaManagedAgentsCustomSkill`
+    - `advisor: BetaManagedAgentsMultiagentAdvisor`
 
-    - `BetaManagedAgentsAnthropicSkill object`
+      Whether the session's primary thread can consult an advisor model.
 
-      A resolved Anthropic-managed skill.
+      - `BetaManagedAgentsMultiagentAdvisorEnabled object`
 
-    - `BetaManagedAgentsCustomSkill object`
+        The session's primary thread can consult `model` mid-turn.
 
-      A resolved user-created custom skill.
+        - `type: "enabled"`
 
-  - `system: string or null`
+        - `model: string`
 
-  - `tools: array of BetaManagedAgentsAgentToolset20260401 or BetaManagedAgentsMCPToolset or BetaManagedAgentsCustomTool`
+          The advisor model id.
 
-    - `BetaManagedAgentsAgentToolset20260401 object`
+      - `BetaManagedAgentsMultiagentAdvisorDisabled object`
 
-    - `BetaManagedAgentsMCPToolset object`
+        The agent has no advisor.
 
-    - `BetaManagedAgentsCustomTool object`
+        - `type: "disabled"`
 
-      A custom tool as returned in API responses.
+    - `subagents: BetaManagedAgentsSessionMultiagentSubagents`
 
   - `version: number`
 
-    format: int32
+        The agent can spawn session threads.
 
-### Beta Managed Agents Session Agent Update
+        - `type: "enabled"`
 
-- `BetaManagedAgentsSessionAgentUpdate object`
+        - `inline_agents: BetaManagedAgentsMultiagentInlineAgents`
 
-  Mid-session agent configuration update. Only `tools` and `mcp_servers` are updatable. Full replacement: the provided array becomes the new value. To preserve existing entries, GET the session, modify the array, and POST it back.
+          Whether the agent can define inline agents, which are not saved, when it spawns session threads.
 
-  - `mcp_servers: optional array of BetaManagedAgentsURLMCPServerParams`
+          - `BetaManagedAgentsMultiagentInlineAgentsEnabled object`
 
-    Replacement MCP server list. Full replacement: the provided array becomes the new value. Send an empty array to clear; omit to preserve.
+            The agent can define inline agents.
 
     - `type: "url"`
 
     - `name: string`
 
-      Unique name for this server, referenced by mcp_toolset configurations. 1-255 characters.
+          - `BetaManagedAgentsMultiagentInlineAgentsDisabled object`
 
-      minLength: 1, maxLength: 255
+            The agent cannot define inline agents.
 
     - `url: string`
 
-      Endpoint URL for the MCP server.
+          Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-      maxLength: 2048
+          - `type: "agent"`
 
-  - `tools: optional array of BetaManagedAgentsAgentToolset20260401Params or BetaManagedAgentsMCPToolsetParams or BetaManagedAgentsCustomToolParams`
+          - `id: string`
 
-    Replacement tool list. Full replacement: the provided array becomes the new value. Send an empty array to clear; omit to preserve.
+          - `description: string or null`
 
-    - `BetaManagedAgentsAgentToolset20260401Params object`
+          - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
-      Configuration for built-in agent tools. Use this to enable or disable groups of tools available to the agent.
+          - `model: BetaManagedAgentsModelConfig`
 
-      - `type: "agent_toolset_20260401"`
+            Model identifier and configuration.
 
-      - `configs: optional array of BetaManagedAgentsAgentToolConfigParams`
+          - `name: string`
 
-        Per-tool configuration overrides.
+          - `skills: array of BetaManagedAgentsAnthropicSkill or BetaManagedAgentsCustomSkill`
 
-        - `BetaManagedAgentsBashToolConfigParams object`
+          - `system: string or null`
 
-          Configuration override for the bash tool.
+          - `tools: array of BetaManagedAgentsAgentToolset20260401 or BetaManagedAgentsMCPToolset or BetaManagedAgentsCustomTool`
 
           - `type: optional "bash"`
 
@@ -12811,13 +13251,13 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
             Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
-            - `BetaManagedAgentsAlwaysAllowPolicy object`
+        - `type: "disabled"`
 
-              Tool calls are automatically approved without user confirmation.
+    - `workflows: BetaManagedAgentsSessionMultiagentWorkflows`
 
-            - `BetaManagedAgentsAlwaysAskPolicy object`
+      Whether the agent can start workflow runs.
 
-              Tool calls require user confirmation before execution.
+      - `BetaManagedAgentsSessionMultiagentWorkflowsEnabled object`
 
             - `BetaManagedAgentsAutoPolicy object`
 
@@ -12919,47 +13359,47 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
                   This source contributes no URLs that may be fetched.
 
-        - `BetaManagedAgentsWebSearchToolConfigParams object`
+        - `type: "enabled"`
 
-          Configuration override for the web_search tool.
+        - `inline_agents: BetaManagedAgentsMultiagentInlineAgents`
 
           - `type: optional "web_search"`
 
           - `name: "web_search"`
 
-            Must be "web_search".
+        - `predefined_agents: array of BetaManagedAgentsSessionThreadAgent`
 
-          - `allowed_domains: optional array of string`
+          Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-            Only return search results whose host is one of these domains or a subdomain of one. Each entry is a plain hostname like "docs.example.com" (no scheme or port; an optional path suffix is accepted). At most 64 entries; an empty list is rejected (omit the field instead). Cannot be combined with blocked_domains.
+          - `type: "agent"`
 
-          - `blocked_domains: optional array of string`
+          - `id: string`
 
-            Never return search results whose host is one of these domains or a subdomain of one. Each entry is a plain hostname like "ads.example.com" (no scheme or port; an optional path suffix is accepted). At most 64 entries; an empty list is rejected (omit the field instead). Cannot be combined with allowed_domains.
+          - `description: string or null`
 
-          - `enabled: optional boolean or null`
+          - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
-            Whether this tool is enabled and available to Claude. Overrides the default_config setting.
+          - `model: BetaManagedAgentsModelConfig`
 
           - `permission_policy: optional BetaManagedAgentsAlwaysAllowPolicy or BetaManagedAgentsAlwaysAskPolicy or BetaManagedAgentsAutoPolicy or null`
 
             Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
-            - `BetaManagedAgentsAlwaysAllowPolicy object`
+          - `skills: array of BetaManagedAgentsAnthropicSkill or BetaManagedAgentsCustomSkill`
 
-              Tool calls are automatically approved without user confirmation.
+          - `system: string or null`
 
-            - `BetaManagedAgentsAlwaysAskPolicy object`
+          - `tools: array of BetaManagedAgentsAgentToolset20260401 or BetaManagedAgentsMCPToolset or BetaManagedAgentsCustomTool`
 
-              Tool calls require user confirmation before execution.
+          - `version: number`
 
             - `BetaManagedAgentsAutoPolicy object`
 
               The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
 
-          - `user_location: optional BetaManagedAgentsUserLocation or null`
+      - `BetaManagedAgentsMultiagentWorkflowsDisabled object`
 
-            Approximate user location for search result localization.
+        The agent cannot start workflow runs.
 
             - `type: "approximate"`
 
@@ -12974,6 +13414,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
             - `country: optional string or null`
 
               Two-letter ISO 3166-1 country code, uppercase.
+
+              pattern: ^[A-Z]{2}$
 
             - `region: optional string or null`
 
@@ -13103,7 +13545,7 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
         Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-        minLength: 1, maxLength: 128
+        minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
 ### Beta Managed Agents Session Multiagent
 
@@ -13131,6 +13573,26 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
         - `description: string or null`
 
+        - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+          Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+          - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+            An AWS IAM role principal as returned in API responses.
+
+            - `type: "aws_role"`
+
+            - `role_arn: string`
+
+              The IAM role's ARN.
+
+          - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+            The Anthropic-managed service account as returned in API responses.
+
+            - `type: "service_account"`
+
         - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
           - `type: "url"`
@@ -13145,9 +13607,13 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
           - `id: BetaManagedAgentsModel`
 
-            The model that will power your agent.
+            Fastest model for high-volume, real-time tasks
 
-            See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+          - `"claude-sonnet-5-5"`
+
+            - `"claude-fable-5-2"`
+
+              Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
             - `"claude-haiku-5-5"`
 
@@ -13169,49 +13635,49 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
               Efficient model for coding and agents
 
-            - `"claude-fable-5"`
+            Powerful intelligence for coding, knowledge work, and long-running agents
 
-              Next generation of intelligence for the hardest knowledge work and coding problems
+          - `"claude-fable-5-1"`
 
-            - `"claude-opus-5"`
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-              Powerful intelligence for long-running agents and coding
+          - `"claude-sonnet-5"`
 
-            - `"claude-opus-4-8"`
+            Efficient model for coding and agents
 
-              Powerful intelligence for long-running agents and coding
+          - `"claude-fable-5"`
 
-            - `"claude-opus-4-7"`
+            Next generation of intelligence for the hardest knowledge work and coding problems
 
-              Powerful intelligence for long-running agents and coding
+          - `"claude-opus-5"`
 
-            - `"claude-opus-4-6"`
+            Powerful intelligence for long-running agents and coding
 
-              Powerful intelligence for long-running agents and coding
+          - `"claude-opus-4-8"`
 
-            - `"claude-sonnet-4-6"`
+            Powerful intelligence for long-running agents and coding
 
-              Best combination of speed and intelligence
+          - `"claude-opus-4-7"`
 
-            - `"claude-haiku-4-5"`
+            Powerful intelligence for long-running agents and coding
 
             - `"claude-haiku-4-5-20251001"`
 
             - `"claude-opus-4-5"`
 
-              Powerful intelligence for long-running agents and coding
+          - `"claude-haiku-4-5"`
 
-            - `"claude-opus-4-5-20251101"`
+          - `"claude-haiku-4-5-20251001"`
 
-              Powerful intelligence for long-running agents and coding
+          - `"claude-opus-4-5"`
 
-            - `"claude-sonnet-4-5"`
+            Powerful intelligence for long-running agents and coding
 
               **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
               High-performance model for agents and coding
 
-            - `"claude-sonnet-4-5-20250929"`
+            Powerful intelligence for long-running agents and coding
 
               **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -13618,6 +14084,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
                   - `country: optional string or null`
 
                     Two-letter ISO 3166-1 country code, uppercase.
+
+                    pattern: ^[A-Z]{2}$
 
                   - `region: optional string or null`
 
@@ -13799,6 +14267,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
           - `description: string or null`
 
+          - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+            Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
           - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
           - `model: BetaManagedAgentsModelConfig`
@@ -13847,6 +14319,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
           - `description: string or null`
 
+          - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+            Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
           - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
           - `model: BetaManagedAgentsModelConfig`
@@ -13893,6 +14369,26 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
       - `description: string or null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
         - `type: "url"`
@@ -13910,6 +14406,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -14380,6 +14880,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
                 - `country: optional string or null`
 
                   Two-letter ISO 3166-1 country code, uppercase.
+
+                  pattern: ^[A-Z]{2}$
 
                 - `region: optional string or null`
 
@@ -14537,6 +15039,26 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
       - `description: string or null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
         - `type: "url"`
@@ -14554,6 +15076,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -15024,6 +15550,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
                 - `country: optional string or null`
 
                   Two-letter ISO 3166-1 country code, uppercase.
+
+                  pattern: ^[A-Z]{2}$
 
                 - `region: optional string or null`
 
@@ -15173,6 +15701,26 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
     - `description: string or null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
       - `type: "url"`
@@ -15190,6 +15738,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -15661,6 +16213,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
                 Two-letter ISO 3166-1 country code, uppercase.
 
+                pattern: ^[A-Z]{2}$
+
               - `region: optional string or null`
 
                 Region or state name.
@@ -15807,6 +16361,26 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
       - `description: string or null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
         - `type: "url"`
@@ -15824,6 +16398,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -16295,6 +16873,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `region: optional string or null`
 
                   Region or state name.
@@ -16443,6 +17023,26 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
     - `description: string or null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
       - `type: "url"`
@@ -16460,6 +17060,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -16930,6 +17534,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
               - `country: optional string or null`
 
                 Two-letter ISO 3166-1 country code, uppercase.
+
+                pattern: ^[A-Z]{2}$
 
               - `region: optional string or null`
 
@@ -17103,6 +17709,26 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
         - `description: string or null`
 
+        - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+          Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+          - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+            An AWS IAM role principal as returned in API responses.
+
+            - `type: "aws_role"`
+
+            - `role_arn: string`
+
+              The IAM role's ARN.
+
+          - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+            The Anthropic-managed service account as returned in API responses.
+
+            - `type: "service_account"`
+
         - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
           - `type: "url"`
@@ -17120,6 +17746,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
             The model that will power your agent.
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+            - `"claude-fable-5-2"`
+
+              Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
             - `"claude-haiku-5-5"`
 
@@ -17591,6 +18221,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
                     Two-letter ISO 3166-1 country code, uppercase.
 
+                    pattern: ^[A-Z]{2}$
+
                   - `region: optional string or null`
 
                     Region or state name.
@@ -17729,6 +18361,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
         - `description: string or null`
 
+        - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+          Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
         - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
         - `model: BetaManagedAgentsModelConfig`
@@ -17799,6 +18435,26 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
     - `description: string or null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
       - `type: "url"`
@@ -17816,6 +18472,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -17956,6 +18616,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
             - `id: string`
 
             - `description: string or null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -18323,6 +18987,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region: optional string or null`
 
                         Region or state name.
@@ -18503,6 +19169,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
               - `description: string or null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -18550,6 +19220,10 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
               - `id: string`
 
               - `description: string or null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -18617,6 +19291,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `currency: BetaCurrency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -18676,6 +19352,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
     - `amount: string`
 
       Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+      pattern: ^(0|[1-9]\d*)$
 
     - `currency: BetaCurrency`
 
@@ -18766,6 +19444,8 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/archive \
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -19251,9 +19931,13 @@ List Events
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -19356,6 +20040,18 @@ List Events
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `"anthropic-workspace-id": optional string`
 
@@ -20083,7 +20779,7 @@ List Events
 
       Unique identifier for this event.
 
-    - `error: BetaManagedAgentsUnknownError or BetaManagedAgentsModelOverloadedError or BetaManagedAgentsModelRateLimitedError or 10 more`
+    - `error: BetaManagedAgentsUnknownError or BetaManagedAgentsModelOverloadedError or BetaManagedAgentsModelRateLimitedError or 12 more`
 
       - `BetaManagedAgentsUnknownError object`
 
@@ -20314,6 +21010,58 @@ List Events
         - `vault_id: string`
 
           ID of the vault containing the affected credential.
+
+      - `BetaManagedAgentsToolUseLimitReachedError object`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "tool_use_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying or BetaManagedAgentsRetryStatusExhausted or BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `BetaManagedAgentsRetryStatusRetrying object`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `BetaManagedAgentsRetryStatusExhausted object`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `BetaManagedAgentsRetryStatusTerminal object`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `BetaManagedAgentsCompactionLimitReachedError object`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "compaction_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying or BetaManagedAgentsRetryStatusExhausted or BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `BetaManagedAgentsRetryStatusRetrying object`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `BetaManagedAgentsRetryStatusExhausted object`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `BetaManagedAgentsRetryStatusTerminal object`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `BetaManagedAgentsRepositoryAuthenticationError object`
 
@@ -21059,6 +21807,26 @@ List Events
 
       - `description: string or null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
         - `type: "url"`
@@ -21076,6 +21844,10 @@ List Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -21216,6 +21988,10 @@ List Events
               - `id: string`
 
               - `description: string or null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -21583,6 +22359,8 @@ List Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `region: optional string or null`
 
                           Region or state name.
@@ -21763,6 +22541,10 @@ List Events
 
                 - `description: string or null`
 
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
                 - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
                 - `model: BetaManagedAgentsModelConfig`
@@ -21810,6 +22592,10 @@ List Events
                 - `id: string`
 
                 - `description: string or null`
+
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -21876,6 +22662,8 @@ List Events
         - `amount: string`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `currency: BetaCurrency`
 
@@ -22265,9 +23053,9 @@ List Events
 
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/events \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ##### Response (200)
@@ -22316,9 +23104,13 @@ Send Events
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -22421,6 +23213,18 @@ Send Events
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `"anthropic-workspace-id": optional string`
 
@@ -23243,9 +24047,9 @@ Send Events
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/events \
     -H 'Content-Type: application/json' \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY" \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
           "events": [
             {
@@ -23305,9 +24109,13 @@ Stream Events
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -23410,6 +24218,18 @@ Stream Events
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `"anthropic-workspace-id": optional string`
 
@@ -24137,7 +24957,7 @@ Stream Events
 
       Unique identifier for this event.
 
-    - `error: BetaManagedAgentsUnknownError or BetaManagedAgentsModelOverloadedError or BetaManagedAgentsModelRateLimitedError or 10 more`
+    - `error: BetaManagedAgentsUnknownError or BetaManagedAgentsModelOverloadedError or BetaManagedAgentsModelRateLimitedError or 12 more`
 
       - `BetaManagedAgentsUnknownError object`
 
@@ -24368,6 +25188,58 @@ Stream Events
         - `vault_id: string`
 
           ID of the vault containing the affected credential.
+
+      - `BetaManagedAgentsToolUseLimitReachedError object`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "tool_use_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying or BetaManagedAgentsRetryStatusExhausted or BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `BetaManagedAgentsRetryStatusRetrying object`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `BetaManagedAgentsRetryStatusExhausted object`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `BetaManagedAgentsRetryStatusTerminal object`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `BetaManagedAgentsCompactionLimitReachedError object`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "compaction_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying or BetaManagedAgentsRetryStatusExhausted or BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `BetaManagedAgentsRetryStatusRetrying object`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `BetaManagedAgentsRetryStatusExhausted object`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `BetaManagedAgentsRetryStatusTerminal object`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `BetaManagedAgentsRepositoryAuthenticationError object`
 
@@ -25113,6 +25985,26 @@ Stream Events
 
       - `description: string or null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
         - `type: "url"`
@@ -25130,6 +26022,10 @@ Stream Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -25270,6 +26166,10 @@ Stream Events
               - `id: string`
 
               - `description: string or null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -25637,6 +26537,8 @@ Stream Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `region: optional string or null`
 
                           Region or state name.
@@ -25817,6 +26719,10 @@ Stream Events
 
                 - `description: string or null`
 
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
                 - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
                 - `model: BetaManagedAgentsModelConfig`
@@ -25864,6 +26770,10 @@ Stream Events
                 - `id: string`
 
                 - `description: string or null`
+
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -25930,6 +26840,8 @@ Stream Events
         - `amount: string`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `currency: BetaCurrency`
 
@@ -26365,9 +27277,9 @@ Stream Events
 
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/events/stream \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ##### Response (200)
@@ -26402,9 +27314,13 @@ Add Session Resource
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -26507,6 +27423,18 @@ Add Session Resource
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `"anthropic-workspace-id": optional string`
 
@@ -26559,9 +27487,9 @@ Add Session Resource
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/resources \
     -H 'Content-Type: application/json' \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY" \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
           "file_id": "file_011CNha8iCJcU1wXNR6q4V8w",
           "type": "file",
@@ -26608,9 +27536,13 @@ List Session Resources
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -26713,6 +27645,18 @@ List Session Resources
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `"anthropic-workspace-id": optional string`
 
@@ -26768,7 +27712,7 @@ List Session Resources
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `BetaManagedAgentsFileResource object`
 
@@ -26801,6 +27745,8 @@ List Session Resources
     - `memory_store_id: string`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `access: optional "read_write" or "read_only" or null`
 
@@ -26836,9 +27782,9 @@ List Session Resources
 
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/resources \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ##### Response (200)
@@ -26887,9 +27833,13 @@ Get Session Resource
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -26992,6 +27942,18 @@ Get Session Resource
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `"anthropic-workspace-id": optional string`
 
@@ -27043,7 +28005,7 @@ Get Session Resource
 
         Full commit SHA to check out.
 
-        minLength: 7, maxLength: 64
+        minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
 - `BetaManagedAgentsFileResource object`
 
@@ -27077,6 +28039,8 @@ Get Session Resource
 
     The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
 
+    pattern: ^memstore_[a-zA-Z0-9_]+$
+
   - `access: optional "read_write" or "read_only" or null`
 
     Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts the store as a read-only filesystem.
@@ -27107,9 +28071,9 @@ Get Session Resource
 
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/resources/$RESOURCE_ID \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ##### Response (200)
@@ -27145,9 +28109,13 @@ Update Session Resource
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -27250,6 +28218,18 @@ Update Session Resource
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `"anthropic-workspace-id": optional string`
 
@@ -27309,7 +28289,7 @@ Update Session Resource
 
         Full commit SHA to check out.
 
-        minLength: 7, maxLength: 64
+        minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
 - `BetaManagedAgentsFileResource object`
 
@@ -27343,6 +28323,8 @@ Update Session Resource
 
     The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
 
+    pattern: ^memstore_[a-zA-Z0-9_]+$
+
   - `access: optional "read_write" or "read_only" or null`
 
     Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts the store as a read-only filesystem.
@@ -27374,9 +28356,9 @@ Update Session Resource
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/resources/$RESOURCE_ID \
     -H 'Content-Type: application/json' \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY" \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
           "authorization_token": "ghp_exampletoken"
         }'
@@ -27415,9 +28397,13 @@ Delete Session Resource
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -27521,6 +28507,18 @@ Delete Session Resource
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -27542,9 +28540,9 @@ Delete Session Resource
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/resources/$RESOURCE_ID \
     -X DELETE \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ##### Response (200)
@@ -27598,9 +28596,13 @@ List Session Threads
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -27704,6 +28706,18 @@ List Session Threads
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -27736,6 +28750,26 @@ List Session Threads
 
       - `description: string or null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
         - `type: "url"`
@@ -27753,6 +28787,10 @@ List Session Threads
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -28224,6 +29262,8 @@ List Session Threads
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `region: optional string or null`
 
                   Region or state name.
@@ -28349,6 +29389,10 @@ List Session Threads
       - `type: "inline"`
 
       - `description: string or null`
+
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        The session's execution principal.
 
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -28494,6 +29538,8 @@ List Session Threads
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `currency: BetaCurrency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -28532,9 +29578,9 @@ List Session Threads
 
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/threads \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ##### Response (200)
@@ -28547,6 +29593,9 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/threads \
       "agent": {
         "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
         "description": "A focused research subagent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",
@@ -28648,9 +29697,13 @@ Get Session Thread
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -28754,6 +29807,18 @@ Get Session Thread
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -28786,6 +29851,26 @@ Get Session Thread
 
       - `description: string or null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
         - `type: "url"`
@@ -28803,6 +29888,10 @@ Get Session Thread
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -29274,6 +30363,8 @@ Get Session Thread
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `region: optional string or null`
 
                   Region or state name.
@@ -29399,6 +30490,10 @@ Get Session Thread
       - `type: "inline"`
 
       - `description: string or null`
+
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        The session's execution principal.
 
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -29544,6 +30639,8 @@ Get Session Thread
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `currency: BetaCurrency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -29578,9 +30675,9 @@ Get Session Thread
 
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/threads/$THREAD_ID \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ##### Response (200)
@@ -29591,6 +30688,9 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/threads/$THREAD_ID \
   "agent": {
     "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
     "description": "A focused research subagent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -29689,9 +30789,13 @@ Archive Session Thread
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -29795,6 +30899,18 @@ Archive Session Thread
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -29827,6 +30943,26 @@ Archive Session Thread
 
       - `description: string or null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
         - `type: "url"`
@@ -29844,6 +30980,10 @@ Archive Session Thread
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -30315,6 +31455,8 @@ Archive Session Thread
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `region: optional string or null`
 
                   Region or state name.
@@ -30440,6 +31582,10 @@ Archive Session Thread
       - `type: "inline"`
 
       - `description: string or null`
+
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        The session's execution principal.
 
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -30585,6 +31731,8 @@ Archive Session Thread
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `currency: BetaCurrency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -30620,9 +31768,9 @@ Archive Session Thread
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/threads/$THREAD_ID/archive \
     -X POST \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ##### Response (200)
@@ -30633,6 +31781,9 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/threads/$THREAD_ID/archiv
   "agent": {
     "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
     "description": "A focused research subagent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -30741,9 +31892,13 @@ List Session Thread Events
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -30846,6 +32001,18 @@ List Session Thread Events
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `"anthropic-workspace-id": optional string`
 
@@ -31573,7 +32740,7 @@ List Session Thread Events
 
       Unique identifier for this event.
 
-    - `error: BetaManagedAgentsUnknownError or BetaManagedAgentsModelOverloadedError or BetaManagedAgentsModelRateLimitedError or 10 more`
+    - `error: BetaManagedAgentsUnknownError or BetaManagedAgentsModelOverloadedError or BetaManagedAgentsModelRateLimitedError or 12 more`
 
       - `BetaManagedAgentsUnknownError object`
 
@@ -31804,6 +32971,58 @@ List Session Thread Events
         - `vault_id: string`
 
           ID of the vault containing the affected credential.
+
+      - `BetaManagedAgentsToolUseLimitReachedError object`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "tool_use_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying or BetaManagedAgentsRetryStatusExhausted or BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `BetaManagedAgentsRetryStatusRetrying object`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `BetaManagedAgentsRetryStatusExhausted object`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `BetaManagedAgentsRetryStatusTerminal object`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `BetaManagedAgentsCompactionLimitReachedError object`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "compaction_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying or BetaManagedAgentsRetryStatusExhausted or BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `BetaManagedAgentsRetryStatusRetrying object`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `BetaManagedAgentsRetryStatusExhausted object`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `BetaManagedAgentsRetryStatusTerminal object`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `BetaManagedAgentsRepositoryAuthenticationError object`
 
@@ -32549,6 +33768,26 @@ List Session Thread Events
 
       - `description: string or null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
         - `type: "url"`
@@ -32566,6 +33805,10 @@ List Session Thread Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -32706,6 +33949,10 @@ List Session Thread Events
               - `id: string`
 
               - `description: string or null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -33073,6 +34320,8 @@ List Session Thread Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `region: optional string or null`
 
                           Region or state name.
@@ -33253,6 +34502,10 @@ List Session Thread Events
 
                 - `description: string or null`
 
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
                 - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
                 - `model: BetaManagedAgentsModelConfig`
@@ -33300,6 +34553,10 @@ List Session Thread Events
                 - `id: string`
 
                 - `description: string or null`
+
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -33366,6 +34623,8 @@ List Session Thread Events
         - `amount: string`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `currency: BetaCurrency`
 
@@ -33755,9 +35014,9 @@ List Session Thread Events
 
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/threads/$THREAD_ID/events \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ##### Response (200)
@@ -33818,9 +35077,13 @@ Stream Session Thread Events
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -33923,6 +35186,18 @@ Stream Session Thread Events
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `"anthropic-workspace-id": optional string`
 
@@ -34650,7 +35925,7 @@ Stream Session Thread Events
 
       Unique identifier for this event.
 
-    - `error: BetaManagedAgentsUnknownError or BetaManagedAgentsModelOverloadedError or BetaManagedAgentsModelRateLimitedError or 10 more`
+    - `error: BetaManagedAgentsUnknownError or BetaManagedAgentsModelOverloadedError or BetaManagedAgentsModelRateLimitedError or 12 more`
 
       - `BetaManagedAgentsUnknownError object`
 
@@ -34881,6 +36156,58 @@ Stream Session Thread Events
         - `vault_id: string`
 
           ID of the vault containing the affected credential.
+
+      - `BetaManagedAgentsToolUseLimitReachedError object`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "tool_use_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying or BetaManagedAgentsRetryStatusExhausted or BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `BetaManagedAgentsRetryStatusRetrying object`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `BetaManagedAgentsRetryStatusExhausted object`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `BetaManagedAgentsRetryStatusTerminal object`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `BetaManagedAgentsCompactionLimitReachedError object`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "compaction_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying or BetaManagedAgentsRetryStatusExhausted or BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `BetaManagedAgentsRetryStatusRetrying object`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `BetaManagedAgentsRetryStatusExhausted object`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `BetaManagedAgentsRetryStatusTerminal object`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `BetaManagedAgentsRepositoryAuthenticationError object`
 
@@ -35626,6 +36953,26 @@ Stream Session Thread Events
 
       - `description: string or null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
         - `type: "url"`
@@ -35643,6 +36990,10 @@ Stream Session Thread Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -35783,6 +37134,10 @@ Stream Session Thread Events
               - `id: string`
 
               - `description: string or null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -36150,6 +37505,8 @@ Stream Session Thread Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `region: optional string or null`
 
                           Region or state name.
@@ -36330,6 +37687,10 @@ Stream Session Thread Events
 
                 - `description: string or null`
 
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
                 - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
                 - `model: BetaManagedAgentsModelConfig`
@@ -36377,6 +37738,10 @@ Stream Session Thread Events
                 - `id: string`
 
                 - `description: string or null`
+
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -36443,6 +37808,8 @@ Stream Session Thread Events
         - `amount: string`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `currency: BetaCurrency`
 
@@ -36878,9 +38245,9 @@ Stream Session Thread Events
 
 ```bash
 curl https://api.anthropic.com/v1/sessions/$SESSION_ID/threads/$THREAD_ID/stream \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ##### Response (200)

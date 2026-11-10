@@ -6,11 +6,11 @@ The Claude desktop apps bring Claude's capabilities directly to your computer, a
 
 Claude Desktop is available on macOS, Windows, and Linux (beta). What you can do depends on your plan:
 
-| **Feature**   | **Free** | **Pro** | **Max** | **Team** | **Enterprise** |
-| ------------- | -------- | ------- | ------- | -------- | -------------- |
-| Chat          | ✅        | ✅       | ✅       | ✅        | ✅              |
-| Claude Code   |          | ✅       | ✅       | ✅        | ✅              |
-| Claude Cowork |          | ✅       | ✅       | ✅        | ✅              |
+| **Feature**   | **Free** | **Pro** | **Max** | **Ultra** | **Team** | **Enterprise** |
+| ------------- | -------- | ------- | ------- | --------- | -------- | -------------- |
+| Chat          | ✅        | ✅       | ✅       | ✅         | ✅        | ✅              |
+| Claude Code   |          | ✅       | ✅       | ✅         | ✅        | ✅              |
+| Claude Cowork |          | ✅       | ✅       | ✅         | ✅        | ✅              |
 
 ## System Requirements
 
@@ -101,7 +101,7 @@ Desktop extensions transform how you connect Claude to your desktop applications
 
 - **Enjoy enterprise-ready security**: Extensions use code signing, encrypted storage for sensitive data like API keys, and enterprise policy controls.
 
-To explore desktop extensions, navigate to Settings > Extensions within the Claude Desktop app after installation.
+To explore desktop extensions, navigate to **Settings > Desktop app** and select "Manage" next to **Extensions** (or **Settings > Extensions** in the older Settings layout) within the Claude Desktop app after installation.
 
 **Note:** If you’re a developer who wants to list a desktop extension (a local MCP server for Claude Desktop) in the directory, submit it through the **[desktop extension submission form](https://clau.de/desktop-extention-submission)**. To submit a plugin or a remote connector instead, use the **[developer portal](https://claude.ai/directory/manage)**. See **[Submitting your plugin](https://claude.com/docs/plugins/submit)** for what each route accepts.
 
@@ -111,7 +111,7 @@ Read more about desktop extensions in our **[Getting Started with Local MCP Serv
 
 ## Claude Cowork
 
-Claude Cowork is available for all paid plans (Pro, Max, Team, Enterprise) using the Claude Desktop app on macOS, Windows, and Linux (beta).
+Claude Cowork is available for all paid plans (Pro, Max, Ultra, Team, Enterprise) using the Claude Desktop app on macOS, Windows, and Linux (beta).
 
 Users on paid Claude plans can access Cowork in Claude Desktop. Cowork brings Claude Code's agentic capabilities to a visual interface, allowing you to hand off complex, multi-step tasks without using a terminal.
 

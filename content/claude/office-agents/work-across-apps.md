@@ -6,16 +6,23 @@
 
 > Let Claude read from one Microsoft 365 app and make changes in another in a single conversation.
 
+> [!WARNING]
+>
+> After the September and October 2026 Microsoft 365 updates on Windows, some
+> users are missing their chat history and uploaded skills in the Claude add-in.
+> Anthropic is working with Microsoft to solve this issue. In the meantime, see
+> [what you and your IT team can do](https://claude.com/docs/office-agents/data-storage.md#chat-history-and-skills-missing-after-a-microsoft-365-update-on-windows).
+
 Claude can coordinate between the Excel, PowerPoint, Word, and Outlook
 add-ins in your Microsoft 365 suite. Instead of switching between apps
 and re-providing context each time, Claude can read from one app and
 make changes in another.
 
-<Note>
-  Working across apps is available when you sign in with your Claude
-  account directly. It is not supported when connecting through Amazon
-  Bedrock, Google Cloud Vertex AI, Azure AI Foundry, or an LLM gateway.
-</Note>
+> [!NOTE]
+>
+> Working across apps is available when you sign in with your Claude
+> account directly. It is not supported when connecting through Amazon
+> Bedrock, Google Cloud Vertex AI, Azure AI Foundry, or an LLM gateway.
 
 ## Requirements
 
@@ -23,31 +30,29 @@ Install each Claude for M365 add-in and confirm your plan before turning
 on cross-app mode.
 
 * A paid Claude plan: Pro, Max, Team, or Enterprise.
-* [Claude for Excel](/docs/office-agents/excel) installed from the
+* [Claude for Excel](https://claude.com/docs/office-agents/excel.md) installed from the
   Microsoft AppSource.
-* [Claude for PowerPoint](/docs/office-agents/powerpoint) installed
+* [Claude for PowerPoint](https://claude.com/docs/office-agents/powerpoint.md) installed
   from the Microsoft AppSource.
-* [Claude for Word](/docs/office-agents/word) installed from the
+* [Claude for Word](https://claude.com/docs/office-agents/word.md) installed from the
   Microsoft AppSource.
-* [Claude for Outlook](/docs/office-agents/outlook) installed from the
+* [Claude for Outlook](https://claude.com/docs/office-agents/outlook.md) installed from the
   Microsoft AppSource.
 
 ## Enable cross-app mode
 
-<Steps>
-  <Step title="Install each add-in">
-    Install Claude for Excel, PowerPoint, Word, and Outlook from the
-    Microsoft AppSource. Open each app and activate the add-in at
-    least once before using cross-app features.
-  </Step>
+**1. Install each add-in**
 
-  <Step title="Enable per add-in">
-    Open Settings in each add-in and turn on "Let Claude work across
-    files". Pro and Max plans have this on by default; Team and
-    Enterprise plans default to off. The toggle is per-device, so enable
-    it in every host you want to coordinate from.
-  </Step>
-</Steps>
+Install Claude for Excel, PowerPoint, Word, and Outlook from the
+Microsoft AppSource. Open each app and activate the add-in at
+least once before using cross-app features.
+
+**2. Enable per add-in**
+
+Open Settings in each add-in and turn on "Let Claude work across
+files". Pro and Max plans have this on by default; Team and
+Enterprise plans default to off. The toggle is per-device, so enable
+it in every host you want to coordinate from.
 
 Once enabled, connected-app indicators appear in the sidebar when other
 Excel, PowerPoint, Word, or Outlook sessions are linked.
@@ -106,15 +111,13 @@ For more on Skills, see
 Team and Enterprise organization owners can control whether team members
 can access this capability.
 
-<Steps>
-  <Step title="Open organization settings">
-    Go to Organization settings, Office agents.
-  </Step>
+**1. Open organization settings**
 
-  <Step title="Toggle the setting">
-    Turn "Let Claude work across apps" on or off.
-  </Step>
-</Steps>
+Go to Organization settings, Office agents.
+
+**2. Toggle the setting**
+
+Turn "Let Claude work across apps" on or off.
 
 Admins can also manage member access to the Claude for Excel,
 PowerPoint, Word, and Outlook add-ins through the Microsoft 365 Admin
@@ -131,10 +134,15 @@ settings your organization may have set, and activity is not included in
 Enterprise audit logs or data exports. For Enterprise organizations with
 the [Compliance API](https://platform.claude.com/docs/en/manage-claude/compliance-api)
 enabled, add-in sessions are included in the Compliance API. This
-coverage is in public beta and requires no additional setup: the same
-Compliance Access Keys apply. Chat history is stored locally in your
-browser, not on Anthropic's servers, and can be cleared from Settings at
-any time.
+coverage requires no additional setup: the same Compliance Access Keys
+apply.
+
+Chat history is stored locally in your browser and can be cleared from
+Settings at any time. The add-ins also send your conversations to
+Anthropic, including the content Claude reads from your open workbooks,
+documents, presentations, email, and calendar, and any files you attach.
+Clearing chat history removes only the copy in your browser. It does not
+delete the messages or attached files that Anthropic keeps.
 
 ## Current limitations
 

@@ -4,8 +4,6 @@
 
 # Tools
 
-<div id="enable-section-numbers" />
-
 The Model Context Protocol (MCP) allows servers to expose tools that can be invoked by
 language models. Tools enable models to interact with external systems, such as querying
 databases, calling APIs, or performing computations. Each tool is uniquely identified by
@@ -21,17 +19,17 @@ However, implementations are free to expose tools through any interface pattern 
 suits their needs—the protocol itself does not mandate any specific user
 interaction model.
 
-<Warning>
-  For trust & safety and security, there **SHOULD** always
-  be a human in the loop with the ability to deny tool invocations.
-
-  Applications **SHOULD**:
-
-  * Provide UI that makes clear which tools are being exposed to the AI model
-  * Insert clear visual indicators when tools are invoked
-  * Present confirmation prompts to the user for operations, to ensure a human is in the
-    loop
-</Warning>
+> [!WARNING]
+>
+> For trust & safety and security, there **SHOULD** always
+> be a human in the loop with the ability to deny tool invocations.
+>
+> Applications **SHOULD**:
+>
+> * Provide UI that makes clear which tools are being exposed to the AI model
+> * Insert clear visual indicators when tools are invoked
+> * Present confirmation prompts to the user for operations, to ensure a human is in the
+>   loop
 
 ## Capabilities
 
@@ -55,7 +53,7 @@ available tools changes.
 ### Listing Tools
 
 To discover available tools, clients send a `tools/list` request. This operation supports
-[pagination](/specification/2025-11-25/server/utilities/pagination).
+[pagination](https://modelcontextprotocol.io/specification/2025-11-25/server/utilities/pagination.md).
 
 **Request:**
 
@@ -196,23 +194,23 @@ A tool definition includes:
 * `description`: Human-readable description of functionality
 * `icons`: Optional array of icons for display in user interfaces
 * `inputSchema`: JSON Schema defining expected parameters
-  * Follows the [JSON Schema usage guidelines](/specification/2025-11-25/basic#json-schema-usage)
+  * Follows the [JSON Schema usage guidelines](https://modelcontextprotocol.io/specification/2025-11-25/basic.md#json-schema-usage)
   * Defaults to 2020-12 if no `$schema` field is present
   * **MUST** be a valid JSON Schema object (not `null`)
   * For tools with no parameters, use one of these valid approaches:
     * `{ "type": "object", "additionalProperties": false }` - **Recommended**: explicitly accepts only empty objects
     * `{ "type": "object" }` - accepts any object (including with properties)
 * `outputSchema`: Optional JSON Schema defining expected output structure
-  * Follows the [JSON Schema usage guidelines](/specification/2025-11-25/basic#json-schema-usage)
+  * Follows the [JSON Schema usage guidelines](https://modelcontextprotocol.io/specification/2025-11-25/basic.md#json-schema-usage)
   * Defaults to 2020-12 if no `$schema` field is present
 * `annotations`: Optional properties describing tool behavior
 * `execution`: Optional object describing execution-related properties
-  * `taskSupport`: Indicates whether this tool supports [task-augmented execution](/specification/2025-11-25/basic/utilities/tasks#tool-level-negotiation). Values: `"forbidden"` (default), `"optional"`, or `"required"`
+  * `taskSupport`: Indicates whether this tool supports [task-augmented execution](https://modelcontextprotocol.io/specification/2025-11-25/basic/utilities/tasks.md#tool-level-negotiation). Values: `"forbidden"` (default), `"optional"`, or `"required"`
 
-<Warning>
-  For trust & safety and security, clients **MUST** consider tool annotations to
-  be untrusted unless they come from trusted servers.
-</Warning>
+> [!WARNING]
+>
+> For trust & safety and security, clients **MUST** consider tool annotations to
+> be untrusted unless they come from trusted servers.
 
 #### Tool Names
 
@@ -233,13 +231,13 @@ Tool results may contain [**structured**](#structured-content) or **unstructured
 
 **Unstructured** content is returned in the `content` field of a result, and can contain multiple content items of different types:
 
-<Note>
-  All content types (text, image, audio, resource links, and embedded resources)
-  support optional
-  [annotations](/specification/2025-11-25/server/resources#annotations) that
-  provide metadata about audience, priority, and modification times. This is the
-  same annotation format used by resources and prompts.
-</Note>
+> [!NOTE]
+>
+> All content types (text, image, audio, resource links, and embedded resources)
+> support optional
+> [annotations](https://modelcontextprotocol.io/specification/2025-11-25/server/resources.md#annotations) that
+> provide metadata about audience, priority, and modification times. This is the
+> same annotation format used by resources and prompts.
 
 #### Text Content
 
@@ -276,7 +274,7 @@ Tool results may contain [**structured**](#structured-content) or **unstructured
 
 #### Resource Links
 
-A tool **MAY** return links to [Resources](/specification/2025-11-25/server/resources), to provide additional context
+A tool **MAY** return links to [Resources](https://modelcontextprotocol.io/specification/2025-11-25/server/resources.md), to provide additional context
 or data. In this case, the tool will return a URI that can be subscribed to or fetched by the client:
 
 ```json theme={null}
@@ -289,17 +287,17 @@ or data. In this case, the tool will return a URI that can be subscribed to or f
 }
 ```
 
-Resource links support the same [Resource annotations](/specification/2025-11-25/server/resources#annotations) as regular resources to help clients understand how to use them.
+Resource links support the same [Resource annotations](https://modelcontextprotocol.io/specification/2025-11-25/server/resources.md#annotations) as regular resources to help clients understand how to use them.
 
-<Info>
-  Resource links returned by tools are not guaranteed to appear in the results
-  of a `resources/list` request.
-</Info>
+> [!NOTE]
+>
+> Resource links returned by tools are not guaranteed to appear in the results
+> of a `resources/list` request.
 
 #### Embedded Resources
 
-[Resources](/specification/2025-11-25/server/resources) **MAY** be embedded to provide additional context
-or data using a suitable [URI scheme](./resources#common-uri-schemes). Servers that use embedded resources **SHOULD** implement the `resources` capability:
+[Resources](https://modelcontextprotocol.io/specification/2025-11-25/server/resources.md) **MAY** be embedded to provide additional context
+or data using a suitable [URI scheme](https://modelcontextprotocol.io/specification/2025-11-25/server/resources.md#common-uri-schemes). Servers that use embedded resources **SHOULD** implement the `resources` capability:
 
 ```json theme={null}
 {
@@ -307,17 +305,17 @@ or data using a suitable [URI scheme](./resources#common-uri-schemes). Servers t
   "resource": {
     "uri": "file:///project/src/main.rs",
     "mimeType": "text/x-rust",
-    "text": "fn main() {\n    println!(\"Hello world!\");\n}",
-    "annotations": {
-      "audience": ["user", "assistant"],
-      "priority": 0.7,
-      "lastModified": "2025-05-03T14:30:00Z"
-    }
+    "text": "fn main() {\n    println!(\"Hello world!\");\n}"
+  },
+  "annotations": {
+    "audience": ["user", "assistant"],
+    "priority": 0.7,
+    "lastModified": "2025-05-03T14:30:00Z"
   }
 }
 ```
 
-Embedded resources support the same [Resource annotations](/specification/2025-11-25/server/resources#annotations) as regular resources to help clients understand how to use them.
+Embedded resources support the same [Resource annotations](https://modelcontextprotocol.io/specification/2025-11-25/server/resources.md#annotations) as regular resources to help clients understand how to use them.
 
 #### Structured Content
 
@@ -325,10 +323,10 @@ Embedded resources support the same [Resource annotations](/specification/2025-1
 
 For backwards compatibility, a tool that returns structured content SHOULD also return the serialized JSON in a TextContent block.
 
-<Note>
-  `structuredContent` is server-produced result data and is unrelated to LLM
-  "structured outputs" (schema-constrained model generation).
-</Note>
+> [!NOTE]
+>
+> `structuredContent` is server-produced result data and is unrelated to LLM
+> "structured outputs" (schema-constrained model generation).
 
 #### Output Schema
 
@@ -461,7 +459,7 @@ Tools use two error reporting mechanisms:
 
 1. **Protocol Errors**: Standard JSON-RPC errors for issues like:
    * Unknown tools
-   * Malformed requests (requests that fail to satisfy [CallToolRequest schema](/specification/2025-11-25/schema#calltoolrequest))
+   * Malformed requests (requests that fail to satisfy [CallToolRequest schema](https://modelcontextprotocol.io/specification/2025-11-25/schema.md#calltoolrequest))
    * Server errors
 
 2. **Tool Execution Errors**: Reported in tool results with `isError: true`:

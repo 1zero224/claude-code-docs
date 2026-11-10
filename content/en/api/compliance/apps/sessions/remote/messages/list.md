@@ -28,6 +28,12 @@ Returns 404 while the session is still `pending`, for deleted sessions,
 and for sessions outside the organizations the key may read. A
 malformed session identifier returns 400.
 
+Returns 403 with the `error_code` `organization_compliance_restricted` in
+`error.details` when the session's organization, or the key's own
+organization, has compliance settings that do not allow its remote
+sessions to be read through the Compliance API. A retry does not help
+until those settings change.
+
 ## Path parameters
 
 - `claude_remote_session_id: string`
@@ -196,7 +202,7 @@ malformed session identifier returns 400.
 
   - `sent_by_user_id: string or null`
 
-    Identifier of the human account that sent this turn on an agent-owned session. Null on user-owned sessions, where every user-role turn was sent by the session's `user`.
+    Identifier of the human account that sent this turn on an agent-owned session. Null on user-owned sessions, where every user-role turn was sent by the session's `user`. Can also be null on an agent-owned session, where several people may take part, when the turn cannot be attributed to one human account (for example, no sender was recorded).
 
 - `next_page: string or null`
 
@@ -230,7 +236,7 @@ malformed session identifier returns 400.
 
   - `product_surface: string or null`
 
-    The Claude product the session was created from. Currently `cowork_remote`, for Cowork sessions started on claude.ai web or mobile. More values will appear as other surfaces launch, so treat any unrecognized value as an unclassified surface rather than an error. Null for sessions created before this field was recorded, for surfaces that do not stamp it, and for unrecognized tag values.
+    The Claude product the session was created from. Currently `cowork_remote`, for Cowork sessions started on claude.ai web or mobile, and `claude_tag`, for Claude Tag sessions started in Slack. More values will appear as other surfaces launch, so treat any unrecognized value as an unclassified surface rather than an error. Null for sessions created before this field was recorded, for surfaces that do not stamp it, and for unrecognized tag values.
 
   - `started_by_user: object or null`
 

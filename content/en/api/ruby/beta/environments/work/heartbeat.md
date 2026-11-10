@@ -19,15 +19,15 @@ Record a heartbeat for a work item to maintain the lease.
 
 - `work_id: String` (path parameter)
 
-- `desired_ttl_seconds: Integer` (query parameter)
+- `desired_ttl_seconds: optional Integer | nil` (query parameter)
 
   Desired TTL in seconds
 
-- `expected_last_heartbeat: String` (query parameter)
+- `expected_last_heartbeat: optional String | nil` (query parameter)
 
-  Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match.
+  Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match. The server does not compare the value when the work item is 'stopping' or 'stopped'.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -133,6 +133,18 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `:"spend-limit-reads-2026-09-26"`
 
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
 ## Returns
 
 - `class BetaSelfHostedWorkHeartbeatResponse`
@@ -145,7 +157,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `last_heartbeat: String`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `lease_extended: bool`
 

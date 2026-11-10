@@ -1,15 +1,15 @@
 ---
-title: Update Credential
+title: Update a Credential
 url: https://platform.claude.com/docs/en/api/php/beta/vaults/credentials/update
 ---
 
-# Update Credential
+# Update a Credential
 
 `$client->beta->vaults->credentials->update(string credentialID, string vaultID, ?Auth auth, ?string displayName, ?array<string,string> metadata, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsCredential`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Update Credential
+Update a Credential
 
 ## Parameters
 
@@ -21,21 +21,27 @@ Update Credential
 
   Unique identifier of the credential to update.
 
-- `auth?:optional Auth`
+- `auth?: optional Auth`
 
-  Updated authentication configuration. The `type` is immutable; the variant sent must match the stored credential's type.
+  New authentication settings for the credential. The `type` must match the credential's current type, which can't be changed.
 
-- `displayName?:optional string`
+- `displayName?: optional string`
 
   Updated human-readable name for the credential. 1-255 characters.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omitted keys are preserved.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -47,11 +53,11 @@ Update Credential
 
 - `class ManagedAgentsCredential`
 
-  - `Type type`
+  - `"vault_credential" type`
 
   - `string id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `?\Datetime archivedAt`
 
@@ -88,6 +94,9 @@ Update Credential
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsCredential = $client->beta->vaults->credentials->update(
@@ -95,7 +104,7 @@ $betaManagedAgentsCredential = $client->beta->vaults->credentials->update(
   vaultID: 'vlt_011CZkZDLs7fYzm1hXNPeRjv',
   auth: [
     'type' => 'mcp_oauth',
-    'accessToken' => 'x',
+    'accessToken' => 'access_token',
     'expiresAt' => new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
     'refresh' => [
       'refreshToken' => 'x',

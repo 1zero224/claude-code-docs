@@ -6,15 +6,15 @@
 
 > Claude Tag memory belongs to the channel, not to you. See what each channel keeps, which notes are shared across the workspace, and how to check or correct them.
 
-export const BetaNote = () => <Info>Claude Tag is in public beta. Features and behavior described here may change before general availability.</Info>;
-
-<BetaNote />
+> [!NOTE]
+>
+> Claude Tag is in public beta. Features and behavior described here may change before general availability.
 
 Claude keeps memory by channel. Each channel, public or private, has its own notes, and channel memory isn't organized by person. From a public channel Claude can also save workspace notes, which it reads in every channel in the workspace. In a one-to-one direct message, Claude keeps separate notes for its conversation with you; see [Channel and workspace memory](#channel-and-workspace-memory).
 
 Memory accumulates three ways:
 
-* **You tell Claude.** Say "remember for this channel: reports go out as tables" and it saves the instruction. To save details from a document, [attach the file](/docs/claude-tag/users/getting-started#files-you-attach) and name what to remember. Claude saves those details, not the file.
+* **You tell Claude.** Say "remember for this channel: reports go out as tables" and it saves the instruction. To save details from a document, [attach the file](https://claude.com/docs/claude-tag/users/getting-started.md#files-you-attach) and name what to remember. Claude saves those details, not the file.
 * **Claude saves facts on its own.** While working it keeps notes like decisions the channel made.
 * **Claude can read past sessions.** Ask it to look back and it lists earlier sessions in the channel and reads their transcripts; it can't full-text search across them, so name a timeframe or topic.
 
@@ -32,7 +32,7 @@ Reading and saving follow different rules depending on where Claude is working:
 | Private channel | That channel's notes, plus the workspace notes (read-only) | That channel's notes only |
 | Group DM | That group DM's notes only | That group DM's notes only |
 
-Other workspaces stay separate. One-to-one direct messages stay separate too. Claude keeps notes for each one-to-one direct-message conversation, stored with the workspace rather than with your Claude account. Those notes are deleted when an Owner [disconnects the workspace](/docs/claude-tag/admins/workspaces#revoke-a-pairing), not when you disconnect your own Claude account in Slack.
+Other workspaces stay separate. One-to-one direct messages stay separate too. Claude keeps notes for each one-to-one direct-message conversation, stored with the workspace rather than with your Claude account. Those notes are deleted when an Owner [disconnects the workspace](https://claude.com/docs/claude-tag/admins/workspaces.md#revoke-a-pairing), not when you disconnect your own Claude account in Slack.
 
 If a channel switches between public and private, its channel notes stay with the channel, and Claude keeps reading and adding to them there. Workspace notes Claude saved from the channel while it was public stay in the workspace notes. If those shouldn't stay shared, ask an Owner to delete them from the workspace's memory files in [Claude Tag admin settings](https://claude.ai/admin-settings/claude-tag).
 
@@ -42,7 +42,7 @@ Anyone in the channel can save, read, and correct memory by talking to Claude di
 
 ### Make an instruction stick
 
-Memory is a curated note, not a transcript. To make something permanent, say so explicitly:
+Claude decides what to save, so it may not keep something you said in passing. To make something permanent, say so explicitly:
 
 ```text wrap theme={null}
 @Claude remember for this channel: changes go to acme/data-pipeline, never acme/website, and run the lint check before opening any pull request.
@@ -65,11 +65,11 @@ If something is wrong or stale, tell it to update or forget the entry. Anyone in
 Two habits keep memory useful over time:
 
 * **After correcting an entry, have Claude record the fix.** "Update your memory for this channel so this doesn't happen again" turns a one-time fix into a standing one.
-* **Prune what your work has outgrown.** Entries written weeks ago can describe a repository, owner, or convention that no longer exists. Ask Claude in the channel to review its memory and drop the entries that no longer apply. For ongoing upkeep, set up a [routine](/docs/claude-tag/users/proactivity) that repeats the review on a schedule; weekly works well.
+* **Prune what your work has outgrown.** Entries written weeks ago can describe a repository, owner, or convention that no longer exists. Ask Claude in the channel to review its memory and drop the entries that no longer apply. For ongoing upkeep, set up a [routine](https://claude.com/docs/claude-tag/users/proactivity.md) that repeats the review on a schedule; weekly works well.
 
-An Owner in your Claude organization can view, edit, or delete the [memory files](/docs/claude-tag/admins/audit) of a workspace and its channels.
+An Owner in your Claude organization can view, edit, or delete the [memory files](https://claude.com/docs/claude-tag/admins/audit.md) of a workspace and its channels.
 
 ## Related resources
 
-* [How Claude Tag works](/docs/claude-tag/concepts/how-it-works): the scope, channel, and thread model behind memory
-* [Good habits](/docs/claude-tag/users/good-habits): habits that keep memory accurate
+* [How Claude Tag works](https://claude.com/docs/claude-tag/concepts/how-it-works.md): the scope, channel, and thread model behind memory
+* [Good habits](https://claude.com/docs/claude-tag/users/good-habits.md): habits that keep memory accurate

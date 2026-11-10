@@ -15,49 +15,49 @@ List Deployment Runs
 
 ### Parameters
 
-- `created_at_gt: Time` (query parameter)
+- `created_at_gt: optional Time` (query parameter)
 
   Return runs created strictly after this time (exclusive).
 
   format: date-time
 
-- `created_at_gte: Time` (query parameter)
+- `created_at_gte: optional Time` (query parameter)
 
   Return runs created at or after this time (inclusive).
 
   format: date-time
 
-- `created_at_lt: Time` (query parameter)
+- `created_at_lt: optional Time` (query parameter)
 
   Return runs created strictly before this time (exclusive).
 
   format: date-time
 
-- `created_at_lte: Time` (query parameter)
+- `created_at_lte: optional Time` (query parameter)
 
   Return runs created at or before this time (inclusive).
 
   format: date-time
 
-- `deployment_id: String` (query parameter)
+- `deployment_id: optional String` (query parameter)
 
   Filter to a specific deployment. Omit to list across all deployments in the workspace. Filtering by a non-existent `deployment_id` returns 200 with empty data.
 
-- `has_error: bool` (query parameter)
+- `has_error: optional bool` (query parameter)
 
   Filter: true for runs with non-null `error`, false for runs with non-null `session_id`. Omit for all.
 
-- `limit: Integer` (query parameter)
+- `limit: optional Integer` (query parameter)
 
   Maximum results per page. Default 20, maximum 1000.
 
   format: int32
 
-- `page: String` (query parameter)
+- `page: optional String` (query parameter)
 
   Opaque pagination cursor. Pass `next_page` from the previous response. Invalid or expired cursors return 400.
 
-- `trigger_type: BetaManagedAgentsTriggerType` (query parameter)
+- `trigger_type: optional BetaManagedAgentsTriggerType` (query parameter)
 
   Filter runs by what triggered them. Omit to return all runs.
 
@@ -69,9 +69,9 @@ List Deployment Runs
 
     The run was started manually by creating a session directly against the deployment.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -175,7 +175,19 @@ List Deployment Runs
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -215,7 +227,7 @@ List Deployment Runs
 
     ID of the deployment that produced this run.
 
-  - `error: BetaManagedAgentsEnvironmentArchivedRunError | BetaManagedAgentsAgentArchivedRunError | BetaManagedAgentsEnvironmentNotFoundRunError | 13 more`
+  - `error: BetaManagedAgentsEnvironmentArchivedRunError | BetaManagedAgentsAgentArchivedRunError | BetaManagedAgentsEnvironmentNotFoundRunError | 13 more | nil`
 
     Populated on creation failure. Null on success. Exactly one of `session_id` or `error` is non-null.
 
@@ -379,7 +391,7 @@ List Deployment Runs
 
         Human-readable error description.
 
-  - `session_id: String`
+  - `session_id: String | nil`
 
     Populated on success. Null on creation failure. Exactly one of `session_id` or `error` is non-null.
 
@@ -461,9 +473,9 @@ Get Deployment Run
 
   Unique identifier of the deployment run.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -567,7 +579,19 @@ Get Deployment Run
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -607,7 +631,7 @@ Get Deployment Run
 
     ID of the deployment that produced this run.
 
-  - `error: BetaManagedAgentsEnvironmentArchivedRunError | BetaManagedAgentsAgentArchivedRunError | BetaManagedAgentsEnvironmentNotFoundRunError | 13 more`
+  - `error: BetaManagedAgentsEnvironmentArchivedRunError | BetaManagedAgentsAgentArchivedRunError | BetaManagedAgentsEnvironmentNotFoundRunError | 13 more | nil`
 
     Populated on creation failure. Null on success. Exactly one of `session_id` or `error` is non-null.
 
@@ -771,7 +795,7 @@ Get Deployment Run
 
         Human-readable error description.
 
-  - `session_id: String`
+  - `session_id: String | nil`
 
     Populated on success. Null on creation failure. Exactly one of `session_id` or `error` is non-null.
 
@@ -882,7 +906,7 @@ puts(beta_managed_agents_deployment_run)
 
     ID of the deployment that produced this run.
 
-  - `error: BetaManagedAgentsEnvironmentArchivedRunError | BetaManagedAgentsAgentArchivedRunError | BetaManagedAgentsEnvironmentNotFoundRunError | 13 more`
+  - `error: BetaManagedAgentsEnvironmentArchivedRunError | BetaManagedAgentsAgentArchivedRunError | BetaManagedAgentsEnvironmentNotFoundRunError | 13 more | nil`
 
     Populated on creation failure. Null on success. Exactly one of `session_id` or `error` is non-null.
 
@@ -1046,7 +1070,7 @@ puts(beta_managed_agents_deployment_run)
 
         Human-readable error description.
 
-  - `session_id: String`
+  - `session_id: String | nil`
 
     Populated on success. Null on creation failure. Exactly one of `session_id` or `error` is non-null.
 

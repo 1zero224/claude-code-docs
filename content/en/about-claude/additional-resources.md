@@ -7,7 +7,7 @@ description: Learning resources and documentation formats optimized for AI inges
 ## Learning resources
 
 <CardGroup cols={3}>
-  <Card title="Quickstarts" icon="lightning" href="https://github.com/anthropics/anthropic-quickstarts">
+  <Card title="Quickstarts" icon="lightning" href="https://github.com/anthropics/claude-quickstarts">
     Deployable applications built with the API.
   </Card>
 
@@ -15,7 +15,7 @@ description: Learning resources and documentation formats optimized for AI inges
     Step-by-step lessons on building with Claude.
   </Card>
 
-  <Card title="Cookbook" icon="fork-knife" href="https://platform.claude.com/cookbook">
+  <Card title="Claude Cookbook" icon="fork-knife" href="https://platform.claude.com/cookbook">
     Replicable code samples and implementations.
   </Card>
 

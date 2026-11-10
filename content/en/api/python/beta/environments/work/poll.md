@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/python/beta/environments/work/poll
 
 # Poll for Work
 
-`beta.environments.work.poll(environment_id, **kwargs)  -> BetaSelfHostedWork`
+`beta.environments.work.poll(environment_id, **kwargs) -> BetaSelfHostedWork`
 
 **GET** `/v1/environments/{environment_id}/work/poll`
 
@@ -135,6 +135,18 @@ Long poll for work items in the queue.
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `anthropic_worker_id: Optional[str]` (header parameter)
 
   Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
@@ -235,7 +247,7 @@ client = Anthropic(
 beta_self_hosted_work = client.beta.environments.work.poll(
     environment_id="env_011CZkZ9X2dpNyB7HsEFoRfW",
 )
-print(beta_self_hosted_work.id)
+print(beta_self_hosted_work)
 ```
 
 ### Response (200)

@@ -10,31 +10,29 @@ The Google Drive connector lets Claude search your Google Drive, read the files 
 
 To get going, [connect Google Drive](#connect-google-drive) and then [try a first question](#try-the-connector).
 
-<Note>
-  If you want Claude to search your email or calendar rather than your files, see [Gmail](/docs/connectors/google/gmail) or [Google Calendar](/docs/connectors/google/calendar).
-</Note>
+> [!NOTE]
+>
+> If you want Claude to search your email or calendar rather than your files, see [Gmail](https://claude.com/docs/connectors/google/gmail.md) or [Google Calendar](https://claude.com/docs/connectors/google/calendar.md).
 
 ## Connect Google Drive
 
 You connect Google Drive once from your connector settings, and Claude can then use it in any conversation where you turn the connector on.
 
-<Steps>
-  <Step title="Open your connectors">
-    Go to [**Customize > Connectors**](https://claude.ai/customize/connectors) in claude.ai. **Customize** is the page that holds your connectors, skills, and plugins.
-  </Step>
+**1. Open your connectors**
 
-  <Step title="Connect Google Drive">
-    Find **Google Drive** in the list and select **Connect**.
-  </Step>
+Go to [**Customize > Connectors**](https://claude.ai/customize/connectors) in claude.ai. **Customize** is the page that holds your connectors, skills, and plugins.
 
-  <Step title="Sign in to Google">
-    Sign in to your Google account and grant the requested permissions.
-  </Step>
-</Steps>
+**2. Connect Google Drive**
+
+Find **Google Drive** in the list and select **Connect**.
+
+**3. Sign in to Google**
+
+Sign in to your Google account and grant the requested permissions.
 
 When the connection succeeds, the **Connect** button on the Google Drive connector changes to **Disconnect**.
 
-On Team and Enterprise plans, Google Drive doesn't appear in your connector list until an Owner adds it for your organization. Each member then connects their own Google account. For the full walkthrough, including troubleshooting, see [Get started with connectors](/docs/connectors/getting-started).
+On Team and Enterprise plans, Google Drive doesn't appear in your connector list until an Owner adds it for your organization. Each member then connects their own Google account. For the full walkthrough, including troubleshooting, see [Get started with connectors](https://claude.com/docs/connectors/getting-started.md).
 
 ## What Claude can read from Drive
 
@@ -59,47 +57,41 @@ Two limits apply to every type:
 
 Besides letting Claude search on its own, you can pick specific Drive files yourself. A file you pick is attached to the conversation, or added to a [project](https://support.claude.com/en/articles/9517075-what-are-projects)'s knowledge so every chat in that project can use it. The picker lists your Google Docs, Sheets, and Slides.
 
-<Tabs>
-  <Tab title="In a chat">
-    <Steps>
-      <Step title="Open the add menu">
-        In the conversation, select **+** at the lower left of the message box.
-      </Step>
+> [tab] In a chat
+>
+> **1. Open the add menu**
+>
+> In the conversation, select **+** at the lower left of the message box.
+>
+> **2. Choose Google Drive**
+>
+> Select **Add from Google Drive**.
+>
+> **3. Pick a file**
+>
+> Search for the file by name, or select it from the list.
+>
+> **4. Send your message**
+>
+> Write your question and send it. Claude reads the file's current content from Drive each time you send a message, so later edits in Drive reach Claude too.
 
-      <Step title="Choose Google Drive">
-        Select **Add from Google Drive**.
-      </Step>
-
-      <Step title="Pick a file">
-        Search for the file by name, or select it from the list.
-      </Step>
-
-      <Step title="Send your message">
-        Write your question and send it. Claude reads the file's current content from Drive each time you send a message, so later edits in Drive reach Claude too.
-      </Step>
-    </Steps>
-  </Tab>
-
-  <Tab title="In a project">
-    You can add Drive files only to a private project, one you haven't shared with other people. In a shared project, the **Google Drive** option is dimmed and shows **Only accessible from private projects**. To add a file to a private project's knowledge:
-
-    <Steps>
-      <Step title="Open the add menu">
-        Open the project and, in its knowledge section, select **Add files**.
-      </Step>
-
-      <Step title="Choose Google Drive">
-        Select **Google Drive**.
-      </Step>
-
-      <Step title="Pick a file">
-        Search for the file, paste its Google Drive URL, or select it from the list.
-      </Step>
-    </Steps>
-
-    The file appears in the project's knowledge and is available to Claude in every chat in that project. Its content refreshes from Drive periodically when you open the project.
-  </Tab>
-</Tabs>
+> [tab] In a project
+>
+> You can add Drive files only to a private project, one you haven't shared with other people. In a shared project, the **Google Drive** option is dimmed and shows **Only accessible from private projects**. To add a file to a private project's knowledge:
+>
+> **1. Open the add menu**
+>
+> Open the project and, in its knowledge section, select **Add files**.
+>
+> **2. Choose Google Drive**
+>
+> Select **Google Drive**.
+>
+> **3. Pick a file**
+>
+> Search for the file, paste its Google Drive URL, or select it from the list.
+>
+> The file appears in the project's knowledge and is available to Claude in every chat in that project. Its content refreshes from Drive periodically when you open the project.
 
 Claude receives a text version of each file you add this way:
 
@@ -131,8 +123,8 @@ If a reconnection error keeps coming back, select **Disconnect**, then **Connect
 
 ## Next steps
 
-* [Gmail](/docs/connectors/google/gmail): search and analyze your emails
-* [Google Calendar](/docs/connectors/google/calendar): access your calendar information
-* [Get started with connectors](/docs/connectors/getting-started#manage-or-disconnect-a-connector): set tool permissions and manage any connector
-* [Add a connector from the directory](/docs/connectors/getting-started#add-a-connector-from-the-directory): find a connector for another service in the directory and connect it
-* [Connectors directory](/docs/connectors/directory): browse verified and community integrations
+* [Gmail](https://claude.com/docs/connectors/google/gmail.md): search and analyze your emails
+* [Google Calendar](https://claude.com/docs/connectors/google/calendar.md): access your calendar information
+* [Get started with connectors](https://claude.com/docs/connectors/getting-started.md#manage-or-disconnect-a-connector): set tool permissions and manage any connector
+* [Add a connector from the directory](https://claude.com/docs/connectors/getting-started.md#add-a-connector-from-the-directory): find a connector for another service in the directory and connect it
+* [Connectors directory](https://claude.com/docs/connectors/directory.md): browse verified and community integrations

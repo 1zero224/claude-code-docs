@@ -8,11 +8,38 @@ featureMetadata:
     url: https://platform.claude.com/docs/en/managed-agents/overview
   status: beta
   betaHeader: managed-agents-2026-04-01
+  zdr:
+    eligibility: not-eligible
+    note: Sessions are stateful resources; transcripts persist until you delete them. Applies to all Managed Agents sub-features, including Self-hosted sandboxes.
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: beta
+    Claude Platform on AWS: beta
+    Claude Models on Google Cloud (Anthropic managed): beta
 ---
 
 Environments define the sandbox configuration where your agent runs. You create an environment once, then reference its ID each time you start a session. Multiple sessions can share the same environment, but each session gets its own isolated sandbox (a fresh Linux container).
 
-This page covers `type: cloud` environments. To run sandboxes on your own infrastructure, see [Self-hosted sandboxes](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes).
+This page covers `type: cloud` environments. To run sandboxes on your own infrastructure, see [Self-hosted sandboxes](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes). To choose between the two, see [Choosing an agent environment](https://platform.claude.com/docs/en/managed-agents/choosing-an-environment).
 
 ## Create an environment
 
@@ -20,18 +47,16 @@ This page covers `type: cloud` environments. To run sandboxes on your own infras
   ```bash cURL
   curl -fsS https://api.anthropic.com/v1/environments \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
     -H "content-type: application/json" \
-    --data @- <<'EOF'
-  {
-    "name": "python-dev",
-    "config": {
-      "type": "cloud",
-      "networking": {"type": "limited", "allow_package_managers": true}
-    }
-  }
-  EOF
+    -d '{
+      "name": "python-dev",
+      "config": {
+        "type": "cloud",
+        "networking": {"type": "limited", "allow_package_managers": true}
+      }
+    }'
   ```
 
   <CodeGroupItem>
@@ -51,7 +76,7 @@ This page covers `type: cloud` environments. To run sandboxes on your own infras
       ```
     </File>
 
-    [`ant apply`](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/apply) creates the environment from `environment.yaml`, prints its ID, and records it in `claude-lock.json`. Commit `claude-lock.json` so the next `ant apply` updates this environment instead of trying to create it again.
+    [`ant apply`](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/apply) creates the environment from `environment.yaml`, prints its ID, and records it in `claude-lock.json`. Commit `claude-lock.json` so the next `ant apply` updates this environment instead of attempting to create it again.
   </CodeGroupItem>
 
   ```python Python
@@ -71,8 +96,8 @@ This page covers `type: cloud` environments. To run sandboxes on your own infras
     name: "python-dev",
     config: {
       type: "cloud",
-      networking: { type: "limited", allow_package_managers: true },
-    },
+      networking: { type: "limited", allow_package_managers: true }
+    }
   });
 
   console.log(`Environment ID: ${environment.id}`);
@@ -160,15 +185,13 @@ Pass the environment ID as a string when [creating a session](https://platform.c
   ```bash cURL
   curl -fsS https://api.anthropic.com/v1/sessions \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
     -H "content-type: application/json" \
-    --data @- <<EOF
-  {
-    "agent": "$AGENT_ID",
-    "environment_id": "$ENVIRONMENT_ID"
-  }
-  EOF
+    -d '{
+      "agent": "'"$AGENT_ID"'",
+      "environment_id": "'"$ENVIRONMENT_ID"'"
+    }'
   ```
 
   ```bash CLI
@@ -185,7 +208,7 @@ Pass the environment ID as a string when [creating a session](https://platform.c
   ```typescript TypeScript
   const session = await client.beta.sessions.create({
     agent: agent.id,
-    environment_id: environment.id,
+    environment_id: environment.id
   });
   ```
 
@@ -241,22 +264,20 @@ The `packages` (csharp, go: `Packages`) field pre-installs packages into the san
   ```bash cURL
   curl -fsS https://api.anthropic.com/v1/environments \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
     -H "content-type: application/json" \
-    --data @- <<'EOF'
-  {
-    "name": "data-analysis",
-    "config": {
-      "type": "cloud",
-      "packages": {
-        "pip": ["pandas", "numpy", "scikit-learn"],
-        "npm": ["express"]
-      },
-      "networking": {"type": "limited", "allow_package_managers": true}
-    }
-  }
-  EOF
+    -d '{
+      "name": "data-analysis",
+      "config": {
+        "type": "cloud",
+        "packages": {
+          "pip": ["pandas", "numpy", "scikit-learn"],
+          "npm": ["express"]
+        },
+        "networking": {"type": "limited", "allow_package_managers": true}
+      }
+    }'
   ```
 
   <CodeGroupItem>
@@ -353,7 +374,6 @@ The `packages` (csharp, go: `Packages`) field pre-installs packages into the san
   if err != nil {
   	panic(err)
   }
-  _ = environment
   ```
 
   ```java Java
@@ -416,9 +436,9 @@ Supported package managers:
 
 ### Networking
 
-The `networking` (csharp, go: `Networking`) field controls the sandbox's outbound network access.
+The `networking` (csharp, go: `Networking`) field controls the sandbox’s outbound network access.
 
-With `limited` networking, `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) also applies to the `web_search` and `web_fetch` tools, which run on Anthropic's servers. A `web_fetch` call for a URL on a host that `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) does not match returns an error result to the agent. `web_search` omits results from hosts that `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) does not match. `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) and `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) add no hosts for these tools. When `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) lists no hosts, no `web_fetch` or `web_search` call returns a page or a search result. A host that you add to `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) for these tools is also open to the sandbox. `unrestricted` networking and self-hosted environments do not limit these tools. To restrict them further, set `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) or `blocked_domains` (java, php: `blockedDomains`; csharp, go: `BlockedDomains`) on the tool's entry in the agent toolset. See [Restrict web search and web fetch domains](https://platform.claude.com/docs/en/managed-agents/tools-web-restrictions).
+With `limited` networking, `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) also applies to the `web_search` and `web_fetch` tools, which run on Anthropic’s servers. A `web_fetch` call for a URL on a host that `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) does not match returns an error result to the agent. `web_search` omits results from hosts that `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) does not match. `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) and `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) add no hosts for these tools. When `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) lists no hosts, no `web_fetch` or `web_search` call returns a page or a search result. A host that you add to `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) for these tools is also open to the sandbox. `unrestricted` networking and self-hosted environments do not limit these tools. To restrict them further, set `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) or `blocked_domains` (java, php: `blockedDomains`; csharp, go: `BlockedDomains`) on the tool’s entry in the agent toolset. See [Restrict web search and web fetch domains](https://platform.claude.com/docs/en/managed-agents/tools-web-restrictions).
 
 | Mode           | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -426,7 +446,7 @@ With `limited` networking, `allowed_hosts` (java, php: `allowedHosts`; csharp, g
 | `unrestricted` | Full outbound network access, except for a general safety blocklist. Before you use it, read [Risks of unrestricted networking](https://platform.claude.com/docs/en/managed-agents/environments#risks-of-unrestricted-networking).                                                                                                                                                                                                                                           |
 
 <Note>
-  Set `networking` (csharp, go: `Networking`) explicitly in API requests; a create request that omits it gets `unrestricted`. The Claude Console's form for creating an environment starts with **Limited** selected and nothing else allowed.
+  Set `networking` (csharp, go: `Networking`) explicitly in API requests; a create request that omits it gets `unrestricted`. The Claude Console’s form for creating an environment starts with **Limited** selected and nothing else allowed.
 </Note>
 
 The following example creates an environment with `limited` networking:
@@ -435,7 +455,7 @@ The following example creates an environment with `limited` networking:
   ```bash cURL
   curl -fsS https://api.anthropic.com/v1/environments \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
     -H "content-type: application/json" \
     -d '{
@@ -539,7 +559,6 @@ The following example creates an environment with `limited` networking:
   if err != nil {
   	panic(err)
   }
-  _ = environment
   ```
 
   ```java Java
@@ -619,7 +638,7 @@ When `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `A
 | Containers   | `registry-1.docker.io`, `auth.docker.io`, `production.cloudflare.docker.com`, `download.docker.com`, `ghcr.io`                                                                             |
 
 <Warning>
-  Network access is granted per host, not per operation. The sandbox can send any request to an allowed host, including uploads such as `git push` and package publishing, with any credential the command supplies. If the agent processes untrusted input (repository files, fetched web content, or third-party tool output), a successful prompt injection could use an allowed host to copy files out of the sandbox. To reduce this risk, set the `bash` tool's [permission policy](https://platform.claude.com/docs/en/managed-agents/permission-policies) to `always_ask` or `auto`. If the environment does not specify `packages` (csharp, go: `Packages`), you can instead leave `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) set to `false` and list only the hosts your agent needs in `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`).
+  Network access is granted by host, not by operation. The sandbox can send any request to an allowed host, including uploads such as `git push` and package publishing, with any credential the command supplies. If the agent processes untrusted input (repository files, fetched web content, or third-party tool output), a successful prompt injection could use an allowed host to copy files out of the sandbox. To reduce this risk, set the `bash` tool’s [permission policy](https://platform.claude.com/docs/en/managed-agents/permission-policies) to `always_ask` or `auto`. If the environment does not specify `packages` (csharp, go: `Packages`), you can instead leave `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) set to `false` and list only the hosts your agent needs in `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`).
 </Warning>
 
 #### Risks of unrestricted networking
@@ -627,10 +646,10 @@ When `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `A
 With `unrestricted` networking, code in the sandbox can send requests to any host on the internet, except for hosts on a general safety blocklist. Before you choose this mode, consider what the agent can do with that access:
 
 * **The agent can change things on external sites, not only read them:** The `bash` tool can send any request. The agent can post data, submit forms, call APIs, and run scripts that change data on external sites. Even a request that only fetches a URL can change data on some sites.
-* **Nothing pauses these requests by default:** The agent toolset's default [permission policy](https://platform.claude.com/docs/en/managed-agents/permission-policies) is `always_allow`, so `bash` commands run without approval.
+* **Nothing pauses these requests by default:** The agent toolset’s default [permission policy](https://platform.claude.com/docs/en/managed-agents/permission-policies) is `always_allow`, so `bash` commands run without approval.
 * **Anything in the sandbox can leave it:** This includes files, tool outputs, and any credentials or secrets you put in the sandbox.
-* **Fetched content can steer the agent:** Web pages, API responses, and other content the agent reads can contain instructions (prompt injection) that change what it does next.
-* **The agent acts on your behalf:** Its actions can violate a site's terms of service, or create accounts and records there.
+* **Fetched content can steer the agent:** Webpages, API responses, and other content the agent reads can contain instructions (prompt injection) that change what it does next.
+* **The agent acts on your behalf:** Its actions can violate a site’s terms of service, or create accounts and records there.
 * **Model behavior is not a security control:** The agent can act on external sites in ways you did not ask for, including retrying in a different way after a site blocks a request. Use network settings and permission policies to limit what it can do.
 * **The safety blocklist is not an allowlist:** It does not limit which other sites the agent reaches, or what the agent does on them.
 
@@ -644,9 +663,9 @@ To reduce these risks, use `limited` networking with an explicit list of hosts. 
 }
 ```
 
-An agent that only uses the `web_search` and `web_fetch` tools does not need `unrestricted` networking if you can list the sites it needs. With `limited` networking, `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) also applies to those tools (see [Networking](https://platform.claude.com/docs/en/managed-agents/environments#networking)), so list those sites in `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`). Listing them in `web_search`'s `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) too makes it search those sites. A host that you add to `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) is also open to the sandbox. To restrict the tools further, see [Restrict web search and web fetch domains](https://platform.claude.com/docs/en/managed-agents/tools-web-restrictions).
+An agent that only uses the `web_search` and `web_fetch` tools does not need `unrestricted` networking if you can list the sites it needs. With `limited` networking, `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) also applies to those tools (see [Networking](https://platform.claude.com/docs/en/managed-agents/environments#networking)), so list those sites in `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`). Listing them in `web_search`’s `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) too makes it search those sites. A host that you add to `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) is also open to the sandbox. To restrict the tools further, see [Restrict web search and web fetch domains](https://platform.claude.com/docs/en/managed-agents/tools-web-restrictions).
 
-Use `unrestricted` only when the agent must reach sites you cannot list in advance. In that case, keep secrets and sensitive files out of the sandbox, and give the agent only the credentials the task needs. Consider setting the `bash` tool's permission policy to `always_ask` or `auto`, and [watch the session's events](https://platform.claude.com/docs/en/managed-agents/events-and-streaming).
+Use `unrestricted` only when the agent must reach sites you cannot list in advance. In that case, keep secrets and sensitive files out of the sandbox, and give the agent only the credentials the task needs. Consider setting the `bash` tool’s permission policy to `always_ask` or `auto`, and [watch the session’s events](https://platform.claude.com/docs/en/managed-agents/events-and-streaming).
 
 ## Environment lifecycle
 
@@ -661,25 +680,25 @@ Use `unrestricted` only when the agent must reach sites you cannot list in advan
   # List environments
   curl -fsS https://api.anthropic.com/v1/environments \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01"
 
   # Retrieve a specific environment
   curl -fsS "https://api.anthropic.com/v1/environments/$ENVIRONMENT_ID" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01"
 
-  # Archive an environment (read-only, existing sessions continue)
+  # Archive an environment (read-only, no new sessions)
   curl -fsS -X POST "https://api.anthropic.com/v1/environments/$ENVIRONMENT_ID/archive" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01"
 
-  # Delete an environment (only if no sessions reference it)
+  # Delete an environment
   curl -fsS -X DELETE "https://api.anthropic.com/v1/environments/$ENVIRONMENT_ID" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01"
   ```
 
@@ -690,10 +709,10 @@ Use `unrestricted` only when the agent must reach sites you cannot list in advan
   # Retrieve a specific environment
   ant beta:environments retrieve --environment-id "$ENVIRONMENT_ID"
 
-  # Archive an environment (read-only, existing sessions continue)
+  # Archive an environment (read-only, no new sessions)
   ant beta:environments archive --environment-id "$ENVIRONMENT_ID"
 
-  # Delete an environment (only if no sessions reference it)
+  # Delete an environment
   ant beta:environments delete --environment-id "$ENVIRONMENT_ID"
   ```
 
@@ -704,10 +723,10 @@ Use `unrestricted` only when the agent must reach sites you cannot list in advan
   # Retrieve a specific environment
   env = client.beta.environments.retrieve(environment.id)
 
-  # Archive an environment (read-only, existing sessions continue)
+  # Archive an environment (read-only, no new sessions)
   client.beta.environments.archive(environment.id)
 
-  # Delete an environment (only if no sessions reference it)
+  # Delete an environment
   client.beta.environments.delete(environment.id)
   ```
 
@@ -718,10 +737,10 @@ Use `unrestricted` only when the agent must reach sites you cannot list in advan
   // Retrieve a specific environment
   const env = await client.beta.environments.retrieve(environment.id);
 
-  // Archive an environment (read-only, existing sessions continue)
+  // Archive an environment (read-only, no new sessions)
   await client.beta.environments.archive(environment.id);
 
-  // Delete an environment (only if no sessions reference it)
+  // Delete an environment
   await client.beta.environments.delete(environment.id);
   ```
 
@@ -732,10 +751,10 @@ Use `unrestricted` only when the agent must reach sites you cannot list in advan
   // Retrieve a specific environment
   var env = await client.Beta.Environments.Retrieve(environment.ID);
 
-  // Archive an environment (read-only, existing sessions continue)
+  // Archive an environment (read-only, no new sessions)
   await client.Beta.Environments.Archive(environment.ID);
 
-  // Delete an environment (only if no sessions reference it)
+  // Delete an environment
   await client.Beta.Environments.Delete(environment.ID);
   ```
 
@@ -748,11 +767,11 @@ Use `unrestricted` only when the agent must reach sites you cannot list in advan
   env, err := client.Beta.Environments.Get(ctx, environment.ID, anthropic.BetaEnvironmentGetParams{})
   // ...
 
-  // Archive an environment (read-only, existing sessions continue)
+  // Archive an environment (read-only, no new sessions)
   _, err = client.Beta.Environments.Archive(ctx, environment.ID, anthropic.BetaEnvironmentArchiveParams{})
   // ...
 
-  // Delete an environment (only if no sessions reference it)
+  // Delete an environment
   _, err = client.Beta.Environments.Delete(ctx, environment.ID, anthropic.BetaEnvironmentDeleteParams{})
   ```
 
@@ -761,9 +780,9 @@ Use `unrestricted` only when the agent must reach sites you cannot list in advan
   var environments = client.beta().environments().list();
   // Retrieve a specific environment
   var env = client.beta().environments().retrieve(environment.id());
-  // Archive an environment (read-only, existing sessions continue)
+  // Archive an environment (read-only, no new sessions)
   client.beta().environments().archive(environment.id());
-  // Delete an environment (only if no sessions reference it)
+  // Delete an environment
   client.beta().environments().delete(environment.id());
   ```
 
@@ -772,9 +791,9 @@ Use `unrestricted` only when the agent must reach sites you cannot list in advan
   $environments = $client->beta->environments->list();
   // Retrieve a specific environment
   $env = $client->beta->environments->retrieve($environment->id);
-  // Archive an environment (read-only, existing sessions continue)
+  // Archive an environment (read-only, no new sessions)
   $client->beta->environments->archive($environment->id);
-  // Delete an environment (only if no sessions reference it)
+  // Delete an environment
   $client->beta->environments->delete($environment->id);
   ```
 
@@ -785,10 +804,10 @@ Use `unrestricted` only when the agent must reach sites you cannot list in advan
   # Retrieve a specific environment
   env = client.beta.environments.retrieve(environment.id)
 
-  # Archive an environment (read-only, existing sessions continue)
+  # Archive an environment (read-only, no new sessions)
   client.beta.environments.archive(environment.id)
 
-  # Delete an environment (only if no sessions reference it)
+  # Delete an environment
   client.beta.environments.delete(environment.id)
   ```
 </CodeGroup>
@@ -808,3 +827,40 @@ Cloud sandboxes include common language runtimes, databases, and command-line to
     Create a session to run your agent and start running tasks.
   </Card>
 </CardGroup>
+
+## Availability
+
+Cloud sandboxes are in beta on every model.
+
+### API support
+
+#### [Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview)
+
+* Availability: Available
+
+| Status | Cloud platforms                                                                                                                                                                                                                                                                | Models                                                            |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| Beta   | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [All models](https://platform.claude.com/docs/en/models/overview) |
+
+### Required beta headers
+
+[Beta headers overview](https://platform.claude.com/docs/en/api/beta-headers)
+
+Beta headers allow you to access experimental features and new model capabilities before they become part of the standard API.
+
+* `managed-agents-2026-04-01`
+
+### Data handling
+
+[Data handling overview](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#feature-eligibility)
+
+| Item    | Zero data retention                                                                                                                                      | HIPAA                                                                        |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Status  | Not eligible                                                                                                                                             | Not eligible                                                                 |
+| Details | Sessions are stateful resources; transcripts persist until you delete them. Applies to all Managed Agents sub-features, including Self-hosted sandboxes. | Applies to all Managed Agents sub-features, including Self-hosted sandboxes. |
+
+Applicable endpoints:
+
+* `/v1/agents`
+* `/v1/sessions`
+* `/v1/environments`

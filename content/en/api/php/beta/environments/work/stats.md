@@ -15,11 +15,11 @@ Get statistics about the work queue for an environment.
 
 - `environmentID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -35,7 +35,7 @@ Get statistics about the work queue for an environment.
 
   - `int depth`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
   - `?string oldestQueuedAt`
 
@@ -55,6 +55,9 @@ Get statistics about the work queue for an environment.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

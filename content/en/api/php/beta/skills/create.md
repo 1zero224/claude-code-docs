@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/php/beta/skills/create
 
 # Create Skill
 
-`$client->beta->skills->create(list<string> files, ?string displayName, ?list<AnthropicBeta> betas, ?string workspaceID): BetaSkill`
+`$client->beta->skills->create(list<FileParam | string> files, ?string displayName, ?list<AnthropicBeta> betas, ?string workspaceID): BetaSkill`
 
 **POST** `/v1/skills`
 
@@ -13,23 +13,23 @@ Create Skill
 
 ## Parameters
 
-- `files: list<string>`
+- `files: list<FileParam | string>`
 
   Files to upload for the skill.
 
   All files must be in the same top-level directory and must include a SKILL.md file at the root of that directory.
 
-- `displayName?:optional string`
+- `displayName?: optional string`
 
   Human-readable, single-line label for the Skill. Maximum 255 characters.
   Always set: derived from the SKILL.md frontmatter `name` when omitted at
   creation. Not unique.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -86,6 +86,10 @@ Create Skill
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Core\FileParam;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

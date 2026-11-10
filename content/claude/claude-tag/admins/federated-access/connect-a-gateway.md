@@ -6,13 +6,15 @@
 
 > Connect a gateway you run so Claude Tag can call your internal services with a short-lived identity token instead of a stored credential. Covers what the gateway must check, how to register it in the console, and how to verify the connection.
 
-export const BetaNote = () => <Info>Claude Tag is in public beta. Features and behavior described here may change before general availability.</Info>;
+> [!NOTE]
+>
+> Claude Tag is in public beta. Features and behavior described here may change before general availability.
 
-<BetaNote />
+> [!NOTE]
+>
+> Gateways are connected on the [**Federated agent access**](https://claude.ai/admin-settings/claude-tag/federated-cloud-access) page, under **Claude Tag** in the admin settings sidebar. Use its **Gateways** section. Connecting a gateway needs an organization Owner, or an admin with full Claude Tag management permission.
 
-<Note>Gateways are connected on the [**Federated agent access**](https://claude.ai/admin-settings/claude-tag/federated-cloud-access) page, under **Claude Tag** in the admin settings sidebar. Use its **Gateways** section. Connecting a gateway needs an organization Owner, or an admin with full Claude Tag management permission.</Note>
-
-A gateway is a service you run between Claude and your internal systems. Every request Claude sends it carries a signed identity token naming your organization and the [agent](/docs/claude-tag/concepts/agent-identity) making the request (Claude's identity in one Slack channel). The gateway checks the token, decides what that agent may do, and forwards the request with your own credentials. No long-lived credential for your systems is stored in Claude.
+A gateway is a service you run between Claude and your internal systems. Every request Claude sends it carries a signed identity token naming your organization and the [agent](https://claude.com/docs/claude-tag/concepts/agent-identity.md) making the request (Claude's identity in one Slack channel). The gateway checks the token, decides what that agent may do, and forwards the request with your own credentials. No long-lived credential for your systems is stored in Claude.
 
 Two terms recur on this page. The **subject check** is what your gateway does to every token, confirming it belongs to your organization. The **connection check** is what the console does once, when you connect the gateway, confirming that your gateway performs the subject check.
 
@@ -40,7 +42,7 @@ Claude authenticates with a JSON Web Token (JWT) in the `Authorization: Bearer` 
 | Control subject | A reserved test identity in your organization, copied from the dialog. Anthropic uses it only for the connection check. |
 | Expiry | Tokens expire 10 minutes after they're issued. Check `exp`, allowing up to 60 seconds of clock skew. |
 
-The subject check is yours to implement, and it's required, because every organization's tokens come from the same issuer; see [Authorize on the subject](/docs/claude-tag/admins/federated-access/token-reference#authorize-on-the-subject). Implement the check in one of two forms, strongest first:
+The subject check is yours to implement, and it's required, because every organization's tokens come from the same issuer; see [Authorize on the subject](https://claude.com/docs/claude-tag/admins/federated-access/token-reference.md#authorize-on-the-subject). Implement the check in one of two forms, strongest first:
 
 * Accept only an explicit list of your own agents' full subjects, when your use case allows it. The sample gateway does this by default and offers the prefix form below as an opt-in setting. Agent IDs change when a Slack channel is deleted and recreated, so you update the list when that happens.
 * Otherwise, reject every token whose `sub` doesn't start with your **Subject prefix**, or pin `iss` and `tenant` together. The `tenant` claim is your organization ID, the same value the subject carries between `/org/` and `/agent/`, so checking it is the subject check in claim form. This is the minimum.
@@ -56,35 +58,33 @@ Never forward the Claude Tag token downstream; replace the `Authorization` heade
 
 ## Register the gateway in the console
 
-<Steps>
-  <Step title="Open the Connect a gateway dialog">
-    In **Gateways**, click **Connect a gateway**.
-  </Step>
+**1. Open the Connect a gateway dialog**
 
-  <Step title="Enter the gateway address">
-    In the **Gateway address** field, enter the host only, in lowercase, starting with `https://`, for example `https://gateway.example.com`. This address is the token's audience.
-  </Step>
+In **Gateways**, click **Connect a gateway**.
 
-  <Step title="Confirm the subject check">
-    Select the **This gateway checks that each token's subject belongs to your organization** checkbox. The **Run check and connect** button stays disabled until you do. Select it only if the gateway rejects every subject outside your organization, by explicit list, by prefix, or by the `tenant` claim.
-  </Step>
+**2. Enter the gateway address**
 
-  <Step title="Run the connection check">
-    Leave the **Run the check** option selected and click **Run check and connect**. The check can take up to a minute. If it fails, nothing is registered; see [Common errors](#common-errors). If the gateway can't be reached from the internet yet, select the **Skip the check** option, enter a **Reason for skipping**, and click **Connect without the check**. The reason is shown in the **Gateways** table, under the **Skipped** result's **Details**. Entering an address that is already registered runs the check again (unless you skip it) without changing the stored result, then moves to the bundle step.
-  </Step>
+In the **Gateway address** field, enter the host only, in lowercase, starting with `https://`, for example `https://gateway.example.com`. This address is the token's audience.
 
-  <Step title="Add the gateway to a bundle">
-    Choose a bundle from the **Access bundle** list, or create one: click **New bundle** if the dialog shows it, enter a **Bundle name**, and click **Create bundle**. Then click **Add to bundle**. This creates a connection in that bundle, with the gateway's host as its allowed website. A gateway can be in more than one bundle, and it applies wherever those bundles apply. The **Access bundle** list offers only the bundles it isn't in yet. Click **Not now** to finish without a bundle.
-  </Step>
-</Steps>
+**3. Confirm the subject check**
+
+Select the **This gateway checks that each token's subject belongs to your organization** checkbox. The **Run check and connect** button stays disabled until you do. Select it only if the gateway rejects every subject outside your organization, by explicit list, by prefix, or by the `tenant` claim.
+
+**4. Run the connection check**
+
+Leave the **Run the check** option selected and click **Run check and connect**. The check can take up to a minute. If it fails, nothing is registered; see [Common errors](#common-errors). If the gateway can't be reached from the internet yet, select the **Skip the check** option, enter a **Reason for skipping**, and click **Connect without the check**. The reason is shown in the **Gateways** table, under the **Skipped** result's **Details**. Entering an address that is already registered runs the check again (unless you skip it) without changing the stored result, then moves to the bundle step.
+
+**5. Add the gateway to a bundle**
+
+Choose a bundle from the **Access bundle** list, or create one: click **New bundle** if the dialog shows it, enter a **Bundle name**, and click **Create bundle**. Then click **Add to bundle**. This creates a connection in that bundle, with the gateway's host as its allowed website. A gateway can be in more than one bundle, and it applies wherever those bundles apply. The **Access bundle** list offers only the bundles it isn't in yet. Click **Not now** to finish without a bundle.
 
 The **Gateways** table lists each gateway with its **Access bundles**, its **Connection check** result (**Passed**, or **Skipped**, with the reason you gave under **Details**), when it was added, and **Add to bundle** and **Remove** actions; on a row that is already in a bundle, the add action reads **Add to another bundle**. For a gateway that is already registered, skip the dialog's first step: click the add action in the gateway's row of the **Gateways** table, which opens the dialog at the bundle step. Entering the address again in **Connect a gateway** also reaches the bundle step, but unless you skip the check it runs again first, and that run counts toward the check limit.
 
 ## Let agents reach the gateway
 
-Claude uses the gateway in the channels where its bundle applies. A bundle you created in the connect dialog applies nowhere until you choose places; see [Manage federated connections on the Connectors tab](/docs/claude-tag/admins/federated-access/overview#manage-federated-connections-on-the-connectors-tab).
+Claude uses the gateway in the channels where its bundle applies. A bundle you created in the connect dialog applies nowhere until you choose places; see [Manage federated connections on the Connectors tab](https://claude.com/docs/claude-tag/admins/federated-access/overview#manage-federated-connections-on-the-connectors-tab).
 
-Claude also needs to know the gateway exists. Add a line like this to the scope's [custom instructions](/docs/claude-tag/admins/attach-to-scope#add-custom-instructions):
+Claude also needs to know the gateway exists. Add a line like this to the scope's [custom instructions](https://claude.com/docs/claude-tag/admins/attach-to-scope.md#add-custom-instructions):
 
 ```text wrap theme={null}
 Internal APIs are behind https://gateway.example.com. Call GET /list-services there to see what is available.
@@ -92,11 +92,11 @@ Internal APIs are behind https://gateway.example.com. Call GET /list-services th
 
 The sample gateway serves `GET /list-services` for this; an OpenAPI document named in the instructions works as well.
 
-New threads pick up the connection on their own. In a thread already running, ask Claude to use the gateway and include its address. If Claude still can't see the gateway, send [`@Claude !restart`](/docs/claude-tag/users/commands#restart-a-stuck-or-wrong-context-session) in that thread. Claude then continues from a fresh session with your organization's current configuration.
+New threads pick up the connection on their own. In a thread already running, ask Claude to use the gateway and include its address. If Claude still can't see the gateway, send [`@Claude !restart`](https://claude.com/docs/claude-tag/users/commands#restart-a-stuck-or-wrong-context-session) in that thread. Claude then continues from a fresh session with your organization's current configuration.
 
 ## Verify the connection
 
-[Federated connections](/docs/claude-tag/admins/federated-access/limits#where-federated-connections-work) work only in agent sessions, such as a Slack channel. A test from a personal session, such as a direct message with `@Claude`, won't work.
+[Federated connections](https://claude.com/docs/claude-tag/admins/federated-access/limits.md#where-federated-connections-work) work only in agent sessions, such as a Slack channel. A test from a personal session, such as a direct message with `@Claude`, won't work.
 
 In a channel where the gateway's connection applies, start a new thread and ask Claude to make a small read through the gateway:
 
@@ -104,24 +104,24 @@ In a channel where the gateway's connection applies, start a new thread and ask 
 @Claude call GET /list-services on https://gateway.example.com and tell me what it returns.
 ```
 
-If your gateway logs subjects and decisions, confirm the request arrived with a token that passed every check and a subject starting with your **Subject prefix**. [Agent Proxy](/docs/claude-tag/concepts/agent-identity#agent-proxy) attaches the token at the network boundary; the model and the sandbox are not given it.
+If your gateway logs subjects and decisions, confirm the request arrived with a token that passed every check and a subject starting with your **Subject prefix**. [Agent Proxy](https://claude.com/docs/claude-tag/concepts/agent-identity.md#agent-proxy) attaches the token at the network boundary; the model and the sandbox are not given it.
 
 To disconnect a gateway, click **Remove** in the gateway's row of the **Gateways** table and confirm with **Remove gateway**. Claude stops using the gateway at once. A token issued before the removal stays valid until it expires, within 10 minutes.
 
 ## Common errors
 
-One message comes up while connecting. **"The check didn't pass"** means the gateway isn't reachable from the internet over HTTPS, its root route doesn't answer an empty `POST` directly, or the subject check is missing or rejects the **Control subject**. See [The check didn't pass](/docs/claude-tag/admins/federated-access/troubleshooting#the-check-didn%E2%80%99t-pass).
+One message comes up while connecting. **"The check didn't pass"** means the gateway isn't reachable from the internet over HTTPS, its root route doesn't answer an empty `POST` directly, or the subject check is missing or rejects the **Control subject**. See [The check didn't pass](https://claude.com/docs/claude-tag/admins/federated-access/troubleshooting.md#the-check-didn%E2%80%99t-pass).
 
-A bundle-step note that the gateway is already in a bundle isn't an error; the **Access bundle** list then offers the bundles it isn't in yet. To use the gateway in more channels without adding it to another bundle, apply a bundle it's in wherever you need the gateway; see [Manage federated connections on the Connectors tab](/docs/claude-tag/admins/federated-access/overview#manage-federated-connections-on-the-connectors-tab).
+A bundle-step note that the gateway is already in a bundle isn't an error; the **Access bundle** list then offers the bundles it isn't in yet. To use the gateway in more channels without adding it to another bundle, apply a bundle it's in wherever you need the gateway; see [Manage federated connections on the Connectors tab](https://claude.com/docs/claude-tag/admins/federated-access/overview#manage-federated-connections-on-the-connectors-tab).
 
-For other dialog messages, see [Troubleshoot federated agent access](/docs/claude-tag/admins/federated-access/troubleshooting).
+For other dialog messages, see [Troubleshoot federated agent access](https://claude.com/docs/claude-tag/admins/federated-access/troubleshooting.md).
 
-If Claude reports HTTP 403 with a reason that starts with [`request blocked: federated connections work only in agent sessions (such as a Slack channel), not in personal sessions (such as a direct message)`](/docs/claude-tag/admins/federated-access/troubleshooting#request-blocked-federated-connections-work-only-in-agent-sessions-such-as-a-slack-channel--not-in-personal-sessions-such-as-a-direct-message), the request came from a personal session, such as a direct message with `@Claude`. A personal session runs under a person's own account. [Federated connections](/docs/claude-tag/admins/federated-access/limits#where-federated-connections-work) work only in agent sessions, so test again from a new thread in a Slack channel where the connection [applies](/docs/claude-tag/admins/attach-to-scope#how-scopes-inherit).
+If Claude reports HTTP 403 with a reason that starts with [`request blocked: federated connections work only in agent sessions (such as a Slack channel), not in personal sessions (such as a direct message)`](https://claude.com/docs/claude-tag/admins/federated-access/troubleshooting#request-blocked-federated-connections-work-only-in-agent-sessions-such-as-a-slack-channel--not-in-personal-sessions-such-as-a-direct-message), the request came from a personal session, such as a direct message with `@Claude`. A personal session runs under a person's own account. [Federated connections](https://claude.com/docs/claude-tag/admins/federated-access/limits.md#where-federated-connections-work) work only in agent sessions, so test again from a new thread in a Slack channel where the connection [applies](https://claude.com/docs/claude-tag/admins/attach-to-scope.md#how-scopes-inherit).
 
 ## Related resources
 
-* [Give Claude access](/docs/claude-tag/admins/add-connections): the bundle and connection model
-* [Attach a bundle to a scope](/docs/claude-tag/admins/attach-to-scope): where a gateway connection applies
-* [Identity token reference](/docs/claude-tag/admins/federated-access/token-reference): every claim in the token, lifetimes, and key rotation
-* [Troubleshoot federated agent access](/docs/claude-tag/admins/federated-access/troubleshooting): console and runtime errors for every connection type
+* [Give Claude access](https://claude.com/docs/claude-tag/admins/add-connections.md): the bundle and connection model
+* [Attach a bundle to a scope](https://claude.com/docs/claude-tag/admins/attach-to-scope.md): where a gateway connection applies
+* [Identity token reference](https://claude.com/docs/claude-tag/admins/federated-access/token-reference.md): every claim in the token, lifetimes, and key rotation
+* [Troubleshoot federated agent access](https://claude.com/docs/claude-tag/admins/federated-access/troubleshooting.md): console and runtime errors for every connection type
 * [Sample gateway](https://github.com/anthropics/claude-tag-wif-gateway-sample): a reference gateway with offline tests

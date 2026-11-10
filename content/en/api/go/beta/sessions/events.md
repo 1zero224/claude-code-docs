@@ -147,7 +147,7 @@ List Events
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -249,6 +249,18 @@ List Events
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -265,7 +277,7 @@ List Events
 
     A user message event in the session conversation.
 
-    - `Type BetaManagedAgentsUserMessageEventType`
+    - `Type UserMessage`
 
     - `ID string`
 
@@ -279,7 +291,7 @@ List Events
 
         Regular text content.
 
-        - `Type BetaManagedAgentsTextBlockType`
+        - `Type Text`
 
         - `Text string`
 
@@ -291,7 +303,7 @@ List Events
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type BetaManagedAgentsImageBlockType`
+        - `Type Image`
 
         - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -301,7 +313,7 @@ List Events
 
             Base64-encoded image data.
 
-            - `Type BetaManagedAgentsBase64ImageSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -319,7 +331,7 @@ List Events
 
             Image referenced by URL.
 
-            - `Type BetaManagedAgentsURLImageSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -331,7 +343,7 @@ List Events
 
             Image referenced by file ID.
 
-            - `Type BetaManagedAgentsFileImageSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -343,7 +355,7 @@ List Events
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type BetaManagedAgentsDocumentBlockType`
+        - `Type Document`
 
         - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -353,7 +365,7 @@ List Events
 
             Base64-encoded document data.
 
-            - `Type BetaManagedAgentsBase64DocumentSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -371,7 +383,7 @@ List Events
 
             Plain text document content.
 
-            - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+            - `Type Text`
 
             - `Data string`
 
@@ -379,7 +391,7 @@ List Events
 
               minLength: 1
 
-            - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+            - `MediaType TextPlain`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -387,7 +399,7 @@ List Events
 
             Document referenced by URL.
 
-            - `Type BetaManagedAgentsURLDocumentSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -399,7 +411,7 @@ List Events
 
             Document referenced by file ID.
 
-            - `Type BetaManagedAgentsFileDocumentSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -419,7 +431,7 @@ List Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type BetaManagedAgentsRedactedBlockType`
+        - `Type Redacted`
 
     - `ProcessedAt Time Optional`
 
@@ -431,7 +443,7 @@ List Events
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `Type BetaManagedAgentsUserInterruptEventType`
+    - `Type UserInterrupt`
 
     - `ID string`
 
@@ -451,7 +463,7 @@ List Events
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `Type BetaManagedAgentsUserToolConfirmationEventType`
+    - `Type UserToolConfirmation`
 
     - `ID string`
 
@@ -489,7 +501,7 @@ List Events
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `Type BetaManagedAgentsUserCustomToolResultEventType`
+    - `Type UserCustomToolResult`
 
     - `ID string`
 
@@ -519,7 +531,7 @@ List Events
 
         A block containing a web search result.
 
-        - `Type BetaManagedAgentsSearchResultBlockType`
+        - `Type SearchResult`
 
         - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -533,7 +545,7 @@ List Events
 
           Array of text content blocks from the search result.
 
-          - `Type BetaManagedAgentsSearchResultContentType`
+          - `Type Text`
 
           - `Text string`
 
@@ -571,13 +583,13 @@ List Events
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `Type BetaManagedAgentsAgentCustomToolUseEventType`
+    - `Type AgentCustomToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -599,7 +611,7 @@ List Events
 
     An agent response event in the session conversation.
 
-    - `Type BetaManagedAgentsAgentMessageEventType`
+    - `Type AgentMessage`
 
     - `ID string`
 
@@ -627,7 +639,7 @@ List Events
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `Type BetaManagedAgentsAgentThinkingEventType`
+    - `Type AgentThinking`
 
     - `ID string`
 
@@ -643,13 +655,13 @@ List Events
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `Type BetaManagedAgentsAgentMCPToolUseEventType`
+    - `Type AgentMCPToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -741,7 +753,7 @@ List Events
 
     Event representing the result of an MCP tool execution.
 
-    - `Type BetaManagedAgentsAgentMCPToolResultEventType`
+    - `Type AgentMCPToolResult`
 
     - `ID string`
 
@@ -785,13 +797,13 @@ List Events
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `Type BetaManagedAgentsAgentToolUseEventType`
+    - `Type AgentToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -821,7 +833,7 @@ List Events
 
     Event representing the result of an agent tool execution.
 
-    - `Type BetaManagedAgentsAgentToolResultEventType`
+    - `Type AgentToolResult`
 
     - `ID string`
 
@@ -865,7 +877,7 @@ List Events
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `Type BetaManagedAgentsAgentThreadMessageReceivedEventType`
+    - `Type AgentThreadMessageReceived`
 
     - `ID string`
 
@@ -909,7 +921,7 @@ List Events
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `Type BetaManagedAgentsAgentThreadMessageSentEventType`
+    - `Type AgentThreadMessageSent`
 
     - `ID string`
 
@@ -953,7 +965,7 @@ List Events
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `Type BetaManagedAgentsAgentThreadContextCompactedEventType`
+    - `Type AgentThreadContextCompacted`
 
     - `ID string`
 
@@ -969,7 +981,7 @@ List Events
 
     An error event indicating a problem occurred during session execution.
 
-    - `Type BetaManagedAgentsSessionErrorEventType`
+    - `Type SessionError`
 
     - `ID string`
 
@@ -981,7 +993,7 @@ List Events
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `Type BetaManagedAgentsUnknownErrorType`
+        - `Type UnknownError`
 
         - `Message string`
 
@@ -995,25 +1007,25 @@ List Events
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `Type BetaManagedAgentsRetryStatusRetryingType`
+            - `Type Retrying`
 
           - `type BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `Type BetaManagedAgentsRetryStatusExhaustedType`
+            - `Type Exhausted`
 
           - `type BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `Type BetaManagedAgentsRetryStatusTerminalType`
+            - `Type Terminal`
 
       - `type BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `Type BetaManagedAgentsModelOverloadedErrorType`
+        - `Type ModelOverloadedError`
 
         - `Message string`
 
@@ -1039,7 +1051,7 @@ List Events
 
         The model request was rate-limited.
 
-        - `Type BetaManagedAgentsModelRateLimitedErrorType`
+        - `Type ModelRateLimitedError`
 
         - `Message string`
 
@@ -1065,7 +1077,7 @@ List Events
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `Type BetaManagedAgentsModelRequestFailedErrorType`
+        - `Type ModelRequestFailedError`
 
         - `Message string`
 
@@ -1091,7 +1103,7 @@ List Events
 
         Failed to connect to an MCP server.
 
-        - `Type BetaManagedAgentsMCPConnectionFailedErrorType`
+        - `Type MCPConnectionFailedError`
 
         - `MCPServerName string`
 
@@ -1121,7 +1133,7 @@ List Events
 
         Authentication to an MCP server failed.
 
-        - `Type BetaManagedAgentsMCPAuthenticationFailedErrorType`
+        - `Type MCPAuthenticationFailedError`
 
         - `MCPServerName string`
 
@@ -1151,7 +1163,7 @@ List Events
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `Type BetaManagedAgentsBillingErrorType`
+        - `Type BillingError`
 
         - `Message string`
 
@@ -1177,7 +1189,7 @@ List Events
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `Type BetaManagedAgentsCredentialHostUnreachableErrorType`
+        - `Type CredentialHostUnreachableError`
 
         - `CredentialID string`
 
@@ -1206,6 +1218,58 @@ List Events
         - `VaultID string`
 
           ID of the vault containing the affected credential.
+
+      - `type BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type ToolUseLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsToolUseLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type CompactionLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsCompactionLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `type BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -1367,7 +1431,7 @@ List Events
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `Type BetaManagedAgentsSessionStatusRescheduledEventType`
+    - `Type SessionStatusRescheduled`
 
     - `ID string`
 
@@ -1383,7 +1447,7 @@ List Events
 
     Indicates the session is actively running and the agent is working.
 
-    - `Type BetaManagedAgentsSessionStatusRunningEventType`
+    - `Type SessionStatusRunning`
 
     - `ID string`
 
@@ -1399,7 +1463,7 @@ List Events
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `Type BetaManagedAgentsSessionStatusIdleEventType`
+    - `Type SessionStatusIdle`
 
     - `ID string`
 
@@ -1441,13 +1505,13 @@ List Events
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `Type BetaManagedAgentsSessionEndTurnType`
+        - `Type EndTurn`
 
       - `type BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `Type BetaManagedAgentsSessionRequiresActionType`
+        - `Type RequiresAction`
 
         - `EventIDs []string`
 
@@ -1457,13 +1521,13 @@ List Events
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `Type BetaManagedAgentsSessionRetriesExhaustedType`
+        - `Type RetriesExhausted`
 
       - `type BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `Type BetaManagedAgentsSessionBudgetReachedType`
+        - `Type BudgetReached`
 
       - `type BetaManagedAgentsSessionRefusal`
 
@@ -1475,7 +1539,7 @@ List Events
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `Type BetaManagedAgentsSessionStatusTerminatedEventType`
+    - `Type SessionStatusTerminated`
 
     - `ID string`
 
@@ -1491,7 +1555,7 @@ List Events
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `Type BetaManagedAgentsSessionThreadCreatedEventType`
+    - `Type SessionThreadCreated`
 
     - `ID string`
 
@@ -1519,7 +1583,7 @@ List Events
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationStartEventType`
+    - `Type SpanOutcomeEvaluationStart`
 
     - `ID string`
 
@@ -1545,7 +1609,7 @@ List Events
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationEndEventType`
+    - `Type SpanOutcomeEvaluationEnd`
 
     - `ID string`
 
@@ -1619,7 +1683,7 @@ List Events
 
     Emitted when a model request is initiated by the agent.
 
-    - `Type BetaManagedAgentsSpanModelRequestStartEventType`
+    - `Type SpanModelRequestStart`
 
     - `ID string`
 
@@ -1635,7 +1699,7 @@ List Events
 
     Emitted when a model request completes.
 
-    - `Type BetaManagedAgentsSpanModelRequestEndEventType`
+    - `Type SpanModelRequestEnd`
 
     - `ID string`
 
@@ -1663,7 +1727,7 @@ List Events
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationOngoingEventType`
+    - `Type SpanOutcomeEvaluationOngoing`
 
     - `ID string`
 
@@ -1689,7 +1753,7 @@ List Events
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `Type BetaManagedAgentsUserDefineOutcomeEventType`
+    - `Type UserDefineOutcome`
 
     - `ID string`
 
@@ -1723,7 +1787,7 @@ List Events
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type BetaManagedAgentsFileRubricType`
+        - `Type File`
 
         - `FileID string`
 
@@ -1733,7 +1797,7 @@ List Events
 
         Rubric content provided inline as text.
 
-        - `Type BetaManagedAgentsTextRubricType`
+        - `Type Text`
 
         - `Content string`
 
@@ -1743,7 +1807,7 @@ List Events
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `Type BetaManagedAgentsSessionDeletedEventType`
+    - `Type SessionDeleted`
 
     - `ID string`
 
@@ -1759,7 +1823,7 @@ List Events
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRunningEventType`
+    - `Type SessionThreadStatusRunning`
 
     - `ID string`
 
@@ -1783,7 +1847,7 @@ List Events
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusIdleEventType`
+    - `Type SessionThreadStatusIdle`
 
     - `ID string`
 
@@ -1833,7 +1897,7 @@ List Events
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusTerminatedEventType`
+    - `Type SessionThreadStatusTerminated`
 
     - `ID string`
 
@@ -1857,7 +1921,7 @@ List Events
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type BetaManagedAgentsUserToolResultEventType`
+    - `Type UserToolResult`
 
     - `ID string`
 
@@ -1905,7 +1969,7 @@ List Events
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRescheduledEventType`
+    - `Type SessionThreadStatusRescheduled`
 
     - `ID string`
 
@@ -1929,7 +1993,7 @@ List Events
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `Type BetaManagedAgentsSessionUpdatedEventType`
+    - `Type SessionUpdated`
 
     - `ID string`
 
@@ -1945,15 +2009,37 @@ List Events
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `Type BetaManagedAgentsSessionAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
+
+        - `Name string`
 
         - `Name string`
 
@@ -1968,6 +2054,10 @@ List Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -2045,31 +2135,31 @@ List Events
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -2091,7 +2181,7 @@ List Events
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+          - `Type Coordinator`
 
           - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -2101,15 +2191,19 @@ List Events
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
 
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-                - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+                - `Type URL`
 
                 - `Name string`
 
@@ -2127,7 +2221,7 @@ List Events
 
                   A resolved Anthropic-managed skill.
 
-                  - `Type BetaManagedAgentsAnthropicSkillType`
+                  - `Type Anthropic`
 
                   - `SkillID string`
 
@@ -2137,7 +2231,7 @@ List Events
 
                   A resolved user-created custom skill.
 
-                  - `Type BetaManagedAgentsCustomSkillType`
+                  - `Type Custom`
 
                   - `SkillID string`
 
@@ -2149,7 +2243,7 @@ List Events
 
                 - `type BetaManagedAgentsAgentToolset20260401`
 
-                  - `Type BetaManagedAgentsAgentToolset20260401Type`
+                  - `Type AgentToolset20260401`
 
                   - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -2171,13 +2265,13 @@ List Events
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                          - `Type AlwaysAllow`
 
                         - `type BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                          - `Type AlwaysAsk`
 
                         - `type BetaManagedAgentsAutoPolicy`
 
@@ -2473,6 +2567,8 @@ List Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `Region string Optional`
 
                           Region or state name.
@@ -2509,7 +2605,7 @@ List Events
 
                 - `type BetaManagedAgentsMCPToolset`
 
-                  - `Type BetaManagedAgentsMCPToolsetType`
+                  - `Type MCPToolset`
 
                   - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -2561,7 +2657,7 @@ List Events
 
                   A custom tool as returned in API responses.
 
-                  - `Type BetaManagedAgentsCustomToolType`
+                  - `Type Custom`
 
                   - `Description string`
 
@@ -2571,7 +2667,7 @@ List Events
 
                     - `Type Object`
 
-                    - `Properties map[string, any] Optional`
+                    - `Properties map[string]any Optional`
 
                     - `Required []string Optional`
 
@@ -2585,7 +2681,7 @@ List Events
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `Type BetaManagedAgentsAdvisorType`
+              - `Type Advisor`
 
               - `Model string`
 
@@ -2647,11 +2743,15 @@ List Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -2695,11 +2795,15 @@ List Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -2757,7 +2861,7 @@ List Events
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `Type BetaManagedAgentsBudgetLimitType`
+      - `Type Limit`
 
       - `MaxListCost BetaMonetaryAmount`
 
@@ -2767,11 +2871,13 @@ List Events
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+          pattern: ^(0|[1-9]\d*)$
+
         - `Currency BetaCurrency`
 
           Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `Metadata map[string, string] Optional`
+    - `Metadata map[string]string Optional`
 
       The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
 
@@ -2783,7 +2889,7 @@ List Events
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `Type BetaManagedAgentsSystemMessageEventType`
+    - `Type SystemMessage`
 
     - `ID string`
 
@@ -2793,7 +2899,7 @@ List Events
 
       System content blocks. Text-only.
 
-      - `Type BetaManagedAgentsSystemContentBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -2811,7 +2917,7 @@ List Events
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `Type BetaManagedAgentsSessionUsageEventType`
+    - `Type SessionUsage`
 
     - `ID string`
 
@@ -3156,8 +3262,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -3230,7 +3336,7 @@ Send Events
 
       Parameters for sending a user message to the session.
 
-      - `Type BetaManagedAgentsUserMessageEventParamsType`
+      - `Type UserMessage`
 
       - `Content []BetaManagedAgentsUserMessageEventParamsContentUnion`
 
@@ -3240,7 +3346,7 @@ Send Events
 
           Regular text content.
 
-          - `Type BetaManagedAgentsTextBlockType`
+          - `Type Text`
 
           - `Text string`
 
@@ -3252,7 +3358,7 @@ Send Events
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `Type BetaManagedAgentsImageBlockType`
+          - `Type Image`
 
           - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -3262,7 +3368,7 @@ Send Events
 
               Base64-encoded image data.
 
-              - `Type BetaManagedAgentsBase64ImageSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -3280,7 +3386,7 @@ Send Events
 
               Image referenced by URL.
 
-              - `Type BetaManagedAgentsURLImageSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -3292,7 +3398,7 @@ Send Events
 
               Image referenced by file ID.
 
-              - `Type BetaManagedAgentsFileImageSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -3304,7 +3410,7 @@ Send Events
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `Type BetaManagedAgentsDocumentBlockType`
+          - `Type Document`
 
           - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -3314,7 +3420,7 @@ Send Events
 
               Base64-encoded document data.
 
-              - `Type BetaManagedAgentsBase64DocumentSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -3332,7 +3438,7 @@ Send Events
 
               Plain text document content.
 
-              - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+              - `Type Text`
 
               - `Data string`
 
@@ -3340,7 +3446,7 @@ Send Events
 
                 minLength: 1
 
-              - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+              - `MediaType TextPlain`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -3348,7 +3454,7 @@ Send Events
 
               Document referenced by URL.
 
-              - `Type BetaManagedAgentsURLDocumentSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -3360,7 +3466,7 @@ Send Events
 
               Document referenced by file ID.
 
-              - `Type BetaManagedAgentsFileDocumentSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -3380,13 +3486,13 @@ Send Events
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `Type BetaManagedAgentsRedactedBlockType`
+          - `Type Redacted`
 
     - `type BetaManagedAgentsUserInterruptEventParams`
 
       Parameters for sending an interrupt to pause the agent.
 
-      - `Type BetaManagedAgentsUserInterruptEventParamsType`
+      - `Type UserInterrupt`
 
       - `SessionThreadID string Optional`
 
@@ -3396,7 +3502,7 @@ Send Events
 
       Parameters for confirming or denying a tool execution request.
 
-      - `Type BetaManagedAgentsUserToolConfirmationEventParamsType`
+      - `Type UserToolConfirmation`
 
       - `Result BetaManagedAgentsUserToolConfirmationEventParamsResult`
 
@@ -3422,7 +3528,7 @@ Send Events
 
       Parameters for providing the result of a custom tool execution.
 
-      - `Type BetaManagedAgentsUserCustomToolResultEventParamsType`
+      - `Type UserCustomToolResult`
 
       - `CustomToolUseID string`
 
@@ -3450,7 +3556,7 @@ Send Events
 
           A block containing a web search result.
 
-          - `Type BetaManagedAgentsSearchResultBlockType`
+          - `Type SearchResult`
 
           - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -3464,7 +3570,7 @@ Send Events
 
             Array of text content blocks from the search result.
 
-            - `Type BetaManagedAgentsSearchResultContentType`
+            - `Type Text`
 
             - `Text string`
 
@@ -3492,7 +3598,7 @@ Send Events
 
       Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-      - `Type BetaManagedAgentsUserDefineOutcomeEventParamsType`
+      - `Type UserDefineOutcome`
 
       - `Description string`
 
@@ -3506,7 +3612,7 @@ Send Events
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `Type BetaManagedAgentsFileRubricParamsType`
+          - `Type File`
 
           - `FileID string`
 
@@ -3516,7 +3622,7 @@ Send Events
 
           Rubric content provided inline as text.
 
-          - `Type BetaManagedAgentsTextRubricParamsType`
+          - `Type Text`
 
           - `Content string`
 
@@ -3534,7 +3640,7 @@ Send Events
 
       Parameters for providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-      - `Type BetaManagedAgentsUserToolResultEventParamsType`
+      - `Type UserToolResult`
 
       - `ToolUseID string`
 
@@ -3570,13 +3676,13 @@ Send Events
 
       Privileged context for the accompanying turn and all subsequent turns, appended to the session's system context as a `role: "system"` turn rather than replacing the top-level system prompt. At most one per request: it must be the final event and immediately follow the `user.message`, `user.tool_result`, or `user.custom_tool_result` it accompanies. Only supported on models that accept mid-conversation system messages.
 
-      - `Type BetaManagedAgentsSystemMessageEventParamsType`
+      - `Type SystemMessage`
 
       - `Content []BetaManagedAgentsSystemContentBlockParam`
 
         System content blocks to append. Text-only.
 
-        - `Type BetaManagedAgentsSystemContentBlockType`
+        - `Type Text`
 
         - `Text string`
 
@@ -3586,7 +3692,7 @@ Send Events
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -3688,6 +3794,18 @@ Send Events
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -3708,7 +3826,7 @@ Send Events
 
       A user message event in the session conversation.
 
-      - `Type BetaManagedAgentsUserMessageEventType`
+      - `Type UserMessage`
 
       - `ID string`
 
@@ -3722,7 +3840,7 @@ Send Events
 
           Regular text content.
 
-          - `Type BetaManagedAgentsTextBlockType`
+          - `Type Text`
 
           - `Text string`
 
@@ -3734,7 +3852,7 @@ Send Events
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `Type BetaManagedAgentsImageBlockType`
+          - `Type Image`
 
           - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -3744,7 +3862,7 @@ Send Events
 
               Base64-encoded image data.
 
-              - `Type BetaManagedAgentsBase64ImageSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -3762,7 +3880,7 @@ Send Events
 
               Image referenced by URL.
 
-              - `Type BetaManagedAgentsURLImageSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -3774,7 +3892,7 @@ Send Events
 
               Image referenced by file ID.
 
-              - `Type BetaManagedAgentsFileImageSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -3786,7 +3904,7 @@ Send Events
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `Type BetaManagedAgentsDocumentBlockType`
+          - `Type Document`
 
           - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -3796,7 +3914,7 @@ Send Events
 
               Base64-encoded document data.
 
-              - `Type BetaManagedAgentsBase64DocumentSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -3814,7 +3932,7 @@ Send Events
 
               Plain text document content.
 
-              - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+              - `Type Text`
 
               - `Data string`
 
@@ -3822,7 +3940,7 @@ Send Events
 
                 minLength: 1
 
-              - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+              - `MediaType TextPlain`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -3830,7 +3948,7 @@ Send Events
 
               Document referenced by URL.
 
-              - `Type BetaManagedAgentsURLDocumentSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -3842,7 +3960,7 @@ Send Events
 
               Document referenced by file ID.
 
-              - `Type BetaManagedAgentsFileDocumentSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -3862,7 +3980,7 @@ Send Events
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `Type BetaManagedAgentsRedactedBlockType`
+          - `Type Redacted`
 
       - `ProcessedAt Time Optional`
 
@@ -3874,7 +3992,7 @@ Send Events
 
       An interrupt event that pauses agent execution and returns control to the user.
 
-      - `Type BetaManagedAgentsUserInterruptEventType`
+      - `Type UserInterrupt`
 
       - `ID string`
 
@@ -3894,7 +4012,7 @@ Send Events
 
       A tool confirmation event that approves or denies a pending tool execution.
 
-      - `Type BetaManagedAgentsUserToolConfirmationEventType`
+      - `Type UserToolConfirmation`
 
       - `ID string`
 
@@ -3932,7 +4050,7 @@ Send Events
 
       Event sent by the client providing the result of a custom tool execution.
 
-      - `Type BetaManagedAgentsUserCustomToolResultEventType`
+      - `Type UserCustomToolResult`
 
       - `ID string`
 
@@ -3962,7 +4080,7 @@ Send Events
 
           A block containing a web search result.
 
-          - `Type BetaManagedAgentsSearchResultBlockType`
+          - `Type SearchResult`
 
           - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -3976,7 +4094,7 @@ Send Events
 
             Array of text content blocks from the search result.
 
-            - `Type BetaManagedAgentsSearchResultContentType`
+            - `Type Text`
 
             - `Text string`
 
@@ -4014,7 +4132,7 @@ Send Events
 
       Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-      - `Type BetaManagedAgentsUserDefineOutcomeEventType`
+      - `Type UserDefineOutcome`
 
       - `ID string`
 
@@ -4048,7 +4166,7 @@ Send Events
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `Type BetaManagedAgentsFileRubricType`
+          - `Type File`
 
           - `FileID string`
 
@@ -4058,7 +4176,7 @@ Send Events
 
           Rubric content provided inline as text.
 
-          - `Type BetaManagedAgentsTextRubricType`
+          - `Type Text`
 
           - `Content string`
 
@@ -4068,7 +4186,7 @@ Send Events
 
       Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-      - `Type BetaManagedAgentsUserToolResultEventType`
+      - `Type UserToolResult`
 
       - `ID string`
 
@@ -4116,7 +4234,7 @@ Send Events
 
       A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-      - `Type BetaManagedAgentsSystemMessageEventType`
+      - `Type SystemMessage`
 
       - `ID string`
 
@@ -4126,7 +4244,7 @@ Send Events
 
         System content blocks. Text-only.
 
-        - `Type BetaManagedAgentsSystemContentBlockType`
+        - `Type Text`
 
         - `Text string`
 
@@ -4149,8 +4267,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -4161,15 +4279,13 @@ func main() {
 		context.TODO(),
 		"sesn_011CZkZAtmR3yMPDzynEDxu7",
 		anthropic.BetaSessionEventSendParams{
-			Events: []anthropic.BetaManagedAgentsEventParamsUnion{anthropic.BetaManagedAgentsEventParamsUnion{
+			Events: []anthropic.BetaManagedAgentsEventParamsUnion{{
 				OfUserMessage: &anthropic.BetaManagedAgentsUserMessageEventParams{
-					Content: []anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{
+					Content: []anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{{
 						OfText: &anthropic.BetaManagedAgentsTextBlockParam{
 							Text: "Where is my order #1234?",
-							Type: anthropic.BetaManagedAgentsTextBlockTypeText,
 						},
 					}},
-					Type: anthropic.BetaManagedAgentsUserMessageEventParamsTypeUserMessage,
 				},
 			}},
 		},
@@ -4225,7 +4341,7 @@ Stream Events
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -4327,6 +4443,18 @@ Stream Events
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -4343,7 +4471,7 @@ Stream Events
 
     A user message event in the session conversation.
 
-    - `Type BetaManagedAgentsUserMessageEventType`
+    - `Type UserMessage`
 
     - `ID string`
 
@@ -4357,7 +4485,7 @@ Stream Events
 
         Regular text content.
 
-        - `Type BetaManagedAgentsTextBlockType`
+        - `Type Text`
 
         - `Text string`
 
@@ -4369,7 +4497,7 @@ Stream Events
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type BetaManagedAgentsImageBlockType`
+        - `Type Image`
 
         - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -4379,7 +4507,7 @@ Stream Events
 
             Base64-encoded image data.
 
-            - `Type BetaManagedAgentsBase64ImageSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -4397,7 +4525,7 @@ Stream Events
 
             Image referenced by URL.
 
-            - `Type BetaManagedAgentsURLImageSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -4409,7 +4537,7 @@ Stream Events
 
             Image referenced by file ID.
 
-            - `Type BetaManagedAgentsFileImageSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -4421,7 +4549,7 @@ Stream Events
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type BetaManagedAgentsDocumentBlockType`
+        - `Type Document`
 
         - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -4431,7 +4559,7 @@ Stream Events
 
             Base64-encoded document data.
 
-            - `Type BetaManagedAgentsBase64DocumentSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -4449,7 +4577,7 @@ Stream Events
 
             Plain text document content.
 
-            - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+            - `Type Text`
 
             - `Data string`
 
@@ -4457,7 +4585,7 @@ Stream Events
 
               minLength: 1
 
-            - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+            - `MediaType TextPlain`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -4465,7 +4593,7 @@ Stream Events
 
             Document referenced by URL.
 
-            - `Type BetaManagedAgentsURLDocumentSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -4477,7 +4605,7 @@ Stream Events
 
             Document referenced by file ID.
 
-            - `Type BetaManagedAgentsFileDocumentSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -4497,7 +4625,7 @@ Stream Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type BetaManagedAgentsRedactedBlockType`
+        - `Type Redacted`
 
     - `ProcessedAt Time Optional`
 
@@ -4509,7 +4637,7 @@ Stream Events
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `Type BetaManagedAgentsUserInterruptEventType`
+    - `Type UserInterrupt`
 
     - `ID string`
 
@@ -4529,7 +4657,7 @@ Stream Events
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `Type BetaManagedAgentsUserToolConfirmationEventType`
+    - `Type UserToolConfirmation`
 
     - `ID string`
 
@@ -4567,7 +4695,7 @@ Stream Events
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `Type BetaManagedAgentsUserCustomToolResultEventType`
+    - `Type UserCustomToolResult`
 
     - `ID string`
 
@@ -4597,7 +4725,7 @@ Stream Events
 
         A block containing a web search result.
 
-        - `Type BetaManagedAgentsSearchResultBlockType`
+        - `Type SearchResult`
 
         - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -4611,7 +4739,7 @@ Stream Events
 
           Array of text content blocks from the search result.
 
-          - `Type BetaManagedAgentsSearchResultContentType`
+          - `Type Text`
 
           - `Text string`
 
@@ -4649,13 +4777,13 @@ Stream Events
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `Type BetaManagedAgentsAgentCustomToolUseEventType`
+    - `Type AgentCustomToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -4677,7 +4805,7 @@ Stream Events
 
     An agent response event in the session conversation.
 
-    - `Type BetaManagedAgentsAgentMessageEventType`
+    - `Type AgentMessage`
 
     - `ID string`
 
@@ -4705,7 +4833,7 @@ Stream Events
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `Type BetaManagedAgentsAgentThinkingEventType`
+    - `Type AgentThinking`
 
     - `ID string`
 
@@ -4721,13 +4849,13 @@ Stream Events
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `Type BetaManagedAgentsAgentMCPToolUseEventType`
+    - `Type AgentMCPToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -4819,7 +4947,7 @@ Stream Events
 
     Event representing the result of an MCP tool execution.
 
-    - `Type BetaManagedAgentsAgentMCPToolResultEventType`
+    - `Type AgentMCPToolResult`
 
     - `ID string`
 
@@ -4863,13 +4991,13 @@ Stream Events
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `Type BetaManagedAgentsAgentToolUseEventType`
+    - `Type AgentToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -4899,7 +5027,7 @@ Stream Events
 
     Event representing the result of an agent tool execution.
 
-    - `Type BetaManagedAgentsAgentToolResultEventType`
+    - `Type AgentToolResult`
 
     - `ID string`
 
@@ -4943,7 +5071,7 @@ Stream Events
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `Type BetaManagedAgentsAgentThreadMessageReceivedEventType`
+    - `Type AgentThreadMessageReceived`
 
     - `ID string`
 
@@ -4987,7 +5115,7 @@ Stream Events
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `Type BetaManagedAgentsAgentThreadMessageSentEventType`
+    - `Type AgentThreadMessageSent`
 
     - `ID string`
 
@@ -5031,7 +5159,7 @@ Stream Events
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `Type BetaManagedAgentsAgentThreadContextCompactedEventType`
+    - `Type AgentThreadContextCompacted`
 
     - `ID string`
 
@@ -5047,7 +5175,7 @@ Stream Events
 
     An error event indicating a problem occurred during session execution.
 
-    - `Type BetaManagedAgentsSessionErrorEventType`
+    - `Type SessionError`
 
     - `ID string`
 
@@ -5059,7 +5187,7 @@ Stream Events
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `Type BetaManagedAgentsUnknownErrorType`
+        - `Type UnknownError`
 
         - `Message string`
 
@@ -5073,25 +5201,25 @@ Stream Events
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `Type BetaManagedAgentsRetryStatusRetryingType`
+            - `Type Retrying`
 
           - `type BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `Type BetaManagedAgentsRetryStatusExhaustedType`
+            - `Type Exhausted`
 
           - `type BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `Type BetaManagedAgentsRetryStatusTerminalType`
+            - `Type Terminal`
 
       - `type BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `Type BetaManagedAgentsModelOverloadedErrorType`
+        - `Type ModelOverloadedError`
 
         - `Message string`
 
@@ -5117,7 +5245,7 @@ Stream Events
 
         The model request was rate-limited.
 
-        - `Type BetaManagedAgentsModelRateLimitedErrorType`
+        - `Type ModelRateLimitedError`
 
         - `Message string`
 
@@ -5143,7 +5271,7 @@ Stream Events
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `Type BetaManagedAgentsModelRequestFailedErrorType`
+        - `Type ModelRequestFailedError`
 
         - `Message string`
 
@@ -5169,7 +5297,7 @@ Stream Events
 
         Failed to connect to an MCP server.
 
-        - `Type BetaManagedAgentsMCPConnectionFailedErrorType`
+        - `Type MCPConnectionFailedError`
 
         - `MCPServerName string`
 
@@ -5199,7 +5327,7 @@ Stream Events
 
         Authentication to an MCP server failed.
 
-        - `Type BetaManagedAgentsMCPAuthenticationFailedErrorType`
+        - `Type MCPAuthenticationFailedError`
 
         - `MCPServerName string`
 
@@ -5229,7 +5357,7 @@ Stream Events
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `Type BetaManagedAgentsBillingErrorType`
+        - `Type BillingError`
 
         - `Message string`
 
@@ -5255,7 +5383,7 @@ Stream Events
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `Type BetaManagedAgentsCredentialHostUnreachableErrorType`
+        - `Type CredentialHostUnreachableError`
 
         - `CredentialID string`
 
@@ -5284,6 +5412,58 @@ Stream Events
         - `VaultID string`
 
           ID of the vault containing the affected credential.
+
+      - `type BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type ToolUseLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsToolUseLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type CompactionLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsCompactionLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `type BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -5445,7 +5625,7 @@ Stream Events
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `Type BetaManagedAgentsSessionStatusRescheduledEventType`
+    - `Type SessionStatusRescheduled`
 
     - `ID string`
 
@@ -5461,7 +5641,7 @@ Stream Events
 
     Indicates the session is actively running and the agent is working.
 
-    - `Type BetaManagedAgentsSessionStatusRunningEventType`
+    - `Type SessionStatusRunning`
 
     - `ID string`
 
@@ -5477,7 +5657,7 @@ Stream Events
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `Type BetaManagedAgentsSessionStatusIdleEventType`
+    - `Type SessionStatusIdle`
 
     - `ID string`
 
@@ -5519,13 +5699,13 @@ Stream Events
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `Type BetaManagedAgentsSessionEndTurnType`
+        - `Type EndTurn`
 
       - `type BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `Type BetaManagedAgentsSessionRequiresActionType`
+        - `Type RequiresAction`
 
         - `EventIDs []string`
 
@@ -5535,13 +5715,13 @@ Stream Events
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `Type BetaManagedAgentsSessionRetriesExhaustedType`
+        - `Type RetriesExhausted`
 
       - `type BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `Type BetaManagedAgentsSessionBudgetReachedType`
+        - `Type BudgetReached`
 
       - `type BetaManagedAgentsSessionRefusal`
 
@@ -5553,7 +5733,7 @@ Stream Events
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `Type BetaManagedAgentsSessionStatusTerminatedEventType`
+    - `Type SessionStatusTerminated`
 
     - `ID string`
 
@@ -5569,7 +5749,7 @@ Stream Events
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `Type BetaManagedAgentsSessionThreadCreatedEventType`
+    - `Type SessionThreadCreated`
 
     - `ID string`
 
@@ -5597,7 +5777,7 @@ Stream Events
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationStartEventType`
+    - `Type SpanOutcomeEvaluationStart`
 
     - `ID string`
 
@@ -5623,7 +5803,7 @@ Stream Events
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationEndEventType`
+    - `Type SpanOutcomeEvaluationEnd`
 
     - `ID string`
 
@@ -5697,7 +5877,7 @@ Stream Events
 
     Emitted when a model request is initiated by the agent.
 
-    - `Type BetaManagedAgentsSpanModelRequestStartEventType`
+    - `Type SpanModelRequestStart`
 
     - `ID string`
 
@@ -5713,7 +5893,7 @@ Stream Events
 
     Emitted when a model request completes.
 
-    - `Type BetaManagedAgentsSpanModelRequestEndEventType`
+    - `Type SpanModelRequestEnd`
 
     - `ID string`
 
@@ -5741,7 +5921,7 @@ Stream Events
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationOngoingEventType`
+    - `Type SpanOutcomeEvaluationOngoing`
 
     - `ID string`
 
@@ -5767,7 +5947,7 @@ Stream Events
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `Type BetaManagedAgentsUserDefineOutcomeEventType`
+    - `Type UserDefineOutcome`
 
     - `ID string`
 
@@ -5801,7 +5981,7 @@ Stream Events
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type BetaManagedAgentsFileRubricType`
+        - `Type File`
 
         - `FileID string`
 
@@ -5811,7 +5991,7 @@ Stream Events
 
         Rubric content provided inline as text.
 
-        - `Type BetaManagedAgentsTextRubricType`
+        - `Type Text`
 
         - `Content string`
 
@@ -5821,7 +6001,7 @@ Stream Events
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `Type BetaManagedAgentsSessionDeletedEventType`
+    - `Type SessionDeleted`
 
     - `ID string`
 
@@ -5837,7 +6017,7 @@ Stream Events
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRunningEventType`
+    - `Type SessionThreadStatusRunning`
 
     - `ID string`
 
@@ -5861,7 +6041,7 @@ Stream Events
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusIdleEventType`
+    - `Type SessionThreadStatusIdle`
 
     - `ID string`
 
@@ -5911,7 +6091,7 @@ Stream Events
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusTerminatedEventType`
+    - `Type SessionThreadStatusTerminated`
 
     - `ID string`
 
@@ -5935,7 +6115,7 @@ Stream Events
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type BetaManagedAgentsUserToolResultEventType`
+    - `Type UserToolResult`
 
     - `ID string`
 
@@ -5983,7 +6163,7 @@ Stream Events
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRescheduledEventType`
+    - `Type SessionThreadStatusRescheduled`
 
     - `ID string`
 
@@ -6007,7 +6187,7 @@ Stream Events
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `Type BetaManagedAgentsSessionUpdatedEventType`
+    - `Type SessionUpdated`
 
     - `ID string`
 
@@ -6023,15 +6203,37 @@ Stream Events
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `Type BetaManagedAgentsSessionAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
+
+        - `Name string`
 
         - `Name string`
 
@@ -6046,6 +6248,10 @@ Stream Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -6123,31 +6329,31 @@ Stream Events
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -6169,7 +6375,7 @@ Stream Events
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+          - `Type Coordinator`
 
           - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -6179,15 +6385,19 @@ Stream Events
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
 
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-                - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+                - `Type URL`
 
                 - `Name string`
 
@@ -6205,7 +6415,7 @@ Stream Events
 
                   A resolved Anthropic-managed skill.
 
-                  - `Type BetaManagedAgentsAnthropicSkillType`
+                  - `Type Anthropic`
 
                   - `SkillID string`
 
@@ -6215,7 +6425,7 @@ Stream Events
 
                   A resolved user-created custom skill.
 
-                  - `Type BetaManagedAgentsCustomSkillType`
+                  - `Type Custom`
 
                   - `SkillID string`
 
@@ -6227,7 +6437,7 @@ Stream Events
 
                 - `type BetaManagedAgentsAgentToolset20260401`
 
-                  - `Type BetaManagedAgentsAgentToolset20260401Type`
+                  - `Type AgentToolset20260401`
 
                   - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -6249,13 +6459,13 @@ Stream Events
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                          - `Type AlwaysAllow`
 
                         - `type BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                          - `Type AlwaysAsk`
 
                         - `type BetaManagedAgentsAutoPolicy`
 
@@ -6551,6 +6761,8 @@ Stream Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `Region string Optional`
 
                           Region or state name.
@@ -6587,7 +6799,7 @@ Stream Events
 
                 - `type BetaManagedAgentsMCPToolset`
 
-                  - `Type BetaManagedAgentsMCPToolsetType`
+                  - `Type MCPToolset`
 
                   - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -6639,7 +6851,7 @@ Stream Events
 
                   A custom tool as returned in API responses.
 
-                  - `Type BetaManagedAgentsCustomToolType`
+                  - `Type Custom`
 
                   - `Description string`
 
@@ -6649,7 +6861,7 @@ Stream Events
 
                     - `Type Object`
 
-                    - `Properties map[string, any] Optional`
+                    - `Properties map[string]any Optional`
 
                     - `Required []string Optional`
 
@@ -6663,7 +6875,7 @@ Stream Events
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `Type BetaManagedAgentsAdvisorType`
+              - `Type Advisor`
 
               - `Model string`
 
@@ -6725,11 +6937,15 @@ Stream Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -6773,11 +6989,15 @@ Stream Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -6835,7 +7055,7 @@ Stream Events
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `Type BetaManagedAgentsBudgetLimitType`
+      - `Type Limit`
 
       - `MaxListCost BetaMonetaryAmount`
 
@@ -6845,11 +7065,13 @@ Stream Events
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+          pattern: ^(0|[1-9]\d*)$
+
         - `Currency BetaCurrency`
 
           Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `Metadata map[string, string] Optional`
+    - `Metadata map[string]string Optional`
 
       The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
 
@@ -6861,7 +7083,7 @@ Stream Events
 
     Opens a preview of a buffered event. Carries the previewed event's type and id only. Followed by zero or more event_delta events with the same event id, normally concluded by the buffered event carrying that id. If the producing model request ends without that event (an error or interrupt mid-stream), its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `Type BetaManagedAgentsStartEventType`
+    - `Type EventStart`
 
     - `Event BetaManagedAgentsStartEventPreviewUnion`
 
@@ -6869,7 +7091,7 @@ Stream Events
 
       - `type BetaManagedAgentsAgentMessagePreview`
 
-        - `Type BetaManagedAgentsAgentMessagePreviewType`
+        - `Type AgentMessage`
 
         - `ID string`
 
@@ -6877,7 +7099,7 @@ Stream Events
 
       - `type BetaManagedAgentsAgentThinkingPreview`
 
-        - `Type BetaManagedAgentsAgentThinkingPreviewType`
+        - `Type AgentThinking`
 
         - `ID string`
 
@@ -6887,13 +7109,13 @@ Stream Events
 
     An incremental update to an event that is still being streamed. Deltas are best-effort and may stop early; when the buffered event with id == event_id is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no buffered event — its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `Type BetaManagedAgentsDeltaEventType`
+    - `Type EventDelta`
 
     - `Delta BetaManagedAgentsDeltaContent`
 
       One fragment of the previewed event. The delta type is named for the previewed event's field it streams into: agent.message events stream content_delta fragments, each a partial element of the content array.
 
-      - `Type BetaManagedAgentsDeltaContentType`
+      - `Type ContentDelta`
 
       - `Content BetaManagedAgentsTextBlock`
 
@@ -6911,7 +7133,7 @@ Stream Events
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `Type BetaManagedAgentsSystemMessageEventType`
+    - `Type SystemMessage`
 
     - `ID string`
 
@@ -6921,7 +7143,7 @@ Stream Events
 
       System content blocks. Text-only.
 
-      - `Type BetaManagedAgentsSystemContentBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -6939,7 +7161,7 @@ Stream Events
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `Type BetaManagedAgentsSessionUsageEventType`
+    - `Type SessionUsage`
 
     - `ID string`
 
@@ -7284,8 +7506,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -7403,13 +7625,13 @@ func main() {
 
   Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-  - `Type BetaManagedAgentsAgentCustomToolUseEventType`
+  - `Type AgentCustomToolUse`
 
   - `ID string`
 
     Unique identifier for this event.
 
-  - `Input map[string, any]`
+  - `Input map[string]any`
 
     Input parameters for the tool call.
 
@@ -7443,7 +7665,7 @@ func main() {
 
   Event representing the result of an MCP tool execution.
 
-  - `Type BetaManagedAgentsAgentMCPToolResultEventType`
+  - `Type AgentMCPToolResult`
 
   - `ID string`
 
@@ -7467,7 +7689,7 @@ func main() {
 
       Regular text content.
 
-      - `Type BetaManagedAgentsTextBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -7479,7 +7701,7 @@ func main() {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type BetaManagedAgentsImageBlockType`
+      - `Type Image`
 
       - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -7489,7 +7711,7 @@ func main() {
 
           Base64-encoded image data.
 
-          - `Type BetaManagedAgentsBase64ImageSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -7507,7 +7729,7 @@ func main() {
 
           Image referenced by URL.
 
-          - `Type BetaManagedAgentsURLImageSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -7519,7 +7741,7 @@ func main() {
 
           Image referenced by file ID.
 
-          - `Type BetaManagedAgentsFileImageSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -7531,7 +7753,7 @@ func main() {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type BetaManagedAgentsDocumentBlockType`
+      - `Type Document`
 
       - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -7541,7 +7763,7 @@ func main() {
 
           Base64-encoded document data.
 
-          - `Type BetaManagedAgentsBase64DocumentSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -7559,7 +7781,7 @@ func main() {
 
           Plain text document content.
 
-          - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+          - `Type Text`
 
           - `Data string`
 
@@ -7567,7 +7789,7 @@ func main() {
 
             minLength: 1
 
-          - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+          - `MediaType TextPlain`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -7575,7 +7797,7 @@ func main() {
 
           Document referenced by URL.
 
-          - `Type BetaManagedAgentsURLDocumentSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -7587,7 +7809,7 @@ func main() {
 
           Document referenced by file ID.
 
-          - `Type BetaManagedAgentsFileDocumentSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -7607,7 +7829,7 @@ func main() {
 
       A block containing a web search result.
 
-      - `Type BetaManagedAgentsSearchResultBlockType`
+      - `Type SearchResult`
 
       - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -7621,7 +7843,7 @@ func main() {
 
         Array of text content blocks from the search result.
 
-        - `Type BetaManagedAgentsSearchResultContentType`
+        - `Type Text`
 
         - `Text string`
 
@@ -7651,13 +7873,13 @@ func main() {
 
   Event emitted when the agent invokes a tool provided by an MCP server.
 
-  - `Type BetaManagedAgentsAgentMCPToolUseEventType`
+  - `Type AgentMCPToolUse`
 
   - `ID string`
 
     Unique identifier for this event.
 
-  - `Input map[string, any]`
+  - `Input map[string]any`
 
     Input parameters for the tool call.
 
@@ -7751,7 +7973,7 @@ func main() {
 
   An agent response event in the session conversation.
 
-  - `Type BetaManagedAgentsAgentMessageEventType`
+  - `Type AgentMessage`
 
   - `ID string`
 
@@ -7765,7 +7987,7 @@ func main() {
 
       Regular text content.
 
-      - `Type BetaManagedAgentsTextBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -7777,7 +7999,7 @@ func main() {
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `Type BetaManagedAgentsRedactedBlockType`
+      - `Type Redacted`
 
   - `ProcessedAt Time`
 
@@ -7791,7 +8013,7 @@ func main() {
 
   Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-  - `Type BetaManagedAgentsAgentThinkingEventType`
+  - `Type AgentThinking`
 
   - `ID string`
 
@@ -7809,7 +8031,7 @@ func main() {
 
   Indicates that context compaction (summarization) occurred during the session.
 
-  - `Type BetaManagedAgentsAgentThreadContextCompactedEventType`
+  - `Type AgentThreadContextCompacted`
 
   - `ID string`
 
@@ -7827,7 +8049,7 @@ func main() {
 
   Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-  - `Type BetaManagedAgentsAgentThreadMessageReceivedEventType`
+  - `Type AgentThreadMessageReceived`
 
   - `ID string`
 
@@ -7841,7 +8063,7 @@ func main() {
 
       Regular text content.
 
-      - `Type BetaManagedAgentsTextBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -7853,7 +8075,7 @@ func main() {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type BetaManagedAgentsImageBlockType`
+      - `Type Image`
 
       - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -7863,7 +8085,7 @@ func main() {
 
           Base64-encoded image data.
 
-          - `Type BetaManagedAgentsBase64ImageSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -7881,7 +8103,7 @@ func main() {
 
           Image referenced by URL.
 
-          - `Type BetaManagedAgentsURLImageSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -7893,7 +8115,7 @@ func main() {
 
           Image referenced by file ID.
 
-          - `Type BetaManagedAgentsFileImageSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -7905,7 +8127,7 @@ func main() {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type BetaManagedAgentsDocumentBlockType`
+      - `Type Document`
 
       - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -7915,7 +8137,7 @@ func main() {
 
           Base64-encoded document data.
 
-          - `Type BetaManagedAgentsBase64DocumentSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -7933,7 +8155,7 @@ func main() {
 
           Plain text document content.
 
-          - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+          - `Type Text`
 
           - `Data string`
 
@@ -7941,7 +8163,7 @@ func main() {
 
             minLength: 1
 
-          - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+          - `MediaType TextPlain`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -7949,7 +8171,7 @@ func main() {
 
           Document referenced by URL.
 
-          - `Type BetaManagedAgentsURLDocumentSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -7961,7 +8183,7 @@ func main() {
 
           Document referenced by file ID.
 
-          - `Type BetaManagedAgentsFileDocumentSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -7981,7 +8203,7 @@ func main() {
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `Type BetaManagedAgentsRedactedBlockType`
+      - `Type Redacted`
 
   - `FromSessionThreadID string`
 
@@ -8003,7 +8225,7 @@ func main() {
 
   Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-  - `Type BetaManagedAgentsAgentThreadMessageSentEventType`
+  - `Type AgentThreadMessageSent`
 
   - `ID string`
 
@@ -8017,7 +8239,7 @@ func main() {
 
       Regular text content.
 
-      - `Type BetaManagedAgentsTextBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -8029,7 +8251,7 @@ func main() {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type BetaManagedAgentsImageBlockType`
+      - `Type Image`
 
       - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -8039,7 +8261,7 @@ func main() {
 
           Base64-encoded image data.
 
-          - `Type BetaManagedAgentsBase64ImageSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -8057,7 +8279,7 @@ func main() {
 
           Image referenced by URL.
 
-          - `Type BetaManagedAgentsURLImageSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -8069,7 +8291,7 @@ func main() {
 
           Image referenced by file ID.
 
-          - `Type BetaManagedAgentsFileImageSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -8081,7 +8303,7 @@ func main() {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type BetaManagedAgentsDocumentBlockType`
+      - `Type Document`
 
       - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -8091,7 +8313,7 @@ func main() {
 
           Base64-encoded document data.
 
-          - `Type BetaManagedAgentsBase64DocumentSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -8109,7 +8331,7 @@ func main() {
 
           Plain text document content.
 
-          - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+          - `Type Text`
 
           - `Data string`
 
@@ -8117,7 +8339,7 @@ func main() {
 
             minLength: 1
 
-          - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+          - `MediaType TextPlain`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -8125,7 +8347,7 @@ func main() {
 
           Document referenced by URL.
 
-          - `Type BetaManagedAgentsURLDocumentSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -8137,7 +8359,7 @@ func main() {
 
           Document referenced by file ID.
 
-          - `Type BetaManagedAgentsFileDocumentSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -8157,7 +8379,7 @@ func main() {
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `Type BetaManagedAgentsRedactedBlockType`
+      - `Type Redacted`
 
   - `ProcessedAt Time`
 
@@ -8295,7 +8517,7 @@ func main() {
 
   Event representing the result of an agent tool execution.
 
-  - `Type BetaManagedAgentsAgentToolResultEventType`
+  - `Type AgentToolResult`
 
   - `ID string`
 
@@ -8319,7 +8541,7 @@ func main() {
 
       Regular text content.
 
-      - `Type BetaManagedAgentsTextBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -8331,7 +8553,7 @@ func main() {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type BetaManagedAgentsImageBlockType`
+      - `Type Image`
 
       - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -8341,7 +8563,7 @@ func main() {
 
           Base64-encoded image data.
 
-          - `Type BetaManagedAgentsBase64ImageSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -8359,7 +8581,7 @@ func main() {
 
           Image referenced by URL.
 
-          - `Type BetaManagedAgentsURLImageSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -8371,7 +8593,7 @@ func main() {
 
           Image referenced by file ID.
 
-          - `Type BetaManagedAgentsFileImageSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -8383,7 +8605,7 @@ func main() {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type BetaManagedAgentsDocumentBlockType`
+      - `Type Document`
 
       - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -8393,7 +8615,7 @@ func main() {
 
           Base64-encoded document data.
 
-          - `Type BetaManagedAgentsBase64DocumentSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -8411,7 +8633,7 @@ func main() {
 
           Plain text document content.
 
-          - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+          - `Type Text`
 
           - `Data string`
 
@@ -8419,7 +8641,7 @@ func main() {
 
             minLength: 1
 
-          - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+          - `MediaType TextPlain`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -8427,7 +8649,7 @@ func main() {
 
           Document referenced by URL.
 
-          - `Type BetaManagedAgentsURLDocumentSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -8439,7 +8661,7 @@ func main() {
 
           Document referenced by file ID.
 
-          - `Type BetaManagedAgentsFileDocumentSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -8459,7 +8681,7 @@ func main() {
 
       A block containing a web search result.
 
-      - `Type BetaManagedAgentsSearchResultBlockType`
+      - `Type SearchResult`
 
       - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -8473,7 +8695,7 @@ func main() {
 
         Array of text content blocks from the search result.
 
-        - `Type BetaManagedAgentsSearchResultContentType`
+        - `Type Text`
 
         - `Text string`
 
@@ -8503,13 +8725,13 @@ func main() {
 
   Event emitted when the agent invokes a built-in agent tool.
 
-  - `Type BetaManagedAgentsAgentToolUseEventType`
+  - `Type AgentToolUse`
 
   - `ID string`
 
     Unique identifier for this event.
 
-  - `Input map[string, any]`
+  - `Input map[string]any`
 
     Input parameters for the tool call.
 
@@ -8599,7 +8821,7 @@ func main() {
 
   Base64-encoded document data.
 
-  - `Type BetaManagedAgentsBase64DocumentSourceType`
+  - `Type Base64`
 
   - `Data string`
 
@@ -8619,7 +8841,7 @@ func main() {
 
   Base64-encoded image data.
 
-  - `Type BetaManagedAgentsBase64ImageSourceType`
+  - `Type Base64`
 
   - `Data string`
 
@@ -8639,7 +8861,7 @@ func main() {
 
   The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-  - `Type BetaManagedAgentsBillingErrorType`
+  - `Type BillingError`
 
   - `Message string`
 
@@ -8653,19 +8875,53 @@ func main() {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type BetaManagedAgentsRetryStatusRetryingType`
+      - `Type Retrying`
 
     - `type BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type BetaManagedAgentsRetryStatusExhaustedType`
+      - `Type Exhausted`
 
     - `type BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type BetaManagedAgentsRetryStatusTerminalType`
+      - `Type Terminal`
+
+### Beta Managed Agents Compaction Limit Reached Error
+
+- `type BetaManagedAgentsCompactionLimitReachedError`
+
+  The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+  - `Type CompactionLimitReachedError`
+
+  - `Message string`
+
+    Human-readable error description.
+
+  - `RetryStatus BetaManagedAgentsCompactionLimitReachedErrorRetryStatusUnion`
+
+    What the client should do next.
+
+    - `type BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `Type Retrying`
+
+    - `type BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `Type Exhausted`
+
+    - `type BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `Type Terminal`
 
 ### Beta Managed Agents Credential Host Unreachable Error
 
@@ -8673,7 +8929,7 @@ func main() {
 
   An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-  - `Type BetaManagedAgentsCredentialHostUnreachableErrorType`
+  - `Type CredentialHostUnreachableError`
 
   - `CredentialID string`
 
@@ -8691,19 +8947,19 @@ func main() {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type BetaManagedAgentsRetryStatusRetryingType`
+      - `Type Retrying`
 
     - `type BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type BetaManagedAgentsRetryStatusExhaustedType`
+      - `Type Exhausted`
 
     - `type BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type BetaManagedAgentsRetryStatusTerminalType`
+      - `Type Terminal`
 
   - `VaultID string`
 
@@ -8715,7 +8971,7 @@ func main() {
 
   Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-  - `Type BetaManagedAgentsDocumentBlockType`
+  - `Type Document`
 
   - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -8725,7 +8981,7 @@ func main() {
 
       Base64-encoded document data.
 
-      - `Type BetaManagedAgentsBase64DocumentSourceType`
+      - `Type Base64`
 
       - `Data string`
 
@@ -8743,7 +8999,7 @@ func main() {
 
       Plain text document content.
 
-      - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+      - `Type Text`
 
       - `Data string`
 
@@ -8751,7 +9007,7 @@ func main() {
 
         minLength: 1
 
-      - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+      - `MediaType TextPlain`
 
         MIME type of the text content. Must be "text/plain".
 
@@ -8759,7 +9015,7 @@ func main() {
 
       Document referenced by URL.
 
-      - `Type BetaManagedAgentsURLDocumentSourceType`
+      - `Type URL`
 
       - `URL string`
 
@@ -8771,7 +9027,7 @@ func main() {
 
       Document referenced by file ID.
 
-      - `Type BetaManagedAgentsFileDocumentSourceType`
+      - `Type File`
 
       - `FileID string`
 
@@ -8797,7 +9053,7 @@ func main() {
 
     Parameters for sending a user message to the session.
 
-    - `Type BetaManagedAgentsUserMessageEventParamsType`
+    - `Type UserMessage`
 
     - `Content []BetaManagedAgentsUserMessageEventParamsContentUnion`
 
@@ -8807,7 +9063,7 @@ func main() {
 
         Regular text content.
 
-        - `Type BetaManagedAgentsTextBlockType`
+        - `Type Text`
 
         - `Text string`
 
@@ -8819,7 +9075,7 @@ func main() {
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type BetaManagedAgentsImageBlockType`
+        - `Type Image`
 
         - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -8829,7 +9085,7 @@ func main() {
 
             Base64-encoded image data.
 
-            - `Type BetaManagedAgentsBase64ImageSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -8847,7 +9103,7 @@ func main() {
 
             Image referenced by URL.
 
-            - `Type BetaManagedAgentsURLImageSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -8859,7 +9115,7 @@ func main() {
 
             Image referenced by file ID.
 
-            - `Type BetaManagedAgentsFileImageSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -8871,7 +9127,7 @@ func main() {
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type BetaManagedAgentsDocumentBlockType`
+        - `Type Document`
 
         - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -8881,7 +9137,7 @@ func main() {
 
             Base64-encoded document data.
 
-            - `Type BetaManagedAgentsBase64DocumentSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -8899,7 +9155,7 @@ func main() {
 
             Plain text document content.
 
-            - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+            - `Type Text`
 
             - `Data string`
 
@@ -8907,7 +9163,7 @@ func main() {
 
               minLength: 1
 
-            - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+            - `MediaType TextPlain`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -8915,7 +9171,7 @@ func main() {
 
             Document referenced by URL.
 
-            - `Type BetaManagedAgentsURLDocumentSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -8927,7 +9183,7 @@ func main() {
 
             Document referenced by file ID.
 
-            - `Type BetaManagedAgentsFileDocumentSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -8947,13 +9203,13 @@ func main() {
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type BetaManagedAgentsRedactedBlockType`
+        - `Type Redacted`
 
   - `type BetaManagedAgentsUserInterruptEventParams`
 
     Parameters for sending an interrupt to pause the agent.
 
-    - `Type BetaManagedAgentsUserInterruptEventParamsType`
+    - `Type UserInterrupt`
 
     - `SessionThreadID string Optional`
 
@@ -8963,7 +9219,7 @@ func main() {
 
     Parameters for confirming or denying a tool execution request.
 
-    - `Type BetaManagedAgentsUserToolConfirmationEventParamsType`
+    - `Type UserToolConfirmation`
 
     - `Result BetaManagedAgentsUserToolConfirmationEventParamsResult`
 
@@ -8989,7 +9245,7 @@ func main() {
 
     Parameters for providing the result of a custom tool execution.
 
-    - `Type BetaManagedAgentsUserCustomToolResultEventParamsType`
+    - `Type UserCustomToolResult`
 
     - `CustomToolUseID string`
 
@@ -9017,7 +9273,7 @@ func main() {
 
         A block containing a web search result.
 
-        - `Type BetaManagedAgentsSearchResultBlockType`
+        - `Type SearchResult`
 
         - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -9031,7 +9287,7 @@ func main() {
 
           Array of text content blocks from the search result.
 
-          - `Type BetaManagedAgentsSearchResultContentType`
+          - `Type Text`
 
           - `Text string`
 
@@ -9059,7 +9315,7 @@ func main() {
 
     Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-    - `Type BetaManagedAgentsUserDefineOutcomeEventParamsType`
+    - `Type UserDefineOutcome`
 
     - `Description string`
 
@@ -9073,7 +9329,7 @@ func main() {
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type BetaManagedAgentsFileRubricParamsType`
+        - `Type File`
 
         - `FileID string`
 
@@ -9083,7 +9339,7 @@ func main() {
 
         Rubric content provided inline as text.
 
-        - `Type BetaManagedAgentsTextRubricParamsType`
+        - `Type Text`
 
         - `Content string`
 
@@ -9101,7 +9357,7 @@ func main() {
 
     Parameters for providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type BetaManagedAgentsUserToolResultEventParamsType`
+    - `Type UserToolResult`
 
     - `ToolUseID string`
 
@@ -9137,13 +9393,13 @@ func main() {
 
     Privileged context for the accompanying turn and all subsequent turns, appended to the session's system context as a `role: "system"` turn rather than replacing the top-level system prompt. At most one per request: it must be the final event and immediately follow the `user.message`, `user.tool_result`, or `user.custom_tool_result` it accompanies. Only supported on models that accept mid-conversation system messages.
 
-    - `Type BetaManagedAgentsSystemMessageEventParamsType`
+    - `Type SystemMessage`
 
     - `Content []BetaManagedAgentsSystemContentBlockParam`
 
       System content blocks to append. Text-only.
 
-      - `Type BetaManagedAgentsSystemContentBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -9157,7 +9413,7 @@ func main() {
 
   Document referenced by file ID.
 
-  - `Type BetaManagedAgentsFileDocumentSourceType`
+  - `Type File`
 
   - `FileID string`
 
@@ -9171,7 +9427,7 @@ func main() {
 
   Image referenced by file ID.
 
-  - `Type BetaManagedAgentsFileImageSourceType`
+  - `Type File`
 
   - `FileID string`
 
@@ -9185,7 +9441,7 @@ func main() {
 
   Rubric referenced by a file uploaded via the Files API.
 
-  - `Type BetaManagedAgentsFileRubricType`
+  - `Type File`
 
   - `FileID string`
 
@@ -9197,7 +9453,7 @@ func main() {
 
   Rubric referenced by a file uploaded via the Files API.
 
-  - `Type BetaManagedAgentsFileRubricParamsType`
+  - `Type File`
 
   - `FileID string`
 
@@ -9209,7 +9465,7 @@ func main() {
 
   Image content specified directly as base64 data or as a reference via a URL.
 
-  - `Type BetaManagedAgentsImageBlockType`
+  - `Type Image`
 
   - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -9219,7 +9475,7 @@ func main() {
 
       Base64-encoded image data.
 
-      - `Type BetaManagedAgentsBase64ImageSourceType`
+      - `Type Base64`
 
       - `Data string`
 
@@ -9237,7 +9493,7 @@ func main() {
 
       Image referenced by URL.
 
-      - `Type BetaManagedAgentsURLImageSourceType`
+      - `Type URL`
 
       - `URL string`
 
@@ -9249,7 +9505,7 @@ func main() {
 
       Image referenced by file ID.
 
-      - `Type BetaManagedAgentsFileImageSourceType`
+      - `Type File`
 
       - `FileID string`
 
@@ -9275,7 +9531,7 @@ func main() {
 
   Authentication to an MCP server failed.
 
-  - `Type BetaManagedAgentsMCPAuthenticationFailedErrorType`
+  - `Type MCPAuthenticationFailedError`
 
   - `MCPServerName string`
 
@@ -9293,19 +9549,19 @@ func main() {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type BetaManagedAgentsRetryStatusRetryingType`
+      - `Type Retrying`
 
     - `type BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type BetaManagedAgentsRetryStatusExhaustedType`
+      - `Type Exhausted`
 
     - `type BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type BetaManagedAgentsRetryStatusTerminalType`
+      - `Type Terminal`
 
 ### Beta Managed Agents MCP Connection Failed Error
 
@@ -9313,7 +9569,7 @@ func main() {
 
   Failed to connect to an MCP server.
 
-  - `Type BetaManagedAgentsMCPConnectionFailedErrorType`
+  - `Type MCPConnectionFailedError`
 
   - `MCPServerName string`
 
@@ -9331,19 +9587,19 @@ func main() {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type BetaManagedAgentsRetryStatusRetryingType`
+      - `Type Retrying`
 
     - `type BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type BetaManagedAgentsRetryStatusExhaustedType`
+      - `Type Exhausted`
 
     - `type BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type BetaManagedAgentsRetryStatusTerminalType`
+      - `Type Terminal`
 
 ### Beta Managed Agents Model Overloaded Error
 
@@ -9351,7 +9607,7 @@ func main() {
 
   The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-  - `Type BetaManagedAgentsModelOverloadedErrorType`
+  - `Type ModelOverloadedError`
 
   - `Message string`
 
@@ -9365,19 +9621,19 @@ func main() {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type BetaManagedAgentsRetryStatusRetryingType`
+      - `Type Retrying`
 
     - `type BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type BetaManagedAgentsRetryStatusExhaustedType`
+      - `Type Exhausted`
 
     - `type BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type BetaManagedAgentsRetryStatusTerminalType`
+      - `Type Terminal`
 
 ### Beta Managed Agents Model Rate Limited Error
 
@@ -9385,7 +9641,7 @@ func main() {
 
   The model request was rate-limited.
 
-  - `Type BetaManagedAgentsModelRateLimitedErrorType`
+  - `Type ModelRateLimitedError`
 
   - `Message string`
 
@@ -9399,19 +9655,19 @@ func main() {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type BetaManagedAgentsRetryStatusRetryingType`
+      - `Type Retrying`
 
     - `type BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type BetaManagedAgentsRetryStatusExhaustedType`
+      - `Type Exhausted`
 
     - `type BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type BetaManagedAgentsRetryStatusTerminalType`
+      - `Type Terminal`
 
 ### Beta Managed Agents Model Request Failed Error
 
@@ -9419,7 +9675,7 @@ func main() {
 
   A model request failed for a reason other than overload or rate-limiting.
 
-  - `Type BetaManagedAgentsModelRequestFailedErrorType`
+  - `Type ModelRequestFailedError`
 
   - `Message string`
 
@@ -9433,19 +9689,19 @@ func main() {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type BetaManagedAgentsRetryStatusRetryingType`
+      - `Type Retrying`
 
     - `type BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type BetaManagedAgentsRetryStatusExhaustedType`
+      - `Type Exhausted`
 
     - `type BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type BetaManagedAgentsRetryStatusTerminalType`
+      - `Type Terminal`
 
 ### Beta Managed Agents Plain Text Document Source
 
@@ -9453,7 +9709,7 @@ func main() {
 
   Plain text document content.
 
-  - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+  - `Type Text`
 
   - `Data string`
 
@@ -9461,7 +9717,7 @@ func main() {
 
     minLength: 1
 
-  - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+  - `MediaType TextPlain`
 
     MIME type of the text content. Must be "text/plain".
 
@@ -9483,7 +9739,197 @@ func main() {
 
   Placeholder for content withheld by Anthropic model policy.
 
-  - `Type BetaManagedAgentsRedactedBlockType`
+  - `Type Redacted`
+
+### Beta Managed Agents Repository Authentication Error
+
+- `type BetaManagedAgentsRepositoryAuthenticationError`
+
+  The repository host rejected the credentials, or required credentials and received none.
+
+  - `Type RepositoryAuthenticationError`
+
+  - `Message string`
+
+    Human-readable error description.
+
+  - `RepositoryURL string`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `RetryStatus BetaManagedAgentsRepositoryAuthenticationErrorRetryStatusUnion`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `type BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `Type Retrying`
+
+    - `type BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `Type Exhausted`
+
+    - `type BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `Type Terminal`
+
+### Beta Managed Agents Repository Checkout Error
+
+- `type BetaManagedAgentsRepositoryCheckoutError`
+
+  The requested branch or commit does not exist in the repository.
+
+  - `Type RepositoryCheckoutError`
+
+  - `Message string`
+
+    Human-readable error description.
+
+  - `RepositoryURL string`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `RetryStatus BetaManagedAgentsRepositoryCheckoutErrorRetryStatusUnion`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `type BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `Type Retrying`
+
+    - `type BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `Type Exhausted`
+
+    - `type BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `Type Terminal`
+
+### Beta Managed Agents Repository Clone Error
+
+- `type BetaManagedAgentsRepositoryCloneError`
+
+  The repository could not be cloned.
+
+  - `Type RepositoryCloneError`
+
+  - `Message string`
+
+    Human-readable error description.
+
+  - `RepositoryURL string`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `RetryStatus BetaManagedAgentsRepositoryCloneErrorRetryStatusUnion`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `type BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `Type Retrying`
+
+    - `type BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `Type Exhausted`
+
+    - `type BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `Type Terminal`
+
+### Beta Managed Agents Repository Forbidden Error
+
+- `type BetaManagedAgentsRepositoryForbiddenError`
+
+  The repository host refused access to the repository.
+
+  - `Type RepositoryForbiddenError`
+
+  - `Message string`
+
+    Human-readable error description.
+
+  - `RepositoryURL string`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `RetryStatus BetaManagedAgentsRepositoryForbiddenErrorRetryStatusUnion`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `type BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `Type Retrying`
+
+    - `type BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `Type Exhausted`
+
+    - `type BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `Type Terminal`
+
+### Beta Managed Agents Repository Not Found Error
+
+- `type BetaManagedAgentsRepositoryNotFoundError`
+
+  The repository host reported the repository as not found.
+
+  - `Type RepositoryNotFoundError`
+
+  - `Message string`
+
+    Human-readable error description.
+
+  - `RepositoryURL string`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `RetryStatus BetaManagedAgentsRepositoryNotFoundErrorRetryStatusUnion`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `type BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `Type Retrying`
+
+    - `type BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `Type Exhausted`
+
+    - `type BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `Type Terminal`
 
 ### Beta Managed Agents Repository Authentication Error
 
@@ -9681,7 +10127,7 @@ func main() {
 
   This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-  - `Type BetaManagedAgentsRetryStatusExhaustedType`
+  - `Type Exhausted`
 
 ### Beta Managed Agents Retry Status Retrying
 
@@ -9689,7 +10135,7 @@ func main() {
 
   The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-  - `Type BetaManagedAgentsRetryStatusRetryingType`
+  - `Type Retrying`
 
 ### Beta Managed Agents Retry Status Terminal
 
@@ -9697,7 +10143,7 @@ func main() {
 
   The session encountered a terminal error and will transition to `terminated` state.
 
-  - `Type BetaManagedAgentsRetryStatusTerminalType`
+  - `Type Terminal`
 
 ### Beta Managed Agents Search Result Block
 
@@ -9705,7 +10151,7 @@ func main() {
 
   A block containing a web search result.
 
-  - `Type BetaManagedAgentsSearchResultBlockType`
+  - `Type SearchResult`
 
   - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -9719,7 +10165,7 @@ func main() {
 
     Array of text content blocks from the search result.
 
-    - `Type BetaManagedAgentsSearchResultContentType`
+    - `Type Text`
 
     - `Text string`
 
@@ -9755,7 +10201,7 @@ func main() {
 
   Text content within a search result.
 
-  - `Type BetaManagedAgentsSearchResultContentType`
+  - `Type Text`
 
   - `Text string`
 
@@ -9777,7 +10223,7 @@ func main() {
 
       A user message event in the session conversation.
 
-      - `Type BetaManagedAgentsUserMessageEventType`
+      - `Type UserMessage`
 
       - `ID string`
 
@@ -9791,7 +10237,7 @@ func main() {
 
           Regular text content.
 
-          - `Type BetaManagedAgentsTextBlockType`
+          - `Type Text`
 
           - `Text string`
 
@@ -9803,7 +10249,7 @@ func main() {
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `Type BetaManagedAgentsImageBlockType`
+          - `Type Image`
 
           - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -9813,7 +10259,7 @@ func main() {
 
               Base64-encoded image data.
 
-              - `Type BetaManagedAgentsBase64ImageSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -9831,7 +10277,7 @@ func main() {
 
               Image referenced by URL.
 
-              - `Type BetaManagedAgentsURLImageSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -9843,7 +10289,7 @@ func main() {
 
               Image referenced by file ID.
 
-              - `Type BetaManagedAgentsFileImageSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -9855,7 +10301,7 @@ func main() {
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `Type BetaManagedAgentsDocumentBlockType`
+          - `Type Document`
 
           - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -9865,7 +10311,7 @@ func main() {
 
               Base64-encoded document data.
 
-              - `Type BetaManagedAgentsBase64DocumentSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -9883,7 +10329,7 @@ func main() {
 
               Plain text document content.
 
-              - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+              - `Type Text`
 
               - `Data string`
 
@@ -9891,7 +10337,7 @@ func main() {
 
                 minLength: 1
 
-              - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+              - `MediaType TextPlain`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -9899,7 +10345,7 @@ func main() {
 
               Document referenced by URL.
 
-              - `Type BetaManagedAgentsURLDocumentSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -9911,7 +10357,7 @@ func main() {
 
               Document referenced by file ID.
 
-              - `Type BetaManagedAgentsFileDocumentSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -9931,7 +10377,7 @@ func main() {
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `Type BetaManagedAgentsRedactedBlockType`
+          - `Type Redacted`
 
       - `ProcessedAt Time Optional`
 
@@ -9943,7 +10389,7 @@ func main() {
 
       An interrupt event that pauses agent execution and returns control to the user.
 
-      - `Type BetaManagedAgentsUserInterruptEventType`
+      - `Type UserInterrupt`
 
       - `ID string`
 
@@ -9963,7 +10409,7 @@ func main() {
 
       A tool confirmation event that approves or denies a pending tool execution.
 
-      - `Type BetaManagedAgentsUserToolConfirmationEventType`
+      - `Type UserToolConfirmation`
 
       - `ID string`
 
@@ -10001,7 +10447,7 @@ func main() {
 
       Event sent by the client providing the result of a custom tool execution.
 
-      - `Type BetaManagedAgentsUserCustomToolResultEventType`
+      - `Type UserCustomToolResult`
 
       - `ID string`
 
@@ -10031,7 +10477,7 @@ func main() {
 
           A block containing a web search result.
 
-          - `Type BetaManagedAgentsSearchResultBlockType`
+          - `Type SearchResult`
 
           - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -10045,7 +10491,7 @@ func main() {
 
             Array of text content blocks from the search result.
 
-            - `Type BetaManagedAgentsSearchResultContentType`
+            - `Type Text`
 
             - `Text string`
 
@@ -10083,7 +10529,7 @@ func main() {
 
       Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-      - `Type BetaManagedAgentsUserDefineOutcomeEventType`
+      - `Type UserDefineOutcome`
 
       - `ID string`
 
@@ -10117,7 +10563,7 @@ func main() {
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `Type BetaManagedAgentsFileRubricType`
+          - `Type File`
 
           - `FileID string`
 
@@ -10127,7 +10573,7 @@ func main() {
 
           Rubric content provided inline as text.
 
-          - `Type BetaManagedAgentsTextRubricType`
+          - `Type Text`
 
           - `Content string`
 
@@ -10137,7 +10583,7 @@ func main() {
 
       Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-      - `Type BetaManagedAgentsUserToolResultEventType`
+      - `Type UserToolResult`
 
       - `ID string`
 
@@ -10185,7 +10631,7 @@ func main() {
 
       A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-      - `Type BetaManagedAgentsSystemMessageEventType`
+      - `Type SystemMessage`
 
       - `ID string`
 
@@ -10195,7 +10641,7 @@ func main() {
 
         System content blocks. Text-only.
 
-        - `Type BetaManagedAgentsSystemContentBlockType`
+        - `Type Text`
 
         - `Text string`
 
@@ -10215,7 +10661,7 @@ func main() {
 
   The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-  - `Type BetaManagedAgentsSessionBudgetReachedType`
+  - `Type BudgetReached`
 
 ### Beta Managed Agents Session Deleted Event
 
@@ -10223,7 +10669,7 @@ func main() {
 
   Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-  - `Type BetaManagedAgentsSessionDeletedEventType`
+  - `Type SessionDeleted`
 
   - `ID string`
 
@@ -10241,7 +10687,7 @@ func main() {
 
   The agent completed its turn naturally and is ready for the next user message.
 
-  - `Type BetaManagedAgentsSessionEndTurnType`
+  - `Type EndTurn`
 
 ### Beta Managed Agents Session Error Event
 
@@ -10249,7 +10695,7 @@ func main() {
 
   An error event indicating a problem occurred during session execution.
 
-  - `Type BetaManagedAgentsSessionErrorEventType`
+  - `Type SessionError`
 
   - `ID string`
 
@@ -10261,7 +10707,7 @@ func main() {
 
       An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-      - `Type BetaManagedAgentsUnknownErrorType`
+      - `Type UnknownError`
 
       - `Message string`
 
@@ -10275,25 +10721,25 @@ func main() {
 
           The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-          - `Type BetaManagedAgentsRetryStatusRetryingType`
+          - `Type Retrying`
 
         - `type BetaManagedAgentsRetryStatusExhausted`
 
           This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-          - `Type BetaManagedAgentsRetryStatusExhaustedType`
+          - `Type Exhausted`
 
         - `type BetaManagedAgentsRetryStatusTerminal`
 
           The session encountered a terminal error and will transition to `terminated` state.
 
-          - `Type BetaManagedAgentsRetryStatusTerminalType`
+          - `Type Terminal`
 
     - `type BetaManagedAgentsModelOverloadedError`
 
       The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-      - `Type BetaManagedAgentsModelOverloadedErrorType`
+      - `Type ModelOverloadedError`
 
       - `Message string`
 
@@ -10319,7 +10765,7 @@ func main() {
 
       The model request was rate-limited.
 
-      - `Type BetaManagedAgentsModelRateLimitedErrorType`
+      - `Type ModelRateLimitedError`
 
       - `Message string`
 
@@ -10345,7 +10791,7 @@ func main() {
 
       A model request failed for a reason other than overload or rate-limiting.
 
-      - `Type BetaManagedAgentsModelRequestFailedErrorType`
+      - `Type ModelRequestFailedError`
 
       - `Message string`
 
@@ -10371,7 +10817,7 @@ func main() {
 
       Failed to connect to an MCP server.
 
-      - `Type BetaManagedAgentsMCPConnectionFailedErrorType`
+      - `Type MCPConnectionFailedError`
 
       - `MCPServerName string`
 
@@ -10401,7 +10847,7 @@ func main() {
 
       Authentication to an MCP server failed.
 
-      - `Type BetaManagedAgentsMCPAuthenticationFailedErrorType`
+      - `Type MCPAuthenticationFailedError`
 
       - `MCPServerName string`
 
@@ -10431,7 +10877,7 @@ func main() {
 
       The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-      - `Type BetaManagedAgentsBillingErrorType`
+      - `Type BillingError`
 
       - `Message string`
 
@@ -10457,7 +10903,7 @@ func main() {
 
       An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-      - `Type BetaManagedAgentsCredentialHostUnreachableErrorType`
+      - `Type CredentialHostUnreachableError`
 
       - `CredentialID string`
 
@@ -10486,6 +10932,58 @@ func main() {
       - `VaultID string`
 
         ID of the vault containing the affected credential.
+
+    - `type BetaManagedAgentsToolUseLimitReachedError`
+
+      The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+      - `Type ToolUseLimitReachedError`
+
+      - `Message string`
+
+        Human-readable error description.
+
+      - `RetryStatus BetaManagedAgentsToolUseLimitReachedErrorRetryStatusUnion`
+
+        What the client should do next.
+
+        - `type BetaManagedAgentsRetryStatusRetrying`
+
+          The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+        - `type BetaManagedAgentsRetryStatusExhausted`
+
+          This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+        - `type BetaManagedAgentsRetryStatusTerminal`
+
+          The session encountered a terminal error and will transition to `terminated` state.
+
+    - `type BetaManagedAgentsCompactionLimitReachedError`
+
+      The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+      - `Type CompactionLimitReachedError`
+
+      - `Message string`
+
+        Human-readable error description.
+
+      - `RetryStatus BetaManagedAgentsCompactionLimitReachedErrorRetryStatusUnion`
+
+        What the client should do next.
+
+        - `type BetaManagedAgentsRetryStatusRetrying`
+
+          The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+        - `type BetaManagedAgentsRetryStatusExhausted`
+
+          This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+        - `type BetaManagedAgentsRetryStatusTerminal`
+
+          The session encountered a terminal error and will transition to `terminated` state.
 
     - `type BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -10653,7 +11151,7 @@ func main() {
 
     A user message event in the session conversation.
 
-    - `Type BetaManagedAgentsUserMessageEventType`
+    - `Type UserMessage`
 
     - `ID string`
 
@@ -10667,7 +11165,7 @@ func main() {
 
         Regular text content.
 
-        - `Type BetaManagedAgentsTextBlockType`
+        - `Type Text`
 
         - `Text string`
 
@@ -10679,7 +11177,7 @@ func main() {
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type BetaManagedAgentsImageBlockType`
+        - `Type Image`
 
         - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -10689,7 +11187,7 @@ func main() {
 
             Base64-encoded image data.
 
-            - `Type BetaManagedAgentsBase64ImageSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -10707,7 +11205,7 @@ func main() {
 
             Image referenced by URL.
 
-            - `Type BetaManagedAgentsURLImageSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -10719,7 +11217,7 @@ func main() {
 
             Image referenced by file ID.
 
-            - `Type BetaManagedAgentsFileImageSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -10731,7 +11229,7 @@ func main() {
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type BetaManagedAgentsDocumentBlockType`
+        - `Type Document`
 
         - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -10741,7 +11239,7 @@ func main() {
 
             Base64-encoded document data.
 
-            - `Type BetaManagedAgentsBase64DocumentSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -10759,7 +11257,7 @@ func main() {
 
             Plain text document content.
 
-            - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+            - `Type Text`
 
             - `Data string`
 
@@ -10767,7 +11265,7 @@ func main() {
 
               minLength: 1
 
-            - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+            - `MediaType TextPlain`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -10775,7 +11273,7 @@ func main() {
 
             Document referenced by URL.
 
-            - `Type BetaManagedAgentsURLDocumentSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -10787,7 +11285,7 @@ func main() {
 
             Document referenced by file ID.
 
-            - `Type BetaManagedAgentsFileDocumentSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -10807,7 +11305,7 @@ func main() {
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type BetaManagedAgentsRedactedBlockType`
+        - `Type Redacted`
 
     - `ProcessedAt Time Optional`
 
@@ -10819,7 +11317,7 @@ func main() {
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `Type BetaManagedAgentsUserInterruptEventType`
+    - `Type UserInterrupt`
 
     - `ID string`
 
@@ -10839,7 +11337,7 @@ func main() {
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `Type BetaManagedAgentsUserToolConfirmationEventType`
+    - `Type UserToolConfirmation`
 
     - `ID string`
 
@@ -10877,7 +11375,7 @@ func main() {
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `Type BetaManagedAgentsUserCustomToolResultEventType`
+    - `Type UserCustomToolResult`
 
     - `ID string`
 
@@ -10907,7 +11405,7 @@ func main() {
 
         A block containing a web search result.
 
-        - `Type BetaManagedAgentsSearchResultBlockType`
+        - `Type SearchResult`
 
         - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -10921,7 +11419,7 @@ func main() {
 
           Array of text content blocks from the search result.
 
-          - `Type BetaManagedAgentsSearchResultContentType`
+          - `Type Text`
 
           - `Text string`
 
@@ -10959,13 +11457,13 @@ func main() {
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `Type BetaManagedAgentsAgentCustomToolUseEventType`
+    - `Type AgentCustomToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -10987,7 +11485,7 @@ func main() {
 
     An agent response event in the session conversation.
 
-    - `Type BetaManagedAgentsAgentMessageEventType`
+    - `Type AgentMessage`
 
     - `ID string`
 
@@ -11015,7 +11513,7 @@ func main() {
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `Type BetaManagedAgentsAgentThinkingEventType`
+    - `Type AgentThinking`
 
     - `ID string`
 
@@ -11031,13 +11529,13 @@ func main() {
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `Type BetaManagedAgentsAgentMCPToolUseEventType`
+    - `Type AgentMCPToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -11129,7 +11627,7 @@ func main() {
 
     Event representing the result of an MCP tool execution.
 
-    - `Type BetaManagedAgentsAgentMCPToolResultEventType`
+    - `Type AgentMCPToolResult`
 
     - `ID string`
 
@@ -11173,13 +11671,13 @@ func main() {
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `Type BetaManagedAgentsAgentToolUseEventType`
+    - `Type AgentToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -11209,7 +11707,7 @@ func main() {
 
     Event representing the result of an agent tool execution.
 
-    - `Type BetaManagedAgentsAgentToolResultEventType`
+    - `Type AgentToolResult`
 
     - `ID string`
 
@@ -11253,7 +11751,7 @@ func main() {
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `Type BetaManagedAgentsAgentThreadMessageReceivedEventType`
+    - `Type AgentThreadMessageReceived`
 
     - `ID string`
 
@@ -11297,7 +11795,7 @@ func main() {
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `Type BetaManagedAgentsAgentThreadMessageSentEventType`
+    - `Type AgentThreadMessageSent`
 
     - `ID string`
 
@@ -11341,7 +11839,7 @@ func main() {
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `Type BetaManagedAgentsAgentThreadContextCompactedEventType`
+    - `Type AgentThreadContextCompacted`
 
     - `ID string`
 
@@ -11357,7 +11855,7 @@ func main() {
 
     An error event indicating a problem occurred during session execution.
 
-    - `Type BetaManagedAgentsSessionErrorEventType`
+    - `Type SessionError`
 
     - `ID string`
 
@@ -11369,7 +11867,7 @@ func main() {
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `Type BetaManagedAgentsUnknownErrorType`
+        - `Type UnknownError`
 
         - `Message string`
 
@@ -11383,25 +11881,25 @@ func main() {
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `Type BetaManagedAgentsRetryStatusRetryingType`
+            - `Type Retrying`
 
           - `type BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `Type BetaManagedAgentsRetryStatusExhaustedType`
+            - `Type Exhausted`
 
           - `type BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `Type BetaManagedAgentsRetryStatusTerminalType`
+            - `Type Terminal`
 
       - `type BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `Type BetaManagedAgentsModelOverloadedErrorType`
+        - `Type ModelOverloadedError`
 
         - `Message string`
 
@@ -11427,7 +11925,7 @@ func main() {
 
         The model request was rate-limited.
 
-        - `Type BetaManagedAgentsModelRateLimitedErrorType`
+        - `Type ModelRateLimitedError`
 
         - `Message string`
 
@@ -11453,7 +11951,7 @@ func main() {
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `Type BetaManagedAgentsModelRequestFailedErrorType`
+        - `Type ModelRequestFailedError`
 
         - `Message string`
 
@@ -11479,7 +11977,7 @@ func main() {
 
         Failed to connect to an MCP server.
 
-        - `Type BetaManagedAgentsMCPConnectionFailedErrorType`
+        - `Type MCPConnectionFailedError`
 
         - `MCPServerName string`
 
@@ -11509,7 +12007,7 @@ func main() {
 
         Authentication to an MCP server failed.
 
-        - `Type BetaManagedAgentsMCPAuthenticationFailedErrorType`
+        - `Type MCPAuthenticationFailedError`
 
         - `MCPServerName string`
 
@@ -11539,7 +12037,7 @@ func main() {
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `Type BetaManagedAgentsBillingErrorType`
+        - `Type BillingError`
 
         - `Message string`
 
@@ -11565,7 +12063,7 @@ func main() {
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `Type BetaManagedAgentsCredentialHostUnreachableErrorType`
+        - `Type CredentialHostUnreachableError`
 
         - `CredentialID string`
 
@@ -11594,6 +12092,58 @@ func main() {
         - `VaultID string`
 
           ID of the vault containing the affected credential.
+
+      - `type BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type ToolUseLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsToolUseLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type CompactionLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsCompactionLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `type BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -11755,7 +12305,7 @@ func main() {
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `Type BetaManagedAgentsSessionStatusRescheduledEventType`
+    - `Type SessionStatusRescheduled`
 
     - `ID string`
 
@@ -11771,7 +12321,7 @@ func main() {
 
     Indicates the session is actively running and the agent is working.
 
-    - `Type BetaManagedAgentsSessionStatusRunningEventType`
+    - `Type SessionStatusRunning`
 
     - `ID string`
 
@@ -11787,7 +12337,7 @@ func main() {
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `Type BetaManagedAgentsSessionStatusIdleEventType`
+    - `Type SessionStatusIdle`
 
     - `ID string`
 
@@ -11829,13 +12379,13 @@ func main() {
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `Type BetaManagedAgentsSessionEndTurnType`
+        - `Type EndTurn`
 
       - `type BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `Type BetaManagedAgentsSessionRequiresActionType`
+        - `Type RequiresAction`
 
         - `EventIDs []string`
 
@@ -11845,13 +12395,13 @@ func main() {
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `Type BetaManagedAgentsSessionRetriesExhaustedType`
+        - `Type RetriesExhausted`
 
       - `type BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `Type BetaManagedAgentsSessionBudgetReachedType`
+        - `Type BudgetReached`
 
       - `type BetaManagedAgentsSessionRefusal`
 
@@ -11863,7 +12413,7 @@ func main() {
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `Type BetaManagedAgentsSessionStatusTerminatedEventType`
+    - `Type SessionStatusTerminated`
 
     - `ID string`
 
@@ -11879,7 +12429,7 @@ func main() {
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `Type BetaManagedAgentsSessionThreadCreatedEventType`
+    - `Type SessionThreadCreated`
 
     - `ID string`
 
@@ -11907,7 +12457,7 @@ func main() {
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationStartEventType`
+    - `Type SpanOutcomeEvaluationStart`
 
     - `ID string`
 
@@ -11933,7 +12483,7 @@ func main() {
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationEndEventType`
+    - `Type SpanOutcomeEvaluationEnd`
 
     - `ID string`
 
@@ -12007,7 +12557,7 @@ func main() {
 
     Emitted when a model request is initiated by the agent.
 
-    - `Type BetaManagedAgentsSpanModelRequestStartEventType`
+    - `Type SpanModelRequestStart`
 
     - `ID string`
 
@@ -12023,7 +12573,7 @@ func main() {
 
     Emitted when a model request completes.
 
-    - `Type BetaManagedAgentsSpanModelRequestEndEventType`
+    - `Type SpanModelRequestEnd`
 
     - `ID string`
 
@@ -12051,7 +12601,7 @@ func main() {
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationOngoingEventType`
+    - `Type SpanOutcomeEvaluationOngoing`
 
     - `ID string`
 
@@ -12077,7 +12627,7 @@ func main() {
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `Type BetaManagedAgentsUserDefineOutcomeEventType`
+    - `Type UserDefineOutcome`
 
     - `ID string`
 
@@ -12111,7 +12661,7 @@ func main() {
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type BetaManagedAgentsFileRubricType`
+        - `Type File`
 
         - `FileID string`
 
@@ -12121,7 +12671,7 @@ func main() {
 
         Rubric content provided inline as text.
 
-        - `Type BetaManagedAgentsTextRubricType`
+        - `Type Text`
 
         - `Content string`
 
@@ -12131,7 +12681,7 @@ func main() {
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `Type BetaManagedAgentsSessionDeletedEventType`
+    - `Type SessionDeleted`
 
     - `ID string`
 
@@ -12147,7 +12697,7 @@ func main() {
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRunningEventType`
+    - `Type SessionThreadStatusRunning`
 
     - `ID string`
 
@@ -12171,7 +12721,7 @@ func main() {
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusIdleEventType`
+    - `Type SessionThreadStatusIdle`
 
     - `ID string`
 
@@ -12221,7 +12771,7 @@ func main() {
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusTerminatedEventType`
+    - `Type SessionThreadStatusTerminated`
 
     - `ID string`
 
@@ -12245,7 +12795,7 @@ func main() {
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type BetaManagedAgentsUserToolResultEventType`
+    - `Type UserToolResult`
 
     - `ID string`
 
@@ -12293,7 +12843,7 @@ func main() {
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRescheduledEventType`
+    - `Type SessionThreadStatusRescheduled`
 
     - `ID string`
 
@@ -12317,7 +12867,7 @@ func main() {
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `Type BetaManagedAgentsSessionUpdatedEventType`
+    - `Type SessionUpdated`
 
     - `ID string`
 
@@ -12333,15 +12883,37 @@ func main() {
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `Type BetaManagedAgentsSessionAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
+
+        - `Name string`
 
         - `Name string`
 
@@ -12356,6 +12928,10 @@ func main() {
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -12433,31 +13009,31 @@ func main() {
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -12479,7 +13055,7 @@ func main() {
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+          - `Type Coordinator`
 
           - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -12489,15 +13065,19 @@ func main() {
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
 
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-                - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+                - `Type URL`
 
                 - `Name string`
 
@@ -12515,7 +13095,7 @@ func main() {
 
                   A resolved Anthropic-managed skill.
 
-                  - `Type BetaManagedAgentsAnthropicSkillType`
+                  - `Type Anthropic`
 
                   - `SkillID string`
 
@@ -12525,7 +13105,7 @@ func main() {
 
                   A resolved user-created custom skill.
 
-                  - `Type BetaManagedAgentsCustomSkillType`
+                  - `Type Custom`
 
                   - `SkillID string`
 
@@ -12537,7 +13117,7 @@ func main() {
 
                 - `type BetaManagedAgentsAgentToolset20260401`
 
-                  - `Type BetaManagedAgentsAgentToolset20260401Type`
+                  - `Type AgentToolset20260401`
 
                   - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -12559,13 +13139,13 @@ func main() {
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                          - `Type AlwaysAllow`
 
                         - `type BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                          - `Type AlwaysAsk`
 
                         - `type BetaManagedAgentsAutoPolicy`
 
@@ -12861,6 +13441,8 @@ func main() {
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `Region string Optional`
 
                           Region or state name.
@@ -12897,7 +13479,7 @@ func main() {
 
                 - `type BetaManagedAgentsMCPToolset`
 
-                  - `Type BetaManagedAgentsMCPToolsetType`
+                  - `Type MCPToolset`
 
                   - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -12949,7 +13531,7 @@ func main() {
 
                   A custom tool as returned in API responses.
 
-                  - `Type BetaManagedAgentsCustomToolType`
+                  - `Type Custom`
 
                   - `Description string`
 
@@ -12959,7 +13541,7 @@ func main() {
 
                     - `Type Object`
 
-                    - `Properties map[string, any] Optional`
+                    - `Properties map[string]any Optional`
 
                     - `Required []string Optional`
 
@@ -12973,7 +13555,7 @@ func main() {
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `Type BetaManagedAgentsAdvisorType`
+              - `Type Advisor`
 
               - `Model string`
 
@@ -13035,11 +13617,15 @@ func main() {
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -13083,11 +13669,15 @@ func main() {
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -13145,7 +13735,7 @@ func main() {
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `Type BetaManagedAgentsBudgetLimitType`
+      - `Type Limit`
 
       - `MaxListCost BetaMonetaryAmount`
 
@@ -13155,11 +13745,13 @@ func main() {
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+          pattern: ^(0|[1-9]\d*)$
+
         - `Currency BetaCurrency`
 
           Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `Metadata map[string, string] Optional`
+    - `Metadata map[string]string Optional`
 
       The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
 
@@ -13171,7 +13763,7 @@ func main() {
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `Type BetaManagedAgentsSystemMessageEventType`
+    - `Type SystemMessage`
 
     - `ID string`
 
@@ -13181,7 +13773,7 @@ func main() {
 
       System content blocks. Text-only.
 
-      - `Type BetaManagedAgentsSystemContentBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -13199,7 +13791,7 @@ func main() {
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `Type BetaManagedAgentsSessionUsageEventType`
+    - `Type SessionUsage`
 
     - `ID string`
 
@@ -13663,7 +14255,7 @@ func main() {
 
   The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-  - `Type BetaManagedAgentsSessionRequiresActionType`
+  - `Type RequiresAction`
 
   - `EventIDs []string`
 
@@ -13675,7 +14267,7 @@ func main() {
 
   The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-  - `Type BetaManagedAgentsSessionRetriesExhaustedType`
+  - `Type RetriesExhausted`
 
 ### Beta Managed Agents Session Status Idle Event
 
@@ -13683,7 +14275,7 @@ func main() {
 
   Indicates the agent has paused and is awaiting user input.
 
-  - `Type BetaManagedAgentsSessionStatusIdleEventType`
+  - `Type SessionStatusIdle`
 
   - `ID string`
 
@@ -13725,13 +14317,13 @@ func main() {
 
       The agent completed its turn naturally and is ready for the next user message.
 
-      - `Type BetaManagedAgentsSessionEndTurnType`
+      - `Type EndTurn`
 
     - `type BetaManagedAgentsSessionRequiresAction`
 
       The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-      - `Type BetaManagedAgentsSessionRequiresActionType`
+      - `Type RequiresAction`
 
       - `EventIDs []string`
 
@@ -13741,13 +14333,13 @@ func main() {
 
       The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-      - `Type BetaManagedAgentsSessionRetriesExhaustedType`
+      - `Type RetriesExhausted`
 
     - `type BetaManagedAgentsSessionBudgetReached`
 
       The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-      - `Type BetaManagedAgentsSessionBudgetReachedType`
+      - `Type BudgetReached`
 
     - `type BetaManagedAgentsSessionRefusal`
 
@@ -13761,7 +14353,7 @@ func main() {
 
   Indicates the session is recovering from an error state and is rescheduled for execution.
 
-  - `Type BetaManagedAgentsSessionStatusRescheduledEventType`
+  - `Type SessionStatusRescheduled`
 
   - `ID string`
 
@@ -13779,7 +14371,7 @@ func main() {
 
   Indicates the session is actively running and the agent is working.
 
-  - `Type BetaManagedAgentsSessionStatusRunningEventType`
+  - `Type SessionStatusRunning`
 
   - `ID string`
 
@@ -13797,7 +14389,7 @@ func main() {
 
   Indicates the session has terminated, either due to an error or completion.
 
-  - `Type BetaManagedAgentsSessionStatusTerminatedEventType`
+  - `Type SessionStatusTerminated`
 
   - `ID string`
 
@@ -13815,7 +14407,7 @@ func main() {
 
   Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-  - `Type BetaManagedAgentsSessionThreadCreatedEventType`
+  - `Type SessionThreadCreated`
 
   - `ID string`
 
@@ -13845,7 +14437,7 @@ func main() {
 
   A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-  - `Type BetaManagedAgentsSessionThreadStatusIdleEventType`
+  - `Type SessionThreadStatusIdle`
 
   - `ID string`
 
@@ -13895,13 +14487,13 @@ func main() {
 
       The agent completed its turn naturally and is ready for the next user message.
 
-      - `Type BetaManagedAgentsSessionEndTurnType`
+      - `Type EndTurn`
 
     - `type BetaManagedAgentsSessionRequiresAction`
 
       The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-      - `Type BetaManagedAgentsSessionRequiresActionType`
+      - `Type RequiresAction`
 
       - `EventIDs []string`
 
@@ -13911,13 +14503,13 @@ func main() {
 
       The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-      - `Type BetaManagedAgentsSessionRetriesExhaustedType`
+      - `Type RetriesExhausted`
 
     - `type BetaManagedAgentsSessionBudgetReached`
 
       The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-      - `Type BetaManagedAgentsSessionBudgetReachedType`
+      - `Type BudgetReached`
 
     - `type BetaManagedAgentsSessionRefusal`
 
@@ -13931,7 +14523,7 @@ func main() {
 
   A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-  - `Type BetaManagedAgentsSessionThreadStatusRescheduledEventType`
+  - `Type SessionThreadStatusRescheduled`
 
   - `ID string`
 
@@ -13957,7 +14549,7 @@ func main() {
 
   A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-  - `Type BetaManagedAgentsSessionThreadStatusRunningEventType`
+  - `Type SessionThreadStatusRunning`
 
   - `ID string`
 
@@ -13983,7 +14575,7 @@ func main() {
 
   A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-  - `Type BetaManagedAgentsSessionThreadStatusTerminatedEventType`
+  - `Type SessionThreadStatusTerminated`
 
   - `ID string`
 
@@ -14051,6 +14643,8 @@ func main() {
 
       Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+      pattern: ^(0|[1-9]\d*)$
+
     - `Currency BetaCurrency`
 
       Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -14083,7 +14677,7 @@ func main() {
 
   Emitted when a model request completes.
 
-  - `Type BetaManagedAgentsSpanModelRequestEndEventType`
+  - `Type SpanModelRequestEnd`
 
   - `ID string`
 
@@ -14145,7 +14739,7 @@ func main() {
 
   Emitted when a model request is initiated by the agent.
 
-  - `Type BetaManagedAgentsSpanModelRequestStartEventType`
+  - `Type SpanModelRequestStart`
 
   - `ID string`
 
@@ -14201,7 +14795,7 @@ func main() {
 
   Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-  - `Type BetaManagedAgentsSpanOutcomeEvaluationEndEventType`
+  - `Type SpanOutcomeEvaluationEnd`
 
   - `ID string`
 
@@ -14277,7 +14871,7 @@ func main() {
 
   Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-  - `Type BetaManagedAgentsSpanOutcomeEvaluationOngoingEventType`
+  - `Type SpanOutcomeEvaluationOngoing`
 
   - `ID string`
 
@@ -14305,7 +14899,7 @@ func main() {
 
   Emitted when an outcome evaluation cycle begins.
 
-  - `Type BetaManagedAgentsSpanOutcomeEvaluationStartEventType`
+  - `Type SpanOutcomeEvaluationStart`
 
   - `ID string`
 
@@ -14337,7 +14931,7 @@ func main() {
 
     A user message event in the session conversation.
 
-    - `Type BetaManagedAgentsUserMessageEventType`
+    - `Type UserMessage`
 
     - `ID string`
 
@@ -14351,7 +14945,7 @@ func main() {
 
         Regular text content.
 
-        - `Type BetaManagedAgentsTextBlockType`
+        - `Type Text`
 
         - `Text string`
 
@@ -14363,7 +14957,7 @@ func main() {
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type BetaManagedAgentsImageBlockType`
+        - `Type Image`
 
         - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -14373,7 +14967,7 @@ func main() {
 
             Base64-encoded image data.
 
-            - `Type BetaManagedAgentsBase64ImageSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -14391,7 +14985,7 @@ func main() {
 
             Image referenced by URL.
 
-            - `Type BetaManagedAgentsURLImageSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -14403,7 +14997,7 @@ func main() {
 
             Image referenced by file ID.
 
-            - `Type BetaManagedAgentsFileImageSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -14415,7 +15009,7 @@ func main() {
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type BetaManagedAgentsDocumentBlockType`
+        - `Type Document`
 
         - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -14425,7 +15019,7 @@ func main() {
 
             Base64-encoded document data.
 
-            - `Type BetaManagedAgentsBase64DocumentSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -14443,7 +15037,7 @@ func main() {
 
             Plain text document content.
 
-            - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+            - `Type Text`
 
             - `Data string`
 
@@ -14451,7 +15045,7 @@ func main() {
 
               minLength: 1
 
-            - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+            - `MediaType TextPlain`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -14459,7 +15053,7 @@ func main() {
 
             Document referenced by URL.
 
-            - `Type BetaManagedAgentsURLDocumentSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -14471,7 +15065,7 @@ func main() {
 
             Document referenced by file ID.
 
-            - `Type BetaManagedAgentsFileDocumentSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -14491,7 +15085,7 @@ func main() {
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type BetaManagedAgentsRedactedBlockType`
+        - `Type Redacted`
 
     - `ProcessedAt Time Optional`
 
@@ -14503,7 +15097,7 @@ func main() {
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `Type BetaManagedAgentsUserInterruptEventType`
+    - `Type UserInterrupt`
 
     - `ID string`
 
@@ -14523,7 +15117,7 @@ func main() {
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `Type BetaManagedAgentsUserToolConfirmationEventType`
+    - `Type UserToolConfirmation`
 
     - `ID string`
 
@@ -14561,7 +15155,7 @@ func main() {
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `Type BetaManagedAgentsUserCustomToolResultEventType`
+    - `Type UserCustomToolResult`
 
     - `ID string`
 
@@ -14591,7 +15185,7 @@ func main() {
 
         A block containing a web search result.
 
-        - `Type BetaManagedAgentsSearchResultBlockType`
+        - `Type SearchResult`
 
         - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -14605,7 +15199,7 @@ func main() {
 
           Array of text content blocks from the search result.
 
-          - `Type BetaManagedAgentsSearchResultContentType`
+          - `Type Text`
 
           - `Text string`
 
@@ -14643,13 +15237,13 @@ func main() {
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `Type BetaManagedAgentsAgentCustomToolUseEventType`
+    - `Type AgentCustomToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -14671,7 +15265,7 @@ func main() {
 
     An agent response event in the session conversation.
 
-    - `Type BetaManagedAgentsAgentMessageEventType`
+    - `Type AgentMessage`
 
     - `ID string`
 
@@ -14699,7 +15293,7 @@ func main() {
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `Type BetaManagedAgentsAgentThinkingEventType`
+    - `Type AgentThinking`
 
     - `ID string`
 
@@ -14715,13 +15309,13 @@ func main() {
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `Type BetaManagedAgentsAgentMCPToolUseEventType`
+    - `Type AgentMCPToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -14813,7 +15407,7 @@ func main() {
 
     Event representing the result of an MCP tool execution.
 
-    - `Type BetaManagedAgentsAgentMCPToolResultEventType`
+    - `Type AgentMCPToolResult`
 
     - `ID string`
 
@@ -14857,13 +15451,13 @@ func main() {
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `Type BetaManagedAgentsAgentToolUseEventType`
+    - `Type AgentToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -14893,7 +15487,7 @@ func main() {
 
     Event representing the result of an agent tool execution.
 
-    - `Type BetaManagedAgentsAgentToolResultEventType`
+    - `Type AgentToolResult`
 
     - `ID string`
 
@@ -14937,7 +15531,7 @@ func main() {
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `Type BetaManagedAgentsAgentThreadMessageReceivedEventType`
+    - `Type AgentThreadMessageReceived`
 
     - `ID string`
 
@@ -14981,7 +15575,7 @@ func main() {
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `Type BetaManagedAgentsAgentThreadMessageSentEventType`
+    - `Type AgentThreadMessageSent`
 
     - `ID string`
 
@@ -15025,7 +15619,7 @@ func main() {
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `Type BetaManagedAgentsAgentThreadContextCompactedEventType`
+    - `Type AgentThreadContextCompacted`
 
     - `ID string`
 
@@ -15041,7 +15635,7 @@ func main() {
 
     An error event indicating a problem occurred during session execution.
 
-    - `Type BetaManagedAgentsSessionErrorEventType`
+    - `Type SessionError`
 
     - `ID string`
 
@@ -15053,7 +15647,7 @@ func main() {
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `Type BetaManagedAgentsUnknownErrorType`
+        - `Type UnknownError`
 
         - `Message string`
 
@@ -15067,25 +15661,25 @@ func main() {
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `Type BetaManagedAgentsRetryStatusRetryingType`
+            - `Type Retrying`
 
           - `type BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `Type BetaManagedAgentsRetryStatusExhaustedType`
+            - `Type Exhausted`
 
           - `type BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `Type BetaManagedAgentsRetryStatusTerminalType`
+            - `Type Terminal`
 
       - `type BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `Type BetaManagedAgentsModelOverloadedErrorType`
+        - `Type ModelOverloadedError`
 
         - `Message string`
 
@@ -15111,7 +15705,7 @@ func main() {
 
         The model request was rate-limited.
 
-        - `Type BetaManagedAgentsModelRateLimitedErrorType`
+        - `Type ModelRateLimitedError`
 
         - `Message string`
 
@@ -15137,7 +15731,7 @@ func main() {
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `Type BetaManagedAgentsModelRequestFailedErrorType`
+        - `Type ModelRequestFailedError`
 
         - `Message string`
 
@@ -15163,7 +15757,7 @@ func main() {
 
         Failed to connect to an MCP server.
 
-        - `Type BetaManagedAgentsMCPConnectionFailedErrorType`
+        - `Type MCPConnectionFailedError`
 
         - `MCPServerName string`
 
@@ -15193,7 +15787,7 @@ func main() {
 
         Authentication to an MCP server failed.
 
-        - `Type BetaManagedAgentsMCPAuthenticationFailedErrorType`
+        - `Type MCPAuthenticationFailedError`
 
         - `MCPServerName string`
 
@@ -15223,7 +15817,7 @@ func main() {
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `Type BetaManagedAgentsBillingErrorType`
+        - `Type BillingError`
 
         - `Message string`
 
@@ -15249,7 +15843,7 @@ func main() {
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `Type BetaManagedAgentsCredentialHostUnreachableErrorType`
+        - `Type CredentialHostUnreachableError`
 
         - `CredentialID string`
 
@@ -15278,6 +15872,58 @@ func main() {
         - `VaultID string`
 
           ID of the vault containing the affected credential.
+
+      - `type BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type ToolUseLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsToolUseLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type CompactionLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsCompactionLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `type BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -15439,7 +16085,7 @@ func main() {
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `Type BetaManagedAgentsSessionStatusRescheduledEventType`
+    - `Type SessionStatusRescheduled`
 
     - `ID string`
 
@@ -15455,7 +16101,7 @@ func main() {
 
     Indicates the session is actively running and the agent is working.
 
-    - `Type BetaManagedAgentsSessionStatusRunningEventType`
+    - `Type SessionStatusRunning`
 
     - `ID string`
 
@@ -15471,7 +16117,7 @@ func main() {
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `Type BetaManagedAgentsSessionStatusIdleEventType`
+    - `Type SessionStatusIdle`
 
     - `ID string`
 
@@ -15513,13 +16159,13 @@ func main() {
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `Type BetaManagedAgentsSessionEndTurnType`
+        - `Type EndTurn`
 
       - `type BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `Type BetaManagedAgentsSessionRequiresActionType`
+        - `Type RequiresAction`
 
         - `EventIDs []string`
 
@@ -15529,13 +16175,13 @@ func main() {
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `Type BetaManagedAgentsSessionRetriesExhaustedType`
+        - `Type RetriesExhausted`
 
       - `type BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `Type BetaManagedAgentsSessionBudgetReachedType`
+        - `Type BudgetReached`
 
       - `type BetaManagedAgentsSessionRefusal`
 
@@ -15547,7 +16193,7 @@ func main() {
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `Type BetaManagedAgentsSessionStatusTerminatedEventType`
+    - `Type SessionStatusTerminated`
 
     - `ID string`
 
@@ -15563,7 +16209,7 @@ func main() {
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `Type BetaManagedAgentsSessionThreadCreatedEventType`
+    - `Type SessionThreadCreated`
 
     - `ID string`
 
@@ -15591,7 +16237,7 @@ func main() {
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationStartEventType`
+    - `Type SpanOutcomeEvaluationStart`
 
     - `ID string`
 
@@ -15617,7 +16263,7 @@ func main() {
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationEndEventType`
+    - `Type SpanOutcomeEvaluationEnd`
 
     - `ID string`
 
@@ -15691,7 +16337,7 @@ func main() {
 
     Emitted when a model request is initiated by the agent.
 
-    - `Type BetaManagedAgentsSpanModelRequestStartEventType`
+    - `Type SpanModelRequestStart`
 
     - `ID string`
 
@@ -15707,7 +16353,7 @@ func main() {
 
     Emitted when a model request completes.
 
-    - `Type BetaManagedAgentsSpanModelRequestEndEventType`
+    - `Type SpanModelRequestEnd`
 
     - `ID string`
 
@@ -15735,7 +16381,7 @@ func main() {
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationOngoingEventType`
+    - `Type SpanOutcomeEvaluationOngoing`
 
     - `ID string`
 
@@ -15761,7 +16407,7 @@ func main() {
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `Type BetaManagedAgentsUserDefineOutcomeEventType`
+    - `Type UserDefineOutcome`
 
     - `ID string`
 
@@ -15795,7 +16441,7 @@ func main() {
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type BetaManagedAgentsFileRubricType`
+        - `Type File`
 
         - `FileID string`
 
@@ -15805,7 +16451,7 @@ func main() {
 
         Rubric content provided inline as text.
 
-        - `Type BetaManagedAgentsTextRubricType`
+        - `Type Text`
 
         - `Content string`
 
@@ -15815,7 +16461,7 @@ func main() {
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `Type BetaManagedAgentsSessionDeletedEventType`
+    - `Type SessionDeleted`
 
     - `ID string`
 
@@ -15831,7 +16477,7 @@ func main() {
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRunningEventType`
+    - `Type SessionThreadStatusRunning`
 
     - `ID string`
 
@@ -15855,7 +16501,7 @@ func main() {
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusIdleEventType`
+    - `Type SessionThreadStatusIdle`
 
     - `ID string`
 
@@ -15905,7 +16551,7 @@ func main() {
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusTerminatedEventType`
+    - `Type SessionThreadStatusTerminated`
 
     - `ID string`
 
@@ -15929,7 +16575,7 @@ func main() {
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type BetaManagedAgentsUserToolResultEventType`
+    - `Type UserToolResult`
 
     - `ID string`
 
@@ -15977,7 +16623,7 @@ func main() {
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRescheduledEventType`
+    - `Type SessionThreadStatusRescheduled`
 
     - `ID string`
 
@@ -16001,7 +16647,7 @@ func main() {
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `Type BetaManagedAgentsSessionUpdatedEventType`
+    - `Type SessionUpdated`
 
     - `ID string`
 
@@ -16017,15 +16663,37 @@ func main() {
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `Type BetaManagedAgentsSessionAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
+
+        - `Name string`
 
         - `Name string`
 
@@ -16040,6 +16708,10 @@ func main() {
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -16117,31 +16789,31 @@ func main() {
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -16163,7 +16835,7 @@ func main() {
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+          - `Type Coordinator`
 
           - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -16173,15 +16845,19 @@ func main() {
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
 
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-                - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+                - `Type URL`
 
                 - `Name string`
 
@@ -16199,7 +16875,7 @@ func main() {
 
                   A resolved Anthropic-managed skill.
 
-                  - `Type BetaManagedAgentsAnthropicSkillType`
+                  - `Type Anthropic`
 
                   - `SkillID string`
 
@@ -16209,7 +16885,7 @@ func main() {
 
                   A resolved user-created custom skill.
 
-                  - `Type BetaManagedAgentsCustomSkillType`
+                  - `Type Custom`
 
                   - `SkillID string`
 
@@ -16221,7 +16897,7 @@ func main() {
 
                 - `type BetaManagedAgentsAgentToolset20260401`
 
-                  - `Type BetaManagedAgentsAgentToolset20260401Type`
+                  - `Type AgentToolset20260401`
 
                   - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -16243,13 +16919,13 @@ func main() {
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                          - `Type AlwaysAllow`
 
                         - `type BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                          - `Type AlwaysAsk`
 
                         - `type BetaManagedAgentsAutoPolicy`
 
@@ -16545,6 +17221,8 @@ func main() {
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `Region string Optional`
 
                           Region or state name.
@@ -16581,7 +17259,7 @@ func main() {
 
                 - `type BetaManagedAgentsMCPToolset`
 
-                  - `Type BetaManagedAgentsMCPToolsetType`
+                  - `Type MCPToolset`
 
                   - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -16633,7 +17311,7 @@ func main() {
 
                   A custom tool as returned in API responses.
 
-                  - `Type BetaManagedAgentsCustomToolType`
+                  - `Type Custom`
 
                   - `Description string`
 
@@ -16643,7 +17321,7 @@ func main() {
 
                     - `Type Object`
 
-                    - `Properties map[string, any] Optional`
+                    - `Properties map[string]any Optional`
 
                     - `Required []string Optional`
 
@@ -16657,7 +17335,7 @@ func main() {
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `Type BetaManagedAgentsAdvisorType`
+              - `Type Advisor`
 
               - `Model string`
 
@@ -16719,11 +17397,15 @@ func main() {
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -16767,11 +17449,15 @@ func main() {
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -16829,7 +17515,7 @@ func main() {
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `Type BetaManagedAgentsBudgetLimitType`
+      - `Type Limit`
 
       - `MaxListCost BetaMonetaryAmount`
 
@@ -16839,11 +17525,13 @@ func main() {
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+          pattern: ^(0|[1-9]\d*)$
+
         - `Currency BetaCurrency`
 
           Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `Metadata map[string, string] Optional`
+    - `Metadata map[string]string Optional`
 
       The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
 
@@ -16855,7 +17543,7 @@ func main() {
 
     Opens a preview of a buffered event. Carries the previewed event's type and id only. Followed by zero or more event_delta events with the same event id, normally concluded by the buffered event carrying that id. If the producing model request ends without that event (an error or interrupt mid-stream), its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `Type BetaManagedAgentsStartEventType`
+    - `Type EventStart`
 
     - `Event BetaManagedAgentsStartEventPreviewUnion`
 
@@ -16863,7 +17551,7 @@ func main() {
 
       - `type BetaManagedAgentsAgentMessagePreview`
 
-        - `Type BetaManagedAgentsAgentMessagePreviewType`
+        - `Type AgentMessage`
 
         - `ID string`
 
@@ -16871,7 +17559,7 @@ func main() {
 
       - `type BetaManagedAgentsAgentThinkingPreview`
 
-        - `Type BetaManagedAgentsAgentThinkingPreviewType`
+        - `Type AgentThinking`
 
         - `ID string`
 
@@ -16881,13 +17569,13 @@ func main() {
 
     An incremental update to an event that is still being streamed. Deltas are best-effort and may stop early; when the buffered event with id == event_id is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no buffered event — its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `Type BetaManagedAgentsDeltaEventType`
+    - `Type EventDelta`
 
     - `Delta BetaManagedAgentsDeltaContent`
 
       One fragment of the previewed event. The delta type is named for the previewed event's field it streams into: agent.message events stream content_delta fragments, each a partial element of the content array.
 
-      - `Type BetaManagedAgentsDeltaContentType`
+      - `Type ContentDelta`
 
       - `Content BetaManagedAgentsTextBlock`
 
@@ -16905,7 +17593,7 @@ func main() {
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `Type BetaManagedAgentsSystemMessageEventType`
+    - `Type SystemMessage`
 
     - `ID string`
 
@@ -16915,7 +17603,7 @@ func main() {
 
       System content blocks. Text-only.
 
-      - `Type BetaManagedAgentsSystemContentBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -16933,7 +17621,7 @@ func main() {
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `Type BetaManagedAgentsSessionUsageEventType`
+    - `Type SessionUsage`
 
     - `ID string`
 
@@ -17275,13 +17963,13 @@ func main() {
 
   Privileged context for the accompanying turn and all subsequent turns, appended to the session's system context as a `role: "system"` turn rather than replacing the top-level system prompt. At most one per request: it must be the final event and immediately follow the `user.message`, `user.tool_result`, or `user.custom_tool_result` it accompanies. Only supported on models that accept mid-conversation system messages.
 
-  - `Type BetaManagedAgentsSystemMessageEventParamsType`
+  - `Type SystemMessage`
 
   - `Content []BetaManagedAgentsSystemContentBlockParam`
 
     System content blocks to append. Text-only.
 
-    - `Type BetaManagedAgentsSystemContentBlockType`
+    - `Type Text`
 
     - `Text string`
 
@@ -17295,7 +17983,7 @@ func main() {
 
   Regular text content.
 
-  - `Type BetaManagedAgentsTextBlockType`
+  - `Type Text`
 
   - `Text string`
 
@@ -17309,7 +17997,7 @@ func main() {
 
   Rubric content provided inline as text.
 
-  - `Type BetaManagedAgentsTextRubricType`
+  - `Type Text`
 
   - `Content string`
 
@@ -17321,7 +18009,7 @@ func main() {
 
   Rubric content provided inline as text.
 
-  - `Type BetaManagedAgentsTextRubricParamsType`
+  - `Type Text`
 
   - `Content string`
 
@@ -17353,13 +18041,47 @@ func main() {
 
     Short explanation written by the server. It never contains content from the run or its agents.
 
+### Beta Managed Agents Tool Use Limit Reached Error
+
+- `type BetaManagedAgentsToolUseLimitReachedError`
+
+  The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+  - `Type ToolUseLimitReachedError`
+
+  - `Message string`
+
+    Human-readable error description.
+
+  - `RetryStatus BetaManagedAgentsToolUseLimitReachedErrorRetryStatusUnion`
+
+    What the client should do next.
+
+    - `type BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `Type Retrying`
+
+    - `type BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `Type Exhausted`
+
+    - `type BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `Type Terminal`
+
 ### Beta Managed Agents Unknown Error
 
 - `type BetaManagedAgentsUnknownError`
 
   An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-  - `Type BetaManagedAgentsUnknownErrorType`
+  - `Type UnknownError`
 
   - `Message string`
 
@@ -17373,19 +18095,19 @@ func main() {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type BetaManagedAgentsRetryStatusRetryingType`
+      - `Type Retrying`
 
     - `type BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type BetaManagedAgentsRetryStatusExhaustedType`
+      - `Type Exhausted`
 
     - `type BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type BetaManagedAgentsRetryStatusTerminalType`
+      - `Type Terminal`
 
 ### Beta Managed Agents Unknown Workflow Run Error
 
@@ -17405,7 +18127,7 @@ func main() {
 
   Document referenced by URL.
 
-  - `Type BetaManagedAgentsURLDocumentSourceType`
+  - `Type URL`
 
   - `URL string`
 
@@ -17419,7 +18141,7 @@ func main() {
 
   Image referenced by URL.
 
-  - `Type BetaManagedAgentsURLImageSourceType`
+  - `Type URL`
 
   - `URL string`
 
@@ -17433,7 +18155,7 @@ func main() {
 
   Event sent by the client providing the result of a custom tool execution.
 
-  - `Type BetaManagedAgentsUserCustomToolResultEventType`
+  - `Type UserCustomToolResult`
 
   - `ID string`
 
@@ -17451,7 +18173,7 @@ func main() {
 
       Regular text content.
 
-      - `Type BetaManagedAgentsTextBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -17463,7 +18185,7 @@ func main() {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type BetaManagedAgentsImageBlockType`
+      - `Type Image`
 
       - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -17473,7 +18195,7 @@ func main() {
 
           Base64-encoded image data.
 
-          - `Type BetaManagedAgentsBase64ImageSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -17491,7 +18213,7 @@ func main() {
 
           Image referenced by URL.
 
-          - `Type BetaManagedAgentsURLImageSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -17503,7 +18225,7 @@ func main() {
 
           Image referenced by file ID.
 
-          - `Type BetaManagedAgentsFileImageSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -17515,7 +18237,7 @@ func main() {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type BetaManagedAgentsDocumentBlockType`
+      - `Type Document`
 
       - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -17525,7 +18247,7 @@ func main() {
 
           Base64-encoded document data.
 
-          - `Type BetaManagedAgentsBase64DocumentSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -17543,7 +18265,7 @@ func main() {
 
           Plain text document content.
 
-          - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+          - `Type Text`
 
           - `Data string`
 
@@ -17551,7 +18273,7 @@ func main() {
 
             minLength: 1
 
-          - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+          - `MediaType TextPlain`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -17559,7 +18281,7 @@ func main() {
 
           Document referenced by URL.
 
-          - `Type BetaManagedAgentsURLDocumentSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -17571,7 +18293,7 @@ func main() {
 
           Document referenced by file ID.
 
-          - `Type BetaManagedAgentsFileDocumentSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -17591,7 +18313,7 @@ func main() {
 
       A block containing a web search result.
 
-      - `Type BetaManagedAgentsSearchResultBlockType`
+      - `Type SearchResult`
 
       - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -17605,7 +18327,7 @@ func main() {
 
         Array of text content blocks from the search result.
 
-        - `Type BetaManagedAgentsSearchResultContentType`
+        - `Type Text`
 
         - `Text string`
 
@@ -17645,7 +18367,7 @@ func main() {
 
   Parameters for providing the result of a custom tool execution.
 
-  - `Type BetaManagedAgentsUserCustomToolResultEventParamsType`
+  - `Type UserCustomToolResult`
 
   - `CustomToolUseID string`
 
@@ -17661,7 +18383,7 @@ func main() {
 
       Regular text content.
 
-      - `Type BetaManagedAgentsTextBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -17673,7 +18395,7 @@ func main() {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type BetaManagedAgentsImageBlockType`
+      - `Type Image`
 
       - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -17683,7 +18405,7 @@ func main() {
 
           Base64-encoded image data.
 
-          - `Type BetaManagedAgentsBase64ImageSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -17701,7 +18423,7 @@ func main() {
 
           Image referenced by URL.
 
-          - `Type BetaManagedAgentsURLImageSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -17713,7 +18435,7 @@ func main() {
 
           Image referenced by file ID.
 
-          - `Type BetaManagedAgentsFileImageSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -17725,7 +18447,7 @@ func main() {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type BetaManagedAgentsDocumentBlockType`
+      - `Type Document`
 
       - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -17735,7 +18457,7 @@ func main() {
 
           Base64-encoded document data.
 
-          - `Type BetaManagedAgentsBase64DocumentSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -17753,7 +18475,7 @@ func main() {
 
           Plain text document content.
 
-          - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+          - `Type Text`
 
           - `Data string`
 
@@ -17761,7 +18483,7 @@ func main() {
 
             minLength: 1
 
-          - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+          - `MediaType TextPlain`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -17769,7 +18491,7 @@ func main() {
 
           Document referenced by URL.
 
-          - `Type BetaManagedAgentsURLDocumentSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -17781,7 +18503,7 @@ func main() {
 
           Document referenced by file ID.
 
-          - `Type BetaManagedAgentsFileDocumentSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -17801,7 +18523,7 @@ func main() {
 
       A block containing a web search result.
 
-      - `Type BetaManagedAgentsSearchResultBlockType`
+      - `Type SearchResult`
 
       - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -17815,7 +18537,7 @@ func main() {
 
         Array of text content blocks from the search result.
 
-        - `Type BetaManagedAgentsSearchResultContentType`
+        - `Type Text`
 
         - `Text string`
 
@@ -17845,7 +18567,7 @@ func main() {
 
   Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-  - `Type BetaManagedAgentsUserDefineOutcomeEventType`
+  - `Type UserDefineOutcome`
 
   - `ID string`
 
@@ -17879,7 +18601,7 @@ func main() {
 
       Rubric referenced by a file uploaded via the Files API.
 
-      - `Type BetaManagedAgentsFileRubricType`
+      - `Type File`
 
       - `FileID string`
 
@@ -17889,7 +18611,7 @@ func main() {
 
       Rubric content provided inline as text.
 
-      - `Type BetaManagedAgentsTextRubricType`
+      - `Type Text`
 
       - `Content string`
 
@@ -17901,7 +18623,7 @@ func main() {
 
   Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-  - `Type BetaManagedAgentsUserDefineOutcomeEventParamsType`
+  - `Type UserDefineOutcome`
 
   - `Description string`
 
@@ -17915,7 +18637,7 @@ func main() {
 
       Rubric referenced by a file uploaded via the Files API.
 
-      - `Type BetaManagedAgentsFileRubricParamsType`
+      - `Type File`
 
       - `FileID string`
 
@@ -17925,7 +18647,7 @@ func main() {
 
       Rubric content provided inline as text.
 
-      - `Type BetaManagedAgentsTextRubricParamsType`
+      - `Type Text`
 
       - `Content string`
 
@@ -17945,7 +18667,7 @@ func main() {
 
   An interrupt event that pauses agent execution and returns control to the user.
 
-  - `Type BetaManagedAgentsUserInterruptEventType`
+  - `Type UserInterrupt`
 
   - `ID string`
 
@@ -17967,7 +18689,7 @@ func main() {
 
   Parameters for sending an interrupt to pause the agent.
 
-  - `Type BetaManagedAgentsUserInterruptEventParamsType`
+  - `Type UserInterrupt`
 
   - `SessionThreadID string Optional`
 
@@ -17979,7 +18701,7 @@ func main() {
 
   A user message event in the session conversation.
 
-  - `Type BetaManagedAgentsUserMessageEventType`
+  - `Type UserMessage`
 
   - `ID string`
 
@@ -17993,7 +18715,7 @@ func main() {
 
       Regular text content.
 
-      - `Type BetaManagedAgentsTextBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -18005,7 +18727,7 @@ func main() {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type BetaManagedAgentsImageBlockType`
+      - `Type Image`
 
       - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -18015,7 +18737,7 @@ func main() {
 
           Base64-encoded image data.
 
-          - `Type BetaManagedAgentsBase64ImageSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -18033,7 +18755,7 @@ func main() {
 
           Image referenced by URL.
 
-          - `Type BetaManagedAgentsURLImageSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -18045,7 +18767,7 @@ func main() {
 
           Image referenced by file ID.
 
-          - `Type BetaManagedAgentsFileImageSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -18057,7 +18779,7 @@ func main() {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type BetaManagedAgentsDocumentBlockType`
+      - `Type Document`
 
       - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -18067,7 +18789,7 @@ func main() {
 
           Base64-encoded document data.
 
-          - `Type BetaManagedAgentsBase64DocumentSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -18085,7 +18807,7 @@ func main() {
 
           Plain text document content.
 
-          - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+          - `Type Text`
 
           - `Data string`
 
@@ -18093,7 +18815,7 @@ func main() {
 
             minLength: 1
 
-          - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+          - `MediaType TextPlain`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -18101,7 +18823,7 @@ func main() {
 
           Document referenced by URL.
 
-          - `Type BetaManagedAgentsURLDocumentSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -18113,7 +18835,7 @@ func main() {
 
           Document referenced by file ID.
 
-          - `Type BetaManagedAgentsFileDocumentSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -18133,7 +18855,7 @@ func main() {
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `Type BetaManagedAgentsRedactedBlockType`
+      - `Type Redacted`
 
   - `ProcessedAt Time Optional`
 
@@ -18147,7 +18869,7 @@ func main() {
 
   Parameters for sending a user message to the session.
 
-  - `Type BetaManagedAgentsUserMessageEventParamsType`
+  - `Type UserMessage`
 
   - `Content []BetaManagedAgentsUserMessageEventParamsContentUnion`
 
@@ -18157,7 +18879,7 @@ func main() {
 
       Regular text content.
 
-      - `Type BetaManagedAgentsTextBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -18169,7 +18891,7 @@ func main() {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type BetaManagedAgentsImageBlockType`
+      - `Type Image`
 
       - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -18179,7 +18901,7 @@ func main() {
 
           Base64-encoded image data.
 
-          - `Type BetaManagedAgentsBase64ImageSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -18197,7 +18919,7 @@ func main() {
 
           Image referenced by URL.
 
-          - `Type BetaManagedAgentsURLImageSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -18209,7 +18931,7 @@ func main() {
 
           Image referenced by file ID.
 
-          - `Type BetaManagedAgentsFileImageSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -18221,7 +18943,7 @@ func main() {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type BetaManagedAgentsDocumentBlockType`
+      - `Type Document`
 
       - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -18231,7 +18953,7 @@ func main() {
 
           Base64-encoded document data.
 
-          - `Type BetaManagedAgentsBase64DocumentSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -18249,7 +18971,7 @@ func main() {
 
           Plain text document content.
 
-          - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+          - `Type Text`
 
           - `Data string`
 
@@ -18257,7 +18979,7 @@ func main() {
 
             minLength: 1
 
-          - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+          - `MediaType TextPlain`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -18265,7 +18987,7 @@ func main() {
 
           Document referenced by URL.
 
-          - `Type BetaManagedAgentsURLDocumentSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -18277,7 +18999,7 @@ func main() {
 
           Document referenced by file ID.
 
-          - `Type BetaManagedAgentsFileDocumentSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -18297,7 +19019,7 @@ func main() {
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `Type BetaManagedAgentsRedactedBlockType`
+      - `Type Redacted`
 
 ### Beta Managed Agents User Tool Confirmation Event
 
@@ -18305,7 +19027,7 @@ func main() {
 
   A tool confirmation event that approves or denies a pending tool execution.
 
-  - `Type BetaManagedAgentsUserToolConfirmationEventType`
+  - `Type UserToolConfirmation`
 
   - `ID string`
 
@@ -18345,7 +19067,7 @@ func main() {
 
   Parameters for confirming or denying a tool execution request.
 
-  - `Type BetaManagedAgentsUserToolConfirmationEventParamsType`
+  - `Type UserToolConfirmation`
 
   - `Result BetaManagedAgentsUserToolConfirmationEventParamsResult`
 
@@ -18373,7 +19095,7 @@ func main() {
 
   Parameters for providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-  - `Type BetaManagedAgentsUserToolResultEventParamsType`
+  - `Type UserToolResult`
 
   - `ToolUseID string`
 
@@ -18389,7 +19111,7 @@ func main() {
 
       Regular text content.
 
-      - `Type BetaManagedAgentsTextBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -18401,7 +19123,7 @@ func main() {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type BetaManagedAgentsImageBlockType`
+      - `Type Image`
 
       - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -18411,7 +19133,7 @@ func main() {
 
           Base64-encoded image data.
 
-          - `Type BetaManagedAgentsBase64ImageSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -18429,7 +19151,7 @@ func main() {
 
           Image referenced by URL.
 
-          - `Type BetaManagedAgentsURLImageSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -18441,7 +19163,7 @@ func main() {
 
           Image referenced by file ID.
 
-          - `Type BetaManagedAgentsFileImageSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -18453,7 +19175,7 @@ func main() {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type BetaManagedAgentsDocumentBlockType`
+      - `Type Document`
 
       - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -18463,7 +19185,7 @@ func main() {
 
           Base64-encoded document data.
 
-          - `Type BetaManagedAgentsBase64DocumentSourceType`
+          - `Type Base64`
 
           - `Data string`
 
@@ -18481,7 +19203,7 @@ func main() {
 
           Plain text document content.
 
-          - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+          - `Type Text`
 
           - `Data string`
 
@@ -18489,7 +19211,7 @@ func main() {
 
             minLength: 1
 
-          - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+          - `MediaType TextPlain`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -18497,7 +19219,7 @@ func main() {
 
           Document referenced by URL.
 
-          - `Type BetaManagedAgentsURLDocumentSourceType`
+          - `Type URL`
 
           - `URL string`
 
@@ -18509,7 +19231,7 @@ func main() {
 
           Document referenced by file ID.
 
-          - `Type BetaManagedAgentsFileDocumentSourceType`
+          - `Type File`
 
           - `FileID string`
 
@@ -18529,7 +19251,7 @@ func main() {
 
       A block containing a web search result.
 
-      - `Type BetaManagedAgentsSearchResultBlockType`
+      - `Type SearchResult`
 
       - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -18543,7 +19265,7 @@ func main() {
 
         Array of text content blocks from the search result.
 
-        - `Type BetaManagedAgentsSearchResultContentType`
+        - `Type Text`
 
         - `Text string`
 

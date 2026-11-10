@@ -21,7 +21,7 @@ The [proxy](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/con
 | `tls.cert_file`                   | Path to the server TLS certificate.                                                                                                                                                                             | Required                                        |
 | `tls.key_file`                    | Path to the server TLS private key.                                                                                                                                                                             | Required                                        |
 | `routes`                          | Map of subdomain or full hostname to upstream URL. See [Route matching](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/reference#route-matching).                                             | Required                                        |
-| `upstream.allowed_ips`            | IPv4 CIDR ranges or single addresses the proxy is permitted to connect to. Mutually exclusive with `disable_ip_validation`.                                                                                     | RFC1918 private ranges                          |
+| `upstream.allowed_ips`            | IPv4 CIDR ranges or single addresses the proxy is allowed to connect to. Mutually exclusive with `disable_ip_validation`.                                                                                       | RFC1918 private ranges                          |
 | `upstream.disable_ip_validation`  | Disable upstream IP validation entirely. Mutually exclusive with `allowed_ips`.                                                                                                                                 | `false`                                         |
 | `upstream.tls.ca_file`            | CA bundle for validating upstream TLS.                                                                                                                                                                          | None                                            |
 | `upstream.tls.include_system_cas` | Also trust the system CA bundle for upstream TLS.                                                                                                                                                               | `false`                                         |
@@ -51,7 +51,7 @@ Required headers on every request:
 | Header              | Value                                      |
 | ------------------- | ------------------------------------------ |
 | `Authorization`     | `Bearer <token>` (the WIF-exchanged token) |
-| `anthropic-version` | `2023-06-01`                               |
+| `anthropic-version` | `2026-10-21`                               |
 | `anthropic-beta`    | `mcp-tunnels-2026-06-22`                   |
 
 ## Certificate requirements
@@ -62,7 +62,7 @@ The [setup component](https://platform.claude.com/docs/en/agents-and-tools/mcp-t
 
 Upload with `POST /v1/tunnels/{tunnel_id}/certificates`. A tunnel can hold up to two active CA certificates at a time, which allows zero-downtime rotation.
 
-* PEM-encoded, single certificate, up to 8 kB.
+* PEM-encoded, single certificate, up to 8 kB.
 * `BasicConstraints` extension present with `CA:TRUE`, marked critical.
 * `SubjectKeyIdentifier` extension present.
 * `KeyUsage` includes `keyCertSign`.
@@ -74,17 +74,17 @@ Upload with `POST /v1/tunnels/{tunnel_id}/certificates`. A tunnel can hold up to
 Presented by the proxy during [inner TLS](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/concepts#components).
 
 * Signed directly by a registered CA (no intermediates).
-* `AuthorityKeyIdentifier` extension present and matching the CA's `SubjectKeyIdentifier`.
+* `AuthorityKeyIdentifier` extension present and matching the CA’s `SubjectKeyIdentifier`.
 * Subject Alternative Name includes a DNS name matching `<route>.<tunnel-domain>`. A wildcard `*.<tunnel-domain>` covers all routes.
 * If the `ExtendedKeyUsage` extension is present, it includes `serverAuth`.
 * Within its validity period.
 * RSA 2048-bit or larger, or ECDSA P-256 or larger, with a SHA-256 or stronger signature.
 
-The setup component generates an ECDSA P-256 CA with five-year validity and an RSA 4096-bit server certificate with a wildcard SAN and 90-day validity.
+The setup component generates an ECDSA P-256 CA with 5-year validity and an RSA 4096-bit server certificate with a wildcard SAN and 90-day validity.
 
 ## Setup component
 
-The setup component ships inside the `mcp-proxy` image as the `setup` binary. Run it with `docker compose run --rm setup <subcommand>` (Compose) or rely on the chart's hooks and CronJobs (Helm).
+The setup component ships inside the `mcp-proxy` image as the `setup` binary. Run it with `docker compose run --rm setup <subcommand>` (Compose) or rely on the chart’s hooks and CronJobs (Helm).
 
 ### `setup init`
 
@@ -110,4 +110,4 @@ Issues a new server certificate signed by the stored CA. Makes no API calls.
 | `--cert-duration` | New certificate validity period.                                                                    | `2160h` (90 days)                                                                            |
 | `--renew-before`  | Skip renewal if the existing certificate has more than this duration remaining.                     | `0` (always renew)                                                                           |
 
-Setting `--renew-before=720h` makes the command a no-op when more than 30 days of validity remain, so it's safe to run on a fixed schedule.
+Setting `--renew-before=720h` makes the command a no-op when more than 30 days of validity remain, so it’s safe to run on a fixed schedule.

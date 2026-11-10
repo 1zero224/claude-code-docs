@@ -2,23 +2,51 @@
 title: Fine-grained tool streaming
 url: https://platform.claude.com/docs/en/agents-and-tools/tool-use/fine-grained-tool-streaming
 description: Stream tool inputs without server-side JSON buffering for latency-sensitive applications.
+featureMetadata:
+  status: stable
+  zdr:
+    eligibility: eligible
+    note: Excludes [Covered Models](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#model-specific-data-retention-requirements).
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: stable
+    Claude Platform on AWS: stable
+    Amazon Bedrock: stable
+    Amazon Bedrock (InvokeModel): stable
+    Claude Models on Google Cloud (Google managed): stable
+    Microsoft Foundry: stable
 ---
 
-<Note>
-  To learn how zero data retention (ZDR) applies to this feature, see [API and data retention](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention).
-</Note>
-
-Fine-grained tool streaming delivers a tool's input to your client as Claude generates it, without server-side buffering or JSON validation. Skipping the buffering step reduces the time to the first fragment of a large parameter, such as a document or a block of code, and the fragments arrive through the same [Streaming messages](https://platform.claude.com/docs/en/build-with-claude/streaming) events as standard tool use.
+Fine-grained tool streaming delivers a tool’s input to your client as Claude generates it, without server-side buffering or JSON validation. Skipping the buffering step reduces the time to the first fragment of a large parameter, such as a document or a block of code, and the fragments arrive through the same [Streaming messages](https://platform.claude.com/docs/en/build-with-claude/streaming) events as standard tool use.
 
 <Warning>
-  Because the API does not buffer or validate a tool's input before streaming it, you might receive partial or invalid JSON. A response that ends with the [stop reason](https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons) `max_tokens` can also cut a parameter off midway. Accumulate the fragments, guard the parse, and see [Handling invalid JSON in tool responses](https://platform.claude.com/docs/en/agents-and-tools/tool-use/fine-grained-tool-streaming#handling-invalid-json-in-tool-responses) for how to return unparseable input to Claude.
+  Because the API does not buffer or validate a tool’s input before streaming it, you might receive partial or invalid JSON. A response that ends with the [stop reason](https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons) `max_tokens` can also cut a parameter off midway. Accumulate the fragments, guard the parse, and see [Handling invalid JSON in tool responses](https://platform.claude.com/docs/en/agents-and-tools/tool-use/fine-grained-tool-streaming#handling-invalid-json-in-tool-responses) for how to return unparseable input to Claude.
 </Warning>
 
 ## How to use fine-grained tool streaming
 
-All models support fine-grained tool streaming on the Claude API, [Amazon Bedrock](https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock), [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), [Google Cloud](https://platform.claude.com/docs/en/build-with-claude/claude-on-vertex-ai), and [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry). To use it, set `eager_input_streaming` to `true` on any user-defined tool where you want fine-grained streaming enabled, and enable streaming on your request.
+All models support fine-grained tool streaming on the Claude API, [Amazon Bedrock](https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock), [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/google-managed), and [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry). To use it, set `eager_input_streaming` to `true` on any user-defined tool where you want fine-grained streaming enabled, and enable streaming on your request.
 
-The `eager_input_streaming` field is optional. Setting it to `true` turns on fine-grained streaming for that tool, and omitting it gives you standard buffered streaming, in which the API buffers and validates each parameter value before streaming it back. The exception is a request that still sends the legacy `fine-grained-tool-streaming-2025-05-14` beta header, which turns fine-grained streaming on for tools that leave the field unset. The per-tool field replaces that header, and an explicit `false` keeps buffered streaming for a tool even when a request still sends it. The legacy header cannot be combined with a [computer use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool) or [browser use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/browser-use-tool) toolset entry: the API rejects a request that sends both, so remove the header and set `eager_input_streaming` on the user-defined tools that need it. See [Tool reference](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-reference) for the field definition.
+The `eager_input_streaming` field is optional. Setting it to `true` turns on fine-grained streaming for that tool, and omitting it gives you standard buffered streaming, in which the API buffers and validates each parameter value before streaming it back. The exception is a request that sends the `fine-grained-tool-streaming-2025-05-14` beta header, which turns fine-grained streaming on for tools that leave the field unset. The per-tool field replaces that header, and an explicit `false` keeps buffered streaming for a tool even when a request sends it. The header cannot be combined with a [computer use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool) or [browser use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/browser-use-tool) toolset entry: the API rejects a request that sends both, so remove the header and set `eager_input_streaming` on the user-defined tools that need it. See [Tool reference](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-reference) for the field definition.
 
 The following example turns on fine-grained streaming for a `make_file` tool and asks Claude for a long poem, so the tool input is large enough to watch it stream in:
 
@@ -27,7 +55,7 @@ The following example turns on fine-grained streaming for a `make_file` tool and
   curl https://api.anthropic.com/v1/messages \
     -H "content-type: application/json" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -d '{
       "model": "claude-opus-5-5",
       "max_tokens": 65536,
@@ -63,7 +91,7 @@ The following example turns on fine-grained streaming for a `make_file` tool and
   ```
 
   ```bash CLI
-  ant messages create --stream --format jsonl <<'YAML' |
+  ant messages create --stream <<'YAML'
   model: claude-opus-5-5
   max_tokens: 65536
   tools:
@@ -86,7 +114,6 @@ The following example turns on fine-grained streaming for a `make_file` tool and
     - role: user
       content: Can you write a long poem and make a file called poem.txt?
   YAML
-    jq -rj 'select(.delta.type == "input_json_delta") | .delta.partial_json'
   ```
 
   ```python Python
@@ -213,9 +240,8 @@ The following example turns on fine-grained streaming for a `make_file` tool and
       ],
       Messages =
       [
-          new()
+          new UserMessageParam
           {
-              Role = Role.User,
               Content = "Can you write a long poem and make a file called poem.txt?",
           },
       ],
@@ -469,14 +495,14 @@ The following example turns on fine-grained streaming for a `make_file` tool and
   ```
 </CodeGroup>
 
-Every tab turns on fine-grained streaming for the `make_file` tool. The SDK tabs print each input fragment the moment it arrives, then print the complete accumulated input once the stream ends. The cURL tab shows the raw event stream, and the CLI tab uses `jq` to print just the fragments. Because the printed fragments join into the full tool input, the poem fills your terminal as Claude writes it:
+Each input fragment arrives the moment Claude writes it, and the fragments join into the full tool input, so the poem arrives piece by piece:
 
 ```text wrap
 {"filename": "poem.txt", "lines_of_text": ["The Wanderer's Journey", "", "I.", "", "Beneath the vast and star-strewn sky,", "Where silver moonbeams softly lie,", ...
 Complete tool input: {"filename": "poem.txt", "lines_of_text": ["The Wanderer's Journey", ...]}
 ```
 
-Without `eager_input_streaming`, the API buffers and validates each parameter value before streaming it back, so nothing prints for a large parameter until Claude has finished generating it. With it, fragments start arriving as soon as Claude begins the parameter, and they are typically longer, with fewer mid-word breaks.
+Without `eager_input_streaming`, the API buffers and validates each parameter value before streaming it back, so nothing prints for a large parameter until Claude has finished generating it. With it, fragments arrive from the moment Claude starts the parameter, and they are typically longer, with fewer mid-word breaks.
 
 ## Accumulating tool input deltas
 
@@ -488,24 +514,22 @@ Where your SDK provides an accumulator helper (as the Python, TypeScript, Go, Ja
 
 The accumulation contract:
 
-1. On `content_block_start` with `type: "tool_use"`, initialize an empty string: `input_json = ""`
-2. For each `content_block_delta` with `type: "input_json_delta"`, append: `input_json += event.delta.partial_json`
-3. On `content_block_stop`, parse the accumulated string
+1. On `content_block_start` with `type: "tool_use"`, initialize an empty string: `input_json = ""`.
+2. For each `content_block_delta` with `type: "input_json_delta"`, append: `input_json += event.delta.partial_json`.
+3. On `content_block_stop`, parse the accumulated string.
 
-Guard the parse, as the following SDK examples do. A response can also stop at `max_tokens` midway through a parameter. Check the [stop reason](https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons) and decide whether to retry the request with a higher `max_tokens` or repair the partial input.
+Guard the parse, as the following SDK example does. A response can also stop at `max_tokens` midway through a parameter. Check the [stop reason](https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons) and decide whether to retry the request with a higher `max_tokens` or repair the partial input.
 
 The type mismatch between the initial `input: {}` (object) and `partial_json` (string) is by design. The empty object marks the slot in the content array. The delta strings build the real value.
 
-<CodeGroup>
-  ```bash cURL
-  # Accumulating per-block input deltas needs a programming language; the first
-  # example's CLI tab shows the raw fragments with jq. See the SDK tabs.
-  ```
+<CodeGroup exclude="shell">
+  <CodeGroupItem language="cURL">
+    Accumulating the input fragments of each `tool_use` block needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) for this. To see the raw fragments as they stream, run the request in [How to use fine-grained tool streaming](https://platform.claude.com/docs/en/agents-and-tools/tool-use/fine-grained-tool-streaming#how-to-use-fine-grained-tool-streaming).
+  </CodeGroupItem>
 
-  ```bash CLI
-  # Accumulating per-block input deltas needs a programming language; the first
-  # example's CLI tab shows the raw fragments with jq. See the SDK tabs.
-  ```
+  <CodeGroupItem language="CLI">
+    Accumulating the input fragments of each `tool_use` block needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) for this. To see the raw fragments as they stream, run the request in [How to use fine-grained tool streaming](https://platform.claude.com/docs/en/agents-and-tools/tool-use/fine-grained-tool-streaming#how-to-use-fine-grained-tool-streaming).
+  </CodeGroupItem>
 
   ```python Python
   client = anthropic.Anthropic()
@@ -625,7 +649,7 @@ The type mismatch between the initial `input: {}` (object) and `partial_json` (s
               },
           },
       ],
-      Messages = [new() { Role = Role.User, Content = "Weather in Paris?" }],
+      Messages = [new UserMessageParam { Content = "Weather in Paris?" }],
   };
 
   // Block index -> accumulated JSON fragments
@@ -728,31 +752,29 @@ The type mismatch between the initial `input: {}` (object) and `partial_json` (s
   ObjectMapper objectMapper = new ObjectMapper();
 
   Tool weatherTool = Tool.builder()
-          .name("get_weather")
-          .description("Get current weather for a city")
-          .eagerInputStreaming(true)
-          .inputSchema(Tool.InputSchema.builder()
-                  .properties(Tool.InputSchema.Properties.builder()
-                          .putAdditionalProperty("city", JsonValue.from(Map.of("type", "string")))
-                          .build())
-                  .addRequired("city")
-                  .build())
-          .build();
+      .name("get_weather")
+      .description("Get current weather for a city")
+      .eagerInputStreaming(true)
+      .inputSchema(Tool.InputSchema.builder()
+          .properties(Tool.InputSchema.Properties.builder()
+              .putAdditionalProperty("city", JsonValue.from(Map.of("type", "string")))
+              .build())
+          .addRequired("city")
+          .build())
+      .build();
 
   MessageCreateParams createParams = MessageCreateParams.builder()
-          .model(Model.CLAUDE_OPUS_5_5)
-          .maxTokens(1024)
-          .addTool(weatherTool)
-          .addUserMessage("Weather in Paris?")
-          .build();
+      .model(Model.CLAUDE_OPUS_5_5)
+      .maxTokens(1024)
+      .addTool(weatherTool)
+      .addUserMessage("Weather in Paris?")
+      .build();
 
   // Content block index -> accumulated tool input JSON
   Map<Long, StringBuilder> toolInputs = new HashMap<>();
 
   try (StreamResponse<RawMessageStreamEvent> streamResponse = client.messages().createStreaming(createParams)) {
-      var eventIterator = streamResponse.stream().iterator();
-      while (eventIterator.hasNext()) {
-          RawMessageStreamEvent event = eventIterator.next();
+      for (RawMessageStreamEvent event : streamResponse) {
           switch (event.type().value()) {
               case CONTENT_BLOCK_START -> {
                   var blockStart = event.asContentBlockStart();
@@ -834,7 +856,7 @@ The type mismatch between the initial `input: {}` (object) and `partial_json` (s
                   $accumulated = $toolInputs[$event->index];
                   try {
                       $parsed = json_decode($accumulated, associative: true, flags: JSON_THROW_ON_ERROR);
-                      echo "Tool input: " . json_encode($parsed) . "\n";
+                      echo 'Tool input: ' . json_encode($parsed) . "\n";
                   } catch (\JsonException $e) {
                       // The accumulated string is not guaranteed to be valid JSON.
                       // See "Handling invalid JSON in tool responses" on this page.
@@ -935,10 +957,36 @@ Return the wrapper, serialized to a string, as the `content` of a [tool result](
   </Card>
 
   <Card title="Handle tool calls" icon="arrows-left-right" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls">
-    Parse tool\_use blocks, format tool\_result responses, and handle errors with is\_error.
+    Parse `tool_use` blocks, format `tool_result` responses, and handle errors with `is_error`.
   </Card>
 
   <Card title="Tool reference" icon="book" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-reference">
     Directory of Anthropic-provided tools and reference for optional tool definition properties.
   </Card>
 </CardGroup>
+
+## Availability
+
+Fine-grained tool streaming is available on every model and eligible for zero data retention and HIPAA readiness.
+
+### API support
+
+#### [Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)
+
+* Availability: Available
+
+| Status    | Cloud platforms                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Available | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), [Amazon Bedrock](https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (InvokeModel)](https://platform.claude.com/docs/en/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry) |
+
+### Data handling
+
+[Data handling overview](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#feature-eligibility)
+
+| Item   | Zero data retention                                                                                                                                       | HIPAA    |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Status | Eligible (excludes [Covered Models](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)) | Eligible |
+
+Applicable endpoints:
+
+* `/v1/messages`

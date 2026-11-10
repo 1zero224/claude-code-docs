@@ -8,6 +8,33 @@ featureMetadata:
     url: https://platform.claude.com/docs/en/managed-agents/overview
   status: beta
   betaHeader: managed-agents-2026-04-01
+  zdr:
+    eligibility: not-eligible
+    note: Sessions are stateful resources; transcripts persist until you delete them. Applies to all Managed Agents sub-features, including Self-hosted sandboxes.
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: beta
+    Claude Platform on AWS: beta
+    Claude Models on Google Cloud (Anthropic managed): beta
 ---
 
 You can mount a GitHub repository to your session sandbox and connect to the GitHub MCP for making pull requests.
@@ -20,33 +47,36 @@ First, create an agent that declares the GitHub MCP server. The agent definition
 
 <CodeGroup defaultLanguage="CLI">
   ```bash cURL
-  agent_id=$(curl -fsS https://api.anthropic.com/v1/agents \
+  curl -fsS https://api.anthropic.com/v1/agents \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
     -H "content-type: application/json" \
-    --data @- <<JSON | jq -r '.id'
-  {
-    "name": "Code Reviewer",
-    "model": "claude-opus-5-5",
-    "system": "You are a code review assistant with access to GitHub.",
-    "mcp_servers": [
-      {
-        "type": "url",
-        "name": "github",
-        "url": "https://api.githubcopilot.com/mcp/"
-      }
-    ],
-    "tools": [
-      {"type": "agent_toolset_20260401"},
-      {
-        "type": "mcp_toolset",
-        "mcp_server_name": "github"
-      }
-    ]
-  }
-  JSON
-  )
+    -d '{
+      "name": "Code Reviewer",
+      "model": "claude-opus-5-5",
+      "system": "You are a code review assistant with access to GitHub.",
+      "mcp_servers": [
+        {
+          "type": "url",
+          "name": "github",
+          "url": "https://api.githubcopilot.com/mcp/"
+        }
+      ],
+      "tools": [
+        {
+          "type": "agent_toolset_20260401",
+          "configs": [
+            {"name": "web_search", "enabled": false},
+            {"name": "web_fetch", "enabled": false}
+          ]
+        },
+        {
+          "type": "mcp_toolset",
+          "mcp_server_name": "github"
+        }
+      ]
+    }'
   ```
 
   <CodeGroupItem>
@@ -65,6 +95,11 @@ First, create an agent that declares the GitHub MCP server. The agent definition
           url: https://api.githubcopilot.com/mcp/
       tools:
         - type: agent_toolset_20260401
+          configs:
+            - name: web_search
+              enabled: false
+            - name: web_fetch
+              enabled: false
         - type: mcp_toolset
           mcp_server_name: github
       ---
@@ -87,7 +122,13 @@ First, create an agent that declares the GitHub MCP server. The agent definition
           },
       ],
       tools=[
-          {"type": "agent_toolset_20260401"},
+          {
+              "type": "agent_toolset_20260401",
+              "configs": [
+                  {"name": "web_search", "enabled": False},
+                  {"name": "web_fetch", "enabled": False},
+              ],
+          },
           {
               "type": "mcp_toolset",
               "mcp_server_name": "github",
@@ -105,16 +146,22 @@ First, create an agent that declares the GitHub MCP server. The agent definition
       {
         type: "url",
         name: "github",
-        url: "https://api.githubcopilot.com/mcp/",
-      },
+        url: "https://api.githubcopilot.com/mcp/"
+      }
     ],
     tools: [
-      { type: "agent_toolset_20260401" },
+      {
+        type: "agent_toolset_20260401",
+        configs: [
+          { name: "web_search", enabled: false },
+          { name: "web_fetch", enabled: false }
+        ]
+      },
       {
         type: "mcp_toolset",
-        mcp_server_name: "github",
-      },
-    ],
+        mcp_server_name: "github"
+      }
+    ]
   });
   ```
 
@@ -126,19 +173,19 @@ First, create an agent that declares the GitHub MCP server. The agent definition
       System = "You are a code review assistant with access to GitHub.",
       McpServers =
       [
-          new() { Type = "url", Name = "github", Url = "https://api.githubcopilot.com/mcp/" },
+          new() { Name = "github", Url = "https://api.githubcopilot.com/mcp/" },
       ],
       Tools =
       [
           new BetaManagedAgentsAgentToolset20260401Params
           {
-              Type = "agent_toolset_20260401",
+              Configs =
+              [
+                  new BetaManagedAgentsWebSearchToolConfigParams { Enabled = false },
+                  new BetaManagedAgentsWebFetchToolConfigParams { Enabled = false },
+              ],
           },
-          new BetaManagedAgentsMcpToolsetParams
-          {
-              Type = "mcp_toolset",
-              McpServerName = "github",
-          },
+          new BetaManagedAgentsMcpToolsetParams { McpServerName = "github" },
       ],
   });
   ```
@@ -152,7 +199,6 @@ First, create an agent that declares the GitHub MCP server. The agent definition
   	System: anthropic.String("You are a code review assistant with access to GitHub."),
   	MCPServers: []anthropic.BetaManagedAgentsURLMCPServerParams{
   		{
-  			Type: anthropic.BetaManagedAgentsURLMCPServerParamsTypeURL,
   			Name: "github",
   			URL:  "https://api.githubcopilot.com/mcp/",
   		},
@@ -160,12 +206,18 @@ First, create an agent that declares the GitHub MCP server. The agent definition
   	Tools: []anthropic.BetaAgentNewParamsToolUnion{
   		{
   			OfAgentToolset20260401: &anthropic.BetaManagedAgentsAgentToolset20260401Params{
-  				Type: anthropic.BetaManagedAgentsAgentToolset20260401ParamsTypeAgentToolset20260401,
+  				Configs: []anthropic.BetaManagedAgentsAgentToolConfigParamsUnion{
+  					{OfWebSearch: &anthropic.BetaManagedAgentsWebSearchToolConfigParams{
+  						Enabled: anthropic.Bool(false),
+  					}},
+  					{OfWebFetch: &anthropic.BetaManagedAgentsWebFetchToolConfigParams{
+  						Enabled: anthropic.Bool(false),
+  					}},
+  				},
   			},
   		},
   		{
   			OfMCPToolset: &anthropic.BetaManagedAgentsMCPToolsetParams{
-  				Type:          anthropic.BetaManagedAgentsMCPToolsetParamsTypeMCPToolset,
   				MCPServerName: "github",
   			},
   		},
@@ -182,24 +234,32 @@ First, create an agent that declares the GitHub MCP server. The agent definition
       .model(BetaManagedAgentsModel.CLAUDE_OPUS_5_5)
       .system("You are a code review assistant with access to GitHub.")
       .addMcpServer(BetaManagedAgentsUrlMcpServerParams.builder()
-          .type(BetaManagedAgentsUrlMcpServerParams.Type.URL)
           .name("github")
           .url("https://api.githubcopilot.com/mcp/")
           .build())
       .addTool(BetaManagedAgentsAgentToolset20260401Params.builder()
-          .type(BetaManagedAgentsAgentToolset20260401Params.Type.AGENT_TOOLSET_20260401)
+          .addConfig(BetaManagedAgentsWebSearchToolConfigParams.builder()
+              .enabled(false)
+              .build())
+          .addConfig(BetaManagedAgentsWebFetchToolConfigParams.builder()
+              .enabled(false)
+              .build())
           .build())
       .addTool(BetaManagedAgentsMcpToolsetParams.builder()
-          .type(BetaManagedAgentsMcpToolsetParams.Type.MCP_TOOLSET)
           .mcpServerName("github")
           .build())
       .build());
   ```
 
   ```php PHP
+  use Anthropic\Beta\Agents\BetaManagedAgentsAgentToolset20260401Params;
+  use Anthropic\Beta\Agents\BetaManagedAgentsModel;
+  use Anthropic\Beta\Agents\BetaManagedAgentsWebFetchToolConfigParams;
+  use Anthropic\Beta\Agents\BetaManagedAgentsWebSearchToolConfigParams;
+
   $agent = $client->beta->agents->create(
       name: 'Code Reviewer',
-      model: 'claude-opus-5-5',
+      model: BetaManagedAgentsModel::CLAUDE_OPUS_5_5,
       system: 'You are a code review assistant with access to GitHub.',
       mcpServers: [
           [
@@ -209,7 +269,12 @@ First, create an agent that declares the GitHub MCP server. The agent definition
           ],
       ],
       tools: [
-          ['type' => 'agent_toolset_20260401'],
+          BetaManagedAgentsAgentToolset20260401Params::with(
+              configs: [
+                  BetaManagedAgentsWebSearchToolConfigParams::with(enabled: false),
+                  BetaManagedAgentsWebFetchToolConfigParams::with(enabled: false),
+              ],
+          ),
           [
               'type' => 'mcp_toolset',
               'mcpServerName' => 'github',
@@ -221,7 +286,7 @@ First, create an agent that declares the GitHub MCP server. The agent definition
   ```ruby Ruby
   agent = client.beta.agents.create(
     name: "Code Reviewer",
-    model: "claude-opus-5-5",
+    model: Anthropic::Beta::BetaManagedAgentsModel::CLAUDE_OPUS_5_5,
     system_: "You are a code review assistant with access to GitHub.",
     mcp_servers: [
       {
@@ -231,7 +296,13 @@ First, create an agent that declares the GitHub MCP server. The agent definition
       }
     ],
     tools: [
-      {type: "agent_toolset_20260401"},
+      {
+        type: "agent_toolset_20260401",
+        configs: [
+          {name: "web_search", enabled: false},
+          {name: "web_fetch", enabled: false}
+        ]
+      },
       {
         type: "mcp_toolset",
         mcp_server_name: "github"
@@ -241,16 +312,16 @@ First, create an agent that declares the GitHub MCP server. The agent definition
   ```
 </CodeGroup>
 
-Then create a session that mounts the GitHub repository. With a `limited` [environment](https://platform.claude.com/docs/en/managed-agents/environments#networking), session creation fails with a 400 error when the agent declares an MCP server whose host is not in `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`). Setting `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) to `true` in the environment's networking turns this check off.
+Then create a session that mounts the GitHub repository. With a `limited` [environment](https://platform.claude.com/docs/en/managed-agents/environments#networking), session creation fails with a 400 error when the agent declares an MCP server whose host is not in `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`). Setting `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) to `true` in the environment’s networking turns this check off.
 
 <CodeGroup>
   ```bash cURL
-  session_id=$(curl -fsS https://api.anthropic.com/v1/sessions \
+  curl -fsS https://api.anthropic.com/v1/sessions \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
     -H "content-type: application/json" \
-    --data @- <<JSON | jq -r '.id'
+    -d @- <<JSON
   {
     "agent": "$agent_id",
     "environment_id": "$environment_id",
@@ -264,21 +335,18 @@ Then create a session that mounts the GitHub repository. With a `limited` [envir
     ]
   }
   JSON
-  )
   ```
 
   ```bash CLI
-  SESSION_ID=$(ant beta:sessions create \
+  ant beta:sessions create \
     --agent "$AGENT_ID" \
-    --environment-id "$ENVIRONMENT_ID" \
-    --transform id --raw-output <<'EOF'
+    --environment-id "$ENVIRONMENT_ID" <<'EOF'
   resources:
     - type: github_repository
       url: https://github.com/org/repo
       mount_path: /workspace/repo
       authorization_token: ghp_your_github_token
   EOF
-  )
   ```
 
   ```python Python
@@ -305,9 +373,9 @@ Then create a session that mounts the GitHub repository. With a `limited` [envir
         type: "github_repository",
         url: "https://github.com/org/repo",
         mount_path: "/workspace/repo",
-        authorization_token: "ghp_your_github_token",
-      },
-    ],
+        authorization_token: "ghp_your_github_token"
+      }
+    ]
   });
   ```
 
@@ -320,7 +388,6 @@ Then create a session that mounts the GitHub repository. With a `limited` [envir
       [
           new BetaManagedAgentsGitHubRepositoryResourceParams
           {
-              Type = "github_repository",
               Url = "https://github.com/org/repo",
               MountPath = "/workspace/repo",
               AuthorizationToken = "ghp_your_github_token",
@@ -336,7 +403,6 @@ Then create a session that mounts the GitHub repository. With a `limited` [envir
   	Resources: []anthropic.BetaSessionNewParamsResourceUnion{
   		{
   			OfGitHubRepository: &anthropic.BetaManagedAgentsGitHubRepositoryResourceParams{
-  				Type:               anthropic.BetaManagedAgentsGitHubRepositoryResourceParamsTypeGitHubRepository,
   				URL:                "https://github.com/org/repo",
   				MountPath:          anthropic.String("/workspace/repo"),
   				AuthorizationToken: "ghp_your_github_token",
@@ -354,7 +420,6 @@ Then create a session that mounts the GitHub repository. With a `limited` [envir
       .agent(agent.id())
       .environmentId(environment.id())
       .addResource(BetaManagedAgentsGitHubRepositoryResourceParams.builder()
-          .type(BetaManagedAgentsGitHubRepositoryResourceParams.Type.GITHUB_REPOSITORY)
           .url("https://github.com/org/repo")
           .mountPath("/workspace/repo")
           .authorizationToken("ghp_your_github_token")
@@ -395,15 +460,15 @@ Then create a session that mounts the GitHub repository. With a `limited` [envir
 
 A `github_repository` resource accepts the following fields:
 
-| Field                                                                                     | Description                                                                                                                                                                                       |
-| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type` (csharp, go: `Type`)                                                               | Required. Must be `"github_repository"`.                                                                                                                                                          |
-| `url` (csharp: `Url`; go: `URL`)                                                          | Required. The repository's HTTPS URL in the form `https://github.com/<owner>/<repo>`, without a `.git` suffix. Other forms, including SSH URLs, are rejected with an `invalid_request_error`.     |
-| `authorization_token` (java, php: `authorizationToken`; csharp, go: `AuthorizationToken`) | Required. The GitHub token used to clone the repository. It is not echoed in API responses. See [Token permissions](https://platform.claude.com/docs/en/managed-agents/github#token-permissions). |
-| `mount_path` (java, php: `mountPath`; csharp, go: `MountPath`)                            | Optional. The directory under `/workspace` to clone the repository into. Defaults to `/workspace/<repo-name>`.                                                                                    |
-| `checkout` (csharp, go: `Checkout`)                                                       | Optional. A branch (`{"type": "branch", "name": "main"}`) or commit (`{"type": "commit", "sha": "..."}`) to check out. Defaults to the repository's default branch.                               |
+| Field                                                                                     | Description                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type` (csharp, go: `Type`)                                                               | Required. Must be `"github_repository"`.                                                                                                                                                                                                                                                                                                                                                                        |
+| `url` (csharp: `Url`; go: `URL`)                                                          | Required. The repository’s HTTPS URL in the form `https://github.com/<owner>/<repo>`, without a `.git` suffix. Other forms, including SSH URLs, are rejected with an `invalid_request_error`.                                                                                                                                                                                                                   |
+| `authorization_token` (java, php: `authorizationToken`; csharp, go: `AuthorizationToken`) | Optional. The GitHub token used to clone the repository and to push to it. Without a token, a private repository fails to clone after the session is created. A public repository clones without a token, and the agent can commit in its clone, but `git push` fails. It is not echoed in API responses. See [Token permissions](https://platform.claude.com/docs/en/managed-agents/github#token-permissions). |
+| `mount_path` (java, php: `mountPath`; csharp, go: `MountPath`)                            | Optional. The directory under `/workspace` to clone the repository into. Defaults to `/workspace/<repo-name>`.                                                                                                                                                                                                                                                                                                  |
+| `checkout` (csharp, go: `Checkout`)                                                       | Optional. A branch (`{"type": "branch", "name": "main"}`) or commit (`{"type": "commit", "sha": "..."}`) to check out. Defaults to the repository’s default branch.                                                                                                                                                                                                                                             |
 
-Mounting a repository also loads any skills stored in its root `.claude/skills` directory. Skills are discovered once per session, from the repository state checked out at session start. See [Load skills from a GitHub repository](https://platform.claude.com/docs/en/managed-agents/skills#load-skills-from-a-github-repository).
+Mounting a repository also loads any skills stored in its root `.claude/skills` directory. Skills are discovered once for each session, from the repository state checked out at session start. See [Load skills from a GitHub repository](https://platform.claude.com/docs/en/managed-agents/skills#load-skills-from-a-github-repository).
 
 ## Token permissions
 
@@ -426,24 +491,37 @@ Mount multiple repositories by adding entries to the `resources` (csharp, go: `R
 
 <CodeGroup>
   ```bash cURL
-  resources='[
-    {
-      "type": "github_repository",
-      "url": "https://github.com/org/frontend",
-      "mount_path": "/workspace/frontend",
-      "authorization_token": "ghp_your_github_token"
-    },
-    {
-      "type": "github_repository",
-      "url": "https://github.com/org/backend",
-      "mount_path": "/workspace/backend",
-      "authorization_token": "ghp_your_github_token"
-    }
-  ]'
+  curl -fsS https://api.anthropic.com/v1/sessions \
+    -H "x-api-key: $ANTHROPIC_API_KEY" \
+    -H "anthropic-version: 2026-10-21" \
+    -H "anthropic-beta: managed-agents-2026-04-01" \
+    -H "content-type: application/json" \
+    -d @- <<JSON
+  {
+    "agent": "$agent_id",
+    "environment_id": "$environment_id",
+    "resources": [
+      {
+        "type": "github_repository",
+        "url": "https://github.com/org/frontend",
+        "mount_path": "/workspace/frontend",
+        "authorization_token": "ghp_your_github_token"
+      },
+      {
+        "type": "github_repository",
+        "url": "https://github.com/org/backend",
+        "mount_path": "/workspace/backend",
+        "authorization_token": "ghp_your_github_token"
+      }
+    ]
+  }
+  JSON
   ```
 
   ```bash CLI
-  RESOURCES_BODY=$(cat <<'EOF'
+  ant beta:sessions create \
+    --agent "$AGENT_ID" \
+    --environment-id "$ENVIRONMENT_ID" <<'EOF'
   resources:
     - type: github_repository
       url: https://github.com/org/frontend
@@ -454,7 +532,6 @@ Mount multiple repositories by adding entries to the `resources` (csharp, go: `R
       mount_path: /workspace/backend
       authorization_token: ghp_your_github_token
   EOF
-  )
   ```
 
   ```python Python
@@ -480,14 +557,14 @@ Mount multiple repositories by adding entries to the `resources` (csharp, go: `R
       type: "github_repository",
       url: "https://github.com/org/frontend",
       mount_path: "/workspace/frontend",
-      authorization_token: "ghp_your_github_token",
+      authorization_token: "ghp_your_github_token"
     },
     {
       type: "github_repository",
       url: "https://github.com/org/backend",
       mount_path: "/workspace/backend",
-      authorization_token: "ghp_your_github_token",
-    },
+      authorization_token: "ghp_your_github_token"
+    }
   ];
   ```
 
@@ -496,14 +573,12 @@ Mount multiple repositories by adding entries to the `resources` (csharp, go: `R
   [
       new()
       {
-          Type = "github_repository",
           Url = "https://github.com/org/frontend",
           MountPath = "/workspace/frontend",
           AuthorizationToken = "ghp_your_github_token",
       },
       new()
       {
-          Type = "github_repository",
           Url = "https://github.com/org/backend",
           MountPath = "/workspace/backend",
           AuthorizationToken = "ghp_your_github_token",
@@ -515,7 +590,6 @@ Mount multiple repositories by adding entries to the `resources` (csharp, go: `R
   resources := []anthropic.BetaSessionNewParamsResourceUnion{
   	{
   		OfGitHubRepository: &anthropic.BetaManagedAgentsGitHubRepositoryResourceParams{
-  			Type:               anthropic.BetaManagedAgentsGitHubRepositoryResourceParamsTypeGitHubRepository,
   			URL:                "https://github.com/org/frontend",
   			MountPath:          anthropic.String("/workspace/frontend"),
   			AuthorizationToken: "ghp_your_github_token",
@@ -523,7 +597,6 @@ Mount multiple repositories by adding entries to the `resources` (csharp, go: `R
   	},
   	{
   		OfGitHubRepository: &anthropic.BetaManagedAgentsGitHubRepositoryResourceParams{
-  			Type:               anthropic.BetaManagedAgentsGitHubRepositoryResourceParamsTypeGitHubRepository,
   			URL:                "https://github.com/org/backend",
   			MountPath:          anthropic.String("/workspace/backend"),
   			AuthorizationToken: "ghp_your_github_token",
@@ -535,13 +608,11 @@ Mount multiple repositories by adding entries to the `resources` (csharp, go: `R
   ```java Java
   var resources = List.of(
       BetaManagedAgentsGitHubRepositoryResourceParams.builder()
-          .type(BetaManagedAgentsGitHubRepositoryResourceParams.Type.GITHUB_REPOSITORY)
           .url("https://github.com/org/frontend")
           .mountPath("/workspace/frontend")
           .authorizationToken("ghp_your_github_token")
           .build(),
       BetaManagedAgentsGitHubRepositoryResourceParams.builder()
-          .type(BetaManagedAgentsGitHubRepositoryResourceParams.Type.GITHUB_REPOSITORY)
           .url("https://github.com/org/backend")
           .mountPath("/workspace/backend")
           .authorizationToken("ghp_your_github_token")
@@ -590,18 +661,17 @@ After a session is created, you can list its repository resources and rotate the
 <CodeGroup>
   ```bash cURL
   # List resources on the session
-  repo_resource_id=$(curl -fsS "https://api.anthropic.com/v1/sessions/$session_id/resources" \
+  curl -fsS "https://api.anthropic.com/v1/sessions/$session_id/resources" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
-    -H "content-type: application/json" | jq -r '.data[0].id')
-  echo "$repo_resource_id"  # "sesrsc_01ABC..."
+    -H "content-type: application/json"
 
   # Rotate the authorization token
-  curl -fsS "https://api.anthropic.com/v1/sessions/$session_id/resources/$repo_resource_id" \
+  curl -fsS \
+    "https://api.anthropic.com/v1/sessions/$session_id/resources/$repo_resource_id" \
   # ...
-    -o /dev/null \
-    --data @- <<JSON
+    -d @- <<'JSON'
   {
     "authorization_token": "ghp_your_new_github_token"
   }
@@ -636,9 +706,7 @@ After a session is created, you can list its repository resources and rotate the
   ```typescript TypeScript
   // List resources on the session
   const listed = await client.beta.sessions.resources.list(session.id);
-  const repoResource = listed.data.find(
-    (entry) => entry.type === "github_repository",
-  );
+  const repoResource = listed.data.find((entry) => entry.type === "github_repository");
   if (!repoResource) {
     throw new Error("No GitHub repository resource on the session");
   }
@@ -648,7 +716,7 @@ After a session is created, you can list its repository resources and rotate the
   // Rotate the authorization token
   await client.beta.sessions.resources.update(repoResourceId, {
     session_id: session.id,
-    authorization_token: "ghp_your_new_github_token",
+    authorization_token: "ghp_your_new_github_token"
   });
   ```
 
@@ -735,29 +803,26 @@ With the GitHub MCP server, the agent can create branches, commit changes, and p
   ```bash cURL
   curl -fsS "https://api.anthropic.com/v1/sessions/$session_id/events" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
     -H "content-type: application/json" \
-    -o /dev/null \
-    --data @- <<JSON
-  {
-    "events": [
-      {
-        "type": "user.message",
-        "content": [
-          {
-            "type": "text",
-            "text": "Fix the type error in src/utils.ts, commit it to a new branch, and push it."
-          }
-        ]
-      }
-    ]
-  }
-  JSON
+    -d '{
+      "events": [
+        {
+          "type": "user.message",
+          "content": [
+            {
+              "type": "text",
+              "text": "Fix the type error in src/utils.ts, commit it to a new branch, and push it."
+            }
+          ]
+        }
+      ]
+    }'
   ```
 
   ```bash CLI
-  ant beta:sessions:events send --session-id "$SESSION_ID" > /dev/null <<'EOF'
+  ant beta:sessions:events send --session-id "$SESSION_ID" <<'EOF'
   events:
     - type: user.message
       content:
@@ -791,11 +856,11 @@ With the GitHub MCP server, the agent can create branches, commit changes, and p
         content: [
           {
             type: "text",
-            text: "Fix the type error in src/utils.ts, commit it to a new branch, and push it.",
-          },
-        ],
-      },
-    ],
+            text: "Fix the type error in src/utils.ts, commit it to a new branch, and push it."
+          }
+        ]
+      }
+    ]
   });
   ```
 
@@ -806,12 +871,10 @@ With the GitHub MCP server, the agent can create branches, commit changes, and p
       [
           new BetaManagedAgentsUserMessageEventParams
           {
-              Type = "user.message",
               Content =
               [
                   new BetaManagedAgentsTextBlock
                   {
-                      Type = "text",
                       Text = "Fix the type error in src/utils.ts, commit it to a new branch, and push it.",
                   },
               ],
@@ -825,11 +888,9 @@ With the GitHub MCP server, the agent can create branches, commit changes, and p
   	Events: []anthropic.BetaManagedAgentsEventParamsUnion{
   		{
   			OfUserMessage: &anthropic.BetaManagedAgentsUserMessageEventParams{
-  				Type: anthropic.BetaManagedAgentsUserMessageEventParamsTypeUserMessage,
   				Content: []anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{
   					{
   						OfText: &anthropic.BetaManagedAgentsTextBlockParam{
-  							Type: anthropic.BetaManagedAgentsTextBlockTypeText,
   							Text: "Fix the type error in src/utils.ts, commit it to a new branch, and push it.",
   						},
   					},
@@ -846,9 +907,7 @@ With the GitHub MCP server, the agent can create branches, commit changes, and p
   ```java Java
   client.beta().sessions().events().send(session.id(), EventSendParams.builder()
       .addEvent(BetaManagedAgentsUserMessageEventParams.builder()
-          .type(BetaManagedAgentsUserMessageEventParams.Type.USER_MESSAGE)
           .addContent(BetaManagedAgentsTextBlock.builder()
-              .type(BetaManagedAgentsTextBlock.Type.TEXT)
               .text("Fix the type error in src/utils.ts, commit it to a new branch, and push it.")
               .build())
           .build())
@@ -905,3 +964,40 @@ With the GitHub MCP server, the agent can create branches, commit changes, and p
     Mount files in the sandbox alongside your repositories
   </Card>
 </CardGroup>
+
+## Availability
+
+GitHub access is in beta on every model.
+
+### API support
+
+#### [Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview)
+
+* Availability: Available
+
+| Status | Cloud platforms         |
+| ------ | ----------------------- |
+| Beta   | All supported platforms |
+
+### Required beta headers
+
+[Beta headers overview](https://platform.claude.com/docs/en/api/beta-headers)
+
+Beta headers allow you to access experimental features and new model capabilities before they become part of the standard API.
+
+* `managed-agents-2026-04-01`
+
+### Data handling
+
+[Data handling overview](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#feature-eligibility)
+
+| Item    | Zero data retention                                                                                                                                      | HIPAA                                                                        |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Status  | Not eligible                                                                                                                                             | Not eligible                                                                 |
+| Details | Sessions are stateful resources; transcripts persist until you delete them. Applies to all Managed Agents sub-features, including Self-hosted sandboxes. | Applies to all Managed Agents sub-features, including Self-hosted sandboxes. |
+
+Applicable endpoints:
+
+* `/v1/agents`
+* `/v1/sessions`
+* `/v1/environments`

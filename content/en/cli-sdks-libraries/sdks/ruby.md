@@ -4,7 +4,7 @@ url: https://platform.claude.com/docs/en/cli-sdks-libraries/sdks/ruby
 description: Install and configure the Anthropic Ruby SDK with Sorbet types, streaming helpers, and connection pooling
 ---
 
-The Anthropic Ruby library provides convenient access to the Claude API from any Ruby 3.2.0+ application. It ships with comprehensive types and docstrings in YARD, RBS, and RBI. The standard library's `net/http` is used as the HTTP transport, with connection pooling through the `connection_pool` gem.
+The Anthropic Ruby library provides convenient access to the Claude API from any Ruby 3.2.0+ application. It ships with comprehensive types and docstrings in YARD, RBS, and RBI. The standard library’s `net/http` is used as the HTTP transport, with connection pooling through the `connection_pool` gem.
 
 <Info>
   For API feature documentation with code examples, see the [API reference](https://platform.claude.com/docs/en/api/overview). This page covers Ruby-specific SDK features and configuration.
@@ -12,7 +12,7 @@ The Anthropic Ruby library provides convenient access to the Claude API from any
 
 ## Installation
 
-Add the gem to your application's `Gemfile` with Bundler:
+Add the gem to your application’s `Gemfile` with Bundler:
 
 ```bash
 bundle add anthropic
@@ -32,7 +32,7 @@ anthropic = Anthropic::Client.new(
 message = anthropic.messages.create(
   max_tokens: 1024,
   messages: [{role: "user", content: "Hello, Claude"}],
-  model: :"claude-opus-5-5"
+  model: Anthropic::Model::CLAUDE_OPUS_5_5
 )
 
 message.content.each do |block|
@@ -40,7 +40,7 @@ message.content.each do |block|
 end
 ```
 
-For authentication options including Workload Identity Federation, see [Authentication](https://platform.claude.com/docs/en/manage-claude/authentication). If your API key is a [personal or service account key](https://platform.claude.com/docs/en/manage-claude/authentication#key-types) with access to multiple workspaces, set the workspace ID in the `anthropic-workspace-id` request header; [Select a workspace](https://platform.claude.com/docs/en/manage-claude/authentication#select-a-workspace) shows the per-request option for this SDK.
+For authentication options including Workload Identity Federation, see [Authentication](https://platform.claude.com/docs/en/manage-claude/authentication). If your API key is a [personal or service account key](https://platform.claude.com/docs/en/manage-claude/authentication#key-types) that isn’t scoped to a workspace, set the workspace ID in the `anthropic-workspace-id` request header; [Select a workspace](https://platform.claude.com/docs/en/manage-claude/authentication#select-a-workspace) shows the per-request option for this SDK.
 
 ## Streaming
 
@@ -51,7 +51,7 @@ anthropic = Anthropic::Client.new
 stream = anthropic.messages.stream(
   max_tokens: 1024,
   messages: [{role: "user", content: "Hello, Claude"}],
-  model: :"claude-opus-5-5"
+  model: Anthropic::Model::CLAUDE_OPUS_5_5
 )
 
 stream.each do |message|
@@ -68,7 +68,7 @@ anthropic = Anthropic::Client.new
 stream = anthropic.messages.stream(
   max_tokens: 1024,
   messages: [{role: :user, content: "Say hello there!"}],
-  model: :"claude-opus-5-5"
+  model: Anthropic::Model::CLAUDE_OPUS_5_5
 )
 
 stream.text.each do |text|
@@ -80,7 +80,7 @@ Streaming with `anthropic.messages.stream(...)` exposes various helpers includin
 
 ## Input schema and tool calling
 
-The SDK provides helper mechanisms to define structured data classes for tools and let Claude automatically execute them. For detailed documentation on tool use patterns including the tool runner, see [Tool Runner (SDK)](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-runner).
+The SDK provides helper mechanisms to define structured data classes for tools and let Claude automatically run them. For detailed documentation on tool use patterns including the tool runner, see [Tool runner (SDK)](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-runner).
 
 ```ruby
 anthropic = Anthropic::Client.new
@@ -100,7 +100,7 @@ end
 
 # Automatically handles tool execution loop
 anthropic.beta.messages.tool_runner(
-  model: "claude-opus-5-5",
+  model: Anthropic::Model::CLAUDE_OPUS_5_5,
   max_tokens: 1024,
   messages: [{role: "user", content: "What's 15 * 7?"}],
   tools: [Calculator.new]
@@ -113,7 +113,7 @@ For complete structured outputs documentation including Ruby examples, see [Stru
 
 ## Handling errors
 
-When the library is unable to connect to the API, or if the API returns a non-success status code (that is, 4xx or 5xx response), a subclass of `Anthropic::Errors::APIError` is raised:
+When the library is unable to connect to the API, or if the API returns a non-success status code (that is, a 4xx or 5xx response), a subclass of `Anthropic::Errors::APIError` is raised:
 
 ```ruby
 anthropic = Anthropic::Client.new
@@ -121,7 +121,7 @@ begin
   message = anthropic.messages.create(
     max_tokens: 1024,
     messages: [{role: "user", content: "Hello, Claude"}],
-    model: :"claude-opus-5-5"
+    model: Anthropic::Model::CLAUDE_OPUS_5_5
   )
 rescue Anthropic::Errors::APIConnectionError => e
   puts("The server could not be reached")
@@ -136,7 +136,7 @@ end
 
 Error codes are as follows:
 
-| Cause            | Error Type                 |
+| Cause            | Error type                 |
 | ---------------- | -------------------------- |
 | HTTP 400         | `BadRequestError`          |
 | HTTP 401         | `AuthenticationError`      |
@@ -152,7 +152,7 @@ Error codes are as follows:
 
 ## Retries
 
-Certain errors will be automatically retried 2 times by default, with a short exponential backoff.
+Certain errors are automatically retried 2 times by default, with a short exponential backoff.
 
 Connection errors (for example, because of a network connectivity problem), 408 Request Timeout, 409 Conflict, 429 Rate Limit, >=500 Internal errors, and timeouts are all retried by default.
 
@@ -236,33 +236,33 @@ Request parameters that correspond to file uploads can be passed as raw contents
 anthropic = Anthropic::Client.new
 require "pathname"
 
-# Use `Pathname` to send the filename and/or avoid paging a large file into memory:
+# Use `Pathname` to send the file name, avoid paging a large file into memory, or both:
 file_metadata = anthropic.files.upload(file: Pathname("/path/to/file"))
 
 # Alternatively, pass file contents or a `StringIO` directly:
 file_metadata = anthropic.files.upload(file: File.read("/path/to/file"))
 
-# Or, to control the filename and/or content type:
+# Or, to control the file name, the content type, or both:
 file = Anthropic::FilePart.new(File.read("/path/to/file"), filename: "/path/to/file", content_type: "...")
 file_metadata = anthropic.files.upload(file: file)
 
 puts(file_metadata.id)
 ```
 
-Note that you can also pass a raw `IO` descriptor, but this disables retries, as the library can't be sure if the descriptor is a file or pipe (which cannot be rewound).
+Note that you can also pass a raw `IO` descriptor, but this disables retries, as the library can’t determine whether the descriptor is a file or pipe (which cannot be rewound).
 
 ## Sorbet
 
 This library provides comprehensive [RBI](https://sorbet.org/docs/rbi) definitions, and has no dependency on sorbet-runtime.
 
-You can provide typesafe request parameters like so:
+You can provide typesafe request parameters as follows:
 
 ```ruby
 anthropic = Anthropic::Client.new
 anthropic.messages.create(
   max_tokens: 1024,
   messages: [Anthropic::MessageParam.new(role: "user", content: "Hello, Claude")],
-  model: :"claude-opus-5-5"
+  model: Anthropic::Model::CLAUDE_OPUS_5_5
 )
 ```
 
@@ -274,21 +274,21 @@ anthropic = Anthropic::Client.new
 anthropic.messages.create(
   max_tokens: 1024,
   messages: [{role: "user", content: "Hello, Claude"}],
-  model: :"claude-opus-5-5"
+  model: Anthropic::Model::CLAUDE_OPUS_5_5
 )
 
 # You can also splat a full Params class:
 params = Anthropic::MessageCreateParams.new(
   max_tokens: 1024,
   messages: [Anthropic::MessageParam.new(role: "user", content: "Hello, Claude")],
-  model: :"claude-opus-5-5"
+  model: Anthropic::Model::CLAUDE_OPUS_5_5
 )
 anthropic.messages.create(**params)
 ```
 
 ### Enums
 
-Because this library does not depend on `sorbet-runtime`, it cannot provide [`T::Enum`](https://sorbet.org/docs/tenum) instances. Instead, the SDK provides "tagged symbols," which are always primitives at runtime:
+Because this library does not depend on `sorbet-runtime`, it cannot provide [`T::Enum`](https://sorbet.org/docs/tenum) instances. Instead, the SDK provides “tagged symbols,” which are always primitives at runtime:
 
 ```ruby
 # :auto
@@ -298,19 +298,24 @@ puts(Anthropic::MessageCreateParams::ServiceTier::AUTO)
 T.reveal_type(Anthropic::MessageCreateParams::ServiceTier::AUTO)
 ```
 
-Enum parameters have a "relaxed" type, so you can either pass in enum constants or their literal value:
+Enum parameters have a “relaxed” type, so you can either pass in enum constants or their literal value:
 
 ```ruby
+anthropic = Anthropic::Client.new
 # Using the enum constants preserves the tagged type information:
 anthropic.messages.create(
-  service_tier: Anthropic::MessageCreateParams::ServiceTier::AUTO,
-  # ...
+  max_tokens: 1024,
+  messages: [{role: "user", content: "Hello, Claude"}],
+  model: Anthropic::Model::CLAUDE_OPUS_5_5,
+  service_tier: Anthropic::MessageCreateParams::ServiceTier::AUTO
 )
 
 # Literal values are also permissible:
 anthropic.messages.create(
-  service_tier: :auto,
-  # ...
+  max_tokens: 1024,
+  messages: [{role: "user", content: "Hello, Claude"}],
+  model: :"claude-opus-5-5",
+  service_tier: :auto
 )
 ```
 
@@ -330,20 +335,24 @@ All parameter and response objects inherit from `Anthropic::Internal::Type::Base
 
 The `Anthropic::Client` instances are threadsafe, but are only fork-safe when there are no in-flight HTTP requests.
 
-Each instance of `Anthropic::Client` has its own HTTP connection pool with a default size of 99. As such, the recommendation is to create the client once per application in most settings.
+Each instance of `Anthropic::Client` has its own HTTP connection pool with a default size of 99. As such, the recommendation is to create the client once for each application in most settings.
 
 When all available connections from the pool are checked out, requests wait for a new connection to become available, with queue time counting toward the request timeout.
 
 Unless otherwise specified, other classes in the SDK do not have locks protecting their underlying data structure.
 
+## OpenTelemetry tracing
+
+When your application registers an OpenTelemetry tracer provider, the SDK emits a span for each request that it sends. To send the spans to your observability platform, see [Set up OpenTelemetry with the Claude SDK](https://platform.claude.com/docs/en/manage-claude/opentelemetry/sdk).
+
 ## Making custom or undocumented requests
 
 ### Undocumented properties
 
-You can send undocumented parameters to any endpoint, and read undocumented response properties, like so:
+You can send undocumented parameters to any endpoint, and read undocumented response properties, as follows:
 
 <Warning>
-  The `extra_` parameters of the same name override the documented parameters. For security reasons, ensure these methods are only used with trusted input data.
+  The `extra_` parameters of the same name override the documented parameters. For security reasons, use these methods only with trusted input data.
 </Warning>
 
 ```ruby
@@ -364,13 +373,13 @@ message =
 puts(message[:my_undocumented_property])
 ```
 
-### Undocumented request params
+### Undocumented request parameters
 
-If you want to explicitly send an extra param, you can do so with the `extra_query`, `extra_body`, and `extra_headers` under the `request_options:` parameter when making a request, as seen in the previous examples.
+If you want to explicitly send an extra parameter, you can do so with `extra_query`, `extra_body`, and `extra_headers` under `request_options:` when making a request, as seen in the previous examples.
 
 ### Undocumented endpoints
 
-To make requests to undocumented endpoints while retaining the benefit of authentication, retries, and so on, you can make requests using `anthropic.request`, like so:
+To make requests to undocumented endpoints while retaining the benefit of authentication, retries, and so on, you can make requests using `anthropic.request`, as follows:
 
 ```ruby
 response = anthropic.request(
@@ -390,23 +399,30 @@ response = anthropic.request(
   * [Amazon Bedrock](https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock)
   * [Amazon Bedrock (Opus 4.6 and earlier)](https://platform.claude.com/docs/en/build-with-claude/claude-on-amazon-bedrock-legacy)
   * [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws)
-  * [Google Cloud](https://platform.claude.com/docs/en/build-with-claude/claude-on-vertex-ai)
+  * [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/google-managed)
+  * [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry)
+
+  See also [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed).
 </Note>
 
 The Ruby SDK supports the following platforms:
 
-* **Agent Platform:** `Anthropic::VertexClient`. Requires the `googleauth` gem.
+* **Claude Models on Google Cloud (Google managed):** `Anthropic::VertexClient`. Requires the `googleauth` gem.
 * **Bedrock:** `Anthropic::BedrockMantleClient`, or `Anthropic::BedrockClient` for the `bedrock-runtime` path. `Anthropic::BedrockMantleClient` requires the `aws-sdk-core` gem; `Anthropic::BedrockClient` requires the `aws-sdk-bedrockruntime` gem.
 * **Claude Platform on AWS:** Part of the main `anthropic` gem (requires the `aws-sdk-core` gem). Provides `Anthropic::AWSClient`. Pass `workspace_id:` to the constructor or set the `ANTHROPIC_AWS_WORKSPACE_ID` environment variable (see [Workspaces](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws#workspaces)). Available in beta.
-* **Foundry:** Not currently supported in the Ruby SDK. See [Claude in Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry) for supported SDKs.
+* **Foundry:** Part of the main `anthropic` gem. Provides `Anthropic::FoundryClient`. Pass `resource:` and `api_key:` (or `azure_ad_token_provider:` for Microsoft Entra ID) to the constructor, or set the `ANTHROPIC_FOUNDRY_RESOURCE` and `ANTHROPIC_FOUNDRY_API_KEY` environment variables.
 
 Use `Anthropic::BedrockMantleClient` for new projects; `Anthropic::BedrockClient` remains for existing applications using the Bedrock `InvokeModel` API.
+
+The Ruby SDK also supports Claude Models on Google Cloud (Anthropic managed) through `Anthropic::GoogleCloudClient`. This client is in beta. It ships in the main `anthropic` gem and needs the `googleauth` gem. Pass `workspace_id:` to the constructor or set the `ANTHROPIC_GOOGLE_CLOUD_WORKSPACE_ID` environment variable. See [Project, location, and workspace resolution](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed#project-location-and-workspace-resolution) for how the client resolves the workspace ID.
 
 ## Semantic versioning
 
 This package follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions.
 
 This package considers improvements to the (non-runtime) `*.rbi` and `*.rbs` type definitions to be non-breaking changes.
+
+Every request to the Claude API uses an API version. With this SDK, your requests use the API version that was current when your SDK’s major version was released, so you move to a new API version by upgrading to a new major version. Version 2.0.0 is the first to use `2026-10-21`. See [Migrating to API version 2026-10-21](https://platform.claude.com/docs/en/api/migration-2026-10-21#upgrade) for how to upgrade.
 
 ## Additional resources
 

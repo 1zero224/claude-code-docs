@@ -19,7 +19,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
 - `work_id: String` (path parameter)
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -125,6 +125,18 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
   - `:"spend-limit-reads-2026-09-26"`
 
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
 ## Returns
 
 - `class BetaSelfHostedWork`
@@ -143,7 +155,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     Work identifier (e.g., 'work_...')
 
-  - `acknowledged_at: String`
+  - `acknowledged_at: String | nil`
 
     RFC 3339 timestamp when the work item was acknowledged and assigned to a self-hosted sandbox
 
@@ -167,7 +179,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     Environment identifier this work belongs to (e.g., `env_...`)
 
-  - `latest_heartbeat_at: String`
+  - `latest_heartbeat_at: String | nil`
 
     RFC 3339 timestamp of the most recent heartbeat
 
@@ -175,11 +187,11 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     User-provided metadata key-value pairs associated with this work item
 
-  - `secret: String`
+  - `secret: String | nil`
 
     Credential payload used by the environment worker to execute this work item. May be populated when polling for work; null on all other retrieval paths.
 
-  - `started_at: String`
+  - `started_at: String | nil`
 
     RFC 3339 timestamp when work execution started
 
@@ -197,11 +209,11 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     - `:stopped`
 
-  - `stop_requested_at: String`
+  - `stop_requested_at: String | nil`
 
     RFC 3339 timestamp when stop was requested
 
-  - `stopped_at: String`
+  - `stopped_at: String | nil`
 
     RFC 3339 timestamp when work execution stopped
 

@@ -9,10 +9,12 @@ url: https://platform.claude.com/docs/en/api/beta/organization/spend_limits/list
 
 List the organization's spend limits.
 
-Limits are grouped by scope type, in the order `organization`, `seat_tier`,
-`rbac_group`, `organization_service`, `user`; within a type they come in a
-fixed order that is not creation order. Supported for Claude Enterprise
-organizations only, not for Claude Console organizations.
+A Claude Console organization's limits, including any read-only `usage_tier`
+limit, come newest first. Listing them is in an early access preview. To
+request access, contact your Anthropic account team. A Claude Enterprise
+organization's limits are grouped by scope type, in the order `organization`,
+`seat_tier`, `rbac_group`, `organization_service`, `user`; within a type they
+come in a fixed order that is not creation order.
 
 ## Query parameters
 
@@ -26,9 +28,9 @@ organizations only, not for Claude Console organizations.
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `scope_type: optional array of "organization" or "organization_service" or "rbac_group" or 3 more`
+- `scope_type: optional array of "organization" or "organization_service" or "rbac_group" or 4 more`
 
-  Return only limits with these scope types. Omit for all.
+  Return only limits with these scope types. Omit for all. A scope type that doesn't apply to the organization gets a 400 error.
 
   maxItems: 100
 
@@ -40,9 +42,15 @@ organizations only, not for Claude Console organizations.
 
   - `"seat_tier"`
 
+  - `"usage_tier"`
+
   - `"user"`
 
   - `"workspace"`
+
+- `workspace_id: optional string`
+
+  Return only the limits whose `scope.workspace_id` is this workspace (`wrkspc_...`). Claude Console organizations only; other organizations get a 400 error.
 
 ## Headers
 
@@ -52,7 +60,7 @@ organizations only, not for Claude Console organizations.
 
   Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
 
-- `"anthropic-beta": optional array of AnthropicBeta`
+- `"anthropic-beta": array of AnthropicBeta`
 
   This endpoint is in beta: requests must send `spend-limit-reads-2026-09-26` in this header.
 
@@ -158,6 +166,18 @@ organizations only, not for Claude Console organizations.
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 ## Returns
 
 - `data: array of BetaSpendLimit`
@@ -200,7 +220,7 @@ organizations only, not for Claude Console organizations.
 
     - `"weekly"`
 
-  - `scope: BetaSpendLimitUserScope or BetaSpendLimitSeatTierScope or BetaSpendLimitRBACGroupScope or 3 more`
+  - `scope: BetaSpendLimitUserScope or BetaSpendLimitSeatTierScope or BetaSpendLimitRBACGroupScope or 4 more`
 
     What the limit applies to. A tagged union on `type`; each variant carries the identifier for its scope.
 
@@ -262,6 +282,20 @@ organizations only, not for Claude Console organizations.
 
         Tagged ID of the workspace the spend limit applies to.
 
+    - `BetaSpendLimitUsageTierScope object`
+
+      Scope of the monthly spend cap Anthropic sets for a Claude Console
+      organization from its usage tier, or a higher cap Anthropic granted the
+      organization. Read-only; its `created_at` and `updated_at` are the
+      organization's creation time, so `amount` can change while `updated_at` stays
+      the same.
+
+      - `type: "usage_tier"`
+
+        Scope type. Always `usage_tier` for this scope.
+
+        default: usage_tier
+
   - `updated_at: string`
 
     RFC 3339 datetime at which the spend limit was last modified.
@@ -274,9 +308,9 @@ organizations only, not for Claude Console organizations.
 
 ```bash
 curl https://api.anthropic.com/v1/organizations/spend_limits \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: spend-limit-reads-2026-09-26' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ### Response (200)
@@ -293,7 +327,7 @@ curl https://api.anthropic.com/v1/organizations/spend_limits \
       "period": "daily",
       "scope": {
         "type": "user",
-        "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+        "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
       },
       "type": "spend_limit",
       "updated_at": "2019-12-27T18:11:19.117Z"

@@ -4,7 +4,7 @@ Connect your Gmail, Google Calendar, and Google Drive to Claude so you can searc
 
 Google Workspace connectors (Gmail, Google Calendar, and Google Drive) are available for all users on Claude and Claude Desktop.
 
-**Beta:** Claude can edit Google Docs, Sheets, and Slides live in a pane beside the chat, on Claude on the web and Claude Desktop. You and Claude can edit the same file at the same time. Because this is a beta, some features are limited or may not work reliably. See **[Current limitations](#h_cbd94d5da5)**.
+Claude can edit Google Docs, Sheets, and Slides live in a pane beside the chat, on Claude on the web and Claude Desktop. You and Claude can edit the same file at the same time. See **[Current limitations](#h_cbd94d5da5)** for what isn't supported.
 
 For Team and Enterprise plans, an Owner or Primary Owner must enable these connectors at the organization level before individual users can authenticate. For setup instructions, read **[Use connectors to extend Claude's capabilities](https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities#h_17dd443beb)**.
 
@@ -60,7 +60,7 @@ For Team and Enterprise plans, an Owner or Primary Owner must enable these conne
 
 ### Google Docs, Sheets, and Slides
 
-- **Edit files live in a pane beside the chat (beta).** You and Claude can work in the same file at the same time.
+- **Edit files live in a pane beside the chat.** You and Claude can work in the same file at the same time.
 
 - **Create new Google Docs, Sheets, and Slides files.**
 
@@ -104,7 +104,7 @@ The Google Drive connector is only available when adding to **Files** in private
 
 Google Docs added to chats and projects sync directly from Google Drive, so you're always working with the latest version.
 
-### Edit Google Docs, Sheets, and Slides live (beta)
+### Edit Google Docs, Sheets, and Slides live
 
 1. Turn on the Docs, Sheets, and Slides connectors. Click the plus sign in the chat, hover over "Connectors," and toggle them on. If the connector isn't turned on when you ask Claude to edit a Google file, Claude prompts you to connect it, then continues with your request.
 
@@ -112,7 +112,7 @@ Google Docs added to chats and projects sync directly from Google Drive, so you'
 
 3. The file opens in a pane next to the conversation, and you can keep working in it while Claude edits.
 
-  1. The pane works on Claude on the web in Chrome, and on Claude Desktop when the **[built-in browser](https://support.claude.com/en/articles/16607400)** is turned on. On Enterprise plans, the built-in browser is off by default. If the pane isn't available, select “Open in Google” on the file card to open the file in your regular browser.
+  1. The pane works on Claude on the web in Chrome, and on Claude Desktop when the **[built-in browser](https://support.claude.com/en/articles/16607400)** is turned on. If the pane isn't available, select “Open in Google” on the file card to open the file in your regular browser.
 
 4. Use the pane header to copy the file's Google link or open it directly in Google.
 
@@ -150,7 +150,7 @@ Live editing uses separate Google Docs, Google Sheets, and Google Slides connect
 
 - We do not train our models on your Gmail, Drive, or Calendar connector data, ensuring your private information remains private.
 
-  - **Note**: If you are using our consumer products (e.g. Claude Free, Pro, and Max (when using Claude Code with those accounts) and you have chosen to allow us to use your chats and coding sessions for model training, then any content you copy/paste from your Gmail, Drive, Calendar, or Claude's responses which include specific information from these connectors may be used to improve our models. For more information, refer to **[Is my data used for model training?](https://privacy.claude.com/en/articles/10023580-is-my-data-used-for-model-training)**
+  - **Note**: If you are using our consumer products (e.g. Claude Free, Pro, Max, Ultra, and when using Claude Code with those accounts) and you have chosen to allow us to use your chats and coding sessions for model training, then any content you copy/paste from your Gmail, Drive, Calendar, or Claude's responses which include specific information from these connectors may be used to improve our models. For more information, refer to **[Is my data used for model training?](https://privacy.claude.com/en/articles/10023580-is-my-data-used-for-model-training)**
 
 - Data is encrypted at rest and in transit.
 

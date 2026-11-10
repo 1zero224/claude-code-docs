@@ -127,6 +127,18 @@ Retrieve detailed information about a specific work item.
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -216,6 +228,9 @@ Retrieve detailed information about a specific work item.
 ### Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Environments.Work;
+
 WorkRetrieveParams parameters = new()
 {
     EnvironmentID = "env_011CZkZ9X2dpNyB7HsEFoRfW",
@@ -384,6 +399,18 @@ Long poll for work items in the queue.
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string anthropicWorkerID` (header parameter)
 
     Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
@@ -471,6 +498,9 @@ Long poll for work items in the queue.
 ### Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Environments.Work;
+
 WorkPollParams parameters = new()
 {
     EnvironmentID = "env_011CZkZ9X2dpNyB7HsEFoRfW"
@@ -628,6 +658,18 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
 ### Returns
 
 - `class BetaSelfHostedWork`
@@ -711,6 +753,9 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 ### Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Environments.Work;
+
 WorkAckParams parameters = new()
 {
     EnvironmentID = "env_011CZkZ9X2dpNyB7HsEFoRfW",
@@ -771,7 +816,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `string? expectedLastHeartbeat` (query parameter)
 
-    Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match.
+    Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match. The server does not compare the value when the work item is 'stopping' or 'stopped'.
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
@@ -877,6 +922,18 @@ Record a heartbeat for a work item to maintain the lease.
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
 ### Returns
 
 - `class BetaSelfHostedWorkHeartbeatResponse`
@@ -889,7 +946,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `required string LastHeartbeat`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `required bool LeaseExtended`
 
@@ -916,6 +973,9 @@ Record a heartbeat for a work item to maintain the lease.
 ### Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Environments.Work;
+
 WorkHeartbeatParams parameters = new()
 {
     EnvironmentID = "env_011CZkZ9X2dpNyB7HsEFoRfW",
@@ -1065,6 +1125,18 @@ Stop a work item, initiating graceful or forced shutdown.
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1154,6 +1226,9 @@ Stop a work item, initiating graceful or forced shutdown.
 ### Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Environments.Work;
+
 WorkStopParams parameters = new()
 {
     EnvironmentID = "env_011CZkZ9X2dpNyB7HsEFoRfW",
@@ -1320,6 +1395,18 @@ List work items in an environment.
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
 ### Returns
 
 - `class BetaSelfHostedWork`
@@ -1403,6 +1490,9 @@ List work items in an environment.
 ### Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Environments.Work;
+
 WorkListParams parameters = new()
 {
     EnvironmentID = "env_011CZkZ9X2dpNyB7HsEFoRfW"
@@ -1571,6 +1661,18 @@ Update work item metadata with merge semantics.
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1660,6 +1762,10 @@ Update work item metadata with merge semantics.
 ### Example
 
 ```csharp
+using System;
+using System.Collections.Generic;
+using Anthropic.Models.Beta.Environments.Work;
+
 WorkUpdateParams parameters = new()
 {
     EnvironmentID = "env_011CZkZ9X2dpNyB7HsEFoRfW",
@@ -1815,6 +1921,18 @@ Get statistics about the work queue for an environment.
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1827,7 +1945,9 @@ Get statistics about the work queue for an environment.
 
   Statistics about the work queue for an environment.
 
-  Uses Redis Stream consumer group metrics for O(1) queries.
+  - `JsonElement Type = "work_queue_stats"`
+
+    The type of object
 
   - `JsonElement Type = "work_queue_stats"`
 
@@ -1835,7 +1955,7 @@ Get statistics about the work queue for an environment.
 
   - `required long Depth`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
   - `required string? OldestQueuedAt`
 
@@ -1852,6 +1972,9 @@ Get statistics about the work queue for an environment.
 ### Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Environments.Work;
+
 WorkStatsParams parameters = new()
 {
     EnvironmentID = "env_011CZkZ9X2dpNyB7HsEFoRfW"
@@ -1875,6 +1998,44 @@ Console.WriteLine(betaSelfHostedWorkQueueStats);
 ```
 
 ## Domain types
+
+### Beta Heartbeat Precondition Failed Error Details
+
+- `class BetaHeartbeatPreconditionFailedErrorDetails`
+
+  `expected_last_heartbeat` does not match the stored heartbeat, so another worker may hold the lease.
+
+  - `required BetaWorkLeaseState CurrentState`
+
+    The lease as the server holds it.
+
+    - `required string? LastHeartbeat`
+
+      RFC 3339 timestamp of the stored heartbeat, or null if there has been none
+
+    - `required bool LeaseExtended`
+
+      Always false: a refused heartbeat does not extend the lease
+
+    - `required State State`
+
+      Current state of the work item
+
+      - `Queued("queued")`
+
+      - `Starting("starting")`
+
+      - `Active("active")`
+
+      - `Stopping("stopping")`
+
+      - `Stopped("stopped")`
+
+    - `required long TtlSeconds`
+
+      TTL of the lease
+
+  - `JsonElement ErrorCode = "heartbeat_precondition_failed"`
 
 ### Beta Self Hosted Work
 
@@ -1968,7 +2129,7 @@ Console.WriteLine(betaSelfHostedWorkQueueStats);
 
   - `required string LastHeartbeat`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `required bool LeaseExtended`
 
@@ -2082,7 +2243,9 @@ Console.WriteLine(betaSelfHostedWorkQueueStats);
 
   Statistics about the work queue for an environment.
 
-  Uses Redis Stream consumer group metrics for O(1) queries.
+  - `JsonElement Type = "work_queue_stats"`
+
+    The type of object
 
   - `JsonElement Type = "work_queue_stats"`
 
@@ -2090,7 +2253,7 @@ Console.WriteLine(betaSelfHostedWorkQueueStats);
 
   - `required long Depth`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
   - `required string? OldestQueuedAt`
 
@@ -2140,3 +2303,35 @@ Console.WriteLine(betaSelfHostedWorkQueueStats);
   - `required string ID`
 
     Session identifier (e.g., 'session_...')
+
+### Beta Work Lease State
+
+- `class BetaWorkLeaseState`
+
+  A work item's lease as the server holds it.
+
+  - `required string? LastHeartbeat`
+
+    RFC 3339 timestamp of the stored heartbeat, or null if there has been none
+
+  - `required bool LeaseExtended`
+
+    Always false: a refused heartbeat does not extend the lease
+
+  - `required State State`
+
+    Current state of the work item
+
+    - `Queued("queued")`
+
+    - `Starting("starting")`
+
+    - `Active("active")`
+
+    - `Stopping("stopping")`
+
+    - `Stopped("stopped")`
+
+  - `required long TtlSeconds`
+
+    TTL of the lease

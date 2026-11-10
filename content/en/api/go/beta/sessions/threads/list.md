@@ -43,7 +43,7 @@ List Session Threads
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -145,6 +145,18 @@ List Session Threads
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -157,7 +169,7 @@ List Session Threads
 
   An execution thread within a `session`. Each session has one primary thread plus zero or more child threads.
 
-  - `Type BetaManagedAgentsSessionThreadType`
+  - `Type SessionThread`
 
   - `ID string`
 
@@ -171,15 +183,37 @@ List Session Threads
 
       Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-      - `Type BetaManagedAgentsSessionThreadAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
+
+        - `Name string`
 
         - `Name string`
 
@@ -194,6 +228,10 @@ List Session Threads
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -271,31 +309,31 @@ List Session Threads
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -317,7 +355,9 @@ List Session Threads
 
           A resolved Anthropic-managed skill.
 
-          - `Type BetaManagedAgentsAnthropicSkillType`
+          - `Type Anthropic`
+
+          - `SkillID string`
 
           - `SkillID string`
 
@@ -327,7 +367,9 @@ List Session Threads
 
           A resolved user-created custom skill.
 
-          - `Type BetaManagedAgentsCustomSkillType`
+          - `Type Custom`
+
+          - `SkillID string`
 
           - `SkillID string`
 
@@ -339,7 +381,7 @@ List Session Threads
 
         - `type BetaManagedAgentsAgentToolset20260401`
 
-          - `Type BetaManagedAgentsAgentToolset20260401Type`
+          - `Type AgentToolset20260401`
 
           - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -361,13 +403,13 @@ List Session Threads
 
                   Tool calls are automatically approved without user confirmation.
 
-                  - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                  - `Type AlwaysAllow`
 
                 - `type BetaManagedAgentsAlwaysAskPolicy`
 
                   Tool calls require user confirmation before execution.
 
-                  - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                  - `Type AlwaysAsk`
 
                 - `type BetaManagedAgentsAutoPolicy`
 
@@ -663,6 +705,8 @@ List Session Threads
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `Region string Optional`
 
                   Region or state name.
@@ -699,7 +743,7 @@ List Session Threads
 
         - `type BetaManagedAgentsMCPToolset`
 
-          - `Type BetaManagedAgentsMCPToolsetType`
+          - `Type MCPToolset`
 
           - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -751,7 +795,7 @@ List Session Threads
 
           A custom tool as returned in API responses.
 
-          - `Type BetaManagedAgentsCustomToolType`
+          - `Type Custom`
 
           - `Description string`
 
@@ -761,7 +805,7 @@ List Session Threads
 
             - `Type Object`
 
-            - `Properties map[string, any] Optional`
+            - `Properties map[string]any Optional`
 
             - `Required []string Optional`
 
@@ -775,7 +819,7 @@ List Session Threads
 
       Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-      - `Type BetaManagedAgentsAdvisorType`
+      - `Type Advisor`
 
       - `Model string`
 
@@ -789,9 +833,13 @@ List Session Threads
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        The session's execution principal.
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
 
         - `Name string`
 
@@ -933,6 +981,8 @@ List Session Threads
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `Currency BetaCurrency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -972,8 +1022,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -1002,6 +1052,9 @@ func main() {
       "agent": {
         "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
         "description": "A focused research subagent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",

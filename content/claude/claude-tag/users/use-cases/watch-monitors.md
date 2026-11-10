@@ -6,9 +6,9 @@
 
 > Claude Tag watches dashboards and alert channels so you see one line per issue. See scheduled checks, alert investigation before anyone asks, and the prompts to set both up.
 
-export const BetaNote = () => <Info>Claude Tag is in public beta. Features and behavior described here may change before general availability.</Info>;
-
-<BetaNote />
+> [!NOTE]
+>
+> Claude Tag is in public beta. Features and behavior described here may change before general availability.
 
 ## How monitor-watch prompts work
 
@@ -18,7 +18,7 @@ Each prompt below is a Slack message. You paste it in the channel that receives 
 
 ## Check the channel's connections
 
-Check that the channel has the connections below. Ask `@Claude what can you access from this channel?` to check; an admin can [add a connection](/docs/claude-tag/admins/add-connections) the channel is missing.
+Check that the channel has the connections below. Ask `@Claude what can you access from this channel?` to check; an admin can [add a connection](https://claude.com/docs/claude-tag/admins/add-connections.md) the channel is missing.
 
 | Connection | Examples | Why it matters here |
 | :- | :- | :- |
@@ -34,7 +34,7 @@ One message sets up a standing check that posts every morning, one line per serv
 @Claude every morning at 7, check the service dashboards and post one line per service: green, or what's off and since when.
 ```
 
-Name the output format in the schedule, like "one line per service" above, so every post reads the same way. To list or cancel scheduled work later, see [Manage standing work](/docs/claude-tag/users/proactivity#manage-standing-work).
+Name the output format in the schedule, like "one line per service" above, so every post reads the same way. To list or cancel scheduled work later, see [Manage standing work](https://claude.com/docs/claude-tag/users/proactivity.md#manage-standing-work).
 
 ### Investigate a single alert
 
@@ -56,24 +56,22 @@ Set this up as a routine to get both: a scheduled check against the last known s
 
 ## Keep known false alarms out of Claude's checks
 
-Open the channel's [**Configure** page](/docs/claude-tag/users/good-habits#configure-claude-for-a-channel). In the **Channel instructions** field, list the alerts your team already treats as false alarms, so Claude skips them.
+Open the channel's [**Configure** page](https://claude.com/docs/claude-tag/users/good-habits.md#configure-claude-for-a-channel). In the **Channel instructions** field, list the alerts your team already treats as false alarms, so Claude skips them.
 
 ## Related resources
 
-<CardGroup cols={2}>
-  <Card title="Fix bugs" href="/docs/claude-tag/users/use-cases/fix-bugs" horizontal arrow>
-    When the investigation should end in a pull request
-  </Card>
+> [card] [Fix bugs](https://claude.com/docs/claude-tag/users/use-cases/fix-bugs.md)
+>
+> When the investigation should end in a pull request
 
-  <Card title="Set up routines" href="/docs/claude-tag/users/proactivity" horizontal arrow>
-    Schedules and event triggers
-  </Card>
+> [card] [Set up routines](https://claude.com/docs/claude-tag/users/proactivity.md)
+>
+> Schedules and event triggers
 
-  <Card title="Claude on call" href="https://claude.com/blog/ai-ci-cd-on-call" horizontal arrow>
-    How Anthropic runs Claude as first responder for CI/CD failures
-  </Card>
+> [card] [Claude on call](https://claude.com/blog/ai-ci-cd-on-call)
+>
+> How Anthropic runs Claude as first responder for CI/CD failures
 
-  <Card title="On-call kit" href="https://github.com/anthropics/oncall-kit" horizontal arrow>
-    Reference playbooks, templates, and guided setup for an on-call channel
-  </Card>
-</CardGroup>
+> [card] [On-call kit](https://github.com/anthropics/oncall-kit)
+>
+> Reference playbooks, templates, and guided setup for an on-call channel

@@ -10,12 +10,12 @@ An MCP Bundle (`.mcpb`) is a zip archive containing a local MCP server and a `ma
 
 This page is for developers packaging a local MCP server for Claude Desktop, whether for internal use or private distribution. It covers when to choose MCPB over a remote server, building and packing the bundle, the manifest, and how users install the result.
 
-For a directory listing, build a remote MCP server, which reaches people on every surface, or include the local server in a plugin, as [Decide what to include in your plugin](/docs/connectors/building/what-to-build) explains.
+For a directory listing, build a remote MCP server, which reaches people on every surface, or include the local server in a plugin, as [Decide what to include in your plugin](https://claude.com/docs/connectors/building/what-to-build.md) explains.
 
-<Note>
-  * If you're building a remote server, see [Build an MCP server for Claude](/docs/connectors/building/index)
-  * If you're deploying desktop extensions across a Team or Enterprise organization, see [Install a local connector in the desktop app](/docs/connectors/custom/add-unlisted#install-a-local-connector-in-the-desktop-app)
-</Note>
+> [!NOTE]
+>
+> * If you're building a remote server, see [Build an MCP server for Claude](https://claude.com/docs/connectors/building/index.md)
+> * If you're deploying desktop extensions across a Team or Enterprise organization, see [Install a local connector in the desktop app](https://claude.com/docs/connectors/custom/add-unlisted.md#install-a-local-connector-in-the-desktop-app)
 
 ## Decide when to build an MCPB
 
@@ -71,39 +71,37 @@ See the [manifest spec compatibility section](https://github.com/modelcontextpro
 
 The MCPB CLI generates the manifest and packs the bundle.
 
-<Steps>
-  <Step title="Install the MCPB CLI">
-    ```bash theme={null}
-    npm install -g @anthropic-ai/mcpb
-    ```
-  </Step>
+**1. Install the MCPB CLI**
 
-  <Step title="Create your MCP server">
-    Build a stdio MCP server using the [MCP SDK](https://www.npmjs.com/package/@modelcontextprotocol/sdk).
-  </Step>
+```bash theme={null}
+npm install -g @anthropic-ai/mcpb
+```
 
-  <Step title="Generate the manifest">
-    ```bash theme={null}
-    mcpb init
-    ```
-  </Step>
+**2. Create your MCP server**
 
-  <Step title="Bundle">
-    ```bash theme={null}
-    mcpb pack
-    ```
-  </Step>
+Build a stdio MCP server using the [MCP SDK](https://www.npmjs.com/package/@modelcontextprotocol/sdk).
 
-  <Step title="Install and test in Claude Desktop">
-    Double-click the generated `.mcpb` file.
-  </Step>
-</Steps>
+**3. Generate the manifest**
+
+```bash theme={null}
+mcpb init
+```
+
+**4. Bundle**
+
+```bash theme={null}
+mcpb pack
+```
+
+**5. Install and test in Claude Desktop**
+
+Double-click the generated `.mcpb` file.
 
 For detailed implementation guidance, see the [MCPB repository](https://github.com/modelcontextprotocol/mcpb), the [examples directory](https://github.com/modelcontextprotocol/mcpb/tree/main/examples) including a Hello World, and the [README "For Bundle Developers" section](https://github.com/modelcontextprotocol/mcpb/blob/main/README.md).
 
-<Warning>
-  Before distributing your MCPB, review the testing and best-practices guidance in the MCPB README to ensure quality.
-</Warning>
+> [!WARNING]
+>
+> Before distributing your MCPB, review the testing and best-practices guidance in the MCPB README to ensure quality.
 
 ## Configure manifest.json
 
@@ -134,7 +132,7 @@ Define a `user_config` section in `manifest.json` and Claude Desktop automatical
 
 ## Distribute your MCPB
 
-Users install the `.mcpb` file themselves in Claude Desktop. Desktop extension listings in the directory are deprecated, and the directory no longer accepts MCPB submissions. To distribute a local MCP server through the directory, include it in a [plugin](/docs/plugins/overview).
+Users install the `.mcpb` file themselves in Claude Desktop. Desktop extension listings in the directory are deprecated, and the directory no longer accepts MCPB submissions. To distribute a local MCP server through the directory, include it in a [plugin](https://claude.com/docs/plugins/overview.md).
 
 ### Understand how users install your MCPB
 
@@ -179,5 +177,5 @@ These external references cover the MCPB format, the MCP protocol, and Claude De
 
 ## Next steps
 
-* [Install a local connector in the desktop app](/docs/connectors/custom/add-unlisted#install-a-local-connector-in-the-desktop-app): deploy local MCP servers for Claude Desktop across a Team or Enterprise organization
-* [Submit your plugin](/docs/plugins/submit): list a plugin that includes your local MCP server in the directory
+* [Install a local connector in the desktop app](https://claude.com/docs/connectors/custom/add-unlisted.md#install-a-local-connector-in-the-desktop-app): deploy local MCP servers for Claude Desktop across a Team or Enterprise organization
+* [Submit your plugin](https://claude.com/docs/plugins/submit.md): list a plugin that includes your local MCP server in the directory

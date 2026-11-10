@@ -1,8 +1,8 @@
-# Claude SDK for Python
+# Anthropic SDK for Python
 
 [![PyPI version](https://img.shields.io/pypi/v/anthropic.svg)](https://pypi.org/project/anthropic/)
 
-The Claude SDK for Python provides access to the [Claude API](https://docs.anthropic.com/en/api/) from Python applications.
+The Anthropic SDK for Python provides access to the [Claude API](https://docs.anthropic.com/en/api/) from Python applications.
 
 ## Documentation
 
@@ -36,45 +36,10 @@ message = client.messages.create(
             "content": "Hello, Claude",
         }
     ],
-
     model="claude-opus-5-5",
 )
-
 print(message.content)
 ```
-
-
-## OpenTelemetry
-
-The SDK reports each API call as an OpenTelemetry span when your application has registered a tracer provider.
-It depends on `opentelemetry-api`, a required dependency, and never on an OpenTelemetry SDK.
-
-```python
-# a provider other than the registered one
-client = Anthropic(open_telemetry={"tracer_provider": tracer_provider})
-# no spans
-quiet = Anthropic(open_telemetry=False)
-# adds prompts and completions
-verbose = Anthropic(open_telemetry={"traces": {"content_mode": "content"}})
-# keeps the content of one span within this size
-bounded = Anthropic(
-    open_telemetry={"traces": {"content_mode": "content", "max_content_bytes": 65_536}}
-)
-# sends no trace context headers, for an application whose HTTP client instrumentation already sends them, so that
-# a request does not carry them twice
-unpropagated = Anthropic(open_telemetry={"propagation": False})
-
-# sets gen_ai.conversation.id on the spans of one conversation's requests. with_options replaces the whole option,
-# so start from client.open_telemetry, which has the client's
-conversation = client.with_options(
-    open_telemetry={**client.open_telemetry, "conversation_id": conversation_id}
-)
-conversation.messages.create(...)
-```
-
-A client that is given no `open_telemetry` option reads these environment variables when it is constructed: `ANTHROPIC_OPEN_TELEMETRY=false` turns its spans off, `ANTHROPIC_OPEN_TELEMETRY_TRACES_CONTENT_MODE=content` adds prompts and completions, `ANTHROPIC_OPEN_TELEMETRY_TRACES_MAX_CONTENT_BYTES` sets `max_content_bytes`, and `ANTHROPIC_OPEN_TELEMETRY_PROPAGATION=false` sends no trace context headers.
-A client that is given the option, even `{}` or a `tracer_provider` alone, reads none of them: what the option leaves out has its default (spans on, trace context headers sent, no prompts or completions, 750,000 bytes).
-A copy made with `with_options` or `copy` keeps its client's option unless it is given its own.
 
 ## Requirements
 
@@ -86,4 +51,4 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache License, Version 2.0. See the [LICENSE](LICENSE) file for details. Versions released before the change from the MIT License, and third-party contributions merged before it, remain under the MIT License. See [LICENSE-MIT](LICENSE-MIT).

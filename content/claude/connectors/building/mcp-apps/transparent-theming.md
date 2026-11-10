@@ -6,7 +6,7 @@
 
 > Make your MCP App's background transparent and style it with Claude's host style variables so it blends into the conversation in light and dark mode.
 
-Claude renders MCP Apps inside a sandboxed iframe, and every frame between your widget and the chat surface already has a transparent background so the conversation can show through. If you leave your own background transparent and style text and borders with the host's [style variables](/docs/connectors/building/mcp-apps/design-guidelines#style-variables), your app looks like part of the conversation rather than an embedded box. It also follows the user's light or dark mode automatically.
+Claude renders MCP Apps inside a sandboxed iframe, and every frame between your widget and the chat surface already has a transparent background so the conversation can show through. If you leave your own background transparent and style text and borders with the host's [style variables](https://claude.com/docs/connectors/building/mcp-apps/design-guidelines.md#style-variables), your app looks like part of the conversation rather than an embedded box. It also follows the user's light or dark mode automatically.
 
 This page is for developers who already have an MCP App rendering in Claude and want it to match the host theme. The snippets assume you have registered a UI resource and created an `App` instance from `@modelcontextprotocol/ext-apps`. If you haven't, start with the [SDK Quickstart](https://modelcontextprotocol.github.io/ext-apps/api/documents/Quickstart.html). To match the host theme, [let the host background show through](#let-the-host-background-show-through), then [apply the host style variables](#apply-the-host-style-variables) at runtime.
 
@@ -72,7 +72,7 @@ Claude passes a [`hostContext`](https://modelcontextprotocol.github.io/ext-apps/
 | `styles.variables` | CSS custom properties: `--color-background-*`, `--color-text-*`, `--color-border-*`, `--color-ring-*`, `--font-*`, `--border-radius-*`, `--border-width-*` |
 | `styles.css.fonts` | `@font-face` rules for Anthropic Sans, served from `https://assets.claude.ai` |
 
-The [Style variables](/docs/connectors/building/mcp-apps/design-guidelines#style-variables) section of the design guidelines lists every variable and its light- and dark-mode value.
+The [Style variables](https://claude.com/docs/connectors/building/mcp-apps/design-guidelines.md#style-variables) section of the design guidelines lists every variable and its light- and dark-mode value.
 
 ### Read `hostContext` and listen for changes
 
@@ -90,46 +90,44 @@ Keep the `<meta name="color-scheme">` tag in your document head even though `app
 
 This example applies the theme, variables, and fonts on connect and again on every host context change:
 
-<CodeGroup>
-  ```ts TypeScript theme={null}
-  import {
-    App,
-    applyDocumentTheme,
-    applyHostFonts,
-    applyHostStyleVariables,
-    type McpUiHostContext,
-  } from "@modelcontextprotocol/ext-apps";
+```ts TypeScript theme={null}
+import {
+  App,
+  applyDocumentTheme,
+  applyHostFonts,
+  applyHostStyleVariables,
+  type McpUiHostContext,
+} from "@modelcontextprotocol/ext-apps";
 
-  function applyHostContext(ctx: Partial<McpUiHostContext>) {
-    if (ctx.theme) applyDocumentTheme(ctx.theme);
-    if (ctx.styles?.variables) applyHostStyleVariables(ctx.styles.variables);
-    if (ctx.styles?.css?.fonts) applyHostFonts(ctx.styles.css.fonts);
-  }
+function applyHostContext(ctx: Partial<McpUiHostContext>) {
+  if (ctx.theme) applyDocumentTheme(ctx.theme);
+  if (ctx.styles?.variables) applyHostStyleVariables(ctx.styles.variables);
+  if (ctx.styles?.css?.fonts) applyHostFonts(ctx.styles.css.fonts);
+}
 
-  const app = new App({ name: "my-app", version: "1.0.0" });
+const app = new App({ name: "my-app", version: "1.0.0" });
 
-  // Updates carry only the fields that changed.
-  app.addEventListener("hostcontextchanged", (changed) => applyHostContext(changed));
+// Updates carry only the fields that changed.
+app.addEventListener("hostcontextchanged", (changed) => applyHostContext(changed));
 
-  await app.connect();
-  const initial = app.getHostContext();
-  if (initial) applyHostContext(initial);
-  ```
+await app.connect();
+const initial = app.getHostContext();
+if (initial) applyHostContext(initial);
+```
 
-  ```tsx React theme={null}
-  import { useApp, useHostStyles } from "@modelcontextprotocol/ext-apps/react";
+```tsx React theme={null}
+import { useApp, useHostStyles } from "@modelcontextprotocol/ext-apps/react";
 
-  function Widget() {
-    const { app } = useApp({
-      appInfo: { name: "my-app", version: "1.0.0" },
-      capabilities: {},
-    });
-    // Applies theme + CSS variables + fonts, and re-applies on host-context-changed.
-    useHostStyles(app, app?.getHostContext());
-    return <div className="card">…</div>;
-  }
-  ```
-</CodeGroup>
+function Widget() {
+  const { app } = useApp({
+    appInfo: { name: "my-app", version: "1.0.0" },
+    capabilities: {},
+  });
+  // Applies theme + CSS variables + fonts, and re-applies on host-context-changed.
+  useHostStyles(app, app?.getHostContext());
+  return <div className="card">…</div>;
+}
+```
 
 ### Reference the variables in your CSS
 
@@ -146,9 +144,9 @@ body {
 }
 ```
 
-<Note>
-  Claude's token values use CSS `light-dark()`, so once `applyDocumentTheme` has set the root `color-scheme`, every `--color-*` variable resolves to the right variant without any `[data-theme]` selectors on your side.
-</Note>
+> [!NOTE]
+>
+> Claude's token values use CSS `light-dark()`, so once `applyDocumentTheme` has set the root `color-scheme`, every `--color-*` variable resolves to the right variant without any `[data-theme]` selectors on your side.
 
 ### Allow the host font origin in your CSP
 
@@ -156,7 +154,7 @@ For `applyHostFonts` to load the `@font-face` files, your resource's [`_meta.ui.
 
 ## Next steps
 
-* [Style variables](/docs/connectors/building/mcp-apps/design-guidelines#style-variables): the full variable palette in the design guidelines
-* [Visual design](/docs/connectors/building/mcp-apps/design-guidelines#visual-design): usage guidance for color, typography, and spacing in the design guidelines
-* [Supersede older widget instances](/docs/connectors/building/mcp-apps/instance-supersession): keep only the newest copy of your widget active in a conversation
+* [Style variables](https://claude.com/docs/connectors/building/mcp-apps/design-guidelines.md#style-variables): the full variable palette in the design guidelines
+* [Visual design](https://claude.com/docs/connectors/building/mcp-apps/design-guidelines.md#visual-design): usage guidance for color, typography, and spacing in the design guidelines
+* [Supersede older widget instances](https://claude.com/docs/connectors/building/mcp-apps/instance-supersession.md): keep only the newest copy of your widget active in a conversation
 * [SDK API reference](https://modelcontextprotocol.github.io/ext-apps/api/index.html): `App`, `McpUiHostContext`, and `McpUiResourceMeta`

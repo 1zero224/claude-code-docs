@@ -8,23 +8,23 @@ description: Connect Claude to a private MCP server using a local Docker Compose
   MCP tunnels are in research preview. [Request access](https://claude.com/form/mcp-tunnels) to try them.
 </Note>
 
-This quickstart takes you from zero to Claude calling a private MCP server through a tunnel. It uses Docker Compose with [manual](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/concepts#credential-provisioning) credential provisioning, which is the shortest path for local testing. For production deployments, see [Deploy with Helm](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/deploy-helm) or [Deploy with Docker Compose](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/deploy-compose).
+This quickstart takes you from creating a tunnel to Claude calling a private MCP server through it. It uses Docker Compose with [manual](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/concepts#credential-provisioning) credential provisioning, which is the shortest path for local testing. For production deployments, see [Deploy with Helm](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/deploy-helm) or [Deploy with Docker Compose](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/deploy-compose).
 
-## What you'll build
+## What you’ll build
 
 A two-container [tunnel stack](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/concepts#components) (the [proxy](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/concepts#components) and [cloudflared](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/concepts#components)) plus a sample MCP server running alongside it. When everything is running, the sample server is reachable from Claude at `https://echo.<your-tunnel-domain>/mcp` even though nothing is listening on a public port.
 
 ## What you need
 
 * [Docker and Docker Compose](https://docs.docker.com/get-docker/) on a machine with outbound internet access.
-* A role in the [Claude Console](https://platform.claude.com) that can manage MCP tunnels. See the [Console guide prerequisites](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/console#prerequisites).
-* [OpenSSL](https://openssl-library.org/source/) 1.1.1 or later. Preinstalled on macOS and most Linux distributions; on Windows, install it separately (the `openssl` binary must be on your `PATH`).
+* A role in the [Claude Console](https://platform.claude.com/) that can manage MCP tunnels. See the [Console guide prerequisites](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/console#prerequisites).
+* [OpenSSL](https://openssl-library.org/source/) 1.1.1 or later. Preinstalled on macOS and most Linux distributions. On Windows, install it separately (the `openssl` binary must be on your `PATH`).
 
 <Steps>
   <Step title="Create a tunnel">
-    In the Claude Console sidebar, go to **Manage > MCP tunnels** and click **New tunnel**. Give it a name. Leave **Set up programmatic access** off; this quickstart uses manual credential provisioning.
+    In the Claude Console, go to the [MCP tunnels](https://platform.claude.com/settings/workspaces/default/mcp-tunnels) page (`platform.claude.com/settings/workspaces/default/mcp-tunnels`). Each tunnel belongs to one workspace. Select the workspace you want in the workspace picker in the sidebar. Click **New tunnel** and give it a name. Leave **Set up programmatic access** off; this quickstart uses manual credential provisioning.
 
-    After it's created, open the tunnel. Copy two values from the **Connection** section:
+    After it’s created, open the tunnel. Copy two values from the **Connection** section:
 
     * **Domain** (looks like `abcd1234.tunnel.anthropic.com`)
     * **Token** (click the eye icon, then copy)
@@ -107,7 +107,7 @@ A two-container [tunnel stack](https://platform.claude.com/docs/en/agents-and-to
       </Tab>
     </Tabs>
 
-    Back in the Console, on the tunnel detail page, click **Add certificate** and upload `data/ca.crt` (or paste its contents). The tunnel status flips to **Active**.
+    Back in the Console, on the tunnel detail page, click **Add certificate** and upload `data/ca.crt` (or paste its contents). The **Needs certificate** badge next to the tunnel’s name goes away.
   </Step>
 
   <Step title="Write the sample MCP server">
@@ -171,14 +171,14 @@ A two-container [tunnel stack](https://platform.claude.com/docs/en/agents-and-to
         cat > docker-compose.yaml <<'EOF'
         services:
           mcp-proxy:
-            image: us-docker.pkg.dev/anthropic-public-registry/images/mcp-proxy@sha256:efb27b299d627e4134815663cb8896641eeaee025d734c0f695582b4df38f013
+            image: us-docker.pkg.dev/anthropic-public-registry/images/mcp-proxy@sha256:d243d30642d39857a0579e465cb3b9bf3ae7c1141e83143bb6856777a31467a5
             volumes:
               - ./config/mcp-proxy.yaml:/etc/mcp-gateway/config.yaml:ro
               - ./data:/data:ro
             restart: unless-stopped
 
           cloudflared:
-            image: cloudflare/cloudflared@sha256:6b599ca3e974349ead3286d178da61d291961182ec3fe9c505e1dd02c8ac31b0
+            image: cloudflare/cloudflared@sha256:0e56c13c7058fcef9c4f0e7d83372f82330548dbf8f8b366f3d8b506526d93b2
             command: tunnel --no-autoupdate run --url http://localhost:8080
             environment:
               - TUNNEL_TOKEN
@@ -211,14 +211,14 @@ A two-container [tunnel stack](https://platform.claude.com/docs/en/agents-and-to
         @'
         services:
           mcp-proxy:
-            image: us-docker.pkg.dev/anthropic-public-registry/images/mcp-proxy@sha256:efb27b299d627e4134815663cb8896641eeaee025d734c0f695582b4df38f013
+            image: us-docker.pkg.dev/anthropic-public-registry/images/mcp-proxy@sha256:d243d30642d39857a0579e465cb3b9bf3ae7c1141e83143bb6856777a31467a5
             volumes:
               - ./config/mcp-proxy.yaml:/etc/mcp-gateway/config.yaml:ro
               - ./data:/data:ro
             restart: unless-stopped
 
           cloudflared:
-            image: cloudflare/cloudflared@sha256:6b599ca3e974349ead3286d178da61d291961182ec3fe9c505e1dd02c8ac31b0
+            image: cloudflare/cloudflared@sha256:0e56c13c7058fcef9c4f0e7d83372f82330548dbf8f8b366f3d8b506526d93b2
             command: tunnel --no-autoupdate run --url http://localhost:8080
             environment:
               - TUNNEL_TOKEN
@@ -261,7 +261,7 @@ A two-container [tunnel stack](https://platform.claude.com/docs/en/agents-and-to
   </Step>
 
   <Step title="Call it from Claude">
-    In the Console, go to **Managed Agents > Sessions** and create a session. In the agent picker choose **Create new agent**, give the agent a name, and keep the pre-filled model. Click **+ MCP Server**, select your tunnel, set **Subdomain** to `echo` and **Path** to `mcp`. Then ask:
+    In the Console, go to the [Sessions](https://platform.claude.com/sessions) page (`platform.claude.com/sessions`) and click **Create session**. From the **Agent** dropdown menu, select **Create new agent**, give the agent a name, and keep the prefilled model. Under **MCP servers**, click **MCP server**, select your tunnel, and set **Subdomain** to `echo` and **Path** to `mcp`. The sample server requires no authentication, so ignore **Connect** or **Needs vault** on the card. Select an environment. If a warning says that the environment blocks MCP servers, see [Use the tunnel in an agent](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/console#use-the-tunnel-in-an-agent). Click **Create session**, then ask:
 
     > Use the hello tool to greet tunnel.
 

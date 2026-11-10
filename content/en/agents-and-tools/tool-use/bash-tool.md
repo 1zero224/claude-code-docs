@@ -2,13 +2,41 @@
 title: Bash tool
 url: https://platform.claude.com/docs/en/agents-and-tools/tool-use/bash-tool
 description: Let Claude request shell commands that your application runs in a persistent bash session and returns as tool results.
+featureMetadata:
+  status: stable
+  zdr:
+    eligibility: eligible
+    note: Excludes [Covered Models](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#model-specific-data-retention-requirements). Client-side tool run in your environment.
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: stable
+    Claude Platform on AWS: stable
+    Amazon Bedrock: stable
+    Amazon Bedrock (InvokeModel): stable
+    Claude Models on Google Cloud (Google managed): stable
+    Microsoft Foundry: stable
 ---
 
-<Note>
-  To learn how zero data retention (ZDR) applies to this feature, see [API and data retention](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention).
-</Note>
-
-The bash tool is a [client tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works): Claude doesn't run commands itself. When you include the tool in a request, Claude replies with a `tool_use` block that names the command to run. Your application runs that command in a bash session it owns and returns the output in a `tool_result` block.
+The bash tool is a [client tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works): Claude doesn’t run commands itself. When you include the tool in a request, Claude replies with a `tool_use` block that names the command to run. Your application runs that command in a bash session it owns and returns the output in a `tool_result` block.
 
 Your application keeps one bash process alive across tool calls, so state persists between commands. The working directory, environment variables, and any files a command creates are still there for the next command.
 
@@ -17,7 +45,7 @@ The current version of the tool is `bash_20250124`. For model support, beta head
 ## Use cases
 
 * **Development workflows:** Run build commands, tests, and development tools
-* **System automation:** Execute scripts, manage files, automate tasks
+* **System automation:** Run scripts, manage files, automate tasks
 * **Data processing:** Process files, run analysis scripts, manage datasets
 * **Environment setup:** Install packages, configure environments
 
@@ -28,7 +56,7 @@ The current version of the tool is `bash_20250124`. For model support, beta head
   curl https://api.anthropic.com/v1/messages \
     -H "content-type: application/json" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -d '{
       "model": "claude-opus-5-5",
       "max_tokens": 1024,
@@ -99,11 +127,7 @@ The current version of the tool is `bash_20250124`. For model support, beta head
           Tools = [new ToolBash20250124()],
           Messages =
           [
-              new()
-              {
-                  Role = Role.User,
-                  Content = "List all Python files in the current directory.",
-              },
+              new UserMessageParam { Content = "List all Python files in the current directory." },
           ],
       }
   );
@@ -150,12 +174,13 @@ The current version of the tool is `bash_20250124`. For model support, beta head
   ```
 
   ```php PHP
+  use Anthropic\Messages\Model;
   use Anthropic\Messages\ToolBash20250124;
 
   $client = new Client();
 
   $response = $client->messages->create(
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
       maxTokens: 1024,
       tools: [new ToolBash20250124()],
       messages: [
@@ -170,7 +195,7 @@ The current version of the tool is `bash_20250124`. For model support, beta head
   client = Anthropic::Client.new
 
   response = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     tools: [{type: "bash_20250124", name: "bash"}],
     messages: [
@@ -215,16 +240,16 @@ Each tool call is one round trip between Claude and your application:
 
 1. Claude returns a `tool_use` block containing the `command` to run.
 2. Your application runs the command in its bash session.
-3. Your application returns the command's output, stdout and stderr together, to Claude in a `tool_result` block.
+3. Your application returns the command’s output, stdout and stderr together, to Claude in a `tool_result` block.
 4. Claude either requests another command in the same session or responds with text.
 
 Claude can also return several `tool_use` blocks in one response. Run them in order in the same session and return all of the results in one `user` message. See [Parallel tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/parallel-tool-use).
 
-The API is stateless. Nothing about your shell session travels between requests, so your application decides when the session starts, how long it lives, and when to restart it. For the full request and response cycle, see [Handle tool calls](https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls).
+The API is stateless. Nothing about your shell session travels between requests, so your application determines when the session starts, how long it lives, and when to restart it. For the full request and response cycle, see [Handle tool calls](https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls).
 
 ## Parameters
 
-A bash tool definition has two required fields, `type` and `name`, and the `name` must be `bash`. The tool is schema-less: you don't provide an `input_schema`, because the schema is built into Claude's model and can't be modified. The following table lists the input fields Claude sets when it calls the tool.
+A bash tool definition has two required fields, `type` and `name`, and the `name` must be `bash`. The tool is schema-less: you don’t provide an `input_schema`, because the schema is built into Claude’s model and can’t be modified. The following table lists the input fields Claude sets when it calls the tool.
 
 | Parameter | Required | Description                               |
 | --------- | -------- | ----------------------------------------- |
@@ -257,7 +282,7 @@ To handle `restart: true`, kill the shell process, start a new one, and return a
 
 `bash_20250124` is the current version of the tool, and it requires no beta header. Every model from Claude Sonnet 3.7 ([retired](https://platform.claude.com/docs/en/about-claude/model-deprecations)) onward accepts it, including all current Claude models.
 
-The original `bash_20241022` version works only with the October 2024 Claude Sonnet 3.5 model ([retired](https://platform.claude.com/docs/en/about-claude/model-deprecations)). Requests that use it need the `anthropic-beta: computer-use-2024-10-22` header, and the SDK exposes it only in its beta namespace. New integrations should use `bash_20250124`.
+The `bash_20241022` version works only with the October 2024 Claude Sonnet 3.5 model ([retired](https://platform.claude.com/docs/en/about-claude/model-deprecations)). Requests that use it need the `anthropic-beta: computer-use-2024-10-22` header, and the SDK exposes it only in its beta namespace. New integrations should use `bash_20250124`.
 
 ## Example: Multistep automation
 
@@ -287,7 +312,7 @@ Claude determines which command to run. Your application owns everything else: t
 
 <Steps>
   <Step title="Create a persistent bash session">
-    Start one long-lived bash process and run every command inside it. Because a pipe to a live process never reports end-of-file, the session prints a unique sentinel line after each command to mark where that command's output ends:
+    Start one long-lived bash process and run every command inside it. Because a pipe to a live process never reports end-of-file, the session prints a unique sentinel line after each command to mark where that command’s output ends:
 
     <CodeGroup exclude="shell">
       ```python Python
@@ -310,7 +335,7 @@ Claude determines which command to run. Your application owns everything else: t
 
           def execute_command(self, command):
               """Run a command in the session and return its output."""
-              sentinel = f"__CLAUDE_BASH_DONE_{uuid.uuid4().hex}__"  # unique per call
+              sentinel = f"__CLAUDE_BASH_DONE_{uuid.uuid4().hex}__"  # unique for each call
               self.process.stdin.write(f"{command}\necho {sentinel}\n")
               self.process.stdin.flush()
 
@@ -356,7 +381,7 @@ Claude determines which command to run. Your application owns everything else: t
 
         // Run a command in the session and return its output.
         executeCommand(command: string): Promise<string> {
-          const sentinel = `__CLAUDE_BASH_DONE_${randomUUID()}__`; // unique per call
+          const sentinel = `__CLAUDE_BASH_DONE_${randomUUID()}__`; // unique for each call
           const output: string[] = [];
           const result = new Promise<string>((resolve) => {
             const onLine = (line: string): void => {
@@ -420,7 +445,7 @@ Claude determines which command to run. Your application owns everything else: t
           // Run a command in the session and return its output.
           public string ExecuteCommand(string command)
           {
-              var sentinel = $"__CLAUDE_BASH_DONE_{Guid.NewGuid():N}__"; // unique per call
+              var sentinel = $"__CLAUDE_BASH_DONE_{Guid.NewGuid():N}__"; // unique for each call
               Process.StandardInput.Write($"{command}\necho {sentinel}\n");
               Process.StandardInput.Flush();
 
@@ -487,7 +512,7 @@ Claude determines which command to run. Your application owns everything else: t
       func (s *BashSession) ExecuteCommand(command string) string {
       	buf := make([]byte, 16)
       	rand.Read(buf)
-      	sentinel := fmt.Sprintf("__CLAUDE_BASH_DONE_%s__", hex.EncodeToString(buf)) // unique per call
+      	sentinel := fmt.Sprintf("__CLAUDE_BASH_DONE_%s__", hex.EncodeToString(buf)) // unique for each call
       	fmt.Fprintf(s.stdin, "%s\necho %s\n", command, sentinel)
 
       	var output strings.Builder
@@ -551,7 +576,7 @@ Claude determines which command to run. Your application owns everything else: t
 
           // Run a command in the session and return its output.
           String executeCommand(String command) throws IOException {
-              String sentinel = "__CLAUDE_BASH_DONE_" + UUID.randomUUID() + "__"; // unique per call
+              String sentinel = "__CLAUDE_BASH_DONE_" + UUID.randomUUID() + "__"; // unique for each call
               stdin.write(command + "\necho " + sentinel + "\n");
               stdin.flush();
 
@@ -608,7 +633,7 @@ Claude determines which command to run. Your application owns everything else: t
           // Run a command in the session and return its output.
           public function executeCommand(string $command): string
           {
-              $sentinel = '__CLAUDE_BASH_DONE_' . bin2hex(random_bytes(16)) . '__'; // unique per call
+              $sentinel = '__CLAUDE_BASH_DONE_' . bin2hex(random_bytes(16)) . '__'; // unique for each call
               fwrite($this->stdin, "{$command}\necho {$sentinel}\n");
               fflush($this->stdin);
 
@@ -631,8 +656,8 @@ Claude determines which command to run. Your application owns everything else: t
       }
 
       $session = new BashSession();
-      echo $session->executeCommand("cd /tmp && pwd");
-      echo $session->executeCommand("pwd"); // still /tmp: the session kept its state
+      echo $session->executeCommand('cd /tmp && pwd');
+      echo $session->executeCommand('pwd'); // still /tmp: the session kept its state
       ```
 
       ```ruby Ruby
@@ -649,7 +674,7 @@ Claude determines which command to run. Your application owns everything else: t
 
         # Run a command in the session and return its output.
         def execute_command(command)
-          sentinel = "__CLAUDE_BASH_DONE_#{SecureRandom.hex(16)}__" # unique per call
+          sentinel = "__CLAUDE_BASH_DONE_#{SecureRandom.hex(16)}__" # unique for each call
           @stdin.write("#{command}\necho #{sentinel}\n")
           @stdin.flush
 
@@ -683,11 +708,11 @@ Claude determines which command to run. Your application owns everything else: t
       ```
     </CodeGroup>
 
-    The session interleaves stderr with stdout, so error messages land where they happened. The example leaves out what a complete implementation also needs: a timeout that kills the shell and every process it started when a command hangs, then restarts the session. The [Use command timeouts](https://platform.claude.com/docs/en/agents-and-tools/tool-use/bash-tool#follow-implementation-best-practices) best practice shows one way to add it.
+    The session interleaves stderr with stdout, so error messages land where they occurred. The example leaves out what a complete implementation also needs: a timeout that kills the shell and every process it started when a command hangs, then restarts the session. The [Use command timeouts](https://platform.claude.com/docs/en/agents-and-tools/tool-use/bash-tool#follow-implementation-best-practices) best practice shows one way to add it.
   </Step>
 
-  <Step title="Process Claude's tool calls">
-    Extract and run commands from Claude's responses:
+  <Step title="Process Claude’s tool calls">
+    Extract and run commands from Claude’s responses:
 
     <CodeGroup exclude="shell">
       ```python Python
@@ -701,7 +726,7 @@ Claude determines which command to run. Your application owns everything else: t
                   command = content.input.get("command")
                   result = bash_session.execute_command(command)
 
-              # One tool_result per tool_use block, all returned in the next user message
+              # One tool_result for each tool_use block, all returned in the next user message
               tool_results.append(
                   {"type": "tool_result", "tool_use_id": content.id, "content": result}
               )
@@ -719,7 +744,7 @@ Claude determines which command to run. Your application owns everything else: t
             result = await bashSession.executeCommand(block.input.command ?? "");
           }
 
-          // One tool_result per tool_use block, all returned in the next user message
+          // One tool_result for each tool_use block, all returned in the next user message
           toolResults.push({ type: "tool_result", tool_use_id: block.id, content: result });
         }
       }
@@ -743,7 +768,7 @@ Claude determines which command to run. Your application owns everything else: t
                   result = bashSession.ExecuteCommand(command);
               }
 
-              // One tool_result per tool_use block, all returned in the next user message
+              // One tool_result for each tool_use block, all returned in the next user message
               toolResults.Add(new ToolResultBlockParam { ToolUseID = toolUse.ID, Content = result });
           }
       }
@@ -769,7 +794,7 @@ Claude determines which command to run. Your application owns everything else: t
       			result = bashSession.ExecuteCommand(input.Command)
       		}
 
-      		// One tool_result per tool_use block, all returned in the next user message
+      		// One tool_result for each tool_use block, all returned in the next user message
       		toolResults = append(toolResults, anthropic.NewToolResultBlock(block.ID, result, false))
       	}
       }
@@ -788,7 +813,7 @@ Claude determines which command to run. Your application owns everything else: t
                   result = bashSession.executeCommand(command);
               }
 
-              // One tool_result per tool_use block, all returned in the next user message
+              // One tool_result for each tool_use block, all returned in the next user message
               toolResults.add(Map.of("type", "tool_result", "tool_use_id", block.id(), "content", result));
           }
       }
@@ -805,7 +830,7 @@ Claude determines which command to run. Your application owns everything else: t
                   $result = $bashSession->executeCommand($block->input['command']);
               }
 
-              // One tool_result per tool_use block, all returned in the next user message
+              // One tool_result for each tool_use block, all returned in the next user message
               $toolResults[] = ['type' => 'tool_result', 'tool_use_id' => $block->id, 'content' => $result];
           }
       }
@@ -824,7 +849,7 @@ Claude determines which command to run. Your application owns everything else: t
             bash_session.execute_command(block.input[:command])
           end
 
-        # One tool_result per tool_use block, all returned in the next user message
+        # One tool_result for each tool_use block, all returned in the next user message
         tool_results << {type: "tool_result", tool_use_id: block.id, content: result}
       end
       ```
@@ -832,14 +857,14 @@ Claude determines which command to run. Your application owns everything else: t
   </Step>
 
   <Step title="Return the result to Claude">
-    Send the `tool_result` back in a `user` message that continues the same conversation. Claude either requests another command in the same session or finishes its answer:
+    Send the `tool_result` back in a `user` message that continues the same conversation. Claude either requests another command in the same session or completes its answer:
 
     <CodeGroup>
       ```bash cURL
       curl https://api.anthropic.com/v1/messages \
         -H "content-type: application/json" \
         -H "x-api-key: $ANTHROPIC_API_KEY" \
-        -H "anthropic-version: 2023-06-01" \
+        -H "anthropic-version: 2026-10-21" \
         -d '{
           "model": "claude-opus-5-5",
           "max_tokens": 1024,
@@ -994,15 +1019,10 @@ Claude determines which command to run. Your application owns everything else: t
               Tools = [new ToolBash20250124()],
               Messages =
               [
-                  new()
+                  new UserMessageParam { Content = "List all Python files in the current directory." },
+                  new AssistantMessageParam
                   {
-                      Role = Role.User,
-                      Content = "List all Python files in the current directory.",
-                  },
-                  new()
-                  {
-                      Role = Role.Assistant,
-                      Content = new MessageParamContent(new List<ContentBlockParam>
+                      Content = new List<ContentBlockParam>
                       {
                           new ContentBlockParam(new ToolUseBlockParam()
                           {
@@ -1013,19 +1033,18 @@ Claude determines which command to run. Your application owns everything else: t
                                   ["command"] = JsonSerializer.SerializeToElement("ls *.py"),
                               },
                           }),
-                      }),
+                      },
                   },
-                  new()
+                  new UserMessageParam
                   {
-                      Role = Role.User,
-                      Content = new MessageParamContent(new List<ContentBlockParam>
+                      Content = new List<ContentBlockParam>
                       {
                           new ContentBlockParam(new ToolResultBlockParam()
                           {
                               ToolUseID = "toolu_01A09q90qw90lq917835lq9",
                               Content = "analysis.py\nprocess_data.py\n",
                           }),
-                      }),
+                      },
                   },
               ],
           }
@@ -1083,7 +1102,7 @@ Claude determines which command to run. Your application owns everything else: t
               .maxTokens(1024)
               .addTool(ToolBash20250124.builder().build())
               .addUserMessage("List all Python files in the current directory.")
-              .addAssistantMessageOfBlockParams(
+              .addAssistantMessageOfContentBlockParams(
                   List.of(
                       ContentBlockParam.ofToolUse(
                           ToolUseBlockParam.builder()
@@ -1098,7 +1117,7 @@ Claude determines which command to run. Your application owns everything else: t
                       )
                   )
               )
-              .addUserMessageOfBlockParams(
+              .addUserMessageOfContentBlockParams(
                   List.of(
                       ContentBlockParam.ofToolResult(
                           ToolResultBlockParam.builder()
@@ -1116,12 +1135,13 @@ Claude determines which command to run. Your application owns everything else: t
       ```
 
       ```php PHP
+      use Anthropic\Messages\Model;
       use Anthropic\Messages\ToolBash20250124;
 
       $client = new Client();
 
       $response = $client->messages->create(
-          model: 'claude-opus-5-5',
+          model: Model::CLAUDE_OPUS_5_5,
           maxTokens: 1024,
           tools: [new ToolBash20250124()],
           messages: [
@@ -1157,7 +1177,7 @@ Claude determines which command to run. Your application owns everything else: t
       client = Anthropic::Client.new
 
       response = client.messages.create(
-        model: "claude-opus-5-5",
+        model: Anthropic::Model::CLAUDE_OPUS_5_5,
         max_tokens: 1024,
         tools: [{type: "bash_20250124", name: "bash"}],
         messages: [
@@ -1194,7 +1214,7 @@ Claude determines which command to run. Your application owns everything else: t
   </Step>
 
   <Step title="Implement safety measures">
-    Add validation and restrictions. Use an allowlist rather than a blocklist: a blocklist misses any command it didn't anticipate. The example also rejects shell operators that appear as separate words:
+    Add validation and restrictions. Use an allowlist rather than a blocklist: a blocklist misses any command it didn’t anticipate. The example also rejects shell operators that appear as separate words:
 
     <CodeGroup exclude="shell">
       ```python Python
@@ -1442,11 +1462,11 @@ Claude determines which command to run. Your application owns everything else: t
 
 ### Handle errors
 
-When a command fails or the session breaks, tell Claude what happened. Return the message as the `tool_result` content and set `is_error` to `true`, which marks the tool call as failed. See [Handling errors with is\_error](https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls#handling-errors-with-is-error).
+When a command fails or the session breaks, tell Claude what occurred. Return the message as the `tool_result` content and set `is_error` to `true`, which marks the tool call as failed. See [Handling errors with is\_error](https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls#handling-errors-with-is-error).
 
 <AccordionGroup>
   <Accordion title="Command execution timeout">
-    If a command takes too long to execute:
+    If a command takes too long to run:
 
     ```json
     {
@@ -1464,7 +1484,7 @@ When a command fails or the session breaks, tell Claude what happened. Return th
   </Accordion>
 
   <Accordion title="Command not found">
-    If a command doesn't exist:
+    If a command doesn’t exist:
 
     ```json
     {
@@ -1504,7 +1524,7 @@ When a command fails or the session breaks, tell Claude what happened. Return th
 
 <AccordionGroup>
   <Accordion title="Use command timeouts">
-    A command that never finishes, such as one that waits for input, blocks the session forever because its sentinel line never arrives. Give every command a deadline. When the deadline passes, stop the shell and everything the command started, then restart the session:
+    A command that never completes, such as one that waits for input, blocks the session forever because its sentinel line never arrives. Give every command a deadline. When the deadline passes, stop the shell and everything the command started, then restart the session:
 
     <CodeGroup exclude="shell">
       ```python Python
@@ -1614,7 +1634,7 @@ When a command fails or the session breaks, tell Claude what happened. Return th
       // readable output before each fgets() so the loop can check the deadline.
       function executeWithTimeout(BashSession $session, string $command, int $timeout = 30): string
       {
-          $sentinel = '__CLAUDE_BASH_DONE_' . bin2hex(random_bytes(16)) . '__'; // unique per call
+          $sentinel = '__CLAUDE_BASH_DONE_' . bin2hex(random_bytes(16)) . '__'; // unique for each call
           fwrite($session->stdin, "{$command}\necho {$sentinel}\n");
           fflush($session->stdin);
 
@@ -1813,7 +1833,7 @@ When a command fails or the session breaks, tell Claude what happened. Return th
   </Accordion>
 
   <Accordion title="Log all commands">
-    Keep an audit trail. Route every command through one wrapper that records the command before it runs and the output after it finishes. A command that hangs or breaks the session still leaves a record:
+    Keep an audit trail. Route every command through one wrapper that records the command before it runs and the output after it completes. A command that hangs or breaks the session still leaves a record:
 
     <CodeGroup exclude="shell">
       ```python Python
@@ -1939,9 +1959,9 @@ See [tool use pricing](https://platform.claude.com/docs/en/agents-and-tools/tool
 
 * Running tests: `pytest && coverage report`
 * Building projects: `npm install && npm run build`
-* Git operations: `git status && git add . && git commit -m "message"`
+* Running Git operations: `git status && git add . && git commit -m "message"`
 
-For guidance on using git as a checkpoint-and-recovery mechanism in long-running agent workflows, see [state management best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#state-management-best-practices).
+For guidance on using Git as a checkpoint-and-recovery mechanism in long-running agent workflows, see [state management best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#state-management-best-practices).
 
 ### File operations
 
@@ -1952,15 +1972,15 @@ For guidance on using git as a checkpoint-and-recovery mechanism in long-running
 ### System tasks
 
 * Checking resources: `df -h && free -m`
-* Process management: `ps aux | grep python`
-* Environment setup: `export PATH=$PATH:/new/path && echo $PATH`
+* Managing processes: `ps aux | grep python`
+* Setting up the environment: `export PATH=$PATH:/new/path && echo $PATH`
 
 ## Limitations
 
-* **No interactive commands:** The session can't run `vim`, `less`, password prompts, or any command that waits for input on stdin.
+* **No interactive commands:** The session can’t run `vim`, `less`, password prompts, or any command that waits for input on stdin.
 * **No GUI applications:** The session is command-line only.
 * **Session scope:** Bash session state is client-side. Your application is responsible for maintaining the shell session between turns.
-* **Output limits:** The API doesn't truncate tool results (an oversized request is rejected). Truncate large outputs in your application before returning them to Claude.
+* **Output limits:** The API doesn’t truncate tool results (an oversized request is rejected). Truncate large outputs in your application before returning them to Claude.
 * **No streaming:** Output reaches Claude only when your application returns the `tool_result` in the next request.
 
 ## Combining with other tools
@@ -1968,7 +1988,7 @@ For guidance on using git as a checkpoint-and-recovery mechanism in long-running
 The bash tool pairs well with the [Text editor tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/text-editor-tool): Claude edits a file with one tool and requests the command that runs it with the other.
 
 <Note>
-  If you're also using the [Code execution tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool), Claude has access to two separate execution environments: your local bash session and Anthropic's sandboxed container. State is not shared between them. See [Using code execution with other execution tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool#using-code-execution-with-other-execution-tools) for guidance on prompting Claude to distinguish between environments.
+  If you’re also using the [Code execution tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool), Claude has access to two separate execution environments: your local bash session and Anthropic’s sandboxed container. State is not shared between them. See [Using code execution with other execution tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool#using-code-execution-with-other-execution-tools) for guidance on prompting Claude to distinguish between environments.
 </Note>
 
 ## Next steps
@@ -1979,6 +1999,33 @@ The bash tool pairs well with the [Text editor tool](https://platform.claude.com
   </Card>
 
   <Card title="Tool use with Claude" icon="tool" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">
-    Connect Claude to external tools and APIs. See where tools execute, when Claude calls them, and which tool fits your task.
+    Connect Claude to external tools and APIs. See where tools run, when Claude calls them, and which tool fits your task.
   </Card>
 </CardGroup>
+
+## Availability
+
+Bash tool is available on every model and eligible for zero data retention and HIPAA readiness.
+
+### API support
+
+#### [Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)
+
+* Availability: Available
+
+| Status    | Cloud platforms                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Available | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), [Amazon Bedrock](https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (InvokeModel)](https://platform.claude.com/docs/en/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry) |
+
+### Data handling
+
+[Data handling overview](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#feature-eligibility)
+
+| Item    | Zero data retention                                                                                                                                       | HIPAA    |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Status  | Eligible (excludes [Covered Models](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)) | Eligible |
+| Details | Client-side tool run in your environment.                                                                                                                 | —        |
+
+Applicable endpoints:
+
+* `/v1/messages` with `bash` tool

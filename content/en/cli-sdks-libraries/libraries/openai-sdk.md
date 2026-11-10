@@ -1,39 +1,63 @@
 ---
 title: OpenAI SDK compatibility
 url: https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/openai-sdk
-description: Anthropic provides a compatibility layer that enables you to use the OpenAI SDK to test the Claude API. With a few code changes, you can quickly evaluate Anthropic model capabilities.
+description: Anthropic provides a compatibility layer that lets you use the OpenAI SDK to test the Claude API. With a few code changes, you can evaluate Anthropic model capabilities.
+featureMetadata:
+  status: stable
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: stable
 ---
 
 <Note>
-  This compatibility layer is primarily intended to test and compare model capabilities, and is not considered a long-term or production-ready solution for most use cases. While it is intended to remain fully functional and not have breaking changes, the priority is the reliability and effectiveness of the [Claude API](https://platform.claude.com/docs/en/api/overview).
+  This compatibility layer is primarily intended to test and compare model capabilities, and is not considered a long-term or production-ready solution for most use cases. Although it is intended to remain fully functional and not have breaking changes, the priority is the reliability and effectiveness of the [Claude API](https://platform.claude.com/docs/en/api/overview).
 
   For more information on known compatibility limitations, see [Important OpenAI compatibility limitations](https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/openai-sdk#important-openai-compatibility-limitations).
 
-  If you encounter any issues with the OpenAI SDK compatibility feature, please share your feedback via this [compatibility feedback form](https://forms.gle/oQV4McQNiuuNbz9n8).
+  If you encounter any issues with the OpenAI SDK compatibility feature, share your feedback through this [compatibility feedback form](https://forms.gle/oQV4McQNiuuNbz9n8).
 </Note>
 
 <Tip>
-  For the best experience and access to Claude API full feature set ([PDF processing](https://platform.claude.com/docs/en/build-with-claude/pdf-support), [citations](https://platform.claude.com/docs/en/build-with-claude/citations), [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking), and [prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)), use the native [Claude API](https://platform.claude.com/docs/en/api/overview).
+  For the best experience and access to the full Claude API feature set ([PDF processing](https://platform.claude.com/docs/en/build-with-claude/pdf-support), [citations](https://platform.claude.com/docs/en/build-with-claude/citations), [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking), and [prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)), use the native [Claude API](https://platform.claude.com/docs/en/api/overview).
 </Tip>
 
 ## Getting started with the OpenAI SDK
 
-To use the OpenAI SDK compatibility feature, you'll need to:
+To use the OpenAI SDK compatibility feature, you need to:
 
-1. Use an official OpenAI SDK
+1. Use an official OpenAI SDK.
 
-2. Change the following
+2. Change the following:
 
-   * Update your base URL to point to the Claude API
-   * Replace your API key with a [Claude API key](https://platform.claude.com/settings/keys)
-   * If your key is a [personal or service account key](https://platform.claude.com/docs/en/manage-claude/authentication#key-types) with access to multiple workspaces, also send the `anthropic-workspace-id` header on every request (for example, `default_headers` in the Python SDK or `defaultHeaders` in TypeScript); see [Select a workspace](https://platform.claude.com/docs/en/manage-claude/authentication#select-a-workspace)
-   * Update your model name to use a [Claude model](https://platform.claude.com/docs/en/models/overview)
+   * Update your base URL to point to the Claude API.
+   * Replace your API key with a [Claude API key](https://platform.claude.com/settings/keys) from the Claude Console.
+   * If your key is a [personal or service account key](https://platform.claude.com/docs/en/manage-claude/authentication#key-types) that isn’t scoped to a workspace, also send the `anthropic-workspace-id` header on every request (for example, `default_headers` in the Python SDK or `defaultHeaders` in TypeScript); see [Select a workspace](https://platform.claude.com/docs/en/manage-claude/authentication#select-a-workspace).
+   * Update your model name to use a [Claude model](https://platform.claude.com/docs/en/models/overview).
 
-3. Review the following sections for what features are supported
+3. Review the following sections for what features are supported.
 
 ### Quick start example
 
-<CodeGroup exclude="shell">
+<CodeGroup exclude="shell, php">
   ```python Python
   import os
 
@@ -137,15 +161,15 @@ To use the OpenAI SDK compatibility feature, you'll need to:
   public class QuickStart {
       public static void main(String[] args) {
           OpenAIClient client = OpenAIOkHttpClient.builder()
-                  .apiKey(System.getenv("ANTHROPIC_API_KEY")) // Your Claude API key
-                  .baseUrl("https://api.anthropic.com/v1/") // the Claude API endpoint
-                  .build();
+              .apiKey(System.getenv("ANTHROPIC_API_KEY")) // Your Claude API key
+              .baseUrl("https://api.anthropic.com/v1/") // the Claude API endpoint
+              .build();
 
           ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
-                  .model("claude-opus-5-5") // Claude model name
-                  .addSystemMessage("You are a helpful assistant.")
-                  .addUserMessage("Who are you?")
-                  .build();
+              .model("claude-opus-5-5") // Claude model name
+              .addSystemMessage("You are a helpful assistant.")
+              .addUserMessage("Who are you?")
+              .build();
 
           ChatCompletion completion = client.chat().completions().create(params);
           System.out.println(completion.choices().get(0).message().content().orElse(""));
@@ -153,12 +177,9 @@ To use the OpenAI SDK compatibility feature, you'll need to:
   }
   ```
 
-  ```php PHP
-  <?php
-  // There is no official OpenAI PHP SDK, so no example is shown here.
-  // To use Claude from PHP, use the native Claude API instead:
-  // https://platform.claude.com/docs/en/cli-sdks-libraries/overview
-  ```
+  <CodeGroupItem language="PHP">
+    OpenAI has no official PHP SDK. To use Claude from PHP, use the [Claude SDK for PHP](https://platform.claude.com/docs/en/cli-sdks-libraries/sdks/php) instead.
+  </CodeGroupItem>
 
   ```ruby Ruby
   require "openai"
@@ -186,26 +207,37 @@ To use the OpenAI SDK compatibility feature, you'll need to:
 
 Here are the most substantial differences from using OpenAI:
 
-* The `strict` parameter for function calling is ignored, which means the tool use JSON is not guaranteed to follow the supplied schema. For guaranteed schema conformance, use the native [Claude API with Structured Outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).
-* Audio input is not supported; it will be ignored and stripped from input
-* Prompt caching is not supported, but it is supported in the [Anthropic SDKs](https://platform.claude.com/docs/en/cli-sdks-libraries/overview)
+* The `strict` parameter for function calling is ignored, which means the tool use JSON is not guaranteed to follow the supplied schema. For guaranteed schema conformance, use the native [Claude API with structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).
+* `response_format` accepts only `json_schema` with `strict: true`. A request that sets `json_object` or `text` returns a 400 error.
+* Audio and file inputs are not supported. A request that includes an `input_audio` or `file` content part returns a 400 error.
+* Prompt caching is not supported, but it is supported in the [Anthropic SDKs](https://platform.claude.com/docs/en/cli-sdks-libraries/overview).
+* The API doesn’t emit [OpenTelemetry spans](https://platform.claude.com/docs/en/manage-claude/opentelemetry) for requests through the compatibility layer. To get these spans, use the native Claude API.
 * System/developer messages are hoisted and concatenated into the top-level `system` field, wherever they appear in the conversation. To add system instructions partway through a conversation, use [mid-conversation system messages](https://platform.claude.com/docs/en/build-with-claude/mid-conversation-system-messages) in the native Claude API.
+* Depending on the model, text generated for a request that sets `temperature` or `top_p` to a value other than the Claude API’s default might not carry the [text watermark](https://platform.claude.com/docs/en/build-with-claude/text-watermark#sampling-settings). If you rely on the watermark, omit both parameters.
 
 Most unsupported fields are silently ignored rather than producing errors. These are all documented in the following sections.
 
 ### Output quality considerations
 
-If you’ve done lots of tweaking to your prompt, it’s likely to be well-tuned to OpenAI specifically. Consider reworking it for Claude using the [prompting best practices guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices).
+If you’ve adjusted your prompt extensively, it’s likely to be well-tuned to OpenAI specifically. Consider reworking it for Claude using the [prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) guide.
 
 ### System / developer message hoisting
 
-Most of the inputs to the OpenAI SDK clearly map directly to Anthropic’s API parameters, but one distinct difference is the handling of system / developer prompts. These two prompts can be put throughout a chat conversation via OpenAI. The compatibility layer takes all system/developer messages and concatenates them together with a single newline (`\n`) in between them. This full string is then supplied as the top-level `system` field, ahead of every message.
+Most of the inputs to the OpenAI SDK clearly map directly to Claude API parameters, but one distinct difference is the handling of system / developer prompts. These two prompts can be put throughout a chat conversation in the OpenAI API. The compatibility layer takes all system/developer messages and concatenates them together with a single newline (`\n`) in between them. This full string is then supplied as the top-level `system` field, ahead of every message.
 
 ### Thinking support
 
-You can enable [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking) by adding the `thinking` parameter. On current models thinking is adaptive, with Claude determining when and how deeply to think, and on Claude 5 models it is on by default; manually configured extended thinking is a legacy mode. Although thinking improves Claude's reasoning for complex tasks, the OpenAI SDK doesn't return Claude's thinking. For full thinking features, including [summarized thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#summarized-thinking), use the native Claude API.
+On Claude 5 models and Claude Mythos Preview, [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking) is on by default, so you can omit the `thinking` field. To use thinking on other models through the compatibility layer, set the `thinking` field of the request body to `{"type": "enabled", "budget_tokens": N}`. `N` must be at least 1,024 and less than `max_tokens` or `max_completion_tokens`, whichever you set.
 
-<CodeGroup exclude="shell">
+The compatibility layer differs from the native Claude API in the following ways:
+
+* The response doesn’t include Claude’s thinking. The native Claude API can return [summarized thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#summarized-thinking).
+* Setting `thinking` to `{"type": "adaptive"}` returns a 400 error.
+* On [models that reject `enabled`](https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting#rejected-configurations) in the native Claude API, the compatibility layer converts `enabled` to adaptive thinking. On those models, `budget_tokens` is required but has no effect.
+
+The OpenAI SDK has no `thinking` parameter, so the following example sends it as an extra field in the request body.
+
+<CodeGroup exclude="shell, php">
   ```python Python
   response = client.chat.completions.create(
       model="claude-sonnet-4-6",
@@ -254,21 +286,18 @@ You can enable [thinking](https://platform.claude.com/docs/en/build-with-claude/
 
   ```java Java
   ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
-          .model("claude-sonnet-4-6")
-          .addUserMessage("Who are you?")
-          .putAdditionalBodyProperty("thinking",
-                  JsonValue.from(Map.of("type", "enabled", "budget_tokens", 2000)))
-          .build();
+      .model("claude-sonnet-4-6")
+      .addUserMessage("Who are you?")
+      .putAdditionalBodyProperty("thinking",
+          JsonValue.from(Map.of("type", "enabled", "budget_tokens", 2000)))
+      .build();
 
   ChatCompletion completion = client.chat().completions().create(params);
   ```
 
-  ```php PHP
-  <?php
-  // There is no official OpenAI PHP SDK, so no example is shown here.
-  // To use Claude from PHP, use the native Claude API instead:
-  // https://platform.claude.com/docs/en/cli-sdks-libraries/overview
-  ```
+  <CodeGroupItem language="PHP">
+    OpenAI has no official PHP SDK. To use Claude from PHP, use the [Claude SDK for PHP](https://platform.claude.com/docs/en/cli-sdks-libraries/sdks/php) instead.
+  </CodeGroupItem>
 
   ```ruby Ruby
   response = openai.chat.completions.create(
@@ -281,7 +310,7 @@ You can enable [thinking](https://platform.claude.com/docs/en/build-with-claude/
 
 ## Rate limits
 
-Rate limits follow Anthropic's [standard limits](https://platform.claude.com/docs/en/api/rate-limits) for the `/v1/messages` endpoint.
+Rate limits follow Anthropic’s [standard limits](https://platform.claude.com/docs/en/api/rate-limits) for the `/v1/messages` endpoint.
 
 ## Detailed OpenAI compatible API support
 
@@ -289,33 +318,34 @@ Rate limits follow Anthropic's [standard limits](https://platform.claude.com/doc
 
 #### Simple fields
 
-| Field                   | Support status                                                                                                                                                                                                                                                                                                                                         |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `model`                 | Use Claude model names                                                                                                                                                                                                                                                                                                                                 |
-| `max_tokens`            | Fully supported                                                                                                                                                                                                                                                                                                                                        |
-| `max_completion_tokens` | Fully supported                                                                                                                                                                                                                                                                                                                                        |
-| `stream`                | Fully supported                                                                                                                                                                                                                                                                                                                                        |
-| `stream_options`        | Fully supported                                                                                                                                                                                                                                                                                                                                        |
-| `top_p`                 | Passed through to the model. Claude 4.7 and later models and Claude Mythos Preview return a 400 error for any value other than `0.99`, the default, so omit it. A request that sets both `temperature` and `top_p` also returns a 400 error. See [Working with messages](https://platform.claude.com/docs/en/build-with-claude/working-with-messages). |
-| `parallel_tool_calls`   | Fully supported                                                                                                                                                                                                                                                                                                                                        |
-| `stop`                  | All non-whitespace stop sequences work                                                                                                                                                                                                                                                                                                                 |
-| `temperature`           | Between 0 and 1 (inclusive). Values greater than 1 are capped at 1. On Claude 4.7 and later models and Claude Mythos Preview, any value below 1 returns a 400 error, so omit it. See [Working with messages](https://platform.claude.com/docs/en/build-with-claude/working-with-messages).                                                             |
-| `n`                     | Must be exactly 1                                                                                                                                                                                                                                                                                                                                      |
-| `logprobs`              | Ignored                                                                                                                                                                                                                                                                                                                                                |
-| `metadata`              | Ignored                                                                                                                                                                                                                                                                                                                                                |
-| `response_format`       | Ignored. For JSON output, use [Structured Outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) with the native Claude API                                                                                                                                                                                                |
-| `prediction`            | Ignored                                                                                                                                                                                                                                                                                                                                                |
-| `presence_penalty`      | Ignored                                                                                                                                                                                                                                                                                                                                                |
-| `frequency_penalty`     | Ignored                                                                                                                                                                                                                                                                                                                                                |
-| `seed`                  | Ignored                                                                                                                                                                                                                                                                                                                                                |
-| `service_tier`          | Ignored                                                                                                                                                                                                                                                                                                                                                |
-| `audio`                 | Ignored                                                                                                                                                                                                                                                                                                                                                |
-| `logit_bias`            | Ignored                                                                                                                                                                                                                                                                                                                                                |
-| `store`                 | Ignored                                                                                                                                                                                                                                                                                                                                                |
-| `user`                  | Ignored                                                                                                                                                                                                                                                                                                                                                |
-| `modalities`            | Ignored                                                                                                                                                                                                                                                                                                                                                |
-| `top_logprobs`          | Ignored                                                                                                                                                                                                                                                                                                                                                |
-| `reasoning_effort`      | Ignored                                                                                                                                                                                                                                                                                                                                                |
+| Field                   | Support status                                                                                                                                                                                                                                                                                                                                                                                           |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `model`                 | Use Claude model names                                                                                                                                                                                                                                                                                                                                                                                   |
+| `max_tokens`            | Fully supported                                                                                                                                                                                                                                                                                                                                                                                          |
+| `max_completion_tokens` | Fully supported                                                                                                                                                                                                                                                                                                                                                                                          |
+| `stream`                | Fully supported                                                                                                                                                                                                                                                                                                                                                                                          |
+| `stream_options`        | Fully supported                                                                                                                                                                                                                                                                                                                                                                                          |
+| `top_p`                 | Passed through to the model. Claude 4.7 and later models and Claude Mythos Preview return a 400 error for any value other than `0.99`, the default, so omit it. A request that sets both `temperature` and `top_p` also returns a 400 error. See [Using the Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages).                                                  |
+| `parallel_tool_calls`   | Fully supported                                                                                                                                                                                                                                                                                                                                                                                          |
+| `tool_choice`           | Supported with limits. `"required"` and a named function force a tool call. Claude Fable 5.2, Claude Mythos 5.2, Claude Opus 5.5, Claude Sonnet 5.5, Claude Fable 5.1, and Claude Mythos 5.1 don’t support forced tool use and return a 400 error, so use `"auto"` on those models. See [Forcing tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools#forcing-tool-use). |
+| `stop`                  | All non-whitespace stop sequences work                                                                                                                                                                                                                                                                                                                                                                   |
+| `temperature`           | Between 0 and 1 (inclusive). Values greater than 1 are capped at 1. On Claude 4.7 and later models and Claude Mythos Preview, any value below 1 returns a 400 error, so omit it. See [Using the Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages).                                                                                                              |
+| `n`                     | Must be exactly 1. Any other value returns a 400 error.                                                                                                                                                                                                                                                                                                                                                  |
+| `response_format`       | Supported with limits. Only `json_schema` with `strict: true` is accepted, and the structured outputs [JSON Schema limitations](https://platform.claude.com/docs/en/build-with-claude/structured-outputs#json-schema-limitations) apply. Any other value, including `json_object` and `text`, returns a 400 error.                                                                                       |
+| `logprobs`              | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `metadata`              | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `prediction`            | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `presence_penalty`      | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `frequency_penalty`     | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `seed`                  | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `service_tier`          | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `audio`                 | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `logit_bias`            | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `store`                 | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `user`                  | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `modalities`            | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `top_logprobs`          | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `reasoning_effort`      | Ignored                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 #### `tools` / `functions` fields
 
@@ -324,27 +354,27 @@ Rate limits follow Anthropic's [standard limits](https://platform.claude.com/doc
     <Tab title="Tools">
       `tools[n].function` fields
 
-      | Field         | Support status                                                                                                                                                  |
-      | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-      | `name`        | Fully supported                                                                                                                                                 |
-      | `description` | Fully supported                                                                                                                                                 |
-      | `parameters`  | Fully supported                                                                                                                                                 |
-      | `strict`      | Ignored. Use [Structured Outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) with native Claude API for strict schema validation |
+      | Field         | Support status                                                                                                                                                       |
+      | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+      | `name`        | Fully supported                                                                                                                                                      |
+      | `description` | Fully supported                                                                                                                                                      |
+      | `parameters`  | Fully supported                                                                                                                                                      |
+      | `strict`      | Ignored. Use [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) with the native Claude API for strict schema validation. |
     </Tab>
 
     <Tab title="Functions">
       `functions[n]` fields
 
       <Info>
-        OpenAI has deprecated the `functions` field and suggests using `tools` instead.
+        OpenAI has deprecated the `functions` field and recommends using `tools` instead.
       </Info>
 
-      | Field         | Support status                                                                                                                                                  |
-      | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-      | `name`        | Fully supported                                                                                                                                                 |
-      | `description` | Fully supported                                                                                                                                                 |
-      | `parameters`  | Fully supported                                                                                                                                                 |
-      | `strict`      | Ignored. Use [Structured Outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) with native Claude API for strict schema validation |
+      | Field         | Support status                                                                                                                                                       |
+      | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+      | `name`        | Fully supported                                                                                                                                                      |
+      | `description` | Fully supported                                                                                                                                                      |
+      | `parameters`  | Fully supported                                                                                                                                                      |
+      | `strict`      | Ignored. Use [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) with the native Claude API for strict schema validation. |
     </Tab>
   </Tabs>
 </Accordion>
@@ -357,7 +387,7 @@ Rate limits follow Anthropic's [standard limits](https://platform.claude.com/doc
       Fields for `messages[n].role == "developer"`
 
       <Info>
-        Developer messages are hoisted to beginning of conversation as part of the initial system message
+        Developer messages are hoisted to the beginning of the conversation as part of the initial system message.
       </Info>
 
       | Field     | Support status               |
@@ -370,7 +400,7 @@ Rate limits follow Anthropic's [standard limits](https://platform.claude.com/doc
       Fields for `messages[n].role == "system"`
 
       <Info>
-        System messages are hoisted to beginning of conversation as part of the initial system message
+        System messages are hoisted to the beginning of the conversation as part of the initial system message.
       </Info>
 
       | Field     | Support status               |
@@ -382,15 +412,15 @@ Rate limits follow Anthropic's [standard limits](https://platform.claude.com/doc
     <Tab title="User role">
       Fields for `messages[n].role == "user"`
 
-      | Field     | Variant                          | Sub-field | Support status  |
-      | --------- | -------------------------------- | --------- | --------------- |
-      | `content` | `string`                         |           | Fully supported |
-      |           | `array`, `type == "text"`        |           | Fully supported |
-      |           | `array`, `type == "image_url"`   | `url`     | Fully supported |
-      |           |                                  | `detail`  | Ignored         |
-      |           | `array`, `type == "input_audio"` |           | Ignored         |
-      |           | `array`, `type == "file"`        |           | Ignored         |
-      | `name`    |                                  |           | Ignored         |
+      | Field     | Variant                          | Sub-field | Support status      |
+      | --------- | -------------------------------- | --------- | ------------------- |
+      | `content` | `string`                         |           | Fully supported     |
+      |           | `array`, `type == "text"`        |           | Fully supported     |
+      |           | `array`, `type == "image_url"`   | `url`     | Fully supported     |
+      |           |                                  | `detail`  | Ignored             |
+      |           | `array`, `type == "input_audio"` |           | Returns a 400 error |
+      |           | `array`, `type == "file"`        |           | Returns a 400 error |
+      | `name`    |                                  |           | Ignored             |
     </Tab>
 
     <Tab title="Assistant role">
@@ -410,73 +440,82 @@ Rate limits follow Anthropic's [standard limits](https://platform.claude.com/doc
     <Tab title="Tool role">
       Fields for `messages[n].role == "tool"`
 
-      | Field          | Variant                   | Support status                                                                                                                                                                                                                                                                                                                                            |
-      | -------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-      | `content`      | `string`                  | Fully supported                                                                                                                                                                                                                                                                                                                                           |
-      |                | `array`, `type == "text"` | Fully supported                                                                                                                                                                                                                                                                                                                                           |
-      | `tool_call_id` |                           | Fully supported                                                                                                                                                                                                                                                                                                                                           |
-      | `tool_choice`  |                           | Supported. `"required"` and named-function values force a tool call; Claude Opus 5.5, Claude Sonnet 5.5, Claude Fable 5.1, and Claude Mythos 5.1 don't support forced tool use and return an error, so use `"auto"` on those models. See [Forcing tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools#forcing-tool-use). |
-      | `name`         |                           | Ignored                                                                                                                                                                                                                                                                                                                                                   |
+      | Field          | Variant                   | Support status  |
+      | -------------- | ------------------------- | --------------- |
+      | `content`      | `string`                  | Fully supported |
+      |                | `array`, `type == "text"` | Fully supported |
+      | `tool_call_id` |                           | Fully supported |
+      | `name`         |                           | Ignored         |
     </Tab>
 
     <Tab title="Function role">
       Fields for `messages[n].role == "function"`
 
-      | Field         | Variant                   | Support status                                                                                                                                                                                                                                                                                                                                            |
-      | ------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-      | `content`     | `string`                  | Fully supported                                                                                                                                                                                                                                                                                                                                           |
-      |               | `array`, `type == "text"` | Fully supported                                                                                                                                                                                                                                                                                                                                           |
-      | `tool_choice` |                           | Supported. `"required"` and named-function values force a tool call; Claude Opus 5.5, Claude Sonnet 5.5, Claude Fable 5.1, and Claude Mythos 5.1 don't support forced tool use and return an error, so use `"auto"` on those models. See [Forcing tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools#forcing-tool-use). |
-      | `name`        |                           | Ignored                                                                                                                                                                                                                                                                                                                                                   |
+      | Field     | Variant  | Support status                     |
+      | --------- | -------- | ---------------------------------- |
+      | `content` | `string` | Fully supported                    |
+      | `name`    |          | Required, but the value is ignored |
     </Tab>
   </Tabs>
 </Accordion>
 
 ### Response fields
 
-| Field                             | Support status                 |
-| --------------------------------- | ------------------------------ |
-| `id`                              | Fully supported                |
-| `choices[]`                       | Will always have a length of 1 |
-| `choices[].finish_reason`         | Fully supported                |
-| `choices[].index`                 | Fully supported                |
-| `choices[].message.role`          | Fully supported                |
-| `choices[].message.content`       | Fully supported                |
-| `choices[].message.tool_calls`    | Fully supported                |
-| `object`                          | Fully supported                |
-| `created`                         | Fully supported                |
-| `model`                           | Fully supported                |
-| `finish_reason`                   | Fully supported                |
-| `content`                         | Fully supported                |
-| `usage.completion_tokens`         | Fully supported                |
-| `usage.prompt_tokens`             | Fully supported                |
-| `usage.total_tokens`              | Fully supported                |
-| `usage.completion_tokens_details` | Always empty                   |
-| `usage.prompt_tokens_details`     | Always empty                   |
-| `choices[].message.refusal`       | Always empty                   |
-| `choices[].message.audio`         | Always empty                   |
-| `logprobs`                        | Always empty                   |
-| `service_tier`                    | Always empty                   |
-| `system_fingerprint`              | Always empty                   |
+| Field                             | Support status           |
+| --------------------------------- | ------------------------ |
+| `id`                              | Fully supported          |
+| `choices[]`                       | Always has a length of 1 |
+| `choices[].finish_reason`         | Fully supported          |
+| `choices[].index`                 | Fully supported          |
+| `choices[].message.role`          | Fully supported          |
+| `choices[].message.content`       | Fully supported          |
+| `choices[].message.tool_calls`    | Fully supported          |
+| `object`                          | Fully supported          |
+| `created`                         | Fully supported          |
+| `model`                           | Fully supported          |
+| `usage.completion_tokens`         | Fully supported          |
+| `usage.prompt_tokens`             | Fully supported          |
+| `usage.total_tokens`              | Fully supported          |
+| `usage.completion_tokens_details` | Always empty             |
+| `usage.prompt_tokens_details`     | Always empty             |
+| `choices[].message.refusal`       | Always empty             |
+| `choices[].message.audio`         | Always empty             |
+| `logprobs`                        | Always empty             |
+| `service_tier`                    | Always empty             |
+| `system_fingerprint`              | Always empty             |
 
 ### Error message compatibility
 
-The compatibility layer maintains consistent error formats with the OpenAI API. However, the detailed error messages will not be equivalent. Only use the error messages for logging and debugging.
+The compatibility layer maintains consistent error formats with the OpenAI API. However, the detailed error messages are not equivalent. Only use the error messages for logging and debugging.
 
 ### Header compatibility
 
-While the OpenAI SDK automatically manages headers, here is the complete list of headers supported by the Claude API for developers who need to work with them directly.
+If your code reads or sets headers directly, the following table shows how the Claude API handles OpenAI’s headers.
 
-| Header                           | Support Status      |
-| -------------------------------- | ------------------- |
-| `x-ratelimit-limit-requests`     | Fully supported     |
-| `x-ratelimit-limit-tokens`       | Fully supported     |
-| `x-ratelimit-remaining-requests` | Fully supported     |
-| `x-ratelimit-remaining-tokens`   | Fully supported     |
-| `x-ratelimit-reset-requests`     | Fully supported     |
-| `x-ratelimit-reset-tokens`       | Fully supported     |
-| `retry-after`                    | Fully supported     |
-| `request-id`                     | Fully supported     |
-| `openai-version`                 | Always `2020-10-01` |
-| `authorization`                  | Fully supported     |
-| `openai-processing-ms`           | Always empty        |
+| Header                           | Support status                                                                                                                                       |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `x-ratelimit-limit-requests`     | Not returned. The request limit is in `x-ratelimit-requests`.                                                                                        |
+| `x-ratelimit-limit-tokens`       | Not returned. The token limit is in `x-ratelimit-tokens`.                                                                                            |
+| `x-ratelimit-remaining-requests` | Fully supported                                                                                                                                      |
+| `x-ratelimit-remaining-tokens`   | Fully supported                                                                                                                                      |
+| `x-ratelimit-reset-requests`     | Fully supported                                                                                                                                      |
+| `x-ratelimit-reset-tokens`       | Fully supported                                                                                                                                      |
+| `retry-after`                    | Fully supported                                                                                                                                      |
+| `x-request-id`                   | Fully supported. Carries the Claude API [request ID](https://platform.claude.com/docs/en/api/errors#request-id) in place of the `request-id` header. |
+| `openai-version`                 | Not returned                                                                                                                                         |
+| `openai-processing-ms`           | Not returned                                                                                                                                         |
+| `authorization`                  | Fully supported                                                                                                                                      |
+
+## Availability
+
+OpenAI SDK compatibility is available on every model.
+
+### API support
+
+#### [Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)
+
+* Availability: Available
+
+| Status    | Cloud platforms |
+| --------- | --------------- |
+| Available | Claude API      |

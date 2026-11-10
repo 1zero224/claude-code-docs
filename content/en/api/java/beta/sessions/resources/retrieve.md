@@ -21,7 +21,7 @@ Get Session Resource
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -123,6 +123,18 @@ Get Session Resource
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -137,11 +149,11 @@ Get Session Resource
 
   - `class BetaManagedAgentsGitHubRepositoryResource`
 
-    - `Type type`
+    - `JsonValue type = "github_repository"`
 
     - `String id`
 
-    - `LocalDateTime createdAt`
+    - `OffsetDateTime createdAt`
 
       A timestamp in RFC 3339 format
 
@@ -149,7 +161,7 @@ Get Session Resource
 
     - `String mountPath`
 
-    - `LocalDateTime updatedAt`
+    - `OffsetDateTime updatedAt`
 
       A timestamp in RFC 3339 format
 
@@ -161,7 +173,7 @@ Get Session Resource
 
       - `class BetaManagedAgentsBranchCheckout`
 
-        - `Type type`
+        - `JsonValue type = "branch"`
 
         - `String name`
 
@@ -171,21 +183,21 @@ Get Session Resource
 
       - `class BetaManagedAgentsCommitCheckout`
 
-        - `Type type`
+        - `JsonValue type = "commit"`
 
         - `String sha`
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `class BetaManagedAgentsFileResource`
 
-    - `Type type`
+    - `JsonValue type = "file"`
 
     - `String id`
 
-    - `LocalDateTime createdAt`
+    - `OffsetDateTime createdAt`
 
       A timestamp in RFC 3339 format
 
@@ -195,7 +207,7 @@ Get Session Resource
 
     - `String mountPath`
 
-    - `LocalDateTime updatedAt`
+    - `OffsetDateTime updatedAt`
 
       A timestamp in RFC 3339 format
 
@@ -205,11 +217,13 @@ Get Session Resource
 
     A memory store attached to an agent session.
 
-    - `Type type`
+    - `JsonValue type = "memory_store"`
 
     - `String memoryStoreId`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `Optional<Access> access`
 

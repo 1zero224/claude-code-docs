@@ -1,15 +1,15 @@
 ---
-title: Validate Credential
+title: Validate an MCP OAuth Credential
 url: https://platform.claude.com/docs/en/api/java/beta/vaults/credentials/mcp_oauth_validate
 ---
 
-# Validate Credential
+# Validate an MCP OAuth Credential
 
 `BetaManagedAgentsCredentialValidation beta().vaults().credentials().mcpOAuthValidate(params, requestOptions = RequestOptions.none())`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/mcp_oauth_validate`
 
-Validate Credential
+Validate an MCP OAuth Credential
 
 ## Parameters
 
@@ -25,7 +25,7 @@ Validate Credential
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -127,6 +127,18 @@ Validate Credential
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -139,7 +151,7 @@ Validate Credential
 
   Result of live-probing a credential against its configured MCP server.
 
-  - `Type type`
+  - `JsonValue type = "vault_credential_validation"`
 
   - `String credentialId`
 
@@ -151,11 +163,11 @@ Validate Credential
 
   - `Optional<BetaManagedAgentsMcpProbe> mcpProbe`
 
-    Details of the failing MCP probe step. Null when the probe succeeded.
+    Details of the MCP probe step that failed, or `null` if the probe succeeded or there was no access token to test.
 
     - `Optional<BetaManagedAgentsRefreshHttpResponse> httpResponse`
 
-      The captured HTTP error response. Null when no HTTP response was received (timeout, DNS, TLS).
+      The HTTP error response from the MCP server, or `null` if the MCP server didn't return one for the failing step, for example after a timeout or a DNS or TLS failure.
 
       - `String body`
 
@@ -169,7 +181,7 @@ Validate Credential
 
         Value of the `Content-Type` response header.
 
-      - `long statusCode`
+      - `int statusCode`
 
         HTTP status code.
 
@@ -217,13 +229,13 @@ Validate Credential
 
     - `INVALID("invalid")`
 
-      The probe reached the MCP server and was rejected, and a refresh (if attempted) did not recover it.
+      The probe reached the MCP server and the server rejected the credential, or no access token is stored. A refresh, if one was tried, didn't recover it. Usually the end user needs to authorize again.
 
     - `UNKNOWN("unknown")`
 
-      The probe could not determine validity — for example, a transport error or a successful refresh that was not re-probed.
+      The probe couldn't tell whether the credential works, for example because of a network error or because a refresh succeeded but the new access token wasn't tested. Validate the credential again to find out.
 
-  - `LocalDateTime validatedAt`
+  - `OffsetDateTime validatedAt`
 
     When the validation probe was performed.
 

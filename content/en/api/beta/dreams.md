@@ -19,9 +19,13 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `dreaming-2026-04-21` in this header.
 
   - `string`
 
@@ -125,6 +129,18 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -165,15 +181,13 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
 
-      The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#limits) lists all the limits on a dream.
-
 - `model: string or BetaDreamModelConfigParam`
 
   The model that runs a dream, given as a model ID or as an object with `id` and `speed`.
 
   In the object form, `speed` can only be `standard`.
 
-  The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#limits) lists the supported models.
+  The [Availability section of the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#feature-availability) lists the supported models.
 
   - `string`
 
@@ -187,7 +201,7 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       The ID can be 1 to 256 characters long.
 
-      The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#limits) lists the supported models.
+      The [Availability section of the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#feature-availability) lists the supported models.
 
       minLength: 1, maxLength: 256
 
@@ -243,7 +257,7 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   By default the dream writes its result to a new memory store and doesn't change the input memory store. With `output_behavior` set to `update_existing`, it writes its result into the input memory store instead.
 
-  The Dreams API is in research preview: the request and response shapes are volatile and may change without the deprecation period that applies to generally-available endpoints.
+  The Dreams API is in research preview: the request and response shapes are volatile and may change without the deprecation period that applies to stable endpoints.
 
   See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#how-it-works) for what a dream reads and produces.
 
@@ -318,8 +332,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
         The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
 
         Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
-        The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#limits) lists all the limits on a dream.
 
   - `instructions: string or null`
 
@@ -464,9 +476,9 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 ```bash
 curl https://api.anthropic.com/v1/dreams \
     -H 'Content-Type: application/json' \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: dreaming-2026-04-21' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY" \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
           "inputs": [
             {
@@ -600,9 +612,13 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `dreaming-2026-04-21` in this header.
 
   - `string`
 
@@ -706,6 +722,18 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -789,8 +817,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
         The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
 
         Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
-        The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#limits) lists all the limits on a dream.
 
   - `instructions: string or null`
 
@@ -940,9 +966,9 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 ```bash
 curl https://api.anthropic.com/v1/dreams \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: dreaming-2026-04-21' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -1014,9 +1040,13 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `dreaming-2026-04-21` in this header.
 
   - `string`
 
@@ -1120,6 +1150,18 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1134,7 +1176,7 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   By default the dream writes its result to a new memory store and doesn't change the input memory store. With `output_behavior` set to `update_existing`, it writes its result into the input memory store instead.
 
-  The Dreams API is in research preview: the request and response shapes are volatile and may change without the deprecation period that applies to generally-available endpoints.
+  The Dreams API is in research preview: the request and response shapes are volatile and may change without the deprecation period that applies to stable endpoints.
 
   See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#how-it-works) for what a dream reads and produces.
 
@@ -1209,8 +1251,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
         The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
 
         Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
-        The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#limits) lists all the limits on a dream.
 
   - `instructions: string or null`
 
@@ -1354,9 +1394,9 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 ```bash
 curl https://api.anthropic.com/v1/dreams/$DREAM_ID \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: dreaming-2026-04-21' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -1423,9 +1463,13 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `dreaming-2026-04-21` in this header.
 
   - `string`
 
@@ -1529,6 +1573,18 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1543,7 +1599,7 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   By default the dream writes its result to a new memory store and doesn't change the input memory store. With `output_behavior` set to `update_existing`, it writes its result into the input memory store instead.
 
-  The Dreams API is in research preview: the request and response shapes are volatile and may change without the deprecation period that applies to generally-available endpoints.
+  The Dreams API is in research preview: the request and response shapes are volatile and may change without the deprecation period that applies to stable endpoints.
 
   See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#how-it-works) for what a dream reads and produces.
 
@@ -1618,8 +1674,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
         The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
 
         Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
-        The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#limits) lists all the limits on a dream.
 
   - `instructions: string or null`
 
@@ -1764,9 +1818,9 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 ```bash
 curl https://api.anthropic.com/v1/dreams/$DREAM_ID/cancel \
     -X POST \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: dreaming-2026-04-21' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -1833,9 +1887,13 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `dreaming-2026-04-21` in this header.
 
   - `string`
 
@@ -1939,6 +1997,18 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1953,7 +2023,7 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   By default the dream writes its result to a new memory store and doesn't change the input memory store. With `output_behavior` set to `update_existing`, it writes its result into the input memory store instead.
 
-  The Dreams API is in research preview: the request and response shapes are volatile and may change without the deprecation period that applies to generally-available endpoints.
+  The Dreams API is in research preview: the request and response shapes are volatile and may change without the deprecation period that applies to stable endpoints.
 
   See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#how-it-works) for what a dream reads and produces.
 
@@ -2028,8 +2098,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
         The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
 
         Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
-        The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#limits) lists all the limits on a dream.
 
   - `instructions: string or null`
 
@@ -2174,9 +2242,9 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 ```bash
 curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
     -X POST \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: dreaming-2026-04-21' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -2233,7 +2301,7 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
 
   By default the dream writes its result to a new memory store and doesn't change the input memory store. With `output_behavior` set to `update_existing`, it writes its result into the input memory store instead.
 
-  The Dreams API is in research preview: the request and response shapes are volatile and may change without the deprecation period that applies to generally-available endpoints.
+  The Dreams API is in research preview: the request and response shapes are volatile and may change without the deprecation period that applies to stable endpoints.
 
   See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#how-it-works) for what a dream reads and produces.
 
@@ -2308,8 +2376,6 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
         The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
 
         Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
-        The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#limits) lists all the limits on a dream.
 
   - `instructions: string or null`
 
@@ -2499,8 +2565,6 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
 
       Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
 
-      The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#limits) lists all the limits on a dream.
-
 ### Beta Dream Memory Store Input
 
 - `BetaDreamMemoryStoreInput object`
@@ -2567,7 +2631,7 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
 
     The ID can be 1 to 256 characters long.
 
-    The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#limits) lists the supported models.
+    The [Availability section of the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#feature-availability) lists the supported models.
 
     minLength: 1, maxLength: 256
 
@@ -2608,8 +2672,6 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
     The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
 
     Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
-    The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=http#limits) lists all the limits on a dream.
 
 ### Beta Dream Status
 
@@ -2691,9 +2753,13 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
 
     - `type: "invalid_request_error"`
 
+      The broad category of the error.
+
       default: invalid_request_error
 
     - `message: string`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
       default: Invalid request
 
@@ -2701,9 +2767,13 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
 
     - `type: "authentication_error"`
 
+      The broad category of the error.
+
       default: authentication_error
 
     - `message: string`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
       default: Authentication error
 
@@ -2711,9 +2781,13 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
 
     - `type: "billing_error"`
 
+      The broad category of the error.
+
       default: billing_error
 
     - `message: string`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
       default: Billing error
 
@@ -2721,9 +2795,13 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
 
     - `type: "permission_error"`
 
+      The broad category of the error.
+
       default: permission_error
 
     - `message: string`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
       default: Permission denied
 
@@ -2731,9 +2809,13 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
 
     - `type: "not_found_error"`
 
+      The broad category of the error.
+
       default: not_found_error
 
     - `message: string`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
       default: Not found
 
@@ -2741,9 +2823,13 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
 
     - `type: "rate_limit_error"`
 
+      The broad category of the error.
+
       default: rate_limit_error
 
     - `message: string`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
       default: Rate limited
 
@@ -2751,9 +2837,13 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
 
     - `type: "timeout_error"`
 
+      The broad category of the error.
+
       default: timeout_error
 
     - `message: string`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
       default: Request timeout
 
@@ -2761,9 +2851,13 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
 
     - `type: "api_error"`
 
+      The broad category of the error.
+
       default: api_error
 
     - `message: string`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
       default: Internal server error
 
@@ -2771,9 +2865,13 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
 
     - `type: "overloaded_error"`
 
+      The broad category of the error.
+
       default: overloaded_error
 
     - `message: string`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
       default: Overloaded
 
@@ -2786,8 +2884,6 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
     - `type: "conflict_error"`
 
     - `message: optional string`
-
-      A human-readable explanation of why the memory store can't be used yet, with the ID of the dream that is using it when the server can identify it.
 
 ### Beta Output Behavior
 
@@ -2854,5 +2950,3 @@ curl https://api.anthropic.com/v1/dreams/$DREAM_ID/archive \
   - `type: "conflict_error"`
 
   - `message: optional string`
-
-    A human-readable explanation of why the memory store can't be used yet, with the ID of the dream that is using it when the server can identify it.

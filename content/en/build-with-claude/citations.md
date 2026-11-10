@@ -3,16 +3,37 @@ title: Citations
 url: https://platform.claude.com/docs/en/build-with-claude/citations
 description: Ground Claude's responses in your source documents. Citations return the exact passages that support each claim, so you can verify answers and surface sources to your users.
 featureMetadata:
-  status: ga
+  status: stable
   zdr:
     eligibility: eligible
     note: Excludes [Covered Models](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#model-specific-data-retention-requirements).
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
   supportedPlatforms:
-    Claude API: ga
-    Claude Platform on AWS: ga
-    Amazon Bedrock: ga
-    Google Cloud: ga
-    Microsoft Foundry: ga
+    Claude API: stable
+    Claude Platform on AWS: stable
+    Amazon Bedrock: stable
+    Amazon Bedrock (InvokeModel): stable
+    Claude Models on Google Cloud (Google managed): stable
+    Microsoft Foundry: stable
 ---
 
 Claude can provide detailed citations when answering questions about documents, helping you track and verify the sources behind each response.
@@ -30,7 +51,7 @@ The following example shows how to enable citations on a plain text document wit
   curl https://api.anthropic.com/v1/messages \
     -H "content-type: application/json" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -d '{
       "model": "claude-opus-5-5",
       "max_tokens": 1024,
@@ -151,10 +172,9 @@ The following example shows how to enable citations on a plain text document wit
           MaxTokens = 1024,
           Messages =
           [
-              new()
+              new UserMessageParam
               {
-                  Role = Role.User,
-                  Content = new MessageParamContent(new List<ContentBlockParam>
+                  Content = new List<ContentBlockParam>
                   {
                       new ContentBlockParam(new DocumentBlockParam(
                           new DocumentBlockParamSource(new PlainTextSource()
@@ -168,7 +188,7 @@ The following example shows how to enable citations on a plain text document wit
                           Citations = new CitationsConfigParam { Enabled = true },
                       }),
                       new ContentBlockParam(new TextBlockParam("What color is the grass and sky?")),
-                  }),
+                  },
               },
           ],
       }
@@ -218,7 +238,9 @@ The following example shows how to enable citations on a plain text document wit
       .source(source)
       .title("My Document")
       .context("This is a trustworthy document.")
-      .citations(CitationsConfigParam.builder().enabled(true).build())
+      .citations(CitationsConfigParam.builder()
+          .enabled(true)
+          .build())
       .build();
 
   TextBlockParam textBlockParam = TextBlockParam.builder()
@@ -228,7 +250,7 @@ The following example shows how to enable citations on a plain text document wit
   MessageCreateParams params = MessageCreateParams.builder()
       .model(Model.CLAUDE_OPUS_5_5)
       .maxTokens(1024)
-      .addUserMessageOfBlockParams(
+      .addUserMessageOfContentBlockParams(
           List.of(
               ContentBlockParam.ofDocument(documentParam),
               ContentBlockParam.ofText(textBlockParam)
@@ -267,7 +289,7 @@ The following example shows how to enable citations on a plain text document wit
               ],
           ],
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
   );
 
   echo json_encode($response, JSON_PRETTY_PRINT);
@@ -277,7 +299,7 @@ The following example shows how to enable citations on a plain text document wit
   client = Anthropic::Client.new
 
   response = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     messages: [
       {
@@ -312,9 +334,9 @@ The following example shows how to enable citations on a plain text document wit
 
   Compared to prompting Claude to cite sources, the citations feature offers the following advantages:
 
-  * **Cost savings:** If your prompt-based approach asks Claude to output direct quotes, you may see cost savings because `cited_text` does not count toward your output tokens.
+  * **Cost savings:** If your prompt-based approach asks Claude to output direct quotes, you might see cost savings because `cited_text` does not count toward your output tokens.
   * **Better citation reliability:** Because the API parses citations into the response formats described in the following sections and extracts `cited_text` directly, citations are guaranteed to contain valid pointers to the provided documents.
-  * **Improved citation quality:** In Anthropic's evaluations, the citations feature is significantly more likely to cite the most relevant quotes from documents than purely prompt-based approaches.
+  * **Improved citation quality:** In Anthropic’s evaluations, the citations feature is significantly more likely to cite the most relevant quotes from documents than purely prompt-based approaches.
 </Tip>
 
 ***
@@ -331,7 +353,7 @@ Integrate citations with Claude in these steps:
   </Step>
 
   <Step title="Documents get processed">
-    * Document contents are "chunked" to define the minimum granularity of possible citations. For example, sentence chunking lets Claude cite a single sentence or chain together multiple consecutive sentences to cite a paragraph or longer passage.
+    * Document contents are “chunked” to define the minimum granularity of possible citations. For example, sentence chunking lets Claude cite a single sentence or chain together multiple consecutive sentences to cite a paragraph or longer passage.
 
       * **For PDFs:** Text is extracted as described in [PDF support](https://platform.claude.com/docs/en/build-with-claude/pdf-support) and content is chunked into sentences. Citing images from PDFs is not currently supported.
       * **For plain text documents:** Content is chunked into sentences that can be cited from.
@@ -339,7 +361,7 @@ Integrate citations with Claude in these steps:
   </Step>
 
   <Step title="Claude provides cited response">
-    * Responses may now include multiple text blocks where each text block can contain a claim that Claude is making and a list of citations that support the claim.
+    * Responses might now include multiple text blocks where each text block can contain a claim that Claude is making and a list of citations that support the claim.
 
     * Citations reference specific locations in source documents. The format of these citations is dependent on the type of document being cited from.
 
@@ -361,7 +383,7 @@ Integrate citations with Claude in these steps:
 
 ### Citable versus non-citable content
 
-* Text found within a document's `source` content can be cited from.
+* Text found within a document’s `source` content can be cited from.
 * `title` and `context` are optional fields that are passed to the model but not used toward cited content.
 * `title` is limited in length, so the `context` field is useful for storing document metadata as text or stringified JSON.
 
@@ -375,10 +397,10 @@ Integrate citations with Claude in these steps:
 ### Token costs
 
 * Enabling citations incurs a slight increase in input tokens because of system prompt additions and document chunking.
-* However, the citations feature is very efficient with output tokens. Internally, the model outputs citations in a standardized format that are then parsed into cited text and document location indices. The `cited_text` field is provided for convenience and does not count toward output tokens.
+* However, the citations feature is very efficient with output tokens. Internally, the model outputs citations in a standardized format, and those citations are then parsed into cited text and document location indices. The `cited_text` field is provided for convenience and does not count toward output tokens.
 * When passed back in subsequent conversation turns, `cited_text` is also not counted toward input tokens.
 
-### Feature compatibility
+## Feature compatibility
 
 Citations work in conjunction with other API features including [prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching), [token counting](https://platform.claude.com/docs/en/build-with-claude/token-counting), and [batch processing](https://platform.claude.com/docs/en/build-with-claude/batch-processing).
 
@@ -390,7 +412,66 @@ Citations work in conjunction with other API features including [prompt caching]
   This is because citations require interleaving citation blocks with text output, which is incompatible with the strict JSON schema constraints of structured outputs.
 </Warning>
 
-#### Using prompt caching with citations
+### Get structured data with citations
+
+To get a citation for each extracted value, prompt Claude to answer with one line per field. Then parse the lines into structured data in your code.
+
+Avoid user or system prompts that ask for only JSON, such as “Return only a JSON object, no other text.” A request with such a prompt succeeds, but the response might contain few or no citations.
+
+The following prompt asks for two fields from the plain text document in the example at the top of this page. Send it in place of that example’s question:
+
+```text wrap
+Extract these fields from the document: grass_color, sky_color.
+Answer with one line per field in the form "field: value", and cite the document for each line. After the colon, write only the value, with no explanation or quotation.
+```
+
+In the following response, each value has its own citations:
+
+```json
+{
+  "content": [
+    { "type": "text", "text": "grass_color: " },
+    {
+      "type": "text",
+      "text": "green",
+      "citations": [
+        {
+          "type": "char_location",
+          "cited_text": "The grass is green. ",
+          "document_index": 0,
+          "document_title": "My Document",
+          "start_char_index": 0,
+          "end_char_index": 20
+        }
+      ]
+    },
+    { "type": "text", "text": "\nsky_color: " },
+    {
+      "type": "text",
+      "text": "blue",
+      "citations": [
+        {
+          "type": "char_location",
+          "cited_text": "The sky is blue.",
+          "document_index": 0,
+          "document_title": "My Document",
+          "start_char_index": 20,
+          "end_char_index": 36
+        }
+      ]
+    }
+  ]
+}
+```
+
+To parse the response, follow these steps:
+
+1. Read the `text` blocks in order, and add each block’s text to the current line. Start a new line at each newline character.
+2. Attach each block’s `citations` to every line that contains part of its text. A cited block can hold only a value, as in this example, or a whole line.
+3. Skip lines that have no colon. Split each remaining line at its first colon into a field name and a value, and trim spaces from both. Skip lines whose name isn’t one of your fields, such as a closing note.
+4. Check that each field has a value and at least one citation. The API doesn’t guarantee either.
+
+### Using prompt caching with citations
 
 Citations and prompt caching can be used together effectively.
 
@@ -401,7 +482,7 @@ The citation blocks generated in responses cannot be cached directly, but the so
   curl https://api.anthropic.com/v1/messages \
     -H "content-type: application/json" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -d '{
       "model": "claude-opus-5-5",
       "max_tokens": 1024,
@@ -536,10 +617,9 @@ The citation blocks generated in responses cannot be cached directly, but the so
           MaxTokens = 1024,
           Messages =
           [
-              new()
+              new UserMessageParam
               {
-                  Role = Role.User,
-                  Content = new MessageParamContent(new List<ContentBlockParam>
+                  Content = new List<ContentBlockParam>
                   {
                       new ContentBlockParam(new DocumentBlockParam(
                           new DocumentBlockParamSource(new PlainTextSource() { Data = longDocument })
@@ -549,7 +629,7 @@ The citation blocks generated in responses cannot be cached directly, but the so
                           CacheControl = new CacheControlEphemeral(), // Cache the document content
                       }),
                       new ContentBlockParam(new TextBlockParam("What does this document say about API features?")),
-                  }),
+                  },
               },
           ],
       }
@@ -598,8 +678,12 @@ The citation blocks generated in responses cannot be cached directly, but the so
           + " ... ".repeat(1000); // Minimum cacheable length
 
   DocumentBlockParam documentParam = DocumentBlockParam.builder()
-      .source(PlainTextSource.builder().data(longDocument).build())
-      .citations(CitationsConfigParam.builder().enabled(true).build())
+      .source(PlainTextSource.builder()
+          .data(longDocument)
+          .build())
+      .citations(CitationsConfigParam.builder()
+          .enabled(true)
+          .build())
       .cacheControl(CacheControlEphemeral.builder().build()) // Cache the document content
       .build();
 
@@ -610,7 +694,7 @@ The citation blocks generated in responses cannot be cached directly, but the so
   MessageCreateParams params = MessageCreateParams.builder()
       .model(Model.CLAUDE_OPUS_5_5)
       .maxTokens(1024)
-      .addUserMessageOfBlockParams(
+      .addUserMessageOfContentBlockParams(
           List.of(
               ContentBlockParam.ofDocument(documentParam),
               ContentBlockParam.ofText(textBlockParam)
@@ -653,7 +737,7 @@ The citation blocks generated in responses cannot be cached directly, but the so
               ],
           ],
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
   );
 
   echo json_encode($response, JSON_PRETTY_PRINT);
@@ -668,7 +752,7 @@ The citation blocks generated in responses cannot be cached directly, but the so
     " ... " * 1000 # Minimum cacheable length
 
   response = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     messages: [
       {
@@ -717,7 +801,7 @@ Three document types are supported for citations. Documents can be provided dire
 | Custom content | Lists, transcripts, special formatting, more granular citations | No additional chunking | Block indices (0-indexed)     |
 
 <Note>
-  For file types that the `document` block doesn't support (for example, .docx and .xlsx), convert the files to plain text and include the content directly in message content. Files that are already plain text, such as .csv and .md files, can also be uploaded with an explicit `text/plain` content type. See [Working with other file formats](https://platform.claude.com/docs/en/build-with-claude/files#working-with-other-file-formats).
+  For file types that the `document` block doesn’t support (for example, .docx and .xlsx), convert the files to plain text and include the content directly in message content. Files that are already plain text, such as .csv and .md files, can also be uploaded with an explicit `text/plain` content type. See [Working with other file formats](https://platform.claude.com/docs/en/build-with-claude/files#working-with-other-file-formats).
 </Note>
 
 ### Plain text documents
@@ -750,32 +834,30 @@ Plain text documents are automatically chunked into sentences. You can provide t
       ```bash cURL
       curl -X POST https://api.anthropic.com/v1/messages \
         -H "x-api-key: $ANTHROPIC_API_KEY" \
-        -H "anthropic-version: 2023-06-01" \
+        -H "anthropic-version: 2026-10-21" \
         -H "content-type: application/json" \
-        -d @- <<EOF
-      {
-        "model": "claude-opus-5-5",
-        "max_tokens": 1024,
-        "messages": [
-          {
-            "role": "user",
-            "content": [
-              {
-                "type": "document",
-                "source": {"type": "file", "file_id": "$FILE_ID"},
-                "title": "Document Title",
-                "context": "Context about the document that will not be cited from",
-                "citations": {"enabled": true}
-              },
-              {
-                "type": "text",
-                "text": "Summarize this document."
-              }
-            ]
-          }
-        ]
-      }
-      EOF
+        -d '{
+          "model": "claude-opus-5-5",
+          "max_tokens": 1024,
+          "messages": [
+            {
+              "role": "user",
+              "content": [
+                {
+                  "type": "document",
+                  "source": {"type": "file", "file_id": "'"$FILE_ID"'"},
+                  "title": "Document Title",
+                  "context": "Context about the document that will not be cited from",
+                  "citations": {"enabled": true}
+                },
+                {
+                  "type": "text",
+                  "text": "Summarize this document."
+                }
+              ]
+            }
+          ]
+        }'
       ```
 
       ```bash CLI
@@ -834,15 +916,15 @@ Plain text documents are automatically chunked into sentences. You can provide t
                 source: { type: "file", file_id: uploaded.id },
                 title: "Document Title",
                 context: "Context about the document that will not be cited from",
-                citations: { enabled: true },
+                citations: { enabled: true }
               },
               {
                 type: "text",
-                text: "Summarize this document.",
-              },
-            ],
-          },
-        ],
+                text: "Summarize this document."
+              }
+            ]
+          }
+        ]
       });
       console.log(citedResponse);
       ```
@@ -855,9 +937,8 @@ Plain text documents are automatically chunked into sentences. You can provide t
               MaxTokens = 1024,
               Messages =
               [
-                  new MessageParam
+                  new UserMessageParam
                   {
-                      Role = Role.User,
                       Content = new List<ContentBlockParam>
                       {
                           new DocumentBlockParam
@@ -907,12 +988,14 @@ Plain text documents are automatically chunked into sentences. You can provide t
       MessageCreateParams citedParams = MessageCreateParams.builder()
           .model(Model.CLAUDE_OPUS_5_5)
           .maxTokens(1024)
-          .addUserMessageOfBlockParams(List.of(
+          .addUserMessageOfContentBlockParams(List.of(
               ContentBlockParam.ofDocument(DocumentBlockParam.builder()
                   .fileSource(fileId)
                   .title("Document Title")
                   .context("Context about the document that will not be cited from")
-                  .citations(CitationsConfigParam.builder().enabled(true).build())
+                  .citations(CitationsConfigParam.builder()
+                      .enabled(true)
+                      .build())
                   .build()),
               ContentBlockParam.ofText(TextBlockParam.builder()
                   .text("Summarize this document.")
@@ -950,7 +1033,7 @@ Plain text documents are automatically chunked into sentences. You can provide t
 
       ```ruby Ruby
       cited_response = client.messages.create(
-        model: "claude-opus-5-5",
+        model: Anthropic::Model::CLAUDE_OPUS_5_5,
         max_tokens: 1024,
         messages: [
           {
@@ -993,7 +1076,7 @@ Plain text documents are automatically chunked into sentences. You can provide t
 
 ### PDF documents
 
-PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PDF text is extracted and chunked into sentences. As image citations are not yet supported, PDFs that are scans of documents and do not contain extractable text are not citable.
+PDF documents can be provided as base64-encoded data, as a URL, or by `file_id`. PDF text is extracted and chunked into sentences. As image citations are not yet supported, PDFs that are scans of documents and do not contain extractable text are not citable.
 
 <Tabs>
   <Tab title="Base64">
@@ -1004,7 +1087,7 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
       curl https://api.anthropic.com/v1/messages \
         -H "content-type: application/json" \
         -H "x-api-key: $ANTHROPIC_API_KEY" \
-        -H "anthropic-version: 2023-06-01" \
+        -H "anthropic-version: 2026-10-21" \
         -d '{
           "model": "claude-opus-5-5",
           "max_tokens": 1024,
@@ -1133,10 +1216,9 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
               MaxTokens = 1024,
               Messages =
               [
-                  new()
+                  new UserMessageParam
                   {
-                      Role = Role.User,
-                      Content = new MessageParamContent(new List<ContentBlockParam>
+                      Content = new List<ContentBlockParam>
                       {
                           new ContentBlockParam(new DocumentBlockParam(
                               new DocumentBlockParamSource(new Base64PdfSource() { Data = pdfBase64 })
@@ -1147,7 +1229,7 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
                               Citations = new CitationsConfigParam { Enabled = true },
                           }),
                           new ContentBlockParam(new TextBlockParam("Summarize this document.")),
-                      }),
+                      },
                   },
               ],
           }
@@ -1199,19 +1281,25 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
       String pdfBase64 = Base64.getEncoder().encodeToString(pdfBytes);
 
       DocumentBlockParam documentParam = DocumentBlockParam.builder()
-          .source(Base64PdfSource.builder().data(pdfBase64).build())
+          .source(Base64PdfSource.builder()
+              .data(pdfBase64)
+              .build())
           .title("Document Title")
           .context("Context about the document that will not be cited from")
-          .citations(CitationsConfigParam.builder().enabled(true).build())
+          .citations(CitationsConfigParam.builder()
+              .enabled(true)
+              .build())
           .build();
 
       MessageCreateParams params = MessageCreateParams.builder()
           .model(Model.CLAUDE_OPUS_5_5)
           .maxTokens(1024)
-          .addUserMessageOfBlockParams(
+          .addUserMessageOfContentBlockParams(
               List.of(
                   ContentBlockParam.ofDocument(documentParam),
-                  ContentBlockParam.ofText(TextBlockParam.builder().text("Summarize this document.").build())
+                  ContentBlockParam.ofText(TextBlockParam.builder()
+                      .text("Summarize this document.")
+                      .build())
               )
           )
           .build();
@@ -1261,7 +1349,7 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
       pdf_base64 = Base64.strict_encode64(File.binread("/path/to/document.pdf"))
 
       response = client.messages.create(
-        model: "claude-opus-5-5",
+        model: Anthropic::Model::CLAUDE_OPUS_5_5,
         max_tokens: 1024,
         messages: [
           {
@@ -1298,7 +1386,7 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
       curl https://api.anthropic.com/v1/messages \
         -H "content-type: application/json" \
         -H "x-api-key: $ANTHROPIC_API_KEY" \
-        -H "anthropic-version: 2023-06-01" \
+        -H "anthropic-version: 2026-10-21" \
         -d '{
           "model": "claude-opus-5-5",
           "max_tokens": 1024,
@@ -1415,10 +1503,9 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
               MaxTokens = 1024,
               Messages =
               [
-                  new()
+                  new UserMessageParam
                   {
-                      Role = Role.User,
-                      Content = new MessageParamContent(new List<ContentBlockParam>
+                      Content = new List<ContentBlockParam>
                       {
                           new ContentBlockParam(new DocumentBlockParam(
                               new DocumentBlockParamSource(new UrlPdfSource()
@@ -1432,7 +1519,7 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
                               Citations = new CitationsConfigParam { Enabled = true },
                           }),
                           new ContentBlockParam(new TextBlockParam("Summarize this document.")),
-                      }),
+                      },
                   },
               ],
           }
@@ -1480,16 +1567,20 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
               .build())
           .title("Document Title")
           .context("Context about the document that will not be cited from")
-          .citations(CitationsConfigParam.builder().enabled(true).build())
+          .citations(CitationsConfigParam.builder()
+              .enabled(true)
+              .build())
           .build();
 
       MessageCreateParams params = MessageCreateParams.builder()
           .model(Model.CLAUDE_OPUS_5_5)
           .maxTokens(1024)
-          .addUserMessageOfBlockParams(
+          .addUserMessageOfContentBlockParams(
               List.of(
                   ContentBlockParam.ofDocument(documentParam),
-                  ContentBlockParam.ofText(TextBlockParam.builder().text("Summarize this document.").build())
+                  ContentBlockParam.ofText(TextBlockParam.builder()
+                      .text("Summarize this document.")
+                      .build())
               )
           )
           .build();
@@ -1571,32 +1662,30 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
       ```bash cURL
       curl -X POST https://api.anthropic.com/v1/messages \
         -H "x-api-key: $ANTHROPIC_API_KEY" \
-        -H "anthropic-version: 2023-06-01" \
+        -H "anthropic-version: 2026-10-21" \
         -H "content-type: application/json" \
-        -d @- <<EOF
-      {
-        "model": "claude-opus-5-5",
-        "max_tokens": 1024,
-        "messages": [
-          {
-            "role": "user",
-            "content": [
-              {
-                "type": "document",
-                "source": {"type": "file", "file_id": "$FILE_ID"},
-                "title": "Document Title",
-                "context": "Context about the document that will not be cited from",
-                "citations": {"enabled": true}
-              },
-              {
-                "type": "text",
-                "text": "Summarize this document."
-              }
-            ]
-          }
-        ]
-      }
-      EOF
+        -d '{
+          "model": "claude-opus-5-5",
+          "max_tokens": 1024,
+          "messages": [
+            {
+              "role": "user",
+              "content": [
+                {
+                  "type": "document",
+                  "source": {"type": "file", "file_id": "'"$FILE_ID"'"},
+                  "title": "Document Title",
+                  "context": "Context about the document that will not be cited from",
+                  "citations": {"enabled": true}
+                },
+                {
+                  "type": "text",
+                  "text": "Summarize this document."
+                }
+              ]
+            }
+          ]
+        }'
       ```
 
       ```bash CLI
@@ -1655,15 +1744,15 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
                 source: { type: "file", file_id: uploaded.id },
                 title: "Document Title",
                 context: "Context about the document that will not be cited from",
-                citations: { enabled: true },
+                citations: { enabled: true }
               },
               {
                 type: "text",
-                text: "Summarize this document.",
-              },
-            ],
-          },
-        ],
+                text: "Summarize this document."
+              }
+            ]
+          }
+        ]
       });
       console.log(citedResponse);
       ```
@@ -1676,9 +1765,8 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
               MaxTokens = 1024,
               Messages =
               [
-                  new MessageParam
+                  new UserMessageParam
                   {
-                      Role = Role.User,
                       Content = new List<ContentBlockParam>
                       {
                           new DocumentBlockParam
@@ -1728,12 +1816,14 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
       MessageCreateParams citedParams = MessageCreateParams.builder()
           .model(Model.CLAUDE_OPUS_5_5)
           .maxTokens(1024)
-          .addUserMessageOfBlockParams(List.of(
+          .addUserMessageOfContentBlockParams(List.of(
               ContentBlockParam.ofDocument(DocumentBlockParam.builder()
                   .fileSource(fileId)
                   .title("Document Title")
                   .context("Context about the document that will not be cited from")
-                  .citations(CitationsConfigParam.builder().enabled(true).build())
+                  .citations(CitationsConfigParam.builder()
+                      .enabled(true)
+                      .build())
                   .build()),
               ContentBlockParam.ofText(TextBlockParam.builder()
                   .text("Summarize this document.")
@@ -1771,7 +1861,7 @@ PDF documents can be provided as base64-encoded data, a URL, or by `file_id`. PD
 
       ```ruby Ruby
       cited_response = client.messages.create(
-        model: "claude-opus-5-5",
+        model: Anthropic::Model::CLAUDE_OPUS_5_5,
         max_tokens: 1024,
         messages: [
           {
@@ -1821,7 +1911,7 @@ Custom content documents give you control over citation granularity. No addition
   curl https://api.anthropic.com/v1/messages \
     -H "content-type: application/json" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -d '{
       "model": "claude-opus-5-5",
       "max_tokens": 1024,
@@ -1951,10 +2041,9 @@ Custom content documents give you control over citation granularity. No addition
           MaxTokens = 1024,
           Messages =
           [
-              new()
+              new UserMessageParam
               {
-                  Role = Role.User,
-                  Content = new MessageParamContent(new List<ContentBlockParam>
+                  Content = new List<ContentBlockParam>
                   {
                       new ContentBlockParam(new DocumentBlockParam(
                           new DocumentBlockParamSource(new ContentBlockSource()
@@ -1972,7 +2061,7 @@ Custom content documents give you control over citation granularity. No addition
                           Citations = new CitationsConfigParam { Enabled = true },
                       }),
                       new ContentBlockParam(new TextBlockParam("Summarize this document.")),
-                  }),
+                  },
               },
           ],
       }
@@ -2023,23 +2112,31 @@ Custom content documents give you control over citation granularity. No addition
       .source(ContentBlockSource.builder()
           .contentOfBlockSource(
               List.of(
-                  ContentBlockSourceContent.ofText(TextBlockParam.builder().text("First chunk").build()),
-                  ContentBlockSourceContent.ofText(TextBlockParam.builder().text("Second chunk").build())
+                  ContentBlockSourceContent.ofText(TextBlockParam.builder()
+                      .text("First chunk")
+                      .build()),
+                  ContentBlockSourceContent.ofText(TextBlockParam.builder()
+                      .text("Second chunk")
+                      .build())
               )
           )
           .build())
       .title("Document Title")
       .context("Context about the document that will not be cited from")
-      .citations(CitationsConfigParam.builder().enabled(true).build())
+      .citations(CitationsConfigParam.builder()
+          .enabled(true)
+          .build())
       .build();
 
   MessageCreateParams params = MessageCreateParams.builder()
       .model(Model.CLAUDE_OPUS_5_5)
       .maxTokens(1024)
-      .addUserMessageOfBlockParams(
+      .addUserMessageOfContentBlockParams(
           List.of(
               ContentBlockParam.ofDocument(documentParam),
-              ContentBlockParam.ofText(TextBlockParam.builder().text("Summarize this document.").build())
+              ContentBlockParam.ofText(TextBlockParam.builder()
+                  .text("Summarize this document.")
+                  .build())
           )
       )
       .build();
@@ -2077,7 +2174,7 @@ Custom content documents give you control over citation granularity. No addition
               ],
           ],
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
   );
 
   echo json_encode($response, JSON_PRETTY_PRINT);
@@ -2087,7 +2184,7 @@ Custom content documents give you control over citation granularity. No addition
   client = Anthropic::Client.new
 
   response = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     messages: [
       {
@@ -2148,7 +2245,7 @@ When citations are enabled, responses include multiple text blocks with citation
       "citations": [
         {
           "type": "char_location",
-          "cited_text": "The grass is green.",
+          "cited_text": "The grass is green. ",
           "document_index": 0,
           "document_title": "Example Document",
           "start_char_index": 0,
@@ -2251,7 +2348,7 @@ For streaming responses, citations arrive as a `citations_delta` delta type insi
 
 <CardGroup cols={2}>
   <Card title="Streaming messages" icon="wifi-high" href="https://platform.claude.com/docs/en/build-with-claude/streaming">
-    Handle the `citations_delta` delta type alongside text deltas to render cited responses as they stream.
+    Learn the event flow and the other content block delta types that arrive alongside `citations_delta`.
   </Card>
 
   <Card title="Search results" icon="book-bookmark" href="https://platform.claude.com/docs/en/build-with-claude/search-results">
@@ -2266,3 +2363,33 @@ For streaming responses, citations arrive as a `citations_delta` delta type insi
     Upload documents once and reference them by `file_id` across multiple citation requests.
   </Card>
 </CardGroup>
+
+## Availability
+
+Citations are available on every model and eligible for zero data retention and HIPAA readiness.
+
+### API support
+
+#### [Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)
+
+* Availability: Available
+
+| Status    | Cloud platforms                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Available | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), [Amazon Bedrock](https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (InvokeModel)](https://platform.claude.com/docs/en/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry) |
+
+#### [Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview)
+
+* Availability: Not available
+
+### Data handling
+
+[Data handling overview](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#feature-eligibility)
+
+| Item   | Zero data retention                                                                                                                                       | HIPAA    |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Status | Eligible (excludes [Covered Models](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)) | Eligible |
+
+Applicable endpoints:
+
+* `/v1/messages`

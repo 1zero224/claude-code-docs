@@ -6,13 +6,13 @@
 
 > The claims, issuer, signing keys, lifetime, and subject format of the identity token Claude Tag presents to a gateway, cloud provider, or authorization server.
 
-export const BetaNote = () => <Info>Claude Tag is in public beta. Features and behavior described here may change before general availability.</Info>;
-
-<BetaNote />
+> [!NOTE]
+>
+> Claude Tag is in public beta. Features and behavior described here may change before general availability.
 
 When Claude calls a system you connected through Federated agent access, it proves who it is with a signed identity token instead of a stored credential. The token is a JSON Web Token (JWT) that names your organization and the agent making the request. A gateway you run receives it in the `Authorization: Bearer` header and verifies it directly. AWS, Google Cloud, or your authorization server receives it in a token exchange and returns one of its own credentials.
 
-This page lists what the token contains so the engineer who configures the verifying side can pin the right values. For setup steps, see [Connect a gateway](/docs/claude-tag/admins/federated-access/connect-a-gateway), [Connect an AWS role](/docs/claude-tag/admins/federated-access/aws), [Connect a Google Cloud identity](/docs/claude-tag/admins/federated-access/gcp), or [Connect an authorization server](/docs/claude-tag/admins/federated-access/authorization-server).
+This page lists what the token contains so the engineer who configures the verifying side can pin the right values. For setup steps, see [Connect a gateway](https://claude.com/docs/claude-tag/admins/federated-access/connect-a-gateway.md), [Connect an AWS role](https://claude.com/docs/claude-tag/admins/federated-access/aws.md), [Connect a Google Cloud identity](https://claude.com/docs/claude-tag/admins/federated-access/gcp.md), or [Connect an authorization server](https://claude.com/docs/claude-tag/admins/federated-access/authorization-server.md).
 
 ## Issuer and signing keys
 
@@ -55,7 +55,7 @@ wimse://identity.anthropic.com/org/<your organization ID>/agent/<agent ID>
 * The organization ID starts with `org_` and the agent ID with `cagt_`. Both use only letters, digits, `_`, and `-`, so neither can contain `/` or `:`.
 * The **Connect a gateway**, **Connect an AWS role**, **Connect a Google Cloud identity**, and **Connect an authorization server** dialogs show your organization's **Subject prefix**, `wimse://identity.anthropic.com/org/<your organization ID>/agent/`. Every one of your agents' subjects starts with this prefix.
 * An agent belongs to one Slack channel. Deleting and recreating a channel creates a new agent with a new ID. The console doesn't show agent IDs; a verifier learns full subjects from the tokens it receives or from your cloud provider's logs.
-* The console's connection check for a gateway presents a token for a reserved test agent in your organization, shown in the **Connect a gateway** dialog as the **Control subject**. Your gateway must answer that token with a 2xx status so the check can pass, and must grant that subject no access. See [Connect a gateway](/docs/claude-tag/admins/federated-access/connect-a-gateway).
+* The console's connection check for a gateway presents a token for a reserved test agent in your organization, shown in the **Connect a gateway** dialog as the **Control subject**. Your gateway must answer that token with a 2xx status so the check can pass, and must grant that subject no access. See [Connect a gateway](https://claude.com/docs/claude-tag/admins/federated-access/connect-a-gateway.md).
 
 The `wimse://` form follows the IETF WIMSE working group's workload identifier specification.
 
@@ -105,7 +105,9 @@ Anthropic sends the token only to the destinations you connect in **Federated ag
 
 Authorize on `sub`, as described under [Authorize on the subject](#authorize-on-the-subject). A gateway or authorization server, which can read every claim, can use `tenant` and `agent_id` instead, because they repeat the subject's two parts. An AWS trust policy matches on `sub` and `aud` only; a Google Cloud attribute condition can read `sub` or `tenant`. The token carries no claim that names the person behind the request, and no `groups`, `roles`, or `scope` claims. A rule that needs `slack_workspace_id` or `slack_channel_id` should refuse a token that lacks them.
 
-<Note>Anthropic may add claims to the token. A verifier must ignore claims it doesn't recognize and must never depend on a claim not listed here being present.</Note>
+> [!NOTE]
+>
+> Anthropic may add claims to the token. A verifier must ignore claims it doesn't recognize and must never depend on a claim not listed here being present.
 
 ### Example payload
 
@@ -151,9 +153,9 @@ Decoding doesn't verify anything. Log the subject and your decision, never the t
 
 ## Related resources
 
-* [Connect a gateway](/docs/claude-tag/admins/federated-access/connect-a-gateway): verify the token yourself at a service you run
-* [Connect an AWS role](/docs/claude-tag/admins/federated-access/aws): the trust policy that pins these values
-* [Connect a Google Cloud identity](/docs/claude-tag/admins/federated-access/gcp): the attribute condition that pins these values
-* [Connect an authorization server](/docs/claude-tag/admins/federated-access/authorization-server): accept the token as a JWT bearer grant
-* [Limits](/docs/claude-tag/admins/federated-access/limits): lengths, counts, and lifetimes in one place
+* [Connect a gateway](https://claude.com/docs/claude-tag/admins/federated-access/connect-a-gateway.md): verify the token yourself at a service you run
+* [Connect an AWS role](https://claude.com/docs/claude-tag/admins/federated-access/aws.md): the trust policy that pins these values
+* [Connect a Google Cloud identity](https://claude.com/docs/claude-tag/admins/federated-access/gcp.md): the attribute condition that pins these values
+* [Connect an authorization server](https://claude.com/docs/claude-tag/admins/federated-access/authorization-server.md): accept the token as a JWT bearer grant
+* [Limits](https://claude.com/docs/claude-tag/admins/federated-access/limits.md): lengths, counts, and lifetimes in one place
 * [Sample gateway](https://github.com/anthropics/claude-tag-wif-gateway-sample): a Python gateway that verifies the token and pins subjects exactly or by organization, with offline tests

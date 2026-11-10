@@ -25,7 +25,7 @@ Add Session Resource
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -127,6 +127,18 @@ Add Session Resource
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -137,7 +149,7 @@ Add Session Resource
 
 - `type BetaManagedAgentsFileResource`
 
-  - `Type BetaManagedAgentsFileResourceType`
+  - `Type File`
 
   - `ID string`
 
@@ -166,8 +178,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -180,7 +192,6 @@ func main() {
 		anthropic.BetaSessionResourceAddParams{
 			BetaManagedAgentsFileResourceParams: anthropic.BetaManagedAgentsFileResourceParams{
 				FileID: "file_011CNha8iCJcU1wXNR6q4V8w",
-				Type:   anthropic.BetaManagedAgentsFileResourceParamsTypeFile,
 			},
 		},
 	)
@@ -230,7 +241,7 @@ List Session Resources
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -332,6 +343,18 @@ List Session Resources
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -344,7 +367,7 @@ List Session Resources
 
   - `type BetaManagedAgentsGitHubRepositoryResource`
 
-    - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+    - `Type GitHubRepository`
 
     - `ID string`
 
@@ -368,7 +391,7 @@ List Session Resources
 
       - `type BetaManagedAgentsBranchCheckout`
 
-        - `Type BetaManagedAgentsBranchCheckoutType`
+        - `Type Branch`
 
         - `Name string`
 
@@ -378,17 +401,17 @@ List Session Resources
 
       - `type BetaManagedAgentsCommitCheckout`
 
-        - `Type BetaManagedAgentsCommitCheckoutType`
+        - `Type Commit`
 
         - `Sha string`
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `type BetaManagedAgentsFileResource`
 
-    - `Type BetaManagedAgentsFileResourceType`
+    - `Type File`
 
     - `ID string`
 
@@ -412,11 +435,13 @@ List Session Resources
 
     A memory store attached to an agent session.
 
-    - `Type BetaManagedAgentsMemoryStoreResourceType`
+    - `Type MemoryStore`
 
     - `MemoryStoreID string`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -453,8 +478,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -521,7 +546,7 @@ Get Session Resource
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -623,6 +648,18 @@ Get Session Resource
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -637,7 +674,7 @@ Get Session Resource
 
   - `type BetaManagedAgentsGitHubRepositoryResource`
 
-    - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+    - `Type GitHubRepository`
 
     - `ID string`
 
@@ -661,7 +698,7 @@ Get Session Resource
 
       - `type BetaManagedAgentsBranchCheckout`
 
-        - `Type BetaManagedAgentsBranchCheckoutType`
+        - `Type Branch`
 
         - `Name string`
 
@@ -671,17 +708,17 @@ Get Session Resource
 
       - `type BetaManagedAgentsCommitCheckout`
 
-        - `Type BetaManagedAgentsCommitCheckoutType`
+        - `Type Commit`
 
         - `Sha string`
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `type BetaManagedAgentsFileResource`
 
-    - `Type BetaManagedAgentsFileResourceType`
+    - `Type File`
 
     - `ID string`
 
@@ -705,11 +742,13 @@ Get Session Resource
 
     A memory store attached to an agent session.
 
-    - `Type BetaManagedAgentsMemoryStoreResourceType`
+    - `Type MemoryStore`
 
     - `MemoryStoreID string`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -746,8 +785,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -809,7 +848,7 @@ Update Session Resource
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -911,6 +950,18 @@ Update Session Resource
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -925,7 +976,7 @@ Update Session Resource
 
   - `type BetaManagedAgentsGitHubRepositoryResource`
 
-    - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+    - `Type GitHubRepository`
 
     - `ID string`
 
@@ -949,7 +1000,7 @@ Update Session Resource
 
       - `type BetaManagedAgentsBranchCheckout`
 
-        - `Type BetaManagedAgentsBranchCheckoutType`
+        - `Type Branch`
 
         - `Name string`
 
@@ -959,17 +1010,17 @@ Update Session Resource
 
       - `type BetaManagedAgentsCommitCheckout`
 
-        - `Type BetaManagedAgentsCommitCheckoutType`
+        - `Type Commit`
 
         - `Sha string`
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `type BetaManagedAgentsFileResource`
 
-    - `Type BetaManagedAgentsFileResourceType`
+    - `Type File`
 
     - `ID string`
 
@@ -993,11 +1044,13 @@ Update Session Resource
 
     A memory store attached to an agent session.
 
-    - `Type BetaManagedAgentsMemoryStoreResourceType`
+    - `Type MemoryStore`
 
     - `MemoryStoreID string`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -1034,8 +1087,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -1092,7 +1145,7 @@ Delete Session Resource
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -1194,6 +1247,18 @@ Delete Session Resource
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1206,7 +1271,9 @@ Delete Session Resource
 
   Confirmation of resource deletion.
 
-  - `Type BetaManagedAgentsDeleteSessionResourceType`
+  - `Type SessionResourceDeleted`
+
+  - `ID string`
 
   - `ID string`
 
@@ -1219,8 +1286,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -1258,7 +1325,9 @@ func main() {
 
   Confirmation of resource deletion.
 
-  - `Type BetaManagedAgentsDeleteSessionResourceType`
+  - `Type SessionResourceDeleted`
+
+  - `ID string`
 
   - `ID string`
 
@@ -1266,7 +1335,7 @@ func main() {
 
 - `type BetaManagedAgentsFileResource`
 
-  - `Type BetaManagedAgentsFileResourceType`
+  - `Type File`
 
   - `ID string`
 
@@ -1290,7 +1359,7 @@ func main() {
 
 - `type BetaManagedAgentsGitHubRepositoryResource`
 
-  - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+  - `Type GitHubRepository`
 
   - `ID string`
 
@@ -1314,7 +1383,7 @@ func main() {
 
     - `type BetaManagedAgentsBranchCheckout`
 
-      - `Type BetaManagedAgentsBranchCheckoutType`
+      - `Type Branch`
 
       - `Name string`
 
@@ -1324,13 +1393,13 @@ func main() {
 
     - `type BetaManagedAgentsCommitCheckout`
 
-      - `Type BetaManagedAgentsCommitCheckoutType`
+      - `Type Commit`
 
       - `Sha string`
 
         Full commit SHA to check out.
 
-        minLength: 7, maxLength: 64
+        minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
 ### Beta Managed Agents Memory Store Resource
 
@@ -1338,11 +1407,13 @@ func main() {
 
   A memory store attached to an agent session.
 
-  - `Type BetaManagedAgentsMemoryStoreResourceType`
+  - `Type MemoryStore`
 
   - `MemoryStoreID string`
 
     The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+    pattern: ^memstore_[a-zA-Z0-9_]+$
 
   - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -1376,7 +1447,7 @@ func main() {
 
   - `type BetaManagedAgentsGitHubRepositoryResource`
 
-    - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+    - `Type GitHubRepository`
 
     - `ID string`
 
@@ -1400,7 +1471,7 @@ func main() {
 
       - `type BetaManagedAgentsBranchCheckout`
 
-        - `Type BetaManagedAgentsBranchCheckoutType`
+        - `Type Branch`
 
         - `Name string`
 
@@ -1410,17 +1481,17 @@ func main() {
 
       - `type BetaManagedAgentsCommitCheckout`
 
-        - `Type BetaManagedAgentsCommitCheckoutType`
+        - `Type Commit`
 
         - `Sha string`
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `type BetaManagedAgentsFileResource`
 
-    - `Type BetaManagedAgentsFileResourceType`
+    - `Type File`
 
     - `ID string`
 
@@ -1444,11 +1515,13 @@ func main() {
 
     A memory store attached to an agent session.
 
-    - `Type BetaManagedAgentsMemoryStoreResourceType`
+    - `Type MemoryStore`
 
     - `MemoryStoreID string`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 

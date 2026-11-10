@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/php/messages/create
 
 # Create a Message
 
-`$client->messages->create(int maxTokens, list<MessageParam> messages, Model model, ?CacheControlEphemeral cacheControl, ?MessageCreateParamsContainer container, ?DiagnosticsParam diagnostics, ?string inferenceGeo, ?Metadata metadata, ?OutputConfig outputConfig, ?ServiceTier serviceTier, ?list<string> stopSequences, ?System system, ?float temperature, ?ThinkingConfigParam thinking, ?ToolChoice toolChoice, ?list<ToolUnion> tools, ?int topK, ?float topP, ?string userProfileID, ?string workspaceID): Message`
+`$client->messages->create(int maxTokens, list<MessageParam> messages, Model model, ?CacheControlEphemeral cacheControl, ?MessageCreateParamsContainer container, ?DiagnosticsParam diagnostics, ?string inferenceGeo, ?Metadata metadata, ?OutputConfig outputConfig, ?ServiceTier serviceTier, ?Speed speed, ?list<string> stopSequences, ?System system, ?ThinkingConfigParam thinking, ?ToolChoice toolChoice, ?list<ToolUnion> tools, ?string userProfileID, ?string workspaceID): Message`
 
 **POST** `/v1/messages`
 
@@ -74,7 +74,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   See [input examples](https://platform.claude.com/docs/en/build-with-claude/working-with-messages?sdk_languages=php).
 
-  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
+  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role), you can use the top-level `system` parameter.
 
   There is a limit of 100,000 messages in a single request.
 
@@ -84,37 +84,43 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-- `cacheControl?:optional CacheControlEphemeral`
+- `cacheControl?: optional CacheControlEphemeral`
 
   Top-level cache control automatically applies a cache_control marker to the last cacheable block in the request.
 
-- `container?:optional MessageCreateParamsContainer`
+- `container?: optional MessageCreateParamsContainer`
 
   Container identifier for reuse across requests.
 
-- `diagnostics?:optional DiagnosticsParam`
+- `diagnostics?: optional DiagnosticsParam`
 
   Request-level diagnostics. Supply `previous_message_id` to have the response include `diagnostics.cache_miss_reason` explaining any prompt-cache divergence from that prior request.
 
-- `inferenceGeo?:optional string`
+- `inferenceGeo?: optional string`
 
   Specifies the geographic region for inference processing. If not specified, the workspace's `default_inference_geo` is used.
 
-- `metadata?:optional Metadata`
+- `metadata?: optional Metadata`
 
   An object describing metadata about the request.
 
-- `outputConfig?:optional OutputConfig`
+- `outputConfig?: optional OutputConfig`
 
   Configuration options for the model's output, such as the output format.
 
-- `serviceTier?:optional ServiceTier`
+- `serviceTier?: optional ServiceTier`
 
   Determines whether to use priority capacity (if available) or standard capacity for this request.
 
   Anthropic offers different levels of service for your API requests. See [service-tiers](https://platform.claude.com/docs/en/api/service-tiers?sdk_languages=php) for details.
 
-- `stopSequences?:optional list<string>`
+- `speed?: optional Speed`
+
+  The inference speed mode for this request. `"fast"` enables high output-tokens-per-second inference.
+
+  Some models require the `fast-mode-2026-02-01` beta header for any `speed` value. See [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode?sdk_languages=php) for which models.
+
+- `stopSequences?: optional list<string>`
 
   Custom text sequences that will cause the model to stop generating.
 
@@ -122,19 +128,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   If you want the model to stop generating when it encounters custom strings of text, you can use the `stop_sequences` parameter. If the model encounters one of the custom sequences, the response `stop_reason` value will be `"stop_sequence"` and the response `stop_sequence` value will contain the matched stop sequence.
 
-- `stream?:optional bool`
-
-  Whether to incrementally stream the response using server-sent events. When `true`, SDKs return a raw event stream.
-
-  In the TypeScript, Python and Ruby SDKs, the recommended way to stream is `messages.stream()`. It sets `stream` for you and accumulates the events into the final message. See [Streaming with SDKs](https://platform.claude.com/docs/en/build-with-claude/streaming?sdk_languages=php#streaming-with-sdks) for an example in each language.
-
-- `system?:optional System`
+- `system?: optional System`
 
   System prompt.
 
   A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role. See our [guide to system prompts](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role).
 
-- `thinking?:optional ThinkingConfigParam`
+- `thinking?: optional ThinkingConfigParam`
 
   Configuration for Claude's thinking.
 
@@ -142,11 +142,11 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   Which `type` values are accepted, and what happens when you omit `thinking`, depend on the model. See [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking?sdk_languages=php#configuring-thinking) for each model's behavior.
 
-- `toolChoice?:optional ToolChoice`
+- `toolChoice?: optional ToolChoice`
 
   How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
 
-- `tools?:optional list<ToolUnion>`
+- `tools?: optional list<ToolUnion>`
 
   Definitions of tools that the model may use.
 
@@ -210,45 +210,15 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   See our [guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview?sdk_languages=php) for more details.
 
-- `userProfileID?:optional string` (header parameter)
+- `userProfileID?: optional string` (header parameter)
 
-  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header.
+  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `temperature?:optional float`
-
-  **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting temperature. A value of 1.0 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-  Amount of randomness injected into the response.
-
-  Defaults to `1.0`. Ranges from `0.0` to `1.0`. Use `temperature` closer to `0.0` for analytical / multiple choice, and closer to `1.0` for creative and generative tasks.
-
-  Note that even with `temperature` of `0.0`, the results will not be fully deterministic.
-
-- `topK?:optional int`
-
-  **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not accept top_k; any value will be rejected with a 400 error.
-
-  Only sample from the top K options for each subsequent token.
-
-  Used to remove "long tail" low probability responses. [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-
-  Recommended for advanced use cases only.
-
-- `topP?:optional float`
-
-  **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting top_p. A value >= 0.99 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-  Use nucleus sampling.
-
-  In nucleus sampling, we compute the cumulative distribution over all the options for each subsequent token in decreasing probability order and cut it off once it reaches a particular probability specified by `top_p`.
-
-  Recommended for advanced use cases only.
 
 ## Returns
 
@@ -416,6 +386,9 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Messages\Model;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $message = $client->messages->create(
@@ -437,6 +410,7 @@ $message = $client->messages->create(
     'format' => ['schema' => ['foo' => 'bar'], 'type' => 'json_schema'],
   ],
   serviceTier: 'auto',
+  speed: 'standard',
   stopSequences: ['string'],
   system: [
     [
@@ -455,7 +429,6 @@ $message = $client->messages->create(
       ],
     ],
   ],
-  temperature: 1,
   thinking: ['type' => 'adaptive', 'display' => 'summarized'],
   toolChoice: ['type' => 'auto', 'disableParallelToolUse' => true],
   tools: [
@@ -476,8 +449,6 @@ $message = $client->messages->create(
       'type' => 'custom',
     ],
   ],
-  topK: 5,
-  topP: 0.7,
   userProfileID: 'anthropic-user-profile-id',
   workspaceID: 'wrkspc_011CZkZaBF1tNoB5wlCeusgy',
 );
@@ -551,7 +522,8 @@ var_dump($message);
       "web_fetch_requests": 2,
       "web_search_requests": 0
     },
-    "service_tier": "standard"
+    "service_tier": "standard",
+    "speed": "standard"
   }
 }
 ```

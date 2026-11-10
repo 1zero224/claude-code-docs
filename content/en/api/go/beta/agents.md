@@ -31,6 +31,10 @@ Create Agent
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
           Fastest model for high-volume, real-time tasks
@@ -47,53 +51,53 @@ Create Agent
 
           Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-        - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
+        Efficient model for coding and agents
 
           Efficient model for coding and agents
 
-        - `const BetaManagedAgentsModelClaudeFable5 BetaManagedAgentsModel = "claude-fable-5"`
+        Powerful intelligence for coding, knowledge work, and long-running agents
 
-          Next generation of intelligence for the hardest knowledge work and coding problems
+      - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
 
-        - `const BetaManagedAgentsModelClaudeOpus5 BetaManagedAgentsModel = "claude-opus-5"`
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-          Powerful intelligence for long-running agents and coding
+      - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
-        - `const BetaManagedAgentsModelClaudeOpus4_8 BetaManagedAgentsModel = "claude-opus-4-8"`
+        Efficient model for coding and agents
 
-          Powerful intelligence for long-running agents and coding
+      - `const BetaManagedAgentsModelClaudeFable5 BetaManagedAgentsModel = "claude-fable-5"`
 
-        - `const BetaManagedAgentsModelClaudeOpus4_7 BetaManagedAgentsModel = "claude-opus-4-7"`
+        Next generation of intelligence for the hardest knowledge work and coding problems
 
-          Powerful intelligence for long-running agents and coding
+      - `const BetaManagedAgentsModelClaudeOpus5 BetaManagedAgentsModel = "claude-opus-5"`
 
-        - `const BetaManagedAgentsModelClaudeOpus4_6 BetaManagedAgentsModel = "claude-opus-4-6"`
+        Powerful intelligence for long-running agents and coding
 
-          Powerful intelligence for long-running agents and coding
+      - `const BetaManagedAgentsModelClaudeOpus4_8 BetaManagedAgentsModel = "claude-opus-4-8"`
 
-        - `const BetaManagedAgentsModelClaudeSonnet4_6 BetaManagedAgentsModel = "claude-sonnet-4-6"`
+        Powerful intelligence for long-running agents and coding
 
-          Best combination of speed and intelligence
+      - `const BetaManagedAgentsModelClaudeOpus4_7 BetaManagedAgentsModel = "claude-opus-4-7"`
 
-        - `const BetaManagedAgentsModelClaudeHaiku4_5 BetaManagedAgentsModel = "claude-haiku-4-5"`
+        Powerful intelligence for long-running agents and coding
 
         - `const BetaManagedAgentsModelClaudeHaiku4_5_20251001 BetaManagedAgentsModel = "claude-haiku-4-5-20251001"`
 
         - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
 
-          Powerful intelligence for long-running agents and coding
+      - `const BetaManagedAgentsModelClaudeHaiku4_5 BetaManagedAgentsModel = "claude-haiku-4-5"`
 
-        - `const BetaManagedAgentsModelClaudeOpus4_5_20251101 BetaManagedAgentsModel = "claude-opus-4-5-20251101"`
+      - `const BetaManagedAgentsModelClaudeHaiku4_5_20251001 BetaManagedAgentsModel = "claude-haiku-4-5-20251001"`
 
-          Powerful intelligence for long-running agents and coding
+      - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
 
-        - `const BetaManagedAgentsModelClaudeSonnet4_5 BetaManagedAgentsModel = "claude-sonnet-4-5"`
+        Powerful intelligence for long-running agents and coding
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           High-performance model for agents and coding
 
-        - `const BetaManagedAgentsModelClaudeSonnet4_5_20250929 BetaManagedAgentsModel = "claude-sonnet-4-5-20250929"`
+        Powerful intelligence for long-running agents and coding
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -131,31 +135,31 @@ Create Agent
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -163,7 +167,7 @@ Create Agent
 
       - `Speed BetaManagedAgentsModelConfigParamsSpeed Optional`
 
-        Inference speed mode. Defaults to `standard`.
+        Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
         - `const BetaManagedAgentsModelConfigParamsSpeedStandard BetaManagedAgentsModelConfigParamsSpeed = "standard"`
 
@@ -181,11 +185,15 @@ Create Agent
 
     maxLength: 2048
 
+  - `ExecutionIdentity BetaManagedAgentsExecutionIdentityParamsUnion Optional`
+
+    Execution principal for runs of this agent. Omitting it, sending null, or sending `{"type": "service_account"}` stores the default.
+
   - `MCPServers []BetaManagedAgentsURLMCPServerParams Optional`
 
     MCP servers this agent connects to. Maximum 20. Names must be unique within the array. Every server must be referenced by an `mcp_toolset` in `tools`; unreferenced servers are rejected. See the [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector?sdk_languages=go).
 
-    - `Type BetaManagedAgentsURLMCPServerParamsType`
+    - `Type URL`
 
     - `Name string`
 
@@ -199,7 +207,7 @@ Create Agent
 
       maxLength: 2048
 
-  - `Metadata map[string, string] Optional`
+  - `Metadata map[string]string Optional`
 
     Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
@@ -215,7 +223,7 @@ Create Agent
 
       An Anthropic-managed skill.
 
-      - `Type BetaManagedAgentsAnthropicSkillParamsType`
+      - `Type Anthropic`
 
       - `SkillID string`
 
@@ -233,7 +241,7 @@ Create Agent
 
       A user-created custom skill.
 
-      - `Type BetaManagedAgentsCustomSkillParamsType`
+      - `Type Custom`
 
       - `SkillID string`
 
@@ -261,7 +269,7 @@ Create Agent
 
       Configuration for built-in agent tools. Use this to enable or disable groups of tools available to the agent.
 
-      - `Type BetaManagedAgentsAgentToolset20260401ParamsType`
+      - `Type AgentToolset20260401`
 
       - `Configs []BetaManagedAgentsAgentToolConfigParamsUnion Optional`
 
@@ -289,13 +297,13 @@ Create Agent
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+              - `Type AlwaysAllow`
 
             - `type BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type BetaManagedAgentsAlwaysAskPolicyType`
+              - `Type AlwaysAsk`
 
             - `type BetaManagedAgentsAutoPolicy`
 
@@ -649,6 +657,8 @@ Create Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Region string Optional`
 
               Region or state name.
@@ -689,7 +699,7 @@ Create Agent
 
       Configuration for tools from an MCP server defined in `mcp_servers`.
 
-      - `Type BetaManagedAgentsMCPToolsetParamsType`
+      - `Type MCPToolset`
 
       - `MCPServerName string`
 
@@ -755,7 +765,7 @@ Create Agent
 
       A custom tool that is executed by the API client rather than the agent. When the agent calls this tool, an `agent.custom_tool_use` event is emitted and the session goes idle, waiting for the client to provide the result via a `user.custom_tool_result` event.
 
-      - `Type BetaManagedAgentsCustomToolParamsType`
+      - `Type Custom`
 
       - `Description string`
 
@@ -769,7 +779,7 @@ Create Agent
 
         - `Type Object`
 
-        - `Properties map[string, any] Optional`
+        - `Properties map[string]any Optional`
 
         - `Required []string Optional`
 
@@ -777,11 +787,11 @@ Create Agent
 
         Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-        minLength: 1, maxLength: 128
+        minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -883,6 +893,18 @@ Create Agent
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -895,7 +917,7 @@ Create Agent
 
   A Managed Agents `agent`.
 
-  - `Type BetaManagedAgentsAgentType`
+  - `Type Agent`
 
   - `ID string`
 
@@ -913,15 +935,35 @@ Create Agent
 
   - `Description string`
 
+  - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `Type AWSRole`
+
+      - `RoleARN string`
+
+        The IAM role's ARN.
+
+    - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `Type ServiceAccount`
+
   - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-    - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+    - `Type URL`
 
     - `Name string`
 
     - `URL string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `Model BetaManagedAgentsModelConfig`
 
@@ -932,6 +974,10 @@ Create Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -1009,31 +1055,31 @@ Create Agent
 
         Low effort. Favors latency over reasoning depth.
 
-        - `Type BetaManagedAgentsEffortLowType`
+        - `Type Low`
 
       - `type BetaManagedAgentsEffortMedium`
 
         Medium effort. Balances latency and reasoning depth.
 
-        - `Type BetaManagedAgentsEffortMediumType`
+        - `Type Medium`
 
       - `type BetaManagedAgentsEffortHigh`
 
         High effort. Favors reasoning depth.
 
-        - `Type BetaManagedAgentsEffortHighType`
+        - `Type High`
 
       - `type BetaManagedAgentsEffortXhigh`
 
         Extra-high effort. Not all models accept this level.
 
-        - `Type BetaManagedAgentsEffortXhighType`
+        - `Type Xhigh`
 
       - `type BetaManagedAgentsEffortMax`
 
         Maximum effort. Favors reasoning depth over latency.
 
-        - `Type BetaManagedAgentsEffortMaxType`
+        - `Type Max`
 
     - `InferenceGeo string Optional`
 
@@ -1055,7 +1101,7 @@ Create Agent
 
       Resolved coordinator topology with a concrete agent roster.
 
-      - `Type BetaManagedAgentsMultiagentCoordinatorType`
+      - `Type Coordinator`
 
       - `Agents []BetaManagedAgentsMultiagentCoordinatorAgentUnion`
 
@@ -1065,7 +1111,7 @@ Create Agent
 
           A resolved agent reference with a concrete version.
 
-          - `Type BetaManagedAgentsAgentReferenceType`
+          - `Type Agent`
 
           - `ID string`
 
@@ -1077,7 +1123,7 @@ Create Agent
 
           Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-          - `Type BetaManagedAgentsAdvisorType`
+          - `Type Advisor`
 
           - `Model string`
 
@@ -1139,7 +1185,7 @@ Create Agent
 
             Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -1171,7 +1217,7 @@ Create Agent
 
             Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -1193,7 +1239,9 @@ Create Agent
 
       A resolved Anthropic-managed skill.
 
-      - `Type BetaManagedAgentsAnthropicSkillType`
+      - `Type Anthropic`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -1203,7 +1251,9 @@ Create Agent
 
       A resolved user-created custom skill.
 
-      - `Type BetaManagedAgentsCustomSkillType`
+      - `Type Custom`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -1215,7 +1265,7 @@ Create Agent
 
     - `type BetaManagedAgentsAgentToolset20260401`
 
-      - `Type BetaManagedAgentsAgentToolset20260401Type`
+      - `Type AgentToolset20260401`
 
       - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -1237,13 +1287,13 @@ Create Agent
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+              - `Type AlwaysAllow`
 
             - `type BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type BetaManagedAgentsAlwaysAskPolicyType`
+              - `Type AlwaysAsk`
 
             - `type BetaManagedAgentsAutoPolicy`
 
@@ -1539,6 +1589,8 @@ Create Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Region string Optional`
 
               Region or state name.
@@ -1575,7 +1627,7 @@ Create Agent
 
     - `type BetaManagedAgentsMCPToolset`
 
-      - `Type BetaManagedAgentsMCPToolsetType`
+      - `Type MCPToolset`
 
       - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -1627,7 +1679,7 @@ Create Agent
 
       A custom tool as returned in API responses.
 
-      - `Type BetaManagedAgentsCustomToolType`
+      - `Type Custom`
 
       - `Description string`
 
@@ -1637,7 +1689,7 @@ Create Agent
 
         - `Type Object`
 
-        - `Properties map[string, any] Optional`
+        - `Properties map[string]any Optional`
 
         - `Required []string Optional`
 
@@ -1664,8 +1716,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -1693,6 +1745,9 @@ func main() {
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -1824,7 +1879,7 @@ List Agents
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -1926,6 +1981,18 @@ List Agents
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1938,7 +2005,7 @@ List Agents
 
   A Managed Agents `agent`.
 
-  - `Type BetaManagedAgentsAgentType`
+  - `Type Agent`
 
   - `ID string`
 
@@ -1956,15 +2023,35 @@ List Agents
 
   - `Description string`
 
+  - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `Type AWSRole`
+
+      - `RoleARN string`
+
+        The IAM role's ARN.
+
+    - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `Type ServiceAccount`
+
   - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-    - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+    - `Type URL`
 
     - `Name string`
 
     - `URL string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `Model BetaManagedAgentsModelConfig`
 
@@ -1975,6 +2062,10 @@ List Agents
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -2052,31 +2143,31 @@ List Agents
 
         Low effort. Favors latency over reasoning depth.
 
-        - `Type BetaManagedAgentsEffortLowType`
+        - `Type Low`
 
       - `type BetaManagedAgentsEffortMedium`
 
         Medium effort. Balances latency and reasoning depth.
 
-        - `Type BetaManagedAgentsEffortMediumType`
+        - `Type Medium`
 
       - `type BetaManagedAgentsEffortHigh`
 
         High effort. Favors reasoning depth.
 
-        - `Type BetaManagedAgentsEffortHighType`
+        - `Type High`
 
       - `type BetaManagedAgentsEffortXhigh`
 
         Extra-high effort. Not all models accept this level.
 
-        - `Type BetaManagedAgentsEffortXhighType`
+        - `Type Xhigh`
 
       - `type BetaManagedAgentsEffortMax`
 
         Maximum effort. Favors reasoning depth over latency.
 
-        - `Type BetaManagedAgentsEffortMaxType`
+        - `Type Max`
 
     - `InferenceGeo string Optional`
 
@@ -2098,7 +2189,7 @@ List Agents
 
       Resolved coordinator topology with a concrete agent roster.
 
-      - `Type BetaManagedAgentsMultiagentCoordinatorType`
+      - `Type Coordinator`
 
       - `Agents []BetaManagedAgentsMultiagentCoordinatorAgentUnion`
 
@@ -2108,7 +2199,7 @@ List Agents
 
           A resolved agent reference with a concrete version.
 
-          - `Type BetaManagedAgentsAgentReferenceType`
+          - `Type Agent`
 
           - `ID string`
 
@@ -2120,7 +2211,7 @@ List Agents
 
           Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-          - `Type BetaManagedAgentsAdvisorType`
+          - `Type Advisor`
 
           - `Model string`
 
@@ -2182,7 +2273,7 @@ List Agents
 
             Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -2214,7 +2305,7 @@ List Agents
 
             Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -2236,7 +2327,9 @@ List Agents
 
       A resolved Anthropic-managed skill.
 
-      - `Type BetaManagedAgentsAnthropicSkillType`
+      - `Type Anthropic`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -2246,7 +2339,9 @@ List Agents
 
       A resolved user-created custom skill.
 
-      - `Type BetaManagedAgentsCustomSkillType`
+      - `Type Custom`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -2258,7 +2353,7 @@ List Agents
 
     - `type BetaManagedAgentsAgentToolset20260401`
 
-      - `Type BetaManagedAgentsAgentToolset20260401Type`
+      - `Type AgentToolset20260401`
 
       - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -2280,13 +2375,13 @@ List Agents
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+              - `Type AlwaysAllow`
 
             - `type BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type BetaManagedAgentsAlwaysAskPolicyType`
+              - `Type AlwaysAsk`
 
             - `type BetaManagedAgentsAutoPolicy`
 
@@ -2582,6 +2677,8 @@ List Agents
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Region string Optional`
 
               Region or state name.
@@ -2618,7 +2715,7 @@ List Agents
 
     - `type BetaManagedAgentsMCPToolset`
 
-      - `Type BetaManagedAgentsMCPToolsetType`
+      - `Type MCPToolset`
 
       - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -2670,7 +2767,7 @@ List Agents
 
       A custom tool as returned in API responses.
 
-      - `Type BetaManagedAgentsCustomToolType`
+      - `Type Custom`
 
       - `Description string`
 
@@ -2680,7 +2777,7 @@ List Agents
 
         - `Type Object`
 
-        - `Properties map[string, any] Optional`
+        - `Properties map[string]any Optional`
 
         - `Required []string Optional`
 
@@ -2707,8 +2804,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -2733,6 +2830,9 @@ func main() {
       "archived_at": null,
       "created_at": "2026-03-15T10:00:00Z",
       "description": "A general-purpose starter agent.",
+      "execution_identity": {
+        "type": "service_account"
+      },
       "mcp_servers": [
         {
           "name": "example-mcp",
@@ -2851,7 +2951,7 @@ Get Agent
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -2953,6 +3053,18 @@ Get Agent
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -2965,7 +3077,7 @@ Get Agent
 
   A Managed Agents `agent`.
 
-  - `Type BetaManagedAgentsAgentType`
+  - `Type Agent`
 
   - `ID string`
 
@@ -2983,15 +3095,35 @@ Get Agent
 
   - `Description string`
 
+  - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `Type AWSRole`
+
+      - `RoleARN string`
+
+        The IAM role's ARN.
+
+    - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `Type ServiceAccount`
+
   - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-    - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+    - `Type URL`
 
     - `Name string`
 
     - `URL string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `Model BetaManagedAgentsModelConfig`
 
@@ -3002,6 +3134,10 @@ Get Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -3079,31 +3215,31 @@ Get Agent
 
         Low effort. Favors latency over reasoning depth.
 
-        - `Type BetaManagedAgentsEffortLowType`
+        - `Type Low`
 
       - `type BetaManagedAgentsEffortMedium`
 
         Medium effort. Balances latency and reasoning depth.
 
-        - `Type BetaManagedAgentsEffortMediumType`
+        - `Type Medium`
 
       - `type BetaManagedAgentsEffortHigh`
 
         High effort. Favors reasoning depth.
 
-        - `Type BetaManagedAgentsEffortHighType`
+        - `Type High`
 
       - `type BetaManagedAgentsEffortXhigh`
 
         Extra-high effort. Not all models accept this level.
 
-        - `Type BetaManagedAgentsEffortXhighType`
+        - `Type Xhigh`
 
       - `type BetaManagedAgentsEffortMax`
 
         Maximum effort. Favors reasoning depth over latency.
 
-        - `Type BetaManagedAgentsEffortMaxType`
+        - `Type Max`
 
     - `InferenceGeo string Optional`
 
@@ -3125,7 +3261,7 @@ Get Agent
 
       Resolved coordinator topology with a concrete agent roster.
 
-      - `Type BetaManagedAgentsMultiagentCoordinatorType`
+      - `Type Coordinator`
 
       - `Agents []BetaManagedAgentsMultiagentCoordinatorAgentUnion`
 
@@ -3135,7 +3271,7 @@ Get Agent
 
           A resolved agent reference with a concrete version.
 
-          - `Type BetaManagedAgentsAgentReferenceType`
+          - `Type Agent`
 
           - `ID string`
 
@@ -3147,7 +3283,7 @@ Get Agent
 
           Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-          - `Type BetaManagedAgentsAdvisorType`
+          - `Type Advisor`
 
           - `Model string`
 
@@ -3209,7 +3345,7 @@ Get Agent
 
             Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -3241,7 +3377,7 @@ Get Agent
 
             Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -3263,7 +3399,9 @@ Get Agent
 
       A resolved Anthropic-managed skill.
 
-      - `Type BetaManagedAgentsAnthropicSkillType`
+      - `Type Anthropic`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -3273,7 +3411,9 @@ Get Agent
 
       A resolved user-created custom skill.
 
-      - `Type BetaManagedAgentsCustomSkillType`
+      - `Type Custom`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -3285,7 +3425,7 @@ Get Agent
 
     - `type BetaManagedAgentsAgentToolset20260401`
 
-      - `Type BetaManagedAgentsAgentToolset20260401Type`
+      - `Type AgentToolset20260401`
 
       - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -3307,13 +3447,13 @@ Get Agent
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+              - `Type AlwaysAllow`
 
             - `type BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type BetaManagedAgentsAlwaysAskPolicyType`
+              - `Type AlwaysAsk`
 
             - `type BetaManagedAgentsAutoPolicy`
 
@@ -3609,6 +3749,8 @@ Get Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Region string Optional`
 
               Region or state name.
@@ -3645,7 +3787,7 @@ Get Agent
 
     - `type BetaManagedAgentsMCPToolset`
 
-      - `Type BetaManagedAgentsMCPToolsetType`
+      - `Type MCPToolset`
 
       - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -3697,7 +3839,7 @@ Get Agent
 
       A custom tool as returned in API responses.
 
-      - `Type BetaManagedAgentsCustomToolType`
+      - `Type Custom`
 
       - `Description string`
 
@@ -3707,7 +3849,7 @@ Get Agent
 
         - `Type Object`
 
-        - `Properties map[string, any] Optional`
+        - `Properties map[string]any Optional`
 
         - `Required []string Optional`
 
@@ -3734,8 +3876,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -3762,6 +3904,9 @@ func main() {
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -3875,11 +4020,15 @@ Update Agent
 
     maxLength: 2048
 
+  - `ExecutionIdentity BetaManagedAgentsExecutionIdentityParamsUnion Optional`
+
+    Execution principal for runs of this agent. Full replacement. Omit to preserve; send null or `{"type": "service_account"}` to restore the default.
+
   - `MCPServers []BetaManagedAgentsURLMCPServerParams Optional`
 
     MCP servers. Full replacement. Omit to preserve; send empty array or `null` to clear. Names must be unique. Maximum 20. Every server must be referenced by an `mcp_toolset` in the agent's resulting `tools`; unreferenced servers are rejected. See the [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector?sdk_languages=go).
 
-    - `Type BetaManagedAgentsURLMCPServerParamsType`
+    - `Type URL`
 
     - `Name string`
 
@@ -3893,7 +4042,7 @@ Update Agent
 
       maxLength: 2048
 
-  - `Metadata map[string, string] Optional`
+  - `Metadata map[string]string Optional`
 
     Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve. The stored bag is limited to 16 keys (up to 64 chars each) with values up to 512 chars.
 
@@ -3911,6 +4060,10 @@ Update Agent
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
           Fastest model for high-volume, real-time tasks
@@ -3927,53 +4080,53 @@ Update Agent
 
           Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-        - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
+        Efficient model for coding and agents
 
           Efficient model for coding and agents
 
-        - `const BetaManagedAgentsModelClaudeFable5 BetaManagedAgentsModel = "claude-fable-5"`
+        Powerful intelligence for coding, knowledge work, and long-running agents
 
-          Next generation of intelligence for the hardest knowledge work and coding problems
+      - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
 
-        - `const BetaManagedAgentsModelClaudeOpus5 BetaManagedAgentsModel = "claude-opus-5"`
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-          Powerful intelligence for long-running agents and coding
+      - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
-        - `const BetaManagedAgentsModelClaudeOpus4_8 BetaManagedAgentsModel = "claude-opus-4-8"`
+        Efficient model for coding and agents
 
-          Powerful intelligence for long-running agents and coding
+      - `const BetaManagedAgentsModelClaudeFable5 BetaManagedAgentsModel = "claude-fable-5"`
 
-        - `const BetaManagedAgentsModelClaudeOpus4_7 BetaManagedAgentsModel = "claude-opus-4-7"`
+        Next generation of intelligence for the hardest knowledge work and coding problems
 
-          Powerful intelligence for long-running agents and coding
+      - `const BetaManagedAgentsModelClaudeOpus5 BetaManagedAgentsModel = "claude-opus-5"`
 
-        - `const BetaManagedAgentsModelClaudeOpus4_6 BetaManagedAgentsModel = "claude-opus-4-6"`
+        Powerful intelligence for long-running agents and coding
 
-          Powerful intelligence for long-running agents and coding
+      - `const BetaManagedAgentsModelClaudeOpus4_8 BetaManagedAgentsModel = "claude-opus-4-8"`
 
-        - `const BetaManagedAgentsModelClaudeSonnet4_6 BetaManagedAgentsModel = "claude-sonnet-4-6"`
+        Powerful intelligence for long-running agents and coding
 
-          Best combination of speed and intelligence
+      - `const BetaManagedAgentsModelClaudeOpus4_7 BetaManagedAgentsModel = "claude-opus-4-7"`
 
-        - `const BetaManagedAgentsModelClaudeHaiku4_5 BetaManagedAgentsModel = "claude-haiku-4-5"`
+        Powerful intelligence for long-running agents and coding
 
         - `const BetaManagedAgentsModelClaudeHaiku4_5_20251001 BetaManagedAgentsModel = "claude-haiku-4-5-20251001"`
 
         - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
 
-          Powerful intelligence for long-running agents and coding
+      - `const BetaManagedAgentsModelClaudeHaiku4_5 BetaManagedAgentsModel = "claude-haiku-4-5"`
 
-        - `const BetaManagedAgentsModelClaudeOpus4_5_20251101 BetaManagedAgentsModel = "claude-opus-4-5-20251101"`
+      - `const BetaManagedAgentsModelClaudeHaiku4_5_20251001 BetaManagedAgentsModel = "claude-haiku-4-5-20251001"`
 
-          Powerful intelligence for long-running agents and coding
+      - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
 
-        - `const BetaManagedAgentsModelClaudeSonnet4_5 BetaManagedAgentsModel = "claude-sonnet-4-5"`
+        Powerful intelligence for long-running agents and coding
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           High-performance model for agents and coding
 
-        - `const BetaManagedAgentsModelClaudeSonnet4_5_20250929 BetaManagedAgentsModel = "claude-sonnet-4-5-20250929"`
+        Powerful intelligence for long-running agents and coding
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -4011,31 +4164,31 @@ Update Agent
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -4043,7 +4196,7 @@ Update Agent
 
       - `Speed BetaManagedAgentsModelConfigParamsSpeed Optional`
 
-        Inference speed mode. Defaults to `standard`.
+        Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
         - `const BetaManagedAgentsModelConfigParamsSpeedStandard BetaManagedAgentsModelConfigParamsSpeed = "standard"`
 
@@ -4067,7 +4220,7 @@ Update Agent
 
       An Anthropic-managed skill.
 
-      - `Type BetaManagedAgentsAnthropicSkillParamsType`
+      - `Type Anthropic`
 
       - `SkillID string`
 
@@ -4085,7 +4238,7 @@ Update Agent
 
       A user-created custom skill.
 
-      - `Type BetaManagedAgentsCustomSkillParamsType`
+      - `Type Custom`
 
       - `SkillID string`
 
@@ -4113,7 +4266,7 @@ Update Agent
 
       Configuration for built-in agent tools. Use this to enable or disable groups of tools available to the agent.
 
-      - `Type BetaManagedAgentsAgentToolset20260401ParamsType`
+      - `Type AgentToolset20260401`
 
       - `Configs []BetaManagedAgentsAgentToolConfigParamsUnion Optional`
 
@@ -4141,13 +4294,13 @@ Update Agent
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+              - `Type AlwaysAllow`
 
             - `type BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type BetaManagedAgentsAlwaysAskPolicyType`
+              - `Type AlwaysAsk`
 
             - `type BetaManagedAgentsAutoPolicy`
 
@@ -4501,6 +4654,8 @@ Update Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Region string Optional`
 
               Region or state name.
@@ -4541,7 +4696,7 @@ Update Agent
 
       Configuration for tools from an MCP server defined in `mcp_servers`.
 
-      - `Type BetaManagedAgentsMCPToolsetParamsType`
+      - `Type MCPToolset`
 
       - `MCPServerName string`
 
@@ -4607,7 +4762,7 @@ Update Agent
 
       A custom tool that is executed by the API client rather than the agent. When the agent calls this tool, an `agent.custom_tool_use` event is emitted and the session goes idle, waiting for the client to provide the result via a `user.custom_tool_result` event.
 
-      - `Type BetaManagedAgentsCustomToolParamsType`
+      - `Type Custom`
 
       - `Description string`
 
@@ -4621,7 +4776,7 @@ Update Agent
 
         - `Type Object`
 
-        - `Properties map[string, any] Optional`
+        - `Properties map[string]any Optional`
 
         - `Required []string Optional`
 
@@ -4629,7 +4784,7 @@ Update Agent
 
         Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-        minLength: 1, maxLength: 128
+        minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
   - `Version param.Opt[int64] Optional`
 
@@ -4639,7 +4794,7 @@ Update Agent
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -4741,6 +4896,18 @@ Update Agent
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -4753,7 +4920,7 @@ Update Agent
 
   A Managed Agents `agent`.
 
-  - `Type BetaManagedAgentsAgentType`
+  - `Type Agent`
 
   - `ID string`
 
@@ -4771,15 +4938,35 @@ Update Agent
 
   - `Description string`
 
+  - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `Type AWSRole`
+
+      - `RoleARN string`
+
+        The IAM role's ARN.
+
+    - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `Type ServiceAccount`
+
   - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-    - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+    - `Type URL`
 
     - `Name string`
 
     - `URL string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `Model BetaManagedAgentsModelConfig`
 
@@ -4790,6 +4977,10 @@ Update Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -4867,31 +5058,31 @@ Update Agent
 
         Low effort. Favors latency over reasoning depth.
 
-        - `Type BetaManagedAgentsEffortLowType`
+        - `Type Low`
 
       - `type BetaManagedAgentsEffortMedium`
 
         Medium effort. Balances latency and reasoning depth.
 
-        - `Type BetaManagedAgentsEffortMediumType`
+        - `Type Medium`
 
       - `type BetaManagedAgentsEffortHigh`
 
         High effort. Favors reasoning depth.
 
-        - `Type BetaManagedAgentsEffortHighType`
+        - `Type High`
 
       - `type BetaManagedAgentsEffortXhigh`
 
         Extra-high effort. Not all models accept this level.
 
-        - `Type BetaManagedAgentsEffortXhighType`
+        - `Type Xhigh`
 
       - `type BetaManagedAgentsEffortMax`
 
         Maximum effort. Favors reasoning depth over latency.
 
-        - `Type BetaManagedAgentsEffortMaxType`
+        - `Type Max`
 
     - `InferenceGeo string Optional`
 
@@ -4913,7 +5104,7 @@ Update Agent
 
       Resolved coordinator topology with a concrete agent roster.
 
-      - `Type BetaManagedAgentsMultiagentCoordinatorType`
+      - `Type Coordinator`
 
       - `Agents []BetaManagedAgentsMultiagentCoordinatorAgentUnion`
 
@@ -4923,7 +5114,7 @@ Update Agent
 
           A resolved agent reference with a concrete version.
 
-          - `Type BetaManagedAgentsAgentReferenceType`
+          - `Type Agent`
 
           - `ID string`
 
@@ -4935,7 +5126,7 @@ Update Agent
 
           Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-          - `Type BetaManagedAgentsAdvisorType`
+          - `Type Advisor`
 
           - `Model string`
 
@@ -4997,7 +5188,7 @@ Update Agent
 
             Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -5029,7 +5220,7 @@ Update Agent
 
             Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -5051,7 +5242,9 @@ Update Agent
 
       A resolved Anthropic-managed skill.
 
-      - `Type BetaManagedAgentsAnthropicSkillType`
+      - `Type Anthropic`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -5061,7 +5254,9 @@ Update Agent
 
       A resolved user-created custom skill.
 
-      - `Type BetaManagedAgentsCustomSkillType`
+      - `Type Custom`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -5073,7 +5268,7 @@ Update Agent
 
     - `type BetaManagedAgentsAgentToolset20260401`
 
-      - `Type BetaManagedAgentsAgentToolset20260401Type`
+      - `Type AgentToolset20260401`
 
       - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -5095,13 +5290,13 @@ Update Agent
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+              - `Type AlwaysAllow`
 
             - `type BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type BetaManagedAgentsAlwaysAskPolicyType`
+              - `Type AlwaysAsk`
 
             - `type BetaManagedAgentsAutoPolicy`
 
@@ -5397,6 +5592,8 @@ Update Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Region string Optional`
 
               Region or state name.
@@ -5433,7 +5630,7 @@ Update Agent
 
     - `type BetaManagedAgentsMCPToolset`
 
-      - `Type BetaManagedAgentsMCPToolsetType`
+      - `Type MCPToolset`
 
       - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -5485,7 +5682,7 @@ Update Agent
 
       A custom tool as returned in API responses.
 
-      - `Type BetaManagedAgentsCustomToolType`
+      - `Type Custom`
 
       - `Description string`
 
@@ -5495,7 +5692,7 @@ Update Agent
 
         - `Type Object`
 
-        - `Properties map[string, any] Optional`
+        - `Properties map[string]any Optional`
 
         - `Required []string Optional`
 
@@ -5522,8 +5719,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -5552,6 +5749,9 @@ func main() {
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -5661,7 +5861,7 @@ Archive Agent
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -5763,6 +5963,18 @@ Archive Agent
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -5775,7 +5987,7 @@ Archive Agent
 
   A Managed Agents `agent`.
 
-  - `Type BetaManagedAgentsAgentType`
+  - `Type Agent`
 
   - `ID string`
 
@@ -5793,15 +6005,35 @@ Archive Agent
 
   - `Description string`
 
+  - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `Type AWSRole`
+
+      - `RoleARN string`
+
+        The IAM role's ARN.
+
+    - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `Type ServiceAccount`
+
   - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-    - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+    - `Type URL`
 
     - `Name string`
 
     - `URL string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `Model BetaManagedAgentsModelConfig`
 
@@ -5812,6 +6044,10 @@ Archive Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -5889,31 +6125,31 @@ Archive Agent
 
         Low effort. Favors latency over reasoning depth.
 
-        - `Type BetaManagedAgentsEffortLowType`
+        - `Type Low`
 
       - `type BetaManagedAgentsEffortMedium`
 
         Medium effort. Balances latency and reasoning depth.
 
-        - `Type BetaManagedAgentsEffortMediumType`
+        - `Type Medium`
 
       - `type BetaManagedAgentsEffortHigh`
 
         High effort. Favors reasoning depth.
 
-        - `Type BetaManagedAgentsEffortHighType`
+        - `Type High`
 
       - `type BetaManagedAgentsEffortXhigh`
 
         Extra-high effort. Not all models accept this level.
 
-        - `Type BetaManagedAgentsEffortXhighType`
+        - `Type Xhigh`
 
       - `type BetaManagedAgentsEffortMax`
 
         Maximum effort. Favors reasoning depth over latency.
 
-        - `Type BetaManagedAgentsEffortMaxType`
+        - `Type Max`
 
     - `InferenceGeo string Optional`
 
@@ -5935,7 +6171,7 @@ Archive Agent
 
       Resolved coordinator topology with a concrete agent roster.
 
-      - `Type BetaManagedAgentsMultiagentCoordinatorType`
+      - `Type Coordinator`
 
       - `Agents []BetaManagedAgentsMultiagentCoordinatorAgentUnion`
 
@@ -5945,7 +6181,7 @@ Archive Agent
 
           A resolved agent reference with a concrete version.
 
-          - `Type BetaManagedAgentsAgentReferenceType`
+          - `Type Agent`
 
           - `ID string`
 
@@ -5957,7 +6193,7 @@ Archive Agent
 
           Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-          - `Type BetaManagedAgentsAdvisorType`
+          - `Type Advisor`
 
           - `Model string`
 
@@ -6019,7 +6255,7 @@ Archive Agent
 
             Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -6051,7 +6287,7 @@ Archive Agent
 
             Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -6073,7 +6309,9 @@ Archive Agent
 
       A resolved Anthropic-managed skill.
 
-      - `Type BetaManagedAgentsAnthropicSkillType`
+      - `Type Anthropic`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -6083,7 +6321,9 @@ Archive Agent
 
       A resolved user-created custom skill.
 
-      - `Type BetaManagedAgentsCustomSkillType`
+      - `Type Custom`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -6095,7 +6335,7 @@ Archive Agent
 
     - `type BetaManagedAgentsAgentToolset20260401`
 
-      - `Type BetaManagedAgentsAgentToolset20260401Type`
+      - `Type AgentToolset20260401`
 
       - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -6117,13 +6357,13 @@ Archive Agent
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+              - `Type AlwaysAllow`
 
             - `type BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type BetaManagedAgentsAlwaysAskPolicyType`
+              - `Type AlwaysAsk`
 
             - `type BetaManagedAgentsAutoPolicy`
 
@@ -6419,6 +6659,8 @@ Archive Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Region string Optional`
 
               Region or state name.
@@ -6455,7 +6697,7 @@ Archive Agent
 
     - `type BetaManagedAgentsMCPToolset`
 
-      - `Type BetaManagedAgentsMCPToolsetType`
+      - `Type MCPToolset`
 
       - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -6507,7 +6749,7 @@ Archive Agent
 
       A custom tool as returned in API responses.
 
-      - `Type BetaManagedAgentsCustomToolType`
+      - `Type Custom`
 
       - `Description string`
 
@@ -6517,7 +6759,7 @@ Archive Agent
 
         - `Type Object`
 
-        - `Properties map[string, any] Optional`
+        - `Properties map[string]any Optional`
 
         - `Required []string Optional`
 
@@ -6544,8 +6786,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -6572,6 +6814,9 @@ func main() {
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -6671,7 +6916,7 @@ func main() {
 
   Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-  - `Type BetaManagedAgentsAdvisorType`
+  - `Type Advisor`
 
   - `Model string`
 
@@ -6683,7 +6928,7 @@ func main() {
 
   A Managed Agents `agent`.
 
-  - `Type BetaManagedAgentsAgentType`
+  - `Type Agent`
 
   - `ID string`
 
@@ -6701,15 +6946,35 @@ func main() {
 
   - `Description string`
 
+  - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `Type AWSRole`
+
+      - `RoleARN string`
+
+        The IAM role's ARN.
+
+    - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `Type ServiceAccount`
+
   - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-    - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+    - `Type URL`
 
     - `Name string`
 
     - `URL string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `Model BetaManagedAgentsModelConfig`
 
@@ -6720,6 +6985,10 @@ func main() {
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -6797,31 +7066,31 @@ func main() {
 
         Low effort. Favors latency over reasoning depth.
 
-        - `Type BetaManagedAgentsEffortLowType`
+        - `Type Low`
 
       - `type BetaManagedAgentsEffortMedium`
 
         Medium effort. Balances latency and reasoning depth.
 
-        - `Type BetaManagedAgentsEffortMediumType`
+        - `Type Medium`
 
       - `type BetaManagedAgentsEffortHigh`
 
         High effort. Favors reasoning depth.
 
-        - `Type BetaManagedAgentsEffortHighType`
+        - `Type High`
 
       - `type BetaManagedAgentsEffortXhigh`
 
         Extra-high effort. Not all models accept this level.
 
-        - `Type BetaManagedAgentsEffortXhighType`
+        - `Type Xhigh`
 
       - `type BetaManagedAgentsEffortMax`
 
         Maximum effort. Favors reasoning depth over latency.
 
-        - `Type BetaManagedAgentsEffortMaxType`
+        - `Type Max`
 
     - `InferenceGeo string Optional`
 
@@ -6843,7 +7112,7 @@ func main() {
 
       Resolved coordinator topology with a concrete agent roster.
 
-      - `Type BetaManagedAgentsMultiagentCoordinatorType`
+      - `Type Coordinator`
 
       - `Agents []BetaManagedAgentsMultiagentCoordinatorAgentUnion`
 
@@ -6853,7 +7122,7 @@ func main() {
 
           A resolved agent reference with a concrete version.
 
-          - `Type BetaManagedAgentsAgentReferenceType`
+          - `Type Agent`
 
           - `ID string`
 
@@ -6865,7 +7134,7 @@ func main() {
 
           Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-          - `Type BetaManagedAgentsAdvisorType`
+          - `Type Advisor`
 
           - `Model string`
 
@@ -6927,7 +7196,7 @@ func main() {
 
             Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -6959,7 +7228,7 @@ func main() {
 
             Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -6981,7 +7250,9 @@ func main() {
 
       A resolved Anthropic-managed skill.
 
-      - `Type BetaManagedAgentsAnthropicSkillType`
+      - `Type Anthropic`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -6991,7 +7262,9 @@ func main() {
 
       A resolved user-created custom skill.
 
-      - `Type BetaManagedAgentsCustomSkillType`
+      - `Type Custom`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -7003,7 +7276,7 @@ func main() {
 
     - `type BetaManagedAgentsAgentToolset20260401`
 
-      - `Type BetaManagedAgentsAgentToolset20260401Type`
+      - `Type AgentToolset20260401`
 
       - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -7025,13 +7298,13 @@ func main() {
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+              - `Type AlwaysAllow`
 
             - `type BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type BetaManagedAgentsAlwaysAskPolicyType`
+              - `Type AlwaysAsk`
 
             - `type BetaManagedAgentsAutoPolicy`
 
@@ -7327,6 +7600,8 @@ func main() {
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Region string Optional`
 
               Region or state name.
@@ -7363,7 +7638,7 @@ func main() {
 
     - `type BetaManagedAgentsMCPToolset`
 
-      - `Type BetaManagedAgentsMCPToolsetType`
+      - `Type MCPToolset`
 
       - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -7415,7 +7690,7 @@ func main() {
 
       A custom tool as returned in API responses.
 
-      - `Type BetaManagedAgentsCustomToolType`
+      - `Type Custom`
 
       - `Description string`
 
@@ -7425,7 +7700,7 @@ func main() {
 
         - `Type Object`
 
-        - `Properties map[string, any] Optional`
+        - `Properties map[string]any Optional`
 
         - `Required []string Optional`
 
@@ -7449,7 +7724,9 @@ func main() {
 
   A resolved agent reference with a concrete version.
 
-  - `Type BetaManagedAgentsAgentReferenceType`
+  - `Type Agent`
+
+  - `ID string`
 
   - `ID string`
 
@@ -7481,13 +7758,13 @@ func main() {
 
         Tool calls are automatically approved without user confirmation.
 
-        - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+        - `Type AlwaysAllow`
 
       - `type BetaManagedAgentsAlwaysAskPolicy`
 
         Tool calls require user confirmation before execution.
 
-        - `Type BetaManagedAgentsAlwaysAskPolicyType`
+        - `Type AlwaysAsk`
 
       - `type BetaManagedAgentsAutoPolicy`
 
@@ -7783,6 +8060,8 @@ func main() {
 
         Two-letter ISO 3166-1 country code, uppercase.
 
+        pattern: ^[A-Z]{2}$
+
       - `Region string Optional`
 
         Region or state name.
@@ -7823,13 +8102,13 @@ func main() {
 
         Tool calls are automatically approved without user confirmation.
 
-        - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+        - `Type AlwaysAllow`
 
       - `type BetaManagedAgentsAlwaysAskPolicy`
 
         Tool calls require user confirmation before execution.
 
-        - `Type BetaManagedAgentsAlwaysAskPolicyType`
+        - `Type AlwaysAsk`
 
       - `type BetaManagedAgentsAutoPolicy`
 
@@ -8183,6 +8462,8 @@ func main() {
 
         Two-letter ISO 3166-1 country code, uppercase.
 
+        pattern: ^[A-Z]{2}$
+
       - `Region string Optional`
 
         Region or state name.
@@ -8211,13 +8492,19 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
+
+    - `type BetaManagedAgentsAutoPolicy`
+
+      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+      - `Type Auto`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -8243,13 +8530,19 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
+
+    - `type BetaManagedAgentsAutoPolicy`
+
+      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+      - `Type Auto`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -8261,7 +8554,7 @@ func main() {
 
 - `type BetaManagedAgentsAgentToolset20260401`
 
-  - `Type BetaManagedAgentsAgentToolset20260401Type`
+  - `Type AgentToolset20260401`
 
   - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -8283,13 +8576,13 @@ func main() {
 
           Tool calls are automatically approved without user confirmation.
 
-          - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+          - `Type AlwaysAllow`
 
         - `type BetaManagedAgentsAlwaysAskPolicy`
 
           Tool calls require user confirmation before execution.
 
-          - `Type BetaManagedAgentsAlwaysAskPolicyType`
+          - `Type AlwaysAsk`
 
         - `type BetaManagedAgentsAutoPolicy`
 
@@ -8585,6 +8878,8 @@ func main() {
 
           Two-letter ISO 3166-1 country code, uppercase.
 
+          pattern: ^[A-Z]{2}$
+
         - `Region string Optional`
 
           Region or state name.
@@ -8710,7 +9005,7 @@ func main() {
 
   Configuration for built-in agent tools. Use this to enable or disable groups of tools available to the agent.
 
-  - `Type BetaManagedAgentsAgentToolset20260401ParamsType`
+  - `Type AgentToolset20260401`
 
   - `Configs []BetaManagedAgentsAgentToolConfigParamsUnion Optional`
 
@@ -8738,13 +9033,13 @@ func main() {
 
           Tool calls are automatically approved without user confirmation.
 
-          - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+          - `Type AlwaysAllow`
 
         - `type BetaManagedAgentsAlwaysAskPolicy`
 
           Tool calls require user confirmation before execution.
 
-          - `Type BetaManagedAgentsAlwaysAskPolicyType`
+          - `Type AlwaysAsk`
 
         - `type BetaManagedAgentsAutoPolicy`
 
@@ -9098,6 +9393,8 @@ func main() {
 
           Two-letter ISO 3166-1 country code, uppercase.
 
+          pattern: ^[A-Z]{2}$
+
         - `Region string Optional`
 
           Region or state name.
@@ -9175,7 +9472,7 @@ func main() {
 
   Tool calls are automatically approved without user confirmation.
 
-  - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+  - `Type AlwaysAllow`
 
 ### Beta Managed Agents Always Ask Policy
 
@@ -9183,7 +9480,7 @@ func main() {
 
   Tool calls require user confirmation before execution.
 
-  - `Type BetaManagedAgentsAlwaysAskPolicyType`
+  - `Type AlwaysAsk`
 
 ### Beta Managed Agents Anthropic Skill
 
@@ -9191,7 +9488,9 @@ func main() {
 
   A resolved Anthropic-managed skill.
 
-  - `Type BetaManagedAgentsAnthropicSkillType`
+  - `Type Anthropic`
+
+  - `SkillID string`
 
   - `SkillID string`
 
@@ -9203,7 +9502,7 @@ func main() {
 
   An Anthropic-managed skill.
 
-  - `Type BetaManagedAgentsAnthropicSkillParamsType`
+  - `Type Anthropic`
 
   - `SkillID string`
 
@@ -9225,6 +9524,32 @@ func main() {
 
   - `Type Auto`
 
+### Beta Managed Agents AWS Role Execution Identity
+
+- `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+  An AWS IAM role principal as returned in API responses.
+
+  - `Type AWSRole`
+
+  - `RoleARN string`
+
+    The IAM role's ARN.
+
+### Beta Managed Agents AWS Role Execution Identity Params
+
+- `type BetaManagedAgentsAWSRoleExecutionIdentityParams`
+
+  An AWS IAM role principal.
+
+  - `Type AWSRole`
+
+  - `RoleARN string`
+
+    The IAM role's ARN, e.g. "arn:aws:iam::123456789012:role/my-agent-runner". Maximum 2048 characters.
+
+    maxLength: 2048, pattern: ^arn:aws(-[a-z]+)*:iam::[0-9]{12}:role/[\w+=,.@/-]+$
+
 ### Beta Managed Agents Bash Tool Config
 
 - `type BetaManagedAgentsBashToolConfig`
@@ -9245,13 +9570,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -9283,13 +9608,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -9303,7 +9628,9 @@ func main() {
 
   A resolved user-created custom skill.
 
-  - `Type BetaManagedAgentsCustomSkillType`
+  - `Type Custom`
+
+  - `SkillID string`
 
   - `SkillID string`
 
@@ -9315,7 +9642,7 @@ func main() {
 
   A user-created custom skill.
 
-  - `Type BetaManagedAgentsCustomSkillParamsType`
+  - `Type Custom`
 
   - `SkillID string`
 
@@ -9335,7 +9662,7 @@ func main() {
 
   A custom tool as returned in API responses.
 
-  - `Type BetaManagedAgentsCustomToolType`
+  - `Type Custom`
 
   - `Description string`
 
@@ -9345,7 +9672,7 @@ func main() {
 
     - `Type Object`
 
-    - `Properties map[string, any] Optional`
+    - `Properties map[string]any Optional`
 
     - `Required []string Optional`
 
@@ -9359,7 +9686,7 @@ func main() {
 
   - `Type Object`
 
-  - `Properties map[string, any] Optional`
+  - `Properties map[string]any Optional`
 
   - `Required []string Optional`
 
@@ -9369,7 +9696,7 @@ func main() {
 
   A custom tool that is executed by the API client rather than the agent. When the agent calls this tool, an `agent.custom_tool_use` event is emitted and the session goes idle, waiting for the client to provide the result via a `user.custom_tool_result` event.
 
-  - `Type BetaManagedAgentsCustomToolParamsType`
+  - `Type Custom`
 
   - `Description string`
 
@@ -9383,7 +9710,7 @@ func main() {
 
     - `Type Object`
 
-    - `Properties map[string, any] Optional`
+    - `Properties map[string]any Optional`
 
     - `Required []string Optional`
 
@@ -9391,7 +9718,7 @@ func main() {
 
     Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-    minLength: 1, maxLength: 128
+    minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
 ### Beta Managed Agents Edit Tool Config
 
@@ -9413,13 +9740,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -9451,13 +9778,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -9471,7 +9798,7 @@ func main() {
 
   High effort. Favors reasoning depth.
 
-  - `Type BetaManagedAgentsEffortHighType`
+  - `Type High`
 
 ### Beta Managed Agents Effort Low
 
@@ -9479,7 +9806,7 @@ func main() {
 
   Low effort. Favors latency over reasoning depth.
 
-  - `Type BetaManagedAgentsEffortLowType`
+  - `Type Low`
 
 ### Beta Managed Agents Effort Max
 
@@ -9487,7 +9814,7 @@ func main() {
 
   Maximum effort. Favors reasoning depth over latency.
 
-  - `Type BetaManagedAgentsEffortMaxType`
+  - `Type Max`
 
 ### Beta Managed Agents Effort Medium
 
@@ -9495,7 +9822,7 @@ func main() {
 
   Medium effort. Balances latency and reasoning depth.
 
-  - `Type BetaManagedAgentsEffortMediumType`
+  - `Type Medium`
 
 ### Beta Managed Agents Effort Xhigh
 
@@ -9503,7 +9830,53 @@ func main() {
 
   Extra-high effort. Not all models accept this level.
 
-  - `Type BetaManagedAgentsEffortXhighType`
+  - `Type Xhigh`
+
+### Beta Managed Agents Execution Identity
+
+- `type BetaManagedAgentsExecutionIdentityUnion interface{…}`
+
+  Execution principal for runs of this agent as returned in API responses.
+
+  - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+    An AWS IAM role principal as returned in API responses.
+
+    - `Type AWSRole`
+
+    - `RoleARN string`
+
+      The IAM role's ARN.
+
+  - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+    The Anthropic-managed service account as returned in API responses.
+
+    - `Type ServiceAccount`
+
+### Beta Managed Agents Execution Identity Params
+
+- `type BetaManagedAgentsExecutionIdentityParamsUnion interface{…}`
+
+  Execution principal for runs of this agent: `service_account` (the default) or `aws_role`.
+
+  - `type BetaManagedAgentsAWSRoleExecutionIdentityParams`
+
+    An AWS IAM role principal.
+
+    - `Type AWSRole`
+
+    - `RoleARN string`
+
+      The IAM role's ARN, e.g. "arn:aws:iam::123456789012:role/my-agent-runner". Maximum 2048 characters.
+
+      maxLength: 2048, pattern: ^arn:aws(-[a-z]+)*:iam::[0-9]{12}:role/[\w+=,.@/-]+$
+
+  - `type BetaManagedAgentsServiceAccountExecutionIdentityParams`
+
+    The Anthropic-managed service account — the default execution principal. Carries no identifier.
+
+    - `Type ServiceAccount`
 
 ### Beta Managed Agents Glob Tool Config
 
@@ -9525,13 +9898,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -9563,13 +9936,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -9597,13 +9970,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -9635,13 +10008,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -9655,7 +10028,9 @@ func main() {
 
   URL-based MCP server connection as returned in API responses.
 
-  - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+  - `Type URL`
+
+  - `Name string`
 
   - `Name string`
 
@@ -9679,13 +10054,19 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
+
+    - `type BetaManagedAgentsAutoPolicy`
+
+      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+      - `Type Auto`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -9717,13 +10098,19 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
+
+    - `type BetaManagedAgentsAutoPolicy`
+
+      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+      - `Type Auto`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -9735,7 +10122,7 @@ func main() {
 
 - `type BetaManagedAgentsMCPToolset`
 
-  - `Type BetaManagedAgentsMCPToolsetType`
+  - `Type MCPToolset`
 
   - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -9751,13 +10138,19 @@ func main() {
 
         Tool calls are automatically approved without user confirmation.
 
-        - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+        - `Type AlwaysAllow`
 
       - `type BetaManagedAgentsAlwaysAskPolicy`
 
         Tool calls require user confirmation before execution.
 
-        - `Type BetaManagedAgentsAlwaysAskPolicyType`
+        - `Type AlwaysAsk`
+
+      - `type BetaManagedAgentsAutoPolicy`
+
+        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+        - `Type Auto`
 
       - `type BetaManagedAgentsAutoPolicy`
 
@@ -9805,13 +10198,19 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
+
+    - `type BetaManagedAgentsAutoPolicy`
+
+      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+      - `Type Auto`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -9837,13 +10236,19 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
+
+    - `type BetaManagedAgentsAutoPolicy`
+
+      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+      - `Type Auto`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -9857,7 +10262,7 @@ func main() {
 
   Configuration for tools from an MCP server defined in `mcp_servers`.
 
-  - `Type BetaManagedAgentsMCPToolsetParamsType`
+  - `Type MCPToolset`
 
   - `MCPServerName string`
 
@@ -9887,13 +10292,13 @@ func main() {
 
         Tool calls are automatically approved without user confirmation.
 
-        - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+        - `Type AlwaysAllow`
 
       - `type BetaManagedAgentsAlwaysAskPolicy`
 
         Tool calls require user confirmation before execution.
 
-        - `Type BetaManagedAgentsAlwaysAskPolicyType`
+        - `Type AlwaysAsk`
 
       - `type BetaManagedAgentsAutoPolicy`
 
@@ -9932,6 +10337,10 @@ func main() {
   The model that will power your agent.
 
   See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+  - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+    Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
   - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -10013,6 +10422,10 @@ func main() {
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+    - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+      Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
     - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
       Fastest model for high-volume, real-time tasks
@@ -10089,31 +10502,31 @@ func main() {
 
       Low effort. Favors latency over reasoning depth.
 
-      - `Type BetaManagedAgentsEffortLowType`
+      - `Type Low`
 
     - `type BetaManagedAgentsEffortMedium`
 
       Medium effort. Balances latency and reasoning depth.
 
-      - `Type BetaManagedAgentsEffortMediumType`
+      - `Type Medium`
 
     - `type BetaManagedAgentsEffortHigh`
 
       High effort. Favors reasoning depth.
 
-      - `Type BetaManagedAgentsEffortHighType`
+      - `Type High`
 
     - `type BetaManagedAgentsEffortXhigh`
 
       Extra-high effort. Not all models accept this level.
 
-      - `Type BetaManagedAgentsEffortXhighType`
+      - `Type Xhigh`
 
     - `type BetaManagedAgentsEffortMax`
 
       Maximum effort. Favors reasoning depth over latency.
 
-      - `Type BetaManagedAgentsEffortMaxType`
+      - `Type Max`
 
   - `InferenceGeo string Optional`
 
@@ -10138,6 +10551,10 @@ func main() {
     The model that will power your agent.
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+    - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+      Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
     - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -10239,31 +10656,31 @@ func main() {
 
       Low effort. Favors latency over reasoning depth.
 
-      - `Type BetaManagedAgentsEffortLowType`
+      - `Type Low`
 
     - `type BetaManagedAgentsEffortMedium`
 
       Medium effort. Balances latency and reasoning depth.
 
-      - `Type BetaManagedAgentsEffortMediumType`
+      - `Type Medium`
 
     - `type BetaManagedAgentsEffortHigh`
 
       High effort. Favors reasoning depth.
 
-      - `Type BetaManagedAgentsEffortHighType`
+      - `Type High`
 
     - `type BetaManagedAgentsEffortXhigh`
 
       Extra-high effort. Not all models accept this level.
 
-      - `Type BetaManagedAgentsEffortXhighType`
+      - `Type Xhigh`
 
     - `type BetaManagedAgentsEffortMax`
 
       Maximum effort. Favors reasoning depth over latency.
 
-      - `Type BetaManagedAgentsEffortMaxType`
+      - `Type Max`
 
   - `InferenceGeo string Optional`
 
@@ -10271,7 +10688,7 @@ func main() {
 
   - `Speed BetaManagedAgentsModelConfigParamsSpeed Optional`
 
-    Inference speed mode. Defaults to `standard`.
+    Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
     - `const BetaManagedAgentsModelConfigParamsSpeedStandard BetaManagedAgentsModelConfigParamsSpeed = "standard"`
 
@@ -10371,7 +10788,7 @@ func main() {
 
   Resolved coordinator topology with a concrete agent roster.
 
-  - `Type BetaManagedAgentsMultiagentCoordinatorType`
+  - `Type Coordinator`
 
   - `Agents []BetaManagedAgentsMultiagentCoordinatorAgentUnion`
 
@@ -10381,7 +10798,9 @@ func main() {
 
       A resolved agent reference with a concrete version.
 
-      - `Type BetaManagedAgentsAgentReferenceType`
+      - `Type Agent`
+
+      - `ID string`
 
       - `ID string`
 
@@ -10393,7 +10812,7 @@ func main() {
 
       Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-      - `Type BetaManagedAgentsAdvisorType`
+      - `Type Advisor`
 
       - `Model string`
 
@@ -10405,7 +10824,7 @@ func main() {
 
   A coordinator topology: the session's primary thread orchestrates work by spawning session threads, each running an agent drawn from the `agents` roster.
 
-  - `Type BetaManagedAgentsMultiagentCoordinatorParamsType`
+  - `Type Coordinator`
 
   - `Agents []BetaManagedAgentsMultiagentRosterEntryParamsUnion`
 
@@ -10417,7 +10836,7 @@ func main() {
 
       Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
-      - `Type BetaManagedAgentsAgentParamsType`
+      - `Type Agent`
 
       - `ID string`
 
@@ -10435,13 +10854,13 @@ func main() {
 
       Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
 
-      - `Type BetaManagedAgentsMultiagentSelfParamsType`
+      - `Type Self`
 
     - `type BetaManagedAgentsAdvisorParams`
 
       Platform advisor roster entry: a model the session's primary thread may consult mid-turn. At most one per roster; the entry occupies the roster name `anthropic.advisor`.
 
-      - `Type BetaManagedAgentsAdvisorParamsType`
+      - `Type Advisor`
 
       - `Model string`
 
@@ -10529,7 +10948,7 @@ func main() {
 
     Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
-    - `Type BetaManagedAgentsAgentParamsType`
+    - `Type Agent`
 
     - `ID string`
 
@@ -10547,7 +10966,7 @@ func main() {
 
     Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
 
-    - `Type BetaManagedAgentsMultiagentSelfParamsType`
+    - `Type Self`
 
 ### Beta Managed Agents Multiagent Self Params
 
@@ -10555,7 +10974,7 @@ func main() {
 
   Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
 
-  - `Type BetaManagedAgentsMultiagentSelfParamsType`
+  - `Type Self`
 
 ### Beta Managed Agents Multiagent Subagents
 
@@ -10589,7 +11008,7 @@ func main() {
 
       Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-      - `Type BetaManagedAgentsAgentReferenceType`
+      - `Type Agent`
 
       - `ID string`
 
@@ -10647,7 +11066,7 @@ func main() {
 
     Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-    - `Type BetaManagedAgentsAgentReferenceType`
+    - `Type Agent`
 
     - `ID string`
 
@@ -10689,7 +11108,13 @@ func main() {
 
       Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
-      - `Type BetaManagedAgentsAgentParamsType`
+      - `Type Agent`
+
+      - `ID string`
+
+        The `agent` ID.
+
+        minLength: 1, maxLength: 128
 
       - `ID string`
 
@@ -10707,7 +11132,7 @@ func main() {
 
       Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
 
-      - `Type BetaManagedAgentsMultiagentSelfParamsType`
+      - `Type Self`
 
 ### Beta Managed Agents Multiagent Subagents Params
 
@@ -10747,7 +11172,7 @@ func main() {
 
         Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
-        - `Type BetaManagedAgentsAgentParamsType`
+        - `Type Agent`
 
         - `ID string`
 
@@ -10765,7 +11190,7 @@ func main() {
 
         Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
 
-        - `Type BetaManagedAgentsMultiagentSelfParamsType`
+        - `Type Self`
 
   - `type BetaManagedAgentsMultiagentSubagentsDisabledParams`
 
@@ -10805,7 +11230,7 @@ func main() {
 
       Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-      - `Type BetaManagedAgentsAgentReferenceType`
+      - `Type Agent`
 
       - `ID string`
 
@@ -10863,7 +11288,7 @@ func main() {
 
     Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-    - `Type BetaManagedAgentsAgentReferenceType`
+    - `Type Agent`
 
     - `ID string`
 
@@ -10905,7 +11330,7 @@ func main() {
 
       Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
-      - `Type BetaManagedAgentsAgentParamsType`
+      - `Type Agent`
 
       - `ID string`
 
@@ -10923,7 +11348,7 @@ func main() {
 
       Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
 
-      - `Type BetaManagedAgentsMultiagentSelfParamsType`
+      - `Type Self`
 
 ### Beta Managed Agents Multiagent Workflows Params
 
@@ -10963,7 +11388,7 @@ func main() {
 
         Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
-        - `Type BetaManagedAgentsAgentParamsType`
+        - `Type Agent`
 
         - `ID string`
 
@@ -10981,7 +11406,7 @@ func main() {
 
         Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
 
-        - `Type BetaManagedAgentsMultiagentSelfParamsType`
+        - `Type Self`
 
   - `type BetaManagedAgentsMultiagentWorkflowsDisabledParams`
 
@@ -11047,7 +11472,7 @@ func main() {
 
         Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-        - `Type BetaManagedAgentsAgentReferenceType`
+        - `Type Agent`
 
         - `ID string`
 
@@ -11079,7 +11504,7 @@ func main() {
 
         Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-        - `Type BetaManagedAgentsAgentReferenceType`
+        - `Type Agent`
 
         - `ID string`
 
@@ -11159,7 +11584,7 @@ func main() {
 
           Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
-          - `Type BetaManagedAgentsAgentParamsType`
+          - `Type Agent`
 
           - `ID string`
 
@@ -11177,7 +11602,7 @@ func main() {
 
           Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
 
-          - `Type BetaManagedAgentsMultiagentSelfParamsType`
+          - `Type Self`
 
     - `type BetaManagedAgentsMultiagentSubagentsDisabledParams`
 
@@ -11239,13 +11664,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -11277,13 +11702,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -11291,21 +11716,59 @@ func main() {
 
       - `Type Auto`
 
+### Beta Managed Agents Service Account Execution Identity
+
+- `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+  The Anthropic-managed service account as returned in API responses.
+
+  - `Type ServiceAccount`
+
+### Beta Managed Agents Service Account Execution Identity Params
+
+- `type BetaManagedAgentsServiceAccountExecutionIdentityParams`
+
+  The Anthropic-managed service account — the default execution principal. Carries no identifier.
+
+  - `Type ServiceAccount`
+
 ### Beta Managed Agents Session Thread Agent
 
 - `type BetaManagedAgentsSessionThreadAgent`
 
   Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-  - `Type BetaManagedAgentsSessionThreadAgentType`
+  - `Type Agent`
 
   - `ID string`
 
   - `Description string`
 
+  - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+    Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `Type AWSRole`
+
+      - `RoleARN string`
+
+        The IAM role's ARN.
+
+    - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `Type ServiceAccount`
+
   - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-    - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+    - `Type URL`
+
+    - `Name string`
 
     - `Name string`
 
@@ -11320,6 +11783,10 @@ func main() {
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -11397,31 +11864,31 @@ func main() {
 
         Low effort. Favors latency over reasoning depth.
 
-        - `Type BetaManagedAgentsEffortLowType`
+        - `Type Low`
 
       - `type BetaManagedAgentsEffortMedium`
 
         Medium effort. Balances latency and reasoning depth.
 
-        - `Type BetaManagedAgentsEffortMediumType`
+        - `Type Medium`
 
       - `type BetaManagedAgentsEffortHigh`
 
         High effort. Favors reasoning depth.
 
-        - `Type BetaManagedAgentsEffortHighType`
+        - `Type High`
 
       - `type BetaManagedAgentsEffortXhigh`
 
         Extra-high effort. Not all models accept this level.
 
-        - `Type BetaManagedAgentsEffortXhighType`
+        - `Type Xhigh`
 
       - `type BetaManagedAgentsEffortMax`
 
         Maximum effort. Favors reasoning depth over latency.
 
-        - `Type BetaManagedAgentsEffortMaxType`
+        - `Type Max`
 
     - `InferenceGeo string Optional`
 
@@ -11443,7 +11910,9 @@ func main() {
 
       A resolved Anthropic-managed skill.
 
-      - `Type BetaManagedAgentsAnthropicSkillType`
+      - `Type Anthropic`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -11453,7 +11922,9 @@ func main() {
 
       A resolved user-created custom skill.
 
-      - `Type BetaManagedAgentsCustomSkillType`
+      - `Type Custom`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -11465,7 +11936,7 @@ func main() {
 
     - `type BetaManagedAgentsAgentToolset20260401`
 
-      - `Type BetaManagedAgentsAgentToolset20260401Type`
+      - `Type AgentToolset20260401`
 
       - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -11487,13 +11958,13 @@ func main() {
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+              - `Type AlwaysAllow`
 
             - `type BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type BetaManagedAgentsAlwaysAskPolicyType`
+              - `Type AlwaysAsk`
 
             - `type BetaManagedAgentsAutoPolicy`
 
@@ -11789,6 +12260,8 @@ func main() {
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Region string Optional`
 
               Region or state name.
@@ -11825,7 +12298,7 @@ func main() {
 
     - `type BetaManagedAgentsMCPToolset`
 
-      - `Type BetaManagedAgentsMCPToolsetType`
+      - `Type MCPToolset`
 
       - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -11877,7 +12350,7 @@ func main() {
 
       A custom tool as returned in API responses.
 
-      - `Type BetaManagedAgentsCustomToolType`
+      - `Type Custom`
 
       - `Description string`
 
@@ -11887,7 +12360,7 @@ func main() {
 
         - `Type Object`
 
-        - `Properties map[string, any] Optional`
+        - `Properties map[string]any Optional`
 
         - `Required []string Optional`
 
@@ -11907,7 +12380,7 @@ func main() {
 
     An Anthropic-managed skill.
 
-    - `Type BetaManagedAgentsAnthropicSkillParamsType`
+    - `Type Anthropic`
 
     - `SkillID string`
 
@@ -11925,7 +12398,7 @@ func main() {
 
     A user-created custom skill.
 
-    - `Type BetaManagedAgentsCustomSkillParamsType`
+    - `Type Custom`
 
     - `SkillID string`
 
@@ -11945,7 +12418,7 @@ func main() {
 
   URL-based MCP server connection.
 
-  - `Type BetaManagedAgentsURLMCPServerParamsType`
+  - `Type URL`
 
   - `Name string`
 
@@ -11979,6 +12452,8 @@ func main() {
 
     Two-letter ISO 3166-1 country code, uppercase.
 
+    pattern: ^[A-Z]{2}$
+
   - `Region string Optional`
 
     Region or state name.
@@ -12011,13 +12486,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -12147,13 +12622,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -12715,13 +13190,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -12750,6 +13225,8 @@ func main() {
     - `Country string Optional`
 
       Two-letter ISO 3166-1 country code, uppercase.
+
+      pattern: ^[A-Z]{2}$
 
     - `Region string Optional`
 
@@ -12795,13 +13272,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -12826,6 +13303,8 @@ func main() {
     - `Country string Optional`
 
       Two-letter ISO 3166-1 country code, uppercase.
+
+      pattern: ^[A-Z]{2}$
 
     - `Region string Optional`
 
@@ -12859,13 +13338,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -12897,13 +13376,13 @@ func main() {
 
       Tool calls are automatically approved without user confirmation.
 
-      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+      - `Type AlwaysAllow`
 
     - `type BetaManagedAgentsAlwaysAskPolicy`
 
       Tool calls require user confirmation before execution.
 
-      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+      - `Type AlwaysAsk`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -12941,7 +13420,7 @@ List Agent Versions
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -13043,6 +13522,18 @@ List Agent Versions
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -13055,7 +13546,7 @@ List Agent Versions
 
   A Managed Agents `agent`.
 
-  - `Type BetaManagedAgentsAgentType`
+  - `Type Agent`
 
   - `ID string`
 
@@ -13073,15 +13564,35 @@ List Agent Versions
 
   - `Description string`
 
+  - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `Type AWSRole`
+
+      - `RoleARN string`
+
+        The IAM role's ARN.
+
+    - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `Type ServiceAccount`
+
   - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-    - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+    - `Type URL`
 
     - `Name string`
 
     - `URL string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `Model BetaManagedAgentsModelConfig`
 
@@ -13092,6 +13603,10 @@ List Agent Versions
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -13169,31 +13684,31 @@ List Agent Versions
 
         Low effort. Favors latency over reasoning depth.
 
-        - `Type BetaManagedAgentsEffortLowType`
+        - `Type Low`
 
       - `type BetaManagedAgentsEffortMedium`
 
         Medium effort. Balances latency and reasoning depth.
 
-        - `Type BetaManagedAgentsEffortMediumType`
+        - `Type Medium`
 
       - `type BetaManagedAgentsEffortHigh`
 
         High effort. Favors reasoning depth.
 
-        - `Type BetaManagedAgentsEffortHighType`
+        - `Type High`
 
       - `type BetaManagedAgentsEffortXhigh`
 
         Extra-high effort. Not all models accept this level.
 
-        - `Type BetaManagedAgentsEffortXhighType`
+        - `Type Xhigh`
 
       - `type BetaManagedAgentsEffortMax`
 
         Maximum effort. Favors reasoning depth over latency.
 
-        - `Type BetaManagedAgentsEffortMaxType`
+        - `Type Max`
 
     - `InferenceGeo string Optional`
 
@@ -13215,7 +13730,7 @@ List Agent Versions
 
       Resolved coordinator topology with a concrete agent roster.
 
-      - `Type BetaManagedAgentsMultiagentCoordinatorType`
+      - `Type Coordinator`
 
       - `Agents []BetaManagedAgentsMultiagentCoordinatorAgentUnion`
 
@@ -13225,7 +13740,7 @@ List Agent Versions
 
           A resolved agent reference with a concrete version.
 
-          - `Type BetaManagedAgentsAgentReferenceType`
+          - `Type Agent`
 
           - `ID string`
 
@@ -13237,7 +13752,7 @@ List Agent Versions
 
           Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-          - `Type BetaManagedAgentsAdvisorType`
+          - `Type Advisor`
 
           - `Model string`
 
@@ -13299,7 +13814,7 @@ List Agent Versions
 
             Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -13331,7 +13846,7 @@ List Agent Versions
 
             Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-            - `Type BetaManagedAgentsAgentReferenceType`
+            - `Type Agent`
 
             - `ID string`
 
@@ -13353,7 +13868,9 @@ List Agent Versions
 
       A resolved Anthropic-managed skill.
 
-      - `Type BetaManagedAgentsAnthropicSkillType`
+      - `Type Anthropic`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -13363,7 +13880,9 @@ List Agent Versions
 
       A resolved user-created custom skill.
 
-      - `Type BetaManagedAgentsCustomSkillType`
+      - `Type Custom`
+
+      - `SkillID string`
 
       - `SkillID string`
 
@@ -13375,7 +13894,7 @@ List Agent Versions
 
     - `type BetaManagedAgentsAgentToolset20260401`
 
-      - `Type BetaManagedAgentsAgentToolset20260401Type`
+      - `Type AgentToolset20260401`
 
       - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -13397,13 +13916,13 @@ List Agent Versions
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+              - `Type AlwaysAllow`
 
             - `type BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type BetaManagedAgentsAlwaysAskPolicyType`
+              - `Type AlwaysAsk`
 
             - `type BetaManagedAgentsAutoPolicy`
 
@@ -13699,6 +14218,8 @@ List Agent Versions
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Region string Optional`
 
               Region or state name.
@@ -13735,7 +14256,7 @@ List Agent Versions
 
     - `type BetaManagedAgentsMCPToolset`
 
-      - `Type BetaManagedAgentsMCPToolsetType`
+      - `Type MCPToolset`
 
       - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -13787,7 +14308,7 @@ List Agent Versions
 
       A custom tool as returned in API responses.
 
-      - `Type BetaManagedAgentsCustomToolType`
+      - `Type Custom`
 
       - `Description string`
 
@@ -13797,7 +14318,7 @@ List Agent Versions
 
         - `Type Object`
 
-        - `Properties map[string, any] Optional`
+        - `Properties map[string]any Optional`
 
         - `Required []string Optional`
 
@@ -13824,8 +14345,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -13854,6 +14375,9 @@ func main() {
       "archived_at": null,
       "created_at": "2026-03-15T10:00:00Z",
       "description": "A general-purpose starter agent.",
+      "execution_identity": {
+        "type": "service_account"
+      },
       "mcp_servers": [
         {
           "name": "example-mcp",

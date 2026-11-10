@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/php/beta/sessions/resources/add
 
 # Add Session Resource
 
-`$client->beta->sessions->resources->add(string sessionID, string fileID, Type type, ?string mountPath, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsFileResource`
+`$client->beta->sessions->resources->add(string sessionID, string fileID, "file" type, ?string mountPath, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsFileResource`
 
 **POST** `/v1/sessions/{session_id}/resources`
 
@@ -19,15 +19,21 @@ Add Session Resource
 
   ID of a previously uploaded file.
 
-- `type: Type`
+- `type: "file"`
 
-- `mountPath?:optional string`
+- `mountPath?: optional string`
 
   Mount path in the container. Defaults to `/mnt/session/uploads/<file_id>`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -39,7 +45,7 @@ Add Session Resource
 
 - `class ManagedAgentsFileResource`
 
-  - `Type type`
+  - `"file" type`
 
   - `string id`
 
@@ -61,6 +67,9 @@ Add Session Resource
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

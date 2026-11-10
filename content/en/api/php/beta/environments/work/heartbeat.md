@@ -19,15 +19,15 @@ Record a heartbeat for a work item to maintain the lease.
 
 - `workID: string` (path parameter)
 
-- `desiredTTLSeconds?:optional int` (query parameter)
+- `desiredTTLSeconds?: optional int` (query parameter)
 
   Desired TTL in seconds
 
-- `expectedLastHeartbeat?:optional string` (query parameter)
+- `expectedLastHeartbeat?: optional string` (query parameter)
 
-  Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match.
+  Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match. The server does not compare the value when the work item is 'stopping' or 'stopped'.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -41,7 +41,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `string lastHeartbeat`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `bool leaseExtended`
 
@@ -61,6 +61,9 @@ Record a heartbeat for a work item to maintain the lease.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

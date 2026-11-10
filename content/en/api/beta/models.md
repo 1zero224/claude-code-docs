@@ -157,6 +157,18 @@ The Models API response can be used to determine which models are available for 
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -307,9 +319,13 @@ The Models API response can be used to determine which models are available for 
 
           Whether the model accepts thinking with type 'adaptive' (the model decides whether and how much to think).
 
+        - `between_tools: BetaCapabilitySupport`
+
+          Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
         - `disabled: BetaCapabilitySupport`
 
-          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
         - `enabled: BetaCapabilitySupport`
 
@@ -391,8 +407,8 @@ The Models API response can be used to determine which models are available for 
 
 ```bash
 curl https://api.anthropic.com/v1/models \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -475,6 +491,9 @@ curl https://api.anthropic.com/v1/models \
             "adaptive": {
               "supported": true
             },
+            "between_tools": {
+              "supported": true
+            },
             "disabled": {
               "supported": true
             },
@@ -488,7 +507,7 @@ curl https://api.anthropic.com/v1/models \
       "deprecated_at": "2019-12-27T18:11:19.117Z",
       "display_name": "Claude Opus 5.5",
       "lifecycle": "active",
-      "line": "haiku",
+      "line": "opus",
       "max_input_tokens": 0,
       "max_tokens": 0,
       "retires_at": "2019-12-27T18:11:19.117Z",
@@ -628,6 +647,18 @@ The Models API response can be used to determine information about a specific mo
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `"anthropic-workspace-id": optional string`
 
@@ -779,9 +810,13 @@ The Models API response can be used to determine information about a specific mo
 
           Whether the model accepts thinking with type 'adaptive' (the model decides whether and how much to think).
 
+        - `between_tools: BetaCapabilitySupport`
+
+          Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
         - `disabled: BetaCapabilitySupport`
 
-          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
         - `enabled: BetaCapabilitySupport`
 
@@ -851,8 +886,8 @@ The Models API response can be used to determine information about a specific mo
 
 ```bash
 curl https://api.anthropic.com/v1/models/$MODEL_ID \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -933,6 +968,9 @@ curl https://api.anthropic.com/v1/models/$MODEL_ID \
         "adaptive": {
           "supported": true
         },
+        "between_tools": {
+          "supported": true
+        },
         "disabled": {
           "supported": true
         },
@@ -946,7 +984,7 @@ curl https://api.anthropic.com/v1/models/$MODEL_ID \
   "deprecated_at": "2019-12-27T18:11:19.117Z",
   "display_name": "Claude Opus 5.5",
   "lifecycle": "active",
-  "line": "haiku",
+  "line": "opus",
   "max_input_tokens": 0,
   "max_tokens": 0,
   "retires_at": "2019-12-27T18:11:19.117Z",
@@ -1172,9 +1210,13 @@ curl https://api.anthropic.com/v1/models/$MODEL_ID \
 
         Whether the model accepts thinking with type 'adaptive' (the model decides whether and how much to think).
 
+      - `between_tools: BetaCapabilitySupport`
+
+        Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
       - `disabled: BetaCapabilitySupport`
 
-        Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+        Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
       - `enabled: BetaCapabilitySupport`
 
@@ -1324,9 +1366,13 @@ curl https://api.anthropic.com/v1/models/$MODEL_ID \
 
           Whether the model accepts thinking with type 'adaptive' (the model decides whether and how much to think).
 
+        - `between_tools: BetaCapabilitySupport`
+
+          Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
         - `disabled: BetaCapabilitySupport`
 
-          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
         - `enabled: BetaCapabilitySupport`
 
@@ -1452,9 +1498,13 @@ curl https://api.anthropic.com/v1/models/$MODEL_ID \
 
         Whether this capability is supported by the model.
 
+    - `between_tools: BetaCapabilitySupport`
+
+      Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
     - `disabled: BetaCapabilitySupport`
 
-      Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+      Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
     - `enabled: BetaCapabilitySupport`
 
@@ -1474,9 +1524,13 @@ curl https://api.anthropic.com/v1/models/$MODEL_ID \
 
       Whether this capability is supported by the model.
 
+  - `between_tools: BetaCapabilitySupport`
+
+    Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
   - `disabled: BetaCapabilitySupport`
 
-    Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+    Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
   - `enabled: BetaCapabilitySupport`
 

@@ -6,23 +6,17 @@
 
 > Extensions
 
-<div className="flex items-center gap-2 mb-4">
-  <Badge color="green" shape="pill">
-    Final
-  </Badge>
+Final
 
-  <Badge color="gray" shape="pill">
-    Standards Track
-  </Badge>
-</div>
+Standards Track
 
-<Note>
-  This SEP has reached Final status and is preserved as a historical record of
-  the design as accepted. Changes made to the protocol after finalization are
-  not reflected here. Refer to the [current
-  specification](/specification/latest) and its changelog for authoritative
-  requirements.
-</Note>
+> [!NOTE]
+>
+> This SEP has reached Final status and is preserved as a historical record of
+> the design as accepted. Changes made to the protocol after finalization are
+> not reflected here. Refer to the [current
+> specification](https://modelcontextprotocol.io/specification/latest.md) and its changelog for authoritative
+> requirements.
 
 | Field | Value |
 | - | - |
@@ -53,7 +47,7 @@ MCP currently lacks any form of guidance on how extensions are to be proposed or
 
 An MCP extension is an optional addition to the specification that defines capabilities beyond the core protocol. Extensions enable functionality that may be modular (e.g., distinct features like authentication), specialized (e.g., industry-specific logic), or experimental (e.g., features being incubated for potential core inclusion).
 
-Extensions are identified using a unique *extension identifier* with the format: `{vendor-prefix}/{extension-name}`, e.g. `io.modelcontextprotocol/oauth-client-credentials` or `com.example/websocket-transport`. The names follow the same rules as the [\_meta keys](https://modelcontextprotocol.io/specification/draft/basic/index#meta), except that the prefix is mandatory.
+Extensions are identified using a unique *extension identifier* with the format: `{vendor-prefix}/{extension-name}`, e.g. `io.modelcontextprotocol/oauth-client-credentials` or `com.example/websocket-transport`. The names follow the same rules as the [\_meta keys](https://modelcontextprotocol.io/specification/draft/basic/index.md#meta), except that the prefix is mandatory.
 
 To prevent identifier collisions, the vendor prefix SHOULD be a reversed domain name that the extension author owns or controls (similar to Java package naming conventions). For example, a company owning `example.com` would use `com.example/` as their prefix.
 
@@ -73,7 +67,7 @@ An *extension repository* is a repository within the official modelcontextprotoc
 * A repository has a set of maintainers (identified by MAINTAINERS.md) appointed by the core maintainers that are responsible for the repository and extensions within it (e.g. [ext-auth MAINTAINERS.md](https://github.com/modelcontextprotocol/ext-auth/blob/main/MAINTAINERS.md), [ext-apps MAINTAINERS.md](https://github.com/modelcontextprotocol/ext-apps/blob/main/MAINTAINERS.md)).
 * Extensions SHOULD have an associated working group or interest group to guide their development and gather community input.
 
-An *extension* is a versioned specification document within an extension repository, e.g. [https://github.com/modelcontextprotocol/ext-auth/blob/main/specification/draft/oauth-client-credentials.mdx](https://github.com/modelcontextprotocol/ext-auth/blob/main/specification/draft/oauth-client-credentials.mdx)
+An *extension* is a versioned specification document within an extension repository, e.g. [https://github.com/modelcontextprotocol/ext-auth/blob/main/specification/stable/oauth-client-credentials/2026-07-28/oauth-client-credentials.mdx](https://github.com/modelcontextprotocol/ext-auth/blob/main/specification/stable/oauth-client-credentials/2026-07-28/oauth-client-credentials.mdx)
 
 * Extension specifications MUST use the same language as the core specification (i.e. \[[BCP 14](https://www.rfc-editor.org/info/bcp14)] \[[RFC2119](https://datatracker.ietf.org/doc/html/rfc2119)] \[[RFC8174](https://datatracker.ietf.org/doc/html/rfc8174)]) and SHOULD be worded as if they were part of the core specification.
 
@@ -99,7 +93,7 @@ To graduate an experimental extension to official status, the standard SEP proce
 
 Extensions MAY optionally begin as experimental extensions (see *Experimental Extensions* section) to facilitate prototyping and collaboration before formal submission. This incubation period is encouraged but not required.
 
-To become an official extension, extensions are created via a SEP in the [main MCP repository](https://github.com/modelcontextprotocol/modelcontextprotocol/) using the [standard SEP guidelines](https://modelcontextprotocol.io/community/sep-guidelines) but with a new type: **Extensions Track**. This type follows the same review and acceptance process as Standards Track SEPs, but clearly indicates that the proposal is for an extension rather than a core protocol addition. The SEP must identify the Working Group and Extension Maintainers that will be responsible for the extension. See [SEP-2148](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2148) for how maintainers are appointed.
+To become an official extension, extensions are created via a SEP in the [main MCP repository](https://github.com/modelcontextprotocol/modelcontextprotocol/) using the [standard SEP guidelines](https://modelcontextprotocol.io/community/sep-guidelines.md) but with a new type: **Extensions Track**. This type follows the same review and acceptance process as Standards Track SEPs, but clearly indicates that the proposal is for an extension rather than a core protocol addition. The SEP must identify the Working Group and Extension Maintainers that will be responsible for the extension. See [SEP-2148](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2148) for how maintainers are appointed.
 
 Extension SEPs:
 
@@ -120,9 +114,9 @@ Eventually, some extensions MAY transition to being core protocol features. This
 
 ### Spec Recommendation
 
-Extensions will be referenced from a new page on the MCP website at [modelcontextprotocol.io/extensions](http://modelcontextprotocol.io/extensions) (to be created) with links to their specification.
+Extensions will be referenced from a new page on the MCP website at [modelcontextprotocol.io/extensions](https://modelcontextprotocol.io/extensions.md) (to be created) with links to their specification.
 
-Links to relevant extensions MAY also be added to the core specification as appropriate (e.g. [https://modelcontextprotocol.io/specification/draft/basic/authorization](https://modelcontextprotocol.io/specification/draft/basic/authorization) may link to ext-auth extensions), but they MUST be clearly advertised as optional extensions and SHOULD be links only (not copies of specification text).
+Links to relevant extensions MAY also be added to the core specification as appropriate (e.g. [https://modelcontextprotocol.io/specification/draft/basic/authorization](https://modelcontextprotocol.io/specification/draft/basic/authorization.md) may link to ext-auth extensions), but they MUST be clearly advertised as optional extensions and SHOULD be links only (not copies of specification text).
 
 ### SDK Implementation
 
@@ -142,7 +136,7 @@ Extensions SHOULD be versioned, but exact versioning approach is not specified h
 
 ### Negotiation
 
-Clients and servers advertise their support for extensions in the [ClientCapabilities](https://modelcontextprotocol.io/specification/2025-06-18/schema#clientcapabilities) and [ServerCapabilities](https://modelcontextprotocol.io/specification/2025-06-18/schema#servercapabilities) fields respectively, and in the [Server Card](https://github.com/modelcontextprotocol/modelcontextprotocol/issues/1649) (currently in progress).
+Clients and servers advertise their support for extensions in the [ClientCapabilities](https://modelcontextprotocol.io/specification/2025-06-18/schema.md#clientcapabilities) and [ServerCapabilities](https://modelcontextprotocol.io/specification/2025-06-18/schema.md#servercapabilities) fields respectively, and in the [Server Card](https://github.com/modelcontextprotocol/modelcontextprotocol/issues/1649) (currently in progress).
 
 A new "extensions" field will be introduced to each that is a map of *extension identifiers* to per-extension settings objects. Each extension specifies the schema of its settings object; an empty object indicates no settings.
 

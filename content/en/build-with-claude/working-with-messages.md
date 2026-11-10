@@ -2,6 +2,39 @@
 title: Using the Messages API
 url: https://platform.claude.com/docs/en/build-with-claude/working-with-messages
 description: Practical patterns and examples for using the Messages API effectively
+featureMetadata:
+  status: stable
+  zdr:
+    eligibility: eligible
+    note: Excludes [Covered Models](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#model-specific-data-retention-requirements). Standard API calls for generating Claude responses.
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: stable
+    Claude Platform on AWS: stable
+    Claude Models on Google Cloud (Anthropic managed): stable
+    Amazon Bedrock: stable
+    Amazon Bedrock (InvokeModel): stable
+    Claude Models on Google Cloud (Google managed): stable
+    Microsoft Foundry: stable
 ---
 
 Anthropic offers two ways to build with Claude, each suited to different use cases:
@@ -13,14 +46,10 @@ Anthropic offers two ways to build with Claude, each suited to different use cas
 
 This guide covers common patterns for working with the Messages API, including basic requests, multi-turn conversations, prefill techniques, and vision capabilities. For complete API specifications, see the [Messages API reference](https://platform.claude.com/docs/en/api/messages/create). For the managed agent harness instead, see the [Claude Managed Agents overview](https://platform.claude.com/docs/en/managed-agents/overview).
 
-<Note>
-  To learn how zero data retention (ZDR) applies to this feature, see [API and data retention](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention).
-</Note>
-
 ## Basic request and response
 
 <Note>
-  The `temperature`, `top_p`, and `top_k` sampling parameters are not supported on Claude 4.7 and later models and Claude Mythos Preview. Setting them to a non-default value returns a 400 error. Omit them from request payloads and use prompting to guide the model's behavior instead. See the [migration guide](https://platform.claude.com/docs/en/models/opus-5-5/migration-guide#opus-46-breaking-changes).
+  The `temperature`, `top_p`, and `top_k` sampling parameters are not supported on Claude 4.7 and later models and Claude Mythos Preview, or on any model starting with [API version `2026-10-21`](https://platform.claude.com/docs/en/api/migration-2026-10-21#sampling-parameters). Setting them to a non-default value returns a 400 error, and starting with `2026-10-21` any value does. Omit them from request payloads and use prompting to guide the model’s behavior instead. See the [breaking changes in the migration guide](https://platform.claude.com/docs/en/models/opus-5-5/migration-guide#opus-46-breaking-changes).
 </Note>
 
 <CodeGroup>
@@ -28,7 +57,7 @@ This guide covers common patterns for working with the Messages API, including b
   #!/bin/sh
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -73,7 +102,7 @@ This guide covers common patterns for working with the Messages API, including b
   {
       Model = Model.ClaudeOpus5_5,
       MaxTokens = 1024,
-      Messages = [new() { Role = Role.User, Content = "Hello, Claude" }]
+      Messages = [new UserMessageParam { Content = "Hello, Claude" }]
   };
   var message = await client.Messages.Create(parameters);
   Console.WriteLine(message);
@@ -114,7 +143,7 @@ This guide covers common patterns for working with the Messages API, including b
   $message = $client->messages->create(
       maxTokens: 1024,
       messages: [['role' => 'user', 'content' => 'Hello, Claude']],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
   );
   echo json_encode($message, JSON_PRETTY_PRINT), PHP_EOL;
   ```
@@ -123,7 +152,7 @@ This guide covers common patterns for working with the Messages API, including b
   client = Anthropic::Client.new
 
   message = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     messages: [
       { role: "user", content: "Hello, Claude" }
@@ -158,14 +187,16 @@ Refusal responses (`stop_reason: "refusal"`) also include a `stop_details` objec
 
 ## Multiple conversational turns
 
-The Messages API is stateless, which means that you always send the full conversational history to the API. You can use this pattern to build up a conversation over time. Earlier conversational turns don't necessarily need to actually originate from Claude. You can use synthetic `assistant` messages.
+The Messages API is stateless, which means that you always send the full conversational history to the API. You can use this pattern to build up a conversation over time. Earlier conversational turns don’t necessarily need to actually originate from Claude. You can use synthetic `assistant` messages.
+
+With [message threads](https://platform.claude.com/docs/en/build-with-claude/message-threads), in beta, the API can keep the conversation, so that each later request sends only the new messages. A thread expires 5 minutes after its last request and is deleted no more than 1 hour after its last use.
 
 <CodeGroup>
   ```bash cURL
   #!/bin/sh
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -225,9 +256,9 @@ The Messages API is stateless, which means that you always send the full convers
       MaxTokens = 1024,
       Messages =
       [
-          new() { Role = Role.User, Content = "Hello, Claude" },
-          new() { Role = Role.Assistant, Content = "Hello!" },
-          new() { Role = Role.User, Content = "Can you describe LLMs to me?" }
+          new UserMessageParam { Content = "Hello, Claude" },
+          new AssistantMessageParam { Content = "Hello!" },
+          new UserMessageParam { Content = "Can you describe LLMs to me?" }
       ]
   };
 
@@ -278,7 +309,7 @@ The Messages API is stateless, which means that you always send the full convers
           ['role' => 'assistant', 'content' => 'Hello!'],
           ['role' => 'user', 'content' => 'Can you describe LLMs to me?'],
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
   );
 
   echo json_encode($message, JSON_PRETTY_PRINT), PHP_EOL;
@@ -288,7 +319,7 @@ The Messages API is stateless, which means that you always send the full convers
   client = Anthropic::Client.new
 
   message = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     messages: [
       { role: "user", content: "Hello, Claude" },
@@ -323,15 +354,15 @@ The Messages API is stateless, which means that you always send the full convers
 
 ### System role in messages
 
-On Claude Fable 5.1, [Claude Mythos 5.1](https://platform.claude.com/docs/en/models/mythos-5-1/overview), Claude Fable 5, [Claude Mythos 5](https://platform.claude.com/docs/en/models/mythos-5/overview), Claude Opus 5.5, Claude Opus 4.8, Claude Opus 5, Claude Sonnet 5.5, and Claude Haiku 5.5, you can include messages with `"role": "system"` after a user turn (subject to [placement rules](https://platform.claude.com/docs/en/build-with-claude/mid-conversation-system-messages#limitations)) to add a new system instruction partway through a conversation. A `system` message that carries content cannot be the first entry in `messages`. Use the top-level `system` field for instructions that apply from the start.
+You can include messages with `"role": "system"` after a user turn to add a new system instruction partway through a conversation, subject to [placement rules](https://platform.claude.com/docs/en/build-with-claude/mid-conversation-system-messages#limitations). This works on Claude Fable 5.2, [Claude Mythos 5.2](https://platform.claude.com/docs/en/models/mythos-5-2/overview), Claude Fable 5.1, [Claude Mythos 5.1](https://platform.claude.com/docs/en/models/mythos-5-1/overview), Claude Fable 5, [Claude Mythos 5](https://platform.claude.com/docs/en/models/mythos-5/overview), Claude Opus 5.5, Claude Opus 4.8, Claude Opus 5, Claude Sonnet 5.5, and Claude Haiku 5.5. A `system` message that carries content cannot be the first entry in `messages`. Use the top-level `system` field for instructions that apply from the start.
 
 A mid-conversation system message has the same authority as the top-level `system` field, but because it is appended to the end of the message history, it does not invalidate any cached prefix that came before it. Use the top-level `system` field for instructions that should apply from the very first turn, and a mid-conversation system message for instructions that only become relevant later.
 
 See [Mid-conversation system messages](https://platform.claude.com/docs/en/build-with-claude/mid-conversation-system-messages) for the complete guide, including how to combine it with [prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching).
 
-## Prefilling Claude's response
+## Prefilling Claude’s response
 
-You can pre-fill part of Claude's response in the last position of the input messages list. Use this technique to shape Claude's response. The following example uses `"max_tokens": 1` to get a single multiple choice answer from Claude.
+You can prefill part of Claude’s response in the last position of the input messages list. Use this technique to shape Claude’s response. The following example uses `"max_tokens": 1` to get a single multiple choice answer from Claude.
 
 <Warning>
   Prefilling is not supported on Claude 4.6 and later models and [Claude Mythos Preview](https://anthropic.com/glasswing). Requests using prefill with these models return a 400 error. Use [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) on models that support it, or system prompt instructions, instead. See the [migration guide](https://platform.claude.com/docs/en/about-claude/models/migration-guide) for migration patterns.
@@ -342,7 +373,7 @@ You can pre-fill part of Claude's response in the last position of the input mes
   #!/bin/sh
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-sonnet-4-5",
@@ -406,8 +437,8 @@ You can pre-fill part of Claude's response in the last position of the input mes
       Model = Model.ClaudeSonnet4_5,
       MaxTokens = 1,
       Messages = [
-          new() { Role = Role.User, Content = "What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae" },
-          new() { Role = Role.Assistant, Content = "The answer is (" }
+          new UserMessageParam { Content = "What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae" },
+          new AssistantMessageParam { Content = "The answer is (" }
       ]
   };
 
@@ -464,7 +495,7 @@ You can pre-fill part of Claude's response in the last position of the input mes
   client = Anthropic::Client.new
 
   message = client.messages.create(
-    model: "claude-sonnet-4-5",
+    model: Anthropic::Model::CLAUDE_SONNET_4_5,
     max_tokens: 1,
     messages: [
       {
@@ -501,20 +532,18 @@ You can pre-fill part of Claude's response in the last position of the input mes
 
 ## Vision
 
-Claude can read both text and images in requests. You can supply images using the `base64`, `url`, or `file` source types. The `file` source type references an image uploaded through the [Files API](https://platform.claude.com/docs/en/build-with-claude/files). Supported media types are `image/jpeg`, `image/png`, `image/gif`, and `image/webp`. See the [vision guide](https://platform.claude.com/docs/en/build-with-claude/vision) for more details.
+Claude can read both text and images in requests. You can supply images using the `base64`, `url`, or `file` source types. The `file` source type references an image uploaded through the [Files API](https://platform.claude.com/docs/en/build-with-claude/files). Supported media types are `image/jpeg`, `image/png`, `image/gif`, and `image/webp`. See the [Vision](https://platform.claude.com/docs/en/build-with-claude/vision) guide for more details.
 
 <CodeGroup>
   ```bash cURL
   #!/bin/sh
 
-  # Option 1: Base64-encoded image
-  IMAGE_URL="https://platform.claude.com/docs/images/vision-example.jpg"
-  IMAGE_MEDIA_TYPE="image/jpeg"
-  IMAGE_BASE64=$(curl "$IMAGE_URL" | base64 | tr -d '\n')
+  # Option 1: base64-encoded image
+  IMAGE_BASE64=$(curl "https://platform.claude.com/docs/images/vision-example.jpg" | base64 | tr -d '\n')
 
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d @- <<EOF
   {
@@ -524,7 +553,7 @@ Claude can read both text and images in requests. You can supply images using th
       {"role": "user", "content": [
         {"type": "image", "source": {
           "type": "base64",
-          "media_type": "$IMAGE_MEDIA_TYPE",
+          "media_type": "image/jpeg",
           "data": "$IMAGE_BASE64"
         }},
         {"type": "text", "text": "What is in the above image?"}
@@ -536,7 +565,7 @@ Claude can read both text and images in requests. You can supply images using th
   # Option 2: URL-referenced image
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -554,10 +583,9 @@ Claude can read both text and images in requests. You can supply images using th
   ```
 
   ```bash CLI
-  IMAGE_URL="https://platform.claude.com/docs/images/vision-example.jpg"
-
-  # Option 1: Base64-encoded image (CLI auto-encodes binary @file refs)
-  curl -s "$IMAGE_URL" -o ./vision-example.jpg
+  # Option 1: base64-encoded image (CLI auto-encodes binary @file refs)
+  curl -s "https://platform.claude.com/docs/images/vision-example.jpg" \
+    -o ./vision-example.jpg
 
   ant messages create <<'YAML'
   model: claude-opus-5-5
@@ -575,7 +603,7 @@ Claude can read both text and images in requests. You can supply images using th
   YAML
 
   # Option 2: URL-referenced image
-  ant messages create <<YAML
+  ant messages create <<'YAML'
   model: claude-opus-5-5
   max_tokens: 1024
   messages:
@@ -584,7 +612,7 @@ Claude can read both text and images in requests. You can supply images using th
         - type: image
           source:
             type: url
-            url: $IMAGE_URL
+            url: https://platform.claude.com/docs/images/vision-example.jpg
         - type: text
           text: What is in the above image?
   YAML
@@ -594,7 +622,7 @@ Claude can read both text and images in requests. You can supply images using th
   import base64
   import httpx2
 
-  # Option 1: Base64-encoded image
+  # Option 1: base64-encoded image
   image_url = "https://platform.claude.com/docs/images/vision-example.jpg"
   image_media_type = "image/jpeg"
   image_data = base64.standard_b64encode(httpx2.get(image_url).content).decode("utf-8")
@@ -647,7 +675,7 @@ Claude can read both text and images in requests. You can supply images using th
   ```typescript TypeScript
   const anthropic = new Anthropic();
 
-  // Option 1: Base64-encoded image
+  // Option 1: base64-encoded image
   const imageUrl = "https://platform.claude.com/docs/images/vision-example.jpg";
   const imageMediaType = "image/jpeg";
   const imageArrayBuffer = await (await fetch(imageUrl)).arrayBuffer();
@@ -712,7 +740,7 @@ Claude can read both text and images in requests. You can supply images using th
 
   AnthropicClient client = new();
 
-  // Option 1: Base64-encoded image
+  // Option 1: base64-encoded image
   string imageUrl = "https://platform.claude.com/docs/images/vision-example.jpg";
 
   using HttpClient httpClient = new();
@@ -725,10 +753,9 @@ Claude can read both text and images in requests. You can supply images using th
       MaxTokens = 1024,
       Messages =
       [
-          new()
+          new UserMessageParam
           {
-              Role = Role.User,
-              Content = new MessageParamContent(new List<ContentBlockParam>
+              Content = new List<ContentBlockParam>
               {
                   new ContentBlockParam(new ImageBlockParam(
                       new ImageBlockParamSource(new Base64ImageSource()
@@ -738,7 +765,7 @@ Claude can read both text and images in requests. You can supply images using th
                       })
                   )),
                   new ContentBlockParam(new TextBlockParam("What is in the above image?")),
-              }),
+              },
           }
       ]
   };
@@ -753,10 +780,9 @@ Claude can read both text and images in requests. You can supply images using th
       MaxTokens = 1024,
       Messages =
       [
-          new()
+          new UserMessageParam
           {
-              Role = Role.User,
-              Content = new MessageParamContent(new List<ContentBlockParam>
+              Content = new List<ContentBlockParam>
               {
                   new ContentBlockParam(new ImageBlockParam(
                       new ImageBlockParamSource(new UrlImageSource()
@@ -765,7 +791,7 @@ Claude can read both text and images in requests. You can supply images using th
                       })
                   )),
                   new ContentBlockParam(new TextBlockParam("What is in the above image?")),
-              }),
+              },
           }
       ]
   };
@@ -777,7 +803,7 @@ Claude can read both text and images in requests. You can supply images using th
   ```go Go
   client := anthropic.NewClient()
 
-  // Option 1: Base64-encoded image
+  // Option 1: base64-encoded image
   imageURL := "https://platform.claude.com/docs/images/vision-example.jpg"
 
   req, err := http.NewRequest("GET", imageURL, nil)
@@ -835,11 +861,13 @@ Claude can read both text and images in requests. You can supply images using th
   ```java Java
   AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
-  // Option 1: Base64-encoded image
+  // Option 1: base64-encoded image
   String imageUrl = "https://platform.claude.com/docs/images/vision-example.jpg";
 
   HttpClient httpClient = HttpClient.newHttpClient();
-  HttpRequest request = HttpRequest.newBuilder().uri(URI.create(imageUrl)).build();
+  HttpRequest request = HttpRequest.newBuilder()
+      .uri(URI.create(imageUrl))
+      .build();
   HttpResponse<byte[]> response = httpClient.send(request, HttpResponse.BodyHandlers.ofByteArray());
   String imageData = Base64.getEncoder().encodeToString(response.body());
 
@@ -861,7 +889,7 @@ Claude can read both text and images in requests. You can supply images using th
       MessageCreateParams.builder()
           .model(Model.CLAUDE_OPUS_5_5)
           .maxTokens(1024L)
-          .addUserMessageOfBlockParams(base64Content)
+          .addUserMessageOfContentBlockParams(base64Content)
           .build());
   System.out.println(message);
 
@@ -883,7 +911,7 @@ Claude can read both text and images in requests. You can supply images using th
       MessageCreateParams.builder()
           .model(Model.CLAUDE_OPUS_5_5)
           .maxTokens(1024L)
-          .addUserMessageOfBlockParams(urlContent)
+          .addUserMessageOfContentBlockParams(urlContent)
           .build());
   System.out.println(messageFromUrl);
   ```
@@ -891,9 +919,9 @@ Claude can read both text and images in requests. You can supply images using th
   ```php PHP
   $client = new Client();
 
-  // Option 1: Base64-encoded image
+  // Option 1: base64-encoded image
   $image_url = 'https://platform.claude.com/docs/images/vision-example.jpg';
-  $image_media_type = "image/jpeg";
+  $image_media_type = 'image/jpeg';
   $image_data = base64_encode(file_get_contents($image_url));
 
   $message = $client->messages->create(
@@ -953,7 +981,7 @@ Claude can read both text and images in requests. You can supply images using th
 
   client = Anthropic::Client.new
 
-  # Option 1: Base64-encoded image
+  # Option 1: base64-encoded image
   image_url = "https://platform.claude.com/docs/images/vision-example.jpg"
   image_media_type = "image/jpeg"
   image_data = Base64.strict_encode64(Net::HTTP.get(URI(image_url)))
@@ -1058,3 +1086,24 @@ Claude can read both text and images in requests. You can supply images using th
     Set an advisory token budget across a full agentic loop with `output_config.task_budget`.
   </Card>
 </CardGroup>
+
+## Availability
+
+The Messages API is available on every model and eligible for zero data retention and HIPAA readiness.
+
+### API support
+
+Available
+
+### Data handling
+
+[Data handling overview](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#feature-eligibility)
+
+| Item    | Zero data retention                                                                                                                                       | HIPAA    |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Status  | Eligible (excludes [Covered Models](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)) | Eligible |
+| Details | Standard API calls for generating Claude responses.                                                                                                       | —        |
+
+Applicable endpoints:
+
+* `/v1/messages`

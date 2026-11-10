@@ -29,6 +29,12 @@ The Models API response can be used to determine which models are available for 
 
   maxItems: 3
 
+  - `"active"`
+
+  - `"deprecated"`
+
+  - `"retired"`
+
 - `--limit: optional number` (query parameter)
 
   Number of items to return per page.
@@ -42,12 +48,6 @@ The Models API response can be used to determine which models are available for 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `--beta: optional array of AnthropicBeta` (header parameter)
-
-  **Deprecated**: Deprecated. This parameter will be removed from this method in a future release. To use beta features, call the beta models methods (`client.beta.models`) instead.
-
-  Optional header to specify the beta version(s) you want to use.
 
 ## Returns
 
@@ -81,17 +81,9 @@ The Models API response can be used to determine which models are available for 
 
         Whether the model supports citation generation.
 
-        - `supported: boolean`
-
-          Whether this capability is supported by the model.
-
       - `code_execution: object`
 
         Whether code that the model runs in the code execution tool can call the request's other tools, as in programmatic tool calling and dynamic filtering for web search and web fetch. Support for the code execution tool itself is in `server_tools.code_execution`.
-
-        - `supported: boolean`
-
-          Whether this capability is supported by the model.
 
       - `context_management: object`
 
@@ -101,25 +93,13 @@ The Models API response can be used to determine which models are available for 
 
           Whether the clear_thinking_20251015 strategy is supported.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
         - `clear_tool_uses_20250919: object`
 
           Whether the clear_tool_uses_20250919 strategy is supported.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
         - `compact_20260112: object`
 
           Whether the compact_20260112 strategy is supported.
-
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
 
         - `supported: boolean`
 
@@ -133,33 +113,17 @@ The Models API response can be used to determine which models are available for 
 
           Whether the model supports high effort level.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
         - `low: object`
 
           Whether the model supports low effort level.
-
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
 
         - `max: object`
 
           Whether the model supports max effort level.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
         - `medium: object`
 
           Whether the model supports medium effort level.
-
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
 
         - `supported: boolean`
 
@@ -169,25 +133,13 @@ The Models API response can be used to determine which models are available for 
 
           Whether the model supports xhigh effort level.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
       - `image_input: object`
 
         Whether the model accepts image content blocks.
 
-        - `supported: boolean`
-
-          Whether this capability is supported by the model.
-
       - `pdf_input: object`
 
         Whether the model accepts PDF content blocks.
-
-        - `supported: boolean`
-
-          Whether this capability is supported by the model.
 
       - `server_tools: object`
 
@@ -197,10 +149,6 @@ The Models API response can be used to determine which models are available for 
 
           Whether the model supports the code execution tool: true when the model supports at least one version of the tool, not necessarily every version.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
         - `supported: boolean`
 
           Whether this capability is supported by the model.
@@ -209,17 +157,9 @@ The Models API response can be used to determine which models are available for 
 
           Whether the model supports the web search tool: true when the model supports at least one version of the tool, not necessarily every version.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
       - `structured_outputs: object`
 
         Whether the model supports structured output / JSON mode / strict tool schemas.
-
-        - `supported: boolean`
-
-          Whether this capability is supported by the model.
 
       - `thinking: object`
 
@@ -237,25 +177,17 @@ The Models API response can be used to determine which models are available for 
 
             Whether the model accepts thinking with type 'adaptive' (the model decides whether and how much to think).
 
-            - `supported: boolean`
+          - `between_tools: object`
 
-              Whether this capability is supported by the model.
+            Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
           - `disabled: object`
 
-            Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
-
-            - `supported: boolean`
-
-              Whether this capability is supported by the model.
+            Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
           - `enabled: object`
 
             Whether the model accepts thinking with type 'enabled' (extended thinking with a caller-set `budget_tokens`).
-
-            - `supported: boolean`
-
-              Whether this capability is supported by the model.
 
     - `created_at: string`
 
@@ -330,8 +262,7 @@ The Models API response can be used to determine which models are available for 
 ## Example
 
 ```bash
-ant models list \
-  --api-key my-anthropic-api-key
+ant models list
 ```
 
 ### Response (200)
@@ -405,6 +336,9 @@ ant models list \
             "adaptive": {
               "supported": true
             },
+            "between_tools": {
+              "supported": true
+            },
             "disabled": {
               "supported": true
             },
@@ -418,7 +352,7 @@ ant models list \
       "deprecated_at": "2019-12-27T18:11:19.117Z",
       "display_name": "Claude Opus 5.5",
       "lifecycle": "active",
-      "line": "haiku",
+      "line": "opus",
       "max_input_tokens": 0,
       "max_tokens": 0,
       "retires_at": "2019-12-27T18:11:19.117Z",

@@ -36,7 +36,9 @@ After an organization Owner or Primary Owner configures your account for usage c
 
 6. Set a monthly spend limit to apply organization-wide.
 
-7. Enable usage credits for specific users or the entire organization.
+7. Enable usage credits for the entire organization, or for specific users where available.
+
+**Note:** Spend limits for individual members aren't available to every Team organization. If usage credits are on and **Organization settings > Usage** shows **Spend by org member** instead of **Spend limits by user**, they aren't available for yours. Owners and Primary Owners can still set an organization-wide spend limit.
 
 ### For seat-based Enterprise owners
 
@@ -70,35 +72,27 @@ After navigating to **[Organization settings > Usage](https://claude.ai/admin-se
 
 The **Usage and spend limits** section will show the current limit (if any) or **Unlimited**. Clicking on "Adjust limit" opens a modal where you can either input an amount and click "Set spend limit," or click "Set to unlimited" to remove the organization-wide monthly spend limit.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2149347604/936ac4eb025d3ef1f00c3b8a26b0/image.png?expires=1792008900&amp;signature=a6b6cb98c421eb8d8c7fe14938291f3703689731e7bfd9a448d825d8cdf6c4ee&amp;req=diEjH8p6modfXfMW1HO4zQHwgqPXliav6DwhVVpk1mC2DgDf756oG8cxT5%2FR%0A95QxGRjGxLbQXig1lG4%3D%0A)
-
 Changes to your organization’s overall spend limit go into effect immediately.
 
 ### Seat spend limits for seat-based Enterprise plans
 
 Owners and Primary Owners on **seat-based Enterprise plans only** can set spend limits that apply to all users within a specific seat tier.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2149351600/c5b979c366ac2738f60ea84e85b3/CleanShot+2026-03-10+at+15_37_41%402x.png?expires=1792008900&amp;signature=9fcbc25784238c7bb4362d598d112efbc99b07f9e8f3c99bbd4637a3b883d31f&amp;req=diEjH8p7nIdfWfMW1HO4zYnqMYeUI3iA0wfO62ivdG%2BjM6QPNswCL97TSHDv%0A64aRsX3bhtTLlMHGvuY%3D%0A)
-
 Select the "By group" tab to see **Standard seats** and **Premium seats** groups. Click the "..." icon next to the current limit, then "Edit limit." This opens a modal where you can either select "Set dollar amount" and input an amount, or click "Unlimited" to remove the limit for that seat type. Click "Set limit" to save your changes.
-
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2149362056/44993661ca2db771fe924d0346f6/image.png?expires=1792008900&amp;signature=54a9280d254f12afe68c48bfaec76782a5117cc802f8703dad9bb987b4473d39&amp;req=diEjH8p4n4FaX%2FMW1HO4zRzvvYcLcEVPq7nEDCGq9G5tC5XKT1dpHyTPrvMl%0AeuWc7LAFccyzmI3CtG8%3D%0A)
 
 ---
 
 ## User-level spend limits
 
-Owners and Primary Owners can also set individual monthly spend limits for each member by finding **Spend limits by user** and clicking the "..." button next to the user, then "Edit limit."
-
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2149370853/db66f5cd03683b9cc119d0dcd6b8/image.png?expires=1792008900&amp;signature=b7fcfe6c3a4587a642ad212792c2e3f21f88ee84f315b8448f9240980aade34c&amp;req=diEjH8p5nYlaWvMW1HO4zaPdGAVXVSdPe9HwvwG7ubgbJ6e3j22zS90XZa8h%0Af8FqqP9ht%2Boe3UV7NRQ%3D%0A)
+Owners and Primary Owners can also set individual monthly spend limits, where available, for each member by finding **Spend limits by user** and clicking the "..." button next to the user, then "Edit limit."
 
 Enter the amount and click "Set limit." Alternatively, selecting "Set to unlimited" will remove that member's monthly spend limit (they will still be subject to any organization or seat-level spend limits).
-
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2149374028/97813fe3b515c2e839d8d92abd79/image.png?expires=1792008900&amp;signature=d692aee002f788ce2ab733c72234bd928146a5acbc8f6fae1e6e43f54bb44c77&amp;req=diEjH8p5mYFdUfMW1HO4zevsA%2FWKM%2BODw6z2wGSwkbs7x8SDpNWdIVxMeUwP%0A2IlB8MJNGF6BmdGqABk%3D%0A)
 
 This allows owners fine control over usage credits, so you can set limits for different members based on their roles or individual needs. Once a user reaches their defined spend limit, this will automatically pause their usage credits until the end of the month. They will need to wait for their usage limits to reset before using Claude again.
 
 Note that the **Spend limits by user** section has a **MTD Spend** column, so you can track members' usage patterns and optimize seat assignments.
+
+**Note:** Spend limits for individual members aren't available to every Team organization. If usage credits are on and **Organization settings > Usage** shows **Spend by org member** instead of **Spend limits by user**, they aren't available for yours. Owners and Primary Owners can still set an organization-wide spend limit.
 
 ---
 
@@ -131,6 +125,10 @@ If you want to prevent users from submitting requests for usage credits, an orga
 ---
 
 ## Frequently asked questions
+
+### Do usage credits expire or get refunded?
+
+Usage credits purchased for Team and seat-based Enterprise plans expire 12 months after purchase, and purchases are non-refundable. See the **[Supplemental Credit Terms](https://www.anthropic.com/legal/credit-terms)** for details. If your organization moves from Team to Enterprise, any unused balance carries over. Learn more about **[migrating your organization from Team to Enterprise](https://support.claude.com/en/articles/13779868)**.
 
 ### What happens when I reach my spend limit?
 

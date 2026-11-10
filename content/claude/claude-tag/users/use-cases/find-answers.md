@@ -6,9 +6,9 @@
 
 > Claude Tag finds answers in connected docs and replies in the thread. See policy lookups, runbook checks, prior decisions, and answers from the Slack channel alone.
 
-export const BetaNote = () => <Info>Claude Tag is in public beta. Features and behavior described here may change before general availability.</Info>;
-
-<BetaNote />
+> [!NOTE]
+>
+> Claude Tag is in public beta. Features and behavior described here may change before general availability.
 
 ## How answer-finding prompts work
 
@@ -16,7 +16,7 @@ Each prompt below is a Slack message. You paste it in the channel where the ques
 
 ## Check the channel's connections
 
-Check that the channel has the connections below. Ask `@Claude what can you access from this channel?` to check; an admin can [add a connection](/docs/claude-tag/admins/add-connections) the channel is missing.
+Check that the channel has the connections below. Ask `@Claude what can you access from this channel?` to check; an admin can [add a connection](https://claude.com/docs/claude-tag/admins/add-connections.md) the channel is missing.
 
 | Connection | Examples | Why it matters here |
 | :- | :- | :- |
@@ -60,16 +60,14 @@ Without any connection, Claude can still answer from the channel's own history.
 @Claude what did this channel decide about the retention policy, and when?
 ```
 
-Answers come from this channel's history and [memory](/docs/claude-tag/users/memory).
+Answers come from this channel's history and [memory](https://claude.com/docs/claude-tag/users/memory.md).
 
 ## Related resources
 
-<CardGroup cols={2}>
-  <Card title="Catch up" href="/docs/claude-tag/users/use-cases/catch-up" horizontal arrow>
-    The same mechanism pointed at "what did I miss"
-  </Card>
+> [card] [Catch up](https://claude.com/docs/claude-tag/users/use-cases/catch-up.md)
+>
+> The same mechanism pointed at "what did I miss"
 
-  <Card title="What Claude Tag remembers" href="/docs/claude-tag/users/memory" horizontal arrow>
-    How channel knowledge accumulates
-  </Card>
-</CardGroup>
+> [card] [What Claude Tag remembers](https://claude.com/docs/claude-tag/users/memory.md)
+>
+> How channel knowledge accumulates

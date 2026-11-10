@@ -239,6 +239,18 @@ Create a new environment with the specified configuration.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -576,6 +588,18 @@ List environments with pagination support.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -904,6 +928,18 @@ Retrieve a specific environment by ID.
     - `"ce-plugins-2026-09-01"`
 
     - `"spend-limit-reads-2026-09-26"`
+
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
 
   - `workspace_id?: string` (header parameter)
 
@@ -1346,6 +1382,18 @@ Update an existing environment's configuration.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1495,7 +1543,10 @@ const client = new Anthropic({
   apiKey: process.env["ANTHROPIC_API_KEY"] // This is the default and can be omitted
 });
 
-const betaEnvironment = await client.beta.environments.update("env_011CZkZ9X2dpNyB7HsEFoRfW");
+const betaEnvironment = await client.beta.environments.update(
+  "env_011CZkZ9X2dpNyB7HsEFoRfW",
+  {}
+);
 
 console.log(betaEnvironment.id);
 ```
@@ -1669,6 +1720,18 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1835,6 +1898,18 @@ Archive an environment by ID. Archived environments cannot be used to create new
     - `"ce-plugins-2026-09-01"`
 
     - `"spend-limit-reads-2026-09-26"`
+
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
 
   - `workspace_id?: string` (header parameter)
 
@@ -2333,6 +2408,22 @@ console.log(betaEnvironment.id);
 
     - `"account"`
 
+### Beta Environment Archived Error Details
+
+- `interface BetaEnvironmentArchivedErrorDetails`
+
+  The environment is archived, so it cannot be updated.
+
+  - `error_code: "environment_archived"`
+
+### Beta Environment Create Disabled Error Details
+
+- `interface BetaEnvironmentCreateDisabledErrorDetails`
+
+  Anthropic has turned off creating environments for this organization. Existing environments still work.
+
+  - `error_code: "environment_create_disabled"`
+
 ### Beta Environment Delete Response
 
 - `interface BetaEnvironmentDeleteResponse`
@@ -2348,6 +2439,38 @@ console.log(betaEnvironment.id);
   - `id: string`
 
     Environment identifier
+
+### Beta Environment Not Found Error Details
+
+- `interface BetaEnvironmentNotFoundErrorDetails`
+
+  `settings.environment_id` names no Environment within the organization's reach.
+
+  - `error_code: "environment_not_found"`
+
+### Beta Environment Update Disabled Error Details
+
+- `interface BetaEnvironmentUpdateDisabledErrorDetails`
+
+  Anthropic has turned off updating environments for this organization. Existing environments still work as they are.
+
+  - `error_code: "environment_update_disabled"`
+
+### Beta Invalid Config Type Change Error Details
+
+- `interface BetaInvalidConfigTypeChangeErrorDetails`
+
+  `config.type` differs from the environment's stored type, which cannot change after creation.
+
+  - `error_code: "invalid_config_type_change"`
+
+### Beta Invalid Metadata Error Details
+
+- `interface BetaInvalidMetadataErrorDetails`
+
+  `metadata` has too many keys, a key or value that is too long, or a reserved key. The message names each problem.
+
+  - `error_code: "invalid_metadata"`
 
 ### Beta Limited Network
 
@@ -2628,6 +2751,18 @@ Retrieve detailed information about a specific work item.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -2891,6 +3026,18 @@ Long poll for work items in the queue.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `"Anthropic-Worker-ID"?: string` (header parameter)
 
     Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
@@ -2984,7 +3131,7 @@ const betaSelfHostedWork = await client.beta.environments.work.poll(
   "env_011CZkZ9X2dpNyB7HsEFoRfW"
 );
 
-console.log(betaSelfHostedWork.id);
+console.log(betaSelfHostedWork);
 ```
 
 ##### Response (200)
@@ -3136,6 +3283,18 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
 #### Returns
 
 - `interface BetaSelfHostedWork`
@@ -3283,7 +3442,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `expected_last_heartbeat?: string | null` (query parameter)
 
-    Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match.
+    Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match. The server does not compare the value when the work item is 'stopping' or 'stopped'.
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
@@ -3391,6 +3550,18 @@ Record a heartbeat for a work item to maintain the lease.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
 #### Returns
 
 - `interface BetaSelfHostedWorkHeartbeatResponse`
@@ -3405,7 +3576,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `last_heartbeat: string`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `lease_extended: boolean`
 
@@ -3585,6 +3756,18 @@ Stop a work item, initiating graceful or forced shutdown.
     - `"ce-plugins-2026-09-01"`
 
     - `"spend-limit-reads-2026-09-26"`
+
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
 
   - `workspace_id?: string` (header parameter)
 
@@ -3847,6 +4030,18 @@ List work items in an environment.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
 #### Returns
 
 - `interface BetaSelfHostedWork`
@@ -4104,6 +4299,18 @@ Update work item metadata with merge semantics.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -4354,6 +4561,18 @@ Get statistics about the work queue for an environment.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -4366,7 +4585,11 @@ Get statistics about the work queue for an environment.
 
   Statistics about the work queue for an environment.
 
-  Uses Redis Stream consumer group metrics for O(1) queries.
+  - `type: "work_queue_stats"`
+
+    The type of object
+
+    default: work_queue_stats
 
   - `type: "work_queue_stats"`
 
@@ -4376,7 +4599,7 @@ Get statistics about the work queue for an environment.
 
   - `depth: number`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
   - `oldest_queued_at: string | null`
 

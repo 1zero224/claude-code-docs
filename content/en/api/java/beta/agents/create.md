@@ -17,7 +17,7 @@ Create Agent
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -119,6 +119,18 @@ Create Agent
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -134,6 +146,10 @@ Create Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -245,31 +261,31 @@ Create Agent
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type type`
+          - `JsonValue type = "low"`
 
         - `class BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type type`
+          - `JsonValue type = "medium"`
 
         - `class BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type type`
+          - `JsonValue type = "high"`
 
         - `class BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type type`
+          - `JsonValue type = "xhigh"`
 
         - `class BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type type`
+          - `JsonValue type = "max"`
 
       - `Optional<String> inferenceGeo`
 
@@ -277,7 +293,7 @@ Create Agent
 
       - `Optional<Speed> speed`
 
-        Inference speed mode. Defaults to `standard`.
+        Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
         - `STANDARD("standard")`
 
@@ -295,11 +311,15 @@ Create Agent
 
     maxLength: 2048
 
+  - `Optional<BetaManagedAgentsExecutionIdentityParams> executionIdentity`
+
+    Execution principal for runs of this agent. Omitting it, sending null, or sending `{"type": "service_account"}` stores the default.
+
   - `Optional<List<BetaManagedAgentsUrlMcpServerParams>> mcpServers`
 
     MCP servers this agent connects to. Maximum 20. Names must be unique within the array. Every server must be referenced by an `mcp_toolset` in `tools`; unreferenced servers are rejected. See the [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector?sdk_languages=java).
 
-    - `Type type`
+    - `JsonValue type = "url"`
 
     - `String name`
 
@@ -329,7 +349,7 @@ Create Agent
 
       An Anthropic-managed skill.
 
-      - `Type type`
+      - `JsonValue type = "anthropic"`
 
       - `String skillId`
 
@@ -347,7 +367,7 @@ Create Agent
 
       A user-created custom skill.
 
-      - `Type type`
+      - `JsonValue type = "custom"`
 
       - `String skillId`
 
@@ -375,7 +395,7 @@ Create Agent
 
       Configuration for built-in agent tools. Use this to enable or disable groups of tools available to the agent.
 
-      - `Type type`
+      - `JsonValue type = "agent_toolset_20260401"`
 
       - `Optional<List<BetaManagedAgentsAgentToolConfigParams>> configs`
 
@@ -403,13 +423,13 @@ Create Agent
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type type`
+              - `JsonValue type = "always_allow"`
 
             - `class BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type type`
+              - `JsonValue type = "always_ask"`
 
             - `class BetaManagedAgentsAutoPolicy`
 
@@ -589,7 +609,7 @@ Create Agent
 
             Whether this tool is enabled and available to Claude. Overrides the default_config setting.
 
-          - `Optional<Long> maxContentTokens`
+          - `Optional<Integer> maxContentTokens`
 
             Maximum number of tokens of fetched text content to include in context per call. Does not apply to binary content such as PDFs.
 
@@ -763,6 +783,8 @@ Create Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Optional<String> region`
 
               Region or state name.
@@ -803,7 +825,7 @@ Create Agent
 
       Configuration for tools from an MCP server defined in `mcp_servers`.
 
-      - `Type type`
+      - `JsonValue type = "mcp_toolset"`
 
       - `String mcpServerName`
 
@@ -869,7 +891,7 @@ Create Agent
 
       A custom tool that is executed by the API client rather than the agent. When the agent calls this tool, an `agent.custom_tool_use` event is emitted and the session goes idle, waiting for the client to provide the result via a `user.custom_tool_result` event.
 
-      - `Type type`
+      - `JsonValue type = "custom"`
 
       - `String description`
 
@@ -891,7 +913,7 @@ Create Agent
 
         Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-        minLength: 1, maxLength: 128
+        minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
 ## Returns
 
@@ -899,17 +921,17 @@ Create Agent
 
   A Managed Agents `agent`.
 
-  - `Type type`
+  - `JsonValue type = "agent"`
 
   - `String id`
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the agent was archived. Null if not archived.
 
     format: date-time
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -917,9 +939,31 @@ Create Agent
 
   - `Optional<String> description`
 
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `JsonValue type = "aws_role"`
+
+      - `String roleArn`
+
+        The IAM role's ARN.
+
+    - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `JsonValue type = "service_account"`
+
   - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-    - `Type type`
+    - `JsonValue type = "url"`
+
+    - `String name`
 
     - `String name`
 
@@ -936,6 +980,10 @@ Create Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -1013,31 +1061,31 @@ Create Agent
 
         Low effort. Favors latency over reasoning depth.
 
-        - `Type type`
+        - `JsonValue type = "low"`
 
       - `class BetaManagedAgentsEffortMedium`
 
         Medium effort. Balances latency and reasoning depth.
 
-        - `Type type`
+        - `JsonValue type = "medium"`
 
       - `class BetaManagedAgentsEffortHigh`
 
         High effort. Favors reasoning depth.
 
-        - `Type type`
+        - `JsonValue type = "high"`
 
       - `class BetaManagedAgentsEffortXhigh`
 
         Extra-high effort. Not all models accept this level.
 
-        - `Type type`
+        - `JsonValue type = "xhigh"`
 
       - `class BetaManagedAgentsEffortMax`
 
         Maximum effort. Favors reasoning depth over latency.
 
-        - `Type type`
+        - `JsonValue type = "max"`
 
     - `Optional<String> inferenceGeo`
 
@@ -1059,7 +1107,7 @@ Create Agent
 
       Resolved coordinator topology with a concrete agent roster.
 
-      - `Type type`
+      - `JsonValue type = "coordinator"`
 
       - `List<Agent> agents`
 
@@ -1069,11 +1117,11 @@ Create Agent
 
           A resolved agent reference with a concrete version.
 
-          - `Type type`
+          - `JsonValue type = "agent"`
 
           - `String id`
 
-          - `long version`
+          - `int version`
 
             format: int32
 
@@ -1081,7 +1129,7 @@ Create Agent
 
           Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-          - `Type type`
+          - `JsonValue type = "advisor"`
 
           - `String model`
 
@@ -1143,11 +1191,11 @@ Create Agent
 
             Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-            - `Type type`
+            - `JsonValue type = "agent"`
 
             - `String id`
 
-            - `long version`
+            - `int version`
 
               format: int32
 
@@ -1175,11 +1223,11 @@ Create Agent
 
             Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-            - `Type type`
+            - `JsonValue type = "agent"`
 
             - `String id`
 
-            - `long version`
+            - `int version`
 
               format: int32
 
@@ -1197,7 +1245,9 @@ Create Agent
 
       A resolved Anthropic-managed skill.
 
-      - `Type type`
+      - `JsonValue type = "anthropic"`
+
+      - `String skillId`
 
       - `String skillId`
 
@@ -1207,7 +1257,9 @@ Create Agent
 
       A resolved user-created custom skill.
 
-      - `Type type`
+      - `JsonValue type = "custom"`
+
+      - `String skillId`
 
       - `String skillId`
 
@@ -1219,7 +1271,7 @@ Create Agent
 
     - `class BetaManagedAgentsAgentToolset20260401`
 
-      - `Type type`
+      - `JsonValue type = "agent_toolset_20260401"`
 
       - `List<BetaManagedAgentsAgentToolConfig> configs`
 
@@ -1241,13 +1293,13 @@ Create Agent
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type type`
+              - `JsonValue type = "always_allow"`
 
             - `class BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type type`
+              - `JsonValue type = "always_ask"`
 
             - `class BetaManagedAgentsAutoPolicy`
 
@@ -1491,7 +1543,7 @@ Create Agent
 
           - `Optional<List<String>> blockedDomains`
 
-          - `Optional<Long> maxContentTokens`
+          - `Optional<Integer> maxContentTokens`
 
             format: int32
 
@@ -1543,6 +1595,8 @@ Create Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Optional<String> region`
 
               Region or state name.
@@ -1579,7 +1633,7 @@ Create Agent
 
     - `class BetaManagedAgentsMcpToolset`
 
-      - `Type type`
+      - `JsonValue type = "mcp_toolset"`
 
       - `List<BetaManagedAgentsMcpToolConfig> configs`
 
@@ -1631,7 +1685,7 @@ Create Agent
 
       A custom tool as returned in API responses.
 
-      - `Type type`
+      - `JsonValue type = "custom"`
 
       - `String description`
 
@@ -1647,13 +1701,13 @@ Create Agent
 
       - `String name`
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
     format: date-time
 
-  - `long version`
+  - `int version`
 
     The agent's current version. Starts at 1 and increments when the agent is modified.
 
@@ -1693,6 +1747,9 @@ public final class Main {
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",

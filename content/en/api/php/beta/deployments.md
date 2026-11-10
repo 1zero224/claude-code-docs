@@ -31,33 +31,39 @@ Create Deployment
 
   Human-readable name for the deployment.
 
-- `budget?:optional BetaManagedAgentsBudgetLimit`
+- `budget?: optional BetaManagedAgentsBudgetLimit`
 
   Enforced spend ceiling stamped onto each session created from this deployment, copied at session-creation time. Omit to leave sessions uncapped. The deployment agent's model must have a public list price, or the request is rejected; a multiagent roster is re-validated in full when each fire copies the cap, which fails closed the same way.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Description of what the deployment does.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `resources?:optional list<Resource>`
+- `resources?: optional list<Resource>`
 
   Resources (e.g. repositories, files) to mount into each session's container. Maximum 500.
 
-- `schedule?:optional BetaManagedAgentsScheduleParams`
+- `schedule?: optional BetaManagedAgentsScheduleParams`
 
   Optional recurring cron schedule. When present, the deployment fires automatically. Both expression and timezone are required when schedule is set.
 
-- `vaultIDs?:optional list<string>`
+- `vaultIDs?: optional list<string>`
 
   Vault IDs for stored credentials the agent can use during sessions created from this deployment. Maximum 50.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -69,7 +75,7 @@ Create Deployment
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -141,6 +147,10 @@ Create Deployment
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\BetaCurrency;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -257,37 +267,43 @@ List Deployments
 
 ### Parameters
 
-- `agentID?:optional string` (query parameter)
+- `agentID?: optional string` (query parameter)
 
   Filter by agent ID.
 
-- `createdAtGte?:optional \Datetime` (query parameter)
+- `createdAtGte?: optional \Datetime` (query parameter)
 
   Return deployments created at or after this time (inclusive).
 
-- `createdAtLte?:optional \Datetime` (query parameter)
+- `createdAtLte?: optional \Datetime` (query parameter)
 
   Return deployments created at or before this time (inclusive).
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   When true, includes archived deployments. Default: false (exclude archived).
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum results per page. Default 20, maximum 100.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor.
 
-- `status?:optional BetaManagedAgentsDeploymentStatus` (query parameter)
+- `status?: optional BetaManagedAgentsDeploymentStatus` (query parameter)
 
   Filter by status: `active` or `paused`. Omit for both. To include archived deployments, use `include_archived` instead; the two cannot be combined.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -299,7 +315,7 @@ List Deployments
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -371,6 +387,10 @@ List Deployments
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Deployments\BetaManagedAgentsDeploymentStatus;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -475,9 +495,15 @@ Get Deployment
 
   Unique identifier of the deployment.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -489,7 +515,7 @@ Get Deployment
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -561,6 +587,9 @@ Get Deployment
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -654,49 +683,55 @@ Update Deployment
 
   Unique identifier of the deployment to update.
 
-- `agent?:optional Agent`
+- `agent?: optional Agent`
 
   Agent to deploy. Accepts the `agent` ID string, which re-pins to the latest version, or an `agent` object with both id and version specified. Omit to preserve. Cannot be cleared.
 
-- `budget?:optional BetaManagedAgentsBudgetLimit`
+- `budget?: optional BetaManagedAgentsBudgetLimit`
 
   Spend ceiling for future sessions. Full replacement. Omit to preserve; send null to clear (sessions created afterwards are uncapped). The deployment agent's model must have a public list price, or the request is rejected; a multiagent roster is re-validated in full when each fire copies the cap, which fails closed the same way.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Description. Omit to preserve; send empty string or null to clear.
 
-- `environmentID?:optional string`
+- `environmentID?: optional string`
 
   ID of the `environment` where sessions run. Omit to preserve. Cannot be cleared.
 
-- `initialEvents?:optional list<BetaManagedAgentsDeploymentInitialEventParams>`
+- `initialEvents?: optional list<BetaManagedAgentsDeploymentInitialEventParams>`
 
   Initial events. Full replacement. Omit to preserve. Cannot be cleared. At least 1, maximum 50.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve. The stored bag is limited to 16 keys (up to 64 chars each) with values up to 512 chars.
 
-- `name?:optional string`
+- `name?: optional string`
 
   Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
 
-- `resources?:optional list<Resource>`
+- `resources?: optional list<Resource>`
 
   Session resources. Full replacement. Omit to preserve; send empty array or null to clear. Maximum 500.
 
-- `schedule?:optional BetaManagedAgentsScheduleParams`
+- `schedule?: optional BetaManagedAgentsScheduleParams`
 
   Cron schedule. Full replacement. Omit to preserve; send null to clear (revert to manual-only).
 
-- `vaultIDs?:optional list<string>`
+- `vaultIDs?: optional list<string>`
 
   Vault IDs. Full replacement. Omit to preserve; send empty array or null to clear. Maximum 50.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -708,7 +743,7 @@ Update Deployment
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -780,6 +815,10 @@ Update Deployment
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\BetaCurrency;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -901,9 +940,15 @@ Archive Deployment
 
   Unique identifier of the deployment to archive.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -915,7 +960,7 @@ Archive Deployment
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -987,6 +1032,9 @@ Archive Deployment
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -1080,9 +1128,15 @@ Run Deployment Now
 
   Unique identifier of the deployment to run.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -1094,7 +1148,7 @@ Run Deployment Now
 
 - `class BetaManagedAgentsDeploymentRun`
 
-  - `Type type`
+  - `"deployment_run" type`
 
   - `string id`
 
@@ -1130,6 +1184,9 @@ Run Deployment Now
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -1181,9 +1238,15 @@ Pause Deployment
 
   Unique identifier of the deployment to pause.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -1195,7 +1258,7 @@ Pause Deployment
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -1267,6 +1330,9 @@ Pause Deployment
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -1360,9 +1426,15 @@ Unpause Deployment
 
   Unique identifier of the deployment to unpause.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -1374,7 +1446,7 @@ Unpause Deployment
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -1446,6 +1518,9 @@ Unpause Deployment
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -1531,13 +1606,13 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsAgentArchivedDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"agent_archived_error" type`
 
 ### Beta Managed Agents Cron Schedule
 
 - `class BetaManagedAgentsCronSchedule`
 
-  - `Type type`
+  - `"cron" type`
 
   - `string expression`
 
@@ -1559,7 +1634,7 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsCronScheduleParams`
 
-  - `Type type`
+  - `"cron" type`
 
   - `string expression`
 
@@ -1573,7 +1648,7 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -1645,7 +1720,7 @@ var_dump($betaManagedAgentsDeployment);
 
   - `class BetaManagedAgentsDeploymentUserMessageEvent`
 
-    - `Type type`
+    - `"user.message" type`
 
     - `list<Content> content`
 
@@ -1653,7 +1728,7 @@ var_dump($betaManagedAgentsDeployment);
 
   - `class BetaManagedAgentsDeploymentUserDefineOutcomeEvent`
 
-    - `Type type`
+    - `"user.define_outcome" type`
 
     - `string description`
 
@@ -1669,7 +1744,7 @@ var_dump($betaManagedAgentsDeployment);
 
   - `class BetaManagedAgentsDeploymentSystemMessageEvent`
 
-    - `Type type`
+    - `"system.message" type`
 
     - `list<BetaManagedAgentsSystemContentBlock> content`
 
@@ -1681,7 +1756,7 @@ var_dump($betaManagedAgentsDeployment);
 
   - `class ManagedAgentsUserMessageEventParams`
 
-    - `Type type`
+    - `"user.message" type`
 
     - `list<Content> content`
 
@@ -1689,7 +1764,7 @@ var_dump($betaManagedAgentsDeployment);
 
   - `class ManagedAgentsUserDefineOutcomeEventParams`
 
-    - `Type type`
+    - `"user.define_outcome" type`
 
     - `string description`
 
@@ -1705,7 +1780,7 @@ var_dump($betaManagedAgentsDeployment);
 
   - `class ManagedAgentsSystemMessageEventParams`
 
-    - `Type type`
+    - `"system.message" type`
 
     - `list<BetaManagedAgentsSystemContentBlock> content`
 
@@ -1717,11 +1792,11 @@ var_dump($betaManagedAgentsDeployment);
 
   - `class BetaManagedAgentsManualDeploymentPausedReason`
 
-    - `Type type`
+    - `"manual" type`
 
   - `class BetaManagedAgentsErrorDeploymentPausedReason`
 
-    - `Type type`
+    - `"error" type`
 
     - `BetaManagedAgentsDeploymentPausedReasonError error`
 
@@ -1733,59 +1808,59 @@ var_dump($betaManagedAgentsDeployment);
 
   - `class BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"environment_archived_error" type`
 
   - `class BetaManagedAgentsAgentArchivedDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"agent_archived_error" type`
 
   - `class BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"environment_not_found_error" type`
 
   - `class BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"vault_not_found_error" type`
 
   - `class BetaManagedAgentsFileNotFoundDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"file_not_found_error" type`
 
   - `class BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"session_resource_not_found_error" type`
 
   - `class BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"workspace_archived_error" type`
 
   - `class BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"organization_disabled_error" type`
 
   - `class BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"memory_store_archived_error" type`
 
   - `class BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"skill_not_found_error" type`
 
   - `class BetaManagedAgentsVaultArchivedDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"vault_archived_error" type`
 
   - `class BetaManagedAgentsUnknownDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"unknown_error" type`
 
   - `class BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"self_hosted_resources_unsupported_error" type`
 
   - `class BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError`
 
-    - `Type type`
+    - `"mcp_egress_blocked_error" type`
 
 ### Beta Managed Agents Deployment Status
 
@@ -1803,7 +1878,7 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsDeploymentSystemMessageEvent`
 
-  - `Type type`
+  - `"system.message" type`
 
   - `list<BetaManagedAgentsSystemContentBlock> content`
 
@@ -1813,7 +1888,7 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsDeploymentUserDefineOutcomeEvent`
 
-  - `Type type`
+  - `"user.define_outcome" type`
 
   - `string description`
 
@@ -1831,7 +1906,7 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsDeploymentUserMessageEvent`
 
-  - `Type type`
+  - `"user.message" type`
 
   - `list<Content> content`
 
@@ -1841,19 +1916,23 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"environment_archived_error" type`
 
 ### Beta Managed Agents Environment Not Found Deployment Paused Reason Error
 
 - `class BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"environment_not_found_error" type`
 
 ### Beta Managed Agents Error Deployment Paused Reason
 
 - `class BetaManagedAgentsErrorDeploymentPausedReason`
 
-  - `Type type`
+  - `"error" type`
+
+  - `BetaManagedAgentsDeploymentPausedReasonError error`
+
+    The failed run's error.
 
   - `BetaManagedAgentsDeploymentPausedReasonError error`
 
@@ -1863,13 +1942,13 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsFileNotFoundDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"file_not_found_error" type`
 
 ### Beta Managed Agents File Resource Config
 
 - `class BetaManagedAgentsFileResourceConfig`
 
-  - `Type type`
+  - `"file" type`
 
   - `string fileID`
 
@@ -1883,7 +1962,7 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsGitHubRepositoryResourceConfig`
 
-  - `Type type`
+  - `"github_repository" type`
 
   - `string url`
 
@@ -1901,25 +1980,25 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsManualDeploymentPausedReason`
 
-  - `Type type`
+  - `"manual" type`
 
 ### Beta Managed Agents MCP Egress Blocked Deployment Paused Reason Error
 
 - `class BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"mcp_egress_blocked_error" type`
 
 ### Beta Managed Agents Memory Store Archived Deployment Paused Reason Error
 
 - `class BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"memory_store_archived_error" type`
 
 ### Beta Managed Agents Memory Store Resource Config
 
 - `class BetaManagedAgentsMemoryStoreResourceConfig`
 
-  - `Type type`
+  - `"memory_store" type`
 
   - `string memoryStoreID`
 
@@ -1937,13 +2016,13 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"organization_disabled_error" type`
 
 ### Beta Managed Agents Schedule
 
 - `class BetaManagedAgentsSchedule`
 
-  - `Type type`
+  - `"cron" type`
 
   - `string expression`
 
@@ -1965,7 +2044,7 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsScheduleParams`
 
-  - `Type type`
+  - `"cron" type`
 
   - `string expression`
 
@@ -1979,7 +2058,7 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"self_hosted_resources_unsupported_error" type`
 
 ### Beta Managed Agents Session Resource Config
 
@@ -1987,7 +2066,7 @@ var_dump($betaManagedAgentsDeployment);
 
   - `class BetaManagedAgentsGitHubRepositoryResourceConfig`
 
-    - `Type type`
+    - `"github_repository" type`
 
     - `string url`
 
@@ -2003,7 +2082,7 @@ var_dump($betaManagedAgentsDeployment);
 
   - `class BetaManagedAgentsFileResourceConfig`
 
-    - `Type type`
+    - `"file" type`
 
     - `string fileID`
 
@@ -2015,7 +2094,7 @@ var_dump($betaManagedAgentsDeployment);
 
   - `class BetaManagedAgentsMemoryStoreResourceConfig`
 
-    - `Type type`
+    - `"memory_store" type`
 
     - `string memoryStoreID`
 
@@ -2033,34 +2112,34 @@ var_dump($betaManagedAgentsDeployment);
 
 - `class BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"session_resource_not_found_error" type`
 
 ### Beta Managed Agents Skill Not Found Deployment Paused Reason Error
 
 - `class BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"skill_not_found_error" type`
 
 ### Beta Managed Agents Unknown Deployment Paused Reason Error
 
 - `class BetaManagedAgentsUnknownDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"unknown_error" type`
 
 ### Beta Managed Agents Vault Archived Deployment Paused Reason Error
 
 - `class BetaManagedAgentsVaultArchivedDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"vault_archived_error" type`
 
 ### Beta Managed Agents Vault Not Found Deployment Paused Reason Error
 
 - `class BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"vault_not_found_error" type`
 
 ### Beta Managed Agents Workspace Archived Deployment Paused Reason Error
 
 - `class BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError`
 
-  - `Type type`
+  - `"workspace_archived_error" type`

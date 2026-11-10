@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/php/beta/files/upload
 
 # Upload File
 
-`$client->beta->files->upload(string file, ?int expiresInSeconds, ?list<AnthropicBeta> betas, ?string workspaceID): BetaFileMetadata`
+`$client->beta->files->upload(FileParam | string file, ?int expiresInSeconds, ?list<AnthropicBeta> betas, ?string workspaceID): BetaFileMetadata`
 
 **POST** `/v1/files`
 
@@ -13,19 +13,19 @@ Upload File
 
 ## Parameters
 
-- `file: string`
+- `file: FileParam | string`
 
   The file to upload. Only the final path component of the part's `filename` is kept; an absent or empty `filename` is replaced with `unnamed` plus the extension for the file's stored `mime_type`, when known.
 
-- `expiresInSeconds?:optional int`
+- `expiresInSeconds?: optional int`
 
   Seconds from upload until the file expires and its bytes become permanently unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -81,6 +81,10 @@ Upload File
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Core\FileParam;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

@@ -2,6 +2,35 @@
 title: SDK middleware
 url: https://platform.claude.com/docs/en/cli-sdks-libraries/middleware
 description: Intercept and modify the SDK's requests and responses.
+featureMetadata:
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: stable
+    Claude Platform on AWS: stable
+    Claude Models on Google Cloud (Anthropic managed): stable
+    Amazon Bedrock: stable
+    Amazon Bedrock (InvokeModel): stable
+    Claude Models on Google Cloud (Google managed): stable
+    Microsoft Foundry: stable
 ---
 
 The Claude SDK provides a middleware (or interceptor) hook that lets you run code before a request is sent and after the response is received. Use middleware for cross-cutting concerns such as logging, custom retries, request annotation, and refusal fallback handling.
@@ -130,22 +159,26 @@ Each middleware is a function that receives the outgoing request and the next ha
       .build();
   ```
 
-  ```php PHP
-  $loggingMiddleware = function (RequestInterface $request, callable $next): ResponseInterface {
-      // Before the request
-      error_log("-> {$request->getMethod()} {$request->getUri()}");
+  <CodeGroupItem>
+    ```php PHP
+    $loggingMiddleware = function (RequestInterface $request, callable $next): ResponseInterface {
+        // Before the request
+        error_log("-> {$request->getMethod()} {$request->getUri()}");
 
-      // Forward the request to the rest of the chain
-      $response = $next($request);
+        // Forward the request to the rest of the chain
+        $response = $next($request);
 
-      // After the request
-      error_log("<- {$response->getStatusCode()}");
+        // After the request
+        error_log("<- {$response->getStatusCode()}");
 
-      return $response;
-  };
+        return $response;
+    };
 
-  $client = new Client(requestOptions: ['middleware' => [$loggingMiddleware]]);
-  ```
+    $client = new Client(requestOptions: ['middleware' => [$loggingMiddleware]]);
+    ```
+
+    For middleware classes, the request options argument, and how middleware interacts with retries, errors, and request signing, see [Middleware in the PHP SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/sdks/php#middleware).
+  </CodeGroupItem>
 
   ```ruby Ruby
   logging_middleware = lambda do |request, call_next|
@@ -167,14 +200,37 @@ Each middleware is a function that receives the outgoing request and the next ha
 
 ## Middleware ordering
 
-When you register multiple middleware, they apply in the order given: the first middleware's "before" code runs first, and its "after" code runs last. Middleware registered on the client runs before middleware passed as a per-request option.
+When you register multiple middleware, they apply in the order given: the first middleware’s “before” code runs first, and its “after” code runs last. Middleware registered on the client runs before middleware passed as a per-request option.
 
 In the Go SDK, repeated `option.WithMiddleware` calls concatenate (client first, then method). In the other SDKs, pass an array; later entries wrap inner.
 
 ## Replacing the HTTP client
 
-The SDK also accepts a custom HTTP client (for proxy configuration, custom TLS, or connection pooling). Only one HTTP client is used per SDK client; setting it replaces the default. The custom HTTP client receives requests after all middleware has run.
+The SDK also accepts a custom HTTP client (for proxy configuration, custom TLS, or connection pooling). Only one HTTP client is used for each SDK client; setting it replaces the default. The custom HTTP client receives requests after all middleware has run.
 
 ## Built-in middleware
 
 The SDK ships a refusal-fallback middleware that automatically retries a request Claude declines (`stop_reason: "refusal"`) on a fallback model. [Refusals and fallback](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback) lists the models whose safety classifiers can decline requests, and [Detect and retry on a fallback model](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#client-side-fallback) covers setup and per-language examples.
+
+## Availability
+
+SDK middleware is available or in beta, depending on the API.
+
+### API support
+
+#### [Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)
+
+* Availability: Available
+
+| Status    | Cloud platforms         |
+| --------- | ----------------------- |
+| Available | All supported platforms |
+
+#### [Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview)
+
+* Availability: Available
+* Usage: Runs on your SDK client’s calls to the Managed Agents API. It does not see the model calls the agent makes inside its loop.
+
+| Status | Cloud platforms                                                                                                    |
+| ------ | ------------------------------------------------------------------------------------------------------------------ |
+| Beta   | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws) |

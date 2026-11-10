@@ -1,15 +1,15 @@
 ---
-title: List memories
+title: List Memories
 url: https://platform.claude.com/docs/en/api/php/beta/memory_stores/memories/list
 ---
 
-# List memories
+# List Memories
 
 `$client->beta->memoryStores->memories->list(string memoryStoreID, ?int depth, ?int limit, ?string page, ?string pathPrefix, ?ManagedAgentsMemoryView view, ?list<AnthropicBeta> betas, ?string workspaceID): PageCursor<ManagedAgentsMemoryListItem>`
 
 **GET** `/v1/memory_stores/{memory_store_id}/memories`
 
-List memories
+List Memories
 
 ## Parameters
 
@@ -17,29 +17,43 @@ List memories
 
   The ID of the memory store to list memories from (`memstore_...`).
 
-- `depth?:optional int` (query parameter)
+- `depth?: optional int` (query parameter)
 
-  `0` (or omitted) returns all descendants below `path_prefix` (recursive). `1` returns immediate children only; deeper entries roll up as `memory_prefix` items. `depth=1` behaves like `ls`; omitting `depth` behaves like `find`.
+  How far below `path_prefix` to list. Defaults to `0`, which lists every memory below the prefix.
 
-- `limit?:optional int` (query parameter)
+  Pass `1` to list only the direct children. Deeper memories are then grouped into `memory_prefix` items.
 
-  Maximum number of items to return per page. Must be between 1 and 100. Defaults to 20 when omitted. Capped at 20 when `view=full`. Both `memory` and `memory_prefix` items count toward the limit.
+- `limit?: optional int` (query parameter)
 
-- `page?:optional string` (query parameter)
+  The maximum number of items to return per page, from 1 to 100. Defaults to 20.
 
-  Opaque pagination cursor (a `page_...` value). Pass the `next_page` value from a previous response to fetch the next page; omit for the first page.
+  With `view=full`, a page holds at most 20 items. `memory` and `memory_prefix` items both count toward the limit.
 
-- `pathPrefix?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
-  Optional path prefix filter. Must end with `/` (segment-aligned), e.g., `/notes/`. This value appears in request URLs. Do not include secrets or personally identifiable information.
+  The `next_page` value from a previous response, to get the next page. Omit it to get the first page.
 
-- `view?:optional ManagedAgentsMemoryView` (query parameter)
+- `pathPrefix?: optional string` (query parameter)
 
-  Which projection of each `memory` to return. Defaults to `basic` (content omitted). `full` populates `content` on each item and caps `limit` at 20; use this as the bulk-read path for export and sync.
+  Return only memories whose path starts with this prefix, such as `/notes/`. This value appears in request URLs. Do not include secrets or personally identifiable information.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+  Omit it to list the whole store. The prefix must end with `/` and matches whole segments, so `/notes/` matches `/notes/todo.md` but not `/notes-archive/todo.md`.
 
-  Optional header to specify the beta version(s) you want to use.
+- `view?: optional ManagedAgentsMemoryView` (query parameter)
+
+  Whether each memory in the response includes `content`. Defaults to `basic`, which sets it to `null`.
+
+  With `full`, a page holds at most 20 items.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -53,11 +67,13 @@ List memories
 
   - `class ManagedAgentsMemory`
 
-    - `Type type`
+    - `"memory" type`
 
     - `string id`
 
-      Unique identifier for this memory (a `mem_...` value). Stable across renames; use this ID, not the path, to read, update, or delete the memory.
+      The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
+
+      To retrieve, update, or delete the memory, pass this ID.
 
     - `string contentSha256`
 
@@ -65,7 +81,7 @@ List memories
 
     - `int contentSizeBytes`
 
-      Size of `content` in bytes (the UTF-8 plaintext length). Always populated, regardless of `view`.
+      The size of the memory's `content` in UTF-8 bytes. It is set regardless of `view`.
 
     - `\Datetime createdAt`
 
@@ -77,7 +93,11 @@ List memories
 
     - `string memoryVersionID`
 
-      ID of the `memory_version` representing this memory's current content (a `memver_...` value). This is the authoritative head pointer; `memory_version` objects do not carry an `is_latest` flag, so compare against this field instead. Enumerate the history via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+      The ID of the memory version that holds the memory's current content (`memver_...`).
+
+      Memory versions don't have a flag that marks the latest one. Compare their IDs with this field instead.
+
+      See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#audit-memory-changes) to learn more about memory versions.
 
     - `string path`
 
@@ -85,15 +105,19 @@ List memories
 
     - `\Datetime updatedAt`
 
-      When this memory was last modified, in RFC 3339 format. Use this as a cheap freshness signal; for who made the change, look up the head version's `created_by` via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+      When the memory was last changed, in RFC 3339.
+
+      To find out who made the change, look at `created_by` on the memory version that `memory_version_id` references.
 
     - `?string content`
 
-      The memory's UTF-8 text content. Populated when `view=full`; `null` when `view=basic`. Maximum 100 kB (102,400 bytes).
+      The memory's UTF-8 text content, or `null` when the response uses `view=basic`.
+
+      The maximum size is 100 kB (102,400 bytes).
 
   - `class ManagedAgentsMemoryPrefix`
 
-    - `Type type`
+    - `"memory_prefix" type`
 
     - `string path`
 
@@ -105,6 +129,10 @@ List memories
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\MemoryStores\Memories\ManagedAgentsMemoryView;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

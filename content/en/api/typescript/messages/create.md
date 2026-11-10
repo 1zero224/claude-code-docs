@@ -78,290 +78,19 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     See [input examples](https://platform.claude.com/docs/en/build-with-claude/working-with-messages?sdk_languages=typescript).
 
-    Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=typescript#give-claude-a-role), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
+    Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=typescript#give-claude-a-role), you can use the top-level `system` parameter.
 
     There is a limit of 100,000 messages in a single request.
 
-    - `content: string | Array<ContentBlockParam>`
+    - `interface UserMessageParam`
 
-      - `string`
+      - `content: MessageContentParam`
 
       - `Array<ContentBlockParam>`
 
         - `interface TextBlockParam`
 
-          - `type: "text"`
-
-          - `text: string`
-
-            minLength: 1
-
-          - `cache_control?: CacheControlEphemeral | null`
-
-            Create a cache control breakpoint at this content block.
-
-            - `type: "ephemeral"`
-
-            - `ttl?: "5m" | "1h"`
-
-              The time-to-live for the cache control breakpoint.
-
-              This may be one the following values:
-
-              - `5m`: 5 minutes
-              - `1h`: 1 hour
-
-              Defaults to `5m`. See [prompt caching pricing](https://platform.claude.com/docs/en/build-with-claude/prompt-caching?sdk_languages=typescript) for details.
-
-              - `"5m"`
-
-              - `"1h"`
-
-          - `citations?: Array<TextCitationParam> | null`
-
-            - `interface CitationCharLocationParam`
-
-              - `type: "char_location"`
-
-              - `cited_text: string`
-
-              - `document_index: number`
-
-                minimum: 0
-
-              - `document_title: string | null`
-
-                minLength: 1, maxLength: 500
-
-              - `end_char_index: number`
-
-              - `start_char_index: number`
-
-                minimum: 0
-
-            - `interface CitationPageLocationParam`
-
-              - `type: "page_location"`
-
-              - `cited_text: string`
-
-              - `document_index: number`
-
-                minimum: 0
-
-              - `document_title: string | null`
-
-                minLength: 1, maxLength: 500
-
-              - `end_page_number: number`
-
-              - `start_page_number: number`
-
-                minimum: 1
-
-            - `interface CitationContentBlockLocationParam`
-
-              - `type: "content_block_location"`
-
-              - `cited_text: string`
-
-                The full text of the cited block range, concatenated.
-
-                Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
-
-              - `document_index: number`
-
-                minimum: 0
-
-              - `document_title: string | null`
-
-                minLength: 1, maxLength: 500
-
-              - `end_block_index: number`
-
-                Exclusive 0-based end index of the cited block range in the source's `content` array.
-
-                Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
-
-              - `start_block_index: number`
-
-                0-based index of the first cited block in the source's `content` array.
-
-                minimum: 0
-
-            - `interface CitationWebSearchResultLocationParam`
-
-              - `type: "web_search_result_location"`
-
-              - `cited_text: string`
-
-              - `encrypted_index: string`
-
-              - `title: string | null`
-
-                minLength: 1, maxLength: 512
-
-              - `url: string`
-
-                minLength: 1
-
-            - `interface CitationSearchResultLocationParam`
-
-              - `type: "search_result_location"`
-
-              - `cited_text: string`
-
-                The full text of the cited block range, concatenated.
-
-                Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
-
-              - `end_block_index: number`
-
-                Exclusive 0-based end index of the cited block range in the source's `content` array.
-
-                Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
-
-              - `search_result_index: number`
-
-                0-based index of the cited search result among all `search_result` content blocks in the request, in the order they appear across messages and tool results.
-
-                Counted separately from `document_index`; server-side web search results are not included in this count.
-
-                minimum: 0
-
-              - `source: string`
-
-              - `start_block_index: number`
-
-                0-based index of the first cited block in the source's `content` array.
-
-                minimum: 0
-
-              - `title: string | null`
-
-        - `interface ImageBlockParam`
-
-          - `type: "image"`
-
-          - `source: Base64ImageSource | URLImageSource | FileImageSource`
-
-            - `interface Base64ImageSource`
-
-              - `type: "base64"`
-
-              - `data: string`
-
-                format: byte
-
-              - `media_type: "image/jpeg" | "image/png" | "image/gif" | "image/webp"`
-
-                - `"image/jpeg"`
-
-                - `"image/png"`
-
-                - `"image/gif"`
-
-                - `"image/webp"`
-
-            - `interface URLImageSource`
-
-              - `type: "url"`
-
-              - `url: string`
-
-            - `interface FileImageSource`
-
-              - `type: "file"`
-
-              - `file_id: string`
-
-          - `cache_control?: CacheControlEphemeral | null`
-
-            Create a cache control breakpoint at this content block.
-
-          - `transformations?: ImageTransformationsParam | null`
-
-            Configures the transformations the server applies to this image before the model observes it. Each key names a condition the server transforms images for; its value selects the transformation applied. Omitted keys keep their default behavior, and an empty object is equivalent to omitting the field.
-
-            - `oversized_image?: "downsize" | "error"`
-
-              What the server does when this image exceeds the model's maximum image size. `"downsize"` (the default) scales the image down to fit, which changes the dimensions the model observes without telling you. `"error"` instead rejects the request with a 400 error naming the image's dimensions and the largest dimensions that fit, so you can scale the image deliberately — your image is never silently scaled down.
-
-              - `"downsize"`
-
-              - `"error"`
-
-        - `interface DocumentBlockParam`
-
-          - `type: "document"`
-
-          - `source: Base64PDFSource | PlainTextSource | ContentBlockSource | 2 more`
-
-            - `interface Base64PDFSource`
-
-              - `type: "base64"`
-
-              - `data: string`
-
-                format: byte
-
-              - `media_type: "application/pdf"`
-
-            - `interface PlainTextSource`
-
-              - `type: "text"`
-
-              - `data: string`
-
-              - `media_type: "text/plain"`
-
-            - `interface ContentBlockSource`
-
-              - `type: "content"`
-
-              - `content: string | Array<ContentBlockSourceContent>`
-
-                - `string`
-
-                - `Array<ContentBlockSourceContent>`
-
-                  - `interface TextBlockParam`
-
-                  - `interface ImageBlockParam`
-
-            - `interface URLPDFSource`
-
-              - `type: "url"`
-
-              - `url: string`
-
-            - `interface FileDocumentSource`
-
-              - `type: "file"`
-
-              - `file_id: string`
-
-          - `cache_control?: CacheControlEphemeral | null`
-
-            Create a cache control breakpoint at this content block.
-
-          - `citations?: CitationsConfigParam | null`
-
-            - `enabled?: boolean`
-
-          - `context?: string | null`
-
-            minLength: 1
-
-          - `title?: string | null`
-
-            minLength: 1, maxLength: 500
-
-        - `interface SearchResultBlockParam`
-
-          - `type: "search_result"`
-
-          - `content: Array<TextBlockParam>`
+          - `interface TextBlockParam`
 
             - `type: "text"`
 
@@ -373,9 +102,28 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               Create a cache control breakpoint at this content block.
 
+              - `type: "ephemeral"`
+
+              - `ttl?: "5m" | "1h"`
+
+                The time-to-live for the cache control breakpoint.
+
+                This may be one the following values:
+
+                - `5m`: 5 minutes
+                - `1h`: 1 hour
+
+                Defaults to `5m`. See [prompt caching pricing](https://platform.claude.com/docs/en/build-with-claude/prompt-caching?sdk_languages=typescript) for details.
+
+                - `"5m"`
+
+                - `"1h"`
+
             - `citations?: Array<TextCitationParam> | null`
 
-          - `source: string`
+              - `interface CitationCharLocationParam`
+
+                - `type: "char_location"`
 
           - `title: string`
 
@@ -385,7 +133,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `citations?: CitationsConfigParam`
 
-        - `interface ThinkingBlockParam`
+                  minLength: 1, maxLength: 500
 
           - `type: "thinking"`
 
@@ -393,9 +141,9 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             The `signature` value of this thinking block, exactly as returned by the API in a previous response. Used to verify that the block was generated by Claude.
 
-            Thinking blocks must be passed back unmodified and in their original order; a modified block results in a 400 `invalid_request_error`.
+              - `interface CitationPageLocationParam`
 
-          - `thinking: string`
+                - `type: "page_location"`
 
             The `thinking` text of this block as returned by the API.
 
@@ -405,7 +153,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `data: string`
 
-            The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
+                  minLength: 1, maxLength: 500
 
         - `interface ToolUseBlockParam`
 
@@ -413,9 +161,9 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `id: string`
 
-            pattern: ^[a-zA-Z0-9_-]+$
+              - `interface CitationContentBlockLocationParam`
 
-          - `input: Record<string, unknown>`
+                - `type: "content_block_location"`
 
           - `name: string`
 
@@ -427,49 +175,299 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
 
-            - `interface DirectCaller`
+                - `document_title: string | null`
 
-              Tool invocation directly from the model.
+                  minLength: 1, maxLength: 500
 
-              - `type: "direct"`
+                - `end_block_index: number`
+
+                  Exclusive 0-based end index of the cited block range in the source's `content` array.
+
+                  Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
+
+                - `start_block_index: number`
+
+                  0-based index of the first cited block in the source's `content` array.
+
+                  minimum: 0
+
+              - `interface CitationWebSearchResultLocationParam`
+
+                - `type: "web_search_result_location"`
+
+                - `cited_text: string`
+
+                - `encrypted_index: string`
+
+                - `title: string | null`
+
+                  minLength: 1, maxLength: 512
+
+                - `url: string`
+
+                  minLength: 1
+
+              - `interface CitationSearchResultLocationParam`
+
+                - `type: "search_result_location"`
+
+                - `cited_text: string`
+
+                  The full text of the cited block range, concatenated.
+
+                  Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
+
+                - `end_block_index: number`
+
+                  Exclusive 0-based end index of the cited block range in the source's `content` array.
+
+                  Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
+
+                - `search_result_index: number`
+
+                  0-based index of the cited search result among all `search_result` content blocks in the request, in the order they appear across messages and tool results.
+
+                  Counted separately from `document_index`; server-side web search results are not included in this count.
+
+                  minimum: 0
+
+                - `source: string`
+
+                - `start_block_index: number`
+
+                  0-based index of the first cited block in the source's `content` array.
+
+                  minimum: 0
+
+                - `title: string | null`
+
+          - `interface ImageBlockParam`
+
+            - `type: "image"`
+
+            - `source: Base64ImageSource | URLImageSource | FileImageSource`
+
+              - `interface Base64ImageSource`
+
+                - `type: "base64"`
+
+                - `data: string`
+
+                  format: byte
+
+                - `media_type: "image/jpeg" | "image/png" | "image/gif" | "image/webp"`
+
+                  - `"image/jpeg"`
+
+                  - `"image/png"`
+
+                  - `"image/gif"`
+
+                  - `"image/webp"`
+
+              - `interface URLImageSource`
+
+                - `type: "url"`
+
+                - `url: string`
+
+              - `interface FileImageSource`
+
+                - `type: "file"`
+
+                - `file_id: string`
+
+            - `cache_control?: CacheControlEphemeral | null`
+
+              Create a cache control breakpoint at this content block.
+
+            - `transformations?: ImageTransformationsParam | null`
+
+              Configures the transformations the server applies to this image before the model observes it. Each key names a condition the server transforms images for; its value selects the transformation applied. Omitted keys keep their default behavior, and an empty object is equivalent to omitting the field.
+
+              - `oversized_image?: "downsize" | "error"`
+
+                What the server does when this image exceeds the model's maximum image size. `"downsize"` (the default) scales the image down to fit, which changes the dimensions the model observes without telling you. `"error"` instead rejects the request with a 400 error naming the image's dimensions and the largest dimensions that fit, so you can scale the image deliberately — your image is never silently scaled down.
+
+                - `"downsize"`
+
+                - `"error"`
+
+          - `interface DocumentBlockParam`
+
+            - `type: "document"`
+
+            - `source: Base64PDFSource | PlainTextSource | ContentBlockSource | 2 more`
+
+              - `interface Base64PDFSource`
+
+                - `type: "base64"`
+
+                - `data: string`
+
+                  format: byte
+
+                - `media_type: "application/pdf"`
+
+              - `interface PlainTextSource`
+
+                - `type: "text"`
+
+                - `data: string`
+
+                - `media_type: "text/plain"`
+
+              - `interface ContentBlockSource`
+
+                - `type: "content"`
+
+                - `content: string | Array<ContentBlockSourceContent>`
+
+                  - `string`
+
+                  - `Array<ContentBlockSourceContent>`
+
+                    - `interface TextBlockParam`
+
+                    - `interface ImageBlockParam`
+
+              - `interface URLPDFSource`
+
+                - `type: "url"`
+
+                - `url: string`
+
+              - `interface FileDocumentSource`
+
+                - `type: "file"`
+
+                - `file_id: string`
+
+            - `cache_control?: CacheControlEphemeral | null`
+
+              Create a cache control breakpoint at this content block.
+
+            - `citations?: CitationsConfigParam | null`
+
+              - `enabled?: boolean`
+
+            - `context?: string | null`
+
+              minLength: 1
+
+            - `title?: string | null`
+
+              minLength: 1, maxLength: 500
+
+          - `interface SearchResultBlockParam`
+
+            - `type: "search_result"`
+
+            - `content: Array<TextBlockParam>`
+
+              - `type: "text"`
+
+              - `text: string`
+
+                minLength: 1
+
+              - `cache_control?: CacheControlEphemeral | null`
+
+                Create a cache control breakpoint at this content block.
+
+              - `citations?: Array<TextCitationParam> | null`
+
+            - `source: string`
+
+            - `title: string`
+
+            - `cache_control?: CacheControlEphemeral | null`
+
+              Create a cache control breakpoint at this content block.
+
+            - `citations?: CitationsConfigParam`
+
+          - `interface ThinkingBlockParam`
+
+            - `type: "thinking"`
+
+            - `signature: string`
+
+              The `signature` value of this thinking block, exactly as returned by the API in a previous response. Used to verify that the block was generated by Claude.
+
+              Thinking blocks must be passed back unmodified and in their original order; a modified block results in a 400 `invalid_request_error`.
+
+            - `thinking: string`
+
+              The `thinking` text of this block as returned by the API.
+
+          - `interface RedactedThinkingBlockParam`
+
+            - `type: "redacted_thinking"`
+
+            - `data: string`
+
+              The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
+
+          - `interface ToolUseBlockParam`
+
+            - `type: "tool_use"`
+
+            - `id: string`
+
+              pattern: ^[a-zA-Z0-9_-]+$
+
+            - `input: Record<string, unknown>`
+
+            - `name: string`
+
+              minLength: 1, maxLength: 200
+
+            - `cache_control?: CacheControlEphemeral | null`
+
+              Create a cache control breakpoint at this content block.
+
+            - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
+
+              - `interface DirectCaller`
 
             - `interface ServerToolCaller`
 
               Tool invocation generated by a server-side tool.
 
-              - `type: "code_execution_20250825"`
+              - `interface ServerToolCaller`
 
               - `tool_id: string`
 
-                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+                - `type: "code_execution_20250825"`
 
-            - `interface ServerToolCaller20260120`
-
-              - `type: "code_execution_20260120"`
-
-              - `tool_id: string`
-
-                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+                - `tool_id: string`
 
           - `toolset_name?: string | null`
 
-            For a toolset member tool_use, the toolset family this member belongs to.
+              - `interface ServerToolCaller20260120`
 
-            minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+                - `type: "code_execution_20260120"`
+
+                - `tool_id: string`
+
+                  pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+            - `toolset_name?: string | null`
 
         - `interface ToolResultBlockParam`
 
-          - `type: "tool_result"`
+              minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
 
-          - `tool_use_id: string`
+          - `interface ToolResultBlockParam`
+
+            - `type: "tool_result"`
 
             pattern: ^[a-zA-Z0-9_-]+$
 
           - `cache_control?: CacheControlEphemeral | null`
 
-            Create a cache control breakpoint at this content block.
-
-          - `content?: string | Array<TextBlockParam | ImageBlockParam | SearchResultBlockParam | 3 more>`
+            - `cache_control?: CacheControlEphemeral | null`
 
             - `string`
 
@@ -479,23 +477,23 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `interface ImageBlockParam`
 
-              - `interface SearchResultBlockParam`
+                - `interface TextBlockParam`
 
-              - `interface DocumentBlockParam`
+                - `interface ImageBlockParam`
 
-              - `interface ToolReferenceBlockParam`
+                - `interface SearchResultBlockParam`
 
-                Tool reference block that can be included in tool_result content.
+                - `interface DocumentBlockParam`
 
-                - `type: "tool_reference"`
+                - `interface ToolReferenceBlockParam`
 
                 - `tool_name: string`
 
-                  minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+                  - `type: "tool_reference"`
 
-                - `cache_control?: CacheControlEphemeral | null`
+                  - `tool_name: string`
 
-                  Create a cache control breakpoint at this content block.
+                    minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
 
               - `interface BrowserStateBlockParam`
 
@@ -503,15 +501,15 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
                 the full inventory of open tabs, which tab is active, and any side
                 effects (tabs opened, download state changes) the call produced.
 
-                At most one per `tool_result`, only on a non-error result answering a
-                browser toolset member `tool_use`. The server renders the
-                model-visible text from it; the model never sees the raw fields.
+                - `interface BrowserStateBlockParam`
 
                 - `type: "browser_state"`
 
                 - `tabs: Array<BrowserStateTabEntry>`
 
-                  All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
+                  - `type: "browser_state"`
+
+                  - `tabs: Array<BrowserStateTabEntry>`
 
                   maxItems: 100
 
@@ -590,9 +588,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
                     `download_started`, when the download finished during the call that
                     started it (at most one state change per `download_id` per result).
 
-                    - `type: "download_completed"`
-
-                    - `download_id: string`
+                  - `cache_control?: CacheControlEphemeral | null`
 
                       The caller-assigned identifier for this download, stable across the state changes reporting it.
 
@@ -600,33 +596,33 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                     - `url: string`
 
-                      The final post-redirect URL the download was served from.
+                    minItems: 1, maxItems: 200
 
-                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                    - `interface BrowserStateChangeTabOpened`
 
                     - `path?: string | null`
 
                       Where the executor saved the file, on the executor's filesystem. Only included when another tool in the same environment can read the file at that path.
 
-                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                      - `type: "tab_opened"`
+
+                      - `tab_id: string`
 
                     - `size_bytes?: number | null`
 
-                      The completed download's size.
+                        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                      minimum: 0
-
-                  - `interface BrowserStateChangeDownloadFailed`
+                    - `interface BrowserStateChangeDownloadStarted`
 
                     A file download that failed — or was cancelled — during this call.
 
-                    - `type: "download_failed"`
+                      - `type: "download_started"`
+
+                      - `download_id: string`
 
                     - `download_id: string`
 
-                      The caller-assigned identifier for this download, stable across the state changes reporting it.
-
-                      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
                     - `url: string`
 
@@ -634,17 +630,17 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                       maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    - `error?: string | null`
+                    - `interface BrowserStateChangeDownloadCompleted`
 
                       The failure or cancellation detail, when known.
 
-                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                      - `type: "download_completed"`
+
+                      - `download_id: string`
 
           - `is_error?: boolean`
 
-          - `toolset_name?: string | null`
-
-            For a toolset member tool_result, the toolset family of the paired tool_use.
+                        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
             minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
 
@@ -656,7 +652,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `input: Record<string, unknown>`
+                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
           - `name: "web_search" | "web_fetch" | "code_execution" | 4 more`
 
@@ -664,53 +660,101 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `"web_fetch"`
 
-            - `"code_execution"`
+                    - `interface BrowserStateChangeDownloadFailed`
 
             - `"bash_code_execution"`
 
-            - `"text_editor_code_execution"`
+                      - `type: "download_failed"`
+
+                      - `download_id: string`
 
             - `"tool_search_tool_regex"`
 
-            - `"tool_search_tool_bm25"`
-
-          - `cache_control?: CacheControlEphemeral | null`
+                        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
             Create a cache control breakpoint at this content block.
 
           - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
 
-            - `interface DirectCaller`
+                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-              Tool invocation directly from the model.
+                      - `error?: string | null`
 
-            - `interface ServerToolCaller`
+                        The failure or cancellation detail, when known.
+
+                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+
+            - `is_error?: boolean`
+
+            - `toolset_name?: string | null`
+
+              For a toolset member tool_result, the toolset family of the paired tool_use.
+
+              minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+
+          - `interface ServerToolUseBlockParam`
+
+            - `type: "server_tool_use"`
+
+            - `id: string`
+
+              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+            - `input: Record<string, unknown>`
+
+            - `name: "web_search" | "web_fetch" | "code_execution" | 4 more`
+
+              - `"web_search"`
+
+              - `"web_fetch"`
+
+              - `"code_execution"`
+
+              - `"bash_code_execution"`
+
+              - `"text_editor_code_execution"`
+
+              - `"tool_search_tool_regex"`
+
+              - `"tool_search_tool_bm25"`
+
+            - `cache_control?: CacheControlEphemeral | null`
+
+              Create a cache control breakpoint at this content block.
+
+            - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
+
+              - `interface DirectCaller`
 
               Tool invocation generated by a server-side tool.
 
-            - `interface ServerToolCaller20260120`
+              - `interface ServerToolCaller`
 
         - `interface WebSearchToolResultBlockParam`
 
-          - `type: "web_search_tool_result"`
+              - `interface ServerToolCaller20260120`
 
-          - `content: WebSearchToolResultBlockParamContent`
+          - `interface WebSearchToolResultBlockParam`
+
+            - `type: "web_search_tool_result"`
 
             - `Array<WebSearchResultBlockParam>`
 
               - `type: "web_search_result"`
 
-              - `encrypted_content: string`
+                - `type: "web_search_result"`
+
+                - `encrypted_content: string`
 
               - `title: string`
 
-              - `url: string`
-
-              - `page_age?: string | null`
+                - `url: string`
 
             - `interface WebSearchToolRequestError`
 
-              - `type: "web_search_tool_result_error"`
+              - `interface WebSearchToolRequestError`
+
+                - `type: "web_search_tool_result_error"`
 
               - `error_code: WebSearchToolResultErrorCode`
 
@@ -726,35 +770,33 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `"request_too_large"`
 
-          - `tool_use_id: string`
-
-            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+            - `tool_use_id: string`
 
           - `cache_control?: CacheControlEphemeral | null`
 
-            Create a cache control breakpoint at this content block.
-
-          - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
+            - `cache_control?: CacheControlEphemeral | null`
 
             - `interface DirectCaller`
 
-              Tool invocation directly from the model.
-
-            - `interface ServerToolCaller`
+              - `interface DirectCaller`
 
               Tool invocation generated by a server-side tool.
 
-            - `interface ServerToolCaller20260120`
+              - `interface ServerToolCaller`
 
         - `interface WebFetchToolResultBlockParam`
 
-          - `type: "web_fetch_tool_result"`
+              - `interface ServerToolCaller20260120`
 
-          - `content: WebFetchToolResultErrorBlockParam | WebFetchBlockParam`
+          - `interface WebFetchToolResultBlockParam`
+
+            - `type: "web_fetch_tool_result"`
 
             - `interface WebFetchToolResultErrorBlockParam`
 
-              - `type: "web_fetch_tool_result_error"`
+              - `interface WebFetchToolResultErrorBlockParam`
+
+                - `type: "web_fetch_tool_result_error"`
 
               - `error_code: WebFetchToolResultErrorCode`
 
@@ -776,15 +818,15 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `"unavailable"`
 
-                - `"content_too_large"`
+                  - `"content_too_large"`
 
-            - `interface WebFetchBlockParam`
-
-              - `type: "web_fetch_result"`
+              - `interface WebFetchBlockParam`
 
               - `content: DocumentBlockParam`
 
-              - `url: string`
+                - `content: DocumentBlockParam`
+
+                - `url: string`
 
                 Fetched content URL
 
@@ -796,27 +838,25 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `cache_control?: CacheControlEphemeral | null`
-
-            Create a cache control breakpoint at this content block.
+            - `cache_control?: CacheControlEphemeral | null`
 
           - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
 
             - `interface DirectCaller`
 
-              Tool invocation directly from the model.
-
-            - `interface ServerToolCaller`
+              - `interface DirectCaller`
 
               Tool invocation generated by a server-side tool.
 
-            - `interface ServerToolCaller20260120`
+              - `interface ServerToolCaller`
 
         - `interface CodeExecutionToolResultBlockParam`
 
-          - `type: "code_execution_tool_result"`
+              - `interface ServerToolCaller20260120`
 
-          - `content: CodeExecutionToolResultBlockParamContent`
+          - `interface CodeExecutionToolResultBlockParam`
+
+            - `type: "code_execution_tool_result"`
 
             - `interface CodeExecutionToolResultErrorParam`
 
@@ -850,9 +890,9 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `interface EncryptedCodeExecutionResultBlockParam`
 
-              Code execution result with encrypted stdout for PFC + web_search results.
+              - `interface CodeExecutionToolResultErrorParam`
 
-              - `type: "encrypted_code_execution_result"`
+                - `type: "code_execution_tool_result_error"`
 
               - `content: Array<CodeExecutionOutputBlockParam>`
 
@@ -864,57 +904,57 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `return_code: number`
 
-              - `stderr: string`
+              - `interface CodeExecutionResultBlockParam`
 
-          - `tool_use_id: string`
+                - `type: "code_execution_result"`
 
             pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-          - `cache_control?: CacheControlEphemeral | null`
+                  - `type: "code_execution_output"`
 
-            Create a cache control breakpoint at this content block.
+                  - `file_id: string`
 
-        - `interface BashCodeExecutionToolResultBlockParam`
+                - `return_code: number`
 
           - `type: "bash_code_execution_tool_result"`
 
           - `content: BashCodeExecutionToolResultErrorParam | BashCodeExecutionResultBlockParam`
 
-            - `interface BashCodeExecutionToolResultErrorParam`
+              - `interface EncryptedCodeExecutionResultBlockParam`
 
-              - `type: "bash_code_execution_tool_result_error"`
+                The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
 
-              - `error_code: BashCodeExecutionToolResultErrorCode`
+                - `type: "encrypted_code_execution_result"`
 
                 - `"invalid_tool_input"`
 
-                - `"unavailable"`
+                  - `type: "code_execution_output"`
 
-                - `"too_many_requests"`
+                  - `file_id: string`
 
-                - `"execution_time_exceeded"`
+                - `encrypted_stdout: string`
 
                 - `"output_file_too_large"`
 
             - `interface BashCodeExecutionResultBlockParam`
 
-              - `type: "bash_code_execution_result"`
-
-              - `content: Array<BashCodeExecutionOutputBlockParam>`
+            - `tool_use_id: string`
 
                 - `type: "bash_code_execution_output"`
 
-                - `file_id: string`
-
-              - `return_code: number`
+            - `cache_control?: CacheControlEphemeral | null`
 
               - `stderr: string`
 
-              - `stdout: string`
+          - `interface BashCodeExecutionToolResultBlockParam`
+
+            - `type: "bash_code_execution_tool_result"`
 
           - `tool_use_id: string`
 
-            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+              - `interface BashCodeExecutionToolResultErrorParam`
+
+                - `type: "bash_code_execution_tool_result_error"`
 
           - `cache_control?: CacheControlEphemeral | null`
 
@@ -928,39 +968,39 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `interface TextEditorCodeExecutionToolResultErrorParam`
 
-              - `type: "text_editor_code_execution_tool_result_error"`
+              - `interface BashCodeExecutionResultBlockParam`
 
-              - `error_code: TextEditorCodeExecutionToolResultErrorCode`
+                - `type: "bash_code_execution_result"`
 
                 - `"invalid_tool_input"`
 
-                - `"unavailable"`
+                  - `type: "bash_code_execution_output"`
 
-                - `"too_many_requests"`
+                  - `file_id: string`
 
-                - `"execution_time_exceeded"`
+                - `return_code: number`
 
                 - `"file_not_found"`
 
               - `error_message?: string | null`
 
-            - `interface TextEditorCodeExecutionViewResultBlockParam`
-
-              - `type: "text_editor_code_execution_view_result"`
+            - `tool_use_id: string`
 
               - `content: string`
 
-              - `file_type: "text" | "image" | "pdf"`
-
-                - `"text"`
+            - `cache_control?: CacheControlEphemeral | null`
 
                 - `"image"`
 
-                - `"pdf"`
+          - `interface TextEditorCodeExecutionToolResultBlockParam`
+
+            - `type: "text_editor_code_execution_tool_result"`
 
               - `num_lines?: number | null`
 
-              - `start_line?: number | null`
+              - `interface TextEditorCodeExecutionToolResultErrorParam`
+
+                - `type: "text_editor_code_execution_tool_result_error"`
 
               - `total_lines?: number | null`
 
@@ -974,11 +1014,11 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `type: "text_editor_code_execution_str_replace_result"`
 
-              - `lines?: Array<string> | null`
+                - `error_message?: string | null`
 
-              - `new_lines?: number | null`
+              - `interface TextEditorCodeExecutionViewResultBlockParam`
 
-              - `new_start?: number | null`
+                - `type: "text_editor_code_execution_view_result"`
 
               - `old_lines?: number | null`
 
@@ -990,21 +1030,19 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `cache_control?: CacheControlEphemeral | null`
 
-            Create a cache control breakpoint at this content block.
-
-        - `interface ToolSearchToolResultBlockParam`
+                - `num_lines?: number | null`
 
           - `type: "tool_search_tool_result"`
 
           - `content: ToolSearchToolResultErrorParam | ToolSearchToolSearchResultBlockParam`
 
-            - `interface ToolSearchToolResultErrorParam`
-
-              - `type: "tool_search_tool_result_error"`
+              - `interface TextEditorCodeExecutionCreateResultBlockParam`
 
               - `error_code: ToolSearchToolResultErrorCode`
 
-                - `"invalid_tool_input"`
+                - `is_file_update: boolean`
+
+              - `interface TextEditorCodeExecutionStrReplaceResultBlockParam`
 
                 - `"unavailable"`
 
@@ -1022,17 +1060,19 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `type: "tool_reference"`
 
-                - `tool_name: string`
-
-                  minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+            - `cache_control?: CacheControlEphemeral | null`
 
                 - `cache_control?: CacheControlEphemeral | null`
 
-                  Create a cache control breakpoint at this content block.
+          - `interface ToolSearchToolResultBlockParam`
+
+            - `type: "tool_search_tool_result"`
 
           - `tool_use_id: string`
 
-            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+              - `interface ToolSearchToolResultErrorParam`
+
+                - `type: "tool_search_tool_result_error"`
 
           - `cache_control?: CacheControlEphemeral | null`
 
@@ -1045,25 +1085,87 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `type: "container_upload"`
 
-          - `file_id: string`
+                - `error_message?: string | null`
+
+              - `interface ToolSearchToolSearchResultBlockParam`
+
+                - `type: "tool_search_tool_search_result"`
+
+    - `role: "user" | "assistant" | "system"`
+
+                  - `type: "tool_reference"`
+
+                  - `tool_name: string`
+
+                    minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+
+  - `model: Model`
+
+    The model that will complete your prompt.
+
+            - `tool_use_id: string`
+
+      Fastest model for high-volume, real-time tasks
+
+            - `cache_control?: CacheControlEphemeral | null`
+
+    - `"claude-fable-5-1"`
+
+          - `interface ContainerUploadBlockParam`
+
+    - `"claude-opus-5-5"`
+
+            - `type: "container_upload"`
+
+            - `file_id: string`
+
+            - `cache_control?: CacheControlEphemeral | null`
+
+    - `"claude-sonnet-5"`
+
+      - `role: "user"`
+
+    - `interface AssistantMessageParam`
+
+      - `content: MessageContentParam`
+
+      - `role: "assistant"`
+
+    - `interface SystemMessageParam`
+
+      - `content: string | Array<TextBlockParam>`
+
+        - `string`
+
+        - `Array<TextBlockParam>`
+
+          - `type: "text"`
+
+          - `text: string`
+
+            minLength: 1
 
           - `cache_control?: CacheControlEphemeral | null`
 
             Create a cache control breakpoint at this content block.
 
-    - `role: "user" | "assistant" | "system"`
+          - `citations?: Array<TextCitationParam> | null`
 
-      - `"user"`
-
-      - `"assistant"`
-
-      - `"system"`
+      - `role: "system"`
 
   - `model: Model`
 
     The model that will complete your prompt.
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+    - `"claude-fable-5-2"`
+
+      Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+    - `"claude-mythos-5-2"`
+
+      Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
     - `"claude-haiku-5-5"`
 
@@ -1258,6 +1360,16 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
     - `"auto"`
 
     - `"standard_only"`
+
+  - `speed?: "standard" | "fast" | null`
+
+    The inference speed mode for this request. `"fast"` enables high output-tokens-per-second inference.
+
+    Some models require the `fast-mode-2026-02-01` beta header for any `speed` value. See [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode?sdk_languages=typescript) for which models.
+
+    - `"standard"`
+
+    - `"fast"`
 
   - `stop_sequences?: Array<string>`
 
@@ -1617,7 +1729,11 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `interface CodeExecutionTool20260120`
 
-      Code execution tool with REPL state persistence (daemon mode + gVisor checkpoint).
+      A `tools` entry for the code execution tool, version `code_execution_20260120`. It adds REPL state persistence to version `code_execution_20250825`.
+
+      REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
+
+      See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=typescript#tool-versions) to learn what each tool version adds.
 
       - `type: "code_execution_20260120"`
 
@@ -3037,49 +3153,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   - `user_profile_id?: string` (header parameter)
 
-    The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header.
+    The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization.
 
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
     Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-  - `temperature?: number`
-
-    **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting temperature. A value of 1.0 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-    Amount of randomness injected into the response.
-
-    Defaults to `1.0`. Ranges from `0.0` to `1.0`. Use `temperature` closer to `0.0` for analytical / multiple choice, and closer to `1.0` for creative and generative tasks.
-
-    Note that even with `temperature` of `0.0`, the results will not be fully deterministic.
-
-    minimum: 0, maximum: 1
-
-  - `top_k?: number`
-
-    **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not accept top_k; any value will be rejected with a 400 error.
-
-    Only sample from the top K options for each subsequent token.
-
-    Used to remove "long tail" low probability responses. [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-
-    Recommended for advanced use cases only.
-
-    minimum: 0
-
-  - `top_p?: number`
-
-    **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting top_p. A value >= 0.99 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-    Use nucleus sampling.
-
-    In nucleus sampling, we compute the cumulative distribution over all the options for each subsequent token in decreasing probability order and cut it off once it reaches a particular probability specified by `top_p`.
-
-    Recommended for advanced use cases only.
-
-    minimum: 0, maximum: 1
 
 ## Returns
 
@@ -3646,13 +3726,17 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         - `interface EncryptedCodeExecutionResultBlock`
 
-          Code execution result with encrypted stdout for PFC + web_search results.
+          The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+          The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+          See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=typescript) to learn more about programmatic tool calling.
 
           - `type: "encrypted_code_execution_result"`
 
             default: encrypted_code_execution_result
 
-          - `content: Array<CodeExecutionOutputBlock>`
+          - `type: "encrypted_code_execution_result"`
 
             - `type: "code_execution_output"`
 
@@ -3864,6 +3948,10 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `interface CacheMissModelChanged`
 
+        A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
         - `type: "model_changed"`
 
           default: model_changed
@@ -3873,6 +3961,10 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
       - `interface CacheMissSystemChanged`
+
+        A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
         - `type: "system_changed"`
 
@@ -3884,6 +3976,10 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `interface CacheMissToolsChanged`
 
+        A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
         - `type: "tools_changed"`
 
           default: tools_changed
@@ -3893,6 +3989,10 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
       - `interface CacheMissMessagesChanged`
+
+        A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
         - `type: "messages_changed"`
 
@@ -3904,11 +4004,23 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `interface CacheMissPreviousMessageNotFound`
 
+        A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+        This doesn't mean that this request changed.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
         - `type: "previous_message_not_found"`
 
           default: previous_message_not_found
 
       - `interface CacheMissUnavailable`
+
+        A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+        This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
         - `type: "unavailable"`
 
@@ -3919,6 +4031,14 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
     The model that will complete your prompt.
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+    - `"claude-fable-5-2"`
+
+      Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+    - `"claude-mythos-5-2"`
+
+      Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
     - `"claude-haiku-5-5"`
 
@@ -4161,8 +4281,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
         the thinking-block delimiter tokens.
 
         Reflects the raw reasoning the model produced, not the (possibly shorter)
-        summarized thinking text returned in the response body. Computed by
-        re-tokenizing the raw reasoning text, so it may differ from the model's exact
+        summarized thinking text returned in the response body. It may differ from the model's exact
         generation count by a small number of tokens. Always ≤ `output_tokens`;
         `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -4193,6 +4312,14 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       - `"priority"`
 
       - `"batch"`
+
+    - `speed: "standard" | "fast" | null`
+
+      The inference speed mode used for this request.
+
+      - `"standard"`
+
+      - `"fast"`
 
 - When `stream` is `true`: `Stream<RawMessageStreamEvent>`
 
@@ -4473,7 +4600,8 @@ console.log(message.id);
       "web_fetch_requests": 2,
       "web_search_requests": 0
     },
-    "service_tier": "standard"
+    "service_tier": "standard",
+    "speed": "standard"
   }
 }
 ```

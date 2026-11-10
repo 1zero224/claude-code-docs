@@ -27,7 +27,7 @@ Create Session
 
       Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
-      - `Type BetaManagedAgentsAgentParamsType`
+      - `Type Agent`
 
       - `ID string`
 
@@ -45,7 +45,7 @@ Create Session
 
       Reference to an `agent` plus optional configuration overrides. Each provided field replaces the agent's value for the caller's use; the agent resource is unchanged.
 
-      - `Type BetaManagedAgentsAgentWithOverridesParamsType`
+      - `Type AgentWithOverrides`
 
       - `ID string`
 
@@ -57,7 +57,7 @@ Create Session
 
         Replacement MCP server list. Full replacement: the provided array becomes the MCP servers. Send an empty array to clear; omit to preserve the agent's servers.
 
-        - `Type BetaManagedAgentsURLMCPServerParamsType`
+        - `Type URL`
 
         - `Name string`
 
@@ -84,6 +84,10 @@ Create Session
             The model that will power your agent.
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+            - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+              Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
             - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -185,31 +189,31 @@ Create Session
 
               Low effort. Favors latency over reasoning depth.
 
-              - `Type BetaManagedAgentsEffortLowType`
+              - `Type Low`
 
             - `type BetaManagedAgentsEffortMedium`
 
               Medium effort. Balances latency and reasoning depth.
 
-              - `Type BetaManagedAgentsEffortMediumType`
+              - `Type Medium`
 
             - `type BetaManagedAgentsEffortHigh`
 
               High effort. Favors reasoning depth.
 
-              - `Type BetaManagedAgentsEffortHighType`
+              - `Type High`
 
             - `type BetaManagedAgentsEffortXhigh`
 
               Extra-high effort. Not all models accept this level.
 
-              - `Type BetaManagedAgentsEffortXhighType`
+              - `Type Xhigh`
 
             - `type BetaManagedAgentsEffortMax`
 
               Maximum effort. Favors reasoning depth over latency.
 
-              - `Type BetaManagedAgentsEffortMaxType`
+              - `Type Max`
 
           - `InferenceGeo string Optional`
 
@@ -217,7 +221,7 @@ Create Session
 
           - `Speed BetaManagedAgentsModelConfigParamsSpeed Optional`
 
-            Inference speed mode. Defaults to `standard`.
+            Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
             - `const BetaManagedAgentsModelConfigParamsSpeedStandard BetaManagedAgentsModelConfigParamsSpeed = "standard"`
 
@@ -231,7 +235,7 @@ Create Session
 
           An Anthropic-managed skill.
 
-          - `Type BetaManagedAgentsAnthropicSkillParamsType`
+          - `Type Anthropic`
 
           - `SkillID string`
 
@@ -249,7 +253,7 @@ Create Session
 
           A user-created custom skill.
 
-          - `Type BetaManagedAgentsCustomSkillParamsType`
+          - `Type Custom`
 
           - `SkillID string`
 
@@ -277,7 +281,7 @@ Create Session
 
           Configuration for built-in agent tools. Use this to enable or disable groups of tools available to the agent.
 
-          - `Type BetaManagedAgentsAgentToolset20260401ParamsType`
+          - `Type AgentToolset20260401`
 
           - `Configs []BetaManagedAgentsAgentToolConfigParamsUnion Optional`
 
@@ -305,13 +309,13 @@ Create Session
 
                   Tool calls are automatically approved without user confirmation.
 
-                  - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                  - `Type AlwaysAllow`
 
                 - `type BetaManagedAgentsAlwaysAskPolicy`
 
                   Tool calls require user confirmation before execution.
 
-                  - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                  - `Type AlwaysAsk`
 
                 - `type BetaManagedAgentsAutoPolicy`
 
@@ -665,6 +669,8 @@ Create Session
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `Region string Optional`
 
                   Region or state name.
@@ -705,7 +711,7 @@ Create Session
 
           Configuration for tools from an MCP server defined in `mcp_servers`.
 
-          - `Type BetaManagedAgentsMCPToolsetParamsType`
+          - `Type MCPToolset`
 
           - `MCPServerName string`
 
@@ -771,7 +777,7 @@ Create Session
 
           A custom tool that is executed by the API client rather than the agent. When the agent calls this tool, an `agent.custom_tool_use` event is emitted and the session goes idle, waiting for the client to provide the result via a `user.custom_tool_result` event.
 
-          - `Type BetaManagedAgentsCustomToolParamsType`
+          - `Type Custom`
 
           - `Description string`
 
@@ -785,7 +791,7 @@ Create Session
 
             - `Type Object`
 
-            - `Properties map[string, any] Optional`
+            - `Properties map[string]any Optional`
 
             - `Required []string Optional`
 
@@ -793,7 +799,7 @@ Create Session
 
             Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-            minLength: 1, maxLength: 128
+            minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
       - `Version int64 Optional`
 
@@ -819,7 +825,7 @@ Create Session
 
       Parameters for sending a user message to the session.
 
-      - `Type BetaManagedAgentsUserMessageEventParamsType`
+      - `Type UserMessage`
 
       - `Content []BetaManagedAgentsUserMessageEventParamsContentUnion`
 
@@ -829,7 +835,7 @@ Create Session
 
           Regular text content.
 
-          - `Type BetaManagedAgentsTextBlockType`
+          - `Type Text`
 
           - `Text string`
 
@@ -841,7 +847,7 @@ Create Session
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `Type BetaManagedAgentsImageBlockType`
+          - `Type Image`
 
           - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -851,7 +857,7 @@ Create Session
 
               Base64-encoded image data.
 
-              - `Type BetaManagedAgentsBase64ImageSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -869,7 +875,7 @@ Create Session
 
               Image referenced by URL.
 
-              - `Type BetaManagedAgentsURLImageSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -881,7 +887,7 @@ Create Session
 
               Image referenced by file ID.
 
-              - `Type BetaManagedAgentsFileImageSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -893,7 +899,7 @@ Create Session
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `Type BetaManagedAgentsDocumentBlockType`
+          - `Type Document`
 
           - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -903,7 +909,7 @@ Create Session
 
               Base64-encoded document data.
 
-              - `Type BetaManagedAgentsBase64DocumentSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -921,7 +927,7 @@ Create Session
 
               Plain text document content.
 
-              - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+              - `Type Text`
 
               - `Data string`
 
@@ -929,7 +935,7 @@ Create Session
 
                 minLength: 1
 
-              - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+              - `MediaType TextPlain`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -937,7 +943,7 @@ Create Session
 
               Document referenced by URL.
 
-              - `Type BetaManagedAgentsURLDocumentSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -949,7 +955,7 @@ Create Session
 
               Document referenced by file ID.
 
-              - `Type BetaManagedAgentsFileDocumentSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -969,13 +975,13 @@ Create Session
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `Type BetaManagedAgentsRedactedBlockType`
+          - `Type Redacted`
 
     - `type BetaManagedAgentsUserDefineOutcomeEventParams`
 
       Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-      - `Type BetaManagedAgentsUserDefineOutcomeEventParamsType`
+      - `Type UserDefineOutcome`
 
       - `Description string`
 
@@ -989,7 +995,7 @@ Create Session
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `Type BetaManagedAgentsFileRubricParamsType`
+          - `Type File`
 
           - `FileID string`
 
@@ -999,7 +1005,7 @@ Create Session
 
           Rubric content provided inline as text.
 
-          - `Type BetaManagedAgentsTextRubricParamsType`
+          - `Type Text`
 
           - `Content string`
 
@@ -1013,7 +1019,7 @@ Create Session
 
         format: int32
 
-  - `Metadata map[string, string] Optional`
+  - `Metadata map[string]string Optional`
 
     Arbitrary key-value metadata attached to the session. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
@@ -1025,7 +1031,7 @@ Create Session
 
       Mount a GitHub repository into the session's container.
 
-      - `Type BetaManagedAgentsGitHubRepositoryResourceParamsType`
+      - `Type GitHubRepository`
 
       - `URL string`
 
@@ -1045,7 +1051,7 @@ Create Session
 
         - `type BetaManagedAgentsBranchCheckout`
 
-          - `Type BetaManagedAgentsBranchCheckoutType`
+          - `Type Branch`
 
           - `Name string`
 
@@ -1055,13 +1061,13 @@ Create Session
 
         - `type BetaManagedAgentsCommitCheckout`
 
-          - `Type BetaManagedAgentsCommitCheckoutType`
+          - `Type Commit`
 
           - `Sha string`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
       - `MountPath string Optional`
 
@@ -1073,7 +1079,7 @@ Create Session
 
       Mount a file uploaded via the Files API into the session.
 
-      - `Type BetaManagedAgentsFileResourceParamsType`
+      - `Type File`
 
       - `FileID string`
 
@@ -1091,11 +1097,13 @@ Create Session
 
       Parameters for attaching a memory store to an agent session.
 
-      - `Type BetaManagedAgentsMemoryStoreResourceParamType`
+      - `Type MemoryStore`
 
       - `MemoryStoreID string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Access BetaManagedAgentsMemoryStoreResourceParamAccess Optional`
 
@@ -1123,7 +1131,7 @@ Create Session
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -1225,6 +1233,18 @@ Create Session
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1237,7 +1257,7 @@ Create Session
 
   A Managed Agents `session`.
 
-  - `Type BetaManagedAgentsSessionType`
+  - `Type Session`
 
   - `ID string`
 
@@ -1245,15 +1265,37 @@ Create Session
 
     Resolved `agent` definition for a `session`. Snapshot of the `agent` at `session` creation time.
 
-    - `Type BetaManagedAgentsSessionAgentType`
+    - `Type Agent`
 
     - `ID string`
 
     - `Description string`
 
+    - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `Type AWSRole`
+
+        - `RoleARN string`
+
+          The IAM role's ARN.
+
+      - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `Type ServiceAccount`
+
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-      - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+      - `Type URL`
+
+      - `Name string`
 
       - `Name string`
 
@@ -1268,6 +1310,10 @@ Create Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -1345,31 +1391,31 @@ Create Session
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -1391,7 +1437,7 @@ Create Session
 
         Resolved coordinator topology with full agent definitions for each roster member.
 
-        - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+        - `Type Coordinator`
 
         - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -1401,15 +1447,19 @@ Create Session
 
             Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-            - `Type BetaManagedAgentsSessionThreadAgentType`
+            - `Type Agent`
 
             - `ID string`
 
             - `Description string`
 
+            - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-              - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+              - `Type URL`
 
               - `Name string`
 
@@ -1427,7 +1477,7 @@ Create Session
 
                 A resolved Anthropic-managed skill.
 
-                - `Type BetaManagedAgentsAnthropicSkillType`
+                - `Type Anthropic`
 
                 - `SkillID string`
 
@@ -1437,7 +1487,7 @@ Create Session
 
                 A resolved user-created custom skill.
 
-                - `Type BetaManagedAgentsCustomSkillType`
+                - `Type Custom`
 
                 - `SkillID string`
 
@@ -1449,7 +1499,7 @@ Create Session
 
               - `type BetaManagedAgentsAgentToolset20260401`
 
-                - `Type BetaManagedAgentsAgentToolset20260401Type`
+                - `Type AgentToolset20260401`
 
                 - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -1471,13 +1521,13 @@ Create Session
 
                         Tool calls are automatically approved without user confirmation.
 
-                        - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                        - `Type AlwaysAllow`
 
                       - `type BetaManagedAgentsAlwaysAskPolicy`
 
                         Tool calls require user confirmation before execution.
 
-                        - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                        - `Type AlwaysAsk`
 
                       - `type BetaManagedAgentsAutoPolicy`
 
@@ -1773,6 +1823,8 @@ Create Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `Region string Optional`
 
                         Region or state name.
@@ -1809,7 +1861,7 @@ Create Session
 
               - `type BetaManagedAgentsMCPToolset`
 
-                - `Type BetaManagedAgentsMCPToolsetType`
+                - `Type MCPToolset`
 
                 - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -1861,7 +1913,7 @@ Create Session
 
                 A custom tool as returned in API responses.
 
-                - `Type BetaManagedAgentsCustomToolType`
+                - `Type Custom`
 
                 - `Description string`
 
@@ -1871,7 +1923,7 @@ Create Session
 
                   - `Type Object`
 
-                  - `Properties map[string, any] Optional`
+                  - `Properties map[string]any Optional`
 
                   - `Required []string Optional`
 
@@ -1885,7 +1937,7 @@ Create Session
 
             Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-            - `Type BetaManagedAgentsAdvisorType`
+            - `Type Advisor`
 
             - `Model string`
 
@@ -1947,11 +1999,15 @@ Create Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -1995,11 +2051,15 @@ Create Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -2063,7 +2123,7 @@ Create Session
 
     The session's enforced spend ceiling, or null when no budget is set.
 
-    - `Type BetaManagedAgentsBudgetLimitType`
+    - `Type Limit`
 
     - `MaxListCost BetaMonetaryAmount`
 
@@ -2072,6 +2132,8 @@ Create Session
       - `Amount string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `Currency BetaCurrency`
 
@@ -2085,13 +2147,13 @@ Create Session
 
   - `EnvironmentID string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `OutcomeEvaluations []BetaManagedAgentsOutcomeEvaluationResource`
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
-    - `Type BetaManagedAgentsOutcomeEvaluationResourceType`
+    - `Type OutcomeEvaluation`
 
     - `CompletedAt Time`
 
@@ -2125,7 +2187,7 @@ Create Session
 
     - `type BetaManagedAgentsGitHubRepositoryResource`
 
-      - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+      - `Type GitHubRepository`
 
       - `ID string`
 
@@ -2149,7 +2211,7 @@ Create Session
 
         - `type BetaManagedAgentsBranchCheckout`
 
-          - `Type BetaManagedAgentsBranchCheckoutType`
+          - `Type Branch`
 
           - `Name string`
 
@@ -2159,17 +2221,17 @@ Create Session
 
         - `type BetaManagedAgentsCommitCheckout`
 
-          - `Type BetaManagedAgentsCommitCheckoutType`
+          - `Type Commit`
 
           - `Sha string`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `type BetaManagedAgentsFileResource`
 
-      - `Type BetaManagedAgentsFileResourceType`
+      - `Type File`
 
       - `ID string`
 
@@ -2193,11 +2255,13 @@ Create Session
 
       A memory store attached to an agent session.
 
-      - `Type BetaManagedAgentsMemoryStoreResourceType`
+      - `Type MemoryStore`
 
       - `MemoryStoreID string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -2348,8 +2412,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -2361,12 +2425,10 @@ func main() {
 			OfString: anthropic.String("agent_011CZkYpogX7uDKUyvBTophP"),
 		},
 		EnvironmentID: "env_011CZkZ9X2dpNyB7HsEFoRfW",
-		InitialEvents: []anthropic.BetaSessionNewParamsInitialEventUnion{anthropic.BetaSessionNewParamsInitialEventUnion{
+		InitialEvents: []anthropic.BetaSessionNewParamsInitialEventUnion{{
 			OfUserMessage: &anthropic.BetaManagedAgentsUserMessageEventParams{
-				Type: anthropic.BetaManagedAgentsUserMessageEventParamsTypeUserMessage,
-				Content: []anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{
+				Content: []anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{{
 					OfText: &anthropic.BetaManagedAgentsTextBlockParam{
-						Type: anthropic.BetaManagedAgentsTextBlockTypeText,
 						Text: "Where is my order #1234?",
 					},
 				}},
@@ -2388,6 +2450,9 @@ func main() {
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -2408,6 +2473,9 @@ func main() {
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -2654,25 +2722,25 @@ List Sessions
 
     Filter by session status. Repeat the parameter to match any of multiple statuses.
 
-    - `const BetaSessionListParamsStatusRescheduling BetaSessionListParamsStatus = "rescheduling"`
+    - `"rescheduling"`
 
       Transient error occurred, retrying automatically.
 
-    - `const BetaSessionListParamsStatusRunning BetaSessionListParamsStatus = "running"`
+    - `"running"`
 
       Agent is actively executing.
 
-    - `const BetaSessionListParamsStatusIdle BetaSessionListParamsStatus = "idle"`
+    - `"idle"`
 
       Agent is waiting for input, including user messages or tool confirmations. Sessions start in idle.
 
-    - `const BetaSessionListParamsStatusTerminated BetaSessionListParamsStatus = "terminated"`
+    - `"terminated"`
 
       Session has ended, either due to an error or completion.
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -2774,6 +2842,18 @@ List Sessions
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -2786,7 +2866,7 @@ List Sessions
 
   A Managed Agents `session`.
 
-  - `Type BetaManagedAgentsSessionType`
+  - `Type Session`
 
   - `ID string`
 
@@ -2794,15 +2874,37 @@ List Sessions
 
     Resolved `agent` definition for a `session`. Snapshot of the `agent` at `session` creation time.
 
-    - `Type BetaManagedAgentsSessionAgentType`
+    - `Type Agent`
 
     - `ID string`
 
     - `Description string`
 
+    - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `Type AWSRole`
+
+        - `RoleARN string`
+
+          The IAM role's ARN.
+
+      - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `Type ServiceAccount`
+
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-      - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+      - `Type URL`
+
+      - `Name string`
 
       - `Name string`
 
@@ -2817,6 +2919,10 @@ List Sessions
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -2894,31 +3000,31 @@ List Sessions
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -2940,7 +3046,7 @@ List Sessions
 
         Resolved coordinator topology with full agent definitions for each roster member.
 
-        - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+        - `Type Coordinator`
 
         - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -2950,15 +3056,19 @@ List Sessions
 
             Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-            - `Type BetaManagedAgentsSessionThreadAgentType`
+            - `Type Agent`
 
             - `ID string`
 
             - `Description string`
 
+            - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-              - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+              - `Type URL`
 
               - `Name string`
 
@@ -2976,7 +3086,7 @@ List Sessions
 
                 A resolved Anthropic-managed skill.
 
-                - `Type BetaManagedAgentsAnthropicSkillType`
+                - `Type Anthropic`
 
                 - `SkillID string`
 
@@ -2986,7 +3096,7 @@ List Sessions
 
                 A resolved user-created custom skill.
 
-                - `Type BetaManagedAgentsCustomSkillType`
+                - `Type Custom`
 
                 - `SkillID string`
 
@@ -2998,7 +3108,7 @@ List Sessions
 
               - `type BetaManagedAgentsAgentToolset20260401`
 
-                - `Type BetaManagedAgentsAgentToolset20260401Type`
+                - `Type AgentToolset20260401`
 
                 - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -3020,13 +3130,13 @@ List Sessions
 
                         Tool calls are automatically approved without user confirmation.
 
-                        - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                        - `Type AlwaysAllow`
 
                       - `type BetaManagedAgentsAlwaysAskPolicy`
 
                         Tool calls require user confirmation before execution.
 
-                        - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                        - `Type AlwaysAsk`
 
                       - `type BetaManagedAgentsAutoPolicy`
 
@@ -3322,6 +3432,8 @@ List Sessions
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `Region string Optional`
 
                         Region or state name.
@@ -3358,7 +3470,7 @@ List Sessions
 
               - `type BetaManagedAgentsMCPToolset`
 
-                - `Type BetaManagedAgentsMCPToolsetType`
+                - `Type MCPToolset`
 
                 - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -3410,7 +3522,7 @@ List Sessions
 
                 A custom tool as returned in API responses.
 
-                - `Type BetaManagedAgentsCustomToolType`
+                - `Type Custom`
 
                 - `Description string`
 
@@ -3420,7 +3532,7 @@ List Sessions
 
                   - `Type Object`
 
-                  - `Properties map[string, any] Optional`
+                  - `Properties map[string]any Optional`
 
                   - `Required []string Optional`
 
@@ -3434,7 +3546,7 @@ List Sessions
 
             Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-            - `Type BetaManagedAgentsAdvisorType`
+            - `Type Advisor`
 
             - `Model string`
 
@@ -3496,11 +3608,15 @@ List Sessions
 
               Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -3544,11 +3660,15 @@ List Sessions
 
               Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -3612,7 +3732,7 @@ List Sessions
 
     The session's enforced spend ceiling, or null when no budget is set.
 
-    - `Type BetaManagedAgentsBudgetLimitType`
+    - `Type Limit`
 
     - `MaxListCost BetaMonetaryAmount`
 
@@ -3621,6 +3741,8 @@ List Sessions
       - `Amount string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `Currency BetaCurrency`
 
@@ -3634,13 +3756,13 @@ List Sessions
 
   - `EnvironmentID string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `OutcomeEvaluations []BetaManagedAgentsOutcomeEvaluationResource`
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
-    - `Type BetaManagedAgentsOutcomeEvaluationResourceType`
+    - `Type OutcomeEvaluation`
 
     - `CompletedAt Time`
 
@@ -3674,7 +3796,7 @@ List Sessions
 
     - `type BetaManagedAgentsGitHubRepositoryResource`
 
-      - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+      - `Type GitHubRepository`
 
       - `ID string`
 
@@ -3698,7 +3820,7 @@ List Sessions
 
         - `type BetaManagedAgentsBranchCheckout`
 
-          - `Type BetaManagedAgentsBranchCheckoutType`
+          - `Type Branch`
 
           - `Name string`
 
@@ -3708,17 +3830,17 @@ List Sessions
 
         - `type BetaManagedAgentsCommitCheckout`
 
-          - `Type BetaManagedAgentsCommitCheckoutType`
+          - `Type Commit`
 
           - `Sha string`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `type BetaManagedAgentsFileResource`
 
-      - `Type BetaManagedAgentsFileResourceType`
+      - `Type File`
 
       - `ID string`
 
@@ -3742,11 +3864,13 @@ List Sessions
 
       A memory store attached to an agent session.
 
-      - `Type BetaManagedAgentsMemoryStoreResourceType`
+      - `Type MemoryStore`
 
       - `MemoryStoreID string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -3897,8 +4021,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -3923,6 +4047,9 @@ func main() {
       "agent": {
         "id": "agent_011CZkYpogX7uDKUyvBTophP",
         "description": "A general-purpose starter agent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",
@@ -3943,6 +4070,9 @@ func main() {
             {
               "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
               "description": "A focused research subagent.",
+              "execution_identity": {
+                "type": "service_account"
+              },
               "mcp_servers": [
                 {
                   "name": "example-mcp",
@@ -4129,7 +4259,7 @@ Get Session
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -4231,6 +4361,18 @@ Get Session
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -4243,7 +4385,7 @@ Get Session
 
   A Managed Agents `session`.
 
-  - `Type BetaManagedAgentsSessionType`
+  - `Type Session`
 
   - `ID string`
 
@@ -4251,15 +4393,37 @@ Get Session
 
     Resolved `agent` definition for a `session`. Snapshot of the `agent` at `session` creation time.
 
-    - `Type BetaManagedAgentsSessionAgentType`
+    - `Type Agent`
 
     - `ID string`
 
     - `Description string`
 
+    - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `Type AWSRole`
+
+        - `RoleARN string`
+
+          The IAM role's ARN.
+
+      - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `Type ServiceAccount`
+
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-      - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+      - `Type URL`
+
+      - `Name string`
 
       - `Name string`
 
@@ -4274,6 +4438,10 @@ Get Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -4351,31 +4519,31 @@ Get Session
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -4397,7 +4565,7 @@ Get Session
 
         Resolved coordinator topology with full agent definitions for each roster member.
 
-        - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+        - `Type Coordinator`
 
         - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -4407,15 +4575,19 @@ Get Session
 
             Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-            - `Type BetaManagedAgentsSessionThreadAgentType`
+            - `Type Agent`
 
             - `ID string`
 
             - `Description string`
 
+            - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-              - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+              - `Type URL`
 
               - `Name string`
 
@@ -4433,7 +4605,7 @@ Get Session
 
                 A resolved Anthropic-managed skill.
 
-                - `Type BetaManagedAgentsAnthropicSkillType`
+                - `Type Anthropic`
 
                 - `SkillID string`
 
@@ -4443,7 +4615,7 @@ Get Session
 
                 A resolved user-created custom skill.
 
-                - `Type BetaManagedAgentsCustomSkillType`
+                - `Type Custom`
 
                 - `SkillID string`
 
@@ -4455,7 +4627,7 @@ Get Session
 
               - `type BetaManagedAgentsAgentToolset20260401`
 
-                - `Type BetaManagedAgentsAgentToolset20260401Type`
+                - `Type AgentToolset20260401`
 
                 - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -4477,13 +4649,13 @@ Get Session
 
                         Tool calls are automatically approved without user confirmation.
 
-                        - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                        - `Type AlwaysAllow`
 
                       - `type BetaManagedAgentsAlwaysAskPolicy`
 
                         Tool calls require user confirmation before execution.
 
-                        - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                        - `Type AlwaysAsk`
 
                       - `type BetaManagedAgentsAutoPolicy`
 
@@ -4779,6 +4951,8 @@ Get Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `Region string Optional`
 
                         Region or state name.
@@ -4815,7 +4989,7 @@ Get Session
 
               - `type BetaManagedAgentsMCPToolset`
 
-                - `Type BetaManagedAgentsMCPToolsetType`
+                - `Type MCPToolset`
 
                 - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -4867,7 +5041,7 @@ Get Session
 
                 A custom tool as returned in API responses.
 
-                - `Type BetaManagedAgentsCustomToolType`
+                - `Type Custom`
 
                 - `Description string`
 
@@ -4877,7 +5051,7 @@ Get Session
 
                   - `Type Object`
 
-                  - `Properties map[string, any] Optional`
+                  - `Properties map[string]any Optional`
 
                   - `Required []string Optional`
 
@@ -4891,7 +5065,7 @@ Get Session
 
             Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-            - `Type BetaManagedAgentsAdvisorType`
+            - `Type Advisor`
 
             - `Model string`
 
@@ -4953,11 +5127,15 @@ Get Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -5001,11 +5179,15 @@ Get Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -5069,7 +5251,7 @@ Get Session
 
     The session's enforced spend ceiling, or null when no budget is set.
 
-    - `Type BetaManagedAgentsBudgetLimitType`
+    - `Type Limit`
 
     - `MaxListCost BetaMonetaryAmount`
 
@@ -5078,6 +5260,8 @@ Get Session
       - `Amount string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `Currency BetaCurrency`
 
@@ -5091,13 +5275,13 @@ Get Session
 
   - `EnvironmentID string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `OutcomeEvaluations []BetaManagedAgentsOutcomeEvaluationResource`
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
-    - `Type BetaManagedAgentsOutcomeEvaluationResourceType`
+    - `Type OutcomeEvaluation`
 
     - `CompletedAt Time`
 
@@ -5131,7 +5315,7 @@ Get Session
 
     - `type BetaManagedAgentsGitHubRepositoryResource`
 
-      - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+      - `Type GitHubRepository`
 
       - `ID string`
 
@@ -5155,7 +5339,7 @@ Get Session
 
         - `type BetaManagedAgentsBranchCheckout`
 
-          - `Type BetaManagedAgentsBranchCheckoutType`
+          - `Type Branch`
 
           - `Name string`
 
@@ -5165,17 +5349,17 @@ Get Session
 
         - `type BetaManagedAgentsCommitCheckout`
 
-          - `Type BetaManagedAgentsCommitCheckoutType`
+          - `Type Commit`
 
           - `Sha string`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `type BetaManagedAgentsFileResource`
 
-      - `Type BetaManagedAgentsFileResourceType`
+      - `Type File`
 
       - `ID string`
 
@@ -5199,11 +5383,13 @@ Get Session
 
       A memory store attached to an agent session.
 
-      - `Type BetaManagedAgentsMemoryStoreResourceType`
+      - `Type MemoryStore`
 
       - `MemoryStoreID string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -5354,8 +5540,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -5382,6 +5568,9 @@ func main() {
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -5402,6 +5591,9 @@ func main() {
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -5590,7 +5782,7 @@ Update Session
 
     Enforced spend ceiling for the session. Set an object to replace the budget of a session that was created with one, or `null` to remove it; omit to preserve. A budget cannot be added to a session created without one (rejected with reason `budget_create_only`), and a removed budget cannot be re-added. Allowed in any non-terminated status. Lowering `max_list_cost` to at or below the session's consumed list cost is rejected with reason `budget_not_raised`, and every model the session can run must have a public list price or the request is rejected with reason `model_not_budgetable`.
 
-  - `Metadata map[string, string] Optional`
+  - `Metadata map[string]string Optional`
 
     Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve.
 
@@ -5606,7 +5798,7 @@ Update Session
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -5708,6 +5900,18 @@ Update Session
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -5720,7 +5924,7 @@ Update Session
 
   A Managed Agents `session`.
 
-  - `Type BetaManagedAgentsSessionType`
+  - `Type Session`
 
   - `ID string`
 
@@ -5728,15 +5932,37 @@ Update Session
 
     Resolved `agent` definition for a `session`. Snapshot of the `agent` at `session` creation time.
 
-    - `Type BetaManagedAgentsSessionAgentType`
+    - `Type Agent`
 
     - `ID string`
 
     - `Description string`
 
+    - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `Type AWSRole`
+
+        - `RoleARN string`
+
+          The IAM role's ARN.
+
+      - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `Type ServiceAccount`
+
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-      - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+      - `Type URL`
+
+      - `Name string`
 
       - `Name string`
 
@@ -5751,6 +5977,10 @@ Update Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -5828,31 +6058,31 @@ Update Session
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -5874,7 +6104,7 @@ Update Session
 
         Resolved coordinator topology with full agent definitions for each roster member.
 
-        - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+        - `Type Coordinator`
 
         - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -5884,15 +6114,19 @@ Update Session
 
             Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-            - `Type BetaManagedAgentsSessionThreadAgentType`
+            - `Type Agent`
 
             - `ID string`
 
             - `Description string`
 
+            - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-              - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+              - `Type URL`
 
               - `Name string`
 
@@ -5910,7 +6144,7 @@ Update Session
 
                 A resolved Anthropic-managed skill.
 
-                - `Type BetaManagedAgentsAnthropicSkillType`
+                - `Type Anthropic`
 
                 - `SkillID string`
 
@@ -5920,7 +6154,7 @@ Update Session
 
                 A resolved user-created custom skill.
 
-                - `Type BetaManagedAgentsCustomSkillType`
+                - `Type Custom`
 
                 - `SkillID string`
 
@@ -5932,7 +6166,7 @@ Update Session
 
               - `type BetaManagedAgentsAgentToolset20260401`
 
-                - `Type BetaManagedAgentsAgentToolset20260401Type`
+                - `Type AgentToolset20260401`
 
                 - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -5954,13 +6188,13 @@ Update Session
 
                         Tool calls are automatically approved without user confirmation.
 
-                        - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                        - `Type AlwaysAllow`
 
                       - `type BetaManagedAgentsAlwaysAskPolicy`
 
                         Tool calls require user confirmation before execution.
 
-                        - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                        - `Type AlwaysAsk`
 
                       - `type BetaManagedAgentsAutoPolicy`
 
@@ -6256,6 +6490,8 @@ Update Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `Region string Optional`
 
                         Region or state name.
@@ -6292,7 +6528,7 @@ Update Session
 
               - `type BetaManagedAgentsMCPToolset`
 
-                - `Type BetaManagedAgentsMCPToolsetType`
+                - `Type MCPToolset`
 
                 - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -6344,7 +6580,7 @@ Update Session
 
                 A custom tool as returned in API responses.
 
-                - `Type BetaManagedAgentsCustomToolType`
+                - `Type Custom`
 
                 - `Description string`
 
@@ -6354,7 +6590,7 @@ Update Session
 
                   - `Type Object`
 
-                  - `Properties map[string, any] Optional`
+                  - `Properties map[string]any Optional`
 
                   - `Required []string Optional`
 
@@ -6368,7 +6604,7 @@ Update Session
 
             Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-            - `Type BetaManagedAgentsAdvisorType`
+            - `Type Advisor`
 
             - `Model string`
 
@@ -6430,11 +6666,15 @@ Update Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -6478,11 +6718,15 @@ Update Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -6546,7 +6790,7 @@ Update Session
 
     The session's enforced spend ceiling, or null when no budget is set.
 
-    - `Type BetaManagedAgentsBudgetLimitType`
+    - `Type Limit`
 
     - `MaxListCost BetaMonetaryAmount`
 
@@ -6555,6 +6799,8 @@ Update Session
       - `Amount string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `Currency BetaCurrency`
 
@@ -6568,13 +6814,13 @@ Update Session
 
   - `EnvironmentID string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `OutcomeEvaluations []BetaManagedAgentsOutcomeEvaluationResource`
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
-    - `Type BetaManagedAgentsOutcomeEvaluationResourceType`
+    - `Type OutcomeEvaluation`
 
     - `CompletedAt Time`
 
@@ -6608,7 +6854,7 @@ Update Session
 
     - `type BetaManagedAgentsGitHubRepositoryResource`
 
-      - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+      - `Type GitHubRepository`
 
       - `ID string`
 
@@ -6632,7 +6878,7 @@ Update Session
 
         - `type BetaManagedAgentsBranchCheckout`
 
-          - `Type BetaManagedAgentsBranchCheckoutType`
+          - `Type Branch`
 
           - `Name string`
 
@@ -6642,17 +6888,17 @@ Update Session
 
         - `type BetaManagedAgentsCommitCheckout`
 
-          - `Type BetaManagedAgentsCommitCheckoutType`
+          - `Type Commit`
 
           - `Sha string`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `type BetaManagedAgentsFileResource`
 
-      - `Type BetaManagedAgentsFileResourceType`
+      - `Type File`
 
       - `ID string`
 
@@ -6676,11 +6922,13 @@ Update Session
 
       A memory store attached to an agent session.
 
-      - `Type BetaManagedAgentsMemoryStoreResourceType`
+      - `Type MemoryStore`
 
       - `MemoryStoreID string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -6831,8 +7079,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -6859,6 +7107,9 @@ func main() {
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -6879,6 +7130,9 @@ func main() {
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -7061,7 +7315,7 @@ Delete Session
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -7163,6 +7417,18 @@ Delete Session
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -7175,7 +7441,9 @@ Delete Session
 
   Confirmation that a `session` has been permanently deleted.
 
-  - `Type BetaManagedAgentsDeletedSessionType`
+  - `Type SessionDeletedResponseType`
+
+  - `ID string`
 
   - `ID string`
 
@@ -7188,8 +7456,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -7233,7 +7501,7 @@ Archive Session
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -7335,6 +7603,18 @@ Archive Session
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -7347,7 +7627,7 @@ Archive Session
 
   A Managed Agents `session`.
 
-  - `Type BetaManagedAgentsSessionType`
+  - `Type Session`
 
   - `ID string`
 
@@ -7355,15 +7635,37 @@ Archive Session
 
     Resolved `agent` definition for a `session`. Snapshot of the `agent` at `session` creation time.
 
-    - `Type BetaManagedAgentsSessionAgentType`
+    - `Type Agent`
 
     - `ID string`
 
     - `Description string`
 
+    - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `Type AWSRole`
+
+        - `RoleARN string`
+
+          The IAM role's ARN.
+
+      - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `Type ServiceAccount`
+
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-      - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+      - `Type URL`
+
+      - `Name string`
 
       - `Name string`
 
@@ -7378,6 +7680,10 @@ Archive Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -7455,31 +7761,31 @@ Archive Session
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -7501,7 +7807,7 @@ Archive Session
 
         Resolved coordinator topology with full agent definitions for each roster member.
 
-        - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+        - `Type Coordinator`
 
         - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -7511,15 +7817,19 @@ Archive Session
 
             Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-            - `Type BetaManagedAgentsSessionThreadAgentType`
+            - `Type Agent`
 
             - `ID string`
 
             - `Description string`
 
+            - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-              - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+              - `Type URL`
 
               - `Name string`
 
@@ -7537,7 +7847,7 @@ Archive Session
 
                 A resolved Anthropic-managed skill.
 
-                - `Type BetaManagedAgentsAnthropicSkillType`
+                - `Type Anthropic`
 
                 - `SkillID string`
 
@@ -7547,7 +7857,7 @@ Archive Session
 
                 A resolved user-created custom skill.
 
-                - `Type BetaManagedAgentsCustomSkillType`
+                - `Type Custom`
 
                 - `SkillID string`
 
@@ -7559,7 +7869,7 @@ Archive Session
 
               - `type BetaManagedAgentsAgentToolset20260401`
 
-                - `Type BetaManagedAgentsAgentToolset20260401Type`
+                - `Type AgentToolset20260401`
 
                 - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -7581,13 +7891,13 @@ Archive Session
 
                         Tool calls are automatically approved without user confirmation.
 
-                        - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                        - `Type AlwaysAllow`
 
                       - `type BetaManagedAgentsAlwaysAskPolicy`
 
                         Tool calls require user confirmation before execution.
 
-                        - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                        - `Type AlwaysAsk`
 
                       - `type BetaManagedAgentsAutoPolicy`
 
@@ -7883,6 +8193,8 @@ Archive Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `Region string Optional`
 
                         Region or state name.
@@ -7919,7 +8231,7 @@ Archive Session
 
               - `type BetaManagedAgentsMCPToolset`
 
-                - `Type BetaManagedAgentsMCPToolsetType`
+                - `Type MCPToolset`
 
                 - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -7971,7 +8283,7 @@ Archive Session
 
                 A custom tool as returned in API responses.
 
-                - `Type BetaManagedAgentsCustomToolType`
+                - `Type Custom`
 
                 - `Description string`
 
@@ -7981,7 +8293,7 @@ Archive Session
 
                   - `Type Object`
 
-                  - `Properties map[string, any] Optional`
+                  - `Properties map[string]any Optional`
 
                   - `Required []string Optional`
 
@@ -7995,7 +8307,7 @@ Archive Session
 
             Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-            - `Type BetaManagedAgentsAdvisorType`
+            - `Type Advisor`
 
             - `Model string`
 
@@ -8057,11 +8369,15 @@ Archive Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -8105,11 +8421,15 @@ Archive Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -8173,7 +8493,7 @@ Archive Session
 
     The session's enforced spend ceiling, or null when no budget is set.
 
-    - `Type BetaManagedAgentsBudgetLimitType`
+    - `Type Limit`
 
     - `MaxListCost BetaMonetaryAmount`
 
@@ -8182,6 +8502,8 @@ Archive Session
       - `Amount string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `Currency BetaCurrency`
 
@@ -8195,13 +8517,13 @@ Archive Session
 
   - `EnvironmentID string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `OutcomeEvaluations []BetaManagedAgentsOutcomeEvaluationResource`
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
-    - `Type BetaManagedAgentsOutcomeEvaluationResourceType`
+    - `Type OutcomeEvaluation`
 
     - `CompletedAt Time`
 
@@ -8235,7 +8557,7 @@ Archive Session
 
     - `type BetaManagedAgentsGitHubRepositoryResource`
 
-      - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+      - `Type GitHubRepository`
 
       - `ID string`
 
@@ -8259,7 +8581,7 @@ Archive Session
 
         - `type BetaManagedAgentsBranchCheckout`
 
-          - `Type BetaManagedAgentsBranchCheckoutType`
+          - `Type Branch`
 
           - `Name string`
 
@@ -8269,17 +8591,17 @@ Archive Session
 
         - `type BetaManagedAgentsCommitCheckout`
 
-          - `Type BetaManagedAgentsCommitCheckoutType`
+          - `Type Commit`
 
           - `Sha string`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `type BetaManagedAgentsFileResource`
 
-      - `Type BetaManagedAgentsFileResourceType`
+      - `Type File`
 
       - `ID string`
 
@@ -8303,11 +8625,13 @@ Archive Session
 
       A memory store attached to an agent session.
 
-      - `Type BetaManagedAgentsMemoryStoreResourceType`
+      - `Type MemoryStore`
 
       - `MemoryStoreID string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -8458,8 +8782,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -8486,6 +8810,9 @@ func main() {
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -8506,6 +8833,9 @@ func main() {
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -8680,7 +9010,7 @@ func main() {
 
   Platform advisor roster entry: a model the session's primary thread may consult mid-turn. At most one per roster; the entry occupies the roster name `anthropic.advisor`.
 
-  - `Type BetaManagedAgentsAdvisorParamsType`
+  - `Type Advisor`
 
   - `Model string`
 
@@ -8692,7 +9022,7 @@ func main() {
 
 - `type BetaManagedAgentsAgentMessagePreview`
 
-  - `Type BetaManagedAgentsAgentMessagePreviewType`
+  - `Type AgentMessage`
 
   - `ID string`
 
@@ -8704,7 +9034,7 @@ func main() {
 
   Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
-  - `Type BetaManagedAgentsAgentParamsType`
+  - `Type Agent`
 
   - `ID string`
 
@@ -8722,7 +9052,7 @@ func main() {
 
 - `type BetaManagedAgentsAgentThinkingPreview`
 
-  - `Type BetaManagedAgentsAgentThinkingPreviewType`
+  - `Type AgentThinking`
 
   - `ID string`
 
@@ -8734,7 +9064,7 @@ func main() {
 
   Reference to an `agent` plus optional configuration overrides. Each provided field replaces the agent's value for the caller's use; the agent resource is unchanged.
 
-  - `Type BetaManagedAgentsAgentWithOverridesParamsType`
+  - `Type AgentWithOverrides`
 
   - `ID string`
 
@@ -8746,7 +9076,7 @@ func main() {
 
     Replacement MCP server list. Full replacement: the provided array becomes the MCP servers. Send an empty array to clear; omit to preserve the agent's servers.
 
-    - `Type BetaManagedAgentsURLMCPServerParamsType`
+    - `Type URL`
 
     - `Name string`
 
@@ -8773,6 +9103,10 @@ func main() {
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -8874,31 +9208,31 @@ func main() {
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -8906,7 +9240,7 @@ func main() {
 
       - `Speed BetaManagedAgentsModelConfigParamsSpeed Optional`
 
-        Inference speed mode. Defaults to `standard`.
+        Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
         - `const BetaManagedAgentsModelConfigParamsSpeedStandard BetaManagedAgentsModelConfigParamsSpeed = "standard"`
 
@@ -8920,7 +9254,7 @@ func main() {
 
       An Anthropic-managed skill.
 
-      - `Type BetaManagedAgentsAnthropicSkillParamsType`
+      - `Type Anthropic`
 
       - `SkillID string`
 
@@ -8938,7 +9272,7 @@ func main() {
 
       A user-created custom skill.
 
-      - `Type BetaManagedAgentsCustomSkillParamsType`
+      - `Type Custom`
 
       - `SkillID string`
 
@@ -8966,7 +9300,7 @@ func main() {
 
       Configuration for built-in agent tools. Use this to enable or disable groups of tools available to the agent.
 
-      - `Type BetaManagedAgentsAgentToolset20260401ParamsType`
+      - `Type AgentToolset20260401`
 
       - `Configs []BetaManagedAgentsAgentToolConfigParamsUnion Optional`
 
@@ -8994,13 +9328,13 @@ func main() {
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+              - `Type AlwaysAllow`
 
             - `type BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type BetaManagedAgentsAlwaysAskPolicyType`
+              - `Type AlwaysAsk`
 
             - `type BetaManagedAgentsAutoPolicy`
 
@@ -9354,6 +9688,8 @@ func main() {
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Region string Optional`
 
               Region or state name.
@@ -9394,7 +9730,7 @@ func main() {
 
       Configuration for tools from an MCP server defined in `mcp_servers`.
 
-      - `Type BetaManagedAgentsMCPToolsetParamsType`
+      - `Type MCPToolset`
 
       - `MCPServerName string`
 
@@ -9460,7 +9796,7 @@ func main() {
 
       A custom tool that is executed by the API client rather than the agent. When the agent calls this tool, an `agent.custom_tool_use` event is emitted and the session goes idle, waiting for the client to provide the result via a `user.custom_tool_result` event.
 
-      - `Type BetaManagedAgentsCustomToolParamsType`
+      - `Type Custom`
 
       - `Description string`
 
@@ -9474,7 +9810,7 @@ func main() {
 
         - `Type Object`
 
-        - `Properties map[string, any] Optional`
+        - `Properties map[string]any Optional`
 
         - `Required []string Optional`
 
@@ -9482,7 +9818,7 @@ func main() {
 
         Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-        minLength: 1, maxLength: 128
+        minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
   - `Version int64 Optional`
 
@@ -9494,7 +9830,7 @@ func main() {
 
 - `type BetaManagedAgentsBranchCheckout`
 
-  - `Type BetaManagedAgentsBranchCheckoutType`
+  - `Type Branch`
 
   - `Name string`
 
@@ -9508,7 +9844,7 @@ func main() {
 
   A hard spend ceiling. The session stops issuing new model requests once the tracked list cost reaches `max_list_cost`.
 
-  - `Type BetaManagedAgentsBudgetLimitType`
+  - `Type Limit`
 
   - `MaxListCost BetaMonetaryAmount`
 
@@ -9517,6 +9853,8 @@ func main() {
     - `Amount string`
 
       Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+      pattern: ^(0|[1-9]\d*)$
 
     - `Currency BetaCurrency`
 
@@ -9544,13 +9882,13 @@ func main() {
 
 - `type BetaManagedAgentsCommitCheckout`
 
-  - `Type BetaManagedAgentsCommitCheckoutType`
+  - `Type Commit`
 
   - `Sha string`
 
     Full commit SHA to check out.
 
-    minLength: 7, maxLength: 64
+    minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
 ### Beta Managed Agents Deleted Session
 
@@ -9558,7 +9896,7 @@ func main() {
 
   Confirmation that a `session` has been permanently deleted.
 
-  - `Type BetaManagedAgentsDeletedSessionType`
+  - `Type SessionDeletedResponseType`
 
   - `ID string`
 
@@ -9566,13 +9904,13 @@ func main() {
 
 - `type BetaManagedAgentsDeltaContent`
 
-  - `Type BetaManagedAgentsDeltaContentType`
+  - `Type ContentDelta`
 
   - `Content BetaManagedAgentsTextBlock`
 
     A partial element of the content array at index, typed like the element itself — the same shape the buffered agent.message carries in content.
 
-    - `Type BetaManagedAgentsTextBlockType`
+    - `Type Text`
 
     - `Text string`
 
@@ -9590,19 +9928,19 @@ func main() {
 
   An incremental update to an event that is still being streamed. Deltas are best-effort and may stop early; when the buffered event with id == event_id is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no buffered event — its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-  - `Type BetaManagedAgentsDeltaEventType`
+  - `Type EventDelta`
 
   - `Delta BetaManagedAgentsDeltaContent`
 
     One fragment of the previewed event. The delta type is named for the previewed event's field it streams into: agent.message events stream content_delta fragments, each a partial element of the content array.
 
-    - `Type BetaManagedAgentsDeltaContentType`
+    - `Type ContentDelta`
 
     - `Content BetaManagedAgentsTextBlock`
 
       A partial element of the content array at index, typed like the element itself — the same shape the buffered agent.message carries in content.
 
-      - `Type BetaManagedAgentsTextBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -9632,7 +9970,7 @@ func main() {
 
   Mount a file uploaded via the Files API into the session.
 
-  - `Type BetaManagedAgentsFileResourceParamsType`
+  - `Type File`
 
   - `FileID string`
 
@@ -9652,7 +9990,7 @@ func main() {
 
   Mount a GitHub repository into the session's container.
 
-  - `Type BetaManagedAgentsGitHubRepositoryResourceParamsType`
+  - `Type GitHubRepository`
 
   - `URL string`
 
@@ -9672,7 +10010,7 @@ func main() {
 
     - `type BetaManagedAgentsBranchCheckout`
 
-      - `Type BetaManagedAgentsBranchCheckoutType`
+      - `Type Branch`
 
       - `Name string`
 
@@ -9682,13 +10020,13 @@ func main() {
 
     - `type BetaManagedAgentsCommitCheckout`
 
-      - `Type BetaManagedAgentsCommitCheckoutType`
+      - `Type Commit`
 
       - `Sha string`
 
         Full commit SHA to check out.
 
-        minLength: 7, maxLength: 64
+        minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `MountPath string Optional`
 
@@ -9702,11 +10040,13 @@ func main() {
 
   Parameters for attaching a memory store to an agent session.
 
-  - `Type BetaManagedAgentsMemoryStoreResourceParamType`
+  - `Type MemoryStore`
 
   - `MemoryStoreID string`
 
     The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+    pattern: ^memstore_[a-zA-Z0-9_]+$
 
   - `Access BetaManagedAgentsMemoryStoreResourceParamAccess Optional`
 
@@ -9732,7 +10072,7 @@ func main() {
 
     Resolved coordinator topology with a concrete agent roster.
 
-    - `Type BetaManagedAgentsMultiagentCoordinatorType`
+    - `Type Coordinator`
 
     - `Agents []BetaManagedAgentsMultiagentCoordinatorAgentUnion`
 
@@ -9742,7 +10082,7 @@ func main() {
 
         A resolved agent reference with a concrete version.
 
-        - `Type BetaManagedAgentsAgentReferenceType`
+        - `Type Agent`
 
         - `ID string`
 
@@ -9754,7 +10094,7 @@ func main() {
 
         Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-        - `Type BetaManagedAgentsAdvisorType`
+        - `Type Advisor`
 
         - `Model string`
 
@@ -9816,7 +10156,7 @@ func main() {
 
           Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-          - `Type BetaManagedAgentsAgentReferenceType`
+          - `Type Agent`
 
           - `ID string`
 
@@ -9848,7 +10188,7 @@ func main() {
 
           Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-          - `Type BetaManagedAgentsAgentReferenceType`
+          - `Type Agent`
 
           - `ID string`
 
@@ -9872,7 +10212,7 @@ func main() {
 
     A coordinator topology: the session's primary thread orchestrates work by spawning session threads, each running an agent drawn from the `agents` roster.
 
-    - `Type BetaManagedAgentsMultiagentCoordinatorParamsType`
+    - `Type Coordinator`
 
     - `Agents []BetaManagedAgentsMultiagentRosterEntryParamsUnion`
 
@@ -9884,7 +10224,7 @@ func main() {
 
         Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
-        - `Type BetaManagedAgentsAgentParamsType`
+        - `Type Agent`
 
         - `ID string`
 
@@ -9902,13 +10242,13 @@ func main() {
 
         Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
 
-        - `Type BetaManagedAgentsMultiagentSelfParamsType`
+        - `Type Self`
 
       - `type BetaManagedAgentsAdvisorParams`
 
         Platform advisor roster entry: a model the session's primary thread may consult mid-turn. At most one per roster; the entry occupies the roster name `anthropic.advisor`.
 
-        - `Type BetaManagedAgentsAdvisorParamsType`
+        - `Type Advisor`
 
         - `Model string`
 
@@ -10036,7 +10376,7 @@ func main() {
 
     Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
-    - `Type BetaManagedAgentsAgentParamsType`
+    - `Type Agent`
 
     - `ID string`
 
@@ -10054,13 +10394,13 @@ func main() {
 
     Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
 
-    - `Type BetaManagedAgentsMultiagentSelfParamsType`
+    - `Type Self`
 
   - `type BetaManagedAgentsAdvisorParams`
 
     Platform advisor roster entry: a model the session's primary thread may consult mid-turn. At most one per roster; the entry occupies the roster name `anthropic.advisor`.
 
-    - `Type BetaManagedAgentsAdvisorParamsType`
+    - `Type Advisor`
 
     - `Model string`
 
@@ -10074,7 +10414,7 @@ func main() {
 
   Evaluation state for a single outcome defined via a `define_outcome` event.
 
-  - `Type BetaManagedAgentsOutcomeEvaluationResourceType`
+  - `Type OutcomeEvaluation`
 
   - `CompletedAt Time`
 
@@ -10128,7 +10468,7 @@ func main() {
 
   A Managed Agents `session`.
 
-  - `Type BetaManagedAgentsSessionType`
+  - `Type Session`
 
   - `ID string`
 
@@ -10136,15 +10476,37 @@ func main() {
 
     Resolved `agent` definition for a `session`. Snapshot of the `agent` at `session` creation time.
 
-    - `Type BetaManagedAgentsSessionAgentType`
+    - `Type Agent`
 
     - `ID string`
 
     - `Description string`
 
+    - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `Type AWSRole`
+
+        - `RoleARN string`
+
+          The IAM role's ARN.
+
+      - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `Type ServiceAccount`
+
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-      - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+      - `Type URL`
+
+      - `Name string`
 
       - `Name string`
 
@@ -10159,6 +10521,10 @@ func main() {
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -10236,31 +10602,31 @@ func main() {
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -10282,7 +10648,7 @@ func main() {
 
         Resolved coordinator topology with full agent definitions for each roster member.
 
-        - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+        - `Type Coordinator`
 
         - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -10292,15 +10658,19 @@ func main() {
 
             Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-            - `Type BetaManagedAgentsSessionThreadAgentType`
+            - `Type Agent`
 
             - `ID string`
 
             - `Description string`
 
+            - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-              - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+              - `Type URL`
 
               - `Name string`
 
@@ -10318,7 +10688,7 @@ func main() {
 
                 A resolved Anthropic-managed skill.
 
-                - `Type BetaManagedAgentsAnthropicSkillType`
+                - `Type Anthropic`
 
                 - `SkillID string`
 
@@ -10328,7 +10698,7 @@ func main() {
 
                 A resolved user-created custom skill.
 
-                - `Type BetaManagedAgentsCustomSkillType`
+                - `Type Custom`
 
                 - `SkillID string`
 
@@ -10340,7 +10710,7 @@ func main() {
 
               - `type BetaManagedAgentsAgentToolset20260401`
 
-                - `Type BetaManagedAgentsAgentToolset20260401Type`
+                - `Type AgentToolset20260401`
 
                 - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -10362,13 +10732,13 @@ func main() {
 
                         Tool calls are automatically approved without user confirmation.
 
-                        - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                        - `Type AlwaysAllow`
 
                       - `type BetaManagedAgentsAlwaysAskPolicy`
 
                         Tool calls require user confirmation before execution.
 
-                        - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                        - `Type AlwaysAsk`
 
                       - `type BetaManagedAgentsAutoPolicy`
 
@@ -10664,6 +11034,8 @@ func main() {
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `Region string Optional`
 
                         Region or state name.
@@ -10700,7 +11072,7 @@ func main() {
 
               - `type BetaManagedAgentsMCPToolset`
 
-                - `Type BetaManagedAgentsMCPToolsetType`
+                - `Type MCPToolset`
 
                 - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -10752,7 +11124,7 @@ func main() {
 
                 A custom tool as returned in API responses.
 
-                - `Type BetaManagedAgentsCustomToolType`
+                - `Type Custom`
 
                 - `Description string`
 
@@ -10762,7 +11134,7 @@ func main() {
 
                   - `Type Object`
 
-                  - `Properties map[string, any] Optional`
+                  - `Properties map[string]any Optional`
 
                   - `Required []string Optional`
 
@@ -10776,7 +11148,7 @@ func main() {
 
             Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-            - `Type BetaManagedAgentsAdvisorType`
+            - `Type Advisor`
 
             - `Model string`
 
@@ -10838,11 +11210,15 @@ func main() {
 
               Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -10886,11 +11262,15 @@ func main() {
 
               Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -10954,7 +11334,7 @@ func main() {
 
     The session's enforced spend ceiling, or null when no budget is set.
 
-    - `Type BetaManagedAgentsBudgetLimitType`
+    - `Type Limit`
 
     - `MaxListCost BetaMonetaryAmount`
 
@@ -10963,6 +11343,8 @@ func main() {
       - `Amount string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `Currency BetaCurrency`
 
@@ -10976,13 +11358,13 @@ func main() {
 
   - `EnvironmentID string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `OutcomeEvaluations []BetaManagedAgentsOutcomeEvaluationResource`
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
-    - `Type BetaManagedAgentsOutcomeEvaluationResourceType`
+    - `Type OutcomeEvaluation`
 
     - `CompletedAt Time`
 
@@ -11016,7 +11398,7 @@ func main() {
 
     - `type BetaManagedAgentsGitHubRepositoryResource`
 
-      - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+      - `Type GitHubRepository`
 
       - `ID string`
 
@@ -11040,7 +11422,7 @@ func main() {
 
         - `type BetaManagedAgentsBranchCheckout`
 
-          - `Type BetaManagedAgentsBranchCheckoutType`
+          - `Type Branch`
 
           - `Name string`
 
@@ -11050,17 +11432,17 @@ func main() {
 
         - `type BetaManagedAgentsCommitCheckout`
 
-          - `Type BetaManagedAgentsCommitCheckoutType`
+          - `Type Commit`
 
           - `Sha string`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `type BetaManagedAgentsFileResource`
 
-      - `Type BetaManagedAgentsFileResourceType`
+      - `Type File`
 
       - `ID string`
 
@@ -11084,11 +11466,13 @@ func main() {
 
       A memory store attached to an agent session.
 
-      - `Type BetaManagedAgentsMemoryStoreResourceType`
+      - `Type MemoryStore`
 
       - `MemoryStoreID string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -11236,15 +11620,35 @@ func main() {
 
   Resolved `agent` definition for a `session`. Snapshot of the `agent` at `session` creation time.
 
-  - `Type BetaManagedAgentsSessionAgentType`
+  - `Type Agent`
 
   - `ID string`
 
   - `Description string`
 
+  - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+    Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `Type AWSRole`
+
+      - `RoleARN string`
+
+        The IAM role's ARN.
+
+    - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `Type ServiceAccount`
+
   - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-    - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+    - `Type URL`
 
     - `Name string`
 
@@ -11259,6 +11663,10 @@ func main() {
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -11336,31 +11744,31 @@ func main() {
 
         Low effort. Favors latency over reasoning depth.
 
-        - `Type BetaManagedAgentsEffortLowType`
+        - `Type Low`
 
       - `type BetaManagedAgentsEffortMedium`
 
         Medium effort. Balances latency and reasoning depth.
 
-        - `Type BetaManagedAgentsEffortMediumType`
+        - `Type Medium`
 
       - `type BetaManagedAgentsEffortHigh`
 
         High effort. Favors reasoning depth.
 
-        - `Type BetaManagedAgentsEffortHighType`
+        - `Type High`
 
       - `type BetaManagedAgentsEffortXhigh`
 
         Extra-high effort. Not all models accept this level.
 
-        - `Type BetaManagedAgentsEffortXhighType`
+        - `Type Xhigh`
 
       - `type BetaManagedAgentsEffortMax`
 
         Maximum effort. Favors reasoning depth over latency.
 
-        - `Type BetaManagedAgentsEffortMaxType`
+        - `Type Max`
 
     - `InferenceGeo string Optional`
 
@@ -11382,7 +11790,7 @@ func main() {
 
       Resolved coordinator topology with full agent definitions for each roster member.
 
-      - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+      - `Type Coordinator`
 
       - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -11392,15 +11800,19 @@ func main() {
 
           Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-          - `Type BetaManagedAgentsSessionThreadAgentType`
+          - `Type Agent`
 
           - `ID string`
 
           - `Description string`
 
+          - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+            Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
           - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-            - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+            - `Type URL`
 
             - `Name string`
 
@@ -11418,7 +11830,7 @@ func main() {
 
               A resolved Anthropic-managed skill.
 
-              - `Type BetaManagedAgentsAnthropicSkillType`
+              - `Type Anthropic`
 
               - `SkillID string`
 
@@ -11428,7 +11840,7 @@ func main() {
 
               A resolved user-created custom skill.
 
-              - `Type BetaManagedAgentsCustomSkillType`
+              - `Type Custom`
 
               - `SkillID string`
 
@@ -11440,7 +11852,7 @@ func main() {
 
             - `type BetaManagedAgentsAgentToolset20260401`
 
-              - `Type BetaManagedAgentsAgentToolset20260401Type`
+              - `Type AgentToolset20260401`
 
               - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -11462,13 +11874,13 @@ func main() {
 
                       Tool calls are automatically approved without user confirmation.
 
-                      - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                      - `Type AlwaysAllow`
 
                     - `type BetaManagedAgentsAlwaysAskPolicy`
 
                       Tool calls require user confirmation before execution.
 
-                      - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                      - `Type AlwaysAsk`
 
                     - `type BetaManagedAgentsAutoPolicy`
 
@@ -11764,6 +12176,8 @@ func main() {
 
                       Two-letter ISO 3166-1 country code, uppercase.
 
+                      pattern: ^[A-Z]{2}$
+
                     - `Region string Optional`
 
                       Region or state name.
@@ -11800,7 +12214,7 @@ func main() {
 
             - `type BetaManagedAgentsMCPToolset`
 
-              - `Type BetaManagedAgentsMCPToolsetType`
+              - `Type MCPToolset`
 
               - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -11852,7 +12266,7 @@ func main() {
 
               A custom tool as returned in API responses.
 
-              - `Type BetaManagedAgentsCustomToolType`
+              - `Type Custom`
 
               - `Description string`
 
@@ -11862,7 +12276,7 @@ func main() {
 
                 - `Type Object`
 
-                - `Properties map[string, any] Optional`
+                - `Properties map[string]any Optional`
 
                 - `Required []string Optional`
 
@@ -11876,7 +12290,7 @@ func main() {
 
           Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-          - `Type BetaManagedAgentsAdvisorType`
+          - `Type Advisor`
 
           - `Model string`
 
@@ -11938,11 +12352,15 @@ func main() {
 
             Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-            - `Type BetaManagedAgentsSessionThreadAgentType`
+            - `Type Agent`
 
             - `ID string`
 
             - `Description string`
+
+            - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -11986,11 +12404,15 @@ func main() {
 
             Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-            - `Type BetaManagedAgentsSessionThreadAgentType`
+            - `Type Agent`
 
             - `ID string`
 
             - `Description string`
+
+            - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -12054,7 +12476,7 @@ func main() {
 
     Replacement MCP server list. Full replacement: the provided array becomes the new value. Send an empty array to clear; omit to preserve.
 
-    - `Type BetaManagedAgentsURLMCPServerParamsType`
+    - `Type URL`
 
     - `Name string`
 
@@ -12076,7 +12498,7 @@ func main() {
 
       Configuration for built-in agent tools. Use this to enable or disable groups of tools available to the agent.
 
-      - `Type BetaManagedAgentsAgentToolset20260401ParamsType`
+      - `Type AgentToolset20260401`
 
       - `Configs []BetaManagedAgentsAgentToolConfigParamsUnion Optional`
 
@@ -12104,13 +12526,13 @@ func main() {
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+              - `Type AlwaysAllow`
 
             - `type BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type BetaManagedAgentsAlwaysAskPolicyType`
+              - `Type AlwaysAsk`
 
             - `type BetaManagedAgentsAutoPolicy`
 
@@ -12464,6 +12886,8 @@ func main() {
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Region string Optional`
 
               Region or state name.
@@ -12504,7 +12928,7 @@ func main() {
 
       Configuration for tools from an MCP server defined in `mcp_servers`.
 
-      - `Type BetaManagedAgentsMCPToolsetParamsType`
+      - `Type MCPToolset`
 
       - `MCPServerName string`
 
@@ -12570,7 +12994,7 @@ func main() {
 
       A custom tool that is executed by the API client rather than the agent. When the agent calls this tool, an `agent.custom_tool_use` event is emitted and the session goes idle, waiting for the client to provide the result via a `user.custom_tool_result` event.
 
-      - `Type BetaManagedAgentsCustomToolParamsType`
+      - `Type Custom`
 
       - `Description string`
 
@@ -12584,7 +13008,7 @@ func main() {
 
         - `Type Object`
 
-        - `Properties map[string, any] Optional`
+        - `Properties map[string]any Optional`
 
         - `Required []string Optional`
 
@@ -12592,7 +13016,7 @@ func main() {
 
         Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-        minLength: 1, maxLength: 128
+        minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
 ### Beta Managed Agents Session Multiagent
 
@@ -12604,7 +13028,7 @@ func main() {
 
     Resolved coordinator topology with full agent definitions for each roster member.
 
-    - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+    - `Type Coordinator`
 
     - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -12614,15 +13038,35 @@ func main() {
 
         Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-        - `Type BetaManagedAgentsSessionThreadAgentType`
+        - `Type Agent`
 
         - `ID string`
 
         - `Description string`
 
+        - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+          Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+          - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+            An AWS IAM role principal as returned in API responses.
+
+            - `Type AWSRole`
+
+            - `RoleARN string`
+
+              The IAM role's ARN.
+
+          - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+            The Anthropic-managed service account as returned in API responses.
+
+            - `Type ServiceAccount`
+
         - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-          - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+          - `Type URL`
 
           - `Name string`
 
@@ -12637,6 +13081,10 @@ func main() {
             The model that will power your agent.
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+            - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+              Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
             - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -12714,31 +13162,31 @@ func main() {
 
               Low effort. Favors latency over reasoning depth.
 
-              - `Type BetaManagedAgentsEffortLowType`
+              - `Type Low`
 
             - `type BetaManagedAgentsEffortMedium`
 
               Medium effort. Balances latency and reasoning depth.
 
-              - `Type BetaManagedAgentsEffortMediumType`
+              - `Type Medium`
 
             - `type BetaManagedAgentsEffortHigh`
 
               High effort. Favors reasoning depth.
 
-              - `Type BetaManagedAgentsEffortHighType`
+              - `Type High`
 
             - `type BetaManagedAgentsEffortXhigh`
 
               Extra-high effort. Not all models accept this level.
 
-              - `Type BetaManagedAgentsEffortXhighType`
+              - `Type Xhigh`
 
             - `type BetaManagedAgentsEffortMax`
 
               Maximum effort. Favors reasoning depth over latency.
 
-              - `Type BetaManagedAgentsEffortMaxType`
+              - `Type Max`
 
           - `InferenceGeo string Optional`
 
@@ -12760,7 +13208,7 @@ func main() {
 
             A resolved Anthropic-managed skill.
 
-            - `Type BetaManagedAgentsAnthropicSkillType`
+            - `Type Anthropic`
 
             - `SkillID string`
 
@@ -12770,7 +13218,7 @@ func main() {
 
             A resolved user-created custom skill.
 
-            - `Type BetaManagedAgentsCustomSkillType`
+            - `Type Custom`
 
             - `SkillID string`
 
@@ -12782,7 +13230,7 @@ func main() {
 
           - `type BetaManagedAgentsAgentToolset20260401`
 
-            - `Type BetaManagedAgentsAgentToolset20260401Type`
+            - `Type AgentToolset20260401`
 
             - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -12804,13 +13252,13 @@ func main() {
 
                     Tool calls are automatically approved without user confirmation.
 
-                    - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                    - `Type AlwaysAllow`
 
                   - `type BetaManagedAgentsAlwaysAskPolicy`
 
                     Tool calls require user confirmation before execution.
 
-                    - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                    - `Type AlwaysAsk`
 
                   - `type BetaManagedAgentsAutoPolicy`
 
@@ -13106,6 +13554,8 @@ func main() {
 
                     Two-letter ISO 3166-1 country code, uppercase.
 
+                    pattern: ^[A-Z]{2}$
+
                   - `Region string Optional`
 
                     Region or state name.
@@ -13142,7 +13592,7 @@ func main() {
 
           - `type BetaManagedAgentsMCPToolset`
 
-            - `Type BetaManagedAgentsMCPToolsetType`
+            - `Type MCPToolset`
 
             - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -13194,7 +13644,7 @@ func main() {
 
             A custom tool as returned in API responses.
 
-            - `Type BetaManagedAgentsCustomToolType`
+            - `Type Custom`
 
             - `Description string`
 
@@ -13204,7 +13654,7 @@ func main() {
 
               - `Type Object`
 
-              - `Properties map[string, any] Optional`
+              - `Properties map[string]any Optional`
 
               - `Required []string Optional`
 
@@ -13218,7 +13668,7 @@ func main() {
 
         Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-        - `Type BetaManagedAgentsAdvisorType`
+        - `Type Advisor`
 
         - `Model string`
 
@@ -13280,11 +13730,15 @@ func main() {
 
           Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-          - `Type BetaManagedAgentsSessionThreadAgentType`
+          - `Type Agent`
 
           - `ID string`
 
           - `Description string`
+
+          - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+            Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
           - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -13328,11 +13782,15 @@ func main() {
 
           Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-          - `Type BetaManagedAgentsSessionThreadAgentType`
+          - `Type Agent`
 
           - `ID string`
 
           - `Description string`
+
+          - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+            Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
           - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -13364,7 +13822,7 @@ func main() {
 
   Resolved coordinator topology with full agent definitions for each roster member.
 
-  - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+  - `Type Coordinator`
 
   - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -13374,15 +13832,35 @@ func main() {
 
       Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-      - `Type BetaManagedAgentsSessionThreadAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
 
         - `Name string`
 
@@ -13397,6 +13875,10 @@ func main() {
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -13474,31 +13956,31 @@ func main() {
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -13520,7 +14002,7 @@ func main() {
 
           A resolved Anthropic-managed skill.
 
-          - `Type BetaManagedAgentsAnthropicSkillType`
+          - `Type Anthropic`
 
           - `SkillID string`
 
@@ -13530,7 +14012,7 @@ func main() {
 
           A resolved user-created custom skill.
 
-          - `Type BetaManagedAgentsCustomSkillType`
+          - `Type Custom`
 
           - `SkillID string`
 
@@ -13542,7 +14024,7 @@ func main() {
 
         - `type BetaManagedAgentsAgentToolset20260401`
 
-          - `Type BetaManagedAgentsAgentToolset20260401Type`
+          - `Type AgentToolset20260401`
 
           - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -13564,13 +14046,13 @@ func main() {
 
                   Tool calls are automatically approved without user confirmation.
 
-                  - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                  - `Type AlwaysAllow`
 
                 - `type BetaManagedAgentsAlwaysAskPolicy`
 
                   Tool calls require user confirmation before execution.
 
-                  - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                  - `Type AlwaysAsk`
 
                 - `type BetaManagedAgentsAutoPolicy`
 
@@ -13866,6 +14348,8 @@ func main() {
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `Region string Optional`
 
                   Region or state name.
@@ -13902,7 +14386,7 @@ func main() {
 
         - `type BetaManagedAgentsMCPToolset`
 
-          - `Type BetaManagedAgentsMCPToolsetType`
+          - `Type MCPToolset`
 
           - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -13954,7 +14438,7 @@ func main() {
 
           A custom tool as returned in API responses.
 
-          - `Type BetaManagedAgentsCustomToolType`
+          - `Type Custom`
 
           - `Description string`
 
@@ -13964,7 +14448,7 @@ func main() {
 
             - `Type Object`
 
-            - `Properties map[string, any] Optional`
+            - `Properties map[string]any Optional`
 
             - `Required []string Optional`
 
@@ -13978,7 +14462,7 @@ func main() {
 
       Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-      - `Type BetaManagedAgentsAdvisorType`
+      - `Type Advisor`
 
       - `Model string`
 
@@ -14016,15 +14500,35 @@ func main() {
 
       Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-      - `Type BetaManagedAgentsSessionThreadAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
 
         - `Name string`
 
@@ -14039,6 +14543,10 @@ func main() {
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -14116,31 +14624,31 @@ func main() {
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -14162,7 +14670,7 @@ func main() {
 
           A resolved Anthropic-managed skill.
 
-          - `Type BetaManagedAgentsAnthropicSkillType`
+          - `Type Anthropic`
 
           - `SkillID string`
 
@@ -14172,7 +14680,7 @@ func main() {
 
           A resolved user-created custom skill.
 
-          - `Type BetaManagedAgentsCustomSkillType`
+          - `Type Custom`
 
           - `SkillID string`
 
@@ -14184,7 +14692,7 @@ func main() {
 
         - `type BetaManagedAgentsAgentToolset20260401`
 
-          - `Type BetaManagedAgentsAgentToolset20260401Type`
+          - `Type AgentToolset20260401`
 
           - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -14206,13 +14714,13 @@ func main() {
 
                   Tool calls are automatically approved without user confirmation.
 
-                  - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                  - `Type AlwaysAllow`
 
                 - `type BetaManagedAgentsAlwaysAskPolicy`
 
                   Tool calls require user confirmation before execution.
 
-                  - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                  - `Type AlwaysAsk`
 
                 - `type BetaManagedAgentsAutoPolicy`
 
@@ -14508,6 +15016,8 @@ func main() {
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `Region string Optional`
 
                   Region or state name.
@@ -14544,7 +15054,7 @@ func main() {
 
         - `type BetaManagedAgentsMCPToolset`
 
-          - `Type BetaManagedAgentsMCPToolsetType`
+          - `Type MCPToolset`
 
           - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -14596,7 +15106,7 @@ func main() {
 
           A custom tool as returned in API responses.
 
-          - `Type BetaManagedAgentsCustomToolType`
+          - `Type Custom`
 
           - `Description string`
 
@@ -14606,7 +15116,7 @@ func main() {
 
             - `Type Object`
 
-            - `Properties map[string, any] Optional`
+            - `Properties map[string]any Optional`
 
             - `Required []string Optional`
 
@@ -14650,15 +15160,35 @@ func main() {
 
     Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-    - `Type BetaManagedAgentsSessionThreadAgentType`
+    - `Type Agent`
 
     - `ID string`
 
     - `Description string`
 
+    - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `Type AWSRole`
+
+        - `RoleARN string`
+
+          The IAM role's ARN.
+
+      - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `Type ServiceAccount`
+
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-      - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+      - `Type URL`
 
       - `Name string`
 
@@ -14673,6 +15203,10 @@ func main() {
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -14750,31 +15284,31 @@ func main() {
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -14796,7 +15330,7 @@ func main() {
 
         A resolved Anthropic-managed skill.
 
-        - `Type BetaManagedAgentsAnthropicSkillType`
+        - `Type Anthropic`
 
         - `SkillID string`
 
@@ -14806,7 +15340,7 @@ func main() {
 
         A resolved user-created custom skill.
 
-        - `Type BetaManagedAgentsCustomSkillType`
+        - `Type Custom`
 
         - `SkillID string`
 
@@ -14818,7 +15352,7 @@ func main() {
 
       - `type BetaManagedAgentsAgentToolset20260401`
 
-        - `Type BetaManagedAgentsAgentToolset20260401Type`
+        - `Type AgentToolset20260401`
 
         - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -14840,13 +15374,13 @@ func main() {
 
                 Tool calls are automatically approved without user confirmation.
 
-                - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                - `Type AlwaysAllow`
 
               - `type BetaManagedAgentsAlwaysAskPolicy`
 
                 Tool calls require user confirmation before execution.
 
-                - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                - `Type AlwaysAsk`
 
               - `type BetaManagedAgentsAutoPolicy`
 
@@ -15142,6 +15676,8 @@ func main() {
 
                 Two-letter ISO 3166-1 country code, uppercase.
 
+                pattern: ^[A-Z]{2}$
+
               - `Region string Optional`
 
                 Region or state name.
@@ -15178,7 +15714,7 @@ func main() {
 
       - `type BetaManagedAgentsMCPToolset`
 
-        - `Type BetaManagedAgentsMCPToolsetType`
+        - `Type MCPToolset`
 
         - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -15230,7 +15766,7 @@ func main() {
 
         A custom tool as returned in API responses.
 
-        - `Type BetaManagedAgentsCustomToolType`
+        - `Type Custom`
 
         - `Description string`
 
@@ -15240,7 +15776,7 @@ func main() {
 
           - `Type Object`
 
-          - `Properties map[string, any] Optional`
+          - `Properties map[string]any Optional`
 
           - `Required []string Optional`
 
@@ -15282,15 +15818,35 @@ func main() {
 
       Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-      - `Type BetaManagedAgentsSessionThreadAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
 
         - `Name string`
 
@@ -15305,6 +15861,10 @@ func main() {
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -15382,31 +15942,31 @@ func main() {
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -15428,7 +15988,7 @@ func main() {
 
           A resolved Anthropic-managed skill.
 
-          - `Type BetaManagedAgentsAnthropicSkillType`
+          - `Type Anthropic`
 
           - `SkillID string`
 
@@ -15438,7 +15998,7 @@ func main() {
 
           A resolved user-created custom skill.
 
-          - `Type BetaManagedAgentsCustomSkillType`
+          - `Type Custom`
 
           - `SkillID string`
 
@@ -15450,7 +16010,7 @@ func main() {
 
         - `type BetaManagedAgentsAgentToolset20260401`
 
-          - `Type BetaManagedAgentsAgentToolset20260401Type`
+          - `Type AgentToolset20260401`
 
           - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -15472,13 +16032,13 @@ func main() {
 
                   Tool calls are automatically approved without user confirmation.
 
-                  - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                  - `Type AlwaysAllow`
 
                 - `type BetaManagedAgentsAlwaysAskPolicy`
 
                   Tool calls require user confirmation before execution.
 
-                  - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                  - `Type AlwaysAsk`
 
                 - `type BetaManagedAgentsAutoPolicy`
 
@@ -15774,6 +16334,8 @@ func main() {
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `Region string Optional`
 
                   Region or state name.
@@ -15810,7 +16372,7 @@ func main() {
 
         - `type BetaManagedAgentsMCPToolset`
 
-          - `Type BetaManagedAgentsMCPToolsetType`
+          - `Type MCPToolset`
 
           - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -15862,7 +16424,7 @@ func main() {
 
           A custom tool as returned in API responses.
 
-          - `Type BetaManagedAgentsCustomToolType`
+          - `Type Custom`
 
           - `Description string`
 
@@ -15872,7 +16434,7 @@ func main() {
 
             - `Type Object`
 
-            - `Properties map[string, any] Optional`
+            - `Properties map[string]any Optional`
 
             - `Required []string Optional`
 
@@ -15916,15 +16478,35 @@ func main() {
 
     Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-    - `Type BetaManagedAgentsSessionThreadAgentType`
+    - `Type Agent`
 
     - `ID string`
 
     - `Description string`
 
+    - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `Type AWSRole`
+
+        - `RoleARN string`
+
+          The IAM role's ARN.
+
+      - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `Type ServiceAccount`
+
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-      - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+      - `Type URL`
 
       - `Name string`
 
@@ -15939,6 +16521,10 @@ func main() {
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -16016,31 +16602,31 @@ func main() {
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -16062,7 +16648,7 @@ func main() {
 
         A resolved Anthropic-managed skill.
 
-        - `Type BetaManagedAgentsAnthropicSkillType`
+        - `Type Anthropic`
 
         - `SkillID string`
 
@@ -16072,7 +16658,7 @@ func main() {
 
         A resolved user-created custom skill.
 
-        - `Type BetaManagedAgentsCustomSkillType`
+        - `Type Custom`
 
         - `SkillID string`
 
@@ -16084,7 +16670,7 @@ func main() {
 
       - `type BetaManagedAgentsAgentToolset20260401`
 
-        - `Type BetaManagedAgentsAgentToolset20260401Type`
+        - `Type AgentToolset20260401`
 
         - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -16106,13 +16692,13 @@ func main() {
 
                 Tool calls are automatically approved without user confirmation.
 
-                - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                - `Type AlwaysAllow`
 
               - `type BetaManagedAgentsAlwaysAskPolicy`
 
                 Tool calls require user confirmation before execution.
 
-                - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                - `Type AlwaysAsk`
 
               - `type BetaManagedAgentsAutoPolicy`
 
@@ -16408,6 +16994,8 @@ func main() {
 
                 Two-letter ISO 3166-1 country code, uppercase.
 
+                pattern: ^[A-Z]{2}$
+
               - `Region string Optional`
 
                 Region or state name.
@@ -16444,7 +17032,7 @@ func main() {
 
       - `type BetaManagedAgentsMCPToolset`
 
-        - `Type BetaManagedAgentsMCPToolsetType`
+        - `Type MCPToolset`
 
         - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -16496,7 +17084,7 @@ func main() {
 
         A custom tool as returned in API responses.
 
-        - `Type BetaManagedAgentsCustomToolType`
+        - `Type Custom`
 
         - `Description string`
 
@@ -16506,7 +17094,7 @@ func main() {
 
           - `Type Object`
 
-          - `Properties map[string, any] Optional`
+          - `Properties map[string]any Optional`
 
           - `Required []string Optional`
 
@@ -16574,15 +17162,35 @@ func main() {
 
         Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-        - `Type BetaManagedAgentsSessionThreadAgentType`
+        - `Type Agent`
 
         - `ID string`
 
         - `Description string`
 
+        - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+          Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+          - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+            An AWS IAM role principal as returned in API responses.
+
+            - `Type AWSRole`
+
+            - `RoleARN string`
+
+              The IAM role's ARN.
+
+          - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+            The Anthropic-managed service account as returned in API responses.
+
+            - `Type ServiceAccount`
+
         - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-          - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+          - `Type URL`
 
           - `Name string`
 
@@ -16597,6 +17205,10 @@ func main() {
             The model that will power your agent.
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+            - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+              Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
             - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -16674,31 +17286,31 @@ func main() {
 
               Low effort. Favors latency over reasoning depth.
 
-              - `Type BetaManagedAgentsEffortLowType`
+              - `Type Low`
 
             - `type BetaManagedAgentsEffortMedium`
 
               Medium effort. Balances latency and reasoning depth.
 
-              - `Type BetaManagedAgentsEffortMediumType`
+              - `Type Medium`
 
             - `type BetaManagedAgentsEffortHigh`
 
               High effort. Favors reasoning depth.
 
-              - `Type BetaManagedAgentsEffortHighType`
+              - `Type High`
 
             - `type BetaManagedAgentsEffortXhigh`
 
               Extra-high effort. Not all models accept this level.
 
-              - `Type BetaManagedAgentsEffortXhighType`
+              - `Type Xhigh`
 
             - `type BetaManagedAgentsEffortMax`
 
               Maximum effort. Favors reasoning depth over latency.
 
-              - `Type BetaManagedAgentsEffortMaxType`
+              - `Type Max`
 
           - `InferenceGeo string Optional`
 
@@ -16720,7 +17332,7 @@ func main() {
 
             A resolved Anthropic-managed skill.
 
-            - `Type BetaManagedAgentsAnthropicSkillType`
+            - `Type Anthropic`
 
             - `SkillID string`
 
@@ -16730,7 +17342,7 @@ func main() {
 
             A resolved user-created custom skill.
 
-            - `Type BetaManagedAgentsCustomSkillType`
+            - `Type Custom`
 
             - `SkillID string`
 
@@ -16742,7 +17354,7 @@ func main() {
 
           - `type BetaManagedAgentsAgentToolset20260401`
 
-            - `Type BetaManagedAgentsAgentToolset20260401Type`
+            - `Type AgentToolset20260401`
 
             - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -16764,13 +17376,13 @@ func main() {
 
                     Tool calls are automatically approved without user confirmation.
 
-                    - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                    - `Type AlwaysAllow`
 
                   - `type BetaManagedAgentsAlwaysAskPolicy`
 
                     Tool calls require user confirmation before execution.
 
-                    - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                    - `Type AlwaysAsk`
 
                   - `type BetaManagedAgentsAutoPolicy`
 
@@ -17066,6 +17678,8 @@ func main() {
 
                     Two-letter ISO 3166-1 country code, uppercase.
 
+                    pattern: ^[A-Z]{2}$
+
                   - `Region string Optional`
 
                     Region or state name.
@@ -17102,7 +17716,7 @@ func main() {
 
           - `type BetaManagedAgentsMCPToolset`
 
-            - `Type BetaManagedAgentsMCPToolsetType`
+            - `Type MCPToolset`
 
             - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -17154,7 +17768,7 @@ func main() {
 
             A custom tool as returned in API responses.
 
-            - `Type BetaManagedAgentsCustomToolType`
+            - `Type Custom`
 
             - `Description string`
 
@@ -17164,7 +17778,7 @@ func main() {
 
               - `Type Object`
 
-              - `Properties map[string, any] Optional`
+              - `Properties map[string]any Optional`
 
               - `Required []string Optional`
 
@@ -17198,11 +17812,15 @@ func main() {
 
         Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-        - `Type BetaManagedAgentsSessionThreadAgentType`
+        - `Type Agent`
 
         - `ID string`
 
         - `Description string`
+
+        - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+          Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
         - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -17252,7 +17870,7 @@ func main() {
 
   Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-  - `Type BetaManagedAgentsSessionUpdatedEventType`
+  - `Type SessionUpdated`
 
   - `ID string`
 
@@ -17268,15 +17886,35 @@ func main() {
 
     The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-    - `Type BetaManagedAgentsSessionAgentType`
+    - `Type Agent`
 
     - `ID string`
 
     - `Description string`
 
+    - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `Type AWSRole`
+
+        - `RoleARN string`
+
+          The IAM role's ARN.
+
+      - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `Type ServiceAccount`
+
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-      - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+      - `Type URL`
 
       - `Name string`
 
@@ -17291,6 +17929,10 @@ func main() {
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -17368,31 +18010,31 @@ func main() {
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -17414,7 +18056,4021 @@ func main() {
 
         Resolved coordinator topology with full agent definitions for each roster member.
 
-        - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+        - `Type Coordinator`
+
+        - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
+
+          Full `agent` definitions the coordinator may spawn as session threads.
+
+          - `type BetaManagedAgentsSessionThreadAgent`
+
+            Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
+
+            - `Type Agent`
+
+            - `ID string`
+
+            - `Description string`
+
+            - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+            - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
+
+              - `Type URL`
+
+              - `Name string`
+
+              - `Name string`
+
+              - `URL string`
+
+            - `Model BetaManagedAgentsModelConfig`
+
+              Model identifier and configuration.
+
+            - `Name string`
+
+            - `Skills []BetaManagedAgentsSessionThreadAgentSkillUnion`
+
+              - `type BetaManagedAgentsAnthropicSkill`
+
+                A resolved Anthropic-managed skill.
+
+                - `Type Anthropic`
+
+                - `SkillID string`
+
+                - `SkillID string`
+
+                - `Version string`
+
+              - `type BetaManagedAgentsCustomSkill`
+
+                A resolved user-created custom skill.
+
+                - `Type Custom`
+
+                - `SkillID string`
+
+                - `SkillID string`
+
+                - `Version string`
+
+            - `System string`
+
+            - `Tools []BetaManagedAgentsSessionThreadAgentToolUnion`
+
+              - `type BetaManagedAgentsAgentToolset20260401`
+
+                - `Type AgentToolset20260401`
+
+                - `Configs []BetaManagedAgentsAgentToolConfigUnion`
+
+                  - `type BetaManagedAgentsBashToolConfig`
+
+                    Configuration for the bash tool.
+
+                    - `Type Bash`
+
+                    - `Enabled bool`
+
+                    - `Name Bash`
+
+                    - `PermissionPolicy BetaManagedAgentsBashToolConfigPermissionPolicyUnion`
+
+                      Permission policy for tool execution.
+
+                      - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                        Tool calls are automatically approved without user confirmation.
+
+                        - `Type AlwaysAllow`
+
+                      - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                        Tool calls require user confirmation before execution.
+
+                        - `Type AlwaysAsk`
+
+                      - `type BetaManagedAgentsAutoPolicy`
+
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                        - `Type Auto`
+
+                  - `type BetaManagedAgentsEditToolConfig`
+
+                    Configuration for the edit tool.
+
+                    - `Type Edit`
+
+                    - `Enabled bool`
+
+                    - `Name Edit`
+
+                    - `PermissionPolicy BetaManagedAgentsEditToolConfigPermissionPolicyUnion`
+
+                      Permission policy for tool execution.
+
+                      - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                        Tool calls are automatically approved without user confirmation.
+
+                      - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                        Tool calls require user confirmation before execution.
+
+                      - `type BetaManagedAgentsAutoPolicy`
+
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                  - `type BetaManagedAgentsReadToolConfig`
+
+                    Configuration for the read tool.
+
+                    - `Type Read`
+
+                    - `Enabled bool`
+
+                    - `Name Read`
+
+                    - `PermissionPolicy BetaManagedAgentsReadToolConfigPermissionPolicyUnion`
+
+                      Permission policy for tool execution.
+
+                      - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                        Tool calls are automatically approved without user confirmation.
+
+                      - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                        Tool calls require user confirmation before execution.
+
+                      - `type BetaManagedAgentsAutoPolicy`
+
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                  - `type BetaManagedAgentsWriteToolConfig`
+
+                    Configuration for the write tool.
+
+                    - `Type Write`
+
+                    - `Enabled bool`
+
+                    - `Name Write`
+
+                    - `PermissionPolicy BetaManagedAgentsWriteToolConfigPermissionPolicyUnion`
+
+                      Permission policy for tool execution.
+
+                      - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                        Tool calls are automatically approved without user confirmation.
+
+                      - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                        Tool calls require user confirmation before execution.
+
+                      - `type BetaManagedAgentsAutoPolicy`
+
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                  - `type BetaManagedAgentsGlobToolConfig`
+
+                    Configuration for the glob tool.
+
+                    - `Type Glob`
+
+                    - `Enabled bool`
+
+                    - `Name Glob`
+
+                    - `PermissionPolicy BetaManagedAgentsGlobToolConfigPermissionPolicyUnion`
+
+                      Permission policy for tool execution.
+
+                      - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                        Tool calls are automatically approved without user confirmation.
+
+                      - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                        Tool calls require user confirmation before execution.
+
+                      - `type BetaManagedAgentsAutoPolicy`
+
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                  - `type BetaManagedAgentsGrepToolConfig`
+
+                    Configuration for the grep tool.
+
+                    - `Type Grep`
+
+                    - `Enabled bool`
+
+                    - `Name Grep`
+
+                    - `PermissionPolicy BetaManagedAgentsGrepToolConfigPermissionPolicyUnion`
+
+                      Permission policy for tool execution.
+
+                      - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                        Tool calls are automatically approved without user confirmation.
+
+                      - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                        Tool calls require user confirmation before execution.
+
+                      - `type BetaManagedAgentsAutoPolicy`
+
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                  - `type BetaManagedAgentsWebFetchToolConfig`
+
+                    Configuration for the web_fetch tool.
+
+                    - `Type WebFetch`
+
+                    - `Enabled bool`
+
+                    - `Name WebFetch`
+
+                    - `PermissionPolicy BetaManagedAgentsWebFetchToolConfigPermissionPolicyUnion`
+
+                      Permission policy for tool execution.
+
+                      - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                        Tool calls are automatically approved without user confirmation.
+
+                      - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                        Tool calls require user confirmation before execution.
+
+                      - `type BetaManagedAgentsAutoPolicy`
+
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                    - `URLSources BetaManagedAgentsWebFetchURLSources`
+
+                      Which sources contribute URLs the tool may fetch, always in the object form. Null when not set, which allows every source.
+
+                      - `ClientToolResults BetaManagedAgentsWebFetchURLSourceToolFilterUnion`
+
+                        Which custom tools' results contribute URLs that may be fetched. Null when not set, which allows every custom tool's results.
+
+                        - `type BetaManagedAgentsWebFetchURLSourceAll`
+
+                          Every URL from this source may be fetched. This is the default.
+
+                          - `Type All`
+
+                        - `type BetaManagedAgentsWebFetchURLSourceNone`
+
+                          This source contributes no URLs that may be fetched.
+
+                          - `Type None`
+
+                        - `type BetaManagedAgentsWebFetchURLSourceOnly`
+
+                          Only the named tools' results contribute URLs that may be fetched.
+
+                          - `Type Only`
+
+                          - `Tools []BetaManagedAgentsWebFetchURLSourceToolReference`
+
+                            The tools whose results contribute. Between 1 and 128 entries, each with a different name. An empty list is rejected; use "none" to allow no tool's results.
+
+                            - `Type ToolReference`
+
+                              Must be "tool_reference".
+
+                            - `Name string`
+
+                              Name of the tool. Compared exactly, so upper and lower case letters are different.
+
+                              minLength: 1, maxLength: 128
+
+                        - `type BetaManagedAgentsWebFetchURLSourceExcept`
+
+                          Every tool's results contribute URLs that may be fetched, except the named tools' results.
+
+                          - `Type Except`
+
+                          - `Tools []BetaManagedAgentsWebFetchURLSourceToolReference`
+
+                            The tools whose results do not contribute. Between 1 and 128 entries, each with a different name. An empty list is rejected; use "all" to leave out no tool's results.
+
+                            - `Type ToolReference`
+
+                              Must be "tool_reference".
+
+                            - `Name string`
+
+                              Name of the tool. Compared exactly, so upper and lower case letters are different.
+
+                              minLength: 1, maxLength: 128
+
+                      - `ServerToolResults BetaManagedAgentsWebFetchURLSourceToolFilterUnion`
+
+                        Which of the web_search and web_fetch tools' results contribute URLs that may be fetched. Null when not set, which allows both.
+
+                      - `UserInput BetaManagedAgentsWebFetchURLSourceUserInputUnion`
+
+                        Whether URLs in the text of user messages may be fetched. Null when not set, which allows them.
+
+                        - `type BetaManagedAgentsWebFetchURLSourceAll`
+
+                          Every URL from this source may be fetched. This is the default.
+
+                        - `type BetaManagedAgentsWebFetchURLSourceNone`
+
+                          This source contributes no URLs that may be fetched.
+
+                    - `AllowedDomains []string Optional`
+
+                    - `BlockedDomains []string Optional`
+
+                    - `MaxContentTokens int64 Optional`
+
+                      format: int32
+
+                  - `type BetaManagedAgentsWebSearchToolConfig`
+
+                    Configuration for the web_search tool.
+
+                    - `Type WebSearch`
+
+                    - `Enabled bool`
+
+                    - `Name WebSearch`
+
+                    - `PermissionPolicy BetaManagedAgentsWebSearchToolConfigPermissionPolicyUnion`
+
+                      Permission policy for tool execution.
+
+                      - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                        Tool calls are automatically approved without user confirmation.
+
+                      - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                        Tool calls require user confirmation before execution.
+
+                      - `type BetaManagedAgentsAutoPolicy`
+
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                    - `AllowedDomains []string Optional`
+
+                    - `BlockedDomains []string Optional`
+
+                    - `UserLocation BetaManagedAgentsUserLocation Optional`
+
+                      Approximate user location for search result localization.
+
+                      - `Type Approximate`
+
+                        Location precision. Only "approximate" is supported.
+
+                      - `City string Optional`
+
+                        City name.
+
+                        minLength: 1, maxLength: 255
+
+                      - `Country string Optional`
+
+                        Two-letter ISO 3166-1 country code, uppercase.
+
+                        pattern: ^[A-Z]{2}$
+
+                      - `Region string Optional`
+
+                        Region or state name.
+
+                        minLength: 1, maxLength: 255
+
+                      - `Timezone string Optional`
+
+                        IANA timezone identifier, e.g. "America/Los_Angeles".
+
+                        minLength: 1, maxLength: 255
+
+                - `DefaultConfig BetaManagedAgentsAgentToolsetDefaultConfig`
+
+                  Resolved default configuration for agent tools.
+
+                  - `Enabled bool`
+
+                  - `PermissionPolicy BetaManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion`
+
+                    Permission policy for tool execution.
+
+                    - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                      Tool calls are automatically approved without user confirmation.
+
+                    - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                      Tool calls require user confirmation before execution.
+
+                    - `type BetaManagedAgentsAutoPolicy`
+
+                      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+              - `type BetaManagedAgentsMCPToolset`
+
+                - `Type MCPToolset`
+
+                - `Configs []BetaManagedAgentsMCPToolConfig`
+
+                  - `Enabled bool`
+
+                  - `Name string`
+
+                  - `PermissionPolicy BetaManagedAgentsMCPToolConfigPermissionPolicyUnion`
+
+                    Permission policy for tool execution.
+
+                    - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                      Tool calls are automatically approved without user confirmation.
+
+                    - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                      Tool calls require user confirmation before execution.
+
+                    - `type BetaManagedAgentsAutoPolicy`
+
+                      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                - `DefaultConfig BetaManagedAgentsMCPToolsetDefaultConfig`
+
+                  Resolved default configuration for all tools from an MCP server.
+
+                  - `Enabled bool`
+
+                  - `PermissionPolicy BetaManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion`
+
+                    Permission policy for tool execution.
+
+                    - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                      Tool calls are automatically approved without user confirmation.
+
+                    - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                      Tool calls require user confirmation before execution.
+
+                    - `type BetaManagedAgentsAutoPolicy`
+
+                      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                - `MCPServerName string`
+
+              - `type BetaManagedAgentsCustomTool`
+
+                A custom tool as returned in API responses.
+
+                - `Type Custom`
+
+                - `Description string`
+
+                - `InputSchema BetaManagedAgentsCustomToolInputSchema`
+
+                  JSON Schema for custom tool input parameters.
+
+                  - `Type Object`
+
+                  - `Properties map[string]any Optional`
+
+                  - `Required []string Optional`
+
+                - `Name string`
+
+            - `Version int64`
+
+              format: int32
+
+          - `type BetaManagedAgentsAdvisor`
+
+            Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
+
+            - `Type Advisor`
+
+            - `Model string`
+
+              The advisor model id.
+
+      - `type BetaManagedAgentsSessionMultiagent20261001`
+
+        Resolved multiagent configuration with three members, as copied to the `session` at creation.
+
+        - `Type Multiagent20261001`
+
+        - `Advisor BetaManagedAgentsMultiagentAdvisorUnion`
+
+          Whether the session's primary thread can consult an advisor model.
+
+          - `type BetaManagedAgentsMultiagentAdvisorEnabled`
+
+            The session's primary thread can consult `model` mid-turn.
+
+            - `Type Enabled`
+
+            - `Model string`
+
+              The advisor model id.
+
+          - `type BetaManagedAgentsMultiagentAdvisorDisabled`
+
+            The agent has no advisor.
+
+            - `Type Disabled`
+
+        - `Subagents BetaManagedAgentsSessionMultiagentSubagentsUnion`
+
+          Whether the agent can spawn session threads.
+
+          - `type BetaManagedAgentsSessionMultiagentSubagentsEnabled`
+
+            The agent can spawn session threads.
+
+            - `Type Enabled`
+
+            - `InlineAgents BetaManagedAgentsMultiagentInlineAgentsUnion`
+
+              Whether the agent can define inline agents, which are not saved, when it spawns session threads.
+
+              - `type BetaManagedAgentsMultiagentInlineAgentsEnabled`
+
+                The agent can define inline agents.
+
+                - `Type Enabled`
+
+              - `type BetaManagedAgentsMultiagentInlineAgentsDisabled`
+
+                The agent cannot define inline agents.
+
+                - `Type Disabled`
+
+            - `PredefinedAgents []BetaManagedAgentsSessionThreadAgent`
+
+              Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
+
+              - `Type Agent`
+
+              - `ID string`
+
+              - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+              - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
+
+              - `Model BetaManagedAgentsModelConfig`
+
+                Model identifier and configuration.
+
+              - `Name string`
+
+              - `Skills []BetaManagedAgentsSessionThreadAgentSkillUnion`
+
+              - `System string`
+
+              - `Tools []BetaManagedAgentsSessionThreadAgentToolUnion`
+
+              - `Version int64`
+
+                format: int32
+
+          - `type BetaManagedAgentsMultiagentSubagentsDisabled`
+
+            The agent cannot spawn session threads.
+
+            - `Type Disabled`
+
+        - `Workflows BetaManagedAgentsSessionMultiagentWorkflowsUnion`
+
+          Whether the agent can start workflow runs.
+
+          - `type BetaManagedAgentsSessionMultiagentWorkflowsEnabled`
+
+            The agent can start workflow runs.
+
+            - `Type Enabled`
+
+            - `InlineAgents BetaManagedAgentsMultiagentInlineAgentsUnion`
+
+              Whether a run's plan can define inline agents, which are not saved.
+
+            - `PredefinedAgents []BetaManagedAgentsSessionThreadAgent`
+
+              Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
+
+              - `Type Agent`
+
+              - `ID string`
+
+              - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+              - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
+
+              - `Model BetaManagedAgentsModelConfig`
+
+                Model identifier and configuration.
+
+              - `Name string`
+
+              - `Skills []BetaManagedAgentsSessionThreadAgentSkillUnion`
+
+              - `System string`
+
+              - `Tools []BetaManagedAgentsSessionThreadAgentToolUnion`
+
+              - `Version int64`
+
+                format: int32
+
+          - `type BetaManagedAgentsMultiagentWorkflowsDisabled`
+
+            The agent cannot start workflow runs.
+
+            - `Type Disabled`
+
+    - `Name string`
+
+    - `Skills []BetaManagedAgentsSessionAgentSkillUnion`
+
+      - `type BetaManagedAgentsAnthropicSkill`
+
+        A resolved Anthropic-managed skill.
+
+      - `type BetaManagedAgentsCustomSkill`
+
+        A resolved user-created custom skill.
+
+    - `System string`
+
+    - `Tools []BetaManagedAgentsSessionAgentToolUnion`
+
+      - `type BetaManagedAgentsAgentToolset20260401`
+
+      - `type BetaManagedAgentsMCPToolset`
+
+      - `type BetaManagedAgentsCustomTool`
+
+        A custom tool as returned in API responses.
+
+    - `Version int64`
+
+      format: int32
+
+  - `Budget BetaManagedAgentsBudgetLimit Optional`
+
+    The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
+
+    - `Type Limit`
+
+    - `MaxListCost BetaMonetaryAmount`
+
+      Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
+
+      - `Amount string`
+
+        Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
+
+      - `Currency BetaCurrency`
+
+        Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
+
+  - `Metadata map[string]string Optional`
+
+    The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
+
+  - `Title string Optional`
+
+    The session's new title. Present only when the update changed it.
+
+### Beta Managed Agents Session Usage
+
+- `type BetaManagedAgentsSessionUsage`
+
+  Cumulative token usage for a session across all turns.
+
+  - `ActiveSeconds float64 Optional`
+
+    Cumulative time in seconds during which the session had at least one thread in running status. Overlapping activity from concurrent threads is counted once, unlike `stats.active_seconds`, which sums each thread's own active time. This is the duration the session's runtime cost is priced on.
+
+    format: double
+
+  - `CacheCreation BetaManagedAgentsCacheCreationUsage Optional`
+
+    Tokens used to create prompt cache entries, broken down by cache TTL.
+
+    - `Ephemeral1hInputTokens int64 Optional`
+
+      Tokens used to create 1-hour ephemeral cache entries.
+
+      format: int32
+
+    - `Ephemeral5mInputTokens int64 Optional`
+
+      Tokens used to create 5-minute ephemeral cache entries.
+
+      format: int32
+
+  - `CacheReadInputTokens int64 Optional`
+
+    Total tokens read from prompt cache.
+
+    format: int32
+
+  - `InputTokens int64 Optional`
+
+    Total input tokens consumed across all turns.
+
+    format: int32
+
+  - `ListCost BetaMonetaryAmount Optional`
+
+    Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
+
+    - `Amount string`
+
+      Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+      pattern: ^(0|[1-9]\d*)$
+
+    - `Currency BetaCurrency`
+
+      Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
+
+  - `OutputTokens int64 Optional`
+
+    Total output tokens generated across all turns.
+
+    format: int32
+
+  - `ServerToolUse BetaManagedAgentsServerToolUsage Optional`
+
+    Cumulative server-executed tool usage across all turns. Absent until server-tool tracking is available for the session.
+
+    - `WebFetchRequests int64 Optional`
+
+      Number of server-executed web fetch requests.
+
+      format: int32
+
+    - `WebSearchRequests int64 Optional`
+
+      Number of server-executed web search requests.
+
+      format: int32
+
+### Beta Managed Agents Session Usage Event
+
+- `type BetaManagedAgentsSessionUsageEvent`
+
+  Periodic snapshot of the session's cumulative usage and tracked list cost.
+
+  - `Type SessionUsage`
+
+  - `ID string`
+
+    Unique identifier for this event.
+
+  - `ProcessedAt Time`
+
+    Timestamp when the snapshot was taken.
+
+    format: date-time
+
+  - `Usage BetaManagedAgentsSessionUsageSnapshot`
+
+    The session's cumulative usage at the snapshot time.
+
+    - `ActiveSeconds float64 Optional`
+
+      Cumulative time in seconds during which the session had at least one thread in running status. Overlapping activity from concurrent threads is counted once. This is the duration the session's runtime cost is priced on.
+
+      format: double
+
+    - `CacheCreation BetaManagedAgentsCacheCreationUsage Optional`
+
+      Tokens used to create prompt cache entries, broken down by cache TTL.
+
+      - `Ephemeral1hInputTokens int64 Optional`
+
+        Tokens used to create 1-hour ephemeral cache entries.
+
+        format: int32
+
+      - `Ephemeral5mInputTokens int64 Optional`
+
+        Tokens used to create 5-minute ephemeral cache entries.
+
+        format: int32
+
+    - `CacheReadInputTokens int64 Optional`
+
+      Total tokens read from prompt cache.
+
+      format: int32
+
+    - `InputTokens int64 Optional`
+
+      Total input tokens consumed across all turns.
+
+      format: int32
+
+    - `ListCost BetaMonetaryAmount Optional`
+
+      Cumulative list cost of the session across all turns, priced at public list rates.
+
+      - `Amount string`
+
+        Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
+
+      - `Currency BetaCurrency`
+
+        Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
+
+    - `OutputTokens int64 Optional`
+
+      Total output tokens generated across all turns.
+
+      format: int32
+
+    - `ServerToolUse BetaManagedAgentsServerToolUsage Optional`
+
+      Cumulative server-executed tool usage across all turns.
+
+      - `WebFetchRequests int64 Optional`
+
+        Number of server-executed web fetch requests.
+
+        format: int32
+
+      - `WebSearchRequests int64 Optional`
+
+        Number of server-executed web search requests.
+
+        format: int32
+
+  - `Budget BetaManagedAgentsBudgetLimit Optional`
+
+    The session's configured budget at the snapshot time, or null when the session has no budget.
+
+    - `Type Limit`
+
+    - `MaxListCost BetaMonetaryAmount`
+
+      Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
+
+### Beta Managed Agents Start Event
+
+- `type BetaManagedAgentsStartEvent`
+
+  Opens a preview of a buffered event. Carries the previewed event's type and id only. Followed by zero or more event_delta events with the same event id, normally concluded by the buffered event carrying that id. If the producing model request ends without that event (an error or interrupt mid-stream), its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
+
+  - `Type EventStart`
+
+  - `Event BetaManagedAgentsStartEventPreviewUnion`
+
+    The previewed event's type and id. The event type determines which delta types the preview's event_delta events carry: agent.message events stream content_delta fragments; agent.thinking previews are start-only — no deltas follow, and the buffered agent.thinking with the same id concludes them.
+
+    - `type BetaManagedAgentsAgentMessagePreview`
+
+      - `Type AgentMessage`
+
+      - `ID string`
+
+        The id the buffered agent.message will carry if it is emitted. Matches the event_id on this preview's event_delta events.
+
+    - `type BetaManagedAgentsAgentThinkingPreview`
+
+      - `Type AgentThinking`
+
+      - `ID string`
+
+        The id the buffered agent.thinking will carry if it is emitted. Start-only — no event_delta events follow.
+
+### Beta Managed Agents Start Event Preview
+
+- `type BetaManagedAgentsStartEventPreviewUnion interface{…}`
+
+  - `type BetaManagedAgentsAgentMessagePreview`
+
+    - `Type AgentMessage`
+
+    - `ID string`
+
+      The id the buffered agent.message will carry if it is emitted. Matches the event_id on this preview's event_delta events.
+
+  - `type BetaManagedAgentsAgentThinkingPreview`
+
+    - `Type AgentThinking`
+
+    - `ID string`
+
+      The id the buffered agent.thinking will carry if it is emitted. Start-only — no event_delta events follow.
+
+### Beta Managed Agents System Content Block
+
+- `type BetaManagedAgentsSystemContentBlock`
+
+  Content block in a mid-conversation system message. Text-only.
+
+  - `Type Text`
+
+  - `Text string`
+
+    The text content.
+
+    minLength: 1
+
+### Beta Managed Agents System Message Event
+
+- `type BetaManagedAgentsSystemMessageEvent`
+
+  A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
+
+  - `Type SystemMessage`
+
+  - `ID string`
+
+    Unique identifier for this event.
+
+  - `Content []BetaManagedAgentsSystemContentBlock`
+
+    System content blocks. Text-only.
+
+    - `Type Text`
+
+    - `Text string`
+
+      The text content.
+
+      minLength: 1
+
+  - `ProcessedAt Time Optional`
+
+    Timestamp when this system message was processed.
+
+    format: date-time
+
+### Beta Managed Agents User Tool Result Event
+
+- `type BetaManagedAgentsUserToolResultEvent`
+
+  Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
+
+  - `Type UserToolResult`
+
+  - `ID string`
+
+    Unique identifier for this event.
+
+  - `ToolUseID string`
+
+    The id of the `agent.tool_use` event this result corresponds to, which can be found in the last `session.status_idle` [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list?sdk_languages=go#beta_managed_agents_session_requires_action.event_ids) `stop_reason.event_ids` field.
+
+  - `Content []BetaManagedAgentsUserToolResultEventContentUnion Optional`
+
+    The result content returned by the tool.
+
+    - `type BetaManagedAgentsTextBlock`
+
+      Regular text content.
+
+      - `Type Text`
+
+      - `Text string`
+
+        The text content.
+
+        minLength: 1
+
+    - `type BetaManagedAgentsImageBlock`
+
+      Image content specified directly as base64 data or as a reference via a URL.
+
+      - `Type Image`
+
+      - `Source BetaManagedAgentsImageBlockSourceUnion`
+
+        The source of the image data.
+
+        - `type BetaManagedAgentsBase64ImageSource`
+
+          Base64-encoded image data.
+
+          - `Type Base64`
+
+          - `Data string`
+
+            Base64-encoded image data.
+
+            minLength: 1
+
+          - `MediaType string`
+
+            MIME type of the image (e.g., "image/png", "image/jpeg", "image/gif", "image/webp").
+
+            minLength: 1
+
+        - `type BetaManagedAgentsURLImageSource`
+
+          Image referenced by URL.
+
+          - `Type URL`
+
+          - `URL string`
+
+            URL of the image to fetch.
+
+            minLength: 1
+
+        - `type BetaManagedAgentsFileImageSource`
+
+          Image referenced by file ID.
+
+          - `Type File`
+
+          - `FileID string`
+
+            ID of a previously uploaded file.
+
+            minLength: 1
+
+    - `type BetaManagedAgentsDocumentBlock`
+
+      Document content, either specified directly as base64 data, as text, or as a reference via a URL.
+
+      - `Type Document`
+
+      - `Source BetaManagedAgentsDocumentBlockSourceUnion`
+
+        The source of the document data.
+
+        - `type BetaManagedAgentsBase64DocumentSource`
+
+          Base64-encoded document data.
+
+          - `Type Base64`
+
+          - `Data string`
+
+            Base64-encoded document data.
+
+            minLength: 1
+
+          - `MediaType string`
+
+            MIME type of the document (e.g., "application/pdf").
+
+            minLength: 1
+
+        - `type BetaManagedAgentsPlainTextDocumentSource`
+
+          Plain text document content.
+
+          - `Type Text`
+
+          - `Data string`
+
+            The plain text content.
+
+            minLength: 1
+
+          - `MediaType TextPlain`
+
+            MIME type of the text content. Must be "text/plain".
+
+        - `type BetaManagedAgentsURLDocumentSource`
+
+          Document referenced by URL.
+
+          - `Type URL`
+
+          - `URL string`
+
+            URL of the document to fetch.
+
+            minLength: 1
+
+        - `type BetaManagedAgentsFileDocumentSource`
+
+          Document referenced by file ID.
+
+          - `Type File`
+
+          - `FileID string`
+
+            ID of a previously uploaded file.
+
+            minLength: 1
+
+      - `Context string Optional`
+
+        Additional context about the document for the model.
+
+      - `Title string Optional`
+
+        The title of the document.
+
+    - `type BetaManagedAgentsSearchResultBlock`
+
+      A block containing a web search result.
+
+      - `Type SearchResult`
+
+      - `Citations BetaManagedAgentsSearchResultCitations`
+
+        Citation settings for this search result.
+
+        - `Enabled bool`
+
+          Whether citations are enabled for this search result.
+
+      - `Content []BetaManagedAgentsSearchResultContent`
+
+        Array of text content blocks from the search result.
+
+        - `Type Text`
+
+        - `Text string`
+
+          The text content.
+
+          minLength: 1
+
+      - `Source string`
+
+        The URL source of the search result.
+
+        minLength: 1
+
+      - `Title string`
+
+        The title of the search result.
+
+        minLength: 1
+
+  - `IsError bool Optional`
+
+    Whether the tool execution resulted in an error.
+
+  - `ProcessedAt Time Optional`
+
+    Timestamp when this result was processed.
+
+    format: date-time
+
+  - `SessionThreadID string Optional`
+
+    Set by the server to the subagent thread this result was routed to. Omitted when it was routed to the primary thread.
+
+## Sessions › Events
+
+### List Events
+
+`client.Beta.Sessions.Events.List(ctx, sessionID, params) (*PageCursor[BetaManagedAgentsSessionEventUnion], error)`
+
+**GET** `/v1/sessions/{session_id}/events`
+
+List Events
+
+#### Parameters
+
+- `sessionID string` (path parameter)
+
+- `params BetaSessionEventListParams`
+
+  - `CreatedAtGt param.Opt[Time] Optional` (query parameter)
+
+    Return events created after this time (exclusive). Compared against the event's `processed_at` value.
+
+    format: date-time
+
+  - `CreatedAtGte param.Opt[Time] Optional` (query parameter)
+
+    Return events created at or after this time (inclusive). Compared against the event's `processed_at` value.
+
+    format: date-time
+
+  - `CreatedAtLt param.Opt[Time] Optional` (query parameter)
+
+    Return events created before this time (exclusive). Compared against the event's `processed_at` value.
+
+    format: date-time
+
+  - `CreatedAtLte param.Opt[Time] Optional` (query parameter)
+
+    Return events created at or before this time (inclusive). Compared against the event's `processed_at` value.
+
+    format: date-time
+
+  - `Limit param.Opt[int64] Optional` (query parameter)
+
+    format: int32
+
+  - `Order BetaSessionEventListParamsOrder Optional` (query parameter)
+
+    Sort direction for results, ordered by the event's `processed_at`. Defaults to `asc` (chronological).
+
+    - `const BetaSessionEventListParamsOrderAsc BetaSessionEventListParamsOrder = "asc"`
+
+    - `const BetaSessionEventListParamsOrderDesc BetaSessionEventListParamsOrder = "desc"`
+
+  - `Page param.Opt[string] Optional` (query parameter)
+
+    Opaque pagination cursor from a previous response's `next_page`.
+
+  - `Types []BetaManagedAgentsSessionEventType Optional` (query parameter)
+
+    Filter by event type. Values match the `type` field on returned events (for example, `user.message` or `agent.tool_use`). Omit to return all event types.
+
+    - `const BetaManagedAgentsSessionEventTypeUserMessage BetaManagedAgentsSessionEventType = "user.message"`
+
+    - `const BetaManagedAgentsSessionEventTypeUserInterrupt BetaManagedAgentsSessionEventType = "user.interrupt"`
+
+    - `const BetaManagedAgentsSessionEventTypeUserToolConfirmation BetaManagedAgentsSessionEventType = "user.tool_confirmation"`
+
+    - `const BetaManagedAgentsSessionEventTypeUserCustomToolResult BetaManagedAgentsSessionEventType = "user.custom_tool_result"`
+
+    - `const BetaManagedAgentsSessionEventTypeAgentCustomToolUse BetaManagedAgentsSessionEventType = "agent.custom_tool_use"`
+
+    - `const BetaManagedAgentsSessionEventTypeAgentMessage BetaManagedAgentsSessionEventType = "agent.message"`
+
+    - `const BetaManagedAgentsSessionEventTypeAgentThinking BetaManagedAgentsSessionEventType = "agent.thinking"`
+
+    - `const BetaManagedAgentsSessionEventTypeAgentMCPToolUse BetaManagedAgentsSessionEventType = "agent.mcp_tool_use"`
+
+    - `const BetaManagedAgentsSessionEventTypeAgentMCPToolResult BetaManagedAgentsSessionEventType = "agent.mcp_tool_result"`
+
+    - `const BetaManagedAgentsSessionEventTypeAgentToolUse BetaManagedAgentsSessionEventType = "agent.tool_use"`
+
+    - `const BetaManagedAgentsSessionEventTypeAgentToolResult BetaManagedAgentsSessionEventType = "agent.tool_result"`
+
+    - `const BetaManagedAgentsSessionEventTypeAgentThreadMessageReceived BetaManagedAgentsSessionEventType = "agent.thread_message_received"`
+
+    - `const BetaManagedAgentsSessionEventTypeAgentThreadMessageSent BetaManagedAgentsSessionEventType = "agent.thread_message_sent"`
+
+    - `const BetaManagedAgentsSessionEventTypeAgentThreadContextCompacted BetaManagedAgentsSessionEventType = "agent.thread_context_compacted"`
+
+    - `const BetaManagedAgentsSessionEventTypeSessionError BetaManagedAgentsSessionEventType = "session.error"`
+
+    - `const BetaManagedAgentsSessionEventTypeSessionStatusRescheduled BetaManagedAgentsSessionEventType = "session.status_rescheduled"`
+
+    - `const BetaManagedAgentsSessionEventTypeSessionStatusRunning BetaManagedAgentsSessionEventType = "session.status_running"`
+
+    - `const BetaManagedAgentsSessionEventTypeSessionStatusIdle BetaManagedAgentsSessionEventType = "session.status_idle"`
+
+    - `const BetaManagedAgentsSessionEventTypeSessionStatusTerminated BetaManagedAgentsSessionEventType = "session.status_terminated"`
+
+    - `const BetaManagedAgentsSessionEventTypeSessionThreadCreated BetaManagedAgentsSessionEventType = "session.thread_created"`
+
+    - `const BetaManagedAgentsSessionEventTypeSpanOutcomeEvaluationStart BetaManagedAgentsSessionEventType = "span.outcome_evaluation_start"`
+
+    - `const BetaManagedAgentsSessionEventTypeSpanOutcomeEvaluationEnd BetaManagedAgentsSessionEventType = "span.outcome_evaluation_end"`
+
+    - `const BetaManagedAgentsSessionEventTypeSpanModelRequestStart BetaManagedAgentsSessionEventType = "span.model_request_start"`
+
+    - `const BetaManagedAgentsSessionEventTypeSpanModelRequestEnd BetaManagedAgentsSessionEventType = "span.model_request_end"`
+
+    - `const BetaManagedAgentsSessionEventTypeSpanOutcomeEvaluationOngoing BetaManagedAgentsSessionEventType = "span.outcome_evaluation_ongoing"`
+
+    - `const BetaManagedAgentsSessionEventTypeUserDefineOutcome BetaManagedAgentsSessionEventType = "user.define_outcome"`
+
+    - `const BetaManagedAgentsSessionEventTypeSessionThreadStatusRunning BetaManagedAgentsSessionEventType = "session.thread_status_running"`
+
+    - `const BetaManagedAgentsSessionEventTypeSessionThreadStatusIdle BetaManagedAgentsSessionEventType = "session.thread_status_idle"`
+
+    - `const BetaManagedAgentsSessionEventTypeSessionThreadStatusTerminated BetaManagedAgentsSessionEventType = "session.thread_status_terminated"`
+
+    - `const BetaManagedAgentsSessionEventTypeUserToolResult BetaManagedAgentsSessionEventType = "user.tool_result"`
+
+    - `const BetaManagedAgentsSessionEventTypeSessionThreadStatusRescheduled BetaManagedAgentsSessionEventType = "session.thread_status_rescheduled"`
+
+    - `const BetaManagedAgentsSessionEventTypeSessionUpdated BetaManagedAgentsSessionEventType = "session.updated"`
+
+    - `const BetaManagedAgentsSessionEventTypeSystemMessage BetaManagedAgentsSessionEventType = "system.message"`
+
+    - `const BetaManagedAgentsSessionEventTypeSessionUsage BetaManagedAgentsSessionEventType = "session.usage"`
+
+    - `const BetaManagedAgentsSessionEventTypeWorkflowRunCreated BetaManagedAgentsSessionEventType = "workflow_run.created"`
+
+    - `const BetaManagedAgentsSessionEventTypeWorkflowRunStatusRunning BetaManagedAgentsSessionEventType = "workflow_run.status_running"`
+
+    - `const BetaManagedAgentsSessionEventTypeWorkflowRunStatusIdle BetaManagedAgentsSessionEventType = "workflow_run.status_idle"`
+
+    - `const BetaManagedAgentsSessionEventTypeWorkflowRunStatusEnded BetaManagedAgentsSessionEventType = "workflow_run.status_ended"`
+
+    - `const BetaManagedAgentsSessionEventTypeWorkflowRunError BetaManagedAgentsSessionEventType = "workflow_run.error"`
+
+    - `const BetaManagedAgentsSessionEventTypeWorkflowRunPhaseStarted BetaManagedAgentsSessionEventType = "workflow_run.phase_started"`
+
+    - `const BetaManagedAgentsSessionEventTypeWorkflowRunPhaseEnded BetaManagedAgentsSessionEventType = "workflow_run.phase_ended"`
+
+  - `Betas []AnthropicBeta Optional` (header parameter)
+
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+    - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
+
+    - `const AnthropicBetaPromptCaching2024_07_31 AnthropicBeta = "prompt-caching-2024-07-31"`
+
+    - `const AnthropicBetaComputerUse2024_10_22 AnthropicBeta = "computer-use-2024-10-22"`
+
+    - `const AnthropicBetaComputerUse2025_01_24 AnthropicBeta = "computer-use-2025-01-24"`
+
+    - `const AnthropicBetaPDFs2024_09_25 AnthropicBeta = "pdfs-2024-09-25"`
+
+    - `const AnthropicBetaTokenCounting2024_11_01 AnthropicBeta = "token-counting-2024-11-01"`
+
+    - `const AnthropicBetaTokenEfficientTools2025_02_19 AnthropicBeta = "token-efficient-tools-2025-02-19"`
+
+    - `const AnthropicBetaOutput128k2025_02_19 AnthropicBeta = "output-128k-2025-02-19"`
+
+    - `const AnthropicBetaFilesAPI2025_04_14 AnthropicBeta = "files-api-2025-04-14"`
+
+    - `const AnthropicBetaMCPClient2025_04_04 AnthropicBeta = "mcp-client-2025-04-04"`
+
+    - `const AnthropicBetaMCPClient2025_11_20 AnthropicBeta = "mcp-client-2025-11-20"`
+
+    - `const AnthropicBetaDevFullThinking2025_05_14 AnthropicBeta = "dev-full-thinking-2025-05-14"`
+
+    - `const AnthropicBetaInterleavedThinking2025_05_14 AnthropicBeta = "interleaved-thinking-2025-05-14"`
+
+    - `const AnthropicBetaCodeExecution2025_05_22 AnthropicBeta = "code-execution-2025-05-22"`
+
+    - `const AnthropicBetaExtendedCacheTTL2025_04_11 AnthropicBeta = "extended-cache-ttl-2025-04-11"`
+
+    - `const AnthropicBetaContext1m2025_08_07 AnthropicBeta = "context-1m-2025-08-07"`
+
+    - `const AnthropicBetaContextManagement2025_06_27 AnthropicBeta = "context-management-2025-06-27"`
+
+    - `const AnthropicBetaModelContextWindowExceeded2025_08_26 AnthropicBeta = "model-context-window-exceeded-2025-08-26"`
+
+    - `const AnthropicBetaSkills2025_10_02 AnthropicBeta = "skills-2025-10-02"`
+
+    - `const AnthropicBetaFastMode2026_02_01 AnthropicBeta = "fast-mode-2026-02-01"`
+
+    - `const AnthropicBetaOutput300k2026_03_24 AnthropicBeta = "output-300k-2026-03-24"`
+
+    - `const AnthropicBetaUserProfiles2026_03_24 AnthropicBeta = "user-profiles-2026-03-24"`
+
+    - `const AnthropicBetaUserProfiles2026_08_18 AnthropicBeta = "user-profiles-2026-08-18"`
+
+    - `const AnthropicBetaUserProfiles2026_09_04 AnthropicBeta = "user-profiles-2026-09-04"`
+
+    - `const AnthropicBetaAdvisorTool2026_03_01 AnthropicBeta = "advisor-tool-2026-03-01"`
+
+    - `const AnthropicBetaManagedAgents2026_04_01 AnthropicBeta = "managed-agents-2026-04-01"`
+
+    - `const AnthropicBetaCacheDiagnosis2026_04_07 AnthropicBeta = "cache-diagnosis-2026-04-07"`
+
+    - `const AnthropicBetaDreaming2026_04_21 AnthropicBeta = "dreaming-2026-04-21"`
+
+    - `const AnthropicBetaThinkingTokenCount2026_05_13 AnthropicBeta = "thinking-token-count-2026-05-13"`
+
+    - `const AnthropicBetaServerSideFallback2026_06_01 AnthropicBeta = "server-side-fallback-2026-06-01"`
+
+    - `const AnthropicBetaServerSideFallback2026_07_01 AnthropicBeta = "server-side-fallback-2026-07-01"`
+
+    - `const AnthropicBetaFallbackCredit2026_06_01 AnthropicBeta = "fallback-credit-2026-06-01"`
+
+    - `const AnthropicBetaFallbackCredit2026_07_01 AnthropicBeta = "fallback-credit-2026-07-01"`
+
+    - `const AnthropicBetaAgentMemory2026_07_22 AnthropicBeta = "agent-memory-2026-07-22"`
+
+    - `const AnthropicBetaMidConversationToolChanges2026_07_01 AnthropicBeta = "mid-conversation-tool-changes-2026-07-01"`
+
+    - `const AnthropicBetaCompact2026_01_12 AnthropicBeta = "compact-2026-01-12"`
+
+    - `const AnthropicBetaComputerUse2025_11_24 AnthropicBeta = "computer-use-2025-11-24"`
+
+    - `const AnthropicBetaMCPTunnels2026_06_22 AnthropicBeta = "mcp-tunnels-2026-06-22"`
+
+    - `const AnthropicBetaStructuredOutputs2025_11_13 AnthropicBeta = "structured-outputs-2025-11-13"`
+
+    - `const AnthropicBetaTaskBudgets2026_03_13 AnthropicBeta = "task-budgets-2026-03-13"`
+
+    - `const AnthropicBetaThinkingDisplayUpdates2026_08_18 AnthropicBeta = "thinking-display-updates-2026-08-18"`
+
+    - `const AnthropicBetaCEUserManagement2026_07_13 AnthropicBeta = "ce-user-management-2026-07-13"`
+
+    - `const AnthropicBetaMidConversationOutputConfig2026_07_01 AnthropicBeta = "mid-conversation-output-config-2026-07-01"`
+
+    - `const AnthropicBetaThinkingBindingControls2026_08_01 AnthropicBeta = "thinking-binding-controls-2026-08-01"`
+
+    - `const AnthropicBetaMidConversationSystemClearAt2026_08_21 AnthropicBeta = "mid-conversation-system-clear-at-2026-08-21"`
+
+    - `const AnthropicBetaCompact2026_09_04 AnthropicBeta = "compact-2026-09-04"`
+
+    - `const AnthropicBetaInlineTools2026_09_15 AnthropicBeta = "inline-tools-2026-09-15"`
+
+    - `const AnthropicBetaMCPClient2026_09_15 AnthropicBeta = "mcp-client-2026-09-15"`
+
+    - `const AnthropicBetaCEPlugins2026_09_01 AnthropicBeta = "ce-plugins-2026-09-01"`
+
+    - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
+
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
+  - `WorkspaceID param.Opt[string] Optional` (header parameter)
+
+    Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+    Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
+
+#### Returns
+
+- `type BetaManagedAgentsSessionEventUnion interface{…}`
+
+  Union type for all event types in a session.
+
+  - `type BetaManagedAgentsUserMessageEvent`
+
+    A user message event in the session conversation.
+
+    - `Type UserMessage`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `Content []BetaManagedAgentsUserMessageEventContentUnion`
+
+      Array of content blocks comprising the user message.
+
+      - `type BetaManagedAgentsTextBlock`
+
+        Regular text content.
+
+        - `Type Text`
+
+        - `Text string`
+
+          The text content.
+
+          minLength: 1
+
+      - `type BetaManagedAgentsImageBlock`
+
+        Image content specified directly as base64 data or as a reference via a URL.
+
+        - `Type Image`
+
+        - `Source BetaManagedAgentsImageBlockSourceUnion`
+
+          The source of the image data.
+
+          - `type BetaManagedAgentsBase64ImageSource`
+
+            Base64-encoded image data.
+
+            - `Type Base64`
+
+            - `Data string`
+
+              Base64-encoded image data.
+
+              minLength: 1
+
+            - `MediaType string`
+
+              MIME type of the image (e.g., "image/png", "image/jpeg", "image/gif", "image/webp").
+
+              minLength: 1
+
+          - `type BetaManagedAgentsURLImageSource`
+
+            Image referenced by URL.
+
+            - `Type URL`
+
+            - `URL string`
+
+              URL of the image to fetch.
+
+              minLength: 1
+
+          - `type BetaManagedAgentsFileImageSource`
+
+            Image referenced by file ID.
+
+            - `Type File`
+
+            - `FileID string`
+
+              ID of a previously uploaded file.
+
+              minLength: 1
+
+      - `type BetaManagedAgentsDocumentBlock`
+
+        Document content, either specified directly as base64 data, as text, or as a reference via a URL.
+
+        - `Type Document`
+
+        - `Source BetaManagedAgentsDocumentBlockSourceUnion`
+
+          The source of the document data.
+
+          - `type BetaManagedAgentsBase64DocumentSource`
+
+            Base64-encoded document data.
+
+            - `Type Base64`
+
+            - `Data string`
+
+              Base64-encoded document data.
+
+              minLength: 1
+
+            - `MediaType string`
+
+              MIME type of the document (e.g., "application/pdf").
+
+              minLength: 1
+
+          - `type BetaManagedAgentsPlainTextDocumentSource`
+
+            Plain text document content.
+
+            - `Type Text`
+
+            - `Data string`
+
+              The plain text content.
+
+              minLength: 1
+
+            - `MediaType TextPlain`
+
+              MIME type of the text content. Must be "text/plain".
+
+          - `type BetaManagedAgentsURLDocumentSource`
+
+            Document referenced by URL.
+
+            - `Type URL`
+
+            - `URL string`
+
+              URL of the document to fetch.
+
+              minLength: 1
+
+          - `type BetaManagedAgentsFileDocumentSource`
+
+            Document referenced by file ID.
+
+            - `Type File`
+
+            - `FileID string`
+
+              ID of a previously uploaded file.
+
+              minLength: 1
+
+        - `Context string Optional`
+
+          Additional context about the document for the model.
+
+        - `Title string Optional`
+
+          The title of the document.
+
+      - `type BetaManagedAgentsRedactedBlock`
+
+        Placeholder for content withheld by Anthropic model policy.
+
+        - `Type Redacted`
+
+    - `ProcessedAt Time Optional`
+
+      Timestamp when the agent finished processing this message.
+
+      format: date-time
+
+  - `type BetaManagedAgentsUserInterruptEvent`
+
+    An interrupt event that pauses agent execution and returns control to the user.
+
+    - `Type UserInterrupt`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `ProcessedAt Time Optional`
+
+      Timestamp when the interrupt was processed.
+
+      format: date-time
+
+    - `SessionThreadID string Optional`
+
+      If absent, interrupts every non-archived thread in a multiagent session (or the primary alone in a single-agent session). If present, interrupts only the named thread.
+
+  - `type BetaManagedAgentsUserToolConfirmationEvent`
+
+    A tool confirmation event that approves or denies a pending tool execution.
+
+    - `Type UserToolConfirmation`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `Result BetaManagedAgentsUserToolConfirmationEventResult`
+
+      The confirmation result: 'allow' or 'deny'.
+
+      - `const BetaManagedAgentsUserToolConfirmationEventResultAllow BetaManagedAgentsUserToolConfirmationEventResult = "allow"`
+
+      - `const BetaManagedAgentsUserToolConfirmationEventResultDeny BetaManagedAgentsUserToolConfirmationEventResult = "deny"`
+
+    - `ToolUseID string`
+
+      The id of the `agent.tool_use` or `agent.mcp_tool_use` event this result corresponds to, which can be found in the last `session.status_idle` [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list?sdk_languages=go#beta_managed_agents_session_requires_action.event_ids) `stop_reason.event_ids` field.
+
+    - `DenyMessage string Optional`
+
+      Optional message providing context for a 'deny' decision. Only allowed when result is 'deny'.
+
+      maxLength: 10000
+
+    - `ProcessedAt Time Optional`
+
+      Timestamp when the confirmation was processed.
+
+      format: date-time
+
+    - `SessionThreadID string Optional`
+
+      Set by the server to the subagent thread this confirmation was routed to. Omitted when it was routed to the primary thread.
+
+  - `type BetaManagedAgentsUserCustomToolResultEvent`
+
+    Event sent by the client providing the result of a custom tool execution.
+
+    - `Type UserCustomToolResult`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `CustomToolUseID string`
+
+      The id of the `agent.custom_tool_use` event this result corresponds to. It is also listed in the last `session.status_idle` [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list?sdk_languages=go#beta_managed_agents_session_requires_action.event_ids) `stop_reason.event_ids` field.
+
+    - `Content []BetaManagedAgentsUserCustomToolResultEventContentUnion Optional`
+
+      The result content returned by the tool.
+
+      - `type BetaManagedAgentsTextBlock`
+
+        Regular text content.
+
+      - `type BetaManagedAgentsImageBlock`
+
+        Image content specified directly as base64 data or as a reference via a URL.
+
+      - `type BetaManagedAgentsDocumentBlock`
+
+        Document content, either specified directly as base64 data, as text, or as a reference via a URL.
+
+      - `type BetaManagedAgentsSearchResultBlock`
+
+        A block containing a web search result.
+
+        - `Type SearchResult`
+
+        - `Citations BetaManagedAgentsSearchResultCitations`
+
+          Citation settings for this search result.
+
+          - `Enabled bool`
+
+            Whether citations are enabled for this search result.
+
+        - `Content []BetaManagedAgentsSearchResultContent`
+
+          Array of text content blocks from the search result.
+
+          - `Type Text`
+
+          - `Text string`
+
+            The text content.
+
+            minLength: 1
+
+        - `Source string`
+
+          The URL source of the search result.
+
+          minLength: 1
+
+        - `Title string`
+
+          The title of the search result.
+
+          minLength: 1
+
+    - `IsError bool Optional`
+
+      Whether the tool execution resulted in an error.
+
+    - `ProcessedAt Time Optional`
+
+      Timestamp when this result was processed.
+
+      format: date-time
+
+    - `SessionThreadID string Optional`
+
+      Set by the server to the subagent thread this result was routed to. Omitted when it was routed to the primary thread.
+
+  - `type BetaManagedAgentsAgentCustomToolUseEvent`
+
+    Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
+
+    - `Type AgentCustomToolUse`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `Input map[string]any`
+
+      Input parameters for the tool call.
+
+    - `Name string`
+
+      Name of the custom tool being called.
+
+    - `ProcessedAt Time`
+
+      Timestamp when this tool use was processed.
+
+      format: date-time
+
+    - `SessionThreadID string Optional`
+
+      When set, this event was cross-posted from a subagent's thread to surface its custom tool use on the primary thread's stream. Empty on the thread's own events. Informational only: the server routes the matching `user.custom_tool_result` by `custom_tool_use_id`, so clients do not send it back.
+
+  - `type BetaManagedAgentsAgentMessageEvent`
+
+    An agent response event in the session conversation.
+
+    - `Type AgentMessage`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `Content []BetaManagedAgentsAgentMessageEventContentUnion`
+
+      Array of text blocks comprising the agent response.
+
+      - `type BetaManagedAgentsTextBlock`
+
+        Regular text content.
+
+      - `type BetaManagedAgentsRedactedBlock`
+
+        Placeholder for content withheld by Anthropic model policy.
+
+    - `ProcessedAt Time`
+
+      Timestamp when this response was generated.
+
+      format: date-time
+
+  - `type BetaManagedAgentsAgentThinkingEvent`
+
+    Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
+
+    - `Type AgentThinking`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `ProcessedAt Time`
+
+      Timestamp when this thinking was produced.
+
+      format: date-time
+
+  - `type BetaManagedAgentsAgentMCPToolUseEvent`
+
+    Event emitted when the agent invokes a tool provided by an MCP server.
+
+    - `Type AgentMCPToolUse`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `Input map[string]any`
+
+      Input parameters for the tool call.
+
+    - `MCPServerName string`
+
+      Name of the MCP server providing the tool.
+
+    - `Name string`
+
+      Name of the MCP tool being used.
+
+    - `ProcessedAt Time`
+
+      Timestamp when this event was processed.
+
+      format: date-time
+
+    - `EvaluatedPermission BetaManagedAgentsAgentEvaluatedPermission Optional`
+
+      The evaluated permission policy for this tool invocation.
+
+      - `const BetaManagedAgentsAgentEvaluatedPermissionAllow BetaManagedAgentsAgentEvaluatedPermission = "allow"`
+
+      - `const BetaManagedAgentsAgentEvaluatedPermissionAsk BetaManagedAgentsAgentEvaluatedPermission = "ask"`
+
+      - `const BetaManagedAgentsAgentEvaluatedPermissionDeny BetaManagedAgentsAgentEvaluatedPermission = "deny"`
+
+    - `Evaluation BetaManagedAgentsAgentToolEvaluationUnion Optional`
+
+      Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
+
+      - `type BetaManagedAgentsAgentToolEvaluationAlwaysAllow`
+
+        The resolved permission_policy was always_allow; accompanies evaluated_permission "allow".
+
+        - `Type AlwaysAllow`
+
+      - `type BetaManagedAgentsAgentToolEvaluationAlwaysAsk`
+
+        The resolved permission_policy was always_ask; accompanies evaluated_permission "ask".
+
+        - `Type AlwaysAsk`
+
+      - `type BetaManagedAgentsAgentToolEvaluationAuto`
+
+        The resolved permission_policy was auto: the server judged this invocation individually.
+
+        - `Type Auto`
+
+        - `EvaluatedPermission BetaManagedAgentsAgentAutoEvaluatedPermissionUnion`
+
+          The server's judgement for this invocation.
+
+          - `type BetaManagedAgentsAgentAutoEvaluatedPermissionAllow`
+
+            The server judged the invocation safe to execute without client approval.
+
+            - `Type Allow`
+
+          - `type BetaManagedAgentsAgentAutoEvaluatedPermissionAsk`
+
+            The server reached no judgement; the invocation is held for client approval.
+
+            - `Type Ask`
+
+            - `ReasonCode string`
+
+              The judgement's grounds in registry-bound terms, for client branching and audit rather than end-user display. Open registry; currently "indeterminate" (no judgement was reached). Clients must tolerate values outside this set.
+
+              maxLength: 64
+
+          - `type BetaManagedAgentsAgentAutoEvaluatedPermissionDeny`
+
+            The server judged the invocation high-risk; it does not execute and a synthetic error tool result is appended.
+
+            - `Type Deny`
+
+            - `ReasonCode string`
+
+              The judgement's grounds in registry-bound terms. Open registry; currently "high_risk" (judged high-risk; the call does not run). Clients must tolerate values outside this set.
+
+              maxLength: 64
+
+    - `SessionThreadID string Optional`
+
+      When set, this event was cross-posted from a subagent's thread to surface its permission request on the primary thread's stream. Empty on the thread's own events. Informational only: the server routes the matching `user.tool_confirmation` by `tool_use_id`, so clients do not send it back.
+
+  - `type BetaManagedAgentsAgentMCPToolResultEvent`
+
+    Event representing the result of an MCP tool execution.
+
+    - `Type AgentMCPToolResult`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `MCPToolUseID string`
+
+      The id of the `agent.mcp_tool_use` event this result corresponds to.
+
+    - `ProcessedAt Time`
+
+      Timestamp when this event was processed.
+
+      format: date-time
+
+    - `Content []BetaManagedAgentsAgentMCPToolResultEventContentUnion Optional`
+
+      The result content returned by the tool.
+
+      - `type BetaManagedAgentsTextBlock`
+
+        Regular text content.
+
+      - `type BetaManagedAgentsImageBlock`
+
+        Image content specified directly as base64 data or as a reference via a URL.
+
+      - `type BetaManagedAgentsDocumentBlock`
+
+        Document content, either specified directly as base64 data, as text, or as a reference via a URL.
+
+      - `type BetaManagedAgentsSearchResultBlock`
+
+        A block containing a web search result.
+
+    - `IsError bool Optional`
+
+      Whether the tool execution resulted in an error.
+
+  - `type BetaManagedAgentsAgentToolUseEvent`
+
+    Event emitted when the agent invokes a built-in agent tool.
+
+    - `Type AgentToolUse`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `Input map[string]any`
+
+      Input parameters for the tool call.
+
+    - `Name string`
+
+      Name of the agent tool being used.
+
+    - `ProcessedAt Time`
+
+      Timestamp when this event was processed.
+
+      format: date-time
+
+    - `EvaluatedPermission BetaManagedAgentsAgentEvaluatedPermission Optional`
+
+      The evaluated permission policy for this tool invocation.
+
+    - `Evaluation BetaManagedAgentsAgentToolEvaluationUnion Optional`
+
+      Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
+
+    - `SessionThreadID string Optional`
+
+      When set, this event was cross-posted from a subagent's thread to surface its permission request on the primary thread's stream. Empty on the thread's own events. Informational only: the server routes the matching `user.tool_confirmation` or `user.tool_result` by `tool_use_id`, so clients do not send it back.
+
+  - `type BetaManagedAgentsAgentToolResultEvent`
+
+    Event representing the result of an agent tool execution.
+
+    - `Type AgentToolResult`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `ProcessedAt Time`
+
+      Timestamp when this event was processed.
+
+      format: date-time
+
+    - `ToolUseID string`
+
+      The id of the `agent.tool_use` event this result corresponds to.
+
+    - `Content []BetaManagedAgentsAgentToolResultEventContentUnion Optional`
+
+      The result content returned by the tool.
+
+      - `type BetaManagedAgentsTextBlock`
+
+        Regular text content.
+
+      - `type BetaManagedAgentsImageBlock`
+
+        Image content specified directly as base64 data or as a reference via a URL.
+
+      - `type BetaManagedAgentsDocumentBlock`
+
+        Document content, either specified directly as base64 data, as text, or as a reference via a URL.
+
+      - `type BetaManagedAgentsSearchResultBlock`
+
+        A block containing a web search result.
+
+    - `IsError bool Optional`
+
+      Whether the tool execution resulted in an error.
+
+  - `type BetaManagedAgentsAgentThreadMessageReceivedEvent`
+
+    Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
+
+    - `Type AgentThreadMessageReceived`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `Content []BetaManagedAgentsAgentThreadMessageReceivedEventContentUnion`
+
+      Message content blocks.
+
+      - `type BetaManagedAgentsTextBlock`
+
+        Regular text content.
+
+      - `type BetaManagedAgentsImageBlock`
+
+        Image content specified directly as base64 data or as a reference via a URL.
+
+      - `type BetaManagedAgentsDocumentBlock`
+
+        Document content, either specified directly as base64 data, as text, or as a reference via a URL.
+
+      - `type BetaManagedAgentsRedactedBlock`
+
+        Placeholder for content withheld by Anthropic model policy.
+
+    - `FromSessionThreadID string`
+
+      Public `sthr_` ID of the thread that sent the message.
+
+    - `ProcessedAt Time`
+
+      Timestamp when the message was received.
+
+      format: date-time
+
+    - `FromAgentName string Optional`
+
+      Name of the callable agent this message came from. Absent when received from the primary agent.
+
+  - `type BetaManagedAgentsAgentThreadMessageSentEvent`
+
+    Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
+
+    - `Type AgentThreadMessageSent`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `Content []BetaManagedAgentsAgentThreadMessageSentEventContentUnion`
+
+      Message content blocks.
+
+      - `type BetaManagedAgentsTextBlock`
+
+        Regular text content.
+
+      - `type BetaManagedAgentsImageBlock`
+
+        Image content specified directly as base64 data or as a reference via a URL.
+
+      - `type BetaManagedAgentsDocumentBlock`
+
+        Document content, either specified directly as base64 data, as text, or as a reference via a URL.
+
+      - `type BetaManagedAgentsRedactedBlock`
+
+        Placeholder for content withheld by Anthropic model policy.
+
+    - `ProcessedAt Time`
+
+      Timestamp when the message was sent.
+
+      format: date-time
+
+    - `ToSessionThreadID string`
+
+      Public `sthr_` ID of the thread the message was sent to.
+
+    - `ToAgentName string Optional`
+
+      Name of the callable agent this message was sent to. Absent when sent to the primary agent.
+
+  - `type BetaManagedAgentsAgentThreadContextCompactedEvent`
+
+    Indicates that context compaction (summarization) occurred during the session.
+
+    - `Type AgentThreadContextCompacted`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `ProcessedAt Time`
+
+      Timestamp when compaction was processed.
+
+      format: date-time
+
+  - `type BetaManagedAgentsSessionErrorEvent`
+
+    An error event indicating a problem occurred during session execution.
+
+    - `Type SessionError`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `Error BetaManagedAgentsSessionErrorEventErrorUnion`
+
+      - `type BetaManagedAgentsUnknownError`
+
+        An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
+
+        - `Type UnknownError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsUnknownErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+            - `Type Retrying`
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+            - `Type Exhausted`
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+            - `Type Terminal`
+
+      - `type BetaManagedAgentsModelOverloadedError`
+
+        The model is currently overloaded. Emitted after automatic retries are exhausted.
+
+        - `Type ModelOverloadedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsModelOverloadedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsModelRateLimitedError`
+
+        The model request was rate-limited.
+
+        - `Type ModelRateLimitedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsModelRateLimitedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsModelRequestFailedError`
+
+        A model request failed for a reason other than overload or rate-limiting.
+
+        - `Type ModelRequestFailedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsModelRequestFailedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsMCPConnectionFailedError`
+
+        Failed to connect to an MCP server.
+
+        - `Type MCPConnectionFailedError`
+
+        - `MCPServerName string`
+
+          Name of the MCP server that failed to connect.
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsMCPConnectionFailedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsMCPAuthenticationFailedError`
+
+        Authentication to an MCP server failed.
+
+        - `Type MCPAuthenticationFailedError`
+
+        - `MCPServerName string`
+
+          Name of the MCP server that failed authentication.
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsMCPAuthenticationFailedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsBillingError`
+
+        The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
+
+        - `Type BillingError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsBillingErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsCredentialHostUnreachableError`
+
+        An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
+
+        - `Type CredentialHostUnreachableError`
+
+        - `CredentialID string`
+
+          ID of the affected credential.
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsCredentialHostUnreachableErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+        - `VaultID string`
+
+          ID of the vault containing the affected credential.
+
+      - `type BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type ToolUseLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsToolUseLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type CompactionLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsCompactionLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsRepositoryAuthenticationError`
+
+        The repository host rejected the credentials, or required credentials and received none.
+
+        - `Type RepositoryAuthenticationError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RepositoryURL string`
+
+          URL of the repository that could not be cloned. Null when it could not be identified.
+
+        - `RetryStatus BetaManagedAgentsRepositoryAuthenticationErrorRetryStatusUnion`
+
+          What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsRepositoryForbiddenError`
+
+        The repository host refused access to the repository.
+
+        - `Type RepositoryForbiddenError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RepositoryURL string`
+
+          URL of the repository that could not be cloned. Null when it could not be identified.
+
+        - `RetryStatus BetaManagedAgentsRepositoryForbiddenErrorRetryStatusUnion`
+
+          What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsRepositoryNotFoundError`
+
+        The repository host reported the repository as not found.
+
+        - `Type RepositoryNotFoundError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RepositoryURL string`
+
+          URL of the repository that could not be cloned. Null when it could not be identified.
+
+        - `RetryStatus BetaManagedAgentsRepositoryNotFoundErrorRetryStatusUnion`
+
+          What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsRepositoryCheckoutError`
+
+        The requested branch or commit does not exist in the repository.
+
+        - `Type RepositoryCheckoutError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RepositoryURL string`
+
+          URL of the repository that could not be cloned. Null when it could not be identified.
+
+        - `RetryStatus BetaManagedAgentsRepositoryCheckoutErrorRetryStatusUnion`
+
+          What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsRepositoryCloneError`
+
+        The repository could not be cloned.
+
+        - `Type RepositoryCloneError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RepositoryURL string`
+
+          URL of the repository that could not be cloned. Null when it could not be identified.
+
+        - `RetryStatus BetaManagedAgentsRepositoryCloneErrorRetryStatusUnion`
+
+          What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+    - `ProcessedAt Time`
+
+      Timestamp when the error occurred.
+
+      format: date-time
+
+  - `type BetaManagedAgentsSessionStatusRescheduledEvent`
+
+    Indicates the session is recovering from an error state and is rescheduled for execution.
+
+    - `Type SessionStatusRescheduled`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `ProcessedAt Time`
+
+      Timestamp of status change.
+
+      format: date-time
+
+  - `type BetaManagedAgentsSessionStatusRunningEvent`
+
+    Indicates the session is actively running and the agent is working.
+
+    - `Type SessionStatusRunning`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `ProcessedAt Time`
+
+      Timestamp of status change.
+
+      format: date-time
+
+  - `type BetaManagedAgentsSessionStatusIdleEvent`
+
+    Indicates the agent has paused and is awaiting user input.
+
+    - `Type SessionStatusIdle`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `ProcessedAt Time`
+
+      Timestamp of status change.
+
+      format: date-time
+
+    - `StopDetails BetaManagedAgentsSessionRefusalStopDetails`
+
+      Structured information about why the session stopped. `null` when there is nothing more to report.
+
+      - `Type Refusal`
+
+      - `Category BetaManagedAgentsSessionRefusalStopDetailsCategory`
+
+        The policy category that triggered the refusal, or `null` when there is no named category. New values can be added over time.
+
+        - `const BetaManagedAgentsSessionRefusalStopDetailsCategoryCyber BetaManagedAgentsSessionRefusalStopDetailsCategory = "cyber"`
+
+        - `const BetaManagedAgentsSessionRefusalStopDetailsCategoryBio BetaManagedAgentsSessionRefusalStopDetailsCategory = "bio"`
+
+        - `const BetaManagedAgentsSessionRefusalStopDetailsCategoryFrontierLLM BetaManagedAgentsSessionRefusalStopDetailsCategory = "frontier_llm"`
+
+        - `const BetaManagedAgentsSessionRefusalStopDetailsCategoryReasoningExtraction BetaManagedAgentsSessionRefusalStopDetailsCategory = "reasoning_extraction"`
+
+        - `const BetaManagedAgentsSessionRefusalStopDetailsCategoryGeneralHarms BetaManagedAgentsSessionRefusalStopDetailsCategory = "general_harms"`
+
+      - `Explanation string`
+
+        Human-readable explanation of the refusal, or `null` when none is available. The wording can change, so do not parse it.
+
+    - `StopReason BetaManagedAgentsSessionStatusIdleEventStopReasonUnion`
+
+      - `type BetaManagedAgentsSessionEndTurn`
+
+        The agent completed its turn naturally and is ready for the next user message.
+
+        - `Type EndTurn`
+
+      - `type BetaManagedAgentsSessionRequiresAction`
+
+        The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
+
+        - `Type RequiresAction`
+
+        - `EventIDs []string`
+
+          The ids of events the agent is blocked on. Resolving fewer than all re-emits `session.status_idle` with the remainder.
+
+      - `type BetaManagedAgentsSessionRetriesExhausted`
+
+        The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
+
+        - `Type RetriesExhausted`
+
+      - `type BetaManagedAgentsSessionBudgetReached`
+
+        The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
+
+        - `Type BudgetReached`
+
+      - `type BetaManagedAgentsSessionRefusal`
+
+        The turn ended because the model's response was refused, for example by a safety classifier.
+
+        - `Type Refusal`
+
+  - `type BetaManagedAgentsSessionStatusTerminatedEvent`
+
+    Indicates the session has terminated, either due to an error or completion.
+
+    - `Type SessionStatusTerminated`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `ProcessedAt Time`
+
+      Timestamp of status change.
+
+      format: date-time
+
+  - `type BetaManagedAgentsSessionThreadCreatedEvent`
+
+    Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
+
+    - `Type SessionThreadCreated`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `AgentName string`
+
+      Name of the callable agent the thread runs.
+
+    - `ProcessedAt Time`
+
+      Timestamp when the thread was created.
+
+      format: date-time
+
+    - `SessionThreadID string`
+
+      Public `sthr_` ID of the newly created thread.
+
+    - `WorkflowRunID string`
+
+      Identifier of the workflow run that created the thread, or `null` for any other thread.
+
+  - `type BetaManagedAgentsSpanOutcomeEvaluationStartEvent`
+
+    Emitted when an outcome evaluation cycle begins.
+
+    - `Type SpanOutcomeEvaluationStart`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `Iteration int64`
+
+      0-indexed revision cycle. 0 is the first evaluation; 1 is the re-evaluation after the first revision; etc.
+
+      format: int32
+
+    - `OutcomeID string`
+
+      The `outc_` ID of the outcome being evaluated.
+
+    - `ProcessedAt Time`
+
+      Timestamp when outcome evaluation started.
+
+      format: date-time
+
+  - `type BetaManagedAgentsSpanOutcomeEvaluationEndEvent`
+
+    Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
+
+    - `Type SpanOutcomeEvaluationEnd`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `Explanation string`
+
+      Human-readable explanation of the verdict. For `needs_revision`, describes which criteria failed and why.
+
+    - `Iteration int64`
+
+      0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
+
+      format: int32
+
+    - `OutcomeEvaluationStartID string`
+
+      The id of the corresponding `span.outcome_evaluation_start` event.
+
+    - `OutcomeID string`
+
+      The `outc_` ID of the outcome being evaluated.
+
+    - `ProcessedAt Time`
+
+      Timestamp when outcome evaluation ended.
+
+      format: date-time
+
+    - `Result string`
+
+      Evaluation verdict. 'satisfied': criteria met, session goes idle. 'needs_revision': criteria not met, another revision cycle follows. 'max_iterations_reached': evaluation budget exhausted with criteria still unmet — one final acknowledgment turn follows before the session goes idle, but no further evaluation runs. 'failed': grader determined the rubric does not apply to the deliverables. 'interrupted': user sent an interrupt while evaluation was in progress.
+
+    - `Usage BetaManagedAgentsSpanModelUsage`
+
+      Aggregate token usage for this evaluation cycle. Sums across all grader model requests within the cycle.
+
+      - `CacheCreationInputTokens int64`
+
+        Tokens used to create prompt cache in this request.
+
+        format: int32
+
+      - `CacheReadInputTokens int64`
+
+        Tokens read from prompt cache in this request.
+
+        format: int32
+
+      - `InputTokens int64`
+
+        Input tokens consumed by this request.
+
+        format: int32
+
+      - `OutputTokens int64`
+
+        Output tokens generated by this request.
+
+        format: int32
+
+      - `Speed BetaManagedAgentsSpanModelUsageSpeed Optional`
+
+        Inference speed tier this request actually ran at. Mirrors `usage.speed` on /v1/messages. Only present when the fast-mode beta is active.
+
+        - `const BetaManagedAgentsSpanModelUsageSpeedStandard BetaManagedAgentsSpanModelUsageSpeed = "standard"`
+
+        - `const BetaManagedAgentsSpanModelUsageSpeedFast BetaManagedAgentsSpanModelUsageSpeed = "fast"`
+
+  - `type BetaManagedAgentsSpanModelRequestStartEvent`
+
+    Emitted when a model request is initiated by the agent.
+
+    - `Type SpanModelRequestStart`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `ProcessedAt Time`
+
+      Timestamp when the model request started.
+
+      format: date-time
+
+  - `type BetaManagedAgentsSpanModelRequestEndEvent`
+
+    Emitted when a model request completes.
+
+    - `Type SpanModelRequestEnd`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `IsError bool`
+
+      Whether the model request resulted in an error.
+
+    - `ModelRequestStartID string`
+
+      The id of the corresponding `span.model_request_start` event.
+
+    - `ModelUsage BetaManagedAgentsSpanModelUsage`
+
+      Token usage for this model request.
+
+    - `ProcessedAt Time`
+
+      Timestamp when the model request completed.
+
+      format: date-time
+
+  - `type BetaManagedAgentsSpanOutcomeEvaluationOngoingEvent`
+
+    Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
+
+    - `Type SpanOutcomeEvaluationOngoing`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `Iteration int64`
+
+      0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
+
+      format: int32
+
+    - `OutcomeID string`
+
+      The `outc_` ID of the outcome being evaluated.
+
+    - `ProcessedAt Time`
+
+      Timestamp when this heartbeat was emitted.
+
+      format: date-time
+
+  - `type BetaManagedAgentsUserDefineOutcomeEvent`
+
+    Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
+
+    - `Type UserDefineOutcome`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `Description string`
+
+      What the agent should produce. Copied from the input event.
+
+    - `MaxIterations int64`
+
+      Evaluate-then-revise cycles before giving up. Default 3, max 20.
+
+      format: int32
+
+    - `OutcomeID string`
+
+      Server-generated `outc_` ID for this outcome. Referenced by `span.outcome_evaluation_*` events and the session's `outcome_evaluations` list.
+
+    - `ProcessedAt Time`
+
+      Timestamp when the outcome was accepted.
+
+      format: date-time
+
+    - `Rubric BetaManagedAgentsUserDefineOutcomeEventRubricUnion`
+
+      How to grade the outcome. File rubrics are currently resolved to their text content; clients should handle both variants.
+
+      - `type BetaManagedAgentsFileRubric`
+
+        Rubric referenced by a file uploaded via the Files API.
+
+        - `Type File`
+
+        - `FileID string`
+
+          ID of the rubric file.
+
+      - `type BetaManagedAgentsTextRubric`
+
+        Rubric content provided inline as text.
+
+        - `Type Text`
+
+        - `Content string`
+
+          Rubric content. Plain text or markdown — the grader treats it as freeform text.
+
+  - `type BetaManagedAgentsSessionDeletedEvent`
+
+    Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
+
+    - `Type SessionDeleted`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `ProcessedAt Time`
+
+      Timestamp when the session was deleted.
+
+      format: date-time
+
+  - `type BetaManagedAgentsSessionThreadStatusRunningEvent`
+
+    A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
+
+    - `Type SessionThreadStatusRunning`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `AgentName string`
+
+      Name of the agent the thread runs.
+
+    - `ProcessedAt Time`
+
+      Timestamp of the status transition.
+
+      format: date-time
+
+    - `SessionThreadID string`
+
+      Public sthr_ ID of the thread that started running.
+
+  - `type BetaManagedAgentsSessionThreadStatusIdleEvent`
+
+    A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
+
+    - `Type SessionThreadStatusIdle`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `AgentName string`
+
+      Name of the agent the thread runs.
+
+    - `ProcessedAt Time`
+
+      Timestamp of the status transition.
+
+      format: date-time
+
+    - `SessionThreadID string`
+
+      Public sthr_ ID of the thread that went idle.
+
+    - `StopDetails BetaManagedAgentsSessionRefusalStopDetails`
+
+      Structured information about why the thread stopped. `null` when there is nothing more to report.
+
+    - `StopReason BetaManagedAgentsSessionThreadStatusIdleEventStopReasonUnion`
+
+      - `type BetaManagedAgentsSessionEndTurn`
+
+        The agent completed its turn naturally and is ready for the next user message.
+
+      - `type BetaManagedAgentsSessionRequiresAction`
+
+        The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
+
+      - `type BetaManagedAgentsSessionRetriesExhausted`
+
+        The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
+
+      - `type BetaManagedAgentsSessionBudgetReached`
+
+        The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
+
+      - `type BetaManagedAgentsSessionRefusal`
+
+        The turn ended because the model's response was refused, for example by a safety classifier.
+
+  - `type BetaManagedAgentsSessionThreadStatusTerminatedEvent`
+
+    A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
+
+    - `Type SessionThreadStatusTerminated`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `AgentName string`
+
+      Name of the agent the thread runs.
+
+    - `ProcessedAt Time`
+
+      Timestamp of the status transition.
+
+      format: date-time
+
+    - `SessionThreadID string`
+
+      Public sthr_ ID of the thread that terminated.
+
+  - `type BetaManagedAgentsUserToolResultEvent`
+
+    Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
+
+    - `Type UserToolResult`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `ToolUseID string`
+
+      The id of the `agent.tool_use` event this result corresponds to, which can be found in the last `session.status_idle` [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list?sdk_languages=go#beta_managed_agents_session_requires_action.event_ids) `stop_reason.event_ids` field.
+
+    - `Content []BetaManagedAgentsUserToolResultEventContentUnion Optional`
+
+      The result content returned by the tool.
+
+      - `type BetaManagedAgentsTextBlock`
+
+        Regular text content.
+
+      - `type BetaManagedAgentsImageBlock`
+
+        Image content specified directly as base64 data or as a reference via a URL.
+
+      - `type BetaManagedAgentsDocumentBlock`
+
+        Document content, either specified directly as base64 data, as text, or as a reference via a URL.
+
+      - `type BetaManagedAgentsSearchResultBlock`
+
+        A block containing a web search result.
+
+    - `IsError bool Optional`
+
+      Whether the tool execution resulted in an error.
+
+    - `ProcessedAt Time Optional`
+
+      Timestamp when this result was processed.
+
+      format: date-time
+
+    - `SessionThreadID string Optional`
+
+      Set by the server to the subagent thread this result was routed to. Omitted when it was routed to the primary thread.
+
+  - `type BetaManagedAgentsSessionThreadStatusRescheduledEvent`
+
+    A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
+
+    - `Type SessionThreadStatusRescheduled`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `AgentName string`
+
+      Name of the agent the thread runs.
+
+    - `ProcessedAt Time`
+
+      Timestamp of the status transition.
+
+      format: date-time
+
+    - `SessionThreadID string`
+
+      Public sthr_ ID of the thread that is retrying.
+
+  - `type BetaManagedAgentsSessionUpdatedEvent`
+
+    Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
+
+    - `Type SessionUpdated`
+
+    - `ID string`
+
+      Unique identifier for this event.
+
+    - `ProcessedAt Time`
+
+      Timestamp when the update was applied.
+
+      format: date-time
+
+    - `Agent BetaManagedAgentsSessionAgent Optional`
+
+      The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
+
+      - `Type Agent`
+
+      - `ID string`
+
+      - `Description string`
+
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
+      - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
+
+        - `Type URL`
+
+        - `Name string`
+
+        - `URL string`
+
+      - `Model BetaManagedAgentsModelConfig`
+
+        Model identifier and configuration.
+
+        - `ID BetaManagedAgentsModel`
+
+          The model that will power your agent.
+
+          See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+          - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
+
+            Fastest model for high-volume, real-time tasks
+
+          - `const BetaManagedAgentsModelClaudeSonnet5_5 BetaManagedAgentsModel = "claude-sonnet-5-5"`
+
+            Efficient model for coding and agents
+
+          - `const BetaManagedAgentsModelClaudeOpus5_5 BetaManagedAgentsModel = "claude-opus-5-5"`
+
+            Powerful intelligence for coding, knowledge work, and long-running agents
+
+          - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+
+          - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
+
+            Efficient model for coding and agents
+
+          - `const BetaManagedAgentsModelClaudeFable5 BetaManagedAgentsModel = "claude-fable-5"`
+
+            Next generation of intelligence for the hardest knowledge work and coding problems
+
+          - `const BetaManagedAgentsModelClaudeOpus5 BetaManagedAgentsModel = "claude-opus-5"`
+
+            Powerful intelligence for long-running agents and coding
+
+          - `const BetaManagedAgentsModelClaudeOpus4_8 BetaManagedAgentsModel = "claude-opus-4-8"`
+
+            Powerful intelligence for long-running agents and coding
+
+          - `const BetaManagedAgentsModelClaudeOpus4_7 BetaManagedAgentsModel = "claude-opus-4-7"`
+
+            Powerful intelligence for long-running agents and coding
+
+          - `const BetaManagedAgentsModelClaudeOpus4_6 BetaManagedAgentsModel = "claude-opus-4-6"`
+
+            Powerful intelligence for long-running agents and coding
+
+          - `const BetaManagedAgentsModelClaudeSonnet4_6 BetaManagedAgentsModel = "claude-sonnet-4-6"`
+
+            Best combination of speed and intelligence
+
+          - `const BetaManagedAgentsModelClaudeHaiku4_5 BetaManagedAgentsModel = "claude-haiku-4-5"`
+
+          - `const BetaManagedAgentsModelClaudeHaiku4_5_20251001 BetaManagedAgentsModel = "claude-haiku-4-5-20251001"`
+
+          - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
+
+            Powerful intelligence for long-running agents and coding
+
+          - `const BetaManagedAgentsModelClaudeOpus4_5_20251101 BetaManagedAgentsModel = "claude-opus-4-5-20251101"`
+
+            Powerful intelligence for long-running agents and coding
+
+          - `const BetaManagedAgentsModelClaudeSonnet4_5 BetaManagedAgentsModel = "claude-sonnet-4-5"`
+
+            **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+            High-performance model for agents and coding
+
+          - `const BetaManagedAgentsModelClaudeSonnet4_5_20250929 BetaManagedAgentsModel = "claude-sonnet-4-5-20250929"`
+
+            **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+            High-performance model for agents and coding
+
+        - `Effort BetaManagedAgentsModelConfigEffortUnion Optional`
+
+          How hard Claude works on each inference call. One of `low`, `medium`, `high`, `xhigh`, `max`. Always present; resolved to the per-model default at save time when not supplied.
+
+          - `type BetaManagedAgentsEffortLow`
+
+            Low effort. Favors latency over reasoning depth.
+
+            - `Type Low`
+
+          - `type BetaManagedAgentsEffortMedium`
+
+            Medium effort. Balances latency and reasoning depth.
+
+            - `Type Medium`
+
+          - `type BetaManagedAgentsEffortHigh`
+
+            High effort. Favors reasoning depth.
+
+            - `Type High`
+
+          - `type BetaManagedAgentsEffortXhigh`
+
+            Extra-high effort. Not all models accept this level.
+
+            - `Type Xhigh`
+
+          - `type BetaManagedAgentsEffortMax`
+
+            Maximum effort. Favors reasoning depth over latency.
+
+            - `Type Max`
+
+        - `InferenceGeo string Optional`
+
+          Geographic region for model inference. When unset, requests fall through to the workspace's default_inference_geo.
+
+        - `Speed BetaManagedAgentsModelConfigSpeed Optional`
+
+          Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
+
+          - `const BetaManagedAgentsModelConfigSpeedStandard BetaManagedAgentsModelConfigSpeed = "standard"`
+
+          - `const BetaManagedAgentsModelConfigSpeedFast BetaManagedAgentsModelConfigSpeed = "fast"`
+
+      - `Multiagent BetaManagedAgentsSessionMultiagentUnion`
+
+        Resolved multiagent orchestration configuration. Null when the agent is single-threaded.
+
+        - `type BetaManagedAgentsSessionMultiagentCoordinator`
+
+          Resolved coordinator topology with full agent definitions for each roster member.
+
+          - `Type Coordinator`
+
+          - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
+
+            Full `agent` definitions the coordinator may spawn as session threads.
+
+            - `type BetaManagedAgentsSessionThreadAgent`
+
+              Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
+
+              - `Type Agent`
+
+              - `ID string`
+
+              - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+              - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
+
+                - `Type URL`
+
+                - `Name string`
+
+                - `URL string`
+
+              - `Model BetaManagedAgentsModelConfig`
+
+                Model identifier and configuration.
+
+              - `Name string`
+
+              - `Skills []BetaManagedAgentsSessionThreadAgentSkillUnion`
+
+                - `type BetaManagedAgentsAnthropicSkill`
+
+                  A resolved Anthropic-managed skill.
+
+                  - `Type Anthropic`
+
+                  - `SkillID string`
+
+                  - `Version string`
+
+                - `type BetaManagedAgentsCustomSkill`
+
+                  A resolved user-created custom skill.
+
+                  - `Type Custom`
+
+                  - `SkillID string`
+
+                  - `Version string`
+
+              - `System string`
+
+              - `Tools []BetaManagedAgentsSessionThreadAgentToolUnion`
+
+                - `type BetaManagedAgentsAgentToolset20260401`
+
+                  - `Type AgentToolset20260401`
+
+                  - `Configs []BetaManagedAgentsAgentToolConfigUnion`
+
+                    - `type BetaManagedAgentsBashToolConfig`
+
+                      Configuration for the bash tool.
+
+                      - `Type Bash`
+
+                      - `Enabled bool`
+
+                      - `Name Bash`
+
+                      - `PermissionPolicy BetaManagedAgentsBashToolConfigPermissionPolicyUnion`
+
+                        Permission policy for tool execution.
+
+                        - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                          Tool calls are automatically approved without user confirmation.
+
+                          - `Type AlwaysAllow`
+
+                        - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                          Tool calls require user confirmation before execution.
+
+                          - `Type AlwaysAsk`
+
+                        - `type BetaManagedAgentsAutoPolicy`
+
+                          The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                          - `Type Auto`
+
+                    - `type BetaManagedAgentsEditToolConfig`
+
+                      Configuration for the edit tool.
+
+                      - `Type Edit`
+
+                      - `Enabled bool`
+
+                      - `Name Edit`
+
+                      - `PermissionPolicy BetaManagedAgentsEditToolConfigPermissionPolicyUnion`
+
+                        Permission policy for tool execution.
+
+                        - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                          Tool calls are automatically approved without user confirmation.
+
+                        - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                          Tool calls require user confirmation before execution.
+
+                        - `type BetaManagedAgentsAutoPolicy`
+
+                          The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                    - `type BetaManagedAgentsReadToolConfig`
+
+                      Configuration for the read tool.
+
+                      - `Type Read`
+
+                      - `Enabled bool`
+
+                      - `Name Read`
+
+                      - `PermissionPolicy BetaManagedAgentsReadToolConfigPermissionPolicyUnion`
+
+                        Permission policy for tool execution.
+
+                        - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                          Tool calls are automatically approved without user confirmation.
+
+                        - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                          Tool calls require user confirmation before execution.
+
+                        - `type BetaManagedAgentsAutoPolicy`
+
+                          The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                    - `type BetaManagedAgentsWriteToolConfig`
+
+                      Configuration for the write tool.
+
+                      - `Type Write`
+
+                      - `Enabled bool`
+
+                      - `Name Write`
+
+                      - `PermissionPolicy BetaManagedAgentsWriteToolConfigPermissionPolicyUnion`
+
+                        Permission policy for tool execution.
+
+                        - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                          Tool calls are automatically approved without user confirmation.
+
+                        - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                          Tool calls require user confirmation before execution.
+
+                        - `type BetaManagedAgentsAutoPolicy`
+
+                          The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                    - `type BetaManagedAgentsGlobToolConfig`
+
+                      Configuration for the glob tool.
+
+                      - `Type Glob`
+
+                      - `Enabled bool`
+
+                      - `Name Glob`
+
+                      - `PermissionPolicy BetaManagedAgentsGlobToolConfigPermissionPolicyUnion`
+
+                        Permission policy for tool execution.
+
+                        - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                          Tool calls are automatically approved without user confirmation.
+
+                        - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                          Tool calls require user confirmation before execution.
+
+                        - `type BetaManagedAgentsAutoPolicy`
+
+                          The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                    - `type BetaManagedAgentsGrepToolConfig`
+
+                      Configuration for the grep tool.
+
+                      - `Type Grep`
+
+                      - `Enabled bool`
+
+                      - `Name Grep`
+
+                      - `PermissionPolicy BetaManagedAgentsGrepToolConfigPermissionPolicyUnion`
+
+                        Permission policy for tool execution.
+
+                        - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                          Tool calls are automatically approved without user confirmation.
+
+                        - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                          Tool calls require user confirmation before execution.
+
+                        - `type BetaManagedAgentsAutoPolicy`
+
+                          The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                    - `type BetaManagedAgentsWebFetchToolConfig`
+
+                      Configuration for the web_fetch tool.
+
+                      - `Type WebFetch`
+
+                      - `Enabled bool`
+
+                      - `Name WebFetch`
+
+                      - `PermissionPolicy BetaManagedAgentsWebFetchToolConfigPermissionPolicyUnion`
+
+                        Permission policy for tool execution.
+
+                        - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                          Tool calls are automatically approved without user confirmation.
+
+                        - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                          Tool calls require user confirmation before execution.
+
+                        - `type BetaManagedAgentsAutoPolicy`
+
+                          The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                      - `URLSources BetaManagedAgentsWebFetchURLSources`
+
+                        Which sources contribute URLs the tool may fetch, always in the object form. Null when not set, which allows every source.
+
+                        - `ClientToolResults BetaManagedAgentsWebFetchURLSourceToolFilterUnion`
+
+                          Which custom tools' results contribute URLs that may be fetched. Null when not set, which allows every custom tool's results.
+
+                          - `type BetaManagedAgentsWebFetchURLSourceAll`
+
+                            Every URL from this source may be fetched. This is the default.
+
+                            - `Type All`
+
+                          - `type BetaManagedAgentsWebFetchURLSourceNone`
+
+                            This source contributes no URLs that may be fetched.
+
+                            - `Type None`
+
+                          - `type BetaManagedAgentsWebFetchURLSourceOnly`
+
+                            Only the named tools' results contribute URLs that may be fetched.
+
+                            - `Type Only`
+
+                            - `Tools []BetaManagedAgentsWebFetchURLSourceToolReference`
+
+                              The tools whose results contribute. Between 1 and 128 entries, each with a different name. An empty list is rejected; use "none" to allow no tool's results.
+
+                              - `Type ToolReference`
+
+                                Must be "tool_reference".
+
+                              - `Name string`
+
+                                Name of the tool. Compared exactly, so upper and lower case letters are different.
+
+                                minLength: 1, maxLength: 128
+
+                          - `type BetaManagedAgentsWebFetchURLSourceExcept`
+
+                            Every tool's results contribute URLs that may be fetched, except the named tools' results.
+
+                            - `Type Except`
+
+                            - `Tools []BetaManagedAgentsWebFetchURLSourceToolReference`
+
+                              The tools whose results do not contribute. Between 1 and 128 entries, each with a different name. An empty list is rejected; use "all" to leave out no tool's results.
+
+                              - `Type ToolReference`
+
+                                Must be "tool_reference".
+
+                              - `Name string`
+
+                                Name of the tool. Compared exactly, so upper and lower case letters are different.
+
+                                minLength: 1, maxLength: 128
+
+                        - `ServerToolResults BetaManagedAgentsWebFetchURLSourceToolFilterUnion`
+
+                          Which of the web_search and web_fetch tools' results contribute URLs that may be fetched. Null when not set, which allows both.
+
+                        - `UserInput BetaManagedAgentsWebFetchURLSourceUserInputUnion`
+
+                          Whether URLs in the text of user messages may be fetched. Null when not set, which allows them.
+
+                          - `type BetaManagedAgentsWebFetchURLSourceAll`
+
+                            Every URL from this source may be fetched. This is the default.
+
+                          - `type BetaManagedAgentsWebFetchURLSourceNone`
+
+                            This source contributes no URLs that may be fetched.
+
+                      - `AllowedDomains []string Optional`
+
+                      - `BlockedDomains []string Optional`
+
+                      - `MaxContentTokens int64 Optional`
+
+                        format: int32
+
+                    - `type BetaManagedAgentsWebSearchToolConfig`
+
+                      Configuration for the web_search tool.
+
+                      - `Type WebSearch`
+
+                      - `Enabled bool`
+
+                      - `Name WebSearch`
+
+                      - `PermissionPolicy BetaManagedAgentsWebSearchToolConfigPermissionPolicyUnion`
+
+                        Permission policy for tool execution.
+
+                        - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                          Tool calls are automatically approved without user confirmation.
+
+                        - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                          Tool calls require user confirmation before execution.
+
+                        - `type BetaManagedAgentsAutoPolicy`
+
+                          The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                      - `AllowedDomains []string Optional`
+
+                      - `BlockedDomains []string Optional`
+
+                      - `UserLocation BetaManagedAgentsUserLocation Optional`
+
+                        Approximate user location for search result localization.
+
+                        - `Type Approximate`
+
+                          Location precision. Only "approximate" is supported.
+
+                        - `City string Optional`
+
+                          City name.
+
+                          minLength: 1, maxLength: 255
+
+                        - `Country string Optional`
+
+                          Two-letter ISO 3166-1 country code, uppercase.
+
+                          pattern: ^[A-Z]{2}$
+
+                        - `Region string Optional`
+
+                          Region or state name.
+
+                          minLength: 1, maxLength: 255
+
+                        - `Timezone string Optional`
+
+                          IANA timezone identifier, e.g. "America/Los_Angeles".
+
+                          minLength: 1, maxLength: 255
+
+                  - `DefaultConfig BetaManagedAgentsAgentToolsetDefaultConfig`
+
+                    Resolved default configuration for agent tools.
+
+                    - `Enabled bool`
+
+                    - `PermissionPolicy BetaManagedAgentsAgentToolsetDefaultConfigPermissionPolicyUnion`
+
+                      Permission policy for tool execution.
+
+                      - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                        Tool calls are automatically approved without user confirmation.
+
+                      - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                        Tool calls require user confirmation before execution.
+
+                      - `type BetaManagedAgentsAutoPolicy`
+
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                - `type BetaManagedAgentsMCPToolset`
+
+                  - `Type MCPToolset`
+
+                  - `Configs []BetaManagedAgentsMCPToolConfig`
+
+                    - `Enabled bool`
+
+                    - `Name string`
+
+                    - `PermissionPolicy BetaManagedAgentsMCPToolConfigPermissionPolicyUnion`
+
+                      Permission policy for tool execution.
+
+                      - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                        Tool calls are automatically approved without user confirmation.
+
+                      - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                        Tool calls require user confirmation before execution.
+
+                      - `type BetaManagedAgentsAutoPolicy`
+
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                  - `DefaultConfig BetaManagedAgentsMCPToolsetDefaultConfig`
+
+                    Resolved default configuration for all tools from an MCP server.
+
+                    - `Enabled bool`
+
+                    - `PermissionPolicy BetaManagedAgentsMCPToolsetDefaultConfigPermissionPolicyUnion`
+
+                      Permission policy for tool execution.
+
+                      - `type BetaManagedAgentsAlwaysAllowPolicy`
+
+                        Tool calls are automatically approved without user confirmation.
+
+                      - `type BetaManagedAgentsAlwaysAskPolicy`
+
+                        Tool calls require user confirmation before execution.
+
+                      - `type BetaManagedAgentsAutoPolicy`
+
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+
+                  - `MCPServerName string`
+
+                - `type BetaManagedAgentsCustomTool`
+
+                  A custom tool as returned in API responses.
+
+                  - `Type Custom`
+
+                  - `Description string`
+
+                  - `InputSchema BetaManagedAgentsCustomToolInputSchema`
+
+                    JSON Schema for custom tool input parameters.
+
+                    - `Type Object`
+
+                    - `Properties map[string]any Optional`
+
+                    - `Required []string Optional`
+
+                  - `Name string`
+
+              - `Version int64`
+
+                format: int32
+
+            - `type BetaManagedAgentsAdvisor`
+
+              Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
+
+              - `Type Advisor`
+
+              - `Model string`
+
+                The advisor model id.
+
+        - `type BetaManagedAgentsSessionMultiagent20261001`
+
+          Resolved multiagent configuration with three members, as copied to the `session` at creation.
+
+          - `Type Multiagent20261001`
+
+          - `Advisor BetaManagedAgentsMultiagentAdvisorUnion`
+
+            Whether the session's primary thread can consult an advisor model.
+
+            - `type BetaManagedAgentsMultiagentAdvisorEnabled`
+
+              The session's primary thread can consult `model` mid-turn.
+
+              - `Type Enabled`
+
+              - `Model string`
+
+                The advisor model id.
+
+            - `type BetaManagedAgentsMultiagentAdvisorDisabled`
+
+              The agent has no advisor.
+
+              - `Type Disabled`
+
+          - `Subagents BetaManagedAgentsSessionMultiagentSubagentsUnion`
+
+            Whether the agent can spawn session threads.
+
+            - `type BetaManagedAgentsSessionMultiagentSubagentsEnabled`
+
+              The agent can spawn session threads.
+
+              - `Type Enabled`
+
+              - `InlineAgents BetaManagedAgentsMultiagentInlineAgentsUnion`
+
+                Whether the agent can define inline agents, which are not saved, when it spawns session threads.
+
+                - `type BetaManagedAgentsMultiagentInlineAgentsEnabled`
+
+                  The agent can define inline agents.
+
+                  - `Type Enabled`
+
+                - `type BetaManagedAgentsMultiagentInlineAgentsDisabled`
+
+                  The agent cannot define inline agents.
+
+                  - `Type Disabled`
+
+              - `PredefinedAgents []BetaManagedAgentsSessionThreadAgent`
+
+                Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
+
+                - `Type Agent`
+
+                - `ID string`
+
+                - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+                - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
+
+                - `Model BetaManagedAgentsModelConfig`
+
+                  Model identifier and configuration.
+
+                - `Name string`
+
+                - `Skills []BetaManagedAgentsSessionThreadAgentSkillUnion`
+
+                - `System string`
+
+                - `Tools []BetaManagedAgentsSessionThreadAgentToolUnion`
+
+                - `Version int64`
+
+                  format: int32
+
+            - `type BetaManagedAgentsMultiagentSubagentsDisabled`
+
+              The agent cannot spawn session threads.
+
+              - `Type Disabled`
+
+          - `Workflows BetaManagedAgentsSessionMultiagentWorkflowsUnion`
+
+            Whether the agent can start workflow runs.
+
+            - `type BetaManagedAgentsSessionMultiagentWorkflowsEnabled`
+
+              The agent can start workflow runs.
+
+              - `Type Enabled`
+
+              - `InlineAgents BetaManagedAgentsMultiagentInlineAgentsUnion`
+
+                Whether a run's plan can define inline agents, which are not saved.
+
+              - `PredefinedAgents []BetaManagedAgentsSessionThreadAgent`
+
+                Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
+
+                - `Type Agent`
+
+                - `ID string`
+
+                - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+                - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
+
+                - `Model BetaManagedAgentsModelConfig`
+
+                  Model identifier and configuration.
+
+                - `Name string`
+
+                - `Skills []BetaManagedAgentsSessionThreadAgentSkillUnion`
+
+                - `System string`
+
+                - `Tools []BetaManagedAgentsSessionThreadAgentToolUnion`
+
+                - `Version int64`
+
+                  format: int32
+
+            - `type BetaManagedAgentsMultiagentWorkflowsDisabled`
+
+              The agent cannot start workflow runs.
+
+              - `Type Disabled`
 
         - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -21334,7 +25990,7 @@ List Events
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `Type BetaManagedAgentsBudgetLimitType`
+      - `Type Limit`
 
       - `MaxListCost BetaMonetaryAmount`
 
@@ -21344,11 +26000,13 @@ List Events
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+          pattern: ^(0|[1-9]\d*)$
+
         - `Currency BetaCurrency`
 
           Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `Metadata map[string, string] Optional`
+    - `Metadata map[string]string Optional`
 
       The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
 
@@ -21360,7 +26018,7 @@ List Events
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `Type BetaManagedAgentsSystemMessageEventType`
+    - `Type SystemMessage`
 
     - `ID string`
 
@@ -21370,7 +26028,7 @@ List Events
 
       System content blocks. Text-only.
 
-      - `Type BetaManagedAgentsSystemContentBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -21388,7 +26046,7 @@ List Events
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `Type BetaManagedAgentsSessionUsageEventType`
+    - `Type SessionUsage`
 
     - `ID string`
 
@@ -21733,8 +26391,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -21807,7 +26465,7 @@ Send Events
 
       Parameters for sending a user message to the session.
 
-      - `Type BetaManagedAgentsUserMessageEventParamsType`
+      - `Type UserMessage`
 
       - `Content []BetaManagedAgentsUserMessageEventParamsContentUnion`
 
@@ -21817,7 +26475,7 @@ Send Events
 
           Regular text content.
 
-          - `Type BetaManagedAgentsTextBlockType`
+          - `Type Text`
 
           - `Text string`
 
@@ -21829,7 +26487,7 @@ Send Events
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `Type BetaManagedAgentsImageBlockType`
+          - `Type Image`
 
           - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -21839,7 +26497,7 @@ Send Events
 
               Base64-encoded image data.
 
-              - `Type BetaManagedAgentsBase64ImageSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -21857,7 +26515,7 @@ Send Events
 
               Image referenced by URL.
 
-              - `Type BetaManagedAgentsURLImageSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -21869,7 +26527,7 @@ Send Events
 
               Image referenced by file ID.
 
-              - `Type BetaManagedAgentsFileImageSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -21881,7 +26539,7 @@ Send Events
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `Type BetaManagedAgentsDocumentBlockType`
+          - `Type Document`
 
           - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -21891,7 +26549,7 @@ Send Events
 
               Base64-encoded document data.
 
-              - `Type BetaManagedAgentsBase64DocumentSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -21909,7 +26567,7 @@ Send Events
 
               Plain text document content.
 
-              - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+              - `Type Text`
 
               - `Data string`
 
@@ -21917,7 +26575,7 @@ Send Events
 
                 minLength: 1
 
-              - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+              - `MediaType TextPlain`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -21925,7 +26583,7 @@ Send Events
 
               Document referenced by URL.
 
-              - `Type BetaManagedAgentsURLDocumentSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -21937,7 +26595,7 @@ Send Events
 
               Document referenced by file ID.
 
-              - `Type BetaManagedAgentsFileDocumentSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -21957,13 +26615,13 @@ Send Events
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `Type BetaManagedAgentsRedactedBlockType`
+          - `Type Redacted`
 
     - `type BetaManagedAgentsUserInterruptEventParams`
 
       Parameters for sending an interrupt to pause the agent.
 
-      - `Type BetaManagedAgentsUserInterruptEventParamsType`
+      - `Type UserInterrupt`
 
       - `SessionThreadID string Optional`
 
@@ -21973,7 +26631,7 @@ Send Events
 
       Parameters for confirming or denying a tool execution request.
 
-      - `Type BetaManagedAgentsUserToolConfirmationEventParamsType`
+      - `Type UserToolConfirmation`
 
       - `Result BetaManagedAgentsUserToolConfirmationEventParamsResult`
 
@@ -21999,7 +26657,7 @@ Send Events
 
       Parameters for providing the result of a custom tool execution.
 
-      - `Type BetaManagedAgentsUserCustomToolResultEventParamsType`
+      - `Type UserCustomToolResult`
 
       - `CustomToolUseID string`
 
@@ -22027,7 +26685,7 @@ Send Events
 
           A block containing a web search result.
 
-          - `Type BetaManagedAgentsSearchResultBlockType`
+          - `Type SearchResult`
 
           - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -22041,7 +26699,7 @@ Send Events
 
             Array of text content blocks from the search result.
 
-            - `Type BetaManagedAgentsSearchResultContentType`
+            - `Type Text`
 
             - `Text string`
 
@@ -22069,7 +26727,7 @@ Send Events
 
       Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-      - `Type BetaManagedAgentsUserDefineOutcomeEventParamsType`
+      - `Type UserDefineOutcome`
 
       - `Description string`
 
@@ -22083,7 +26741,7 @@ Send Events
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `Type BetaManagedAgentsFileRubricParamsType`
+          - `Type File`
 
           - `FileID string`
 
@@ -22093,7 +26751,7 @@ Send Events
 
           Rubric content provided inline as text.
 
-          - `Type BetaManagedAgentsTextRubricParamsType`
+          - `Type Text`
 
           - `Content string`
 
@@ -22111,7 +26769,7 @@ Send Events
 
       Parameters for providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-      - `Type BetaManagedAgentsUserToolResultEventParamsType`
+      - `Type UserToolResult`
 
       - `ToolUseID string`
 
@@ -22147,13 +26805,13 @@ Send Events
 
       Privileged context for the accompanying turn and all subsequent turns, appended to the session's system context as a `role: "system"` turn rather than replacing the top-level system prompt. At most one per request: it must be the final event and immediately follow the `user.message`, `user.tool_result`, or `user.custom_tool_result` it accompanies. Only supported on models that accept mid-conversation system messages.
 
-      - `Type BetaManagedAgentsSystemMessageEventParamsType`
+      - `Type SystemMessage`
 
       - `Content []BetaManagedAgentsSystemContentBlockParam`
 
         System content blocks to append. Text-only.
 
-        - `Type BetaManagedAgentsSystemContentBlockType`
+        - `Type Text`
 
         - `Text string`
 
@@ -22163,7 +26821,7 @@ Send Events
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -22265,6 +26923,18 @@ Send Events
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -22285,7 +26955,7 @@ Send Events
 
       A user message event in the session conversation.
 
-      - `Type BetaManagedAgentsUserMessageEventType`
+      - `Type UserMessage`
 
       - `ID string`
 
@@ -22299,7 +26969,7 @@ Send Events
 
           Regular text content.
 
-          - `Type BetaManagedAgentsTextBlockType`
+          - `Type Text`
 
           - `Text string`
 
@@ -22311,7 +26981,7 @@ Send Events
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `Type BetaManagedAgentsImageBlockType`
+          - `Type Image`
 
           - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -22321,7 +26991,7 @@ Send Events
 
               Base64-encoded image data.
 
-              - `Type BetaManagedAgentsBase64ImageSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -22339,7 +27009,7 @@ Send Events
 
               Image referenced by URL.
 
-              - `Type BetaManagedAgentsURLImageSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -22351,7 +27021,7 @@ Send Events
 
               Image referenced by file ID.
 
-              - `Type BetaManagedAgentsFileImageSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -22363,7 +27033,7 @@ Send Events
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `Type BetaManagedAgentsDocumentBlockType`
+          - `Type Document`
 
           - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -22373,7 +27043,7 @@ Send Events
 
               Base64-encoded document data.
 
-              - `Type BetaManagedAgentsBase64DocumentSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -22391,7 +27061,7 @@ Send Events
 
               Plain text document content.
 
-              - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+              - `Type Text`
 
               - `Data string`
 
@@ -22399,7 +27069,7 @@ Send Events
 
                 minLength: 1
 
-              - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+              - `MediaType TextPlain`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -22407,7 +27077,7 @@ Send Events
 
               Document referenced by URL.
 
-              - `Type BetaManagedAgentsURLDocumentSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -22419,7 +27089,7 @@ Send Events
 
               Document referenced by file ID.
 
-              - `Type BetaManagedAgentsFileDocumentSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -22439,7 +27109,7 @@ Send Events
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `Type BetaManagedAgentsRedactedBlockType`
+          - `Type Redacted`
 
       - `ProcessedAt Time Optional`
 
@@ -22451,7 +27121,7 @@ Send Events
 
       An interrupt event that pauses agent execution and returns control to the user.
 
-      - `Type BetaManagedAgentsUserInterruptEventType`
+      - `Type UserInterrupt`
 
       - `ID string`
 
@@ -22471,7 +27141,7 @@ Send Events
 
       A tool confirmation event that approves or denies a pending tool execution.
 
-      - `Type BetaManagedAgentsUserToolConfirmationEventType`
+      - `Type UserToolConfirmation`
 
       - `ID string`
 
@@ -22509,7 +27179,7 @@ Send Events
 
       Event sent by the client providing the result of a custom tool execution.
 
-      - `Type BetaManagedAgentsUserCustomToolResultEventType`
+      - `Type UserCustomToolResult`
 
       - `ID string`
 
@@ -22539,7 +27209,7 @@ Send Events
 
           A block containing a web search result.
 
-          - `Type BetaManagedAgentsSearchResultBlockType`
+          - `Type SearchResult`
 
           - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -22553,7 +27223,7 @@ Send Events
 
             Array of text content blocks from the search result.
 
-            - `Type BetaManagedAgentsSearchResultContentType`
+            - `Type Text`
 
             - `Text string`
 
@@ -22591,7 +27261,7 @@ Send Events
 
       Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-      - `Type BetaManagedAgentsUserDefineOutcomeEventType`
+      - `Type UserDefineOutcome`
 
       - `ID string`
 
@@ -22625,7 +27295,7 @@ Send Events
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `Type BetaManagedAgentsFileRubricType`
+          - `Type File`
 
           - `FileID string`
 
@@ -22635,7 +27305,7 @@ Send Events
 
           Rubric content provided inline as text.
 
-          - `Type BetaManagedAgentsTextRubricType`
+          - `Type Text`
 
           - `Content string`
 
@@ -22645,7 +27315,7 @@ Send Events
 
       Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-      - `Type BetaManagedAgentsUserToolResultEventType`
+      - `Type UserToolResult`
 
       - `ID string`
 
@@ -22693,7 +27363,7 @@ Send Events
 
       A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-      - `Type BetaManagedAgentsSystemMessageEventType`
+      - `Type SystemMessage`
 
       - `ID string`
 
@@ -22703,7 +27373,7 @@ Send Events
 
         System content blocks. Text-only.
 
-        - `Type BetaManagedAgentsSystemContentBlockType`
+        - `Type Text`
 
         - `Text string`
 
@@ -22726,8 +27396,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -22738,15 +27408,13 @@ func main() {
 		context.TODO(),
 		"sesn_011CZkZAtmR3yMPDzynEDxu7",
 		anthropic.BetaSessionEventSendParams{
-			Events: []anthropic.BetaManagedAgentsEventParamsUnion{anthropic.BetaManagedAgentsEventParamsUnion{
+			Events: []anthropic.BetaManagedAgentsEventParamsUnion{{
 				OfUserMessage: &anthropic.BetaManagedAgentsUserMessageEventParams{
-					Content: []anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{
+					Content: []anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{{
 						OfText: &anthropic.BetaManagedAgentsTextBlockParam{
 							Text: "Where is my order #1234?",
-							Type: anthropic.BetaManagedAgentsTextBlockTypeText,
 						},
 					}},
-					Type: anthropic.BetaManagedAgentsUserMessageEventParamsTypeUserMessage,
 				},
 			}},
 		},
@@ -22802,7 +27470,7 @@ Stream Events
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -22904,6 +27572,18 @@ Stream Events
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -22920,7 +27600,7 @@ Stream Events
 
     A user message event in the session conversation.
 
-    - `Type BetaManagedAgentsUserMessageEventType`
+    - `Type UserMessage`
 
     - `ID string`
 
@@ -22934,7 +27614,7 @@ Stream Events
 
         Regular text content.
 
-        - `Type BetaManagedAgentsTextBlockType`
+        - `Type Text`
 
         - `Text string`
 
@@ -22946,7 +27626,7 @@ Stream Events
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type BetaManagedAgentsImageBlockType`
+        - `Type Image`
 
         - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -22956,7 +27636,7 @@ Stream Events
 
             Base64-encoded image data.
 
-            - `Type BetaManagedAgentsBase64ImageSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -22974,7 +27654,7 @@ Stream Events
 
             Image referenced by URL.
 
-            - `Type BetaManagedAgentsURLImageSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -22986,7 +27666,7 @@ Stream Events
 
             Image referenced by file ID.
 
-            - `Type BetaManagedAgentsFileImageSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -22998,7 +27678,7 @@ Stream Events
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type BetaManagedAgentsDocumentBlockType`
+        - `Type Document`
 
         - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -23008,7 +27688,7 @@ Stream Events
 
             Base64-encoded document data.
 
-            - `Type BetaManagedAgentsBase64DocumentSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -23026,7 +27706,7 @@ Stream Events
 
             Plain text document content.
 
-            - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+            - `Type Text`
 
             - `Data string`
 
@@ -23034,7 +27714,7 @@ Stream Events
 
               minLength: 1
 
-            - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+            - `MediaType TextPlain`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -23042,7 +27722,7 @@ Stream Events
 
             Document referenced by URL.
 
-            - `Type BetaManagedAgentsURLDocumentSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -23054,7 +27734,7 @@ Stream Events
 
             Document referenced by file ID.
 
-            - `Type BetaManagedAgentsFileDocumentSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -23074,7 +27754,7 @@ Stream Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type BetaManagedAgentsRedactedBlockType`
+        - `Type Redacted`
 
     - `ProcessedAt Time Optional`
 
@@ -23086,7 +27766,7 @@ Stream Events
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `Type BetaManagedAgentsUserInterruptEventType`
+    - `Type UserInterrupt`
 
     - `ID string`
 
@@ -23106,7 +27786,7 @@ Stream Events
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `Type BetaManagedAgentsUserToolConfirmationEventType`
+    - `Type UserToolConfirmation`
 
     - `ID string`
 
@@ -23144,7 +27824,7 @@ Stream Events
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `Type BetaManagedAgentsUserCustomToolResultEventType`
+    - `Type UserCustomToolResult`
 
     - `ID string`
 
@@ -23174,7 +27854,7 @@ Stream Events
 
         A block containing a web search result.
 
-        - `Type BetaManagedAgentsSearchResultBlockType`
+        - `Type SearchResult`
 
         - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -23188,7 +27868,7 @@ Stream Events
 
           Array of text content blocks from the search result.
 
-          - `Type BetaManagedAgentsSearchResultContentType`
+          - `Type Text`
 
           - `Text string`
 
@@ -23226,13 +27906,13 @@ Stream Events
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `Type BetaManagedAgentsAgentCustomToolUseEventType`
+    - `Type AgentCustomToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -23254,7 +27934,7 @@ Stream Events
 
     An agent response event in the session conversation.
 
-    - `Type BetaManagedAgentsAgentMessageEventType`
+    - `Type AgentMessage`
 
     - `ID string`
 
@@ -23282,7 +27962,7 @@ Stream Events
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `Type BetaManagedAgentsAgentThinkingEventType`
+    - `Type AgentThinking`
 
     - `ID string`
 
@@ -23298,13 +27978,13 @@ Stream Events
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `Type BetaManagedAgentsAgentMCPToolUseEventType`
+    - `Type AgentMCPToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -23396,7 +28076,7 @@ Stream Events
 
     Event representing the result of an MCP tool execution.
 
-    - `Type BetaManagedAgentsAgentMCPToolResultEventType`
+    - `Type AgentMCPToolResult`
 
     - `ID string`
 
@@ -23440,13 +28120,13 @@ Stream Events
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `Type BetaManagedAgentsAgentToolUseEventType`
+    - `Type AgentToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -23476,7 +28156,7 @@ Stream Events
 
     Event representing the result of an agent tool execution.
 
-    - `Type BetaManagedAgentsAgentToolResultEventType`
+    - `Type AgentToolResult`
 
     - `ID string`
 
@@ -23520,7 +28200,7 @@ Stream Events
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `Type BetaManagedAgentsAgentThreadMessageReceivedEventType`
+    - `Type AgentThreadMessageReceived`
 
     - `ID string`
 
@@ -23564,7 +28244,7 @@ Stream Events
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `Type BetaManagedAgentsAgentThreadMessageSentEventType`
+    - `Type AgentThreadMessageSent`
 
     - `ID string`
 
@@ -23608,7 +28288,7 @@ Stream Events
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `Type BetaManagedAgentsAgentThreadContextCompactedEventType`
+    - `Type AgentThreadContextCompacted`
 
     - `ID string`
 
@@ -23624,7 +28304,7 @@ Stream Events
 
     An error event indicating a problem occurred during session execution.
 
-    - `Type BetaManagedAgentsSessionErrorEventType`
+    - `Type SessionError`
 
     - `ID string`
 
@@ -23636,7 +28316,7 @@ Stream Events
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `Type BetaManagedAgentsUnknownErrorType`
+        - `Type UnknownError`
 
         - `Message string`
 
@@ -23650,25 +28330,25 @@ Stream Events
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `Type BetaManagedAgentsRetryStatusRetryingType`
+            - `Type Retrying`
 
           - `type BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `Type BetaManagedAgentsRetryStatusExhaustedType`
+            - `Type Exhausted`
 
           - `type BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `Type BetaManagedAgentsRetryStatusTerminalType`
+            - `Type Terminal`
 
       - `type BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `Type BetaManagedAgentsModelOverloadedErrorType`
+        - `Type ModelOverloadedError`
 
         - `Message string`
 
@@ -23694,7 +28374,7 @@ Stream Events
 
         The model request was rate-limited.
 
-        - `Type BetaManagedAgentsModelRateLimitedErrorType`
+        - `Type ModelRateLimitedError`
 
         - `Message string`
 
@@ -23720,7 +28400,7 @@ Stream Events
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `Type BetaManagedAgentsModelRequestFailedErrorType`
+        - `Type ModelRequestFailedError`
 
         - `Message string`
 
@@ -23746,7 +28426,7 @@ Stream Events
 
         Failed to connect to an MCP server.
 
-        - `Type BetaManagedAgentsMCPConnectionFailedErrorType`
+        - `Type MCPConnectionFailedError`
 
         - `MCPServerName string`
 
@@ -23776,7 +28456,7 @@ Stream Events
 
         Authentication to an MCP server failed.
 
-        - `Type BetaManagedAgentsMCPAuthenticationFailedErrorType`
+        - `Type MCPAuthenticationFailedError`
 
         - `MCPServerName string`
 
@@ -23806,7 +28486,7 @@ Stream Events
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `Type BetaManagedAgentsBillingErrorType`
+        - `Type BillingError`
 
         - `Message string`
 
@@ -23832,7 +28512,7 @@ Stream Events
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `Type BetaManagedAgentsCredentialHostUnreachableErrorType`
+        - `Type CredentialHostUnreachableError`
 
         - `CredentialID string`
 
@@ -23861,6 +28541,58 @@ Stream Events
         - `VaultID string`
 
           ID of the vault containing the affected credential.
+
+      - `type BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type ToolUseLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsToolUseLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type CompactionLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsCompactionLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `type BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -24022,7 +28754,7 @@ Stream Events
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `Type BetaManagedAgentsSessionStatusRescheduledEventType`
+    - `Type SessionStatusRescheduled`
 
     - `ID string`
 
@@ -24038,7 +28770,7 @@ Stream Events
 
     Indicates the session is actively running and the agent is working.
 
-    - `Type BetaManagedAgentsSessionStatusRunningEventType`
+    - `Type SessionStatusRunning`
 
     - `ID string`
 
@@ -24054,7 +28786,7 @@ Stream Events
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `Type BetaManagedAgentsSessionStatusIdleEventType`
+    - `Type SessionStatusIdle`
 
     - `ID string`
 
@@ -24096,13 +28828,13 @@ Stream Events
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `Type BetaManagedAgentsSessionEndTurnType`
+        - `Type EndTurn`
 
       - `type BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `Type BetaManagedAgentsSessionRequiresActionType`
+        - `Type RequiresAction`
 
         - `EventIDs []string`
 
@@ -24112,13 +28844,13 @@ Stream Events
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `Type BetaManagedAgentsSessionRetriesExhaustedType`
+        - `Type RetriesExhausted`
 
       - `type BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `Type BetaManagedAgentsSessionBudgetReachedType`
+        - `Type BudgetReached`
 
       - `type BetaManagedAgentsSessionRefusal`
 
@@ -24130,7 +28862,7 @@ Stream Events
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `Type BetaManagedAgentsSessionStatusTerminatedEventType`
+    - `Type SessionStatusTerminated`
 
     - `ID string`
 
@@ -24146,7 +28878,7 @@ Stream Events
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `Type BetaManagedAgentsSessionThreadCreatedEventType`
+    - `Type SessionThreadCreated`
 
     - `ID string`
 
@@ -24174,7 +28906,7 @@ Stream Events
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationStartEventType`
+    - `Type SpanOutcomeEvaluationStart`
 
     - `ID string`
 
@@ -24200,7 +28932,7 @@ Stream Events
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationEndEventType`
+    - `Type SpanOutcomeEvaluationEnd`
 
     - `ID string`
 
@@ -24274,7 +29006,7 @@ Stream Events
 
     Emitted when a model request is initiated by the agent.
 
-    - `Type BetaManagedAgentsSpanModelRequestStartEventType`
+    - `Type SpanModelRequestStart`
 
     - `ID string`
 
@@ -24290,7 +29022,7 @@ Stream Events
 
     Emitted when a model request completes.
 
-    - `Type BetaManagedAgentsSpanModelRequestEndEventType`
+    - `Type SpanModelRequestEnd`
 
     - `ID string`
 
@@ -24318,7 +29050,7 @@ Stream Events
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationOngoingEventType`
+    - `Type SpanOutcomeEvaluationOngoing`
 
     - `ID string`
 
@@ -24344,7 +29076,7 @@ Stream Events
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `Type BetaManagedAgentsUserDefineOutcomeEventType`
+    - `Type UserDefineOutcome`
 
     - `ID string`
 
@@ -24378,7 +29110,7 @@ Stream Events
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type BetaManagedAgentsFileRubricType`
+        - `Type File`
 
         - `FileID string`
 
@@ -24388,7 +29120,7 @@ Stream Events
 
         Rubric content provided inline as text.
 
-        - `Type BetaManagedAgentsTextRubricType`
+        - `Type Text`
 
         - `Content string`
 
@@ -24398,7 +29130,7 @@ Stream Events
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `Type BetaManagedAgentsSessionDeletedEventType`
+    - `Type SessionDeleted`
 
     - `ID string`
 
@@ -24414,7 +29146,7 @@ Stream Events
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRunningEventType`
+    - `Type SessionThreadStatusRunning`
 
     - `ID string`
 
@@ -24438,7 +29170,7 @@ Stream Events
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusIdleEventType`
+    - `Type SessionThreadStatusIdle`
 
     - `ID string`
 
@@ -24488,7 +29220,7 @@ Stream Events
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusTerminatedEventType`
+    - `Type SessionThreadStatusTerminated`
 
     - `ID string`
 
@@ -24512,7 +29244,7 @@ Stream Events
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type BetaManagedAgentsUserToolResultEventType`
+    - `Type UserToolResult`
 
     - `ID string`
 
@@ -24560,7 +29292,7 @@ Stream Events
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRescheduledEventType`
+    - `Type SessionThreadStatusRescheduled`
 
     - `ID string`
 
@@ -24584,7 +29316,7 @@ Stream Events
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `Type BetaManagedAgentsSessionUpdatedEventType`
+    - `Type SessionUpdated`
 
     - `ID string`
 
@@ -24600,15 +29332,37 @@ Stream Events
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `Type BetaManagedAgentsSessionAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
+
+        - `Name string`
 
         - `Name string`
 
@@ -24623,6 +29377,10 @@ Stream Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -24700,31 +29458,31 @@ Stream Events
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -24746,7 +29504,7 @@ Stream Events
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+          - `Type Coordinator`
 
           - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -24756,15 +29514,19 @@ Stream Events
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
 
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-                - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+                - `Type URL`
 
                 - `Name string`
 
@@ -24782,7 +29544,7 @@ Stream Events
 
                   A resolved Anthropic-managed skill.
 
-                  - `Type BetaManagedAgentsAnthropicSkillType`
+                  - `Type Anthropic`
 
                   - `SkillID string`
 
@@ -24792,7 +29554,7 @@ Stream Events
 
                   A resolved user-created custom skill.
 
-                  - `Type BetaManagedAgentsCustomSkillType`
+                  - `Type Custom`
 
                   - `SkillID string`
 
@@ -24804,7 +29566,7 @@ Stream Events
 
                 - `type BetaManagedAgentsAgentToolset20260401`
 
-                  - `Type BetaManagedAgentsAgentToolset20260401Type`
+                  - `Type AgentToolset20260401`
 
                   - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -24826,13 +29588,13 @@ Stream Events
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                          - `Type AlwaysAllow`
 
                         - `type BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                          - `Type AlwaysAsk`
 
                         - `type BetaManagedAgentsAutoPolicy`
 
@@ -25128,6 +29890,8 @@ Stream Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `Region string Optional`
 
                           Region or state name.
@@ -25164,7 +29928,7 @@ Stream Events
 
                 - `type BetaManagedAgentsMCPToolset`
 
-                  - `Type BetaManagedAgentsMCPToolsetType`
+                  - `Type MCPToolset`
 
                   - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -25216,7 +29980,7 @@ Stream Events
 
                   A custom tool as returned in API responses.
 
-                  - `Type BetaManagedAgentsCustomToolType`
+                  - `Type Custom`
 
                   - `Description string`
 
@@ -25226,7 +29990,7 @@ Stream Events
 
                     - `Type Object`
 
-                    - `Properties map[string, any] Optional`
+                    - `Properties map[string]any Optional`
 
                     - `Required []string Optional`
 
@@ -25240,7 +30004,7 @@ Stream Events
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `Type BetaManagedAgentsAdvisorType`
+              - `Type Advisor`
 
               - `Model string`
 
@@ -25302,11 +30066,15 @@ Stream Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -25350,11 +30118,15 @@ Stream Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -25412,7 +30184,7 @@ Stream Events
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `Type BetaManagedAgentsBudgetLimitType`
+      - `Type Limit`
 
       - `MaxListCost BetaMonetaryAmount`
 
@@ -25422,11 +30194,13 @@ Stream Events
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+          pattern: ^(0|[1-9]\d*)$
+
         - `Currency BetaCurrency`
 
           Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `Metadata map[string, string] Optional`
+    - `Metadata map[string]string Optional`
 
       The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
 
@@ -25438,7 +30212,7 @@ Stream Events
 
     Opens a preview of a buffered event. Carries the previewed event's type and id only. Followed by zero or more event_delta events with the same event id, normally concluded by the buffered event carrying that id. If the producing model request ends without that event (an error or interrupt mid-stream), its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `Type BetaManagedAgentsStartEventType`
+    - `Type EventStart`
 
     - `Event BetaManagedAgentsStartEventPreviewUnion`
 
@@ -25446,7 +30220,7 @@ Stream Events
 
       - `type BetaManagedAgentsAgentMessagePreview`
 
-        - `Type BetaManagedAgentsAgentMessagePreviewType`
+        - `Type AgentMessage`
 
         - `ID string`
 
@@ -25454,7 +30228,7 @@ Stream Events
 
       - `type BetaManagedAgentsAgentThinkingPreview`
 
-        - `Type BetaManagedAgentsAgentThinkingPreviewType`
+        - `Type AgentThinking`
 
         - `ID string`
 
@@ -25464,13 +30238,13 @@ Stream Events
 
     An incremental update to an event that is still being streamed. Deltas are best-effort and may stop early; when the buffered event with id == event_id is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no buffered event — its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `Type BetaManagedAgentsDeltaEventType`
+    - `Type EventDelta`
 
     - `Delta BetaManagedAgentsDeltaContent`
 
       One fragment of the previewed event. The delta type is named for the previewed event's field it streams into: agent.message events stream content_delta fragments, each a partial element of the content array.
 
-      - `Type BetaManagedAgentsDeltaContentType`
+      - `Type ContentDelta`
 
       - `Content BetaManagedAgentsTextBlock`
 
@@ -25488,7 +30262,7 @@ Stream Events
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `Type BetaManagedAgentsSystemMessageEventType`
+    - `Type SystemMessage`
 
     - `ID string`
 
@@ -25498,7 +30272,7 @@ Stream Events
 
       System content blocks. Text-only.
 
-      - `Type BetaManagedAgentsSystemContentBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -25516,7 +30290,7 @@ Stream Events
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `Type BetaManagedAgentsSessionUsageEventType`
+    - `Type SessionUsage`
 
     - `ID string`
 
@@ -25861,8 +30635,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -25922,7 +30696,7 @@ Add Session Resource
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -26024,6 +30798,18 @@ Add Session Resource
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -26034,7 +30820,7 @@ Add Session Resource
 
 - `type BetaManagedAgentsFileResource`
 
-  - `Type BetaManagedAgentsFileResourceType`
+  - `Type File`
 
   - `ID string`
 
@@ -26063,8 +30849,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -26077,7 +30863,6 @@ func main() {
 		anthropic.BetaSessionResourceAddParams{
 			BetaManagedAgentsFileResourceParams: anthropic.BetaManagedAgentsFileResourceParams{
 				FileID: "file_011CNha8iCJcU1wXNR6q4V8w",
-				Type:   anthropic.BetaManagedAgentsFileResourceParamsTypeFile,
 			},
 		},
 	)
@@ -26127,7 +30912,7 @@ List Session Resources
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -26229,6 +31014,18 @@ List Session Resources
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -26241,7 +31038,7 @@ List Session Resources
 
   - `type BetaManagedAgentsGitHubRepositoryResource`
 
-    - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+    - `Type GitHubRepository`
 
     - `ID string`
 
@@ -26265,7 +31062,7 @@ List Session Resources
 
       - `type BetaManagedAgentsBranchCheckout`
 
-        - `Type BetaManagedAgentsBranchCheckoutType`
+        - `Type Branch`
 
         - `Name string`
 
@@ -26275,17 +31072,17 @@ List Session Resources
 
       - `type BetaManagedAgentsCommitCheckout`
 
-        - `Type BetaManagedAgentsCommitCheckoutType`
+        - `Type Commit`
 
         - `Sha string`
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `type BetaManagedAgentsFileResource`
 
-    - `Type BetaManagedAgentsFileResourceType`
+    - `Type File`
 
     - `ID string`
 
@@ -26309,11 +31106,13 @@ List Session Resources
 
     A memory store attached to an agent session.
 
-    - `Type BetaManagedAgentsMemoryStoreResourceType`
+    - `Type MemoryStore`
 
     - `MemoryStoreID string`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -26350,8 +31149,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -26418,7 +31217,7 @@ Get Session Resource
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -26520,6 +31319,18 @@ Get Session Resource
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -26534,7 +31345,7 @@ Get Session Resource
 
   - `type BetaManagedAgentsGitHubRepositoryResource`
 
-    - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+    - `Type GitHubRepository`
 
     - `ID string`
 
@@ -26558,7 +31369,7 @@ Get Session Resource
 
       - `type BetaManagedAgentsBranchCheckout`
 
-        - `Type BetaManagedAgentsBranchCheckoutType`
+        - `Type Branch`
 
         - `Name string`
 
@@ -26568,17 +31379,17 @@ Get Session Resource
 
       - `type BetaManagedAgentsCommitCheckout`
 
-        - `Type BetaManagedAgentsCommitCheckoutType`
+        - `Type Commit`
 
         - `Sha string`
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `type BetaManagedAgentsFileResource`
 
-    - `Type BetaManagedAgentsFileResourceType`
+    - `Type File`
 
     - `ID string`
 
@@ -26602,11 +31413,13 @@ Get Session Resource
 
     A memory store attached to an agent session.
 
-    - `Type BetaManagedAgentsMemoryStoreResourceType`
+    - `Type MemoryStore`
 
     - `MemoryStoreID string`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -26643,8 +31456,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -26706,7 +31519,7 @@ Update Session Resource
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -26808,6 +31621,18 @@ Update Session Resource
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -26822,7 +31647,7 @@ Update Session Resource
 
   - `type BetaManagedAgentsGitHubRepositoryResource`
 
-    - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+    - `Type GitHubRepository`
 
     - `ID string`
 
@@ -26846,7 +31671,7 @@ Update Session Resource
 
       - `type BetaManagedAgentsBranchCheckout`
 
-        - `Type BetaManagedAgentsBranchCheckoutType`
+        - `Type Branch`
 
         - `Name string`
 
@@ -26856,17 +31681,17 @@ Update Session Resource
 
       - `type BetaManagedAgentsCommitCheckout`
 
-        - `Type BetaManagedAgentsCommitCheckoutType`
+        - `Type Commit`
 
         - `Sha string`
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `type BetaManagedAgentsFileResource`
 
-    - `Type BetaManagedAgentsFileResourceType`
+    - `Type File`
 
     - `ID string`
 
@@ -26890,11 +31715,13 @@ Update Session Resource
 
     A memory store attached to an agent session.
 
-    - `Type BetaManagedAgentsMemoryStoreResourceType`
+    - `Type MemoryStore`
 
     - `MemoryStoreID string`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -26931,8 +31758,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -26989,7 +31816,7 @@ Delete Session Resource
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -27091,6 +31918,18 @@ Delete Session Resource
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -27103,7 +31942,9 @@ Delete Session Resource
 
   Confirmation of resource deletion.
 
-  - `Type BetaManagedAgentsDeleteSessionResourceType`
+  - `Type SessionResourceDeleted`
+
+  - `ID string`
 
   - `ID string`
 
@@ -27116,8 +31957,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -27189,7 +32030,7 @@ List Session Threads
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -27291,6 +32132,18 @@ List Session Threads
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -27303,7 +32156,7 @@ List Session Threads
 
   An execution thread within a `session`. Each session has one primary thread plus zero or more child threads.
 
-  - `Type BetaManagedAgentsSessionThreadType`
+  - `Type SessionThread`
 
   - `ID string`
 
@@ -27317,15 +32170,37 @@ List Session Threads
 
       Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-      - `Type BetaManagedAgentsSessionThreadAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
+
+        - `Name string`
 
         - `Name string`
 
@@ -27340,6 +32215,10 @@ List Session Threads
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -27417,31 +32296,31 @@ List Session Threads
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -27463,7 +32342,9 @@ List Session Threads
 
           A resolved Anthropic-managed skill.
 
-          - `Type BetaManagedAgentsAnthropicSkillType`
+          - `Type Anthropic`
+
+          - `SkillID string`
 
           - `SkillID string`
 
@@ -27473,7 +32354,9 @@ List Session Threads
 
           A resolved user-created custom skill.
 
-          - `Type BetaManagedAgentsCustomSkillType`
+          - `Type Custom`
+
+          - `SkillID string`
 
           - `SkillID string`
 
@@ -27485,7 +32368,7 @@ List Session Threads
 
         - `type BetaManagedAgentsAgentToolset20260401`
 
-          - `Type BetaManagedAgentsAgentToolset20260401Type`
+          - `Type AgentToolset20260401`
 
           - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -27507,13 +32390,13 @@ List Session Threads
 
                   Tool calls are automatically approved without user confirmation.
 
-                  - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                  - `Type AlwaysAllow`
 
                 - `type BetaManagedAgentsAlwaysAskPolicy`
 
                   Tool calls require user confirmation before execution.
 
-                  - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                  - `Type AlwaysAsk`
 
                 - `type BetaManagedAgentsAutoPolicy`
 
@@ -27809,6 +32692,8 @@ List Session Threads
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `Region string Optional`
 
                   Region or state name.
@@ -27845,7 +32730,7 @@ List Session Threads
 
         - `type BetaManagedAgentsMCPToolset`
 
-          - `Type BetaManagedAgentsMCPToolsetType`
+          - `Type MCPToolset`
 
           - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -27897,7 +32782,7 @@ List Session Threads
 
           A custom tool as returned in API responses.
 
-          - `Type BetaManagedAgentsCustomToolType`
+          - `Type Custom`
 
           - `Description string`
 
@@ -27907,7 +32792,7 @@ List Session Threads
 
             - `Type Object`
 
-            - `Properties map[string, any] Optional`
+            - `Properties map[string]any Optional`
 
             - `Required []string Optional`
 
@@ -27921,7 +32806,7 @@ List Session Threads
 
       Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-      - `Type BetaManagedAgentsAdvisorType`
+      - `Type Advisor`
 
       - `Model string`
 
@@ -27935,9 +32820,13 @@ List Session Threads
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        The session's execution principal.
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
 
         - `Name string`
 
@@ -28079,6 +32968,8 @@ List Session Threads
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `Currency BetaCurrency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -28118,8 +33009,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -28148,6 +33039,9 @@ func main() {
       "agent": {
         "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
         "description": "A focused research subagent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",
@@ -28251,7 +33145,7 @@ Get Session Thread
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -28353,6 +33247,18 @@ Get Session Thread
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -28365,7 +33271,7 @@ Get Session Thread
 
   An execution thread within a `session`. Each session has one primary thread plus zero or more child threads.
 
-  - `Type BetaManagedAgentsSessionThreadType`
+  - `Type SessionThread`
 
   - `ID string`
 
@@ -28379,15 +33285,37 @@ Get Session Thread
 
       Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-      - `Type BetaManagedAgentsSessionThreadAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
+
+        - `Name string`
 
         - `Name string`
 
@@ -28402,6 +33330,10 @@ Get Session Thread
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -28479,31 +33411,31 @@ Get Session Thread
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -28525,7 +33457,9 @@ Get Session Thread
 
           A resolved Anthropic-managed skill.
 
-          - `Type BetaManagedAgentsAnthropicSkillType`
+          - `Type Anthropic`
+
+          - `SkillID string`
 
           - `SkillID string`
 
@@ -28535,7 +33469,9 @@ Get Session Thread
 
           A resolved user-created custom skill.
 
-          - `Type BetaManagedAgentsCustomSkillType`
+          - `Type Custom`
+
+          - `SkillID string`
 
           - `SkillID string`
 
@@ -28547,7 +33483,7 @@ Get Session Thread
 
         - `type BetaManagedAgentsAgentToolset20260401`
 
-          - `Type BetaManagedAgentsAgentToolset20260401Type`
+          - `Type AgentToolset20260401`
 
           - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -28569,13 +33505,13 @@ Get Session Thread
 
                   Tool calls are automatically approved without user confirmation.
 
-                  - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                  - `Type AlwaysAllow`
 
                 - `type BetaManagedAgentsAlwaysAskPolicy`
 
                   Tool calls require user confirmation before execution.
 
-                  - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                  - `Type AlwaysAsk`
 
                 - `type BetaManagedAgentsAutoPolicy`
 
@@ -28871,6 +33807,8 @@ Get Session Thread
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `Region string Optional`
 
                   Region or state name.
@@ -28907,7 +33845,7 @@ Get Session Thread
 
         - `type BetaManagedAgentsMCPToolset`
 
-          - `Type BetaManagedAgentsMCPToolsetType`
+          - `Type MCPToolset`
 
           - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -28959,7 +33897,7 @@ Get Session Thread
 
           A custom tool as returned in API responses.
 
-          - `Type BetaManagedAgentsCustomToolType`
+          - `Type Custom`
 
           - `Description string`
 
@@ -28969,7 +33907,7 @@ Get Session Thread
 
             - `Type Object`
 
-            - `Properties map[string, any] Optional`
+            - `Properties map[string]any Optional`
 
             - `Required []string Optional`
 
@@ -28983,7 +33921,7 @@ Get Session Thread
 
       Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-      - `Type BetaManagedAgentsAdvisorType`
+      - `Type Advisor`
 
       - `Model string`
 
@@ -28997,9 +33935,13 @@ Get Session Thread
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        The session's execution principal.
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
 
         - `Name string`
 
@@ -29141,6 +34083,8 @@ Get Session Thread
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `Currency BetaCurrency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -29180,8 +34124,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -29210,6 +34154,9 @@ func main() {
   "agent": {
     "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
     "description": "A focused research subagent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -29310,7 +34257,7 @@ Archive Session Thread
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -29412,6 +34359,18 @@ Archive Session Thread
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -29424,7 +34383,7 @@ Archive Session Thread
 
   An execution thread within a `session`. Each session has one primary thread plus zero or more child threads.
 
-  - `Type BetaManagedAgentsSessionThreadType`
+  - `Type SessionThread`
 
   - `ID string`
 
@@ -29438,15 +34397,37 @@ Archive Session Thread
 
       Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-      - `Type BetaManagedAgentsSessionThreadAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
+
+        - `Name string`
 
         - `Name string`
 
@@ -29461,6 +34442,10 @@ Archive Session Thread
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -29538,31 +34523,31 @@ Archive Session Thread
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -29584,7 +34569,9 @@ Archive Session Thread
 
           A resolved Anthropic-managed skill.
 
-          - `Type BetaManagedAgentsAnthropicSkillType`
+          - `Type Anthropic`
+
+          - `SkillID string`
 
           - `SkillID string`
 
@@ -29594,7 +34581,9 @@ Archive Session Thread
 
           A resolved user-created custom skill.
 
-          - `Type BetaManagedAgentsCustomSkillType`
+          - `Type Custom`
+
+          - `SkillID string`
 
           - `SkillID string`
 
@@ -29606,7 +34595,7 @@ Archive Session Thread
 
         - `type BetaManagedAgentsAgentToolset20260401`
 
-          - `Type BetaManagedAgentsAgentToolset20260401Type`
+          - `Type AgentToolset20260401`
 
           - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -29628,13 +34617,13 @@ Archive Session Thread
 
                   Tool calls are automatically approved without user confirmation.
 
-                  - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                  - `Type AlwaysAllow`
 
                 - `type BetaManagedAgentsAlwaysAskPolicy`
 
                   Tool calls require user confirmation before execution.
 
-                  - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                  - `Type AlwaysAsk`
 
                 - `type BetaManagedAgentsAutoPolicy`
 
@@ -29930,6 +34919,8 @@ Archive Session Thread
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `Region string Optional`
 
                   Region or state name.
@@ -29966,7 +34957,7 @@ Archive Session Thread
 
         - `type BetaManagedAgentsMCPToolset`
 
-          - `Type BetaManagedAgentsMCPToolsetType`
+          - `Type MCPToolset`
 
           - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -30018,7 +35009,7 @@ Archive Session Thread
 
           A custom tool as returned in API responses.
 
-          - `Type BetaManagedAgentsCustomToolType`
+          - `Type Custom`
 
           - `Description string`
 
@@ -30028,7 +35019,7 @@ Archive Session Thread
 
             - `Type Object`
 
-            - `Properties map[string, any] Optional`
+            - `Properties map[string]any Optional`
 
             - `Required []string Optional`
 
@@ -30042,7 +35033,7 @@ Archive Session Thread
 
       Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-      - `Type BetaManagedAgentsAdvisorType`
+      - `Type Advisor`
 
       - `Model string`
 
@@ -30056,9 +35047,13 @@ Archive Session Thread
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        The session's execution principal.
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
 
         - `Name string`
 
@@ -30200,6 +35195,8 @@ Archive Session Thread
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `Currency BetaCurrency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -30239,8 +35236,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -30269,6 +35266,9 @@ func main() {
   "agent": {
     "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
     "description": "A focused research subagent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -30377,7 +35377,7 @@ List Session Thread Events
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -30479,6 +35479,18 @@ List Session Thread Events
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -30495,7 +35507,7 @@ List Session Thread Events
 
     A user message event in the session conversation.
 
-    - `Type BetaManagedAgentsUserMessageEventType`
+    - `Type UserMessage`
 
     - `ID string`
 
@@ -30509,7 +35521,7 @@ List Session Thread Events
 
         Regular text content.
 
-        - `Type BetaManagedAgentsTextBlockType`
+        - `Type Text`
 
         - `Text string`
 
@@ -30521,7 +35533,7 @@ List Session Thread Events
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type BetaManagedAgentsImageBlockType`
+        - `Type Image`
 
         - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -30531,7 +35543,7 @@ List Session Thread Events
 
             Base64-encoded image data.
 
-            - `Type BetaManagedAgentsBase64ImageSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -30549,7 +35561,7 @@ List Session Thread Events
 
             Image referenced by URL.
 
-            - `Type BetaManagedAgentsURLImageSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -30561,7 +35573,7 @@ List Session Thread Events
 
             Image referenced by file ID.
 
-            - `Type BetaManagedAgentsFileImageSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -30573,7 +35585,7 @@ List Session Thread Events
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type BetaManagedAgentsDocumentBlockType`
+        - `Type Document`
 
         - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -30583,7 +35595,7 @@ List Session Thread Events
 
             Base64-encoded document data.
 
-            - `Type BetaManagedAgentsBase64DocumentSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -30601,7 +35613,7 @@ List Session Thread Events
 
             Plain text document content.
 
-            - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+            - `Type Text`
 
             - `Data string`
 
@@ -30609,7 +35621,7 @@ List Session Thread Events
 
               minLength: 1
 
-            - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+            - `MediaType TextPlain`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -30617,7 +35629,7 @@ List Session Thread Events
 
             Document referenced by URL.
 
-            - `Type BetaManagedAgentsURLDocumentSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -30629,7 +35641,7 @@ List Session Thread Events
 
             Document referenced by file ID.
 
-            - `Type BetaManagedAgentsFileDocumentSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -30649,7 +35661,7 @@ List Session Thread Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type BetaManagedAgentsRedactedBlockType`
+        - `Type Redacted`
 
     - `ProcessedAt Time Optional`
 
@@ -30661,7 +35673,7 @@ List Session Thread Events
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `Type BetaManagedAgentsUserInterruptEventType`
+    - `Type UserInterrupt`
 
     - `ID string`
 
@@ -30681,7 +35693,7 @@ List Session Thread Events
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `Type BetaManagedAgentsUserToolConfirmationEventType`
+    - `Type UserToolConfirmation`
 
     - `ID string`
 
@@ -30719,7 +35731,7 @@ List Session Thread Events
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `Type BetaManagedAgentsUserCustomToolResultEventType`
+    - `Type UserCustomToolResult`
 
     - `ID string`
 
@@ -30749,7 +35761,7 @@ List Session Thread Events
 
         A block containing a web search result.
 
-        - `Type BetaManagedAgentsSearchResultBlockType`
+        - `Type SearchResult`
 
         - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -30763,7 +35775,7 @@ List Session Thread Events
 
           Array of text content blocks from the search result.
 
-          - `Type BetaManagedAgentsSearchResultContentType`
+          - `Type Text`
 
           - `Text string`
 
@@ -30801,13 +35813,13 @@ List Session Thread Events
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `Type BetaManagedAgentsAgentCustomToolUseEventType`
+    - `Type AgentCustomToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -30829,7 +35841,7 @@ List Session Thread Events
 
     An agent response event in the session conversation.
 
-    - `Type BetaManagedAgentsAgentMessageEventType`
+    - `Type AgentMessage`
 
     - `ID string`
 
@@ -30857,7 +35869,7 @@ List Session Thread Events
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `Type BetaManagedAgentsAgentThinkingEventType`
+    - `Type AgentThinking`
 
     - `ID string`
 
@@ -30873,13 +35885,13 @@ List Session Thread Events
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `Type BetaManagedAgentsAgentMCPToolUseEventType`
+    - `Type AgentMCPToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -30971,7 +35983,7 @@ List Session Thread Events
 
     Event representing the result of an MCP tool execution.
 
-    - `Type BetaManagedAgentsAgentMCPToolResultEventType`
+    - `Type AgentMCPToolResult`
 
     - `ID string`
 
@@ -31015,13 +36027,13 @@ List Session Thread Events
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `Type BetaManagedAgentsAgentToolUseEventType`
+    - `Type AgentToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -31051,7 +36063,7 @@ List Session Thread Events
 
     Event representing the result of an agent tool execution.
 
-    - `Type BetaManagedAgentsAgentToolResultEventType`
+    - `Type AgentToolResult`
 
     - `ID string`
 
@@ -31095,7 +36107,7 @@ List Session Thread Events
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `Type BetaManagedAgentsAgentThreadMessageReceivedEventType`
+    - `Type AgentThreadMessageReceived`
 
     - `ID string`
 
@@ -31139,7 +36151,7 @@ List Session Thread Events
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `Type BetaManagedAgentsAgentThreadMessageSentEventType`
+    - `Type AgentThreadMessageSent`
 
     - `ID string`
 
@@ -31183,7 +36195,7 @@ List Session Thread Events
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `Type BetaManagedAgentsAgentThreadContextCompactedEventType`
+    - `Type AgentThreadContextCompacted`
 
     - `ID string`
 
@@ -31199,7 +36211,7 @@ List Session Thread Events
 
     An error event indicating a problem occurred during session execution.
 
-    - `Type BetaManagedAgentsSessionErrorEventType`
+    - `Type SessionError`
 
     - `ID string`
 
@@ -31211,7 +36223,7 @@ List Session Thread Events
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `Type BetaManagedAgentsUnknownErrorType`
+        - `Type UnknownError`
 
         - `Message string`
 
@@ -31225,25 +36237,25 @@ List Session Thread Events
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `Type BetaManagedAgentsRetryStatusRetryingType`
+            - `Type Retrying`
 
           - `type BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `Type BetaManagedAgentsRetryStatusExhaustedType`
+            - `Type Exhausted`
 
           - `type BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `Type BetaManagedAgentsRetryStatusTerminalType`
+            - `Type Terminal`
 
       - `type BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `Type BetaManagedAgentsModelOverloadedErrorType`
+        - `Type ModelOverloadedError`
 
         - `Message string`
 
@@ -31269,7 +36281,7 @@ List Session Thread Events
 
         The model request was rate-limited.
 
-        - `Type BetaManagedAgentsModelRateLimitedErrorType`
+        - `Type ModelRateLimitedError`
 
         - `Message string`
 
@@ -31295,7 +36307,7 @@ List Session Thread Events
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `Type BetaManagedAgentsModelRequestFailedErrorType`
+        - `Type ModelRequestFailedError`
 
         - `Message string`
 
@@ -31321,7 +36333,7 @@ List Session Thread Events
 
         Failed to connect to an MCP server.
 
-        - `Type BetaManagedAgentsMCPConnectionFailedErrorType`
+        - `Type MCPConnectionFailedError`
 
         - `MCPServerName string`
 
@@ -31351,7 +36363,7 @@ List Session Thread Events
 
         Authentication to an MCP server failed.
 
-        - `Type BetaManagedAgentsMCPAuthenticationFailedErrorType`
+        - `Type MCPAuthenticationFailedError`
 
         - `MCPServerName string`
 
@@ -31381,7 +36393,7 @@ List Session Thread Events
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `Type BetaManagedAgentsBillingErrorType`
+        - `Type BillingError`
 
         - `Message string`
 
@@ -31407,7 +36419,7 @@ List Session Thread Events
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `Type BetaManagedAgentsCredentialHostUnreachableErrorType`
+        - `Type CredentialHostUnreachableError`
 
         - `CredentialID string`
 
@@ -31436,6 +36448,58 @@ List Session Thread Events
         - `VaultID string`
 
           ID of the vault containing the affected credential.
+
+      - `type BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type ToolUseLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsToolUseLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type CompactionLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsCompactionLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `type BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -31597,7 +36661,7 @@ List Session Thread Events
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `Type BetaManagedAgentsSessionStatusRescheduledEventType`
+    - `Type SessionStatusRescheduled`
 
     - `ID string`
 
@@ -31613,7 +36677,7 @@ List Session Thread Events
 
     Indicates the session is actively running and the agent is working.
 
-    - `Type BetaManagedAgentsSessionStatusRunningEventType`
+    - `Type SessionStatusRunning`
 
     - `ID string`
 
@@ -31629,7 +36693,7 @@ List Session Thread Events
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `Type BetaManagedAgentsSessionStatusIdleEventType`
+    - `Type SessionStatusIdle`
 
     - `ID string`
 
@@ -31671,13 +36735,13 @@ List Session Thread Events
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `Type BetaManagedAgentsSessionEndTurnType`
+        - `Type EndTurn`
 
       - `type BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `Type BetaManagedAgentsSessionRequiresActionType`
+        - `Type RequiresAction`
 
         - `EventIDs []string`
 
@@ -31687,13 +36751,13 @@ List Session Thread Events
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `Type BetaManagedAgentsSessionRetriesExhaustedType`
+        - `Type RetriesExhausted`
 
       - `type BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `Type BetaManagedAgentsSessionBudgetReachedType`
+        - `Type BudgetReached`
 
       - `type BetaManagedAgentsSessionRefusal`
 
@@ -31705,7 +36769,7 @@ List Session Thread Events
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `Type BetaManagedAgentsSessionStatusTerminatedEventType`
+    - `Type SessionStatusTerminated`
 
     - `ID string`
 
@@ -31721,7 +36785,7 @@ List Session Thread Events
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `Type BetaManagedAgentsSessionThreadCreatedEventType`
+    - `Type SessionThreadCreated`
 
     - `ID string`
 
@@ -31749,7 +36813,7 @@ List Session Thread Events
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationStartEventType`
+    - `Type SpanOutcomeEvaluationStart`
 
     - `ID string`
 
@@ -31775,7 +36839,7 @@ List Session Thread Events
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationEndEventType`
+    - `Type SpanOutcomeEvaluationEnd`
 
     - `ID string`
 
@@ -31849,7 +36913,7 @@ List Session Thread Events
 
     Emitted when a model request is initiated by the agent.
 
-    - `Type BetaManagedAgentsSpanModelRequestStartEventType`
+    - `Type SpanModelRequestStart`
 
     - `ID string`
 
@@ -31865,7 +36929,7 @@ List Session Thread Events
 
     Emitted when a model request completes.
 
-    - `Type BetaManagedAgentsSpanModelRequestEndEventType`
+    - `Type SpanModelRequestEnd`
 
     - `ID string`
 
@@ -31893,7 +36957,7 @@ List Session Thread Events
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationOngoingEventType`
+    - `Type SpanOutcomeEvaluationOngoing`
 
     - `ID string`
 
@@ -31919,7 +36983,7 @@ List Session Thread Events
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `Type BetaManagedAgentsUserDefineOutcomeEventType`
+    - `Type UserDefineOutcome`
 
     - `ID string`
 
@@ -31953,7 +37017,7 @@ List Session Thread Events
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type BetaManagedAgentsFileRubricType`
+        - `Type File`
 
         - `FileID string`
 
@@ -31963,7 +37027,7 @@ List Session Thread Events
 
         Rubric content provided inline as text.
 
-        - `Type BetaManagedAgentsTextRubricType`
+        - `Type Text`
 
         - `Content string`
 
@@ -31973,7 +37037,7 @@ List Session Thread Events
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `Type BetaManagedAgentsSessionDeletedEventType`
+    - `Type SessionDeleted`
 
     - `ID string`
 
@@ -31989,7 +37053,7 @@ List Session Thread Events
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRunningEventType`
+    - `Type SessionThreadStatusRunning`
 
     - `ID string`
 
@@ -32013,7 +37077,7 @@ List Session Thread Events
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusIdleEventType`
+    - `Type SessionThreadStatusIdle`
 
     - `ID string`
 
@@ -32063,7 +37127,7 @@ List Session Thread Events
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusTerminatedEventType`
+    - `Type SessionThreadStatusTerminated`
 
     - `ID string`
 
@@ -32087,7 +37151,7 @@ List Session Thread Events
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type BetaManagedAgentsUserToolResultEventType`
+    - `Type UserToolResult`
 
     - `ID string`
 
@@ -32135,7 +37199,7 @@ List Session Thread Events
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRescheduledEventType`
+    - `Type SessionThreadStatusRescheduled`
 
     - `ID string`
 
@@ -32159,7 +37223,7 @@ List Session Thread Events
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `Type BetaManagedAgentsSessionUpdatedEventType`
+    - `Type SessionUpdated`
 
     - `ID string`
 
@@ -32175,15 +37239,37 @@ List Session Thread Events
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `Type BetaManagedAgentsSessionAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
+
+        - `Name string`
 
         - `Name string`
 
@@ -32198,6 +37284,10 @@ List Session Thread Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -32275,31 +37365,31 @@ List Session Thread Events
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -32321,7 +37411,7 @@ List Session Thread Events
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+          - `Type Coordinator`
 
           - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -32331,15 +37421,19 @@ List Session Thread Events
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
 
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-                - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+                - `Type URL`
 
                 - `Name string`
 
@@ -32357,7 +37451,7 @@ List Session Thread Events
 
                   A resolved Anthropic-managed skill.
 
-                  - `Type BetaManagedAgentsAnthropicSkillType`
+                  - `Type Anthropic`
 
                   - `SkillID string`
 
@@ -32367,7 +37461,7 @@ List Session Thread Events
 
                   A resolved user-created custom skill.
 
-                  - `Type BetaManagedAgentsCustomSkillType`
+                  - `Type Custom`
 
                   - `SkillID string`
 
@@ -32379,7 +37473,7 @@ List Session Thread Events
 
                 - `type BetaManagedAgentsAgentToolset20260401`
 
-                  - `Type BetaManagedAgentsAgentToolset20260401Type`
+                  - `Type AgentToolset20260401`
 
                   - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -32401,13 +37495,13 @@ List Session Thread Events
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                          - `Type AlwaysAllow`
 
                         - `type BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                          - `Type AlwaysAsk`
 
                         - `type BetaManagedAgentsAutoPolicy`
 
@@ -32703,6 +37797,8 @@ List Session Thread Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `Region string Optional`
 
                           Region or state name.
@@ -32739,7 +37835,7 @@ List Session Thread Events
 
                 - `type BetaManagedAgentsMCPToolset`
 
-                  - `Type BetaManagedAgentsMCPToolsetType`
+                  - `Type MCPToolset`
 
                   - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -32791,7 +37887,7 @@ List Session Thread Events
 
                   A custom tool as returned in API responses.
 
-                  - `Type BetaManagedAgentsCustomToolType`
+                  - `Type Custom`
 
                   - `Description string`
 
@@ -32801,7 +37897,7 @@ List Session Thread Events
 
                     - `Type Object`
 
-                    - `Properties map[string, any] Optional`
+                    - `Properties map[string]any Optional`
 
                     - `Required []string Optional`
 
@@ -32815,7 +37911,7 @@ List Session Thread Events
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `Type BetaManagedAgentsAdvisorType`
+              - `Type Advisor`
 
               - `Model string`
 
@@ -32877,11 +37973,15 @@ List Session Thread Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -32925,11 +38025,15 @@ List Session Thread Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -32987,7 +38091,7 @@ List Session Thread Events
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `Type BetaManagedAgentsBudgetLimitType`
+      - `Type Limit`
 
       - `MaxListCost BetaMonetaryAmount`
 
@@ -32997,11 +38101,13 @@ List Session Thread Events
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+          pattern: ^(0|[1-9]\d*)$
+
         - `Currency BetaCurrency`
 
           Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `Metadata map[string, string] Optional`
+    - `Metadata map[string]string Optional`
 
       The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
 
@@ -33013,7 +38119,7 @@ List Session Thread Events
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `Type BetaManagedAgentsSystemMessageEventType`
+    - `Type SystemMessage`
 
     - `ID string`
 
@@ -33023,7 +38129,7 @@ List Session Thread Events
 
       System content blocks. Text-only.
 
-      - `Type BetaManagedAgentsSystemContentBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -33041,7 +38147,7 @@ List Session Thread Events
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `Type BetaManagedAgentsSessionUsageEventType`
+    - `Type SessionUsage`
 
     - `ID string`
 
@@ -33386,8 +38492,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -33466,7 +38572,7 @@ Stream Session Thread Events
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -33568,6 +38674,18 @@ Stream Session Thread Events
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -33584,7 +38702,7 @@ Stream Session Thread Events
 
     A user message event in the session conversation.
 
-    - `Type BetaManagedAgentsUserMessageEventType`
+    - `Type UserMessage`
 
     - `ID string`
 
@@ -33598,7 +38716,7 @@ Stream Session Thread Events
 
         Regular text content.
 
-        - `Type BetaManagedAgentsTextBlockType`
+        - `Type Text`
 
         - `Text string`
 
@@ -33610,7 +38728,7 @@ Stream Session Thread Events
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type BetaManagedAgentsImageBlockType`
+        - `Type Image`
 
         - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -33620,7 +38738,7 @@ Stream Session Thread Events
 
             Base64-encoded image data.
 
-            - `Type BetaManagedAgentsBase64ImageSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -33638,7 +38756,7 @@ Stream Session Thread Events
 
             Image referenced by URL.
 
-            - `Type BetaManagedAgentsURLImageSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -33650,7 +38768,7 @@ Stream Session Thread Events
 
             Image referenced by file ID.
 
-            - `Type BetaManagedAgentsFileImageSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -33662,7 +38780,7 @@ Stream Session Thread Events
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type BetaManagedAgentsDocumentBlockType`
+        - `Type Document`
 
         - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -33672,7 +38790,7 @@ Stream Session Thread Events
 
             Base64-encoded document data.
 
-            - `Type BetaManagedAgentsBase64DocumentSourceType`
+            - `Type Base64`
 
             - `Data string`
 
@@ -33690,7 +38808,7 @@ Stream Session Thread Events
 
             Plain text document content.
 
-            - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+            - `Type Text`
 
             - `Data string`
 
@@ -33698,7 +38816,7 @@ Stream Session Thread Events
 
               minLength: 1
 
-            - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+            - `MediaType TextPlain`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -33706,7 +38824,7 @@ Stream Session Thread Events
 
             Document referenced by URL.
 
-            - `Type BetaManagedAgentsURLDocumentSourceType`
+            - `Type URL`
 
             - `URL string`
 
@@ -33718,7 +38836,7 @@ Stream Session Thread Events
 
             Document referenced by file ID.
 
-            - `Type BetaManagedAgentsFileDocumentSourceType`
+            - `Type File`
 
             - `FileID string`
 
@@ -33738,7 +38856,7 @@ Stream Session Thread Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type BetaManagedAgentsRedactedBlockType`
+        - `Type Redacted`
 
     - `ProcessedAt Time Optional`
 
@@ -33750,7 +38868,7 @@ Stream Session Thread Events
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `Type BetaManagedAgentsUserInterruptEventType`
+    - `Type UserInterrupt`
 
     - `ID string`
 
@@ -33770,7 +38888,7 @@ Stream Session Thread Events
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `Type BetaManagedAgentsUserToolConfirmationEventType`
+    - `Type UserToolConfirmation`
 
     - `ID string`
 
@@ -33808,7 +38926,7 @@ Stream Session Thread Events
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `Type BetaManagedAgentsUserCustomToolResultEventType`
+    - `Type UserCustomToolResult`
 
     - `ID string`
 
@@ -33838,7 +38956,7 @@ Stream Session Thread Events
 
         A block containing a web search result.
 
-        - `Type BetaManagedAgentsSearchResultBlockType`
+        - `Type SearchResult`
 
         - `Citations BetaManagedAgentsSearchResultCitations`
 
@@ -33852,7 +38970,7 @@ Stream Session Thread Events
 
           Array of text content blocks from the search result.
 
-          - `Type BetaManagedAgentsSearchResultContentType`
+          - `Type Text`
 
           - `Text string`
 
@@ -33890,13 +39008,13 @@ Stream Session Thread Events
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `Type BetaManagedAgentsAgentCustomToolUseEventType`
+    - `Type AgentCustomToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -33918,7 +39036,7 @@ Stream Session Thread Events
 
     An agent response event in the session conversation.
 
-    - `Type BetaManagedAgentsAgentMessageEventType`
+    - `Type AgentMessage`
 
     - `ID string`
 
@@ -33946,7 +39064,7 @@ Stream Session Thread Events
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `Type BetaManagedAgentsAgentThinkingEventType`
+    - `Type AgentThinking`
 
     - `ID string`
 
@@ -33962,13 +39080,13 @@ Stream Session Thread Events
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `Type BetaManagedAgentsAgentMCPToolUseEventType`
+    - `Type AgentMCPToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -34060,7 +39178,7 @@ Stream Session Thread Events
 
     Event representing the result of an MCP tool execution.
 
-    - `Type BetaManagedAgentsAgentMCPToolResultEventType`
+    - `Type AgentMCPToolResult`
 
     - `ID string`
 
@@ -34104,13 +39222,13 @@ Stream Session Thread Events
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `Type BetaManagedAgentsAgentToolUseEventType`
+    - `Type AgentToolUse`
 
     - `ID string`
 
       Unique identifier for this event.
 
-    - `Input map[string, any]`
+    - `Input map[string]any`
 
       Input parameters for the tool call.
 
@@ -34140,7 +39258,7 @@ Stream Session Thread Events
 
     Event representing the result of an agent tool execution.
 
-    - `Type BetaManagedAgentsAgentToolResultEventType`
+    - `Type AgentToolResult`
 
     - `ID string`
 
@@ -34184,7 +39302,7 @@ Stream Session Thread Events
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `Type BetaManagedAgentsAgentThreadMessageReceivedEventType`
+    - `Type AgentThreadMessageReceived`
 
     - `ID string`
 
@@ -34228,7 +39346,7 @@ Stream Session Thread Events
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `Type BetaManagedAgentsAgentThreadMessageSentEventType`
+    - `Type AgentThreadMessageSent`
 
     - `ID string`
 
@@ -34272,7 +39390,7 @@ Stream Session Thread Events
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `Type BetaManagedAgentsAgentThreadContextCompactedEventType`
+    - `Type AgentThreadContextCompacted`
 
     - `ID string`
 
@@ -34288,7 +39406,7 @@ Stream Session Thread Events
 
     An error event indicating a problem occurred during session execution.
 
-    - `Type BetaManagedAgentsSessionErrorEventType`
+    - `Type SessionError`
 
     - `ID string`
 
@@ -34300,7 +39418,7 @@ Stream Session Thread Events
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `Type BetaManagedAgentsUnknownErrorType`
+        - `Type UnknownError`
 
         - `Message string`
 
@@ -34314,25 +39432,25 @@ Stream Session Thread Events
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `Type BetaManagedAgentsRetryStatusRetryingType`
+            - `Type Retrying`
 
           - `type BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `Type BetaManagedAgentsRetryStatusExhaustedType`
+            - `Type Exhausted`
 
           - `type BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `Type BetaManagedAgentsRetryStatusTerminalType`
+            - `Type Terminal`
 
       - `type BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `Type BetaManagedAgentsModelOverloadedErrorType`
+        - `Type ModelOverloadedError`
 
         - `Message string`
 
@@ -34358,7 +39476,7 @@ Stream Session Thread Events
 
         The model request was rate-limited.
 
-        - `Type BetaManagedAgentsModelRateLimitedErrorType`
+        - `Type ModelRateLimitedError`
 
         - `Message string`
 
@@ -34384,7 +39502,7 @@ Stream Session Thread Events
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `Type BetaManagedAgentsModelRequestFailedErrorType`
+        - `Type ModelRequestFailedError`
 
         - `Message string`
 
@@ -34410,7 +39528,7 @@ Stream Session Thread Events
 
         Failed to connect to an MCP server.
 
-        - `Type BetaManagedAgentsMCPConnectionFailedErrorType`
+        - `Type MCPConnectionFailedError`
 
         - `MCPServerName string`
 
@@ -34440,7 +39558,7 @@ Stream Session Thread Events
 
         Authentication to an MCP server failed.
 
-        - `Type BetaManagedAgentsMCPAuthenticationFailedErrorType`
+        - `Type MCPAuthenticationFailedError`
 
         - `MCPServerName string`
 
@@ -34470,7 +39588,7 @@ Stream Session Thread Events
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `Type BetaManagedAgentsBillingErrorType`
+        - `Type BillingError`
 
         - `Message string`
 
@@ -34496,7 +39614,7 @@ Stream Session Thread Events
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `Type BetaManagedAgentsCredentialHostUnreachableErrorType`
+        - `Type CredentialHostUnreachableError`
 
         - `CredentialID string`
 
@@ -34525,6 +39643,58 @@ Stream Session Thread Events
         - `VaultID string`
 
           ID of the vault containing the affected credential.
+
+      - `type BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type ToolUseLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsToolUseLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `type BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `Type CompactionLimitReachedError`
+
+        - `Message string`
+
+          Human-readable error description.
+
+        - `RetryStatus BetaManagedAgentsCompactionLimitReachedErrorRetryStatusUnion`
+
+          What the client should do next.
+
+          - `type BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `type BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `type BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `type BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -34686,7 +39856,7 @@ Stream Session Thread Events
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `Type BetaManagedAgentsSessionStatusRescheduledEventType`
+    - `Type SessionStatusRescheduled`
 
     - `ID string`
 
@@ -34702,7 +39872,7 @@ Stream Session Thread Events
 
     Indicates the session is actively running and the agent is working.
 
-    - `Type BetaManagedAgentsSessionStatusRunningEventType`
+    - `Type SessionStatusRunning`
 
     - `ID string`
 
@@ -34718,7 +39888,7 @@ Stream Session Thread Events
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `Type BetaManagedAgentsSessionStatusIdleEventType`
+    - `Type SessionStatusIdle`
 
     - `ID string`
 
@@ -34760,13 +39930,13 @@ Stream Session Thread Events
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `Type BetaManagedAgentsSessionEndTurnType`
+        - `Type EndTurn`
 
       - `type BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `Type BetaManagedAgentsSessionRequiresActionType`
+        - `Type RequiresAction`
 
         - `EventIDs []string`
 
@@ -34776,13 +39946,13 @@ Stream Session Thread Events
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `Type BetaManagedAgentsSessionRetriesExhaustedType`
+        - `Type RetriesExhausted`
 
       - `type BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `Type BetaManagedAgentsSessionBudgetReachedType`
+        - `Type BudgetReached`
 
       - `type BetaManagedAgentsSessionRefusal`
 
@@ -34794,7 +39964,7 @@ Stream Session Thread Events
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `Type BetaManagedAgentsSessionStatusTerminatedEventType`
+    - `Type SessionStatusTerminated`
 
     - `ID string`
 
@@ -34810,7 +39980,7 @@ Stream Session Thread Events
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `Type BetaManagedAgentsSessionThreadCreatedEventType`
+    - `Type SessionThreadCreated`
 
     - `ID string`
 
@@ -34838,7 +40008,7 @@ Stream Session Thread Events
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationStartEventType`
+    - `Type SpanOutcomeEvaluationStart`
 
     - `ID string`
 
@@ -34864,7 +40034,7 @@ Stream Session Thread Events
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationEndEventType`
+    - `Type SpanOutcomeEvaluationEnd`
 
     - `ID string`
 
@@ -34938,7 +40108,7 @@ Stream Session Thread Events
 
     Emitted when a model request is initiated by the agent.
 
-    - `Type BetaManagedAgentsSpanModelRequestStartEventType`
+    - `Type SpanModelRequestStart`
 
     - `ID string`
 
@@ -34954,7 +40124,7 @@ Stream Session Thread Events
 
     Emitted when a model request completes.
 
-    - `Type BetaManagedAgentsSpanModelRequestEndEventType`
+    - `Type SpanModelRequestEnd`
 
     - `ID string`
 
@@ -34982,7 +40152,7 @@ Stream Session Thread Events
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `Type BetaManagedAgentsSpanOutcomeEvaluationOngoingEventType`
+    - `Type SpanOutcomeEvaluationOngoing`
 
     - `ID string`
 
@@ -35008,7 +40178,7 @@ Stream Session Thread Events
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `Type BetaManagedAgentsUserDefineOutcomeEventType`
+    - `Type UserDefineOutcome`
 
     - `ID string`
 
@@ -35042,7 +40212,7 @@ Stream Session Thread Events
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type BetaManagedAgentsFileRubricType`
+        - `Type File`
 
         - `FileID string`
 
@@ -35052,7 +40222,7 @@ Stream Session Thread Events
 
         Rubric content provided inline as text.
 
-        - `Type BetaManagedAgentsTextRubricType`
+        - `Type Text`
 
         - `Content string`
 
@@ -35062,7 +40232,7 @@ Stream Session Thread Events
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `Type BetaManagedAgentsSessionDeletedEventType`
+    - `Type SessionDeleted`
 
     - `ID string`
 
@@ -35078,7 +40248,7 @@ Stream Session Thread Events
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRunningEventType`
+    - `Type SessionThreadStatusRunning`
 
     - `ID string`
 
@@ -35102,7 +40272,7 @@ Stream Session Thread Events
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusIdleEventType`
+    - `Type SessionThreadStatusIdle`
 
     - `ID string`
 
@@ -35152,7 +40322,7 @@ Stream Session Thread Events
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusTerminatedEventType`
+    - `Type SessionThreadStatusTerminated`
 
     - `ID string`
 
@@ -35176,7 +40346,7 @@ Stream Session Thread Events
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type BetaManagedAgentsUserToolResultEventType`
+    - `Type UserToolResult`
 
     - `ID string`
 
@@ -35224,7 +40394,7 @@ Stream Session Thread Events
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type BetaManagedAgentsSessionThreadStatusRescheduledEventType`
+    - `Type SessionThreadStatusRescheduled`
 
     - `ID string`
 
@@ -35248,7 +40418,7 @@ Stream Session Thread Events
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `Type BetaManagedAgentsSessionUpdatedEventType`
+    - `Type SessionUpdated`
 
     - `ID string`
 
@@ -35264,15 +40434,37 @@ Stream Session Thread Events
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `Type BetaManagedAgentsSessionAgentType`
+      - `Type Agent`
 
       - `ID string`
 
       - `Description string`
 
+      - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `Type AWSRole`
+
+          - `RoleARN string`
+
+            The IAM role's ARN.
+
+        - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `Type ServiceAccount`
+
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-        - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+        - `Type URL`
+
+        - `Name string`
 
         - `Name string`
 
@@ -35287,6 +40479,10 @@ Stream Session Thread Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -35364,31 +40560,31 @@ Stream Session Thread Events
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type BetaManagedAgentsEffortLowType`
+            - `Type Low`
 
           - `type BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type BetaManagedAgentsEffortMediumType`
+            - `Type Medium`
 
           - `type BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type BetaManagedAgentsEffortHighType`
+            - `Type High`
 
           - `type BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type BetaManagedAgentsEffortXhighType`
+            - `Type Xhigh`
 
           - `type BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type BetaManagedAgentsEffortMaxType`
+            - `Type Max`
 
         - `InferenceGeo string Optional`
 
@@ -35410,7 +40606,7 @@ Stream Session Thread Events
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+          - `Type Coordinator`
 
           - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -35420,15 +40616,19 @@ Stream Session Thread Events
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
 
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-                - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+                - `Type URL`
 
                 - `Name string`
 
@@ -35446,7 +40646,7 @@ Stream Session Thread Events
 
                   A resolved Anthropic-managed skill.
 
-                  - `Type BetaManagedAgentsAnthropicSkillType`
+                  - `Type Anthropic`
 
                   - `SkillID string`
 
@@ -35456,7 +40656,7 @@ Stream Session Thread Events
 
                   A resolved user-created custom skill.
 
-                  - `Type BetaManagedAgentsCustomSkillType`
+                  - `Type Custom`
 
                   - `SkillID string`
 
@@ -35468,7 +40668,7 @@ Stream Session Thread Events
 
                 - `type BetaManagedAgentsAgentToolset20260401`
 
-                  - `Type BetaManagedAgentsAgentToolset20260401Type`
+                  - `Type AgentToolset20260401`
 
                   - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -35490,13 +40690,13 @@ Stream Session Thread Events
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                          - `Type AlwaysAllow`
 
                         - `type BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                          - `Type AlwaysAsk`
 
                         - `type BetaManagedAgentsAutoPolicy`
 
@@ -35792,6 +40992,8 @@ Stream Session Thread Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `Region string Optional`
 
                           Region or state name.
@@ -35828,7 +41030,7 @@ Stream Session Thread Events
 
                 - `type BetaManagedAgentsMCPToolset`
 
-                  - `Type BetaManagedAgentsMCPToolsetType`
+                  - `Type MCPToolset`
 
                   - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -35880,7 +41082,7 @@ Stream Session Thread Events
 
                   A custom tool as returned in API responses.
 
-                  - `Type BetaManagedAgentsCustomToolType`
+                  - `Type Custom`
 
                   - `Description string`
 
@@ -35890,7 +41092,7 @@ Stream Session Thread Events
 
                     - `Type Object`
 
-                    - `Properties map[string, any] Optional`
+                    - `Properties map[string]any Optional`
 
                     - `Required []string Optional`
 
@@ -35904,7 +41106,7 @@ Stream Session Thread Events
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `Type BetaManagedAgentsAdvisorType`
+              - `Type Advisor`
 
               - `Model string`
 
@@ -35966,11 +41168,15 @@ Stream Session Thread Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -36014,11 +41220,15 @@ Stream Session Thread Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `Type BetaManagedAgentsSessionThreadAgentType`
+                - `Type Agent`
 
                 - `ID string`
 
                 - `Description string`
+
+                - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -36076,7 +41286,7 @@ Stream Session Thread Events
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `Type BetaManagedAgentsBudgetLimitType`
+      - `Type Limit`
 
       - `MaxListCost BetaMonetaryAmount`
 
@@ -36086,11 +41296,13 @@ Stream Session Thread Events
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+          pattern: ^(0|[1-9]\d*)$
+
         - `Currency BetaCurrency`
 
           Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `Metadata map[string, string] Optional`
+    - `Metadata map[string]string Optional`
 
       The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
 
@@ -36102,7 +41314,7 @@ Stream Session Thread Events
 
     Opens a preview of a buffered event. Carries the previewed event's type and id only. Followed by zero or more event_delta events with the same event id, normally concluded by the buffered event carrying that id. If the producing model request ends without that event (an error or interrupt mid-stream), its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `Type BetaManagedAgentsStartEventType`
+    - `Type EventStart`
 
     - `Event BetaManagedAgentsStartEventPreviewUnion`
 
@@ -36110,7 +41322,7 @@ Stream Session Thread Events
 
       - `type BetaManagedAgentsAgentMessagePreview`
 
-        - `Type BetaManagedAgentsAgentMessagePreviewType`
+        - `Type AgentMessage`
 
         - `ID string`
 
@@ -36118,7 +41330,7 @@ Stream Session Thread Events
 
       - `type BetaManagedAgentsAgentThinkingPreview`
 
-        - `Type BetaManagedAgentsAgentThinkingPreviewType`
+        - `Type AgentThinking`
 
         - `ID string`
 
@@ -36128,13 +41340,13 @@ Stream Session Thread Events
 
     An incremental update to an event that is still being streamed. Deltas are best-effort and may stop early; when the buffered event with id == event_id is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no buffered event — its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `Type BetaManagedAgentsDeltaEventType`
+    - `Type EventDelta`
 
     - `Delta BetaManagedAgentsDeltaContent`
 
       One fragment of the previewed event. The delta type is named for the previewed event's field it streams into: agent.message events stream content_delta fragments, each a partial element of the content array.
 
-      - `Type BetaManagedAgentsDeltaContentType`
+      - `Type ContentDelta`
 
       - `Content BetaManagedAgentsTextBlock`
 
@@ -36152,7 +41364,7 @@ Stream Session Thread Events
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `Type BetaManagedAgentsSystemMessageEventType`
+    - `Type SystemMessage`
 
     - `ID string`
 
@@ -36162,7 +41374,7 @@ Stream Session Thread Events
 
       System content blocks. Text-only.
 
-      - `Type BetaManagedAgentsSystemContentBlockType`
+      - `Type Text`
 
       - `Text string`
 
@@ -36180,7 +41392,7 @@ Stream Session Thread Events
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `Type BetaManagedAgentsSessionUsageEventType`
+    - `Type SessionUsage`
 
     - `ID string`
 
@@ -36525,8 +41737,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {

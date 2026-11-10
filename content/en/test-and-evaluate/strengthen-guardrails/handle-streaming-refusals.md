@@ -2,9 +2,42 @@
 title: Handle streaming refusals
 url: https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/handle-streaming-refusals
 description: Detect and handle refusal stop reasons in streaming responses, and retry refused requests on a fallback model.
+featureMetadata:
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: stable
+    Claude Platform on AWS: stable
+    Amazon Bedrock: stable
+    Amazon Bedrock (InvokeModel): stable
+    Claude Models on Google Cloud (Google managed): stable
+    Microsoft Foundry: stable
 ---
 
-Starting with Claude 4 models, streaming responses from Claude's API return **`stop_reason`: `"refusal"`** when streaming classifiers intervene to handle potential policy violations. This safety feature helps maintain content compliance during real-time streaming.
+**API support**: Usage differs by product.
+
+* **Messages API**: The stream ends with `stop_reason` `"refusal"`, and `stop_details` (`category` and `explanation`) arrives on the `message_delta` event.
+* **Managed Agents**: A refused turn ends, and the session goes idle. Treat a turn as refused if `stop_details.type` or `stop_reason.type` is `"refusal"`.
+
+Starting with Claude 4 models, streaming responses from Claude’s API return **`stop_reason`: `"refusal"`** when streaming classifiers intervene to handle potential policy violations. This safety feature helps maintain content compliance during real-time streaming.
 
 <Tip>
   This page covers how refusals appear in streaming responses. For every `stop_reason` value and how to handle it, see [Stop reasons and fallback](https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons). To retry refused requests on another Claude model, see [Refusals and fallback](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback).
@@ -12,7 +45,7 @@ Starting with Claude 4 models, streaming responses from Claude's API return **`s
 
 ## API response format
 
-When streaming classifiers detect content that violates Anthropic's policies, the API returns this response:
+When streaming classifiers detect content that violates Anthropic’s policies, the API returns this response:
 
 ```json
 {
@@ -35,7 +68,7 @@ When streaming classifiers detect content that violates Anthropic's policies, th
 In the event stream, `stop_details` arrives on the `message_delta` event alongside `stop_reason`.
 
 <Note>
-  A `refusal` response from streaming classifiers includes a `stop_details` object with a `category` and a human-readable `explanation` that you can surface to the user. See [Refusals and fallback](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#refusal-response) for the full response shape and the available categories.
+  A `refusal` response from streaming classifiers includes a `stop_details` object with a `category` and a human-readable `explanation` that you can surface to the user. See [What a refusal looks like](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#refusal-response) for the full response shape and the available categories.
 
   On a refusal the `stop_details` object is always present, but its `category` and `explanation` fields can be `null`, for example when the refusal maps to no named category. Branch on `stop_reason` or `stop_details.type` rather than assuming `category` and `explanation` are populated, and provide your own user-facing messaging when they are `null`.
 </Note>
@@ -54,40 +87,16 @@ When you receive **`stop_reason`: `refusal`**, you must reset the conversation c
 
 ## Implementation guide
 
-Here's how to detect and handle streaming refusals in your application:
+Here’s how to detect and handle streaming refusals in your application:
 
-<CodeGroup>
-  ```bash cURL
-  response=$(curl -N https://api.anthropic.com/v1/messages \
-    -H "anthropic-version: 2023-06-01" \
-    -H "content-type: application/json" \
-    -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -d '{
-      "model": "claude-opus-5-5",
-      "messages": [{"role": "user", "content": "Hello"}],
-      "max_tokens": 1024,
-      "stream": true
-    }')
+<CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    Detecting a refusal in the stream and resetting the conversation needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
 
-  if echo "$response" | jq -R -e 'select(startswith("data: "))
-      | sub("^data: "; "") | fromjson
-      | select(.delta.stop_reason == "refusal")' >/dev/null; then
-    echo "Response refused - resetting conversation context"
-    # Reset your conversation state here
-  fi
-  ```
-
-  ```bash CLI
-  response=$(ant messages create --stream --format jsonl \
-    --model claude-opus-5-5 \
-    --max-tokens 1024 \
-    --message '{role: user, content: Hello}')
-
-  if echo "$response" | jq -e 'select(.delta.stop_reason == "refusal")' >/dev/null; then
-    echo "Response refused - resetting conversation context"
-    # Reset your conversation state here
-  fi
-  ```
+  <CodeGroupItem language="CLI">
+    Detecting a refusal in the stream and resetting the conversation needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
 
   ```python Python
   client = anthropic.Anthropic()
@@ -154,7 +163,7 @@ Here's how to detect and handle streaming refusals in your application:
   {
       Model = Model.ClaudeOpus5_5,
       MaxTokens = 1024,
-      Messages = [new() { Role = Role.User, Content = "Hello" }]
+      Messages = [new UserMessageParam { Content = "Hello" }]
   };
 
   try
@@ -260,7 +269,8 @@ Here's how to detect and handle streaming refusals in your application:
   $client = new Client();
   $messages = [];
 
-  function resetConversation(&$messages) {
+  function resetConversation(&$messages)
+  {
       $messages = [];
       echo "Conversation reset due to refusal\n";
   }
@@ -281,7 +291,7 @@ Here's how to detect and handle streaming refusals in your application:
           }
       }
   } catch (\Exception $e) {
-      echo "Error: " . $e->getMessage() . "\n";
+      echo 'Error: ' . $e->getMessage() . "\n";
   }
   ```
 
@@ -325,19 +335,19 @@ The API currently handles refusals in three different ways:
 
 ## Best practices
 
-* **Monitor for refusals:** Include **`stop_reason`: `refusal`** checks in your error handling
-* **Reset automatically:** Implement automatic context reset when refusals are detected
-* **Fall back to another model:** Configure [server-side fallback or the SDK middleware](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback) so refused requests are retried on another Claude model instead of surfacing a refusal to the user. Claude Haiku 5.5 has no server-side fallback, so set up its retry in your client
-* **Redeem fallback credit on manual retries:** If you build the retry yourself, pass the refusal's [fallback credit](https://platform.claude.com/docs/en/build-with-claude/fallback-credit) token so the retry doesn't pay the prompt-cache cost twice. Claude Haiku 5.5 refusals carry no fallback credit
-* **Provide custom messaging:** Create user-friendly messages for better UX when refusals occur
-* **Track refusal patterns:** Monitor refusal frequency to identify potential issues with your prompts
+* **Monitor for refusals:** Include **`stop_reason`: `refusal`** checks in your error handling.
+* **Reset automatically:** Implement automatic context reset when refusals are detected.
+* **Fall back to another model:** Configure [server-side fallback or the SDK middleware](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback) so refused requests are retried on another Claude model instead of surfacing a refusal to the user. Claude Haiku 5.5 has no server-side fallback, so set up its retry in your client.
+* **Redeem fallback credit on manual retries:** If you build the retry yourself, pass the refusal’s [fallback credit](https://platform.claude.com/docs/en/build-with-claude/fallback-credit) token so the retry doesn’t pay the prompt-cache cost twice. Claude Haiku 5.5 refusals carry no fallback credit.
+* **Provide custom messaging:** Create user-friendly messages for better UX when refusals occur.
+* **Track refusal patterns:** Monitor refusal frequency to identify potential issues with your prompts.
 
 ## Migration notes
 
-If you built refusal handling when this feature first shipped, or you're adding it to an existing integration, check the following:
+If you built refusal handling when this feature first shipped, or you’re adding it to an existing integration, check the following:
 
-* **Refusals are responses, not errors.** A refusal arrives as a successful HTTP 200 response with `stop_reason`: `"refusal"`, so monitoring built only on error rates won't surface it. Track refusals as their own signal.
-* **Refusals include structured detail.** On every model, a refusal also includes a `stop_details` object that identifies the policy category behind the decline. See [Refusals and fallback](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#refusal-response) for the full response shape.
+* **Refusals are responses, not errors.** A refusal arrives as a successful HTTP 200 response with `stop_reason`: `"refusal"`, so monitoring built only on error rates won’t surface it. Track refusals as their own signal.
+* **Refusals include structured detail.** On every model, a refusal also includes a `stop_details` object that identifies the policy category behind the decline. See [What a refusal looks like](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#refusal-response) for the full response shape.
 * **Retry on a different model.** Re-sending a refused request to the same model usually results in another refusal. Instead of only resetting context, retry on a fallback model with [server-side fallback, the SDK middleware, or a manual retry](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback), and redeem [fallback credit](https://platform.claude.com/docs/en/build-with-claude/fallback-credit) when you build the retry yourself. Claude Haiku 5.5 has no server-side fallback, and its refusals carry no fallback credit, so set up its retry in your client.
 * **Check batch results for refusals.** A refused request in a [Message Batch](https://platform.claude.com/docs/en/build-with-claude/batch-processing) is returned as a succeeded result with `stop_reason`: `"refusal"`, not as an errored result.
 * **Centralize handling on `stop_reason`.** The API continues to consolidate refusal handling around `stop_reason`: `"refusal"`, so branch on the stop reason rather than on model-specific behavior.
@@ -358,6 +368,30 @@ If you built refusal handling when this feature first shipped, or you're adding 
   </Card>
 
   <Card title="Multilingual support" icon="text-aa" href="https://platform.claude.com/docs/en/build-with-claude/multilingual-support">
-    Serve users across languages with Claude's cross-lingual capabilities.
+    Serve users across languages with Claude’s cross-lingual capabilities.
   </Card>
 </CardGroup>
+
+## Availability
+
+Streaming refusals are available or in beta, depending on the API.
+
+### API support
+
+#### [Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)
+
+* Availability: Always on
+* Usage: The stream ends with `stop_reason` `"refusal"`, and `stop_details` (`category` and `explanation`) arrives on the `message_delta` event.
+
+| Status    | Cloud platforms                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Available | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), [Amazon Bedrock](https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (InvokeModel)](https://platform.claude.com/docs/en/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry) |
+
+#### [Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview)
+
+* Availability: Always on
+* Usage: A refused turn ends, and the session goes idle. Treat a turn as refused if `stop_details.type` or `stop_reason.type` on the `session.status_idle` event is `"refusal"`. On a refused turn, `stop_reason.type` can be `"end_turn"`. `stop_details` is `null` on any other turn, and can be `null` on a refused turn too.
+
+| Status | Cloud platforms                                                                                                    |
+| ------ | ------------------------------------------------------------------------------------------------------------------ |
+| Beta   | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws) |

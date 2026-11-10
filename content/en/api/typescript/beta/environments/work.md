@@ -129,6 +129,18 @@ Retrieve detailed information about a specific work item.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -392,6 +404,18 @@ Long poll for work items in the queue.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `"Anthropic-Worker-ID"?: string` (header parameter)
 
     Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
@@ -485,7 +509,7 @@ const betaSelfHostedWork = await client.beta.environments.work.poll(
   "env_011CZkZ9X2dpNyB7HsEFoRfW"
 );
 
-console.log(betaSelfHostedWork.id);
+console.log(betaSelfHostedWork);
 ```
 
 #### Response (200)
@@ -637,6 +661,18 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
 ### Returns
 
 - `interface BetaSelfHostedWork`
@@ -784,7 +820,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `expected_last_heartbeat?: string | null` (query parameter)
 
-    Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match.
+    Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match. The server does not compare the value when the work item is 'stopping' or 'stopped'.
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
@@ -892,6 +928,18 @@ Record a heartbeat for a work item to maintain the lease.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
 ### Returns
 
 - `interface BetaSelfHostedWorkHeartbeatResponse`
@@ -906,7 +954,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `last_heartbeat: string`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `lease_extended: boolean`
 
@@ -1086,6 +1134,18 @@ Stop a work item, initiating graceful or forced shutdown.
     - `"ce-plugins-2026-09-01"`
 
     - `"spend-limit-reads-2026-09-26"`
+
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
 
   - `workspace_id?: string` (header parameter)
 
@@ -1348,6 +1408,18 @@ List work items in an environment.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
 ### Returns
 
 - `interface BetaSelfHostedWork`
@@ -1605,6 +1677,18 @@ Update work item metadata with merge semantics.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1855,6 +1939,18 @@ Get statistics about the work queue for an environment.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1867,7 +1963,11 @@ Get statistics about the work queue for an environment.
 
   Statistics about the work queue for an environment.
 
-  Uses Redis Stream consumer group metrics for O(1) queries.
+  - `type: "work_queue_stats"`
+
+    The type of object
+
+    default: work_queue_stats
 
   - `type: "work_queue_stats"`
 
@@ -1877,7 +1977,7 @@ Get statistics about the work queue for an environment.
 
   - `depth: number`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
   - `oldest_queued_at: string | null`
 
@@ -1922,6 +2022,44 @@ console.log(betaSelfHostedWorkQueueStats.depth);
 ```
 
 ## Domain types
+
+### Beta Heartbeat Precondition Failed Error Details
+
+- `interface BetaHeartbeatPreconditionFailedErrorDetails`
+
+  `expected_last_heartbeat` does not match the stored heartbeat, so another worker may hold the lease.
+
+  - `current_state: BetaWorkLeaseState`
+
+    The lease as the server holds it.
+
+    - `last_heartbeat: string | null`
+
+      RFC 3339 timestamp of the stored heartbeat, or null if there has been none
+
+    - `lease_extended: boolean`
+
+      Always false: a refused heartbeat does not extend the lease
+
+    - `state: "queued" | "starting" | "active" | 2 more`
+
+      Current state of the work item
+
+      - `"queued"`
+
+      - `"starting"`
+
+      - `"active"`
+
+      - `"stopping"`
+
+      - `"stopped"`
+
+    - `ttl_seconds: number`
+
+      TTL of the lease
+
+  - `error_code: "heartbeat_precondition_failed"`
 
 ### Beta Self Hosted Work
 
@@ -2019,7 +2157,7 @@ console.log(betaSelfHostedWorkQueueStats.depth);
 
   - `last_heartbeat: string`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `lease_extended: boolean`
 
@@ -2135,7 +2273,11 @@ console.log(betaSelfHostedWorkQueueStats.depth);
 
   Statistics about the work queue for an environment.
 
-  Uses Redis Stream consumer group metrics for O(1) queries.
+  - `type: "work_queue_stats"`
+
+    The type of object
+
+    default: work_queue_stats
 
   - `type: "work_queue_stats"`
 
@@ -2145,7 +2287,7 @@ console.log(betaSelfHostedWorkQueueStats.depth);
 
   - `depth: number`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
   - `oldest_queued_at: string | null`
 
@@ -2199,3 +2341,35 @@ console.log(betaSelfHostedWorkQueueStats.depth);
   - `id: string`
 
     Session identifier (e.g., 'session_...')
+
+### Beta Work Lease State
+
+- `interface BetaWorkLeaseState`
+
+  A work item's lease as the server holds it.
+
+  - `last_heartbeat: string | null`
+
+    RFC 3339 timestamp of the stored heartbeat, or null if there has been none
+
+  - `lease_extended: boolean`
+
+    Always false: a refused heartbeat does not extend the lease
+
+  - `state: "queued" | "starting" | "active" | 2 more`
+
+    Current state of the work item
+
+    - `"queued"`
+
+    - `"starting"`
+
+    - `"active"`
+
+    - `"stopping"`
+
+    - `"stopped"`
+
+  - `ttl_seconds: number`
+
+    TTL of the lease

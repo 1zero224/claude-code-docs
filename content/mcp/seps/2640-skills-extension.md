@@ -6,23 +6,17 @@
 
 > Skills Extension
 
-<div className="flex items-center gap-2 mb-4">
-  <Badge color="green" shape="pill">
-    Final
-  </Badge>
+Final
 
-  <Badge color="gray" shape="pill">
-    Extensions Track
-  </Badge>
-</div>
+Extensions Track
 
-<Note>
-  This SEP has reached Final status and is preserved as a historical record of
-  the design as accepted. Changes made to the protocol after finalization are
-  not reflected here. Refer to the [current
-  specification](/specification/latest) and its changelog for authoritative
-  requirements.
-</Note>
+> [!NOTE]
+>
+> This SEP has reached Final status and is preserved as a historical record of
+> the design as accepted. Changes made to the protocol after finalization are
+> not reflected here. Refer to the [current
+> specification](https://modelcontextprotocol.io/specification/latest.md) and its changelog for authoritative
+> requirements.
 
 | Field | Value |
 | - | - |
@@ -657,10 +651,10 @@ The cost of removal is the one archives were introduced to address: a skill with
 ## References
 
 * [Agent Skills specification](https://agentskills.io/specification)
-* [SEP-2133]: Extensions
-* [SEP-2549]: TTL for list results
-* [SEP-2076]: Agent Skills as first-class primitive (alternative approach)
-* [Skills Over MCP Working Group charter](https://modelcontextprotocol.io/community/skills-over-mcp/charter)
+* [SEP-2133][]: Extensions
+* [SEP-2549][]: TTL for list results
+* [SEP-2076][]: Agent Skills as first-class primitive (alternative approach)
+* [Skills Over MCP Working Group charter](https://modelcontextprotocol.io/community/skills-over-mcp/charter.md)
 * [Decision Log](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/decisions.md): Working Group decisions and rationale
 * [Experimental Findings](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/archive/experimental-findings.md): results from implementations (WIP)
 * [Related Work](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/archive/related-work.md): survey of existing skill-serving implementations

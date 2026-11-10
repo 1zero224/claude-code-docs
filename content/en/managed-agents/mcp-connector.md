@@ -8,6 +8,33 @@ featureMetadata:
     url: https://platform.claude.com/docs/en/managed-agents/overview
   status: beta
   betaHeader: managed-agents-2026-04-01
+  zdr:
+    eligibility: not-eligible
+    note: Sessions are stateful resources; transcripts persist until you delete them. Applies to all Managed Agents sub-features, including Self-hosted sandboxes.
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: beta
+    Claude Platform on AWS: beta
+    Claude Models on Google Cloud (Anthropic managed): beta
 ---
 
 Claude Managed Agents supports connecting [Model Context Protocol (MCP)](https://modelcontextprotocol.io) servers to your agents. This gives the agent access to external tools, data sources, and services through a standardized protocol.
@@ -21,36 +48,32 @@ This separation keeps secrets out of reusable agent definitions while letting ea
 
 ## Declare MCP servers on the agent
 
-Specify MCP servers in the `mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`) array when creating an agent. Each server needs a `type` (csharp, go: `Type`), a unique `name` (csharp, go: `Name`), and a `url` (csharp: `Url`; go: `URL`). No authentication tokens are provided at this stage.
+Specify MCP servers in the `mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`) array when creating an agent. Each server has a `type` (csharp, go: `Type`) of `url`, a unique `name` (csharp, go: `Name`), and a `url` (csharp: `Url`; go: `URL`). No authentication tokens are provided at this stage.
 
-Each declared server also needs a matching `mcp_toolset` entry in the `tools` (csharp, go: `Tools`) array. The toolset's `mcp_server_name` (java, php: `mcpServerName`; csharp: `McpServerName`; go: `MCPServerName`) must match the server's `name` (csharp, go: `Name`).
+Each declared server also needs a matching `mcp_toolset` entry in the `tools` (csharp, go: `Tools`) array. The toolset’s `mcp_server_name` (java, php: `mcpServerName`; csharp: `McpServerName`; go: `MCPServerName`) must match the server’s `name` (csharp, go: `Name`).
 
 <CodeGroup defaultLanguage="CLI">
   ```bash cURL
-  agent_response=$(curl -sS --fail-with-body https://api.anthropic.com/v1/agents \
+  curl -sS --fail-with-body https://api.anthropic.com/v1/agents \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
     -H "content-type: application/json" \
-    -d @- <<'EOF'
-  {
-    "name": "GitHub Assistant",
-    "model": "claude-opus-5-5",
-    "mcp_servers": [
-      {
-        "type": "url",
-        "name": "github",
-        "url": "https://api.githubcopilot.com/mcp/"
-      }
-    ],
-    "tools": [
-      {"type": "agent_toolset_20260401"},
-      {"type": "mcp_toolset", "mcp_server_name": "github"}
-    ]
-  }
-  EOF
-  )
-  agent_id=$(jq -r '.id' <<<"$agent_response")
+    -d '{
+      "name": "GitHub Assistant",
+      "model": "claude-opus-5-5",
+      "mcp_servers": [
+        {
+          "type": "url",
+          "name": "github",
+          "url": "https://api.githubcopilot.com/mcp/"
+        }
+      ],
+      "tools": [
+        {"type": "agent_toolset_20260401"},
+        {"type": "mcp_toolset", "mcp_server_name": "github"}
+      ]
+    }'
   ```
 
   <CodeGroupItem>
@@ -102,13 +125,13 @@ Each declared server also needs a matching `mcp_toolset` entry in the `tools` (c
       {
         type: "url",
         name: "github",
-        url: "https://api.githubcopilot.com/mcp/",
-      },
+        url: "https://api.githubcopilot.com/mcp/"
+      }
     ],
     tools: [
       { type: "agent_toolset_20260401" },
-      { type: "mcp_toolset", mcp_server_name: "github" },
-    ],
+      { type: "mcp_toolset", mcp_server_name: "github" }
+    ]
   });
   ```
 
@@ -119,15 +142,12 @@ Each declared server also needs a matching `mcp_toolset` entry in the `tools` (c
       Model = BetaManagedAgentsModel.ClaudeOpus5_5,
       McpServers =
       [
-          new() { Type = "url", Name = "github", Url = "https://api.githubcopilot.com/mcp/" },
+          new() { Name = "github", Url = "https://api.githubcopilot.com/mcp/" },
       ],
       Tools =
       [
-          new BetaManagedAgentsAgentToolset20260401Params
-          {
-              Type = "agent_toolset_20260401",
-          },
-          new BetaManagedAgentsMcpToolsetParams { Type = "mcp_toolset", McpServerName = "github" },
+          new BetaManagedAgentsAgentToolset20260401Params(),
+          new BetaManagedAgentsMcpToolsetParams { McpServerName = "github" },
       ],
   });
   ```
@@ -139,19 +159,15 @@ Each declared server also needs a matching `mcp_toolset` entry in the `tools` (c
   		ID: anthropic.BetaManagedAgentsModelClaudeOpus5_5,
   	},
   	MCPServers: []anthropic.BetaManagedAgentsURLMCPServerParams{{
-  		Type: anthropic.BetaManagedAgentsURLMCPServerParamsTypeURL,
   		Name: "github",
   		URL:  "https://api.githubcopilot.com/mcp/",
   	}},
   	Tools: []anthropic.BetaAgentNewParamsToolUnion{
   		{
-  			OfAgentToolset20260401: &anthropic.BetaManagedAgentsAgentToolset20260401Params{
-  				Type: anthropic.BetaManagedAgentsAgentToolset20260401ParamsTypeAgentToolset20260401,
-  			},
+  			OfAgentToolset20260401: &anthropic.BetaManagedAgentsAgentToolset20260401Params{},
   		},
   		{
   			OfMCPToolset: &anthropic.BetaManagedAgentsMCPToolsetParams{
-  				Type:          anthropic.BetaManagedAgentsMCPToolsetParamsTypeMCPToolset,
   				MCPServerName: "github",
   			},
   		},
@@ -169,19 +185,13 @@ Each declared server also needs a matching `mcp_toolset` entry in the `tools` (c
           .model(BetaManagedAgentsModel.CLAUDE_OPUS_5_5)
           .addMcpServer(
               BetaManagedAgentsUrlMcpServerParams.builder()
-                  .type(BetaManagedAgentsUrlMcpServerParams.Type.URL)
                   .name("github")
                   .url("https://api.githubcopilot.com/mcp/")
                   .build()
           )
-          .addTool(
-              BetaManagedAgentsAgentToolset20260401Params.builder()
-                  .type(BetaManagedAgentsAgentToolset20260401Params.Type.AGENT_TOOLSET_20260401)
-                  .build()
-          )
+          .addTool(BetaManagedAgentsAgentToolset20260401Params.builder().build())
           .addTool(
               BetaManagedAgentsMcpToolsetParams.builder()
-                  .type(BetaManagedAgentsMcpToolsetParams.Type.MCP_TOOLSET)
                   .mcpServerName("github")
                   .build()
           )
@@ -192,20 +202,16 @@ Each declared server also needs a matching `mcp_toolset` entry in the `tools` (c
   ```php PHP
   $agent = $client->beta->agents->create(
       name: 'GitHub Assistant',
-      model: 'claude-opus-5-5',
+      model: BetaManagedAgentsModel::CLAUDE_OPUS_5_5,
       mcpServers: [
           BetaManagedAgentsURLMCPServerParams::with(
-              type: 'url',
               name: 'github',
               url: 'https://api.githubcopilot.com/mcp/',
           ),
       ],
       tools: [
-          BetaManagedAgentsAgentToolset20260401Params::with(
-              type: 'agent_toolset_20260401',
-          ),
+          BetaManagedAgentsAgentToolset20260401Params::with(),
           BetaManagedAgentsMCPToolsetParams::with(
-              type: 'mcp_toolset',
               mcpServerName: 'github',
           ),
       ],
@@ -232,7 +238,7 @@ Each declared server also needs a matching `mcp_toolset` entry in the `tools` (c
 </CodeGroup>
 
 <Tip>
-  The MCP toolset defaults to a permission policy of `always_ask`, which requires user approval before each tool call. See [permission policies](https://platform.claude.com/docs/en/managed-agents/permission-policies) to configure this behavior.
+  The MCP toolset defaults to a permission policy of `always_ask`, which requires user approval before each tool call. See [Permission policies](https://platform.claude.com/docs/en/managed-agents/permission-policies) to configure this behavior.
 </Tip>
 
 ### `mcp_servers` field reference
@@ -291,32 +297,27 @@ When an MCP tool output exceeds 100,000 characters (about 25,000 tokens), it is 
 
 When starting a session, pass `vault_ids` (java: `vaultIds`; php: `vaultIDs`; csharp: `VaultIds`; go: `VaultIDs`) to provide credentials for your MCP servers. Vaults are collections of credentials that you register once and reference by ID. See [Authenticate with vaults](https://platform.claude.com/docs/en/managed-agents/vaults) for how to create vaults and manage credentials.
 
-With a `limited` [environment](https://platform.claude.com/docs/en/managed-agents/environments#networking), session creation fails with a 400 error when the agent declares an MCP server whose host is not in `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`). Setting `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) to `true` in the environment's networking turns this check off.
+With a `limited` [environment](https://platform.claude.com/docs/en/managed-agents/environments#networking), session creation fails with a 400 error when the agent declares an MCP server whose host is not in `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`). Setting `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) to `true` in the environment’s networking turns this check off.
 
 <CodeGroup>
   ```bash cURL
-  session_response=$(curl -sS --fail-with-body https://api.anthropic.com/v1/sessions \
+  curl -sS --fail-with-body https://api.anthropic.com/v1/sessions \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
     -H "content-type: application/json" \
-    -d @- <<EOF
-  {
-    "agent": "$agent_id",
-    "environment_id": "$environment_id",
-    "vault_ids": ["$vault_id"]
-  }
-  EOF
-  )
-  session_id=$(jq -r '.id' <<<"$session_response")
+    -d '{
+      "agent": "'"$agent_id"'",
+      "environment_id": "'"$environment_id"'",
+      "vault_ids": ["'"$vault_id"'"]
+    }'
   ```
 
   ```bash CLI
-  SESSION_ID=$(ant beta:sessions create \
+  ant beta:sessions create \
     --agent "$AGENT_ID" \
     --environment-id "$ENVIRONMENT_ID" \
-    --vault-id "$VAULT_ID" \
-    --transform id --raw-output)
+    --vault-id "$VAULT_ID"
   ```
 
   ```python Python
@@ -331,7 +332,7 @@ With a `limited` [environment](https://platform.claude.com/docs/en/managed-agent
   const session = await client.beta.sessions.create({
     agent: agent.id,
     environment_id: environment.id,
-    vault_ids: [vault.id],
+    vault_ids: [vault.id]
   });
   ```
 
@@ -382,18 +383,18 @@ With a `limited` [environment](https://platform.claude.com/docs/en/managed-agent
   ```
 </CodeGroup>
 
-Credentials are matched by URL, so the vault must contain a credential whose `mcp_server_url` (java: `mcpServerUrl`; php: `mcpServerURL`; csharp: `McpServerUrl`; go: `MCPServerURL`) refers to the same server as the `url` (csharp: `Url`; go: `URL`) declared in `mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`). Both URLs are normalized before matching (scheme and host lowercased, default ports and trailing slashes stripped), so differences in host casing, a default port, or a trailing slash don't prevent a match; a different path, subdomain, or non-default port does. If none matches, the connection is attempted unauthenticated. See [Add a credential](https://platform.claude.com/docs/en/managed-agents/vaults#add-a-credential) for the `static_bearer` and `mcp_oauth` credential types.
+Credentials are matched by URL, so the vault must contain a credential whose `mcp_server_url` (java: `mcpServerUrl`; php: `mcpServerURL`; csharp: `McpServerUrl`; go: `MCPServerURL`) refers to the same server as the `url` (csharp: `Url`; go: `URL`) declared in `mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`). Both URLs are normalized before matching (scheme and host lowercased, default ports and trailing slashes stripped), so differences in host casing, a default port, or a trailing slash don’t prevent a match; a different path, subdomain, or non-default port does. If none matches, the connection is attempted unauthenticated. See [Add a credential](https://platform.claude.com/docs/en/managed-agents/vaults#add-a-credential) for the `static_bearer` and `mcp_oauth` credential types.
 
 ### Handle connection and authentication failures
 
-Session creation does not validate MCP connectivity or credentials. It does check each declared server's host against the environment's networking: with a `limited` environment, session creation fails with a 400 error when a host is not allowed, as described under [Provide authentication at session creation](https://platform.claude.com/docs/en/managed-agents/mcp-connector#provide-authentication-at-session-creation). If an MCP server is unreachable or rejects the supplied credential, the session still starts and interaction remains possible. A [`session.error`](https://platform.claude.com/docs/en/managed-agents/reference#event-types) event is emitted with the `mcp_server_name` (java, php: `mcpServerName`; csharp: `McpServerName`; go: `MCPServerName`) of the affected server and a `retry_status` (java, php: `retryStatus`; csharp, go: `RetryStatus`):
+Session creation does not validate MCP connectivity or credentials. It does check each declared server’s host against the environment’s networking: with a `limited` environment, session creation fails with a 400 error when a host is not allowed, as described under [Provide authentication at session creation](https://platform.claude.com/docs/en/managed-agents/mcp-connector#provide-authentication-at-session-creation). If an MCP server is unreachable or rejects the supplied credential, the session still starts and interaction remains possible. A [`session.error`](https://platform.claude.com/docs/en/managed-agents/reference#event-types) event is emitted with the `mcp_server_name` (java, php: `mcpServerName`; csharp: `McpServerName`; go: `MCPServerName`) of the affected server and a `retry_status` (java, php: `retryStatus`; csharp, go: `RetryStatus`):
 
-| Error type                        | Meaning                                                                                                                                                                                                      |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `mcp_connection_failed_error`     | The MCP server could not be reached (network error, timeout, or non-authentication HTTP failure).                                                                                                            |
-| `mcp_authentication_failed_error` | Authentication with the MCP server failed: the server rejected the credential from the attached vault, required authentication when no matching credential was configured, or an OAuth token refresh failed. |
+| Error type                        | Meaning                                                                                                                                                                                                                 |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mcp_connection_failed_error`     | The MCP server could not be reached (network error, timeout, or non-authentication HTTP failure).                                                                                                                       |
+| `mcp_authentication_failed_error` | Authentication with the MCP server failed: the server rejected the credential from the attached vault, the server required authentication when no matching credential was configured, or an OAuth token refresh failed. |
 
-You can decide whether to block further interaction on this error, trigger a credential rotation, or let the session continue without the affected server's tools. The connection is retried on the next `session.status_idle` to `session.status_running` transition.
+You can decide whether to block further interaction on this error, trigger a credential rotation, or let the session continue without the affected server’s tools. The connection is retried on the next `session.status_idle` to `session.status_running` transition.
 
 ## Next steps
 
@@ -403,7 +404,7 @@ You can decide whether to block further interaction on this error, trigger a cre
   </Card>
 
   <Card title="Session event stream" icon="lightning" href="https://platform.claude.com/docs/en/managed-agents/events-and-streaming">
-    Send events, stream responses, and interrupt or redirect your session mid-execution.
+    Send events, stream responses, and interrupt or redirect your session while it runs.
   </Card>
 
   <Card title="Supported MCP server types" icon="book" href="https://platform.claude.com/docs/en/managed-agents/reference#supported-mcp-server-types">

@@ -2,7 +2,7 @@
 
 Voice mode allows you to have complete spoken conversations with Claude. Instead of typing a prompt and reading a written response, you can speak to Claude and listen to its responses, making it easier to use when your hands are busy but your mind isn't.
 
-Voice mode is a beta feature available to all plans (Free, Pro, Max, Team, and Enterprise) on Claude Mobile (iOS and Android), Claude Desktop, and the web, but is built to work best from your phone.
+Voice mode is a beta feature available to all plans (Free, Pro, Max, Ultra, Team, and Enterprise) on Claude Mobile (iOS and Android), Claude Desktop, and the web, but is built to work best from your phone.
 
 ## What is voice mode?
 
@@ -24,7 +24,7 @@ Voice mode transforms how you interact with Claude by:
 
 2. Tap the sound wave symbol in the lower right corner of the chat window to activate voice mode:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2042358620/1bf2311353615c1c494da1312a17/124b93a8-0a9b-4c84-9d1f-ede6ca3498dd?expires=1792008900&amp;signature=e047c91b3658326e1cf87e6b4ced67eea0f853a9a086da5b0bb102d57cc1d7b4&amp;req=diAjFMp7lYddWfMW1HO4zZyGr8xyu18ZF6uXnTLMvvBd1rSJEVfglqmHTlb8%0Atjgm%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2042358620/1bf2311353615c1c494da1312a17/124b93a8-0a9b-4c84-9d1f-ede6ca3498dd?expires=1794376800&amp;signature=6f6c17ccb7ad5b7b68c1f5635cb831cb106a13d7fa215659a817b98aaca9d52c&amp;req=diAjFMp7lYddWfMW3nq%2BgVqEjrDZ2fMoV5jr7xpnfP3%2FLEA3gwuA6QYGE%2FIp%0AB4DJpgDKdefrnpDT3mVbZa96GiY%3D%0A)
 
 3. Start talking and see your prompt automatically populate in the chat input.
 
@@ -32,7 +32,7 @@ Voice mode transforms how you interact with Claude by:
 
 5. Claude will remain in voice mode until you click the “Stop” button in the lower right corner of the chat window:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2042352060/162f9e61f7fbeb689201dfc1cac1/6a7fafb2-31df-43be-a43f-0059d735e3c4?expires=1792008900&amp;signature=7de0a51002eb038a3a6c4b3d7fbdcb31aed1779fff82d5bdd5383ad3f0ba22dd&amp;req=diAjFMp7n4FZWfMW1HO4zU6VRP%2FKSLRgxNdRzYWrfF5mHq%2BPgDVCbZvY3%2BGZ%0AfCps8Xukpb3cy%2BAO%2BGA%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2042352060/162f9e61f7fbeb689201dfc1cac1/6a7fafb2-31df-43be-a43f-0059d735e3c4?expires=1794376800&amp;signature=20ea8c0d595f07df1c879e5b2cf8907a87ff74c48a43607686deb0abeeeacabb&amp;req=diAjFMp7n4FZWfMW3nq%2BgcPTdC%2BRfJPAhGZq1qMmRNs4UwyITCPkAMrvVXly%0A%2BfU%2FyoxgKheFpxqg07UzjkNk%2FEg%3D%0A)
 
 ### On mobile (iOS and Android)
 
@@ -40,7 +40,7 @@ Voice mode transforms how you interact with Claude by:
 
 2. Tap the voice mode icon (sound wave symbol next to the microphone icon) in the text input field:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2042359690/68879db64559ecf87991f73ce058/671ff972-9e08-4686-bc04-955dab4b2de3?expires=1792008900&amp;signature=06abe3ed0f50160dba7ab82cd980c01f06ca66b7ca99d9ecc370a5da961ebff4&amp;req=diAjFMp7lIdWWfMW1HO4zQTUIPZ6kNBHD%2FRXAPlQ7LZp4yp2CoeJQdm4I0VQ%0APamy%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2042359690/68879db64559ecf87991f73ce058/671ff972-9e08-4686-bc04-955dab4b2de3?expires=1794376800&amp;signature=1d3bb45d6620ceb5bbccc74993439a8820343dbdb557a545201128b643250a61&amp;req=diAjFMp7lIdWWfMW3nq%2BgbSmcSbR3mUglNEUGEAmwhKRHUo0x%2BKkh7wQtdGa%0AnY88M4UINXylJ6xaREOD76Dbom0%3D%0A)
 
 3. Choose a voice to personalize your experience.
 
@@ -74,11 +74,11 @@ Claude offers several voice options you can choose from when you first start voi
 
 To change the voice later:
 
-- **On the web and desktop:** Go to **[Settings > General](https://claude.ai/new#settings/general)** and scroll down to **Voice settings**. Select your preferred voice from the options. You’ll hear a preview when you click each option; click it again to stop the preview.
+- **On the web and desktop:** Go to **Settings > Capabilities** and scroll down to **Voice settings**. If **Voice** isn't there, go to **Settings > General** instead. Select your preferred voice from the options. You’ll hear a preview when you click each option; click it again to stop the preview.
 
 - **On mobile:** Click the settings button in the bottom left corner while chatting with Claude in voice mode, then tap your preferred voice and pace:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2042352063/25eca25bcfd573ecab30dd53158c/074454a6-fa5a-4c49-8b19-02d434b4ca50?expires=1792008900&amp;signature=bcb93b0c865a6dcb701e4d0a733f57e470c7206299fb83d995ee1e90d465bfd3&amp;req=diAjFMp7n4FZWvMW1HO4zZ3%2FGWiVYFgDy8OQfYsvK3xUT5cbvksRBcF%2BMI3d%0ArteLr%2BJWWVcGsiS%2BX7c%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2042352063/25eca25bcfd573ecab30dd53158c/074454a6-fa5a-4c49-8b19-02d434b4ca50?expires=1794376800&amp;signature=269e9fcd9777dad18201534fe7d2b290f776b1574181d5bf2e2ba2c37904b7e1&amp;req=diAjFMp7n4FZWvMW3nq%2Bgb4g782fZpXBM4bwZcbnIM3%2FIdZyMlJMZ17hyn4B%0AmVfcB5x%2F%2FyLDHkfLVkUIxd9TJJY%3D%0A)
 
 ## Choose a model
 
@@ -132,6 +132,12 @@ Voice mode has been developed with safety as a top priority. Several safeguards 
 
 - **Full policy compliance:** Our usage policy remains fully enforced in voice mode, with all standard model misuse detection and enforcement systems actively monitoring interactions.
 
+## Your voice recordings
+
+By default, we don't keep the audio from your voice conversations. Your speech is converted to text, the recording is deleted, and the transcript is saved in your chat history.
+
+On Free, Pro, Max, and Ultra plans, you can choose to share your voice recordings to help us improve voice mode and dictation. Learn more in **[Share your voice recordings with Anthropic](https://support.claude.com/en/articles/17644704)**.
+
 ---
 
 ## Troubleshooting
@@ -172,7 +178,7 @@ Voice mode has been developed with safety as a top priority. Several safeguards 
 
 ### Will my voice conversations be saved?
 
-Yes. Textual transcripts of your audio conversations are saved in your chat history just like text conversations.
+Yes, as text. The transcript is saved in your chat history just like a typed chat. The audio itself isn't kept unless you choose to share it. Learn more in **[Share your voice recordings with Anthropic](https://support.claude.com/en/articles/17644704)**.
 
 ### What's the difference between dictation and voice mode?
 
@@ -182,7 +188,7 @@ Dictation converts your speech to text so you can type prompts by speaking. Voic
 
 Yes. Voice mode supports many more languages, on all plans and on Claude Mobile, Claude Desktop, and web. Support for languages other than English is in beta.
 
-To set your voice language, go to **[Settings > General](https://claude.ai/new#settings/general)**, then find **Voice > Language** and choose a language. Changing your app's display language doesn't change your voice language, so set it here. You can also ask Claude to switch languages during a voice conversation.
+To set your voice language, go to **Settings > Capabilities**, then find **Voice > Spoken language** and choose a language. If **Voice** isn't there, go to **Settings > General**, then **Voice > Language**. Changing your app's display language doesn't change your voice language, so set it here. You can also ask Claude to switch languages during a voice conversation.
 
 ### Can I use voice mode with Claude Cowork or Claude Code?
 

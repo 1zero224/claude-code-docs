@@ -34,6 +34,28 @@ To act on an item, click the menu button at the end of its row. You can view det
 
 For skills and plugins that users created, the Inventory tab shows metadata and sharing status. It doesn't show the files themselves.
 
+---
+
+## See what's in your organization
+
+The “Inventory” tab lists every skill and plugin your organization governs, including the ones users created for themselves. Skills and plugins now live on the same page, so you don't need to switch between settings.
+
+For each item, the table shows its source, version, capabilities, audience, and how many people used it in the last 30 days.
+
+To find an item, search by name or use the filters:
+
+- **Source:** Your organization, Organization library, or a specific marketplace
+
+- **Audience:** Who can use the item
+
+- **Type:** Skills or plugins
+
+Skills your organization manages appear under **Organization library**. You manage plugin marketplaces in the **Marketplaces** tab.
+
+To act on an item, click the menu button at the end of its row. You can view details and files, see version history, and change default and group access.
+
+For skills and plugins that users created, the Inventory tab shows metadata and sharing status. It doesn't show the files themselves.
+
 ## Use Anthropic-built marketplaces
 
 Anthropic provides built-in marketplaces of plugins for different functions, such as legal and finance. A Knowledge Work marketplace is added to your organization by default.
@@ -158,7 +180,7 @@ During a sync, Cowork compares the latest commit in your repo against the last-s
 
 You can sync an organization marketplace from a repository on gitlab.com or on a self-managed GitLab instance. For supported plugin source types and which sources can be private, see **Prepare your repository** above.
 
-GitLab support is in beta and applies to plugin marketplace sync only. Claude Code on the web doesn't support GitLab repositories yet.
+GitLab support is in beta and applies to plugin marketplace sync only. Claude Code cloud sessions don't support GitLab repositories yet.
 
 **Before you start**
 

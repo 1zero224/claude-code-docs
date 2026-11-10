@@ -1,15 +1,15 @@
 ---
-title: Create Credential
+title: Create a Credential
 url: https://platform.claude.com/docs/en/api/php/beta/vaults/credentials/create
 ---
 
-# Create Credential
+# Create a Credential
 
 `$client->beta->vaults->credentials->create(string vaultID, Auth auth, ?string displayName, ?array<string,string> metadata, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsCredential`
 
 **POST** `/v1/vaults/{vault_id}/credentials`
 
-Create Credential
+Create a Credential
 
 ## Parameters
 
@@ -21,17 +21,23 @@ Create Credential
 
   Authentication configuration for the credential.
 
-- `displayName?:optional string`
+- `displayName?: optional string`
 
   Human-readable name for the credential. Up to 255 characters.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Arbitrary key-value metadata to attach to the credential. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -43,11 +49,11 @@ Create Credential
 
 - `class ManagedAgentsCredential`
 
-  - `Type type`
+  - `"vault_credential" type`
 
   - `string id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `?\Datetime archivedAt`
 
@@ -83,6 +89,9 @@ Create Credential
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

@@ -17,13 +17,19 @@ Stream Session Thread Events
 
 - `threadID: string` (path parameter)
 
-- `eventDeltas?:optional list<BetaManagedAgentsDeltaType>` (query parameter)
+- `eventDeltas?: optional list<BetaManagedAgentsDeltaType>` (query parameter)
 
   When set, this connection also receives streaming deltas (`event_start`, `event_delta`) while an event is being produced, before the event itself arrives. Deltas are best-effort; when the final event is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no final event — its terminal `span.model_request_end` closes the preview. Accepts one or more event types to preview and may be repeated: `agent.message` streams `content_delta` fragments; `agent.thinking` is start-only — a signal that the agent has begun extended thinking, concluded by the `agent.thinking` event itself. Only previews of the requested event types are sent.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -37,7 +43,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserMessageEvent`
 
-    - `Type type`
+    - `"user.message" type`
 
     - `string id`
 
@@ -53,7 +59,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserInterruptEvent`
 
-    - `Type type`
+    - `"user.interrupt" type`
 
     - `string id`
 
@@ -69,7 +75,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserToolConfirmationEvent`
 
-    - `Type type`
+    - `"user.tool_confirmation" type`
 
     - `string id`
 
@@ -97,7 +103,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserCustomToolResultEvent`
 
-    - `Type type`
+    - `"user.custom_tool_result" type`
 
     - `string id`
 
@@ -125,7 +131,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentCustomToolUseEvent`
 
-    - `Type type`
+    - `"agent.custom_tool_use" type`
 
     - `string id`
 
@@ -149,7 +155,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentMessageEvent`
 
-    - `Type type`
+    - `"agent.message" type`
 
     - `string id`
 
@@ -165,7 +171,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentThinkingEvent`
 
-    - `Type type`
+    - `"agent.thinking" type`
 
     - `string id`
 
@@ -177,7 +183,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentMCPToolUseEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_use" type`
 
     - `string id`
 
@@ -213,7 +219,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentMCPToolResultEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_result" type`
 
     - `string id`
 
@@ -237,7 +243,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentToolUseEvent`
 
-    - `Type type`
+    - `"agent.tool_use" type`
 
     - `string id`
 
@@ -269,7 +275,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentToolResultEvent`
 
-    - `Type type`
+    - `"agent.tool_result" type`
 
     - `string id`
 
@@ -293,7 +299,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentThreadMessageReceivedEvent`
 
-    - `Type type`
+    - `"agent.thread_message_received" type`
 
     - `string id`
 
@@ -317,7 +323,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentThreadMessageSentEvent`
 
-    - `Type type`
+    - `"agent.thread_message_sent" type`
 
     - `string id`
 
@@ -341,7 +347,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentThreadContextCompactedEvent`
 
-    - `Type type`
+    - `"agent.thread_context_compacted" type`
 
     - `string id`
 
@@ -353,7 +359,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionErrorEvent`
 
-    - `Type type`
+    - `"session.error" type`
 
     - `string id`
 
@@ -367,7 +373,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.status_rescheduled" type`
 
     - `string id`
 
@@ -379,7 +385,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionStatusRunningEvent`
 
-    - `Type type`
+    - `"session.status_running" type`
 
     - `string id`
 
@@ -391,7 +397,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionStatusIdleEvent`
 
-    - `Type type`
+    - `"session.status_idle" type`
 
     - `string id`
 
@@ -409,7 +415,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.status_terminated" type`
 
     - `string id`
 
@@ -421,7 +427,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadCreatedEvent`
 
-    - `Type type`
+    - `"session.thread_created" type`
 
     - `string id`
 
@@ -445,7 +451,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationStartEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_start" type`
 
     - `string id`
 
@@ -465,7 +471,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationEndEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_end" type`
 
     - `string id`
 
@@ -501,7 +507,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanModelRequestStartEvent`
 
-    - `Type type`
+    - `"span.model_request_start" type`
 
     - `string id`
 
@@ -513,7 +519,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanModelRequestEndEvent`
 
-    - `Type type`
+    - `"span.model_request_end" type`
 
     - `string id`
 
@@ -537,7 +543,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationOngoingEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_ongoing" type`
 
     - `string id`
 
@@ -557,7 +563,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserDefineOutcomeEvent`
 
-    - `Type type`
+    - `"user.define_outcome" type`
 
     - `string id`
 
@@ -585,7 +591,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionDeletedEvent`
 
-    - `Type type`
+    - `"session.deleted" type`
 
     - `string id`
 
@@ -597,7 +603,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusRunningEvent`
 
-    - `Type type`
+    - `"session.thread_status_running" type`
 
     - `string id`
 
@@ -617,7 +623,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusIdleEvent`
 
-    - `Type type`
+    - `"session.thread_status_idle" type`
 
     - `string id`
 
@@ -643,7 +649,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.thread_status_terminated" type`
 
     - `string id`
 
@@ -663,7 +669,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsUserToolResultEvent`
 
-    - `Type type`
+    - `"user.tool_result" type`
 
     - `string id`
 
@@ -691,7 +697,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.thread_status_rescheduled" type`
 
     - `string id`
 
@@ -711,7 +717,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsSessionUpdatedEvent`
 
-    - `Type type`
+    - `"session.updated" type`
 
     - `string id`
 
@@ -739,7 +745,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsStartEvent`
 
-    - `Type type`
+    - `"event_start" type`
 
     - `BetaManagedAgentsStartEventPreview event`
 
@@ -747,7 +753,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsDeltaEvent`
 
-    - `Type type`
+    - `"event_delta" type`
 
     - `BetaManagedAgentsDeltaContent delta`
 
@@ -759,7 +765,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsSystemMessageEvent`
 
-    - `Type type`
+    - `"system.message" type`
 
     - `string id`
 
@@ -775,7 +781,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsSessionUsageEvent`
 
-    - `Type type`
+    - `"session.usage" type`
 
     - `string id`
 
@@ -943,6 +949,10 @@ Stream Session Thread Events
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Sessions\BetaManagedAgentsDeltaType;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

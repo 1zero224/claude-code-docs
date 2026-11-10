@@ -17,19 +17,19 @@ List Agent Versions
 
   Agent ID to list versions for.
 
-- `limit: Integer` (query parameter)
+- `limit: optional Integer` (query parameter)
 
   Maximum results per page. Default 20, maximum 100.
 
   format: int32
 
-- `page: String` (query parameter)
+- `page: optional String` (query parameter)
 
   Opaque pagination cursor.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -133,7 +133,19 @@ List Agent Versions
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -149,7 +161,7 @@ List Agent Versions
 
   - `id: String`
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the agent was archived. Null if not archived.
 
@@ -161,7 +173,27 @@ List Agent Versions
 
     format: date-time
 
-  - `description: String`
+  - `description: String | nil`
+
+  - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `type: :aws_role`
+
+      - `role_arn: String`
+
+        The IAM role's ARN.
+
+    - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `type: :service_account`
 
   - `mcp_servers: Array[BetaManagedAgentsMCPServerURLDefinition]`
 
@@ -182,6 +214,10 @@ List Agent Versions
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `:"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `:"claude-haiku-5-5"`
 
@@ -253,7 +289,7 @@ List Agent Versions
 
       - `String = String`
 
-    - `effort: BetaManagedAgentsEffortLow | BetaManagedAgentsEffortMedium | BetaManagedAgentsEffortHigh | 2 more`
+    - `effort: optional BetaManagedAgentsEffortLow | BetaManagedAgentsEffortMedium | BetaManagedAgentsEffortHigh | 2 more`
 
       How hard Claude works on each inference call. One of `low`, `medium`, `high`, `xhigh`, `max`. Always present; resolved to the per-model default at save time when not supplied.
 
@@ -287,11 +323,11 @@ List Agent Versions
 
         - `type: :max`
 
-    - `inference_geo: String`
+    - `inference_geo: optional String`
 
       Geographic region for model inference. When unset, requests fall through to the workspace's default_inference_geo.
 
-    - `speed: :standard | :fast`
+    - `speed: optional :standard | :fast`
 
       Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
@@ -299,7 +335,7 @@ List Agent Versions
 
       - `:fast`
 
-  - `multiagent: BetaManagedAgentsMultiagent`
+  - `multiagent: BetaManagedAgentsMultiagent | nil`
 
     Multiagent orchestration configuration. Null when the agent is single-threaded.
 
@@ -461,7 +497,7 @@ List Agent Versions
 
       - `version: String`
 
-  - `system_: String`
+  - `system_: String | nil`
 
   - `tools: Array[BetaManagedAgentsAgentToolset20260401 | BetaManagedAgentsMCPToolset | BetaManagedAgentsCustomTool]`
 
@@ -659,11 +695,11 @@ List Agent Versions
 
               The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
 
-          - `url_sources: BetaManagedAgentsWebFetchURLSources`
+          - `url_sources: BetaManagedAgentsWebFetchURLSources | nil`
 
             Which sources contribute URLs the tool may fetch, always in the object form. Null when not set, which allows every source.
 
-            - `client_tool_results: BetaManagedAgentsWebFetchURLSourceToolFilter`
+            - `client_tool_results: BetaManagedAgentsWebFetchURLSourceToolFilter | nil`
 
               Which custom tools' results contribute URLs that may be fetched. Null when not set, which allows every custom tool's results.
 
@@ -719,11 +755,11 @@ List Agent Versions
 
                     minLength: 1, maxLength: 128
 
-            - `server_tool_results: BetaManagedAgentsWebFetchURLSourceToolFilter`
+            - `server_tool_results: BetaManagedAgentsWebFetchURLSourceToolFilter | nil`
 
               Which of the web_search and web_fetch tools' results contribute URLs that may be fetched. Null when not set, which allows both.
 
-            - `user_input: BetaManagedAgentsWebFetchURLSourceUserInput`
+            - `user_input: BetaManagedAgentsWebFetchURLSourceUserInput | nil`
 
               Whether URLs in the text of user messages may be fetched. Null when not set, which allows them.
 
@@ -735,11 +771,11 @@ List Agent Versions
 
                 This source contributes no URLs that may be fetched.
 
-          - `allowed_domains: Array[String]`
+          - `allowed_domains: optional Array[String]`
 
-          - `blocked_domains: Array[String]`
+          - `blocked_domains: optional Array[String]`
 
-          - `max_content_tokens: Integer`
+          - `max_content_tokens: optional Integer | nil`
 
             format: int32
 
@@ -769,11 +805,11 @@ List Agent Versions
 
               The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
 
-          - `allowed_domains: Array[String]`
+          - `allowed_domains: optional Array[String]`
 
-          - `blocked_domains: Array[String]`
+          - `blocked_domains: optional Array[String]`
 
-          - `user_location: BetaManagedAgentsUserLocation`
+          - `user_location: optional BetaManagedAgentsUserLocation | nil`
 
             Approximate user location for search result localization.
 
@@ -781,23 +817,25 @@ List Agent Versions
 
               Location precision. Only "approximate" is supported.
 
-            - `city: String`
+            - `city: optional String | nil`
 
               City name.
 
               minLength: 1, maxLength: 255
 
-            - `country: String`
+            - `country: optional String | nil`
 
               Two-letter ISO 3166-1 country code, uppercase.
 
-            - `region: String`
+              pattern: ^[A-Z]{2}$
+
+            - `region: optional String | nil`
 
               Region or state name.
 
               minLength: 1, maxLength: 255
 
-            - `timezone: String`
+            - `timezone: optional String | nil`
 
               IANA timezone identifier, e.g. "America/Los_Angeles".
 
@@ -889,9 +927,9 @@ List Agent Versions
 
         - `type: :object`
 
-        - `properties: Hash[Symbol, untyped]`
+        - `properties: optional Hash[Symbol, untyped] | nil`
 
-        - `required: Array[String]`
+        - `required: optional Array[String] | nil`
 
       - `name: String`
 
@@ -929,6 +967,9 @@ puts(page)
       "archived_at": null,
       "created_at": "2026-03-15T10:00:00Z",
       "description": "A general-purpose starter agent.",
+      "execution_identity": {
+        "type": "service_account"
+      },
       "mcp_servers": [
         {
           "name": "example-mcp",

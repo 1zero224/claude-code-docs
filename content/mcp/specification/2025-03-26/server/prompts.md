@@ -19,7 +19,7 @@ interface, which allows users to naturally discover and invoke available prompts
 
 For example, as slash commands:
 
-<img src="https://mintcdn.com/mcp/4ZXF1PrDkEaJvXpn/specification/2025-03-26/server/slash-command.png?fit=max&auto=format&n=4ZXF1PrDkEaJvXpn&q=85&s=8390583e2400c914dd404e37e014613e" alt="Example of prompt exposed as slash command" width="293" height="106" data-path="specification/2025-03-26/server/slash-command.png" />
+![Example of prompt exposed as slash command](https://mintcdn.com/mcp/4ZXF1PrDkEaJvXpn/specification/2025-03-26/server/slash-command.png?fit=max\&auto=format\&n=4ZXF1PrDkEaJvXpn\&q=85\&s=8390583e2400c914dd404e37e014613e)
 
 However, implementors are free to expose prompts through any interface pattern that suits
 their needs—the protocol itself does not mandate any specific user interaction
@@ -28,7 +28,7 @@ model.
 ## Capabilities
 
 Servers that support prompts **MUST** declare the `prompts` capability during
-[initialization](/specification/2025-03-26/basic/lifecycle#initialization):
+[initialization](https://modelcontextprotocol.io/specification/2025-03-26/basic/lifecycle.md#initialization):
 
 ```json theme={null}
 {
@@ -48,7 +48,7 @@ available prompts changes.
 ### Listing Prompts
 
 To retrieve available prompts, clients send a `prompts/list` request. This operation
-supports [pagination](/specification/2025-03-26/server/utilities/pagination).
+supports [pagination](https://modelcontextprotocol.io/specification/2025-03-26/server/utilities/pagination.md).
 
 **Request:**
 
@@ -91,7 +91,7 @@ supports [pagination](/specification/2025-03-26/server/utilities/pagination).
 ### Getting a Prompt
 
 To retrieve a specific prompt, clients send a `prompts/get` request. Arguments may be
-auto-completed through [the completion API](/specification/2025-03-26/server/utilities/completion).
+auto-completed through [the completion API](https://modelcontextprotocol.io/specification/2025-03-26/server/utilities/completion.md).
 
 **Request:**
 

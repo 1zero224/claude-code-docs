@@ -19,13 +19,13 @@ List Deployments
 
     Filter by agent ID.
 
-  - `Optional<LocalDateTime> createdAtGte` (query parameter)
+  - `Optional<OffsetDateTime> createdAtGte` (query parameter)
 
     Return deployments created at or after this time (inclusive).
 
     format: date-time
 
-  - `Optional<LocalDateTime> createdAtLte` (query parameter)
+  - `Optional<OffsetDateTime> createdAtLte` (query parameter)
 
     Return deployments created at or before this time (inclusive).
 
@@ -35,7 +35,7 @@ List Deployments
 
     When true, includes archived deployments. Default: false (exclude archived).
 
-  - `Optional<Long> limit` (query parameter)
+  - `Optional<Integer> limit` (query parameter)
 
     Maximum results per page. Default 20, maximum 100.
 
@@ -51,7 +51,7 @@ List Deployments
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -153,6 +153,18 @@ List Deployments
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -165,7 +177,7 @@ List Deployments
 
   A deployment is a configured instance of an agent — it binds the agent to everything needed to run it autonomously: an environment, credentials, initial events, and an optional schedule.
 
-  - `Type type`
+  - `JsonValue type = "deployment"`
 
   - `String id`
 
@@ -175,21 +187,21 @@ List Deployments
 
     Reference to the agent this deployment runs, resolved to a concrete version.
 
-    - `Type type`
+    - `JsonValue type = "agent"`
 
     - `String id`
 
-    - `long version`
+    - `int version`
 
       format: int32
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     Time the deployment was archived. Null if not archived.
 
     format: date-time
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     Time the deployment was created.
 
@@ -211,7 +223,7 @@ List Deployments
 
       A user message sent to the session.
 
-      - `Type type`
+      - `JsonValue type = "user.message"`
 
       - `List<Content> content`
 
@@ -221,7 +233,7 @@ List Deployments
 
           Regular text content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String text`
 
@@ -233,7 +245,7 @@ List Deployments
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `Type type`
+          - `JsonValue type = "image"`
 
           - `Source source`
 
@@ -243,7 +255,7 @@ List Deployments
 
               Base64-encoded image data.
 
-              - `Type type`
+              - `JsonValue type = "base64"`
 
               - `String data`
 
@@ -261,7 +273,7 @@ List Deployments
 
               Image referenced by URL.
 
-              - `Type type`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -273,7 +285,7 @@ List Deployments
 
               Image referenced by file ID.
 
-              - `Type type`
+              - `JsonValue type = "file"`
 
               - `String fileId`
 
@@ -285,7 +297,7 @@ List Deployments
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `Type type`
+          - `JsonValue type = "document"`
 
           - `Source source`
 
@@ -295,7 +307,7 @@ List Deployments
 
               Base64-encoded document data.
 
-              - `Type type`
+              - `JsonValue type = "base64"`
 
               - `String data`
 
@@ -313,7 +325,7 @@ List Deployments
 
               Plain text document content.
 
-              - `Type type`
+              - `JsonValue type = "text"`
 
               - `String data`
 
@@ -321,7 +333,7 @@ List Deployments
 
                 minLength: 1
 
-              - `MediaType mediaType`
+              - `JsonValue mediaType = "text/plain"`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -329,7 +341,7 @@ List Deployments
 
               Document referenced by URL.
 
-              - `Type type`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -341,7 +353,7 @@ List Deployments
 
               Document referenced by file ID.
 
-              - `Type type`
+              - `JsonValue type = "file"`
 
               - `String fileId`
 
@@ -361,13 +373,13 @@ List Deployments
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `Type type`
+          - `JsonValue type = "redacted"`
 
     - `class BetaManagedAgentsDeploymentUserDefineOutcomeEvent`
 
       An outcome the agent should work toward. The agent begins work on receipt.
 
-      - `Type type`
+      - `JsonValue type = "user.define_outcome"`
 
       - `String description`
 
@@ -381,7 +393,7 @@ List Deployments
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -391,13 +403,13 @@ List Deployments
 
           Rubric content provided inline as text.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String content`
 
             Rubric content. Plain text or markdown — the grader treats it as freeform text.
 
-      - `Optional<Long> maxIterations`
+      - `Optional<Integer> maxIterations`
 
         Eval→revision cycles before giving up. Default 3, max 20.
 
@@ -407,13 +419,13 @@ List Deployments
 
       Privileged context for the accompanying turn and all subsequent turns, appended to the session's system context as a `role: "system"` turn rather than replacing the top-level system prompt.
 
-      - `Type type`
+      - `JsonValue type = "system.message"`
 
       - `List<BetaManagedAgentsSystemContentBlock> content`
 
         System content blocks to append. Text-only.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -437,13 +449,13 @@ List Deployments
 
       The caller invoked the pause endpoint on the deployment.
 
-      - `Type type`
+      - `JsonValue type = "manual"`
 
     - `class BetaManagedAgentsErrorDeploymentPausedReason`
 
       A scheduled fire recorded a failed run whose error auto-pauses the deployment.
 
-      - `Type type`
+      - `JsonValue type = "error"`
 
       - `BetaManagedAgentsDeploymentPausedReasonError error`
 
@@ -453,85 +465,85 @@ List Deployments
 
           The deployment's environment was archived.
 
-          - `Type type`
+          - `JsonValue type = "environment_archived_error"`
 
         - `class BetaManagedAgentsAgentArchivedDeploymentPausedReasonError`
 
           The deployment's agent was archived.
 
-          - `Type type`
+          - `JsonValue type = "agent_archived_error"`
 
         - `class BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError`
 
           The deployment's environment no longer exists.
 
-          - `Type type`
+          - `JsonValue type = "environment_not_found_error"`
 
         - `class BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError`
 
           A vault referenced by the deployment no longer exists.
 
-          - `Type type`
+          - `JsonValue type = "vault_not_found_error"`
 
         - `class BetaManagedAgentsFileNotFoundDeploymentPausedReasonError`
 
           A file resource referenced by the deployment no longer exists.
 
-          - `Type type`
+          - `JsonValue type = "file_not_found_error"`
 
         - `class BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError`
 
           A referenced resource no longer exists and its kind was not reported.
 
-          - `Type type`
+          - `JsonValue type = "session_resource_not_found_error"`
 
         - `class BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError`
 
           The deployment's workspace was archived.
 
-          - `Type type`
+          - `JsonValue type = "workspace_archived_error"`
 
         - `class BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError`
 
           The deployment's organization is disabled.
 
-          - `Type type`
+          - `JsonValue type = "organization_disabled_error"`
 
         - `class BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError`
 
           A memory store referenced by the deployment is archived.
 
-          - `Type type`
+          - `JsonValue type = "memory_store_archived_error"`
 
         - `class BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError`
 
           A skill referenced by the deployment's agent no longer exists.
 
-          - `Type type`
+          - `JsonValue type = "skill_not_found_error"`
 
         - `class BetaManagedAgentsVaultArchivedDeploymentPausedReasonError`
 
           A vault referenced by the deployment is archived.
 
-          - `Type type`
+          - `JsonValue type = "vault_archived_error"`
 
         - `class BetaManagedAgentsUnknownDeploymentPausedReasonError`
 
           An unrecognized error auto-paused the deployment. A fallback variant; matches a run whose `error.type` is `unknown_error`.
 
-          - `Type type`
+          - `JsonValue type = "unknown_error"`
 
         - `class BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError`
 
           The deployment configures resources, but its environment is self-hosted and cannot mount them.
 
-          - `Type type`
+          - `JsonValue type = "self_hosted_resources_unsupported_error"`
 
         - `class BetaManagedAgentsMcpEgressBlockedDeploymentPausedReasonError`
 
           An MCP server host used by the deployment's agent is blocked by the environment's network policy.
 
-          - `Type type`
+          - `JsonValue type = "mcp_egress_blocked_error"`
 
   - `List<BetaManagedAgentsSessionResourceConfig> resources`
 
@@ -541,7 +553,7 @@ List Deployments
 
       A GitHub repository mounted into each session's container. The authorization token is write-only and never returned.
 
-      - `Type type`
+      - `JsonValue type = "github_repository"`
 
       - `String url`
 
@@ -553,7 +565,7 @@ List Deployments
 
         - `class BetaManagedAgentsBranchCheckout`
 
-          - `Type type`
+          - `JsonValue type = "branch"`
 
           - `String name`
 
@@ -563,13 +575,13 @@ List Deployments
 
         - `class BetaManagedAgentsCommitCheckout`
 
-          - `Type type`
+          - `JsonValue type = "commit"`
 
           - `String sha`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
       - `Optional<String> mountPath`
 
@@ -579,7 +591,7 @@ List Deployments
 
       A file mounted into each session's container.
 
-      - `Type type`
+      - `JsonValue type = "file"`
 
       - `String fileId`
 
@@ -593,7 +605,7 @@ List Deployments
 
       A memory store attached to each session created from this deployment.
 
-      - `Type type`
+      - `JsonValue type = "memory_store"`
 
       - `String memoryStoreId`
 
@@ -615,7 +627,7 @@ List Deployments
 
     Recurring cron schedule. Presence enables scheduled execution; null means manual-only. Includes computed timestamps (next fire times, last run) on the cron variant.
 
-    - `Type type`
+    - `JsonValue type = "cron"`
 
     - `String expression`
 
@@ -629,13 +641,13 @@ List Deployments
 
       minLength: 1
 
-    - `Optional<LocalDateTime> lastRunAt`
+    - `Optional<OffsetDateTime> lastRunAt`
 
       Time the most recent scheduled run actually started. Null until one completes; preserved after the deployment is archived. Manual runs do not update this.
 
       format: date-time
 
-    - `Optional<List<LocalDateTime>> upcomingRunsAt`
+    - `Optional<List<OffsetDateTime>> upcomingRunsAt`
 
       Up to 5 timestamps of upcoming cron occurrences. Non-empty for active and paused deployments (reflects what the schedule would do if unpaused); empty once the deployment is archived (`archived_at` set). Each fire is offset by a small per-schedule jitter, so a run will actually start at or shortly after its listed time.
 
@@ -651,7 +663,7 @@ List Deployments
 
       The deployment is paused. Autonomous triggers are suppressed; manual runs are still permitted.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     Time the deployment was last updated.
 
@@ -665,7 +677,7 @@ List Deployments
 
     Spend ceiling stamped onto each session created from this deployment. Absent when no budget is set.
 
-    - `Type type`
+    - `JsonValue type = "limit"`
 
     - `BetaMonetaryAmount maxListCost`
 
@@ -674,6 +686,8 @@ List Deployments
       - `String amount`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `BetaCurrency currency`
 

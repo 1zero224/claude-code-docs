@@ -17,28 +17,28 @@ The short version:
 
 ## The web backend and its API token
 
-The web client is a browser app backed by a Node server that owns the MCP connections. That server can start stdio processes on request, so every `/api/*` route requires a per-launch bearer token (`x-mcp-remote-auth: Bearer <token>`). How the browser obtains it is described under [The session token](/docs/2026-07-28/tools/inspector/web#the-session-token).
+The web client is a browser app backed by a Node server that owns the MCP connections. That server can start stdio processes on request, so every `/api/*` route requires a per-launch bearer token (`x-mcp-remote-auth: Bearer <token>`). How the browser obtains it is described under [The session token](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/web.md#the-session-token).
 
 What the token does and does not protect:
 
-* **The token is the real guard for non-browser clients.** The origin allow-list (`ALLOWED_ORIGINS`) stops other web pages from driving the backend, but a request that arrives with **no** `Origin` header (curl, a script, any non-browser client) skips that check entirely.
+* **The token is the real guard for non-browser clients.** The origin allow-list (`ALLOWED_ORIGINS`) stops other web pages from driving the backend, but a request that arrives with **no** `Origin` header (curl, a script, any non-browser client) skips that check entirely. A `Host` header allow-list runs ahead of every route, including `GET /`, and answers `403` to a request whose `Host` is not a loopback name, an IP literal, the bind host, an `ALLOWED_ORIGINS` hostname, or an entry of `MCP_INSPECTOR_ALLOWED_HOSTS`, so a DNS-rebinding page cannot load the page and read the token (see [Host binding and origins](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/web.md#host-binding-and-origins)).
 * **`GET /` discloses the token.** The backend injects it into the served HTML so that a reload or a bookmark keeps working. Anyone who can load the page can therefore read the token, which is why the bind address matters more than the token's value. Pinning your own `MCP_INSPECTOR_API_TOKEN` does not change this, since a custom token is disclosed exactly like a generated one.
 * **`DANGEROUSLY_OMIT_AUTH=true` removes the guard completely.** Anything that can reach the port can then spawn processes as you and use any OAuth token the Inspector holds. Only `true` or `1` turns auth off; any other value, including `false`, keeps it on.
 * **Only `/api/*` is gated.** The page itself, its static assets and `GET /healthz` are served without the token. `/healthz` returns only `{"status":"ok"}`, for container and orchestrator probes.
 
 ### Where the backend listens
 
-The backend binds `127.0.0.1` by default. Binding every interface (`0.0.0.0`, `::` and equivalent spellings) is refused unless you set `DANGEROUSLY_BIND_ALL_INTERFACES=true`. Binding one specific address is allowed without that opt-in, because it is one deliberate exposure rather than all of them at once. See [Hosting on a network](/docs/2026-07-28/tools/inspector/recipes#hosting-on-a-network).
+The backend binds `127.0.0.1` by default. Binding every interface (`0.0.0.0`, `::` and equivalent spellings) is refused unless you set `DANGEROUSLY_BIND_ALL_INTERFACES=true`. Binding one specific address is allowed without that opt-in, because it is one deliberate exposure rather than all of them at once. See [Hosting on a network](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/recipes.md#hosting-on-a-network).
 
-<Warning>
-  Never combine `DANGEROUSLY_OMIT_AUTH` with a non-loopback bind. If you need
-  the Inspector reachable by others, put a real access-control boundary in front
-  of it: an authenticating reverse proxy, an SSH tunnel, or a private network.
-</Warning>
+> [!WARNING]
+>
+> Never combine `DANGEROUSLY_OMIT_AUTH` with a non-loopback bind. If you need
+> the Inspector reachable by others, put a real access-control boundary in front
+> of it: an authenticating reverse proxy, an SSH tunnel, or a private network.
 
 ## Docker
 
-The [Docker image](/docs/2026-07-28/tools/inspector/recipes#docker) changes two things about the picture above.
+The [Docker image](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/recipes.md#docker) changes two things about the picture above.
 
 ### Publish the port on loopback only
 
@@ -61,22 +61,22 @@ Supply the key as a file with `MCP_INSPECTOR_SECRET_KEY_FILE` (a Docker or Compo
 
 The Inspector keeps credentials out of `mcp.json`, `client.json` and `oauth.json` so that sharing, committing or syncing those files does not leak them. These are stored as secrets:
 
-* acquired OAuth tokens (access, refresh and ID tokens), subject to [`MCP_INSPECTOR_PERSIST_TOKENS`](/docs/2026-07-28/tools/inspector/configuration#secret-store-variables), and IdP session tokens from enterprise-managed authorization;
+* acquired OAuth tokens (access, refresh and ID tokens), subject to [`MCP_INSPECTOR_PERSIST_TOKENS`](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/configuration#secret-store-variables), and IdP session tokens from enterprise-managed authorization;
 * each server's OAuth client secret, and the enterprise IdP client secret;
 * dynamically registered client secrets and their registration access tokens;
 * each stdio server's `env:` values.
 
 **`headers` are not secrets.** They are saved in `mcp.json` exactly as written, so a header that carries a credential (an API key, a static `Authorization` value) stays in the file.
 
-How the store is selected, and how to change it, is under [Where secrets are stored](/docs/2026-07-28/tools/inspector/configuration#where-secrets-are-stored). This section covers the risks.
+How the store is selected, and how to change it, is under [Where secrets are stored](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/configuration.md#where-secrets-are-stored). This section covers the risks.
 
 ### The automatic plaintext fallback
 
-<Warning>
-  On a host where the OS keychain cannot be reached (Linux without libsecret or a running Secret Service, a headless server or SSH session with no D-Bus session, Android/Termux), the Inspector **automatically** stores secrets in `~/.mcp-inspector/secrets.json`. You do not have to ask for it, and unless you supply a key that file is **unencrypted**.
-
-  The only signs are a warning on stderr when the store is selected and a footer in the web client's settings dialogs.
-</Warning>
+> [!WARNING]
+>
+> On a host where the OS keychain cannot be reached (Linux without libsecret or a running Secret Service, a headless server or SSH session with no D-Bus session, Android/Termux), the Inspector **automatically** stores secrets in `~/.mcp-inspector/secrets.json`. You do not have to ask for it, and unless you supply a key that file is **unencrypted**.
+>
+> The only signs are a warning on stderr when the store is selected and a footer in the web client's settings dialogs.
 
 Treat that as a risk, not just a configuration fact. The file is written with mode `0600`, which keeps out other non-root users and nothing else. To close it, do one of the following:
 
@@ -127,7 +127,7 @@ Only connect stdio servers you would trust with these secrets. To isolate one yo
 
 ## The mcpdo connection daemon
 
-[mcpdo](/docs/2026-07-28/tools/inspector/mcpdo) keeps connections open between commands by handing them to a background daemon, `mcpdod`. It is started **automatically** the first time a command needs it (`mcpdo connect`, or any command against a connection). There is no separate "start the daemon" step to opt into. This section describes what that process exposes.
+[mcpdo](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/mcpdo.md) keeps connections open between commands by handing them to a background daemon, `mcpdod`. It is started **automatically** the first time a command needs it (`mcpdo connect`, or any command against a connection). There is no separate "start the daemon" step to opt into. This section describes what that process exposes.
 
 ### How clients reach it, and who else can
 
@@ -149,12 +149,12 @@ Every request must carry a bearer token. There is no unauthenticated request pat
 
 Tokens are compared in constant time. A request line larger than 1 MiB is rejected. A command presenting the wrong token to a live daemon fails loudly. It never replaces that daemon.
 
-<Note>
-  Private mode separates connections and daemon state between shells. It is
-  **not** a security boundary against other processes running as your user:
-  anything with your UID that learns the daemon directory can read its token.
-  For a hard boundary, use a separate user account or a container.
-</Note>
+> [!NOTE]
+>
+> Private mode separates connections and daemon state between shells. It is
+> **not** a security boundary against other processes running as your user:
+> anything with your UID that learns the daemon directory can read its token.
+> For a hard boundary, use a separate user account or a container.
 
 ### What it holds in memory
 

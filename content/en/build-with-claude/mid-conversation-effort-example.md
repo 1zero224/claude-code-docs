@@ -10,7 +10,7 @@ The mode is not an API parameter. It is built entirely from documented pieces:
 
 1. **An effort level:** requests run at a documented [Effort](https://platform.claude.com/docs/en/build-with-claude/effort) value such as `xhigh`. There is no hidden level above the ones on that page. This example sets effort at the top level of each request, which needs no beta header.
 2. **A mode reminder:** a [mid-conversation system message](https://platform.claude.com/docs/en/build-with-claude/mid-conversation-system-messages) tells the model the mode is active, with a one-line refresher every several turns and an exit notice when the mode is turned off. The top-level `system` field never changes, so the cached prefix stays intact.
-3. **Standing consent in the tool description:** the orchestration tool's description states that while the mode is on, the model should author and run a workflow for every substantive task without asking first.
+3. **Standing consent in the tool description:** the orchestration tool’s description states that while the mode is on, the model should author and run a workflow for every substantive task without asking first.
 
 <Note>
   This example uses mid-conversation system messages; for the models and platforms that support them, see [Mid-conversation system messages](https://platform.claude.com/docs/en/build-with-claude/mid-conversation-system-messages). The fan-out itself multiplies token usage: a single request can spawn many subagent conversations, so reserve the mode for work that justifies the cost.
@@ -18,9 +18,17 @@ The mode is not an API parameter. It is built entirely from documented pieces:
 
 ## Set up the loop
 
-The example is a single file. The constants control the effort level, the fan-out shape, and how often the mode refresher is re-sent. `MAX_CONCURRENT` caps how many subagents run at the same time (the PHP port is sequential and ignores it); `MAX_TOTAL_SUBTASKS` caps how many the model may queue in a single Workflow call. Splitting the two lets the model plan a large backlog without launching it all at once. The `DOC_TEST_MODE` check caps the loops to a single turn when that environment variable is set, so the automated docs harness can validate that the file compiles and finishes quickly without running the full orchestration; leave it unset when running the example yourself.
+The example is a single file. The constants control the effort level, the fan-out shape, and how often the mode refresher is re-sent. `MAX_CONCURRENT` caps how many subagents run at the same time (the PHP port is sequential and ignores it); `MAX_TOTAL_SUBTASKS` caps how many the model may queue in a single Workflow call. Splitting the two lets the model plan a large backlog without launching it all at once. The `DOC_TEST_MODE` check caps the loops to a single turn when that environment variable is set, so the automated docs harness can validate that the file compiles and completes quickly without running the full orchestration; leave it unset when running the example yourself.
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    Set the constants in code.
+  </CodeGroupItem>
+
+  <CodeGroupItem language="CLI">
+    Set the constants in code.
+  </CodeGroupItem>
+
   ```python Python
   import atexit
   import concurrent.futures
@@ -40,7 +48,9 @@ The example is a single file. The constants control the effort level, the fan-ou
   MODEL = "claude-opus-5-5"
   EFFORT = "xhigh"
 
-  SYSTEM_PROMPT = "You are a helpful general-purpose agent. Answer the user's request directly."
+  SYSTEM_PROMPT = (
+      "You are a helpful general-purpose agent. Answer the user's request directly."
+  )
 
   REQUEST_TIMEOUT_SECONDS = 600
   BASH_TIMEOUT_SECONDS = 60
@@ -130,7 +140,7 @@ The example is a single file. The constants control the effort level, the fan-ou
   	"sync"
   	"time"
 
-  	"github.com/anthropics/anthropic-sdk-go"
+  	"github.com/anthropics/anthropic-sdk-go/v2"
   )
 
   var client = anthropic.NewClient()
@@ -162,7 +172,6 @@ The example is a single file. The constants control the effort level, the fan-ou
   	}
   	return normal
   }
-
   ```
 
   ```java Java
@@ -198,15 +207,17 @@ The example is a single file. The constants control the effort level, the fan-ou
 
   static final Model MODEL = Model.CLAUDE_OPUS_5_5;
   static final boolean DOC_TEST_MODE =
-          !Objects.requireNonNullElse(System.getenv("DOC_TEST_MODE"), "").isEmpty();
+      !Objects.requireNonNullElse(System.getenv("DOC_TEST_MODE"), "").isEmpty();
   static final OutputConfig.Effort EFFORT = OutputConfig.Effort.XHIGH;
 
   static final String SYSTEM_PROMPT =
-          "You are a helpful general-purpose agent. Answer the user's request directly.";
+      "You are a helpful general-purpose agent. Answer the user's request directly.";
 
   static final int REQUEST_TIMEOUT_SECONDS = 600;
   static final RequestOptions REQUEST_OPTIONS =
-          RequestOptions.builder().timeout(Duration.ofSeconds(REQUEST_TIMEOUT_SECONDS)).build();
+      RequestOptions.builder()
+          .timeout(Duration.ofSeconds(REQUEST_TIMEOUT_SECONDS))
+          .build();
   static final int BASH_TIMEOUT_SECONDS = 60;
   static final int TOOL_RESULT_MAX_CHARS = 8000;
   static final int MAX_CONCURRENT = 10;
@@ -215,8 +226,8 @@ The example is a single file. The constants control the effort level, the fan-ou
   static final int MAX_MAIN_TURNS = DOC_TEST_MODE ? 1 : 30;
   static final int TURNS_BETWEEN_REFRESHERS = 10;
   static final Path JOURNAL_PATH = Path.of(Optional.ofNullable(System.getenv("ORCH_JOURNAL"))
-          .filter(path -> !path.isEmpty())
-          .orElse("orchestration_journal.json"));
+      .filter(path -> !path.isEmpty())
+      .orElse("orchestration_journal.json"));
   ```
 
   ```php PHP
@@ -275,6 +286,14 @@ The example is a single file. The constants control the effort level, the fan-ou
 The reminders are short on purpose. They flip the mode and point at the tool description, where the heavyweight instructions live. The full text is sent once when the mode turns on, the refresher is re-sent only after several user turns, and the exit notice is sent once when the mode turns off.
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    Define the reminders in code.
+  </CodeGroupItem>
+
+  <CodeGroupItem language="CLI">
+    Define the reminders in code.
+  </CodeGroupItem>
+
   ```python Python
   MODE_ENTER = (
       "Orchestration mode is on: optimize for the most exhaustive, correct answer rather than "
@@ -283,9 +302,7 @@ The reminders are short on purpose. They flip the mode and point at the tool des
       "description for standing consent, granularity guidance, and quality patterns. Work solo "
       "only on conversational or trivial turns."
   )
-  MODE_REFRESH = (
-      "Orchestration mode is still on. Use the Workflow tool; see its standing consent section."
-  )
+  MODE_REFRESH = "Orchestration mode is still on. Use the Workflow tool; see its standing consent section."
   MODE_EXIT = (
       "Orchestration mode is off. The Workflow tool's standard opt-in rule applies again."
   )
@@ -327,20 +344,19 @@ The reminders are short on purpose. They flip the mode and point at the tool des
   	modeRefresh = "Orchestration mode is still on. Use the Workflow tool; see its standing consent section."
   	modeExit    = "Orchestration mode is off. The Workflow tool's standard opt-in rule applies again."
   )
-
   ```
 
   ```java Java
   static final String MODE_ENTER = """
-          Orchestration mode is on: optimize for the most exhaustive, correct answer rather than \
-          the fastest one. Use the Workflow tool on every substantive task, sized to the problem's \
-          natural decomposition rather than the maximum the tool allows. See the Workflow tool's \
-          description for standing consent, granularity guidance, and quality patterns. Work solo \
-          only on conversational or trivial turns.""";
+      Orchestration mode is on: optimize for the most exhaustive, correct answer rather than \
+      the fastest one. Use the Workflow tool on every substantive task, sized to the problem's \
+      natural decomposition rather than the maximum the tool allows. See the Workflow tool's \
+      description for standing consent, granularity guidance, and quality patterns. Work solo \
+      only on conversational or trivial turns.""";
   static final String MODE_REFRESH =
-          "Orchestration mode is still on. Use the Workflow tool; see its standing consent section.";
+      "Orchestration mode is still on. Use the Workflow tool; see its standing consent section.";
   static final String MODE_EXIT =
-          "Orchestration mode is off. The Workflow tool's standard opt-in rule applies again.";
+      "Orchestration mode is off. The Workflow tool's standard opt-in rule applies again.";
   ```
 
   ```php PHP
@@ -375,6 +391,14 @@ The reminders are short on purpose. They flip the mode and point at the tool des
 The Workflow tool carries the real behavioral contract: the opt-in rule, the standing consent that applies while the mode is on, granularity guidance for sizing the fan-out, and the quality patterns the model can reach for (a verification wave, a completeness critic, multiphase sequencing). Subagents also get a `report_findings` tool so their results come back as structured JSON instead of prose, and the bash tool is the Anthropic-defined `bash_20250124` tool run locally.
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    Define the tools in code.
+  </CodeGroupItem>
+
+  <CodeGroupItem language="CLI">
+    Define the tools in code.
+  </CodeGroupItem>
+
   ```python Python
   WORKFLOW_TOOL = {
       "name": "Workflow",
@@ -422,18 +446,27 @@ The Workflow tool carries the real behavioral contract: the opt-in rule, the sta
       "input_schema": {
           "type": "object",
           "properties": {
-              "summary": {"type": "string", "description": "Two or three sentences of synthesis"},
+              "summary": {
+                  "type": "string",
+                  "description": "Two or three sentences of synthesis",
+              },
               "findings": {
                   "type": "array",
                   "items": {
                       "type": "object",
                       "properties": {
-                          "claim": {"type": "string", "description": "The finding, one sentence"},
+                          "claim": {
+                              "type": "string",
+                              "description": "The finding, one sentence",
+                          },
                           "evidence": {
                               "type": "string",
                               "description": "How it was verified (file, line, or command output)",
                           },
-                          "severity": {"type": "string", "enum": ["high", "medium", "low", "info"]},
+                          "severity": {
+                              "type": "string",
+                              "enum": ["high", "medium", "low", "info"],
+                          },
                       },
                       "required": ["claim", "evidence", "severity"],
                   },
@@ -465,7 +498,7 @@ The Workflow tool carries the real behavioral contract: the opt-in rule, the sta
         "opt-in is standing. Author and run a workflow for every substantive task by default, " +
         "and lean toward verifying findings adversarially. Work solo only on conversational " +
         "turns or trivial mechanical edits. When a system message says the mode is off, " +
-        "revert to the opt-in rule above.",
+        "revert to the opt-in rule above."
     ].join("\n\n"),
     input_schema: {
       type: "object",
@@ -473,11 +506,11 @@ The Workflow tool carries the real behavioral contract: the opt-in rule, the sta
         subtasks: {
           type: "array",
           items: { type: "string" },
-          description: "Independent subtask prompts to run as parallel agents",
-        },
+          description: "Independent subtask prompts to run as parallel agents"
+        }
       },
-      required: ["subtasks"],
-    },
+      required: ["subtasks"]
+    }
   };
 
   const BASH_TOOL: Anthropic.ToolBash20250124 = { type: "bash_20250124", name: "bash" };
@@ -499,16 +532,16 @@ The Workflow tool carries the real behavioral contract: the opt-in rule, the sta
               claim: { type: "string", description: "The finding, one sentence" },
               evidence: {
                 type: "string",
-                description: "How it was verified (file, line, or command output)",
+                description: "How it was verified (file, line, or command output)"
               },
-              severity: { type: "string", enum: ["high", "medium", "low", "info"] },
+              severity: { type: "string", enum: ["high", "medium", "low", "info"] }
             },
-            required: ["claim", "evidence", "severity"],
-          },
-        },
+            required: ["claim", "evidence", "severity"]
+          }
+        }
       },
-      required: ["summary", "findings"],
-    },
+      required: ["summary", "findings"]
+    }
   };
   ```
 
@@ -651,77 +684,76 @@ The Workflow tool carries the real behavioral contract: the opt-in rule, the sta
   		},
   	},
   }
-
   ```
 
   ```java Java
   static final Tool WORKFLOW_TOOL = Tool.builder()
-          .name("Workflow")
-          .description("""
-                  Orchestrate a multiagent workflow: split a large task into independent subtasks \
-                  and run them as parallel agents, then collect their results.
+      .name("Workflow")
+      .description("""
+          Orchestrate a multiagent workflow: split a large task into independent subtasks \
+          and run them as parallel agents, then collect their results.
 
-                  Opt-in: only use this tool when the user explicitly asks for a workflow, or when a \
-                  system message confirms that orchestration mode is on.
+          Opt-in: only use this tool when the user explicitly asks for a workflow, or when a \
+          system message confirms that orchestration mode is on.
 
-                  Quality patterns: adversarial verification (a second wave of agents checks the first \
-                  wave's findings against the source), a completeness critic (one agent hunts for what \
-                  the others missed), and multiphase sequencing (understand, design, implement, and \
-                  review as separate workflow calls, reading results between phases). A useful default \
-                  is hybrid: scout inline first to discover the work-list, then fan out over it.
+          Quality patterns: adversarial verification (a second wave of agents checks the first \
+          wave's findings against the source), a completeness critic (one agent hunts for what \
+          the others missed), and multiphase sequencing (understand, design, implement, and \
+          review as separate workflow calls, reading results between phases). A useful default \
+          is hybrid: scout inline first to discover the work-list, then fan out over it.
 
-                  Granularity: scope each subtask to a distinct concern, component, or question rather \
-                  than per line or per file section. Scale the count to what the user asked for: a \
-                  focused review of a module of a few hundred lines rarely needs more than about ten \
-                  subtasks; a broad audit of a large codebase can justify more.
+          Granularity: scope each subtask to a distinct concern, component, or question rather \
+          than per line or per file section. Scale the count to what the user asked for: a \
+          focused review of a module of a few hundred lines rarely needs more than about ten \
+          subtasks; a broad audit of a large codebase can justify more.
 
-                  Standing consent: while a system message confirms orchestration mode is on, that \
-                  opt-in is standing. Author and run a workflow for every substantive task by default, \
-                  and lean toward verifying findings adversarially. Work solo only on conversational \
-                  turns or trivial mechanical edits. When a system message says the mode is off, \
-                  revert to the opt-in rule above.""")
-          .inputSchema(Tool.InputSchema.builder()
-                  .properties(Tool.InputSchema.Properties.builder()
-                          .putAdditionalProperty("subtasks", JsonValue.from(Map.of(
-                                  "type", "array",
-                                  "items", Map.of("type", "string"),
-                                  "description", "Independent subtask prompts to run as parallel agents")))
-                          .build())
-                  .putAdditionalProperty("required", JsonValue.from(List.of("subtasks")))
-                  .build())
-          .build();
+          Standing consent: while a system message confirms orchestration mode is on, that \
+          opt-in is standing. Author and run a workflow for every substantive task by default, \
+          and lean toward verifying findings adversarially. Work solo only on conversational \
+          turns or trivial mechanical edits. When a system message says the mode is off, \
+          revert to the opt-in rule above.""")
+      .inputSchema(Tool.InputSchema.builder()
+          .properties(Tool.InputSchema.Properties.builder()
+              .putAdditionalProperty("subtasks", JsonValue.from(Map.of(
+                  "type", "array",
+                  "items", Map.of("type", "string"),
+                  "description", "Independent subtask prompts to run as parallel agents")))
+              .build())
+          .putAdditionalProperty("required", JsonValue.from(List.of("subtasks")))
+          .build())
+      .build();
 
   static final ToolBash20250124 BASH_TOOL = ToolBash20250124.builder().build();
 
   static final Tool REPORT_TOOL = Tool.builder()
-          .name("report_findings")
-          .description("""
-                  Report the final findings for your subtask. Call this exactly once, when you are \
-                  done investigating; it ends your task.""")
-          .inputSchema(Tool.InputSchema.builder()
-                  .properties(Tool.InputSchema.Properties.builder()
-                          .putAdditionalProperty("summary", JsonValue.from(Map.of(
-                                  "type", "string",
-                                  "description", "Two or three sentences of synthesis")))
-                          .putAdditionalProperty("findings", JsonValue.from(Map.of(
-                                  "type", "array",
-                                  "items", Map.of(
-                                          "type", "object",
-                                          "properties", Map.of(
-                                                  "claim", Map.of(
-                                                          "type", "string",
-                                                          "description", "The finding, one sentence"),
-                                                  "evidence", Map.of(
-                                                          "type", "string",
-                                                          "description", "How it was verified (file, line, or command output)"),
-                                                  "severity", Map.of(
-                                                          "type", "string",
-                                                          "enum", List.of("high", "medium", "low", "info"))),
-                                          "required", List.of("claim", "evidence", "severity")))))
-                          .build())
-                  .putAdditionalProperty("required", JsonValue.from(List.of("summary", "findings")))
-                  .build())
-          .build();
+      .name("report_findings")
+      .description("""
+          Report the final findings for your subtask. Call this exactly once, when you are \
+          done investigating; it ends your task.""")
+      .inputSchema(Tool.InputSchema.builder()
+          .properties(Tool.InputSchema.Properties.builder()
+              .putAdditionalProperty("summary", JsonValue.from(Map.of(
+                  "type", "string",
+                  "description", "Two or three sentences of synthesis")))
+              .putAdditionalProperty("findings", JsonValue.from(Map.of(
+                  "type", "array",
+                  "items", Map.of(
+                      "type", "object",
+                      "properties", Map.of(
+                          "claim", Map.of(
+                              "type", "string",
+                              "description", "The finding, one sentence"),
+                          "evidence", Map.of(
+                              "type", "string",
+                              "description", "How it was verified (file, line, or command output)"),
+                          "severity", Map.of(
+                              "type", "string",
+                              "enum", List.of("high", "medium", "low", "info"))),
+                      "required", List.of("claim", "evidence", "severity")))))
+              .build())
+          .putAdditionalProperty("required", JsonValue.from(List.of("summary", "findings")))
+          .build())
+      .build();
   ```
 
   ```php PHP
@@ -861,9 +893,17 @@ The Workflow tool carries the real behavioral contract: the opt-in rule, the sta
 
 ## Run the bash tool locally
 
-The bash handler runs the requested command with a timeout, captures combined stdout and stderr, and truncates the result so a runaway command can't flood the context window. Commands run in the directory you launch the example from, so pointing it at a project means starting it there; when `DOC_TEST_MODE` is set, the harness instead gives bash a small throwaway fixture directory that is removed on exit. There is no sandbox here: the command runs with the permissions of the process that launched the example. For clarity this example runs each call in a fresh subshell rather than maintaining the persistent session the `bash_20250124` contract describes; a production agent should back the tool with a long-lived shell so that working directory, environment, and the `restart` action behave as documented.
+The bash handler runs the requested command with a timeout, captures combined stdout and stderr, and truncates the result so a runaway command can’t flood the context window. Commands run in the directory you launch the example from, so pointing it at a project means starting it there; when `DOC_TEST_MODE` is set, the harness instead gives bash a small throwaway fixture directory that is removed on exit. There is no sandbox here: the command runs with the permissions of the process that launched the example. For clarity this example runs each call in a fresh subshell rather than maintaining the persistent session the `bash_20250124` contract describes; a production agent should back the tool with a long-lived shell so that working directory, environment, and the `restart` action behave as documented.
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    Run the requested command in code.
+  </CodeGroupItem>
+
+  <CodeGroupItem language="CLI">
+    Run the requested command in code.
+  </CodeGroupItem>
+
   ```python Python
   # Run bash where the example was launched. In DOC_TEST_MODE the docs harness
   # points it at a throwaway fixture directory instead, removed on exit.
@@ -896,7 +936,10 @@ The bash handler runs the requested command with a timeout, captures combined st
           return f"command timed out after {BASH_TIMEOUT_SECONDS}s", True
       output = (proc.stdout + proc.stderr).strip() or "(no output)"
       if len(output) > TOOL_RESULT_MAX_CHARS:
-          output = output[:TOOL_RESULT_MAX_CHARS] + f"\n(truncated at {TOOL_RESULT_MAX_CHARS} chars)"
+          output = (
+              output[:TOOL_RESULT_MAX_CHARS]
+              + f"\n(truncated at {TOOL_RESULT_MAX_CHARS} chars)"
+          )
       if proc.returncode != 0:
           output = f"(exit code {proc.returncode})\n{output}"
       return output, proc.returncode != 0
@@ -927,7 +970,7 @@ The bash handler runs the requested command with a timeout, captures combined st
       return n if n < 2 else fib(n - 1) + fib(n - 2)
 
   print(fib(10))
-  `,
+  `
     );
   }
 
@@ -938,7 +981,7 @@ The bash handler runs the requested command with a timeout, captures combined st
       shell: "/bin/bash",
       cwd: WORK_DIR,
       timeout: BASH_TIMEOUT_SECONDS * 1000,
-      maxBuffer: 16 * 1024 * 1024,
+      maxBuffer: 16 * 1024 * 1024
     };
     return new Promise((resolve) => {
       exec(command, options, (error, stdout, stderr) => {
@@ -1047,7 +1090,7 @@ The bash handler runs the requested command with a timeout, captures combined st
       return (output, process.ExitCode != 0);
   }
 
-  // Execute one bash tool call requested by the model.
+  // Run one bash tool call requested by the model.
   async Task<(string Output, bool IsError)> HandleBashBlock(ToolUseBlock block)
   {
       if (block.Input.GetValueOrDefault("restart").ValueKind is JsonValueKind.True)
@@ -1115,7 +1158,7 @@ The bash handler runs the requested command with a timeout, captures combined st
   	return fmt.Sprintf("(%s)\n%s", err, output), true
   }
 
-  // handleBashBlock executes one bash tool call requested by the model.
+  // handleBashBlock runs one bash tool call requested by the model.
   func handleBashBlock(ctx context.Context, block anthropic.ToolUseBlock) (string, bool) {
   	var input struct {
   		Command string `json:"command"`
@@ -1132,7 +1175,6 @@ The bash handler runs the requested command with a timeout, captures combined st
   	}
   	return runBash(ctx, input.Command)
   }
-
   ```
 
   ```java Java
@@ -1149,11 +1191,11 @@ The bash handler runs the requested command with a timeout, captures combined st
       try {
           var dir = Files.createTempDirectory("orchestration-");
           Files.writeString(dir.resolve("sample.py"), """
-                  def fib(n):
-                      return n if n < 2 else fib(n - 1) + fib(n - 2)
+              def fib(n):
+                  return n if n < 2 else fib(n - 1) + fib(n - 2)
 
-                  print(fib(10))
-                  """);
+              print(fib(10))
+              """);
           Runtime.getRuntime().addShutdownHook(new Thread(() -> {
               // Best-effort cleanup; the OS tmp sweeper handles leftovers.
               try (var paths = Files.walk(dir)) {
@@ -1174,13 +1216,13 @@ The bash handler runs the requested command with a timeout, captures combined st
       Process process;
       try {
           process = new ProcessBuilder("bash", "-c", command)
-                  .directory(WORK_DIR.toFile())
-                  .redirectErrorStream(true)
-                  .start();
+              .directory(WORK_DIR.toFile())
+              .redirectErrorStream(true)
+              .start();
       } catch (IOException error) {
           return new ToolOutput("(" + error + ")", true);
       }
-      // Drain stdout on another thread so a filled pipe cannot stall the timeout wait below.
+      // Drain stdout on another thread so a filled pipe cannot stall the timeout wait that follows.
       CompletableFuture<String> outputReader = CompletableFuture.supplyAsync(() -> {
           try (var stdout = process.getInputStream()) {
               return new String(stdout.readAllBytes(), StandardCharsets.UTF_8);
@@ -1198,12 +1240,12 @@ The bash handler runs the requested command with a timeout, captures combined st
           output = "(no output)";
       } else if (output.length() > TOOL_RESULT_MAX_CHARS) {
           output = output.substring(0, TOOL_RESULT_MAX_CHARS)
-                  + "\n(truncated at " + TOOL_RESULT_MAX_CHARS + " chars)";
+              + "\n(truncated at " + TOOL_RESULT_MAX_CHARS + " chars)";
       }
       int exitCode = process.exitValue();
       return exitCode == 0
-              ? new ToolOutput(output, false)
-              : new ToolOutput("(exit code " + exitCode + ")\n" + output, true);
+          ? new ToolOutput(output, false)
+          : new ToolOutput("(exit code " + exitCode + ")\n" + output, true);
   }
 
   // A tool call's input fields, or an empty map if the model sent something other than an object.
@@ -1211,7 +1253,7 @@ The bash handler runs the requested command with a timeout, captures combined st
       return toolUse._input() instanceof JsonObject object ? object.values() : Map.of();
   }
 
-  // Execute one bash tool call requested by the model.
+  // Run one bash tool call requested by the model.
   ToolOutput handleBashBlock(ToolUseBlock toolUse) throws InterruptedException {
       Map<String, JsonValue> input = toolInput(toolUse);
       if (input.get("restart") instanceof JsonBoolean restart && restart.value()) {
@@ -1281,7 +1323,7 @@ The bash handler runs the requested command with a timeout, captures combined st
       return [$output, $exitCode !== 0];
   }
 
-  /** Execute one bash tool call requested by the model. */
+  /** Run one bash tool call requested by the model. */
   function handleBashBlock(ToolUseBlock $block): array
   {
       if (($block->input['restart'] ?? null) === true) {
@@ -1329,7 +1371,7 @@ The bash handler runs the requested command with a timeout, captures combined st
       stdin.close
       reader = Thread.new { stdout_and_stderr.read.scrub }
       # Enforce the time limit with a monotonic-clock deadline so a timed-out command is
-      # terminated rather than left running in the background.
+      # ended rather than left running in the background.
       deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + BASH_TIMEOUT_SECONDS
       until wait_thr.join(0.1)
         next if Process.clock_gettime(Process::CLOCK_MONOTONIC) < deadline
@@ -1363,7 +1405,7 @@ The bash handler runs the requested command with a timeout, captures combined st
     end
   end
 
-  # Execute one bash tool call requested by the model.
+  # Run one bash tool call requested by the model.
   def handle_bash_block(block)
     input = parse_tool_input(block.input)
     return ["Shell restarted.", false] if input["restart"] == true
@@ -1401,6 +1443,14 @@ The bash handler runs the requested command with a timeout, captures combined st
 Each workflow subtask becomes its own small agent loop with the bash tool, running at the same effort as the main loop. A per-request timeout bounds each API call so a dropped connection degrades one subagent instead of stalling the whole run.
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    The full example needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
+
+  <CodeGroupItem language="CLI">
+    The full example needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
+
   ```python Python
   def run_subagent(model: str, prompt: str) -> str:
       """One subagent: a small nested agent loop with the bash tool plus report_findings.
@@ -1426,7 +1476,9 @@ Each workflow subtask becomes its own small agent loop with the bash tool, runni
           if response.stop_reason == "pause_turn":
               continue
           if response.stop_reason != "tool_use":
-              text = "".join(block.text for block in response.content if block.type == "text")
+              text = "".join(
+                  block.text for block in response.content if block.type == "text"
+              )
               if response.stop_reason == "max_tokens":
                   text += "\n\n(warning: subagent response was truncated at max_tokens)"
               return text
@@ -1475,9 +1527,9 @@ Each workflow subtask becomes its own small agent loop with the bash tool, runni
             system: subagentSystem,
             output_config: { effort: EFFORT },
             tools: [BASH_TOOL, REPORT_TOOL],
-            messages,
+            messages
           },
-          { signal: AbortSignal.timeout(REQUEST_TIMEOUT_SECONDS * 1000) },
+          { signal: AbortSignal.timeout(REQUEST_TIMEOUT_SECONDS * 1000) }
         )
         .finalMessage();
       messages.push({ role: "assistant", content: response.content });
@@ -1515,7 +1567,7 @@ Each workflow subtask becomes its own small agent loop with the bash tool, runni
           type: "tool_result",
           tool_use_id: block.id,
           content: outcome.output,
-          is_error: outcome.isError,
+          is_error: outcome.isError
         });
       }
       if (report !== null) {
@@ -1538,7 +1590,7 @@ Each workflow subtask becomes its own small agent loop with the bash tool, runni
           "You are one agent in a larger parallel fan-out, assigned a single subtask. "
           + "Investigate it directly, using bash to check facts rather than guessing, and finish "
           + "by calling report_findings exactly once. Return findings, not narration.";
-      List<MessageParam> messages = [new() { Role = Role.User, Content = prompt }];
+      List<MessageParam> messages = [new UserMessageParam { Content = prompt }];
       for (var turn = 0; turn < maxSubagentTurns; turn++)
       {
           using var deadline = new CancellationTokenSource(TimeSpan.FromSeconds(requestTimeoutSeconds));
@@ -1551,9 +1603,8 @@ Each workflow subtask becomes its own small agent loop with the bash tool, runni
               Tools = [bashTool, reportTool],
               Messages = messages,
           }, cancellationToken: deadline.Token).Aggregate();
-          messages.Add(new()
+          messages.Add(new AssistantMessageParam
           {
-              Role = Role.Assistant,
               Content = response.Content.Select(block => new ContentBlockParam(block.Json)).ToList(),
           });
           if (response.StopReason == StopReason.PauseTurn)
@@ -1594,7 +1645,7 @@ Each workflow subtask becomes its own small agent loop with the bash tool, runni
           {
               return report;
           }
-          messages.Add(new() { Role = Role.User, Content = toolResults });
+          messages.Add(new UserMessageParam { Content = toolResults });
       }
       return "(subagent hit the turn limit before finishing)";
   }
@@ -1692,30 +1743,31 @@ Each workflow subtask becomes its own small agent loop with the bash tool, runni
   	}
   	return "(subagent hit the turn limit before finishing)", nil
   }
-
   ```
 
   ```java Java
   static final String SUBAGENT_SYSTEM = """
-          You are one agent in a larger parallel fan-out, assigned a single subtask. \
-          Investigate it directly, using bash to check facts rather than guessing, and finish \
-          by calling report_findings exactly once. Return findings, not narration.""";
+      You are one agent in a larger parallel fan-out, assigned a single subtask. \
+      Investigate it directly, using bash to check facts rather than guessing, and finish \
+      by calling report_findings exactly once. Return findings, not narration.""";
 
   // One subagent: a small nested agent loop with the bash tool plus report_findings.
   // Subagents inherit the main loop's effort level.
   String runSubagent(Model model, String prompt) throws InterruptedException {
       List<MessageParam> messages = new ArrayList<>();
-      messages.add(MessageParam.builder().role(MessageParam.Role.USER).content(prompt).build());
+      messages.add(MessageParam.ofUser(prompt));
       for (int turn = 0; turn < MAX_SUBAGENT_TURNS; turn++) {
           MessageCreateParams params = MessageCreateParams.builder()
-                  .model(model)
-                  .maxTokens(64000L)
-                  .system(SUBAGENT_SYSTEM)
-                  .outputConfig(OutputConfig.builder().effort(EFFORT).build())
-                  .addTool(BASH_TOOL)
-                  .addTool(REPORT_TOOL)
-                  .messages(messages)
-                  .build();
+              .model(model)
+              .maxTokens(64000L)
+              .system(SUBAGENT_SYSTEM)
+              .outputConfig(OutputConfig.builder()
+                  .effort(EFFORT)
+                  .build())
+              .addTool(BASH_TOOL)
+              .addTool(REPORT_TOOL)
+              .messages(messages)
+              .build();
           MessageAccumulator accumulator = MessageAccumulator.create();
           try (var stream = client.messages().createStreaming(params, REQUEST_OPTIONS)) {
               stream.stream().forEach(accumulator::accumulate);
@@ -1728,17 +1780,17 @@ Each workflow subtask becomes its own small agent loop with the bash tool, runni
           }
           if (!StopReason.TOOL_USE.equals(stopReason)) {
               String text = response.content().stream()
-                      .flatMap(block -> block.text().stream())
-                      .map(TextBlock::text)
-                      .collect(Collectors.joining());
+                  .flatMap(block -> block.text().stream())
+                  .map(TextBlock::text)
+                  .collect(Collectors.joining());
               if (StopReason.MAX_TOKENS.equals(stopReason)) {
                   text += "\n\n(warning: subagent response was truncated at max_tokens)";
               }
               return text;
           }
           List<ToolUseBlock> toolUses = response.content().stream()
-                  .flatMap(block -> block.toolUse().stream())
-                  .toList();
+              .flatMap(block -> block.toolUse().stream())
+              .toList();
           List<ContentBlockParam> toolResults = new ArrayList<>();
           String report = null;
           for (ToolUseBlock toolUse : toolUses) {
@@ -1751,18 +1803,15 @@ Each workflow subtask becomes its own small agent loop with the bash tool, runni
                   default -> new ToolOutput("unknown tool: " + toolUse.name(), true);
               };
               toolResults.add(ContentBlockParam.ofToolResult(ToolResultBlockParam.builder()
-                      .toolUseId(toolUse.id())
-                      .content(result.output())
-                      .isError(result.isError())
-                      .build()));
+                  .toolUseId(toolUse.id())
+                  .content(result.output())
+                  .isError(result.isError())
+                  .build()));
           }
           if (report != null) {
               return report;
           }
-          messages.add(MessageParam.builder()
-                  .role(MessageParam.Role.USER)
-                  .contentOfBlockParams(toolResults)
-                  .build());
+          messages.add(MessageParam.ofUserOfContentBlockParams(toolResults));
       }
       return "(subagent hit the turn limit before finishing)";
   }
@@ -1943,9 +1992,17 @@ Each workflow subtask becomes its own small agent loop with the bash tool, runni
 
 ## Journal results so reruns resume
 
-A fan-out that spawns dozens of subagents is expensive to restart from scratch. A small content-addressed journal makes it idempotent: before dispatching a subagent, look up the SHA-256 of its prompt in a local JSON file, and return the recorded result if one exists. Interrupt the run, rerun it, and only the subtasks that never finished are recomputed. The journal deduplicates across runs, not within a single fan-out wave; delete the journal file to start fresh.
+A fan-out that spawns dozens of subagents is expensive to restart from the beginning. A small content-addressed journal makes it idempotent: before dispatching a subagent, look up the SHA-256 of its prompt in a local JSON file, and return the recorded result if one exists. Interrupt the run, rerun it, and only the subtasks that never completed are recomputed. The journal deduplicates across runs, not within a single fan-out wave; delete the journal file to start fresh.
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    Read and write the journal in code.
+  </CodeGroupItem>
+
+  <CodeGroupItem language="CLI">
+    Read and write the journal in code.
+  </CodeGroupItem>
+
   ```python Python
   _journal_lock = threading.Lock()
 
@@ -1976,7 +2033,8 @@ A fan-out that spawns dozens of subagents is expensive to restart from scratch. 
               with open(temp, "w") as file:
                   json.dump(journal, file)
               os.replace(temp, JOURNAL_PATH)  # atomic on POSIX and Windows
-      except OSError as error:  # the journal is best-effort; never discard a computed result
+      # A failed journal write must not lose the computed result
+      except OSError as error:
           print(f"[journal] write failed: {error}", file=sys.stderr)
       return result
   ```
@@ -2006,8 +2064,8 @@ A fan-out that spawns dozens of subagents is expensive to restart from scratch. 
       return cached;
     }
     const result = await compute();
-    // Chain writes so concurrent subagents do not clobber each other's entries.
-    // The chain is kept settled so one failed write does not poison later ones.
+    // Chain writes so concurrent subagents do not overwrite each other's entries.
+    // The chain is kept settled so one failed write does not cause later ones to fail.
     await (journalWriteChain = journalWriteChain
       .then(async () => {
         const journal = await loadJournal();
@@ -2113,7 +2171,6 @@ A fan-out that spawns dozens of subagents is expensive to restart from scratch. 
   	}
   	return result, nil
   }
-
   ```
 
   ```java Java
@@ -2123,8 +2180,8 @@ A fan-out that spawns dozens of subagents is expensive to restart from scratch. 
   Map<String, String> loadJournal() {
       try {
           return Objects.requireNonNullElseGet(
-                  JOURNAL_MAPPER.readValue(Files.readString(JOURNAL_PATH), new TypeReference<HashMap<String, String>>() {}),
-                  HashMap::new);
+              JOURNAL_MAPPER.readValue(Files.readString(JOURNAL_PATH), new TypeReference<HashMap<String, String>>() {}),
+              HashMap::new);
       } catch (IOException _) {
           return new HashMap<>();
       }
@@ -2234,9 +2291,17 @@ A fan-out that spawns dozens of subagents is expensive to restart from scratch. 
 
 ## Fan out, then verify
 
-The fan-out accepts up to `MAX_TOTAL_SUBTASKS` prompts, runs them through the journal with at most `MAX_CONCURRENT` in flight (sequential in the PHP port), and isolates failures so one broken subagent degrades to an error string instead of ending the run. Once the first wave finishes, a second wave reuses the same subagent path to try to refute each result: every verifier re-derives the claims from the source, defaulting to refuted when uncertain. Both the original result and its verdict are returned to the orchestrator so it can weigh them together.
+The fan-out accepts up to `MAX_TOTAL_SUBTASKS` prompts, runs them through the journal with at most `MAX_CONCURRENT` in flight (sequential in the PHP port), and isolates failures so one broken subagent degrades to an error string instead of ending the run. Once the first wave completes, a second wave reuses the same subagent path to attempt to refute each result: every verifier re-derives the claims from the source, defaulting to refuted when uncertain. Both the original result and its verdict are returned to the orchestrator so it can weigh them together.
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    The full example needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
+
+  <CodeGroupItem language="CLI">
+    The full example needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
+
   ```python Python
   def normalize_subtasks(raw) -> list[str]:
       """Accept the subtasks input in whatever shape the model emits: an array, the array
@@ -2279,13 +2344,16 @@ The fan-out accepts up to `MAX_TOTAL_SUBTASKS` prompts, runs them through the jo
       def run_one(prompt: str) -> str:
           try:
               return journaled(prompt, lambda: run_subagent(model, prompt))
-          except Exception as error:  # isolation boundary: one bad subagent should not end the run
+          # One failed subagent must not end the run
+          except Exception as error:
               return f"(subagent failed: {type(error).__name__}: {error})"
 
       with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_CONCURRENT) as pool:
           results = list(pool.map(run_one, subtasks))
           print(f"[workflow] verifying {len(results)} results", file=sys.stderr)
-          verify_prompts = [verify_prompt_for(task, result) for task, result in zip(subtasks, results)]
+          verify_prompts = [
+              verify_prompt_for(task, result) for task, result in zip(subtasks, results)
+          ]
           verdicts = list(pool.map(run_one, verify_prompts))
 
       joined = "\n\n".join(
@@ -2294,7 +2362,9 @@ The fan-out accepts up to `MAX_TOTAL_SUBTASKS` prompts, runs them through the jo
 
   [verify {index + 1}]
   {verdict}"""
-          for index, (task, result, verdict) in enumerate(zip(subtasks, results, verdicts))
+          for index, (task, result, verdict) in enumerate(
+              zip(subtasks, results, verdicts)
+          )
       )
       if dropped > 0:
           joined = (
@@ -2320,7 +2390,7 @@ The fan-out accepts up to `MAX_TOTAL_SUBTASKS` prompts, runs them through the jo
       return [];
     }
     return value
-      .filter((task): task is string => typeof task === "string")
+      .filter((task) => typeof task === "string")
       .map((task) => task.trim())
       .filter((task) => task.length > 0);
   }
@@ -2344,7 +2414,7 @@ The fan-out accepts up to `MAX_TOTAL_SUBTASKS` prompts, runs them through the jo
   async function mapWithLimit<In, Out>(
     items: readonly In[],
     limit: number,
-    task: (item: In) => Promise<Out>,
+    task: (item: In) => Promise<Out>
   ): Promise<Out[]> {
     const results = new Array<Out>(items.length);
     let cursor = 0;
@@ -2375,7 +2445,8 @@ The fan-out accepts up to `MAX_TOTAL_SUBTASKS` prompts, runs them through the jo
         return await journaled(prompt, () => runSubagent(model, prompt));
       } catch (error) {
         // Isolation boundary: one bad subagent should not end the run.
-        const reason = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+        const reason =
+          error instanceof Error ? `${error.name}: ${error.message}` : String(error);
         return `(subagent failed: ${reason})`;
       }
     };
@@ -2391,7 +2462,7 @@ The fan-out accepts up to `MAX_TOTAL_SUBTASKS` prompts, runs them through the jo
   ${results[index]}
 
   [verify ${index + 1}]
-  ${verdicts[index]}`,
+  ${verdicts[index]}`
       )
       .join("\n\n");
     const droppedNote =
@@ -2592,7 +2663,6 @@ The fan-out accepts up to `MAX_TOTAL_SUBTASKS` prompts, runs them through the jo
   	}
   	return joined, false
   }
-
   ```
 
   ```java Java
@@ -2601,16 +2671,16 @@ The fan-out accepts up to `MAX_TOTAL_SUBTASKS` prompts, runs them through the jo
   List<String> normalizeSubtasks(JsonValue rawSubtasks) {
       List<String> tasks = switch (rawSubtasks) {
           case JsonArray array -> array.values().stream()
-                  .map(item -> item instanceof JsonString text ? text.value() : item.toString())
-                  .toList();
+              .map(item -> item instanceof JsonString text ? text.value() : item.toString())
+              .toList();
           case JsonString string -> parseSubtaskString(string.value());
           default -> List.of();
       };
       return tasks.stream()
-              .filter(Objects::nonNull)
-              .map(String::strip)
-              .filter(task -> !task.isEmpty())
-              .toList();
+          .filter(Objects::nonNull)
+          .map(String::strip)
+          .filter(task -> !task.isEmpty())
+          .toList();
   }
 
   List<String> parseSubtaskString(String encoded) {
@@ -2624,31 +2694,31 @@ The fan-out accepts up to `MAX_TOTAL_SUBTASKS` prompts, runs them through the jo
 
   String verifyPromptFor(String subtask, String result) {
       return """
-              Adversarially verify the subagent result below: try to REFUTE it. Re-derive the \
-              claims yourself with bash rather than trusting the result, and look for evidence \
-              that contradicts them. Default to refuted if uncertain. Call report_findings with \
-              summary 'refuted: <why>' or 'confirmed: <why>', citing the file:line or command \
-              output that decided it.
+          Adversarially verify the subagent result below: try to REFUTE it. Re-derive the \
+          claims yourself with bash rather than trusting the result, and look for evidence \
+          that contradicts them. Default to refuted if uncertain. Call report_findings with \
+          summary 'refuted: <why>' or 'confirmed: <why>', citing the file:line or command \
+          output that decided it.
 
-              Subtask: %s
+          Subtask: %s
 
-              Result to verify:
-              %s""".formatted(subtask, result);
+          Result to verify:
+          %s""".formatted(subtask, result);
   }
 
   // invokeAll waits for every job, so each future is finished when it is read here.
   List<String> runAll(ExecutorService pool, List<String> prompts, Model model) throws InterruptedException {
       List<Callable<String>> jobs = prompts.stream()
-              .<Callable<String>>map(prompt -> () -> journaled(prompt, () -> runSubagent(model, prompt)))
-              .toList();
+          .<Callable<String>>map(prompt -> () -> journaled(prompt, () -> runSubagent(model, prompt)))
+          .toList();
       return pool.invokeAll(jobs).stream()
-              .map(future -> switch (future.state()) {
-                  case SUCCESS -> future.resultNow();
-                  // Isolation boundary: one bad subagent should not end the run.
-                  case FAILED -> "(subagent failed: " + future.exceptionNow() + ")";
-                  case CANCELLED, RUNNING -> "(subagent failed: cancelled)";
-              })
-              .toList();
+          .map(future -> switch (future.state()) {
+              case SUCCESS -> future.resultNow();
+              // Isolation boundary: one bad subagent should not end the run.
+              case FAILED -> "(subagent failed: " + future.exceptionNow() + ")";
+              case CANCELLED, RUNNING -> "(subagent failed: cancelled)";
+          })
+          .toList();
   }
 
   // Run subtasks as parallel subagents, then run a second verification wave over
@@ -2669,23 +2739,23 @@ The fan-out accepts up to `MAX_TOTAL_SUBTASKS` prompts, runs them through the jo
           results = runAll(pool, subtasks, model);
           System.err.println("[workflow] verifying " + results.size() + " results");
           List<String> verifyPrompts = IntStream.range(0, subtasks.size())
-                  .mapToObj(index -> verifyPromptFor(subtasks.get(index), results.get(index)))
-                  .toList();
+              .mapToObj(index -> verifyPromptFor(subtasks.get(index), results.get(index)))
+              .toList();
           verdicts = runAll(pool, verifyPrompts, model);
       }
       String joined = IntStream.range(0, subtasks.size())
-              .mapToObj(index -> """
-                      [agent %d: %s]
-                      %s
+          .mapToObj(index -> """
+              [agent %d: %s]
+              %s
 
-                      [verify %d]
-                      %s""".formatted(index + 1, subtasks.get(index), results.get(index), index + 1, verdicts.get(index)))
-              .collect(Collectors.joining("\n\n"));
+              [verify %d]
+              %s""".formatted(index + 1, subtasks.get(index), results.get(index), index + 1, verdicts.get(index)))
+          .collect(Collectors.joining("\n\n"));
       if (dropped > 0) {
           joined = """
-                  (note: %d subtasks beyond MAX_TOTAL_SUBTASKS=%d were not run; rerun them in a follow-up Workflow call)
+              (note: %d subtasks beyond MAX_TOTAL_SUBTASKS=%d were not run; rerun them in a follow-up Workflow call)
 
-                  %s""".formatted(dropped, MAX_TOTAL_SUBTASKS, joined);
+              %s""".formatted(dropped, MAX_TOTAL_SUBTASKS, joined);
       }
       return new ToolOutput(joined, false);
   }
@@ -2859,7 +2929,7 @@ The fan-out accepts up to `MAX_TOTAL_SUBTASKS` prompts, runs them through the jo
 
 ## Toggle the mode with mid-conversation system messages
 
-The agent appends the user's message first, then any system messages that are due: the exit notice, the full mode text on entry, or the periodic refresher. Placing the system message after the user turn keeps every cached byte ahead of it untouched, and satisfies the placement rule that a system message follows a user turn.
+The agent appends the user’s message first, then any system messages that are due: the exit notice, the full mode text on entry, or the periodic refresher. Placing the system message after the user turn keeps every cached byte ahead of it untouched, and satisfies the placement rule that a system message follows a user turn.
 
 <CodeGroup>
   ```bash cURL
@@ -2870,44 +2940,42 @@ The agent appends the user's message first, then any system messages that are du
   # here, the SDK examples carry the full standing-consent text.
   curl --fail-with-body -sS https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
-    -d @- <<'EOF'
-  {
-    "model": "claude-opus-5-5",
-    "max_tokens": 64000,
-    "system": "You are a helpful general-purpose agent. Answer the user's request directly.",
-    "output_config": {"effort": "xhigh"},
-    "tools": [
-      {
-        "name": "Workflow",
-        "description": "Orchestrate a multiagent workflow: split a large task into independent subtasks and run them as parallel agents, then collect their results. Opt-in: only use this tool when the user explicitly asks for a workflow, or when a system message confirms that orchestration mode is on. Granularity: scope each subtask to a distinct concern rather than per line or file section; a review of a small module rarely needs more than about ten. Standing consent: while a system message confirms orchestration mode is on, author and run a workflow for every substantive task by default; work solo only on conversational turns or trivial mechanical edits.",
-        "input_schema": {
-          "type": "object",
-          "properties": {
-            "subtasks": {
-              "type": "array",
-              "items": {"type": "string"},
-              "description": "Independent subtask prompts to run as parallel agents"
-            }
-          },
-          "required": ["subtasks"]
+    -d '{
+      "model": "claude-opus-5-5",
+      "max_tokens": 64000,
+      "system": "You are a helpful general-purpose agent. Answer the request from the user directly.",
+      "output_config": {"effort": "xhigh"},
+      "tools": [
+        {
+          "name": "Workflow",
+          "description": "Orchestrate a multiagent workflow: split a large task into independent subtasks and run them as parallel agents, then collect their results. Opt-in: only use this tool when the user explicitly asks for a workflow, or when a system message confirms that orchestration mode is on. Granularity: scope each subtask to a distinct concern rather than per line or file section; a review of a small module rarely needs more than about ten. Standing consent: while a system message confirms orchestration mode is on, author and run a workflow for every substantive task by default; work solo only on conversational turns or trivial mechanical edits.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "subtasks": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "Independent subtask prompts to run as parallel agents"
+              }
+            },
+            "required": ["subtasks"]
+          }
+        },
+        {"type": "bash_20250124", "name": "bash"}
+      ],
+      "messages": [
+        {
+          "role": "user",
+          "content": "Explore the current directory, then give a thorough review: what it does, code-quality issues, and concrete improvements."
+        },
+        {
+          "role": "system",
+          "content": "Orchestration mode is on: optimize for the most exhaustive, correct answer rather than the fastest one. Use the Workflow tool on every substantive task, sized to the natural decomposition of the problem rather than the maximum the tool allows. See the description of the Workflow tool for standing consent, granularity guidance, and quality patterns. Work solo only on conversational or trivial turns."
         }
-      },
-      {"type": "bash_20250124", "name": "bash"}
-    ],
-    "messages": [
-      {
-        "role": "user",
-        "content": "Explore the current directory, then give a thorough review: what it does, code-quality issues, and concrete improvements."
-      },
-      {
-        "role": "system",
-        "content": "Orchestration mode is on: optimize for the most exhaustive, correct answer rather than the fastest one. Use the Workflow tool on every substantive task, sized to the problem's natural decomposition rather than the maximum the tool allows. See the Workflow tool's description for standing consent, granularity guidance, and quality patterns. Work solo only on conversational or trivial turns."
-      }
-    ]
-  }
-  EOF
+      ]
+    }'
   ```
 
   ```bash CLI
@@ -3023,7 +3091,9 @@ The agent appends the user's message first, then any system messages that are du
               if response.stop_reason == "pause_turn":
                   continue
               if response.stop_reason != "tool_use":
-                  text = "".join(block.text for block in response.content if block.type == "text")
+                  text = "".join(
+                      block.text for block in response.content if block.type == "text"
+                  )
                   if response.stop_reason == "max_tokens":
                       # Drop the truncated assistant message so later turns do not build on it.
                       self.messages.pop()
@@ -3036,7 +3106,9 @@ The agent appends the user's message first, then any system messages that are du
                       continue
                   match block.name:
                       case "Workflow":
-                          output, is_error = run_workflow(self.model, block.input.get("subtasks", []))
+                          output, is_error = run_workflow(
+                              self.model, block.input.get("subtasks", [])
+                          )
                       case "bash":
                           output, is_error = handle_bash_block(block)
                       case _:
@@ -3115,9 +3187,9 @@ The agent appends the user's message first, then any system messages that are du
               system: SYSTEM_PROMPT, // static for the whole session
               output_config: { effort: EFFORT },
               tools: [WORKFLOW_TOOL, BASH_TOOL],
-              messages: this.#messages,
+              messages: this.#messages
             },
-            { signal: AbortSignal.timeout(REQUEST_TIMEOUT_SECONDS * 1000) },
+            { signal: AbortSignal.timeout(REQUEST_TIMEOUT_SECONDS * 1000) }
           )
           .finalMessage();
         this.#messages.push({ role: "assistant", content: response.content });
@@ -3159,7 +3231,7 @@ The agent appends the user's message first, then any system messages that are du
             type: "tool_result",
             tool_use_id: block.id,
             content: outcome.output,
-            is_error: outcome.isError,
+            is_error: outcome.isError
           });
         }
         this.#messages.push({ role: "user", content: toolResults });
@@ -3189,7 +3261,7 @@ The agent appends the user's message first, then any system messages that are du
       modeOn = nextModeOn;
   }
 
-  MessageParam SystemMessage(string content) => new() { Role = Role.System, Content = content };
+  MessageParam SystemMessage(string content) => new SystemMessageParam { Content = content };
 
   // System messages owed on this turn: an exit notice, the full mode text on entry,
   // or a one-line refresher every turnsBetweenRefreshers user turns.
@@ -3219,12 +3291,12 @@ The agent appends the user's message first, then any system messages that are du
       return due;
   }
 
-  // Send one user turn through the loop, executing tool calls until the model stops.
+  // Send one user turn through the loop, running tool calls until the model stops.
   async Task<string> Turn(string userInput)
   {
       // Mid-conversation system messages follow the user turn they apply to, which keeps
       // the cached prefix ahead of them untouched.
-      messages.Add(new() { Role = Role.User, Content = userInput });
+      messages.Add(new UserMessageParam { Content = userInput });
       messages.AddRange(DueSystemMessages());
       turnsSinceReminder++;
 
@@ -3240,9 +3312,8 @@ The agent appends the user's message first, then any system messages that are du
               Tools = [workflowTool, bashTool],
               Messages = messages,
           }, cancellationToken: deadline.Token).Aggregate();
-          messages.Add(new()
+          messages.Add(new AssistantMessageParam
           {
-              Role = Role.Assistant,
               Content = response.Content.Select(block => new ContentBlockParam(block.Json)).ToList(),
           });
 
@@ -3278,7 +3349,7 @@ The agent appends the user's message first, then any system messages that are du
               };
               toolResults.Add(new ToolResultBlockParam(toolUse.ID) { Content = output, IsError = isError });
           }
-          messages.Add(new() { Role = Role.User, Content = toolResults });
+          messages.Add(new UserMessageParam { Content = toolResults });
       }
       return "(hit the main loop turn limit before finishing)";
   }
@@ -3319,10 +3390,9 @@ The agent appends the user's message first, then any system messages that are du
   // full mode text on entry, or a one-line refresher every turnsBetweenRefreshers user turns.
   func (agent *modeAgent) dueSystemMessages() []anthropic.MessageParam {
   	systemMessage := func(content string) anthropic.MessageParam {
-  		return anthropic.MessageParam{
-  			Role:    anthropic.MessageParamRoleSystem,
-  			Content: []anthropic.ContentBlockParamUnion{anthropic.NewTextBlock(content)},
-  		}
+  		return anthropic.MessageParam{OfSystem: &anthropic.SystemMessageParam{
+  			Content: []anthropic.TextBlockParam{{Text: content}},
+  		}}
   	}
   	var due []anthropic.MessageParam
   	if agent.exitPending {
@@ -3343,7 +3413,7 @@ The agent appends the user's message first, then any system messages that are du
   	return due
   }
 
-  // turn sends one user turn through the loop, executing tool calls until the model stops.
+  // turn sends one user turn through the loop, running tool calls until the model stops.
   func (agent *modeAgent) turn(ctx context.Context, userInput string) (string, error) {
   	// Mid-conversation system messages follow the user turn they apply to, which keeps
   	// the cached prefix ahead of them untouched.
@@ -3406,7 +3476,6 @@ The agent appends the user's message first, then any system messages that are du
   	}
   	return "(hit the main loop turn limit before finishing)", nil
   }
-
   ```
 
   ```java Java
@@ -3461,30 +3530,29 @@ The agent appends the user's message first, then any system messages that are du
       }
 
       private MessageParam systemMessage(String content) {
-          return MessageParam.builder()
-                  .role(MessageParam.Role.SYSTEM)
-                  .content(content)
-                  .build();
+          return MessageParam.ofSystem(content);
       }
 
-      // Send one user turn through the loop, executing tool calls until the model stops.
+      // Send one user turn through the loop, running tool calls until the model stops.
       String turn(String userInput) throws InterruptedException {
           // Mid-conversation system messages follow the user turn they apply to, which keeps
           // the cached prefix ahead of them untouched.
-          messages.add(MessageParam.builder().role(MessageParam.Role.USER).content(userInput).build());
+          messages.add(MessageParam.ofUser(userInput));
           messages.addAll(dueSystemMessages());
           turnsSinceReminder++;
 
           for (int turn = 0; turn < MAX_MAIN_TURNS; turn++) {
               MessageCreateParams params = MessageCreateParams.builder()
-                      .model(model)
-                      .maxTokens(64000L)
-                      .system(SYSTEM_PROMPT) // static for the whole session
-                      .outputConfig(OutputConfig.builder().effort(EFFORT).build())
-                      .addTool(WORKFLOW_TOOL)
-                      .addTool(BASH_TOOL)
-                      .messages(messages)
-                      .build();
+                  .model(model)
+                  .maxTokens(64000L)
+                  .system(SYSTEM_PROMPT) // static for the whole session
+                  .outputConfig(OutputConfig.builder()
+                      .effort(EFFORT)
+                      .build())
+                  .addTool(WORKFLOW_TOOL)
+                  .addTool(BASH_TOOL)
+                  .messages(messages)
+                  .build();
               MessageAccumulator accumulator = MessageAccumulator.create();
               try (var stream = client.messages().createStreaming(params, REQUEST_OPTIONS)) {
                   stream.stream().forEach(accumulator::accumulate);
@@ -3498,9 +3566,9 @@ The agent appends the user's message first, then any system messages that are du
               }
               if (!StopReason.TOOL_USE.equals(stopReason)) {
                   String text = response.content().stream()
-                          .flatMap(block -> block.text().stream())
-                          .map(TextBlock::text)
-                          .collect(Collectors.joining());
+                      .flatMap(block -> block.text().stream())
+                      .map(TextBlock::text)
+                      .collect(Collectors.joining());
                   if (StopReason.MAX_TOKENS.equals(stopReason)) {
                       // Drop the truncated assistant message so later turns do not build on it.
                       messages.removeLast();
@@ -3510,26 +3578,23 @@ The agent appends the user's message first, then any system messages that are du
               }
 
               List<ToolUseBlock> toolUses = response.content().stream()
-                      .flatMap(block -> block.toolUse().stream())
-                      .toList();
+                  .flatMap(block -> block.toolUse().stream())
+                  .toList();
               List<ContentBlockParam> toolResults = new ArrayList<>();
               for (ToolUseBlock toolUse : toolUses) {
                   ToolOutput result = switch (toolUse.name()) {
                       case "Workflow" -> runWorkflow(model,
-                              toolInput(toolUse).getOrDefault("subtasks", JsonValue.from(List.of())));
+                          toolInput(toolUse).getOrDefault("subtasks", JsonValue.from(List.of())));
                       case "bash" -> handleBashBlock(toolUse);
                       default -> new ToolOutput("unknown tool: " + toolUse.name(), true);
                   };
                   toolResults.add(ContentBlockParam.ofToolResult(ToolResultBlockParam.builder()
-                          .toolUseId(toolUse.id())
-                          .content(result.output())
-                          .isError(result.isError())
-                          .build()));
+                      .toolUseId(toolUse.id())
+                      .content(result.output())
+                      .isError(result.isError())
+                      .build()));
               }
-              messages.add(MessageParam.builder()
-                      .role(MessageParam.Role.USER)
-                      .contentOfBlockParams(toolResults)
-                      .build());
+              messages.add(MessageParam.ofUserOfContentBlockParams(toolResults));
           }
           return "(hit the main loop turn limit before finishing)";
       }
@@ -3773,6 +3838,14 @@ The agent appends the user's message first, then any system messages that are du
 </Warning>
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    The full example needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
+
+  <CodeGroupItem language="CLI">
+    The full example needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
+
   ```python Python
   if __name__ == "__main__":
       task = (
@@ -3839,14 +3912,13 @@ The agent appends the user's message first, then any system messages that are du
   	fmt.Println(summary)
   	return nil
   }
-
   ```
 
   ```java Java
   void main(String[] args) throws InterruptedException {
       String task = args.length > 0 ? args[0] : """
-              Explore the current directory, then give a thorough review: what it does, \
-              code-quality issues, and concrete improvements.""";
+          Explore the current directory, then give a thorough review: what it does, \
+          code-quality issues, and concrete improvements.""";
       ModeAgent agent = new ModeAgent(MODEL);
       IO.println(agent.turn(task));
       agent.setMode(false);
@@ -3889,7 +3961,7 @@ This example is deliberately small. A harness meant for real workloads would typ
 
 * **Sandboxed orchestration scripts:** let the model emit a short orchestration program (branching, loops, and reduce steps) and run it inside an isolated interpreter, rather than accepting only a flat list of subtask strings.
 * **Durable journaling:** replace the local JSON file with a store that survives process restarts and is safe under concurrent writers across machines.
-* **Budget enforcement:** track total subagents launched across the whole session, not just per Workflow call, and refuse to exceed a hard cap so a runaway plan cannot exhaust your quota.
+* **Budget enforcement:** track total subagents launched across the whole session, not just for each Workflow call, and refuse to exceed a hard cap so a runaway plan cannot exhaust your quota.
 
 The patterns in this example (the mode reminders, standing consent in the tool description, journaling, and a verification wave) carry over unchanged; only the execution substrate around them gets more robust.
 
@@ -3909,6 +3981,6 @@ The patterns in this example (the mode reminders, standing consent in the tool d
   </Card>
 
   <Card title="Bash tool" icon="terminal" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/bash-tool">
-    The Anthropic-defined bash tool this example executes locally.
+    The Anthropic-defined bash tool this example runs locally.
   </Card>
 </CardGroup>

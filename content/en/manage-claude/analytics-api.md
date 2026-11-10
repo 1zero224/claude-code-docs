@@ -4,7 +4,7 @@ url: https://platform.claude.com/docs/en/manage-claude/analytics-api
 description: Understand which analytics API and API key your organization needs, then provision access to Claude Code productivity metrics or Claude Enterprise engagement and adoption data.
 ---
 
-Anthropic provides two analytics APIs, and which one you use depends on which Claude product your organization manages:
+Anthropic provides two product analytics APIs, and which one you use depends on which Claude product your organization manages:
 
 * The **Claude Code Analytics API** reports daily Claude Code productivity metrics for organizations that use the Claude Platform. It is part of the [Admin API](https://platform.claude.com/docs/en/manage-claude/admin-api) and uses an Admin API key.
 * The **Claude Enterprise Analytics API** reports organization-wide engagement, adoption, and cost data across Claude products (chat, projects, Claude Code, and more) for Claude Enterprise organizations. It uses an Analytics API key created in claude.ai.
@@ -13,19 +13,15 @@ The two APIs use different key types, created in different places by different r
 
 ## Which API do you need?
 
-| API                                 | Key type                             | Created in                                                                                | Who can create it  | What it covers                                                                                                                                     |
-| ----------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Claude Code Analytics API**       | Admin API key (`sk-ant-admin01-...`) | [Claude Console > Settings > Admin keys](https://platform.claude.com/settings/admin-keys) | Organization admin | Daily Claude Code metrics per user: sessions, lines of code, commits, pull requests, tool acceptance, and estimated cost by model                  |
-| **Claude Enterprise Analytics API** | Analytics API key                    | [claude.ai > Organization settings > API](https://claude.ai/admin-settings/api-access)    | Primary owner      | Organization-wide engagement and adoption (user activity, active-user summaries, project, skill, and connector usage), plus cost and usage reports |
+| API                                 | Key type                             | Created in                                                                                                                           | Who can create it  | What it covers                                                                                                                                     |
+| ----------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Claude Code Analytics API**       | Admin API key (`sk-ant-admin01-...`) | [Admin keys](https://platform.claude.com/settings/admin-keys) page (`platform.claude.com/settings/admin-keys`) in the Claude Console | Organization admin | Daily Claude Code metrics per user: sessions, lines of code, commits, pull requests, tool acceptance, and estimated cost by model                  |
+| **Claude Enterprise Analytics API** | Analytics API key                    | [claude.ai > Organization settings > API](https://claude.ai/admin-settings/api-access)                                               | Primary owner      | Organization-wide engagement and adoption (user activity, active-user summaries, project, skill, and connector usage), plus cost and usage reports |
 
-The key types are not interchangeable: an Admin API key cannot call the Claude Enterprise Analytics API, and an Analytics API key cannot call the Admin API. Both APIs appear under the [Admin API reference](https://platform.claude.com/docs/en/api/beta/organization), but they are separate APIs with separate key types. If your organization uses both the Claude Platform and Claude Enterprise, you can provision both keys and use each API for its own data.
+The key types are not interchangeable: an Admin API key cannot call the Claude Enterprise Analytics API, and an Analytics API key cannot call the Admin API. The one exception is the [Usage and Cost Analytics API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api), which Claude Enterprise organizations call with their Analytics API key. Both product analytics APIs appear under the [Admin API reference](https://platform.claude.com/docs/en/api/beta/organization), but they are separate APIs with separate key types. If your organization uses both the Claude Platform and Claude Enterprise, you can provision both keys and use each API for its own data.
 
 <Note>
-  Looking for API usage and cost data rather than product analytics? See the 
-
-  [Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-api)
-
-  , which explains the right path for both Claude Console and Claude Enterprise organizations.
+  Looking for token usage and cost data rather than product analytics? See the [Usage and Cost Analytics API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api), which serves both Claude Console and Claude Enterprise organizations.
 </Note>
 
 <Note>
@@ -46,13 +42,13 @@ The Claude Code Analytics API is available to every organization with access to 
 
     ```bash
     curl "https://api.anthropic.com/v1/organizations/usage_report/claude_code?starting_at=2025-09-08" \
-      --header "anthropic-version: 2023-06-01" \
-      --header "x-api-key: $ANTHROPIC_ADMIN_KEY"
+      -H "anthropic-version: 2026-10-21" \
+      -H "x-api-key: $ANTHROPIC_ADMIN_KEY"
     ```
   </Step>
 </Steps>
 
-For the available metrics, request parameters, and response schema, see the [Claude Code Analytics API guide](https://platform.claude.com/docs/en/manage-claude/claude-code-analytics-api) and the [API reference](https://platform.claude.com/docs/en/api/beta/organization/usage_report/retrieve_claude_code).
+For the available metrics, request parameters, and response schema, see the [Claude Code Analytics API](https://platform.claude.com/docs/en/manage-claude/claude-code-analytics-api) guide and the [API reference](https://platform.claude.com/docs/en/api/beta/organization/usage_report/retrieve_claude_code).
 
 ## Get access to the Claude Enterprise Analytics API
 
@@ -79,37 +75,45 @@ The Claude Enterprise Analytics API provides:
 * **Project, skill, and connector usage:** adoption breakdowns for chat projects, skills, and connectors
 * **Cost and usage reports:** per-user and organization-level token usage and cost over time (usage-based Enterprise plans)
 
+<Note>
+  The cost and usage report endpoints under `/v1/organizations/analytics/` (`usage_report`, `cost_report`, `user_usage_report`, and `user_cost_report`) are legacy and remain supported. For new integrations, use the [Usage and Cost Analytics API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api). To move an existing integration, see [Migrate from the Claude Enterprise usage and cost reports](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api#migrate-from-enterprise-analytics-reports). The other Claude Enterprise Analytics API endpoints are not legacy.
+</Note>
+
 For endpoint details, parameters, and response schemas, see the [Claude Enterprise Analytics API reference](https://platform.claude.com/docs/en/api/beta/organization/analytics). The following sections cover data freshness, metric definitions, and operational guidance that apply across those endpoints.
 
 ## Data availability and freshness
 
 Claude Enterprise Analytics API data is available for dates on or after January 1, 2026.
 
-**Engagement and adoption endpoints** (user activity, summaries, projects, skills, connectors) return a per-day snapshot for the date you specify. Data for a given day is typically available by about 13:00–13:30 UTC the following day (a 1-day lag); until then, the most recent available day is usually two days before the current UTC date. Data arrives later on days when an upstream data pipeline runs late, and exact freshness varies by query, so rather than assuming a fixed time, check the error response: requesting a date that is not yet available returns a 400 error naming the most recent available day. If data is not available well past the typical lag, it usually indicates a data pipeline failure on Anthropic's side; contact support if the gap persists.
+**Engagement and adoption endpoints** (user activity, summaries, projects, skills, connectors) return a per-day snapshot for the date you specify. Data for a given day is typically available by about 13:00–13:30 UTC the following day (a 1-day lag). Until then, the most recent available day is usually 2 days before the current UTC date. Data arrives later on days when an upstream data pipeline runs late, and exact freshness varies by query. Rather than assuming a fixed time, check the error response: requesting a date that is not yet available returns a 400 error naming the most recent available day. If data is not available well past the typical lag, it usually indicates a data pipeline failure on Anthropic’s side; contact support if the gap persists.
 
-**Cost and usage endpoints** follow a different freshness model. Data is typically available within four hours of the underlying usage but may take up to 24 hours. Values can be revised as late events arrive and reconciliation runs, until about 7 days after the end of the calendar month. For example, values for October 1 can change until about November 7. For invoicing-grade totals, query only months that ended at least 7 days ago.
+**Cost and usage endpoints** follow a different freshness model. Data is typically available within 4 hours of the underlying usage but might take up to 24 hours. Values can be revised as late events arrive and reconciliation runs, until about 7 days after the end of the calendar month. For example, values for October 1 can change until about November 7. For invoicing-grade totals, query only months that ended at least 7 days ago.
 
 <Note>
-  Cost and usage responses include a `data_refreshed_at` timestamp. When `ending_at` is omitted (the default is the current time), the response includes a tail of data after `data_refreshed_at` that is incomplete. For stable results across repeated calls, set `ending_at` to a value at or before a previously returned `data_refreshed_at`.
+  Cost and usage responses include a `data_refreshed_at` timestamp. If you omit `ending_at`, it defaults to 31 days after `starting_at` or the current time, whichever is earlier. That range can run past `data_refreshed_at`, and data after that time is incomplete. For stable results across repeated calls, set `ending_at` to a value at or before a previously returned `data_refreshed_at`.
 </Note>
 
 ## How metrics are defined
 
-**Active users.** A user counts as active for a day if any of the following is true: they sent at least one chat message in Claude, they had at least one Claude Code session (local or remote) associated with your Claude Enterprise organization that included tool use or git activity, or they had at least one Cowork session with tool use or message activity.
+**Active users.** A user counts as active for a day if any of the following is true:
 
-**Chat and Cowork unified (beta).** Chat and Cowork unified brings Cowork's features into claude.ai chat. Most activity in Chat and Cowork unified is reported under the `chat_cowork_unified` product value, not `chat` or `cowork`.
+* They sent at least one chat message in Claude.
+* They had at least one Claude Code session (local or remote) associated with your Claude Enterprise organization that included tool use or git activity.
+* They had at least one Cowork session with tool use or message activity.
+
+**Chat and Cowork unified.** Chat and Cowork unified brings Cowork’s features into claude.ai chat. Most activity in Chat and Cowork unified is reported under the `chat_cowork_unified` product value, not `chat` or `cowork`.
 
 In user activity and in skill, connector, and plugin usage, this usage appears in the `chat_cowork_unified_metrics` object. In activity summaries, it is counted in `chat_cowork_unified_daily_active_user_count`, `chat_cowork_unified_weekly_active_user_count`, and `chat_cowork_unified_monthly_active_user_count`.
 
-As more users start using Chat and Cowork unified, usage moves out of your chat and Cowork figures and into these new ones. Usage from days before a user starts using Chat and Cowork unified stays under chat or Cowork. Organization-wide figures, such as total token usage, total cost, and overall active user counts, do not change. Cost and usage reports filtered by product leave Chat and Cowork unified usage out unless `products[]` includes `chat_cowork_unified`.
+When a user starts using Chat and Cowork unified, their usage moves out of your chat and Cowork figures and into the Chat and Cowork unified figures. Usage from days before a user starts using Chat and Cowork unified stays under chat or Cowork. Organization-wide figures, such as total token usage, total cost, and overall active user counts, do not change. Cost and usage reports filtered by product leave Chat and Cowork unified usage out unless `products[]` includes `chat_cowork_unified`.
 
-Some activity from users of Chat and Cowork unified, such as voice mode, can still be reported under chat or Cowork. A user's activity can also be split between products on the day they start using Chat and Cowork unified. The same is true on the day it is turned off for them. How the activity splits is not guaranteed.
+Some activity from users of Chat and Cowork unified, such as voice mode, can still be reported under chat or Cowork. A user’s activity can also be split between products on the day they start using Chat and Cowork unified. The same is true on the day it is turned off for them. How the activity splits is not guaranteed.
 
-A user can appear in both the chat or Cowork counts and the Chat and Cowork unified counts. This can happen on a day when they use Chat and Cowork unified and some of their activity is still reported under chat or Cowork. Weekly and monthly counts can include them in both when the window has activity of both kinds, even on different days. For example, the window might cover days before and after they started using Chat and Cowork unified.
+A user can appear in both the chat or Cowork counts and the Chat and Cowork unified counts. This can occur on a day when they use Chat and Cowork unified and some of their activity is still reported under chat or Cowork. Weekly and monthly counts can include them in both when the window has activity of both kinds, even on different days. For example, the window might cover days before and after they started using Chat and Cowork unified.
 
-When you filter user activity by project, each day's project activity is counted in one place only. If a user sent a chat message in Chat and Cowork unified that day, all their project activity is counted in `chat_cowork_unified_metrics.chat`. Otherwise, it is counted in `chat_metrics`.
+When you filter user activity by project, each day’s project activity is counted in one place only. If a user sent a chat message in Chat and Cowork unified that day, all their project activity is counted in `chat_cowork_unified_metrics.chat`. Otherwise, it is counted in `chat_metrics`.
 
-**Per-product metric blocks.** Per-product metric objects (for example, Office Agent or Cowork metrics on a user-activity record) are always present on every record. Organizations without usage of that product see all-zero values rather than `null`. The exception is Chat and Cowork unified: on deployments that do not offer it, its fields are left out of the response.
+**Per-product metric blocks.** Per-product metric objects (for example, Office Agent or Cowork metrics on a user-activity record) are always present on every record. Organizations without usage of that product see zero counts rather than a `null` object. The exception is Chat and Cowork unified: on deployments that do not offer it, its fields are left out of the response. Individual fields inside these objects can be `null`, which means the value is not available. For example, when you filter user activity by project, `distinct_skills_used_count` in `chat_metrics` is `null`. The [Claude Enterprise Analytics API reference](https://platform.claude.com/docs/en/api/beta/organization/analytics) shows which fields can be `null`.
 
 **Connector names.** Connector names are normalized across sources. For example, `Atlassian MCP server`, `mcp-atlassian`, and `atlassian_MCP` all appear as `atlassian` in the connector usage endpoint.
 
@@ -119,9 +123,13 @@ When you filter user activity by project, each day's project activity is counted
 
 **List parameters use bracket notation.** Repeat the parameter for each value, for example `products[]=chat&products[]=claude_code`.
 
-**Amount fields are decimal strings in cents.** Currency amounts are returned as decimal strings such as `"41280.000000"` (which represents $412.80). To convert to dollars, parse as a decimal and divide by 100. Avoid binary floating-point parsing for values that may exceed several million dollars.
+**Amount fields are decimal strings in cents.** Currency amounts are returned as decimal strings such as `"41280.000000"` (which represents $412.80 USD). To convert to dollars, parse as a decimal and divide by 100. Avoid binary floating-point parsing for values that might exceed several million dollars.
 
-**Rate limits apply at the organization level**, not per key, with a default of 60 requests per minute across all endpoints in this API. If that is not sufficient for your use case, contact your Anthropic account team to discuss adjusting the limit.
+**Rate limits apply at the organization level**, not for each key, with a default of 60 requests per minute across all endpoints in this API. If that is not sufficient for your use case, contact your Anthropic account team to discuss adjusting the limit.
+
+## Versioning
+
+Send the `anthropic-version` header on every request; see [Versions](https://platform.claude.com/docs/en/api/versioning) for the available versions.
 
 ## Versioning
 
@@ -129,7 +137,18 @@ Send the `anthropic-version` header on every request; see [API versions](https:/
 
 ## Known limitations
 
+### Claude Code through Amazon Bedrock
+
 If your organization uses Claude Code through Amazon Bedrock, the Claude Enterprise Analytics API does not return Claude Code activity for that usage.
+
+### Claude Code and Cowork with customer-managed encryption keys
+
+If your organization uses [customer-managed encryption keys](https://platform.claude.com/docs/en/manage-claude/cmek), Anthropic leaves some details of Claude Code and Cowork use out of its usage analytics, to protect your data. As a result, do not use the following Claude Enterprise Analytics API numbers to measure how much your organization uses Claude Code or Cowork. They can be zero or lower than actual use:
+
+* **Code changes:** In user activity, these fields in `claude_code_metrics.core_metrics` can be zero: `lines_of_code` (lines added and removed) and `commit_count`. The `pull_request_count` field can be lower than the real number of pull requests.
+* **Skills started with a slash command:** If a user starts a skill in Claude Code or Cowork by typing a slash command, such as `/skill-name`, that use is not counted. This applies to skill usage, and to Cowork skill counts in user activity. Skills that Claude invokes without a slash command are still counted.
+
+For other analytics changes with customer-managed encryption keys, see [What CMEK covers on Claude Enterprise](https://platform.claude.com/docs/en/manage-claude/cmek-coverage-claude-enterprise#turned-off-or-changed).
 
 ## Next steps
 
@@ -138,8 +157,8 @@ If your organization uses Claude Code through Amazon Bedrock, the Claude Enterpr
     Track Claude Code sessions, code changes, and tool usage with an Admin API key.
   </Card>
 
-  <Card title="Usage and Cost API" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api">
-    Track API token usage and costs for your organization.
+  <Card title="Usage and Cost Analytics API" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api">
+    Track token usage and costs for your organization.
   </Card>
 
   <Card title="Claude Enterprise Analytics API reference" href="https://platform.claude.com/docs/en/api/beta/organization/analytics">

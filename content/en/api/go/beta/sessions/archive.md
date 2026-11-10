@@ -19,7 +19,7 @@ Archive Session
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -121,6 +121,18 @@ Archive Session
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -133,7 +145,7 @@ Archive Session
 
   A Managed Agents `session`.
 
-  - `Type BetaManagedAgentsSessionType`
+  - `Type Session`
 
   - `ID string`
 
@@ -141,15 +153,37 @@ Archive Session
 
     Resolved `agent` definition for a `session`. Snapshot of the `agent` at `session` creation time.
 
-    - `Type BetaManagedAgentsSessionAgentType`
+    - `Type Agent`
 
     - `ID string`
 
     - `Description string`
 
+    - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `Type AWSRole`
+
+        - `RoleARN string`
+
+          The IAM role's ARN.
+
+      - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `Type ServiceAccount`
+
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-      - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+      - `Type URL`
+
+      - `Name string`
 
       - `Name string`
 
@@ -164,6 +198,10 @@ Archive Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -241,31 +279,31 @@ Archive Session
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -287,7 +325,7 @@ Archive Session
 
         Resolved coordinator topology with full agent definitions for each roster member.
 
-        - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+        - `Type Coordinator`
 
         - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -297,15 +335,19 @@ Archive Session
 
             Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-            - `Type BetaManagedAgentsSessionThreadAgentType`
+            - `Type Agent`
 
             - `ID string`
 
             - `Description string`
 
+            - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-              - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+              - `Type URL`
 
               - `Name string`
 
@@ -323,7 +365,7 @@ Archive Session
 
                 A resolved Anthropic-managed skill.
 
-                - `Type BetaManagedAgentsAnthropicSkillType`
+                - `Type Anthropic`
 
                 - `SkillID string`
 
@@ -333,7 +375,7 @@ Archive Session
 
                 A resolved user-created custom skill.
 
-                - `Type BetaManagedAgentsCustomSkillType`
+                - `Type Custom`
 
                 - `SkillID string`
 
@@ -345,7 +387,7 @@ Archive Session
 
               - `type BetaManagedAgentsAgentToolset20260401`
 
-                - `Type BetaManagedAgentsAgentToolset20260401Type`
+                - `Type AgentToolset20260401`
 
                 - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -367,13 +409,13 @@ Archive Session
 
                         Tool calls are automatically approved without user confirmation.
 
-                        - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                        - `Type AlwaysAllow`
 
                       - `type BetaManagedAgentsAlwaysAskPolicy`
 
                         Tool calls require user confirmation before execution.
 
-                        - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                        - `Type AlwaysAsk`
 
                       - `type BetaManagedAgentsAutoPolicy`
 
@@ -669,6 +711,8 @@ Archive Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `Region string Optional`
 
                         Region or state name.
@@ -705,7 +749,7 @@ Archive Session
 
               - `type BetaManagedAgentsMCPToolset`
 
-                - `Type BetaManagedAgentsMCPToolsetType`
+                - `Type MCPToolset`
 
                 - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -757,7 +801,7 @@ Archive Session
 
                 A custom tool as returned in API responses.
 
-                - `Type BetaManagedAgentsCustomToolType`
+                - `Type Custom`
 
                 - `Description string`
 
@@ -767,7 +811,7 @@ Archive Session
 
                   - `Type Object`
 
-                  - `Properties map[string, any] Optional`
+                  - `Properties map[string]any Optional`
 
                   - `Required []string Optional`
 
@@ -781,7 +825,7 @@ Archive Session
 
             Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-            - `Type BetaManagedAgentsAdvisorType`
+            - `Type Advisor`
 
             - `Model string`
 
@@ -843,11 +887,15 @@ Archive Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -891,11 +939,15 @@ Archive Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -959,7 +1011,7 @@ Archive Session
 
     The session's enforced spend ceiling, or null when no budget is set.
 
-    - `Type BetaManagedAgentsBudgetLimitType`
+    - `Type Limit`
 
     - `MaxListCost BetaMonetaryAmount`
 
@@ -968,6 +1020,8 @@ Archive Session
       - `Amount string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `Currency BetaCurrency`
 
@@ -981,13 +1035,13 @@ Archive Session
 
   - `EnvironmentID string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `OutcomeEvaluations []BetaManagedAgentsOutcomeEvaluationResource`
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
-    - `Type BetaManagedAgentsOutcomeEvaluationResourceType`
+    - `Type OutcomeEvaluation`
 
     - `CompletedAt Time`
 
@@ -1021,7 +1075,7 @@ Archive Session
 
     - `type BetaManagedAgentsGitHubRepositoryResource`
 
-      - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+      - `Type GitHubRepository`
 
       - `ID string`
 
@@ -1045,7 +1099,7 @@ Archive Session
 
         - `type BetaManagedAgentsBranchCheckout`
 
-          - `Type BetaManagedAgentsBranchCheckoutType`
+          - `Type Branch`
 
           - `Name string`
 
@@ -1055,17 +1109,17 @@ Archive Session
 
         - `type BetaManagedAgentsCommitCheckout`
 
-          - `Type BetaManagedAgentsCommitCheckoutType`
+          - `Type Commit`
 
           - `Sha string`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `type BetaManagedAgentsFileResource`
 
-      - `Type BetaManagedAgentsFileResourceType`
+      - `Type File`
 
       - `ID string`
 
@@ -1089,11 +1143,13 @@ Archive Session
 
       A memory store attached to an agent session.
 
-      - `Type BetaManagedAgentsMemoryStoreResourceType`
+      - `Type MemoryStore`
 
       - `MemoryStoreID string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -1244,8 +1300,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -1272,6 +1328,9 @@ func main() {
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -1292,6 +1351,9 @@ func main() {
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",

@@ -5,13 +5,13 @@ url: https://platform.claude.com/docs/en/api/php/beta/vaults/credentials
 
 # Credentials
 
-## Create Credential
+## Create a Credential
 
 `$client->beta->vaults->credentials->create(string vaultID, Auth auth, ?string displayName, ?array<string,string> metadata, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsCredential`
 
 **POST** `/v1/vaults/{vault_id}/credentials`
 
-Create Credential
+Create a Credential
 
 ### Parameters
 
@@ -23,17 +23,23 @@ Create Credential
 
   Authentication configuration for the credential.
 
-- `displayName?:optional string`
+- `displayName?: optional string`
 
   Human-readable name for the credential. Up to 255 characters.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Arbitrary key-value metadata to attach to the credential. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -45,11 +51,11 @@ Create Credential
 
 - `class ManagedAgentsCredential`
 
-  - `Type type`
+  - `"vault_credential" type`
 
   - `string id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `?\Datetime archivedAt`
 
@@ -85,6 +91,9 @@ Create Credential
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -139,21 +148,27 @@ List Credentials
 
   Identifier of the vault to list credentials for.
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
-  Whether to include archived credentials in the results.
+  Whether to include archived credentials in the results. Defaults to `false`.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of credentials to return per page. Defaults to 20, maximum 100.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
-  Opaque pagination token from a previous `list_credentials` response.
+  The `next_page` value from a previous [List Credentials](https://platform.claude.com/docs/en/api/beta/vaults/credentials/list?sdk_languages=php) response, to get the next page. Leave it out to get the first page.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -165,11 +180,11 @@ List Credentials
 
 - `class ManagedAgentsCredential`
 
-  - `Type type`
+  - `"vault_credential" type`
 
   - `string id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `?\Datetime archivedAt`
 
@@ -205,6 +220,9 @@ List Credentials
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -246,13 +264,13 @@ var_dump($page);
 }
 ```
 
-## Get Credential
+## Retrieve a Credential
 
 `$client->beta->vaults->credentials->retrieve(string credentialID, string vaultID, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsCredential`
 
 **GET** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Get Credential
+Retrieve a Credential
 
 ### Parameters
 
@@ -264,9 +282,15 @@ Get Credential
 
   Unique identifier of the credential to retrieve.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -278,11 +302,11 @@ Get Credential
 
 - `class ManagedAgentsCredential`
 
-  - `Type type`
+  - `"vault_credential" type`
 
   - `string id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `?\Datetime archivedAt`
 
@@ -318,6 +342,9 @@ Get Credential
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -352,13 +379,13 @@ var_dump($betaManagedAgentsCredential);
 }
 ```
 
-## Update Credential
+## Update a Credential
 
 `$client->beta->vaults->credentials->update(string credentialID, string vaultID, ?Auth auth, ?string displayName, ?array<string,string> metadata, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsCredential`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Update Credential
+Update a Credential
 
 ### Parameters
 
@@ -370,21 +397,27 @@ Update Credential
 
   Unique identifier of the credential to update.
 
-- `auth?:optional Auth`
+- `auth?: optional Auth`
 
-  Updated authentication configuration. The `type` is immutable; the variant sent must match the stored credential's type.
+  New authentication settings for the credential. The `type` must match the credential's current type, which can't be changed.
 
-- `displayName?:optional string`
+- `displayName?: optional string`
 
   Updated human-readable name for the credential. 1-255 characters.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omitted keys are preserved.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -396,11 +429,11 @@ Update Credential
 
 - `class ManagedAgentsCredential`
 
-  - `Type type`
+  - `"vault_credential" type`
 
   - `string id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `?\Datetime archivedAt`
 
@@ -437,6 +470,9 @@ Update Credential
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsCredential = $client->beta->vaults->credentials->update(
@@ -444,7 +480,7 @@ $betaManagedAgentsCredential = $client->beta->vaults->credentials->update(
   vaultID: 'vlt_011CZkZDLs7fYzm1hXNPeRjv',
   auth: [
     'type' => 'mcp_oauth',
-    'accessToken' => 'x',
+    'accessToken' => 'access_token',
     'expiresAt' => new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
     'refresh' => [
       'refreshToken' => 'x',
@@ -484,13 +520,13 @@ var_dump($betaManagedAgentsCredential);
 }
 ```
 
-## Delete Credential
+## Delete a Credential
 
 `$client->beta->vaults->credentials->delete(string credentialID, string vaultID, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsDeletedCredential`
 
 **DELETE** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Delete Credential
+Delete a Credential
 
 ### Parameters
 
@@ -502,9 +538,15 @@ Delete Credential
 
   Unique identifier of the credential to delete.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -516,11 +558,11 @@ Delete Credential
 
 - `class ManagedAgentsDeletedCredential`
 
-  - `Type type`
+  - `"vault_credential_deleted" type`
 
   - `string id`
 
-    Unique identifier of the deleted credential.
+    The unique ID of the deleted credential (`vcrd_...`).
 
 ### Example
 
@@ -528,6 +570,9 @@ Delete Credential
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -554,13 +599,13 @@ var_dump($betaManagedAgentsDeletedCredential);
 }
 ```
 
-## Archive Credential
+## Archive a Credential
 
 `$client->beta->vaults->credentials->archive(string credentialID, string vaultID, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsCredential`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/archive`
 
-Archive Credential
+Archive a Credential
 
 ### Parameters
 
@@ -572,9 +617,15 @@ Archive Credential
 
   Unique identifier of the credential to archive.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -586,11 +637,11 @@ Archive Credential
 
 - `class ManagedAgentsCredential`
 
-  - `Type type`
+  - `"vault_credential" type`
 
   - `string id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `?\Datetime archivedAt`
 
@@ -627,6 +678,9 @@ Archive Credential
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsCredential = $client->beta->vaults->credentials->archive(
@@ -660,13 +714,13 @@ var_dump($betaManagedAgentsCredential);
 }
 ```
 
-## Validate Credential
+## Validate an MCP OAuth Credential
 
 `$client->beta->vaults->credentials->mcpOAuthValidate(string credentialID, string vaultID, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsCredentialValidation`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/mcp_oauth_validate`
 
-Validate Credential
+Validate an MCP OAuth Credential
 
 ### Parameters
 
@@ -678,9 +732,15 @@ Validate Credential
 
   Unique identifier of the credential to validate.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -692,7 +752,7 @@ Validate Credential
 
 - `class ManagedAgentsCredentialValidation`
 
-  - `Type type`
+  - `"vault_credential_validation" type`
 
   - `string credentialID`
 
@@ -704,7 +764,7 @@ Validate Credential
 
   - `?ManagedAgentsMCPProbe mcpProbe`
 
-    Details of the failing MCP probe step. Null when the probe succeeded.
+    Details of the MCP probe step that failed, or `null` if the probe succeeded or there was no access token to test.
 
   - `?ManagedAgentsRefreshObject refresh`
 
@@ -728,6 +788,9 @@ Validate Credential
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -782,11 +845,11 @@ var_dump($betaManagedAgentsCredentialValidation);
 
 - `class ManagedAgentsCredential`
 
-  - `Type type`
+  - `"vault_credential" type`
 
   - `string id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `?\Datetime archivedAt`
 
@@ -822,21 +885,23 @@ var_dump($betaManagedAgentsCredentialValidation);
 
   - `class ManagedAgentsUnrestrictedCredentialNetworkingParams`
 
-    - `Type type`
+    - `"unrestricted" type`
 
   - `class ManagedAgentsLimitedCredentialNetworkingParams`
 
-    - `Type type`
+    - `"limited" type`
 
     - `list<string> allowedHosts`
 
-      Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+      The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+      Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
 ### Beta Managed Agents Credential Validation
 
 - `class ManagedAgentsCredentialValidation`
 
-  - `Type type`
+  - `"vault_credential_validation" type`
 
   - `string credentialID`
 
@@ -848,7 +913,7 @@ var_dump($betaManagedAgentsCredentialValidation);
 
   - `?ManagedAgentsMCPProbe mcpProbe`
 
-    Details of the failing MCP probe step. Null when the probe succeeded.
+    Details of the MCP probe step that failed, or `null` if the probe succeeded or there was no access token to test.
 
   - `?ManagedAgentsRefreshObject refresh`
 
@@ -876,27 +941,27 @@ var_dump($betaManagedAgentsCredentialValidation);
 
   - `"invalid"`
 
-    The probe reached the MCP server and was rejected, and a refresh (if attempted) did not recover it.
+    The probe reached the MCP server and the server rejected the credential, or no access token is stored. A refresh, if one was tried, didn't recover it. Usually the end user needs to authorize again.
 
   - `"unknown"`
 
-    The probe could not determine validity — for example, a transport error or a successful refresh that was not re-probed.
+    The probe couldn't tell whether the credential works, for example because of a network error or because a refresh succeeded but the new access token wasn't tested. Validate the credential again to find out.
 
 ### Beta Managed Agents Deleted Credential
 
 - `class ManagedAgentsDeletedCredential`
 
-  - `Type type`
+  - `"vault_credential_deleted" type`
 
   - `string id`
 
-    Unique identifier of the deleted credential.
+    The unique ID of the deleted credential (`vcrd_...`).
 
 ### Beta Managed Agents Environment Variable Auth Response
 
 - `class ManagedAgentsEnvironmentVariableAuthResponse`
 
-  - `Type type`
+  - `"environment_variable" type`
 
   - `ManagedAgentsInjectionLocationResponse injectionLocation`
 
@@ -914,7 +979,7 @@ var_dump($betaManagedAgentsCredentialValidation);
 
 - `class ManagedAgentsEnvironmentVariableCreateParams`
 
-  - `Type type`
+  - `"environment_variable" type`
 
   - `ManagedAgentsCredentialNetworkingParams networking`
 
@@ -926,7 +991,7 @@ var_dump($betaManagedAgentsCredentialValidation);
 
   - `string secretValue`
 
-    Secret value. Write-only; never returned in responses.
+    The secret to substitute into the agent's outbound requests. It's write-only and never returned in responses.
 
   - `?ManagedAgentsInjectionLocationParams injectionLocation`
 
@@ -936,7 +1001,7 @@ var_dump($betaManagedAgentsCredentialValidation);
 
 - `class ManagedAgentsEnvironmentVariableUpdateParams`
 
-  - `Type type`
+  - `"environment_variable" type`
 
   - `?ManagedAgentsInjectionLocationUpdateParams injectionLocation`
 
@@ -944,11 +1009,11 @@ var_dump($betaManagedAgentsCredentialValidation);
 
   - `?ManagedAgentsCredentialNetworkingParams networking`
 
-    Updated networking scope. Full replacement.
+    The new networking scope, which replaces the stored one as a whole.
 
   - `?string secretValue`
 
-    Updated secret value.
+    The new secret value to replace the stored one.
 
 ### Beta Managed Agents Injection Location Params
 
@@ -990,27 +1055,31 @@ var_dump($betaManagedAgentsCredentialValidation);
 
 - `class ManagedAgentsLimitedCredentialNetworkingParams`
 
-  - `Type type`
+  - `"limited" type`
 
   - `list<string> allowedHosts`
 
-    Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+    The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+    Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
 ### Beta Managed Agents Limited Credential Networking Response
 
 - `class ManagedAgentsLimitedCredentialNetworkingResponse`
 
-  - `Type type`
+  - `"limited" type`
 
   - `list<string> allowedHosts`
 
-    Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+    The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+    An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
 ### Beta Managed Agents MCP OAuth Auth Response
 
 - `class ManagedAgentsMCPOAuthAuthResponse`
 
-  - `Type type`
+  - `"mcp_oauth" type`
 
   - `string mcpServerURL`
 
@@ -1018,7 +1087,7 @@ var_dump($betaManagedAgentsCredentialValidation);
 
   - `?\Datetime expiresAt`
 
-    A timestamp in RFC 3339 format
+    When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
   - `?ManagedAgentsMCPOAuthRefreshResponse refresh`
 
@@ -1028,11 +1097,11 @@ var_dump($betaManagedAgentsCredentialValidation);
 
 - `class ManagedAgentsMCPOAuthCreateParams`
 
-  - `Type type`
+  - `"mcp_oauth" type`
 
   - `string accessToken`
 
-    OAuth access token.
+    The OAuth access token to send to the MCP server.
 
   - `string mcpServerURL`
 
@@ -1040,7 +1109,9 @@ var_dump($betaManagedAgentsCredentialValidation);
 
   - `?\Datetime expiresAt`
 
-    A timestamp in RFC 3339 format
+    When `access_token` expires, in RFC 3339.
+
+    Must be in the future.
 
   - `?ManagedAgentsMCPOAuthRefreshParams refresh`
 
@@ -1052,11 +1123,11 @@ var_dump($betaManagedAgentsCredentialValidation);
 
   - `string clientID`
 
-    OAuth client ID.
+    The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
 
   - `string refreshToken`
 
-    OAuth refresh token.
+    The OAuth refresh token that the API uses to get a new access token when the current one expires.
 
   - `string tokenEndpoint`
 
@@ -1078,7 +1149,7 @@ var_dump($betaManagedAgentsCredentialValidation);
 
   - `string clientID`
 
-    OAuth client ID.
+    The OAuth client ID used when refreshing the access token.
 
   - `string tokenEndpoint`
 
@@ -1100,11 +1171,11 @@ var_dump($betaManagedAgentsCredentialValidation);
 
   - `?string refreshToken`
 
-    Updated OAuth refresh token.
+    The new OAuth refresh token to replace the stored one.
 
   - `?string scope`
 
-    Updated OAuth scope for the refresh request.
+    The new OAuth scope for refresh requests. Send an empty string to clear the stored scope.
 
   - `?TokenEndpointAuth tokenEndpointAuth`
 
@@ -1112,15 +1183,19 @@ var_dump($betaManagedAgentsCredentialValidation);
 
 - `class ManagedAgentsMCPOAuthUpdateParams`
 
-  - `Type type`
+  - `"mcp_oauth" type`
 
   - `?string accessToken`
 
-    Updated OAuth access token.
+    The new OAuth access token to replace the stored one.
 
   - `?\Datetime expiresAt`
 
-    A timestamp in RFC 3339 format
+    When the credential's access token expires, in RFC 3339. Leave it out to keep the stored expiry.
+
+    If you send a new `access_token`, send its `expires_at` too, or the new token keeps the old expiry.
+
+    Must be in the future.
 
   - `?ManagedAgentsMCPOAuthRefreshUpdateParams refresh`
 
@@ -1132,7 +1207,7 @@ var_dump($betaManagedAgentsCredentialValidation);
 
   - `?ManagedAgentsRefreshHTTPResponse httpResponse`
 
-    The captured HTTP error response. Null when no HTTP response was received (timeout, DNS, TLS).
+    The HTTP error response from the MCP server, or `null` if the MCP server didn't return one for the failing step, for example after a timeout or a DNS or TLS failure.
 
   - `string method`
 
@@ -1174,7 +1249,7 @@ var_dump($betaManagedAgentsCredentialValidation);
 
 - `class ManagedAgentsStaticBearerAuthResponse`
 
-  - `Type type`
+  - `"static_bearer" type`
 
   - `string mcpServerURL`
 
@@ -1184,11 +1259,11 @@ var_dump($betaManagedAgentsCredentialValidation);
 
 - `class ManagedAgentsStaticBearerCreateParams`
 
-  - `Type type`
+  - `"static_bearer" type`
 
   - `string token`
 
-    Static bearer token value.
+    The static bearer token to send to the MCP server, such as an API key or personal access token.
 
   - `string mcpServerURL`
 
@@ -1198,84 +1273,88 @@ var_dump($betaManagedAgentsCredentialValidation);
 
 - `class ManagedAgentsStaticBearerUpdateParams`
 
-  - `Type type`
+  - `"static_bearer" type`
 
   - `?string token`
 
-    Updated static bearer token value.
+    The new static bearer token to replace the stored one.
 
 ### Beta Managed Agents Token Endpoint Auth Basic Param
 
 - `class ManagedAgentsTokenEndpointAuthBasicParam`
 
-  - `Type type`
+  - `"client_secret_basic" type`
 
   - `string clientSecret`
 
-    OAuth client secret.
+    The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
 ### Beta Managed Agents Token Endpoint Auth Basic Response
 
 - `class ManagedAgentsTokenEndpointAuthBasicResponse`
 
-  - `Type type`
+  - `"client_secret_basic" type`
 
 ### Beta Managed Agents Token Endpoint Auth Basic Update Param
 
 - `class ManagedAgentsTokenEndpointAuthBasicUpdateParam`
 
-  - `Type type`
+  - `"client_secret_basic" type`
 
   - `?string clientSecret`
 
-    Updated OAuth client secret.
+    A new OAuth client secret to replace the stored one.
+
+    The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
 ### Beta Managed Agents Token Endpoint Auth None Param
 
 - `class ManagedAgentsTokenEndpointAuthNoneParam`
 
-  - `Type type`
+  - `"none" type`
 
 ### Beta Managed Agents Token Endpoint Auth None Response
 
 - `class ManagedAgentsTokenEndpointAuthNoneResponse`
 
-  - `Type type`
+  - `"none" type`
 
 ### Beta Managed Agents Token Endpoint Auth Post Param
 
 - `class ManagedAgentsTokenEndpointAuthPostParam`
 
-  - `Type type`
+  - `"client_secret_post" type`
 
   - `string clientSecret`
 
-    OAuth client secret.
+    The OAuth client secret, sent to `token_endpoint` in the POST body.
 
 ### Beta Managed Agents Token Endpoint Auth Post Response
 
 - `class ManagedAgentsTokenEndpointAuthPostResponse`
 
-  - `Type type`
+  - `"client_secret_post" type`
 
 ### Beta Managed Agents Token Endpoint Auth Post Update Param
 
 - `class ManagedAgentsTokenEndpointAuthPostUpdateParam`
 
-  - `Type type`
+  - `"client_secret_post" type`
 
   - `?string clientSecret`
 
-    Updated OAuth client secret.
+    A new OAuth client secret to replace the stored one.
+
+    The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
 ### Beta Managed Agents Unrestricted Credential Networking Params
 
 - `class ManagedAgentsUnrestrictedCredentialNetworkingParams`
 
-  - `Type type`
+  - `"unrestricted" type`
 
 ### Beta Managed Agents Unrestricted Credential Networking Response
 
 - `class ManagedAgentsUnrestrictedCredentialNetworkingResponse`
 
-  - `Type type`
+  - `"unrestricted" type`

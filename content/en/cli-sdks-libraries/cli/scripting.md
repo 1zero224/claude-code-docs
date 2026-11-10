@@ -72,14 +72,12 @@ The CLI is designed to compose with standard shell tooling.
 
 ### Chain list output into a second command
 
-`--transform id --raw-output` on a list endpoint emits one bare ID per line, so standard tools such as `head` and `xargs` apply directly. Capture the first result, then pass it to a follow-up command:
+`--transform id --raw-output` on a list endpoint emits one bare ID on each line, so standard tools such as `head` and `xargs` apply directly. Capture the first result, then pass it to a follow-up command:
 
 ```bash
 FIRST_AGENT=$(ant beta:agents list --transform id --raw-output | head -1)
 
-ant beta:agents:versions list \
-  --agent-id "$FIRST_AGENT" \
-  --transform "{version,created_at}" --format jsonl
+ant beta:agents:versions list --agent-id "$FIRST_AGENT" --format jsonl
 ```
 
 ### Inspect errors
@@ -100,22 +98,22 @@ Agent not found.
 
 [Claude Code](https://code.claude.com/docs/en/overview) can use the `ant` CLI out of the box. With the CLI installed and authenticated, you can ask Claude Code to operate on your API resources directly. For example:
 
-* "List my recent agent sessions and summarize which ones errored."
-* "Upload every PDF in `./reports` to the Files API and print the resulting IDs."
-* "Pull the events for session `session_01...` and tell me where the agent got stuck."
+* “List my recent agent sessions and summarize which ones errored.”
+* “Upload every PDF in `./reports` to the Files API and print the resulting IDs.”
+* “Pull the events for session `session_01...` and tell me where the agent got stuck.”
 
-Claude Code shells out to `ant`, parses the structured output, and reasons over the results (no custom integration code required).
+Claude Code runs `ant` commands, parses the structured output, and reasons over the results (no custom integration code required).
 
 ## Authenticate curl requests with CLI credentials
 
 Scripts that call the API with `curl` or another HTTP client can use the credentials stored by [`ant auth login`](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/quickstart#authentication) instead of a static API key. The OAuth access token goes in the `Authorization` header as a bearer token; the `x-api-key` header is only for static API keys.
 
-`ant auth print-credentials --access-token` prints the active profile's access token, refreshing it first if it is expired or near expiry:
+`ant auth print-credentials --access-token` prints the active profile’s access token, refreshing it first if it is expired or near expiry:
 
 ```bash cURL
 curl https://api.anthropic.com/v1/messages \
   -H "Authorization: Bearer $(ant auth print-credentials --access-token)" \
-  -H "anthropic-version: 2023-06-01" \
+  -H "anthropic-version: 2026-10-21" \
   -H "content-type: application/json" \
   -d '{
     "model": "claude-opus-5-5",
@@ -124,8 +122,4 @@ curl https://api.anthropic.com/v1/messages \
   }'
 ```
 
-<Note>
-  Keep `ANTHROPIC_API_KEY` and `ANTHROPIC_AUTH_TOKEN` unset when working from a CLI login. Either variable takes precedence over the login for `ant` commands (see [Credential precedence](https://platform.claude.com/docs/en/manage-claude/wif-reference#credential-precedence)) and can silently route them to a different organization or workspace.
-</Note>
-
-Run [`ant auth status`](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/authentication#check-authentication-status) to confirm which organization and workspace you are logged in to; it warns when an environment variable is overriding your login.
+Run [`ant auth status`](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/authentication#check-authentication-status) to confirm which organization and workspace you are logged in to; it warns when an environment variable is overriding your login. For the full ordering of credential sources, see [Credential precedence](https://platform.claude.com/docs/en/manage-claude/wif-reference#credential-precedence).

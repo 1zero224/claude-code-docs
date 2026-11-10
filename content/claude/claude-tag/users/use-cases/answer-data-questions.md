@@ -6,9 +6,9 @@
 
 > Claude Tag answers data questions in the Slack thread. See warehouse queries with charts, scheduled metric reports, and charts built from channel history alone.
 
-export const BetaNote = () => <Info>Claude Tag is in public beta. Features and behavior described here may change before general availability.</Info>;
-
-<BetaNote />
+> [!NOTE]
+>
+> Claude Tag is in public beta. Features and behavior described here may change before general availability.
 
 ## How data-question prompts work
 
@@ -18,7 +18,7 @@ Each prompt below is a Slack message. You paste it in the channel where the metr
 
 ## Check the channel's connections
 
-Check that the channel has the connections below. Ask `@Claude what can you access from this channel?` to check; an admin can [add a connection](/docs/claude-tag/admins/add-connections) the channel is missing.
+Check that the channel has the connections below. Ask `@Claude what can you access from this channel?` to check; an admin can [add a connection](https://claude.com/docs/claude-tag/admins/add-connections.md) the channel is missing.
 
 | Connection | Examples | Why it matters here |
 | :- | :- | :- |
@@ -42,7 +42,7 @@ When the team checks the same numbers every morning, schedule the post. One mess
 @Claude every morning at 8, post yesterday's key metrics as a chart with a two-line summary of anything unusual.
 ```
 
-Naming the format, here a chart plus two lines, keeps a recurring post scannable instead of letting it grow each day. To list or cancel scheduled work later, see [Manage standing work](/docs/claude-tag/users/proactivity#manage-standing-work).
+Naming the format, here a chart plus two lines, keeps a recurring post scannable instead of letting it grow each day. To list or cancel scheduled work later, see [Manage standing work](https://claude.com/docs/claude-tag/users/proactivity.md#manage-standing-work).
 
 ### Chart from Slack alone
 
@@ -56,16 +56,14 @@ Anyone in the thread can ask for a different cut of the same data.
 
 ## Related resources
 
-<CardGroup cols={2}>
-  <Card title="Watch monitors and alerts" href="/docs/claude-tag/users/use-cases/watch-monitors" horizontal arrow>
-    When the question is about systems, not metrics
-  </Card>
+> [card] [Watch monitors and alerts](https://claude.com/docs/claude-tag/users/use-cases/watch-monitors.md)
+>
+> When the question is about systems, not metrics
 
-  <Card title="Set up routines" href="/docs/claude-tag/users/proactivity" horizontal arrow>
-    Recurring reports
-  </Card>
+> [card] [Set up routines](https://claude.com/docs/claude-tag/users/proactivity.md)
+>
+> Recurring reports
 
-  <Card title="Self-service data analytics" href="https://claude.com/blog/self-service-data-analytics-in-slack-how-anthropic-deploys-claude-tag-for-ad-hoc-questions" horizontal arrow>
-    How Anthropic answers ad-hoc data questions in Slack with Claude
-  </Card>
-</CardGroup>
+> [card] [Self-service data analytics](https://claude.com/blog/self-service-data-analytics-in-slack-how-anthropic-deploys-claude-tag-for-ad-hoc-questions)
+>
+> How Anthropic answers ad-hoc data questions in Slack with Claude

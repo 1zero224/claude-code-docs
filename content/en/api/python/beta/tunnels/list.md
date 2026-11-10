@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/python/beta/tunnels/list
 
 # List Tunnels
 
-`beta.tunnels.list(**kwargs)  -> SyncPageCursor[BetaTunnel]`
+`beta.tunnels.list(**kwargs) -> SyncPageCursor[BetaTunnel]`
 
 **GET** `/v1/tunnels`
 
@@ -31,7 +31,7 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `str`
 
@@ -134,6 +134,18 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 

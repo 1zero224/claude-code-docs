@@ -13,59 +13,59 @@ List Sessions
 
 ## Parameters
 
-- `agent_id: String` (query parameter)
+- `agent_id: optional String` (query parameter)
 
   Filter sessions created with this agent ID.
 
-- `agent_version: Integer` (query parameter)
+- `agent_version: optional Integer` (query parameter)
 
   Filter by agent version. Only applies when `agent_id` is also set.
 
   format: int32
 
-- `created_at_gt: Time` (query parameter)
+- `created_at_gt: optional Time` (query parameter)
 
   Return sessions created after this time (exclusive).
 
   format: date-time
 
-- `created_at_gte: Time` (query parameter)
+- `created_at_gte: optional Time` (query parameter)
 
   Return sessions created at or after this time (inclusive).
 
   format: date-time
 
-- `created_at_lt: Time` (query parameter)
+- `created_at_lt: optional Time` (query parameter)
 
   Return sessions created before this time (exclusive).
 
   format: date-time
 
-- `created_at_lte: Time` (query parameter)
+- `created_at_lte: optional Time` (query parameter)
 
   Return sessions created at or before this time (inclusive).
 
   format: date-time
 
-- `deployment_id: String` (query parameter)
+- `deployment_id: optional String` (query parameter)
 
   Filter sessions created by this deployment ID.
 
-- `include_archived: bool` (query parameter)
+- `include_archived: optional bool` (query parameter)
 
   When true, includes archived sessions. Default: false (exclude archived).
 
-- `limit: Integer` (query parameter)
+- `limit: optional Integer` (query parameter)
 
   Maximum number of results to return.
 
   format: int32
 
-- `memory_store_id: String` (query parameter)
+- `memory_store_id: optional String` (query parameter)
 
   Filter sessions whose resources contain a `memory_store` with this memory store ID.
 
-- `order: :asc | :desc` (query parameter)
+- `order: optional :asc | :desc` (query parameter)
 
   Sort direction for results, ordered by `created_at`. Defaults to `desc` (newest first).
 
@@ -73,11 +73,11 @@ List Sessions
 
   - `:desc`
 
-- `page: String` (query parameter)
+- `page: optional String` (query parameter)
 
   Opaque pagination cursor from a previous response.
 
-- `statuses: Array[:rescheduling | :running | :idle | :terminated]` (query parameter)
+- `statuses: optional Array[:rescheduling | :running | :idle | :terminated]` (query parameter)
 
   Filter by session status. Repeat the parameter to match any of multiple statuses.
 
@@ -97,9 +97,9 @@ List Sessions
 
     Session has ended, either due to an error or completion.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -203,7 +203,19 @@ List Sessions
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -227,7 +239,27 @@ List Sessions
 
     - `id: String`
 
-    - `description: String`
+    - `description: String | nil`
+
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: :aws_role`
+
+        - `role_arn: String`
+
+          The IAM role's ARN.
+
+      - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: :service_account`
 
     - `mcp_servers: Array[BetaManagedAgentsMCPServerURLDefinition]`
 
@@ -246,6 +278,10 @@ List Sessions
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `:"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `:"claude-haiku-5-5"`
 
@@ -317,7 +353,7 @@ List Sessions
 
         - `String = String`
 
-      - `effort: BetaManagedAgentsEffortLow | BetaManagedAgentsEffortMedium | BetaManagedAgentsEffortHigh | 2 more`
+      - `effort: optional BetaManagedAgentsEffortLow | BetaManagedAgentsEffortMedium | BetaManagedAgentsEffortHigh | 2 more`
 
         How hard Claude works on each inference call. One of `low`, `medium`, `high`, `xhigh`, `max`. Always present; resolved to the per-model default at save time when not supplied.
 
@@ -351,11 +387,11 @@ List Sessions
 
           - `type: :max`
 
-      - `inference_geo: String`
+      - `inference_geo: optional String`
 
         Geographic region for model inference. When unset, requests fall through to the workspace's default_inference_geo.
 
-      - `speed: :standard | :fast`
+      - `speed: optional :standard | :fast`
 
         Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
@@ -363,7 +399,7 @@ List Sessions
 
         - `:fast`
 
-    - `multiagent: BetaManagedAgentsSessionMultiagent`
+    - `multiagent: BetaManagedAgentsSessionMultiagent | nil`
 
       Resolved multiagent orchestration configuration. Null when the agent is single-threaded.
 
@@ -385,7 +421,11 @@ List Sessions
 
             - `id: String`
 
-            - `description: String`
+            - `description: String | nil`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: Array[BetaManagedAgentsMCPServerURLDefinition]`
 
@@ -423,7 +463,7 @@ List Sessions
 
                 - `version: String`
 
-            - `system_: String`
+            - `system_: String | nil`
 
             - `tools: Array[BetaManagedAgentsAgentToolset20260401 | BetaManagedAgentsMCPToolset | BetaManagedAgentsCustomTool]`
 
@@ -621,11 +661,11 @@ List Sessions
 
                         The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
 
-                    - `url_sources: BetaManagedAgentsWebFetchURLSources`
+                    - `url_sources: BetaManagedAgentsWebFetchURLSources | nil`
 
                       Which sources contribute URLs the tool may fetch, always in the object form. Null when not set, which allows every source.
 
-                      - `client_tool_results: BetaManagedAgentsWebFetchURLSourceToolFilter`
+                      - `client_tool_results: BetaManagedAgentsWebFetchURLSourceToolFilter | nil`
 
                         Which custom tools' results contribute URLs that may be fetched. Null when not set, which allows every custom tool's results.
 
@@ -681,11 +721,11 @@ List Sessions
 
                               minLength: 1, maxLength: 128
 
-                      - `server_tool_results: BetaManagedAgentsWebFetchURLSourceToolFilter`
+                      - `server_tool_results: BetaManagedAgentsWebFetchURLSourceToolFilter | nil`
 
                         Which of the web_search and web_fetch tools' results contribute URLs that may be fetched. Null when not set, which allows both.
 
-                      - `user_input: BetaManagedAgentsWebFetchURLSourceUserInput`
+                      - `user_input: BetaManagedAgentsWebFetchURLSourceUserInput | nil`
 
                         Whether URLs in the text of user messages may be fetched. Null when not set, which allows them.
 
@@ -697,11 +737,11 @@ List Sessions
 
                           This source contributes no URLs that may be fetched.
 
-                    - `allowed_domains: Array[String]`
+                    - `allowed_domains: optional Array[String]`
 
-                    - `blocked_domains: Array[String]`
+                    - `blocked_domains: optional Array[String]`
 
-                    - `max_content_tokens: Integer`
+                    - `max_content_tokens: optional Integer | nil`
 
                       format: int32
 
@@ -731,11 +771,11 @@ List Sessions
 
                         The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
 
-                    - `allowed_domains: Array[String]`
+                    - `allowed_domains: optional Array[String]`
 
-                    - `blocked_domains: Array[String]`
+                    - `blocked_domains: optional Array[String]`
 
-                    - `user_location: BetaManagedAgentsUserLocation`
+                    - `user_location: optional BetaManagedAgentsUserLocation | nil`
 
                       Approximate user location for search result localization.
 
@@ -743,23 +783,25 @@ List Sessions
 
                         Location precision. Only "approximate" is supported.
 
-                      - `city: String`
+                      - `city: optional String | nil`
 
                         City name.
 
                         minLength: 1, maxLength: 255
 
-                      - `country: String`
+                      - `country: optional String | nil`
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
-                      - `region: String`
+                        pattern: ^[A-Z]{2}$
+
+                      - `region: optional String | nil`
 
                         Region or state name.
 
                         minLength: 1, maxLength: 255
 
-                      - `timezone: String`
+                      - `timezone: optional String | nil`
 
                         IANA timezone identifier, e.g. "America/Los_Angeles".
 
@@ -851,9 +893,9 @@ List Sessions
 
                   - `type: :object`
 
-                  - `properties: Hash[Symbol, untyped]`
+                  - `properties: optional Hash[Symbol, untyped] | nil`
 
-                  - `required: Array[String]`
+                  - `required: optional Array[String] | nil`
 
                 - `name: String`
 
@@ -931,7 +973,11 @@ List Sessions
 
               - `id: String`
 
-              - `description: String`
+              - `description: String | nil`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: Array[BetaManagedAgentsMCPServerURLDefinition]`
 
@@ -943,7 +989,7 @@ List Sessions
 
               - `skills: Array[BetaManagedAgentsAnthropicSkill | BetaManagedAgentsCustomSkill]`
 
-              - `system_: String`
+              - `system_: String | nil`
 
               - `tools: Array[BetaManagedAgentsAgentToolset20260401 | BetaManagedAgentsMCPToolset | BetaManagedAgentsCustomTool]`
 
@@ -979,7 +1025,11 @@ List Sessions
 
               - `id: String`
 
-              - `description: String`
+              - `description: String | nil`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: Array[BetaManagedAgentsMCPServerURLDefinition]`
 
@@ -991,7 +1041,7 @@ List Sessions
 
               - `skills: Array[BetaManagedAgentsAnthropicSkill | BetaManagedAgentsCustomSkill]`
 
-              - `system_: String`
+              - `system_: String | nil`
 
               - `tools: Array[BetaManagedAgentsAgentToolset20260401 | BetaManagedAgentsMCPToolset | BetaManagedAgentsCustomTool]`
 
@@ -1017,7 +1067,7 @@ List Sessions
 
         A resolved user-created custom skill.
 
-    - `system_: String`
+    - `system_: String | nil`
 
     - `tools: Array[BetaManagedAgentsAgentToolset20260401 | BetaManagedAgentsMCPToolset | BetaManagedAgentsCustomTool]`
 
@@ -1033,13 +1083,13 @@ List Sessions
 
       format: int32
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the session was archived. Null if not archived.
 
     format: date-time
 
-  - `budget: BetaManagedAgentsBudgetLimit`
+  - `budget: BetaManagedAgentsBudgetLimit | nil`
 
     The session's enforced spend ceiling, or null when no budget is set.
 
@@ -1052,6 +1102,8 @@ List Sessions
       - `amount: String`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -1073,7 +1125,7 @@ List Sessions
 
     - `type: :outcome_evaluation`
 
-    - `completed_at: Time`
+    - `completed_at: Time | nil`
 
       When the outcome reached a terminal result. Null while `pending`/`running`/`evaluating`.
 
@@ -1083,7 +1135,7 @@ List Sessions
 
       What the agent should produce.
 
-    - `explanation: String`
+    - `explanation: String | nil`
 
       Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
@@ -1125,7 +1177,7 @@ List Sessions
 
       - `url: String`
 
-      - `checkout: BetaManagedAgentsBranchCheckout | BetaManagedAgentsCommitCheckout`
+      - `checkout: optional BetaManagedAgentsBranchCheckout | BetaManagedAgentsCommitCheckout | nil`
 
         - `class BetaManagedAgentsBranchCheckout`
 
@@ -1145,7 +1197,7 @@ List Sessions
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `class BetaManagedAgentsFileResource`
 
@@ -1179,7 +1231,9 @@ List Sessions
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
 
-      - `access: :read_write | :read_only`
+        pattern: ^memstore_[a-zA-Z0-9_]+$
+
+      - `access: optional :read_write | :read_only | nil`
 
         Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts the store as a read-only filesystem.
 
@@ -1187,21 +1241,21 @@ List Sessions
 
         - `:read_only`
 
-      - `description: String`
+      - `description: optional String`
 
         Description of the memory store, snapshotted at attach time. Rendered into the agent's system prompt. Empty string when the store has no description.
 
-      - `instructions: String`
+      - `instructions: optional String | nil`
 
         Per-attachment guidance for the agent on how to use this store. Rendered into the memory section of the system prompt. Max 4096 chars.
 
         maxLength: 4096
 
-      - `mount_path: String`
+      - `mount_path: optional String | nil`
 
         Filesystem path where the store is mounted in the session container, e.g. /mnt/memory/user-preferences. Derived from the store's name. Output-only.
 
-      - `name: String`
+      - `name: optional String | nil`
 
         Display name of the memory store, snapshotted at attach time. Later edits to the store's name do not propagate to this resource.
 
@@ -1209,13 +1263,13 @@ List Sessions
 
     Timing statistics for the session.
 
-    - `active_seconds: Float`
+    - `active_seconds: optional Float`
 
       Cumulative time in seconds the session spent in `running` status. Excludes idle time.
 
       format: double
 
-    - `duration_seconds: Float`
+    - `duration_seconds: optional Float`
 
       Elapsed time since session creation in seconds. For terminated sessions, frozen at the final update.
 
@@ -1239,7 +1293,7 @@ List Sessions
 
       Session has ended, either due to an error or completion.
 
-  - `title: String`
+  - `title: String | nil`
 
   - `updated_at: Time`
 
@@ -1251,61 +1305,61 @@ List Sessions
 
     Cumulative token usage for the session.
 
-    - `active_seconds: Float`
+    - `active_seconds: optional Float`
 
       Cumulative time in seconds during which the session had at least one thread in running status. Overlapping activity from concurrent threads is counted once, unlike `stats.active_seconds`, which sums each thread's own active time. This is the duration the session's runtime cost is priced on.
 
       format: double
 
-    - `cache_creation: BetaManagedAgentsCacheCreationUsage`
+    - `cache_creation: optional BetaManagedAgentsCacheCreationUsage`
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `ephemeral_1h_input_tokens: Integer`
+      - `ephemeral_1h_input_tokens: optional Integer`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
         format: int32
 
-      - `ephemeral_5m_input_tokens: Integer`
+      - `ephemeral_5m_input_tokens: optional Integer`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
         format: int32
 
-    - `cache_read_input_tokens: Integer`
+    - `cache_read_input_tokens: optional Integer`
 
       Total tokens read from prompt cache.
 
       format: int32
 
-    - `input_tokens: Integer`
+    - `input_tokens: optional Integer`
 
       Total input tokens consumed across all turns.
 
       format: int32
 
-    - `list_cost: BetaMonetaryAmount`
+    - `list_cost: optional BetaMonetaryAmount | nil`
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `output_tokens: Integer`
+    - `output_tokens: optional Integer`
 
       Total output tokens generated across all turns.
 
       format: int32
 
-    - `server_tool_use: BetaManagedAgentsServerToolUsage`
+    - `server_tool_use: optional BetaManagedAgentsServerToolUsage | nil`
 
       Cumulative server-executed tool usage across all turns. Absent until server-tool tracking is available for the session.
 
-      - `web_fetch_requests: Integer`
+      - `web_fetch_requests: optional Integer`
 
         Number of server-executed web fetch requests.
 
         format: int32
 
-      - `web_search_requests: Integer`
+      - `web_search_requests: optional Integer`
 
         Number of server-executed web search requests.
 
@@ -1315,7 +1369,7 @@ List Sessions
 
     Vault IDs attached to the session at creation. Empty when no vaults were supplied.
 
-  - `deployment_id: String`
+  - `deployment_id: optional String | nil`
 
     Deployment ID when the session was created from a deployment reference. Null otherwise.
 
@@ -1341,6 +1395,9 @@ puts(page)
       "agent": {
         "id": "agent_011CZkYpogX7uDKUyvBTophP",
         "description": "A general-purpose starter agent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",
@@ -1361,6 +1418,9 @@ puts(page)
             {
               "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
               "description": "A focused research subagent.",
+              "execution_identity": {
+                "type": "service_account"
+              },
               "mcp_servers": [
                 {
                   "name": "example-mcp",

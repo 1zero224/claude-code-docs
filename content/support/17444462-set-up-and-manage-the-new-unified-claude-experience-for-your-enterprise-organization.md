@@ -4,7 +4,7 @@ The new unified Claude experience brings chat and Cowork together on web, deskto
 
 This article explains how admins turn on the new unified Claude experience, which settings apply to it, and how it fits your security, compliance, and data retention setup.
 
-The new unified Claude experience is in public beta for Claude Enterprise plans. In your admin settings it appears as **Chat and Cowork unified (beta)**. The new unified Claude experience is off by default. Nothing changes for your organization until an admin turns it on.
+The new unified Claude experience is available on Enterprise plans, where it appears in admin settings as **Chat and Cowork unified**. It's off by default in existing organizations and turns on by default on November 16, 2026.
 
 ---
 
@@ -32,11 +32,11 @@ The new unified Claude experience requires two capabilities to be on for your or
 
 It doesn't require Cowork or Cowork in the cloud to be on. It is meant to replace both over time.
 
-| **Your organization today**                    | **What to do**                                                                                                                                                          |
-| ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Chat only                                      | Turn on **Chat and Cowork unified (beta)**. You don't need to turn on Cowork or Cowork in the cloud separately. Make sure Cloud code execution and file creation is on. |
-| Cowork only, or Cowork and Cowork in the cloud | Turn on the Chat capability, then turn on **Chat and Cowork unified (beta)**. Make sure **Cloud code execution and file creation** is on.                               |
-| Chat and Cowork                                | Make sure **Cloud code execution and file creation** is on, then turn on **Chat and Cowork unified (beta)**.                                                            |
+| **Your organization today**                    | **What to do**                                                                                                                                                   |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chat only                                      | Turn on **Chat and Cowork unified.** You don't need to turn on Cowork or Cowork in the cloud separately. Make sure Cloud code execution and file creation is on. |
+| Cowork only, or Cowork and Cowork in the cloud | Turn on the Chat capability, then turn on **Chat and Cowork unified**. Make sure **Cloud code execution and file creation** is on.                               |
+| Chat and Cowork                                | Make sure **Cloud code execution and file creation** is on, then turn on **Chat and Cowork unified**.                                                            |
 
 The new unified Claude experience isn't available yet for organizations that use zero data retention (ZDR), the HIPAA-ready configuration, or customer-managed encryption keys (CMEK). See **[Current limitations](#h_8b973139dd)** below.
 
@@ -50,15 +50,23 @@ The new unified Claude experience isn't available yet for organizations that use
 
 2. Go to **[Organization settings > Capabilities](https://claude.ai/admin-settings/capabilities)**.
 
-3. Turn on **Chat and Cowork unified (beta)**.
+3. Turn on **Chat and Cowork unified**.
 
 4. Ask members to refresh the Claude app if they don't see the new experience right away.
 
-This turns on the new unified Claude experience for every member of your organization. To limit access to specific members, use roles instead.
+This turns on the new unified Claude experience for members with the User, Admin, Owner or Primary Owner role. Members on a custom role get it only if their role also includes Chat and Cowork unified.
 
 Scheduled tasks and session history will continue working after the change. You don’t need to update or recreate anything.
 
+### If you haven't changed this setting
+
+In **[Organization settings > Capabilities](https://claude.ai/admin-settings/capabilities)**, under Chat and Cowork unified, Owners and Primary Owners see "Will be automatically enabled on November 16, 2026." Select Enable now to turn it on early, or Keep disabled to keep it off. You can still turn it off later. If the setting was already turned on or off, that choice stays.
+
+If Chat or Cloud code execution and file creation is off, there's no notice and nothing turns on. After November 16, the new experience turns on as soon as both are on.
+
 ### For specific members, using roles
+
+The organization setting above must also be on. Once it is, everyone with the User, Admin, Owner or Primary Owner role has access. Before you turn it on, move anyone who shouldn't have it to a custom role with Chat and Cowork unified turned off. New roles start with All capabilities, which includes it.
 
 If your organization uses custom roles, you can grant the new unified Claude experience to specific roles:
 
@@ -66,7 +74,7 @@ If your organization uses custom roles, you can grant the new unified Claude exp
 
 2. Open the role you want to update and go to “Capabilities.”
 
-3. Turn on **Chat and Cowork unified (beta)** for that role.
+3. Turn on **Chat and Cowork unified** for that role.
 
 4. Assign the role to the members who should have access. You can sync role membership through SCIM to add members in waves.
 
@@ -90,25 +98,26 @@ To learn how to create a role, see **[Set up role-based permissions on Enterpris
 
 ## Admin settings that apply to the new unified Claude experience
 
-| **Setting**                                                         | **Where**                                             | **How it applies to the new unified Claude experience**                                                                                                                                                                                                                                                                        |
-| ------------------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Chat and Cowork unified (beta)                                      | Organization settings > Capabilities                  | Turns the new unified Claude experience on for the organization. Off by default. Changes are recorded in the activity feed.                                                                                                                                                                                                    |
-| Chat and Cowork unified (per role)                                  | Organization settings > Roles > Capabilities          | Grants the new unified Claude experience to members of a role.                                                                                                                                                                                                                                                                 |
-| Allow network egress                                                | Organization settings > Capabilities > Code execution | Controls which internet destinations code in the sandbox can reach: off, package managers only, a custom list of domains, or all domains. Off by default for Enterprise.                                                                                                                                                       |
-| Connector policies (Blocked, Needs approval, per-role restrictions) | Organization settings                                 | Enforced by Anthropic outside the sandbox, on every connector call.                                                                                                                                                                                                                                                            |
-| Always allow for connector tools                                    | Organization settings                                 | When off, members can't give a connector tool a standing approval, and Claude asks each time.                                                                                                                                                                                                                                  |
-| Allow "Skip all approvals" mode                                     | Organization settings                                 | When off, users *can’t* let Claude act without asking for approval — including using tools, editing files, and browsing websites. This specifically applies to scheduled tasks and the built-in browser in the unified experience.                                                                                             |
-| Allow “Automatically approve” mode                                  | Organization settings                                 | When off, users *can’t* let Claude approve actions on its own. The user must approve each one — including using tools, editing files, and browsing websites.                                                                                                                                                                   |
-| Share chats and Share cloud sessions                                | Organization settings                                 | A conversation that has used its sandbox can be shared only when both settings are on. The more restrictive setting applies.                                                                                                                                                                                                   |
-| Remote control                                                      | Organization settings                                 | When off, web and mobile can't use a member's linked computer.                                                                                                                                                                                                                                                                 |
-| Require Trusted Devices                                             | Organization settings                                 | Require members to verify each new device before it can connect to Claude on their computer remotely.                                                                                                                                                                                                                          |
-| Scheduled tasks                                                     | Organization settings                                 | When off, scheduled tasks that execute remotely are disabled for your org. Users will not be able to create new scheduled tasks in the cloud.                                                                                                                                                                                  |
-| Custom data retention                                               | Organization settings                                 | Governs conversations and projects. See Data retention and deletion below.                                                                                                                                                                                                                                                     |
-| Compliance API                                                      | Organization settings                                 | Covers conversations in the new unified Claude experience with your existing access keys. For setup and endpoint reference, see **[Access the Compliance API](https://support.claude.com/en/articles/13015708)** and the **[Compliance API documentation](https://platform.claude.com/docs/en/manage-claude/compliance-api)**. |
-| Analytics API                                                       | Organization settings                                 | Covers analytics for the new unified Claude experience with your existing access keys. Please refer to the **[Analytics API documentation](https://platform.claude.com/docs/en/manage-claude/analytics-api)**.<br>                                                                                                             |
-| Admin API                                                           | Organization settings                                 | Works with your existing access keys. The new unified Claude experience appears as the chat\_cowork\_unified permission when you list a custom role's permissions. For endpoint reference, see the **[Admin API documentation](https://platform.claude.com/docs/en/manage-claude/user-management)**.                           |
-| Open Telemetry (OTEL)                                               | Organization settings                                 | If you've set up **[OpenTelemetry export](https://support.claude.com/en/articles/14477985)**, a conversation's cloud session sends the same events as other cloud sessions (metadata only, by default). Anthropic recommends using Compliance API.                                                                             |
-| Device policy for the Claude desktop app                            | Your device management (MDM) tool                     | On managed computers, limits which folders can be connected, disables user-added local MCP servers and extensions, and can require sign-in to your organization. See **[Enterprise configuration for Claude Desktop](https://support.claude.com/en/articles/12622667)**.                                                       |
+| **Setting**                                                         | **Where**                                             | **How it applies to the new unified Claude experience**                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ------------------------------------------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chat and Cowork unified                                             | Organization settings > Capabilities                  | Turns the new unified Claude experience on for the organization. Off by default. Changes are recorded in the activity feed.                                                                                                                                                                                                                                                                                                                                                                                      |
+| Chat and Cowork unified (per role)                                  | Organization settings > Roles > Capabilities          | Grants the new unified Claude experience to members of a role.                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Allow network egress                                                | Organization settings > Capabilities > Code execution | Controls which internet destinations code in the sandbox can reach: off, package managers only, a custom list of domains, or all domains. Off by default for Enterprise.                                                                                                                                                                                                                                                                                                                                         |
+| Connector policies (Blocked, Needs approval, per-role restrictions) | Organization settings                                 | Enforced by Anthropic outside the sandbox, on every connector call.                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| Always allow for connector tools                                    | Organization settings                                 | When off, members can't give a connector tool a standing approval, and Claude asks each time.                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| Allow "Skip all approvals" mode                                     | Organization settings                                 | When off, users *can’t* let Claude act without asking for approval — including using tools, editing files, and browsing websites. This specifically applies to scheduled tasks and the built-in browser in the unified experience.                                                                                                                                                                                                                                                                               |
+| Allow “Automatically approve” mode                                  | Organization settings                                 | When off, users *can’t* let Claude approve actions on its own. The user must approve each one — including using tools, editing files, and browsing websites.                                                                                                                                                                                                                                                                                                                                                     |
+| Share chats and Share cloud sessions                                | Organization settings                                 | A conversation that has used its sandbox can be shared only when both settings are on. The more restrictive setting applies.                                                                                                                                                                                                                                                                                                                                                                                     |
+| Remote control                                                      | Organization settings                                 | When off, web, mobile, and scheduled tasks can't use a member's linked computer.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Require Trusted Devices                                             | Organization settings                                 | Require members to verify each new device before it can connect to Claude on their computer remotely.                                                                                                                                                                                                                                                                                                                                                                                                            |
+| Scheduled tasks                                                     | Organization settings                                 | When off, scheduled tasks that execute remotely are disabled for your org. Users will not be able to create new scheduled tasks in the cloud.                                                                                                                                                                                                                                                                                                                                                                    |
+| Custom data retention                                               | Organization settings                                 | Governs conversations, projects, and artifacts. See **[Data retention and deletion](#h_aeff3368a6)** below.                                                                                                                                                                                                                                                                                                                                                                                                      |
+| Compliance API                                                      | Organization settings                                 | Covers conversations in the new unified Claude experience with your existing access keys. For setup and endpoint reference, see **[Access the Compliance API](https://support.claude.com/en/articles/13015708)** and the **[Compliance API documentation](https://platform.claude.com/docs/en/manage-claude/compliance-api)**.                                                                                                                                                                                   |
+| Analytics API                                                       | Organization settings                                 | Covers analytics for the new unified Claude experience with your existing access keys. Please refer to the **[Analytics API documentation](https://platform.claude.com/docs/en/manage-claude/analytics-api)**.<br>                                                                                                                                                                                                                                                                                               |
+| Admin API                                                           | Organization settings                                 | Works with your existing access keys. The new unified Claude experience appears as the `chat_cowork_unified` permission when you list a custom role's permissions. For endpoint reference, see the **[Admin API documentation](https://platform.claude.com/docs/en/manage-claude/user-management)**.                                                                                                                                                                                                             |
+| Open Telemetry (OTEL)                                               | Organization settings                                 | If you've set up **[OpenTelemetry export](https://support.claude.com/en/articles/14477985)**, a conversation's cloud session sends the same events as other cloud sessions (metadata only, by default). Anthropic recommends using Compliance API.                                                                                                                                                                                                                                                               |
+| Device policy for the Claude desktop app                            | Your device management (MDM) tool                     | On managed computers, limits which folders can be connected, disables user-added local MCP servers and extensions, and can require sign-in to your organization. On the Enterprise plan, owners can also control auto-updates, workspace folders, local MCP servers, and desktop extensions, and block other accounts, in Organization settings without MDM. See **[Enterprise configuration for Claude Desktop](https://support.claude.com/en/articles/12622667-enterprise-configuration-for-claude-desktop)**. |
+| Endpoint detection and response (EDR) sensor                        | Your device management (MDM) tool                     | Runs your EDR sensor inside the VM on a user's computer (beta). It doesn't cover the cloud sandbox, because Anthropic manages that virtual machine. See **[Run your EDR sensor in Claude Cowork](https://support.claude.com/en/articles/17828685-run-your-endpoint-detection-and-response-edr-sensor-in-claude-cowork)**.                                                                                                                                                                                        |
 
 Identity settings carry over unchanged. Members sign in to Claude as members of your organization, and your SSO (SAML/OIDC), SCIM provisioning, and tenant restrictions apply. The new unified Claude experience adds no separate sign-in.
 
@@ -118,13 +127,29 @@ For recommended Security settings and architecture, see **[Unified Claude and Co
 
 ## Data retention and deletion
 
-1. Conversations. Conversations are kept until the member deletes them or according to your organization's custom data retention setting (30-day minimum). See **[custom data retention](https://support.claude.com/en/articles/10440198)**.
+1. **Conversations.** Conversations are kept until the member deletes them or according to your organization's custom data retention setting if you’ve set one (minimum 30 days). See **[custom data retention](https://support.claude.com/en/articles/10440198)**. Conversations in a project are deleted with the project, once deleted by the user or once the project and all its conversations have been inactive for the project’s retention period. The period is measured from the most recent activity in the conversation or in any cloud session Claude started from it.
 
-2. Cloud sessions started from a conversation. When Claude starts a cloud session in a conversation, that session is deleted together with the conversation per our **[data retention practices](https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data)**: when a member deletes the conversation or its project, or when it reaches your custom retention period. The sandbox environment expires 30 days after it was created, and the conversation then continues in a fresh environment.
+2. **Cloud sessions started from a conversation.** When a conversation is deleted, whether by a member, by deleting its project, or under your retention period, the cloud sessions Claude started in it are deleted too, including their transcripts. Deletion finishes in the background after the conversation is removed.
 
-3. Cloud sessions started outside a conversation. Cowork cloud sessions that a member starts on their own, whether or not they're in a project, and scheduled task runs don't belong to a conversation. Custom data retention doesn't cover them.
+3. **Memory.** Account memory is covered by your custom data retention setting for chats, and project memory is deleted when the project is deleted, including by your project data retention period. After moving to the new experience, the memory will be moved to a new memory system and the old memory may be deleted 14 days later, or sooner if it’s past the data retention period.
 
-4. Once the new unified Claude experience is turned on, memory will no longer be deleted according to your organization’s custom data retention setting for the public beta. Memory deletion will be covered by custom data retention when the new unified Claude experience is generally available.
+4. **Artifacts.** Artifacts, including those Claude creates in conversations, follow your retention periods for private and shared artifacts, or your period for all data, not the conversation's. These periods don't delete artifacts published with a public link. Some artifacts, such as Research reports and artifacts in some older conversations, are deleted with their conversation instead.
+
+5. **Files Claude gives you.** Almost all files (like documents or spreadsheets) that Claude gives you in a conversation on or after October 8, 2026 are deleted with it, including under your retention period, unless another conversation or project in your organization uses them. Older files may remain after their conversation is deleted.
+
+6. **Not deleted with a conversation.** Custom data retention doesn’t cover:
+
+  1. Cowork cloud sessions a member starts directly, including in a project. These are kept until the member deletes them.
+
+  2. Scheduled tasks and their runs, including tasks created from a conversation. These keep running after that conversation is deleted. To stop them from running, turn off Scheduled tasks.
+
+  3. Cowork history stored on a member’s computer.
+
+  4. Memory of members who have left your organization.
+
+  5. Transcripts and memory kept by Claude Code (including Claude Code on the web), Claude Tag, and other products outside chat and Cowork.
+
+Deletion happens after the period ends rather than at an exact moment, and deleted data is removed from our back-end systems. As with chat, we may retain content flagged by our trust and safety systems or as required by law. See **[How long do you store my organization’s data?](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data)**
 
 ---
 
@@ -142,49 +167,49 @@ For recommended Security settings and architecture, see **[Unified Claude and Co
 
 ## Usage and analytics
 
-The new unified Claude experience gets its own line in your reports. When a member has access to the new unified Claude experience, their chat and Cowork usage is reported under **Chat and Cowork unified (beta)**, not under Chat or Cowork. Think of it as a new folder for the same work: only where the usage is filed changes, so moving usage to this line doesn't change how it's counted or billed.
+The new unified Claude experience gets its own line in your reports. When a member has access to the new unified Claude experience, their chat and Cowork usage is reported under **Chat and Cowork unified**, not under Chat or Cowork. Think of it as a new folder for the same work: only where the usage is filed changes, so moving usage to this line doesn't change how it's counted or billed.
 
 ### How usage is counted
 
-- **Counting follows each member.** Usage counts toward the new unified Claude experience if the member has access to it when the usage happens. If you turn it on for some roles first, your reports can show Chat, Cowork, and **Chat and Cowork unified (beta)** on the same day.
+- **Counting follows each member.** Usage counts toward the new unified Claude experience if the member has access to it when the usage happens. If you turn it on for some roles first, your reports can show Chat, Cowork, and **Chat and Cowork unified** on the same day.
 
 - **It covers chat and Cowork.** A member's chats, their cloud sessions, and their use of the Cowork desktop app count toward the new unified Claude experience.
 
 - **Other products keep their own line.** For example, Claude Code and Claude in Chrome usage is still reported under those products.
 
-- **Past usage stays where it is.** Data for the new unified Claude experience starts the day a member first gets access. Usage from before then stays under Chat or Cowork. If you turn the new unified Claude experience off, past unified usage keeps its **Chat and Cowork unified (beta)** label, and new usage goes back to Chat and Cowork.
+- **Past usage stays where it is.** Data for the new unified Claude experience starts the day a member first gets access. Usage from before then stays under Chat or Cowork. If you turn the new unified Claude experience off, past unified usage keeps its **Chat and Cowork unified** label, and new usage goes back to Chat and Cowork.
 
-- **Include it when you add things up.** When you add up spend, tokens, or messages for Chat and Cowork, include **Chat and Cowork unified (beta)** too. Otherwise your Chat and Cowork numbers will seem to drop as members move over. For the number of people, use the overall active users count rather than adding products together, since one person can be active in more than one.
+- **Include it when you add things up.** When you add up spend, tokens, or messages for Chat and Cowork, include **Chat and Cowork unified** too. Otherwise your Chat and Cowork numbers will seem to drop as members move over. For the number of people, use the overall active users count rather than adding products together, since one person can be active in more than one.
 
 ### In the analytics dashboard
 
-- **A page of its own.** Admins who can view analytics will find a Chat and Cowork unified page under Apps, marked Beta. It shows daily active users.
+**A page of its own.** Admins who can view analytics will find a Chat and Cowork unified page under Apps. It shows daily active users.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2719814921/59cd7abb6c99192d741223dd2016/f2fadd45-8cb0-49db-a9a2-c8f367f29c91?expires=1792008900&amp;signature=cf9c0a2ac04afad6c3acfb5c018dcf3ddf97417d9dce04899951828b4be0d886&amp;req=dicmH8F%2FmYhdWPMW1HO4zdLa5Q1oYKaJf83E9koMvr8oBV3L1xPbN%2BrfxsP5%0Ah5wO%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2719814921/59cd7abb6c99192d741223dd2016/f2fadd45-8cb0-49db-a9a2-c8f367f29c91?expires=1794298500&amp;signature=557f8f278247b448a1dc45ae16904a3988922b2781614761ba237c09ffc11c8f&amp;req=dicmH8F%2FmYhdWPMW1HO4zdLa5QtqaaaFf83E7E4Kt4VBlTB7tR%2F3anE05gY0%0AlzXmFTj7EDg0vdNz6fU%3D%0A)
 
-- **Across the dashboard.** You can pick "Chat and Cowork unified (beta)" in the Active users, Active members, Total spend, and Spend by model charts. The See all members table on the Overview page has a "Messages in Chat and Cowork unified (beta)" column. The Top connectors and Top skills cards don't include it yet.
+**Across the dashboard.** You can pick "Chat and Cowork unified" in the Active users, Active members, Total spend, and Spend by model charts. The See all members table on the Overview page has a "Messages in Chat and Cowork unified" column. The Top connectors and Top skills cards don't include it yet.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2719816289/17e3ba22d470c32e8df9b3c20251/385c6be9-7019-451d-85f8-025a6e12a34c?expires=1792008900&amp;signature=f051dc72efd7e054fc3493145b5d75ff92eb85c755d52357f01c788cca9f24b9&amp;req=dicmH8F%2Fm4NXUPMW1HO4zRXO8A0RQI2wJG9o%2B2MbcGqaiXrs5fjSl7jaTz4e%0AQ2gQ%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2719816289/17e3ba22d470c32e8df9b3c20251/385c6be9-7019-451d-85f8-025a6e12a34c?expires=1794298500&amp;signature=55853f1afc99874ec72a99a0229a761a62c7c6c0d8cfd8d5b157f4afd91b5114&amp;req=dicmH8F%2Fm4NXUPMW1HO4zRXO8AsTSY28JG9o4WcdeVA6CLvwEHCI1dqp7yQX%0A8XXmknQa2bBi8trv0Os%3D%0A)
 
-- **Who sees it.** The page appears for every organization that can turn on the new unified Claude experience, whether or not it is on yet.
+**Who sees it.** The page appears for every organization that can turn on the new unified Claude experience, whether or not it is on yet.
 
-- **Give it a day or two.** New activity can take up to two days to show up.
+**Give it a day or two.** New activity can take up to two days to show up.
 
 ### In the APIs
 
-- **Your keys already work.** If you already use these APIs, your existing access keys work. If your scripts check responses against a fixed list of fields or products, add the new ones.
+**Your keys already work.** If you already use these APIs, your existing access keys work. If your scripts check responses against a fixed list of fields or products, add the new ones.
 
-- **Cost and Usage API.** Tokens and spend for the new unified Claude experience are reported under the product value `chat_cowork_unified`. You can filter to it with `products[]`. The `chat` and `cowork` values still work, and cover usage from members who didn't have the new unified Claude experience at the time.
+**Cost and Usage API.** Tokens and spend for the new unified Claude experience are reported under the product value `chat_cowork_unified`. You can filter to it with `products[]`. The `chat` and `cowork` values still work, and cover usage from members who didn't have the new unified Claude experience at the time.
 
-- **Analytics API.** Member, skill, and connector rows have a `chat_cowork_unified_metrics` object with two parts: `chat`, for chat activity, and `sessions`, for cloud sessions and the Cowork desktop app. Daily summaries add daily, weekly, and monthly active user counts for the new unified Claude experience, such as `chat_cowork_unified_daily_active_user_count`.
+**Analytics API.** Member, skill, and connector rows have a `chat_cowork_unified_metrics` object with two parts: `chat`, for chat activity, and `sessions`, for cloud sessions and the Cowork desktop app. Daily summaries add daily, weekly, and monthly active user counts for the new unified Claude experience, such as `chat_cowork_unified_daily_active_user_count`.
 
 ### What members see
 
-Members with usage-based seats see their own usage of the new unified Claude experience on their usage page, listed as **Chat and Cowork unified (beta)**.
+Members with usage-based seats see their own usage of the new unified Claude experience on their usage page, listed as **Chat and Cowork unified**.
 
 ### Unified smart report and analytics chat
 
-To learn how to create a smart report, refer to **[Get started with smart reports](https://support.claude.com/en/articles/16893491-get-started-with-smart-reports#h_85974ef359)**. When choosing products to run the report for, choose “Chat and Cowork unified (beta)” to run the report against the new unified Claude experience.
+To learn how to create a smart report, refer to **[Get started with smart reports](https://support.claude.com/en/articles/16893491-get-started-with-smart-reports#h_85974ef359)**. When choosing products to run the report for, choose “Chat and Cowork unified” to run the report against the new unified Claude experience.
 
 ---
 
@@ -198,6 +223,4 @@ When on, org members can use only Sonnet and Haiku models in the new unified Cla
 
 ## Current limitations
 
-1. **ZDR, HIPAA, and CMEK.** The new unified Claude experience isn't available to organizations with zero data retention, the HIPAA-ready configuration, or customer-managed encryption keys. These organizations stay on their current configuration. HIPAA and CMEK support is expected after general availability.
-
-2. **Per-role access for Remote control and scheduled tasks.** These are set for the whole organization, not per role.
+1. **ZDR, HIPAA, and CMEK.** The new unified Claude experience isn't available to organizations with zero data retention, the HIPAA-ready configuration, or customer-managed encryption keys. These organizations keep using chat and Cowork as they do today, and admins can't turn on Chat and Cowork unified. HIPAA support is expected after general availability; CMEK support is planned for a later release. If your organization turns on CMEK after turning on the new experience, it becomes unavailable.

@@ -1,15 +1,15 @@
 ---
-title: Create Credential
+title: Create a Credential
 url: https://platform.claude.com/docs/en/api/java/beta/vaults/credentials/create
 ---
 
-# Create Credential
+# Create a Credential
 
 `BetaManagedAgentsCredential beta().vaults().credentials().create(params, requestOptions = RequestOptions.none())`
 
 **POST** `/v1/vaults/{vault_id}/credentials`
 
-Create Credential
+Create a Credential
 
 ## Parameters
 
@@ -21,7 +21,7 @@ Create Credential
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -123,6 +123,18 @@ Create Credential
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -137,13 +149,13 @@ Create Credential
 
       Parameters for creating an MCP OAuth credential.
 
-      - `Type type`
+      - `JsonValue type = "mcp_oauth"`
 
       - `String accessToken`
 
-        OAuth access token.
+        The OAuth access token to send to the MCP server.
 
-        minLength: 1, maxLength: 8192
+        minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
       - `String mcpServerUrl`
 
@@ -151,9 +163,11 @@ Create Credential
 
         minLength: 1, maxLength: 2047
 
-      - `Optional<LocalDateTime> expiresAt`
+      - `Optional<OffsetDateTime> expiresAt`
 
-        A timestamp in RFC 3339 format
+        When `access_token` expires, in RFC 3339.
+
+        Must be in the future.
 
         format: date-time
 
@@ -163,13 +177,13 @@ Create Credential
 
         - `String clientId`
 
-          OAuth client ID.
+          The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
 
           minLength: 1, maxLength: 1024
 
         - `String refreshToken`
 
-          OAuth refresh token.
+          The OAuth refresh token that the API uses to get a new access token when the current one expires.
 
           minLength: 1, maxLength: 8192
 
@@ -185,17 +199,17 @@ Create Credential
 
             Token endpoint requires no client authentication.
 
-            - `Type type`
+            - `JsonValue type = "none"`
 
           - `class BetaManagedAgentsTokenEndpointAuthBasicParam`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_basic"`
 
             - `String clientSecret`
 
-              OAuth client secret.
+              The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
               minLength: 1, maxLength: 512
 
@@ -203,11 +217,11 @@ Create Credential
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_post"`
 
             - `String clientSecret`
 
-              OAuth client secret.
+              The OAuth client secret, sent to `token_endpoint` in the POST body.
 
               minLength: 1, maxLength: 512
 
@@ -227,13 +241,13 @@ Create Credential
 
       Parameters for creating a static bearer token credential.
 
-      - `Type type`
+      - `JsonValue type = "static_bearer"`
 
       - `String token`
 
-        Static bearer token value.
+        The static bearer token to send to the MCP server, such as an API key or personal access token.
 
-        minLength: 1, maxLength: 8192
+        minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
       - `String mcpServerUrl`
 
@@ -245,7 +259,7 @@ Create Credential
 
       Parameters for creating an environment variable credential.
 
-      - `Type type`
+      - `JsonValue type = "environment_variable"`
 
       - `BetaManagedAgentsCredentialNetworkingParams networking`
 
@@ -255,29 +269,31 @@ Create Credential
 
           Substitute the secret on any host the session's Environment network policy permits egress to. The Environment's network policy is the only boundary on where the secret can reach.
 
-          - `Type type`
+          - `JsonValue type = "unrestricted"`
 
         - `class BetaManagedAgentsLimitedCredentialNetworkingParams`
 
           Substitute the secret only on requests to the listed hosts.
 
-          - `Type type`
+          - `JsonValue type = "limited"`
 
           - `List<String> allowedHosts`
 
-            Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
       - `String secretName`
 
         Name of the environment variable. Immutable after create.
 
-        minLength: 1, maxLength: 255
+        minLength: 1, maxLength: 255, pattern: ^[A-Z_][A-Z0-9_]*$
 
       - `String secretValue`
 
-        Secret value. Write-only; never returned in responses.
+        The secret to substitute into the agent's outbound requests. It's write-only and never returned in responses.
 
-        minLength: 1, maxLength: 4096
+        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
       - `Optional<BetaManagedAgentsInjectionLocationParams> injectionLocation`
 
@@ -307,13 +323,13 @@ Create Credential
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type type`
+  - `JsonValue type = "vault_credential"`
 
   - `String id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the credential was archived. Null if not archived.
 
@@ -327,15 +343,15 @@ Create Credential
 
       OAuth credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "mcp_oauth"`
 
       - `String mcpServerUrl`
 
         URL of the MCP server this credential authenticates against.
 
-      - `Optional<LocalDateTime> expiresAt`
+      - `Optional<OffsetDateTime> expiresAt`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -345,7 +361,7 @@ Create Credential
 
         - `String clientId`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `String tokenEndpoint`
 
@@ -357,19 +373,19 @@ Create Credential
 
             Token endpoint requires no client authentication.
 
-            - `Type type`
+            - `JsonValue type = "none"`
 
           - `class BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_basic"`
 
           - `class BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_post"`
 
         - `Optional<String> resource`
 
@@ -383,7 +399,7 @@ Create Credential
 
       Static bearer token credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "static_bearer"`
 
       - `String mcpServerUrl`
 
@@ -393,7 +409,7 @@ Create Credential
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type type`
+      - `JsonValue type = "environment_variable"`
 
       - `BetaManagedAgentsInjectionLocationResponse injectionLocation`
 
@@ -415,23 +431,25 @@ Create Credential
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type type`
+          - `JsonValue type = "unrestricted"`
 
         - `class BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type type`
+          - `JsonValue type = "limited"`
 
           - `List<String> allowedHosts`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `String secretName`
 
         Name of the environment variable.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -441,7 +459,7 @@ Create Credential
 
     Arbitrary key-value metadata attached to the credential.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -477,7 +495,6 @@ public final class Main {
             .auth(BetaManagedAgentsStaticBearerCreateParams.builder()
                 .token("bearer_exampletoken")
                 .mcpServerUrl("https://example-server.modelcontextprotocol.io/sse")
-                .type(BetaManagedAgentsStaticBearerCreateParams.Type.STATIC_BEARER)
                 .build())
             .build();
         BetaManagedAgentsCredential betaManagedAgentsCredential = client.beta().vaults().credentials().create(params);

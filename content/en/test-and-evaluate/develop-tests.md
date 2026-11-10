@@ -14,11 +14,11 @@ Building a successful LLM-based application starts with clearly defining your su
 
 Good success criteria are:
 
-* **Specific:** Clearly define what you want to achieve. Instead of "good performance," specify "accurate sentiment classification."
+* **Specific:** Clearly define what you want to achieve. Instead of “good performance,” specify “accurate sentiment classification.”
 
 * **Measurable:** Use quantitative metrics or well-defined qualitative scales. Numbers provide clarity and scalability, but qualitative measures can be valuable if consistently applied *along* with quantitative measures.
 
-  * Even "hazy" topics such as ethics and safety can be quantified:
+  * Even “hazy” topics such as ethics and safety can be quantified:
 
     |      | Safety criteria                                                                            |
     | ---- | ------------------------------------------------------------------------------------------ |
@@ -35,18 +35,18 @@ Good success criteria are:
     **Quantitative methods:**
 
     * A/B testing: Compare performance against a baseline model or earlier version.
-    * User feedback: Implicit measures like task completion rates.
+    * User feedback: Implicit measures such as task completion rates.
     * Edge case analysis: Percentage of edge cases handled without errors.
 
     **Qualitative scales:**
 
-    * Likert scales: "Rate coherence from 1 (nonsensical) to 5 (perfectly logical)"
+    * Likert scales: “Rate coherence from 1 (nonsensical) to 5 (perfectly logical)”
     * Expert rubrics: Linguists rating translation quality on defined criteria
   </Accordion>
 
 * **Achievable:** Base your targets on industry benchmarks, prior experiments, AI research, or expert knowledge. Your success metrics should not be unrealistic to current frontier model capabilities.
 
-* **Relevant:** Align your criteria with your application's purpose and user needs. Strong citation accuracy might be critical for medical apps but less so for casual chatbots.
+* **Relevant:** Align your criteria with your application’s purpose and user needs. Strong citation accuracy might be critical for medical apps but less so for casual chatbots.
 
 <Accordion title="Example task fidelity criteria for sentiment analysis">
   |      | Criteria                                                                                                                                                                                                                               |
@@ -63,19 +63,19 @@ Here are some criteria that might be important for your use case. This list is n
 
 <AccordionGroup>
   <Accordion title="Task fidelity">
-    How well does the model need to perform on the task? You may also need to consider edge case handling, such as how well the model needs to perform on rare or challenging inputs.
+    How well does the model need to perform on the task? You might also need to consider edge case handling, such as how well the model needs to perform on rare or challenging inputs.
   </Accordion>
 
   <Accordion title="Consistency">
-    How similar do the model's responses need to be for similar types of input? If a user asks the same question twice, how important is it that they get semantically similar answers?
+    How similar do the model’s responses need to be for similar types of input? If a user asks the same question twice, how important is it that they get semantically similar answers?
   </Accordion>
 
   <Accordion title="Relevance and coherence">
-    How well does the model directly address the user's questions or instructions? How important is it for the information to be presented in a logical, easy to follow manner?
+    How well does the model directly address the user’s questions or instructions? How important is it for the information to be presented in a logical, easy-to-follow manner?
   </Accordion>
 
   <Accordion title="Tone and style">
-    How well does the model's output style match expectations? How appropriate is its language for the target audience?
+    How well does the model’s output style match expectations? How appropriate is its language for the target audience?
   </Accordion>
 
   <Accordion title="Privacy preservation">
@@ -87,23 +87,23 @@ Here are some criteria that might be important for your use case. This list is n
   </Accordion>
 
   <Accordion title="Latency">
-    What is the acceptable response time for the model? This depends on your application's real-time requirements and user expectations.
+    What is the acceptable response time for the model? This depends on your application’s real-time requirements and user expectations.
   </Accordion>
 
   <Accordion title="Price">
-    What is your budget for running the model? Consider factors like the cost for each API call, the size of the model, and the frequency of usage.
+    What is your budget for running the model? Consider factors such as the cost for each API call, the size of the model, and the frequency of usage.
   </Accordion>
 </AccordionGroup>
 
 Most use cases need multidimensional evaluation along several success criteria.
 
 <Accordion title="Example multidimensional criteria for sentiment analysis">
-  |      | Criteria                                                                                                                                                                                                                                                                               |
-  | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-  | Bad  | The model should classify sentiments well                                                                                                                                                                                                                                              |
-  | Good | On a held-out test set of 10,000 diverse Twitter posts, the sentiment analysis model should achieve:<br />- an F1 score of at least 0.85<br />- 99.5% of outputs are non-toxic<br />- 90% of errors would cause inconvenience, not egregious error\*<br />- 95% response time \< 200ms |
+  |      | Criteria                                                                                                                                                                                                                                                                        |
+  | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | Bad  | The model should classify sentiments well                                                                                                                                                                                                                                       |
+  | Good | On a held-out test set of 10,000 diverse Twitter posts, the sentiment analysis model should achieve:<br />- an F1 score of at least 0.85<br />- 99.5% non-toxic outputs<br />- 90% of errors would cause inconvenience, not egregious error\*<br />- 95% response time \< 200ms |
 
-  \*In reality, you would also define what "inconvenience" and "egregious" mean.
+  \*In reality, you would also define what “inconvenience” and “egregious” mean.
 </Accordion>
 
 ***
@@ -112,7 +112,7 @@ Most use cases need multidimensional evaluation along several success criteria.
 
 ### Eval design principles
 
-1. **Be task-specific:** Design evals that mirror your real-world task distribution. Don't forget to factor in edge cases!
+1. **Be task-specific:** Design evals that mirror your real-world task distribution. Don’t forget to factor in edge cases!
    <Accordion title="Example edge cases">
      * Irrelevant or nonexistent input data
      * Overly long input data or user input
@@ -125,8 +125,8 @@ Most use cases need multidimensional evaluation along several success criteria.
 ### Example evals
 
 <AccordionGroup>
-  <Accordion title="Task fidelity (sentiment analysis) - exact match evaluation">
-    **What it measures:** Exact match evals measure whether the model's output matches a predefined correct answer, typically after normalizing whitespace and case. It's a simple, unambiguous metric that's perfect for tasks with clear-cut, categorical answers like sentiment analysis (positive, negative, neutral).
+  <Accordion title="Task fidelity (sentiment analysis): exact match evaluation">
+    **What it measures:** Exact match evals measure whether the model’s output matches a predefined correct answer, typically after normalizing whitespace and case. It’s a simple, unambiguous metric that’s perfect for tasks with clear-cut, categorical answers such as sentiment analysis (positive, negative, neutral).
 
     **Example eval test cases:** 1,000 tweets with human-labeled sentiments.
 
@@ -152,7 +152,7 @@ Most use cases need multidimensional evaluation along several success criteria.
       def get_completion(prompt: str):
           message = client.messages.create(
               model="claude-opus-5-5",
-              max_tokens=50,
+              max_tokens=1024,
               messages=[{"role": "user", "content": prompt}],
           )
           return next(block.text for block in message.content if block.type == "text")
@@ -164,7 +164,7 @@ Most use cases need multidimensional evaluation along several success criteria.
 
       outputs = [
           get_completion(
-              f"Classify this as 'positive', 'negative', 'neutral', or 'mixed': {tweet['text']}"
+              f"Classify this as 'positive', 'negative', 'neutral', or 'mixed'. Output only the label: {tweet['text']}"
           )
           for tweet in tweets
       ]
@@ -195,7 +195,7 @@ Most use cases need multidimensional evaluation along several success criteria.
       async function getCompletion(prompt: string): Promise<string> {
         const message = await client.messages.create({
           model: "claude-opus-5-5",
-          max_tokens: 50,
+          max_tokens: 1024,
           messages: [{ role: "user", content: prompt }]
         });
         const textBlock = message.content.find((block) => block.type === "text");
@@ -209,7 +209,7 @@ Most use cases need multidimensional evaluation along several success criteria.
       let correctCount = 0;
       for (const tweet of tweets) {
         const output = await getCompletion(
-          `Classify this as 'positive', 'negative', 'neutral', or 'mixed': ${tweet.text}`
+          `Classify this as 'positive', 'negative', 'neutral', or 'mixed'. Output only the label: ${tweet.text}`
         );
         if (evaluateExactMatch(output, tweet.sentiment)) {
           correctCount++;
@@ -237,8 +237,8 @@ Most use cases need multidimensional evaluation along several success criteria.
           var message = await client.Messages.Create(new MessageCreateParams
           {
               Model = Model.ClaudeOpus5_5,
-              MaxTokens = 50,
-              Messages = [new() { Role = Role.User, Content = prompt }],
+              MaxTokens = 1024,
+              Messages = [new UserMessageParam { Content = prompt }],
           });
           return ContentText(message);
       }
@@ -265,7 +265,7 @@ Most use cases need multidimensional evaluation along several success criteria.
       foreach (var tweet in tweets)
       {
           var output = await GetCompletion(
-              $"Classify this as 'positive', 'negative', 'neutral', or 'mixed': {tweet.Text}");
+              $"Classify this as 'positive', 'negative', 'neutral', or 'mixed'. Output only the label: {tweet.Text}");
           if (EvaluateExactMatch(output, tweet.Sentiment))
           {
               correct++;
@@ -307,7 +307,7 @@ Most use cases need multidimensional evaluation along several success criteria.
       func getCompletion(prompt string) string {
       	message, err := client.Messages.New(context.Background(), anthropic.MessageNewParams{
       		Model:     anthropic.ModelClaudeOpus5_5,
-      		MaxTokens: 50,
+      		MaxTokens: 1024,
       		Messages: []anthropic.MessageParam{
       			anthropic.NewUserMessage(anthropic.NewTextBlock(prompt)),
       		},
@@ -325,7 +325,7 @@ Most use cases need multidimensional evaluation along several success criteria.
       func main() {
       	correct := 0
       	for _, item := range tweets {
-      		output := getCompletion("Classify this as 'positive', 'negative', 'neutral', or 'mixed': " + item.Text)
+      		output := getCompletion("Classify this as 'positive', 'negative', 'neutral', or 'mixed'. Output only the label: " + item.Text)
       		if evaluateExactMatch(output, item.Sentiment) {
       			correct++
       		}
@@ -360,7 +360,7 @@ Most use cases need multidimensional evaluation along several success criteria.
       String getCompletion(String prompt) {
           var params = MessageCreateParams.builder()
               .model(Model.CLAUDE_OPUS_5_5)
-              .maxTokens(50L)
+              .maxTokens(1024L)
               .addUserMessage(prompt)
               .build();
           return contentText(client.messages().create(params));
@@ -374,7 +374,7 @@ Most use cases need multidimensional evaluation along several success criteria.
           int correct = 0;
           for (var tweet : tweets) {
               var output = getCompletion(
-                  "Classify this as 'positive', 'negative', 'neutral', or 'mixed': " + tweet.text());
+                  "Classify this as 'positive', 'negative', 'neutral', or 'mixed'. Output only the label: " + tweet.text());
               if (evaluateExactMatch(output, tweet.sentiment())) {
                   correct++;
               }
@@ -400,7 +400,7 @@ Most use cases need multidimensional evaluation along several success criteria.
       {
           $message = $client->messages->create(
               model: Model::CLAUDE_OPUS_5_5,
-              maxTokens: 50,
+              maxTokens: 1024,
               messages: [
                   [
                       'role' => 'user',
@@ -431,7 +431,7 @@ Most use cases need multidimensional evaluation along several success criteria.
       foreach ($tweets as $tweet) {
           $output = getCompletion(
               $client,
-              "Classify this as 'positive', 'negative', 'neutral', or 'mixed': {$tweet['text']}",
+              "Classify this as 'positive', 'negative', 'neutral', or 'mixed'. Output only the label: {$tweet['text']}",
           );
           if (evaluateExactMatch($output, $tweet['sentiment'])) {
               $correct++;
@@ -460,7 +460,7 @@ Most use cases need multidimensional evaluation along several success criteria.
       def get_completion(client, prompt)
         message = client.messages.create(
           model: Anthropic::Model::CLAUDE_OPUS_5_5,
-          max_tokens: 50,
+          max_tokens: 1024,
           messages: [
             {
               role: "user",
@@ -478,7 +478,7 @@ Most use cases need multidimensional evaluation along several success criteria.
       correct = tweets.count do |tweet|
         output = get_completion(
           client,
-          "Classify this as 'positive', 'negative', 'neutral', or 'mixed': #{tweet[:text]}"
+          "Classify this as 'positive', 'negative', 'neutral', or 'mixed'. Output only the label: #{tweet[:text]}"
         )
         evaluate_exact_match(output, tweet[:sentiment])
       end
@@ -487,8 +487,8 @@ Most use cases need multidimensional evaluation along several success criteria.
     </CodeGroup>
   </Accordion>
 
-  <Accordion title="Consistency (FAQ bot) - cosine similarity evaluation">
-    **What it measures:** Cosine similarity measures the similarity between two vectors (in this case, sentence embeddings of the model's output using [Sentence-BERT (SBERT)](https://sbert.net/)) by computing the cosine of the angle between them. Values closer to 1 indicate higher similarity. It's ideal for evaluating consistency because similar questions should yield semantically similar answers, even if the wording varies.
+  <Accordion title="Consistency (FAQ bot): cosine similarity evaluation">
+    **What it measures:** Cosine similarity measures the similarity between two vectors (in this case, sentence embeddings of the model’s output using [Sentence-BERT (SBERT)](https://sbert.net/)) by computing the cosine of the angle between them. Values closer to 1 indicate higher similarity. It’s ideal for evaluating consistency because similar questions should yield semantically similar answers, even if the wording varies.
 
     **Example eval test cases:** 50 groups with a few paraphrased versions each.
 
@@ -619,28 +619,421 @@ Most use cases need multidimensional evaluation along several success criteria.
       ```
 
       ```csharp C#
-      // Sentence-embedding models are not available as a native C# library. See the Python or TypeScript tab for this eval recipe.
+      using System.Numerics.Tensors;
+      // ...
+      using Microsoft.Extensions.AI;
+      using Microsoft.SemanticKernel;
+
+      Faq[] faqVariations =
+      [
+          new(
+              [
+                  "What's your return policy?",
+                  "How can I return an item?",
+                  "Wut's yur retrn polcy?",
+              ],
+              "Our return policy allows..."), // Edge case: Typos
+          new(
+              [
+                  "I bought something last week, and it's not really what I expected, so I was wondering if maybe I could possibly return it?",
+                  "I read online that your policy is 30 days but that seems like it might be out of date because the website was updated six months ago, so I'm wondering what exactly is your current policy?",
+              ],
+              "Our return policy allows..."), // Edge case: Long, rambling question
+          new(
+              [
+                  "I'm Jane's cousin, and she said you guys have great customer service. Can I return this?",
+                  "Reddit told me that contacting customer service this way was the fastest way to get an answer. I hope they're right! What is the return window for a jacket?",
+              ],
+              "Our return policy allows..."), // Edge case: Irrelevant info
+          // ... 47 more FAQs
+      ];
+
+      var client = new AnthropicClient();
+
+      // Download onnx/model.onnx and vocab.txt from https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
+      #pragma warning disable SKEXP0070
+      var kernel = Kernel.CreateBuilder()
+          .AddBertOnnxEmbeddingGenerator("model.onnx", "vocab.txt")
+          .Build();
+      #pragma warning restore SKEXP0070
+      var embeddingGenerator = kernel.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>();
+
+      async Task<string> GetCompletion(string prompt)
+      {
+          var message = await client.Messages.Create(new MessageCreateParams
+          {
+              Model = Model.ClaudeOpus5_5,
+              MaxTokens = 2048,
+              Messages = [new UserMessageParam { Content = prompt }],
+          });
+          foreach (var block in message.Content)
+          {
+              if (block.TryPickText(out var textBlock))
+              {
+                  return textBlock.Text;
+              }
+          }
+          return "";
+      }
+
+      async Task<double> EvaluateCosineSimilarity(List<string> outputs)
+      {
+          var embeddings = await embeddingGenerator.GenerateAsync(outputs);
+
+          double total = 0;
+          foreach (var embeddingA in embeddings)
+          {
+              foreach (var embeddingB in embeddings)
+              {
+                  total += TensorPrimitives.CosineSimilarity(embeddingA.Vector.Span, embeddingB.Vector.Span);
+              }
+          }
+          return total / (embeddings.Count * embeddings.Count);
+      }
+
+      foreach (var faq in faqVariations)
+      {
+          var outputs = new List<string>();
+          foreach (var question in faq.Questions)
+          {
+              outputs.Add(await GetCompletion(question));
+          }
+          var similarityScore = await EvaluateCosineSimilarity(outputs);
+          Console.WriteLine($"FAQ Consistency Score: {similarityScore * 100}%");
+      }
+
+      record Faq(string[] Questions, string Answer);
       ```
 
       ```go Go
-      // Sentence-embedding models are not available as a native Go library. See the Python or TypeScript tab for this eval recipe.
+      import (
+      	"context"
+      	"fmt"
+      	"log"
+      	"math"
+
+      // ...
+      	"github.com/knights-analytics/hugot"
+      	"github.com/knights-analytics/hugot/pipelines"
+      )
+
+      var client = anthropic.NewClient()
+
+      type faq struct {
+      	Questions []string
+      	Answer    string
+      }
+
+      var faqVariations = []faq{
+      	{
+      		[]string{
+      			"What's your return policy?",
+      			"How can I return an item?",
+      			"Wut's yur retrn polcy?",
+      		},
+      		"Our return policy allows...",
+      	}, // Edge case: Typos
+      	{
+      		[]string{
+      			"I bought something last week, and it's not really what I expected, so I was wondering if maybe I could possibly return it?",
+      			"I read online that your policy is 30 days but that seems like it might be out of date because the website was updated six months ago, so I'm wondering what exactly is your current policy?",
+      		},
+      		"Our return policy allows...",
+      	}, // Edge case: Long, rambling question
+      	{
+      		[]string{
+      			"I'm Jane's cousin, and she said you guys have great customer service. Can I return this?",
+      			"Reddit told me that contacting customer service this way was the fastest way to get an answer. I hope they're right! What is the return window for a jacket?",
+      		},
+      		"Our return policy allows...",
+      	}, // Edge case: Irrelevant info
+      	// ... 47 more FAQs
+      }
+
+      func getCompletion(prompt string) string {
+      	message, err := client.Messages.New(context.Background(), anthropic.MessageNewParams{
+      		Model:     anthropic.ModelClaudeOpus5_5,
+      		MaxTokens: 2048,
+      		Messages: []anthropic.MessageParam{
+      			anthropic.NewUserMessage(anthropic.NewTextBlock(prompt)),
+      		},
+      	})
+      	if err != nil {
+      		log.Fatal(err)
+      	}
+      	for _, block := range message.Content {
+      		if textBlock, ok := block.AsAny().(anthropic.TextBlock); ok {
+      			return textBlock.Text
+      		}
+      	}
+      	return ""
+      }
+
+      func cosineSimilarity(embeddingA, embeddingB []float32) float64 {
+      	var dot, normA, normB float64
+      	for i := range embeddingA {
+      		dot += float64(embeddingA[i] * embeddingB[i])
+      		normA += float64(embeddingA[i] * embeddingA[i])
+      		normB += float64(embeddingB[i] * embeddingB[i])
+      	}
+      	return dot / (math.Sqrt(normA) * math.Sqrt(normB))
+      }
+
+      func evaluateCosineSimilarity(embeddingPipeline *pipelines.FeatureExtractionPipeline, outputs []string) float64 {
+      	result, err := embeddingPipeline.RunPipeline(context.Background(), outputs)
+      	if err != nil {
+      		log.Fatal(err)
+      	}
+
+      	total := 0.0
+      	for _, embeddingA := range result.Embeddings {
+      		for _, embeddingB := range result.Embeddings {
+      			total += cosineSimilarity(embeddingA, embeddingB)
+      		}
+      	}
+      	return total / float64(len(result.Embeddings)*len(result.Embeddings))
+      }
+
+      func main() {
+      	ctx := context.Background()
+      	session, err := hugot.NewGoSession(ctx)
+      	if err != nil {
+      		log.Fatal(err)
+      	}
+      	defer session.Destroy()
+
+      	downloadOptions := hugot.NewDownloadOptions()
+      	downloadOptions.OnnxFilePath = "onnx/model.onnx"
+      	modelPath, err := hugot.DownloadModel(ctx, "sentence-transformers/all-MiniLM-L6-v2", "./models/", downloadOptions)
+      	if err != nil {
+      		log.Fatal(err)
+      	}
+      	embeddingPipeline, err := hugot.NewPipeline(session, hugot.FeatureExtractionConfig{
+      		ModelPath: modelPath,
+      		Name:      "embeddingPipeline",
+      	})
+      	if err != nil {
+      		log.Fatal(err)
+      	}
+
+      	for _, item := range faqVariations {
+      		var outputs []string
+      		for _, question := range item.Questions {
+      			outputs = append(outputs, getCompletion(question))
+      		}
+      		similarityScore := evaluateCosineSimilarity(embeddingPipeline, outputs)
+      		fmt.Printf("FAQ Consistency Score: %v%%\n", similarityScore*100)
+      	}
+      }
       ```
 
       ```java Java
-      // Sentence-embedding models are not available as a native Java library. See the Python or TypeScript tab for this eval recipe.
+      import dev.langchain4j.data.segment.TextSegment;
+      import dev.langchain4j.model.embedding.onnx.allminilml6v2.AllMiniLmL6V2EmbeddingModel;
+      import dev.langchain4j.store.embedding.CosineSimilarity;
+      // ...
+
+      record Faq(List<String> questions, String answer) {}
+
+      List<Faq> faqVariations = List.of(
+          new Faq(
+              List.of(
+                  "What's your return policy?",
+                  "How can I return an item?",
+                  "Wut's yur retrn polcy?"),
+              "Our return policy allows..."), // Edge case: Typos
+          new Faq(
+              List.of(
+                  "I bought something last week, and it's not really what I expected, so I was wondering if maybe I could possibly return it?",
+                  "I read online that your policy is 30 days but that seems like it might be out of date because the website was updated six months ago, so I'm wondering what exactly is your current policy?"),
+              "Our return policy allows..."), // Edge case: Long, rambling question
+          new Faq(
+              List.of(
+                  "I'm Jane's cousin, and she said you guys have great customer service. Can I return this?",
+                  "Reddit told me that contacting customer service this way was the fastest way to get an answer. I hope they're right! What is the return window for a jacket?"),
+              "Our return policy allows...") // Edge case: Irrelevant info
+          // ... 47 more FAQs
+      );
+
+      AnthropicClient client = AnthropicOkHttpClient.fromEnv();
+
+      String getCompletion(String prompt) {
+          var params = MessageCreateParams.builder()
+              .model(Model.CLAUDE_OPUS_5_5)
+              .maxTokens(2048L)
+              .addUserMessage(prompt)
+              .build();
+          Message message = client.messages().create(params);
+          return message.content().stream()
+              .flatMap(block -> block.text().stream())
+              .map(textBlock -> textBlock.text())
+              .findFirst()
+              .orElse("");
+      }
+
+      double evaluateCosineSimilarity(List<String> outputs) {
+          var embeddingModel = new AllMiniLmL6V2EmbeddingModel();
+          var segments = outputs.stream().map(TextSegment::from).toList();
+          var embeddings = embeddingModel.embedAll(segments).content();
+
+          double total = 0;
+          for (var embeddingA : embeddings) {
+              for (var embeddingB : embeddings) {
+                  total += CosineSimilarity.between(embeddingA, embeddingB);
+              }
+          }
+          return total / (embeddings.size() * embeddings.size());
+      }
+
+      void main() {
+          for (var faq : faqVariations) {
+              var outputs = faq.questions().stream().map(this::getCompletion).toList();
+              double similarityScore = evaluateCosineSimilarity(outputs);
+              IO.println("FAQ Consistency Score: " + similarityScore * 100 + "%");
+          }
+      }
       ```
 
       ```php PHP
-      // Sentence-embedding models are not available as a native PHP library. See the Python or TypeScript tab for this eval recipe.
+      use function Codewithkyrian\Transformers\Pipelines\pipeline;
+
+      $client = new Client();
+
+      $faqVariations = [
+          [
+              'questions' => [
+                  "What's your return policy?",
+                  'How can I return an item?',
+                  "Wut's yur retrn polcy?",
+              ],
+              'answer' => 'Our return policy allows...',
+          ], // Edge case: Typos
+          [
+              'questions' => [
+                  "I bought something last week, and it's not really what I expected, so I was wondering if maybe I could possibly return it?",
+                  "I read online that your policy is 30 days but that seems like it might be out of date because the website was updated six months ago, so I'm wondering what exactly is your current policy?",
+              ],
+              'answer' => 'Our return policy allows...',
+          ], // Edge case: Long, rambling question
+          [
+              'questions' => [
+                  "I'm Jane's cousin, and she said you guys have great customer service. Can I return this?",
+                  "Reddit told me that contacting customer service this way was the fastest way to get an answer. I hope they're right! What is the return window for a jacket?",
+              ],
+              'answer' => 'Our return policy allows...',
+          ], // Edge case: Irrelevant info
+          // ... 47 more FAQs
+      ];
+
+      function getCompletion(Client $client, string $prompt): string
+      {
+          $message = $client->messages->create(
+              model: Model::CLAUDE_OPUS_5_5,
+              maxTokens: 2048,
+              messages: [
+                  [
+                      'role' => 'user',
+                      'content' => $prompt,
+                  ],
+              ],
+          );
+          foreach ($message->content as $block) {
+              if ($block instanceof \Anthropic\Messages\TextBlock) {
+                  return $block->text;
+              }
+          }
+          return '';
+      }
+
+      function evaluateCosineSimilarity(array $outputs): float
+      {
+          $extractor = pipeline('embeddings', 'Xenova/all-MiniLM-L6-v2');
+          $embeddings = $extractor($outputs, normalize: true, pooling: 'mean');
+
+          $total = 0.0;
+          foreach ($embeddings as $embeddingA) {
+              foreach ($embeddings as $embeddingB) {
+                  // Vectors are normalized, so cosine similarity is the dot product
+                  $total += array_sum(array_map(fn ($valueA, $valueB) => $valueA * $valueB, $embeddingA, $embeddingB));
+              }
+          }
+          return $total / count($embeddings) ** 2;
+      }
+
+      foreach ($faqVariations as $faq) {
+          $outputs = array_map(fn ($question) => getCompletion($client, $question), $faq['questions']);
+          $similarityScore = evaluateCosineSimilarity($outputs);
+          echo 'FAQ Consistency Score: ' . ($similarityScore * 100) . '%' . PHP_EOL;
+      }
       ```
 
       ```ruby Ruby
-      # Sentence-embedding models are not available as a native Ruby library. See the Python or TypeScript tab for this eval recipe.
+      require "informers"
+
+      client = Anthropic::Client.new
+
+      faq_variations = [
+        {
+          questions: [
+            "What's your return policy?",
+            "How can I return an item?",
+            "Wut's yur retrn polcy?"
+          ],
+          answer: "Our return policy allows..."
+        }, # Edge case: Typos
+        {
+          questions: [
+            "I bought something last week, and it's not really what I expected, so I was wondering if maybe I could possibly return it?",
+            "I read online that your policy is 30 days but that seems like it might be out of date because the website was updated six months ago, so I'm wondering what exactly is your current policy?"
+          ],
+          answer: "Our return policy allows..."
+        }, # Edge case: Long, rambling question
+        {
+          questions: [
+            "I'm Jane's cousin, and she said you guys have great customer service. Can I return this?",
+            "Reddit told me that contacting customer service this way was the fastest way to get an answer. I hope they're right! What is the return window for a jacket?"
+          ],
+          answer: "Our return policy allows..."
+        } # Edge case: Irrelevant info
+        # ... 47 more FAQs
+      ]
+
+      def get_completion(client, prompt)
+        message = client.messages.create(
+          model: Anthropic::Model::CLAUDE_OPUS_5_5,
+          max_tokens: 2048,
+          messages: [
+            {
+              role: "user",
+              content: prompt
+            }
+          ]
+        )
+        text_block = message.content.find { |block| block.is_a?(Anthropic::Models::TextBlock) }
+        text_block ? text_block.text : ""
+      end
+
+      def evaluate_cosine_similarity(outputs)
+        model = Informers.pipeline("embedding", "sentence-transformers/all-MiniLM-L6-v2")
+        embeddings = model.(outputs)
+
+        # Vectors are normalized, so cosine similarity is the dot product
+        total = embeddings.sum do |embedding_a|
+          embeddings.sum { |embedding_b| embedding_a.zip(embedding_b).sum { |value_a, value_b| value_a * value_b } }
+        end
+        total / embeddings.length**2
+      end
+
+      faq_variations.each do |faq|
+        outputs = faq[:questions].map { |question| get_completion(client, question) }
+        similarity_score = evaluate_cosine_similarity(outputs)
+        puts "FAQ Consistency Score: #{similarity_score * 100}%"
+      end
       ```
     </CodeGroup>
   </Accordion>
 
-  <Accordion title="Relevance and coherence (summarization) - ROUGE-L evaluation">
+  <Accordion title="Relevance and coherence (summarization): ROUGE-L evaluation">
     **What it measures:** ROUGE-L (Recall-Oriented Understudy for Gisting Evaluation - Longest Common Subsequence) evaluates the quality of generated summaries. It measures the length of the longest common subsequence between the candidate and reference summaries. High ROUGE-L scores indicate that the generated summary captures key information in a coherent order.
 
     **Example eval test cases:** 200 articles with reference summaries.
@@ -725,7 +1118,7 @@ Most use cases need multidimensional evaluation along several success criteria.
 
       // ROUGE-L measures the longest common subsequence (LCS) of words between the
       // candidate and reference summaries, reported here as an F1 score. Tokenization
-      // is simplified to whitespace words; scores may differ from the Python rouge library.
+      // is simplified to whitespace words; scores might differ from the Python rouge library.
       function rougeL(candidate: string, reference: string): number {
         const candidateWords = candidate.toLowerCase().trim().split(/\s+/);
         const referenceWords = reference.toLowerCase().trim().split(/\s+/);
@@ -787,14 +1180,14 @@ Most use cases need multidimensional evaluation along several success criteria.
           {
               Model = Model.ClaudeOpus5_5,
               MaxTokens = 1024,
-              Messages = [new() { Role = Role.User, Content = prompt }],
+              Messages = [new UserMessageParam { Content = prompt }],
           });
           return ContentText(message);
       }
 
       // ROUGE-L measures the longest common subsequence (LCS) of words between the
       // candidate and reference summaries, reported here as an F1 score. Tokenization
-      // is simplified to whitespace words; scores may differ from the Python rouge library.
+      // is simplified to whitespace words; scores might differ from the Python rouge library.
       double RougeL(string candidate, string reference)
       {
           var candidateWords = Regex.Split(candidate.ToLowerInvariant().Trim(), @"\s+");
@@ -897,7 +1290,7 @@ Most use cases need multidimensional evaluation along several success criteria.
 
       // ROUGE-L measures the longest common subsequence (LCS) of words between the
       // candidate and reference summaries, reported here as an F1 score. Tokenization
-      // is simplified to whitespace words; scores may differ from the Python rouge library.
+      // is simplified to whitespace words; scores might differ from the Python rouge library.
       func rougeL(candidate, reference string) float64 {
       	candidateWords := strings.Fields(strings.ToLower(candidate))
       	referenceWords := strings.Fields(strings.ToLower(reference))
@@ -978,7 +1371,7 @@ Most use cases need multidimensional evaluation along several success criteria.
 
       // ROUGE-L measures the longest common subsequence (LCS) of words between the
       // candidate and reference summaries, reported here as an F1 score. Tokenization
-      // is simplified to whitespace words; scores may differ from the Python rouge library.
+      // is simplified to whitespace words; scores might differ from the Python rouge library.
       double rougeL(String candidate, String reference) {
           var candidateWords = candidate.toLowerCase().strip().split("\\s+");
           var referenceWords = reference.toLowerCase().strip().split("\\s+");
@@ -1050,7 +1443,7 @@ Most use cases need multidimensional evaluation along several success criteria.
 
       // ROUGE-L measures the longest common subsequence (LCS) of words between the
       // candidate and reference summaries, reported here as an F1 score. Tokenization
-      // is simplified to whitespace words; scores may differ from the Python rouge library.
+      // is simplified to whitespace words; scores might differ from the Python rouge library.
       function rougeL(string $candidate, string $reference): float
       {
           $candidateWords = preg_split('/\s+/', strtolower(trim($candidate)));
@@ -1134,7 +1527,7 @@ Most use cases need multidimensional evaluation along several success criteria.
 
       # ROUGE-L measures the longest common subsequence (LCS) of words between the
       # candidate and reference summaries, reported here as an F1 score. Tokenization
-      # is simplified to whitespace words; scores may differ from the Python rouge library.
+      # is simplified to whitespace words; scores might differ from the Python rouge library.
       def rouge_l(candidate, reference)
         candidate_words = candidate.downcase.split
         reference_words = reference.downcase.split
@@ -1167,8 +1560,8 @@ Most use cases need multidimensional evaluation along several success criteria.
     </CodeGroup>
   </Accordion>
 
-  <Accordion title="Tone and style (customer service) - LLM-based Likert scale">
-    **What it measures:** The LLM-based Likert scale is a psychometric scale that uses an LLM to judge subjective attitudes or perceptions. Here, it's used to rate the tone of responses on a scale from 1 to 5. It's ideal for evaluating nuanced aspects like empathy, professionalism, or patience that are difficult to quantify with traditional metrics.
+  <Accordion title="Tone and style (customer service): LLM-based Likert scale">
+    **What it measures:** The LLM-based Likert scale is a psychometric scale that uses an LLM to judge subjective attitudes or perceptions. Here, it’s used to rate the tone of responses on a scale from 1 to 5. It’s ideal for evaluating nuanced aspects such as empathy, professionalism, or patience that are difficult to quantify with traditional metrics.
 
     **Example eval test cases:** 100 customer inquiries with target tone (empathetic, patient, professional).
 
@@ -1209,10 +1602,10 @@ Most use cases need multidimensional evaluation along several success criteria.
           5: Perfectly {target_tone}
           Output only the number."""
 
-          # Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+          # Generally best practice to evaluate with a different model from the one used to generate the evaluated output
           response = client.messages.create(
               model="claude-opus-5-5",
-              max_tokens=50,
+              max_tokens=1024,
               messages=[{"role": "user", "content": tone_prompt}],
           )
           return int(
@@ -1267,10 +1660,10 @@ Most use cases need multidimensional evaluation along several success criteria.
       5: Perfectly ${targetTone}
       Output only the number.`;
 
-        // Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+        // Generally best practice to evaluate with a different model from the one used to generate the evaluated output
         const response = await client.messages.create({
           model: "claude-opus-5-5",
-          max_tokens: 50,
+          max_tokens: 1024,
           messages: [{ role: "user", content: tonePrompt }]
         });
         const textBlock = response.content.find((block) => block.type === "text");
@@ -1313,7 +1706,7 @@ Most use cases need multidimensional evaluation along several success criteria.
           {
               Model = Model.ClaudeOpus5_5,
               MaxTokens = 2048,
-              Messages = [new() { Role = Role.User, Content = prompt }],
+              Messages = [new UserMessageParam { Content = prompt }],
           });
           return ContentText(message);
       }
@@ -1328,12 +1721,12 @@ Most use cases need multidimensional evaluation along several success criteria.
               Output only the number.
               """;
 
-          // Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+          // Generally best practice to evaluate with a different model from the one used to generate the evaluated output
           var response = await client.Messages.Create(new MessageCreateParams
           {
               Model = Model.ClaudeOpus5_5,
-              MaxTokens = 50,
-              Messages = [new() { Role = Role.User, Content = tonePrompt }],
+              MaxTokens = 1024,
+              Messages = [new UserMessageParam { Content = tonePrompt }],
           });
           return int.Parse(ContentText(response).Trim());
       }
@@ -1411,10 +1804,10 @@ Most use cases need multidimensional evaluation along several success criteria.
       5: Perfectly %[1]s
       Output only the number.`, targetTone, modelOutput)
 
-      	// Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+      	// Generally best practice to evaluate with a different model from the one used to generate the evaluated output
       	response, err := client.Messages.New(context.Background(), anthropic.MessageNewParams{
       		Model:     anthropic.ModelClaudeOpus5_5,
-      		MaxTokens: 50,
+      		MaxTokens: 1024,
       		Messages: []anthropic.MessageParam{
       			anthropic.NewUserMessage(anthropic.NewTextBlock(tonePrompt)),
       		},
@@ -1480,10 +1873,10 @@ Most use cases need multidimensional evaluation along several success criteria.
               5: Perfectly %1$s
               Output only the number.""".formatted(targetTone, modelOutput);
 
-          // Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+          // Generally best practice to evaluate with a different model from the one used to generate the evaluated output
           var params = MessageCreateParams.builder()
               .model(Model.CLAUDE_OPUS_5_5)
-              .maxTokens(50L)
+              .maxTokens(1024L)
               .addUserMessage(tonePrompt)
               .build();
           var judgment = contentText(client.messages().create(params));
@@ -1538,10 +1931,10 @@ Most use cases need multidimensional evaluation along several success criteria.
           Output only the number.
           PROMPT;
 
-          // Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+          // Generally best practice to evaluate with a different model from the one used to generate the evaluated output
           $response = $client->messages->create(
               model: Model::CLAUDE_OPUS_5_5,
-              maxTokens: 50,
+              maxTokens: 1024,
               messages: [
                   [
                       'role' => 'user',
@@ -1615,10 +2008,10 @@ Most use cases need multidimensional evaluation along several success criteria.
           Output only the number.
         PROMPT
 
-        # Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+        # Generally best practice to evaluate with a different model from the one used to generate the evaluated output
         response = client.messages.create(
           model: Anthropic::Model::CLAUDE_OPUS_5_5,
-          max_tokens: 50,
+          max_tokens: 1024,
           messages: [
             {
               role: "user",
@@ -1638,8 +2031,8 @@ Most use cases need multidimensional evaluation along several success criteria.
     </CodeGroup>
   </Accordion>
 
-  <Accordion title="Privacy preservation (medical chatbot) - LLM-based binary classification">
-    **What it measures:** Binary classification determines if an input belongs to one of two classes. Here, it's used to classify whether a response contains PHI or not. This method can account for context and identify subtle or implicit forms of PHI that rule-based systems might miss.
+  <Accordion title="Privacy preservation (medical chatbot): LLM-based binary classification">
+    **What it measures:** Binary classification determines if an input belongs to one of two classes. Here, it’s used to classify whether a response contains PHI. This method can account for context and identify subtle or implicit forms of PHI that rule-based systems might miss.
 
     **Example eval test cases:** 500 simulated patient queries, some with PHI.
 
@@ -1689,10 +2082,10 @@ Most use cases need multidimensional evaluation along several success criteria.
           <response>{model_output}</response>
           Output only 'yes' or 'no'."""
 
-          # Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+          # Generally best practice to evaluate with a different model from the one used to generate the evaluated output
           response = client.messages.create(
               model="claude-opus-5-5",
-              max_tokens=50,
+              max_tokens=1024,
               messages=[{"role": "user", "content": binary_prompt}],
           )
           return (
@@ -1766,10 +2159,10 @@ Most use cases need multidimensional evaluation along several success criteria.
       <response>${modelOutput}</response>
       Output only 'yes' or 'no'.`;
 
-        // Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+        // Generally best practice to evaluate with a different model from the one used to generate the evaluated output
         const response = await client.messages.create({
           model: "claude-opus-5-5",
-          max_tokens: 50,
+          max_tokens: 1024,
           messages: [{ role: "user", content: binaryPrompt }]
         });
         const textBlock = response.content.find((block) => block.type === "text");
@@ -1809,7 +2202,7 @@ Most use cases need multidimensional evaluation along several success criteria.
           {
               Model = Model.ClaudeOpus5_5,
               MaxTokens = 1024,
-              Messages = [new() { Role = Role.User, Content = prompt }],
+              Messages = [new UserMessageParam { Content = prompt }],
           });
           return ContentText(message);
       }
@@ -1834,12 +2227,12 @@ Most use cases need multidimensional evaluation along several success criteria.
               Output only 'yes' or 'no'.
               """;
 
-          // Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+          // Generally best practice to evaluate with a different model from the one used to generate the evaluated output
           var response = await client.Messages.Create(new MessageCreateParams
           {
               Model = Model.ClaudeOpus5_5,
-              MaxTokens = 50,
-              Messages = [new() { Role = Role.User, Content = binaryPrompt }],
+              MaxTokens = 1024,
+              Messages = [new UserMessageParam { Content = binaryPrompt }],
           });
           return ContentText(response).Trim().ToLowerInvariant() == "no";
       }
@@ -1931,10 +2324,10 @@ Most use cases need multidimensional evaluation along several success criteria.
       <response>%s</response>
       Output only 'yes' or 'no'.`, modelOutput)
 
-      	// Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+      	// Generally best practice to evaluate with a different model from the one used to generate the evaluated output
       	response, err := client.Messages.New(context.Background(), anthropic.MessageNewParams{
       		Model:     anthropic.ModelClaudeOpus5_5,
-      		MaxTokens: 50,
+      		MaxTokens: 1024,
       		Messages: []anthropic.MessageParam{
       			anthropic.NewUserMessage(anthropic.NewTextBlock(binaryPrompt)),
       		},
@@ -2008,10 +2401,10 @@ Most use cases need multidimensional evaluation along several success criteria.
               <response>%s</response>
               Output only 'yes' or 'no'.""".formatted(modelOutput);
 
-          // Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+          // Generally best practice to evaluate with a different model from the one used to generate the evaluated output
           var params = MessageCreateParams.builder()
               .model(Model.CLAUDE_OPUS_5_5)
-              .maxTokens(50L)
+              .maxTokens(1024L)
               .addUserMessage(binaryPrompt)
               .build();
           var judgment = contentText(client.messages().create(params));
@@ -2079,10 +2472,10 @@ Most use cases need multidimensional evaluation along several success criteria.
           Output only 'yes' or 'no'.
           PROMPT;
 
-          // Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+          // Generally best practice to evaluate with a different model from the one used to generate the evaluated output
           $response = $client->messages->create(
               model: Model::CLAUDE_OPUS_5_5,
-              maxTokens: 50,
+              maxTokens: 1024,
               messages: [
                   [
                       'role' => 'user',
@@ -2165,10 +2558,10 @@ Most use cases need multidimensional evaluation along several success criteria.
           Output only 'yes' or 'no'.
         PROMPT
 
-        # Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+        # Generally best practice to evaluate with a different model from the one used to generate the evaluated output
         response = client.messages.create(
           model: Anthropic::Model::CLAUDE_OPUS_5_5,
-          max_tokens: 50,
+          max_tokens: 1024,
           messages: [
             {
               role: "user",
@@ -2191,8 +2584,8 @@ Most use cases need multidimensional evaluation along several success criteria.
     </CodeGroup>
   </Accordion>
 
-  <Accordion title="Context utilization (conversation assistant) - LLM-based ordinal scale">
-    **What it measures:** Similar to the Likert scale, the ordinal scale measures on a fixed, ordered scale (1–5). It's perfect for evaluating context utilization because it can capture the degree to which the model references and builds upon the conversation history, which is key for coherent, personalized interactions.
+  <Accordion title="Context utilization (conversation assistant): LLM-based ordinal scale">
+    **What it measures:** Similar to the Likert scale, the ordinal scale measures on a fixed, ordered scale (1–5). It’s perfect for evaluating context utilization because it can capture the degree to which the model references and builds upon the conversation history, which is key for coherent, personalized interactions.
 
     **Example eval test cases:** 100 multi-turn conversations with context-dependent questions.
 
@@ -2263,10 +2656,10 @@ Most use cases need multidimensional evaluation along several success criteria.
           5: Perfectly utilizes context
           Output only the number and nothing else."""
 
-          # Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+          # Generally best practice to evaluate with a different model from the one used to generate the evaluated output
           response = client.messages.create(
               model="claude-opus-5-5",
-              max_tokens=50,
+              max_tokens=1024,
               messages=[{"role": "user", "content": ordinal_prompt}],
           )
           return int(
@@ -2355,10 +2748,10 @@ Most use cases need multidimensional evaluation along several success criteria.
       5: Perfectly utilizes context
       Output only the number and nothing else.`;
 
-        // Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+        // Generally best practice to evaluate with a different model from the one used to generate the evaluated output
         const response = await client.messages.create({
           model: "claude-opus-5-5",
-          max_tokens: 50,
+          max_tokens: 1024,
           messages: [{ role: "user", content: ordinalPrompt }]
         });
         const textBlock = response.content.find((block) => block.type === "text");
@@ -2413,11 +2806,10 @@ Most use cases need multidimensional evaluation along several success criteria.
           {
               Model = Model.ClaudeOpus5_5,
               MaxTokens = 1024,
-              Messages = [.. conversation.Select(turn => new MessageParam
-              {
-                  Role = turn.Role == "user" ? Role.User : Role.Assistant,
-                  Content = turn.Content,
-              })],
+              Messages = [.. conversation.Select<Turn, MessageParam>(turn =>
+                  turn.Role == "user"
+                      ? new UserMessageParam { Content = turn.Content }
+                      : new AssistantMessageParam { Content = turn.Content })],
           });
           return ContentText(message);
       }
@@ -2437,12 +2829,12 @@ Most use cases need multidimensional evaluation along several success criteria.
               Output only the number and nothing else.
               """;
 
-          // Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+          // Generally best practice to evaluate with a different model from the one used to generate the evaluated output
           var response = await client.Messages.Create(new MessageCreateParams
           {
               Model = Model.ClaudeOpus5_5,
-              MaxTokens = 50,
-              Messages = [new() { Role = Role.User, Content = ordinalPrompt }],
+              MaxTokens = 1024,
+              Messages = [new UserMessageParam { Content = ordinalPrompt }],
           });
           return int.Parse(ContentText(response).Trim());
       }
@@ -2548,10 +2940,10 @@ Most use cases need multidimensional evaluation along several success criteria.
       5: Perfectly utilizes context
       Output only the number and nothing else.`, conversationText.String(), modelOutput)
 
-      	// Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+      	// Generally best practice to evaluate with a different model from the one used to generate the evaluated output
       	response, err := client.Messages.New(context.Background(), anthropic.MessageNewParams{
       		Model:     anthropic.ModelClaudeOpus5_5,
-      		MaxTokens: 50,
+      		MaxTokens: 1024,
       		Messages: []anthropic.MessageParam{
       			anthropic.NewUserMessage(anthropic.NewTextBlock(ordinalPrompt)),
       		},
@@ -2637,10 +3029,10 @@ Most use cases need multidimensional evaluation along several success criteria.
               5: Perfectly utilizes context
               Output only the number and nothing else.""".formatted(conversationText, modelOutput);
 
-          // Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+          // Generally best practice to evaluate with a different model from the one used to generate the evaluated output
           var params = MessageCreateParams.builder()
               .model(Model.CLAUDE_OPUS_5_5)
-              .maxTokens(50L)
+              .maxTokens(1024L)
               .addUserMessage(ordinalPrompt)
               .build();
           var judgment = contentText(client.messages().create(params));
@@ -2708,10 +3100,10 @@ Most use cases need multidimensional evaluation along several success criteria.
           Output only the number and nothing else.
           PROMPT;
 
-          // Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+          // Generally best practice to evaluate with a different model from the one used to generate the evaluated output
           $response = $client->messages->create(
               model: Model::CLAUDE_OPUS_5_5,
-              maxTokens: 50,
+              maxTokens: 1024,
               messages: [
                   [
                       'role' => 'user',
@@ -2795,10 +3187,10 @@ Most use cases need multidimensional evaluation along several success criteria.
           Output only the number and nothing else.
         PROMPT
 
-        # Generally best practice to use a different model to evaluate than the model used to generate the evaluated output
+        # Generally best practice to evaluate with a different model from the one used to generate the evaluated output
         response = client.messages.create(
           model: Anthropic::Model::CLAUDE_OPUS_5_5,
-          max_tokens: 50,
+          max_tokens: 1024,
           messages: [
             {
               role: "user",
@@ -2824,7 +3216,7 @@ Most use cases need multidimensional evaluation along several success criteria.
 </Tip>
 
 <Tip>
-  If you don't know what eval methods might be useful to assess for your success criteria, you can also brainstorm with Claude!
+  If you don’t know what eval methods might be useful to assess for your success criteria, you can also brainstorm with Claude!
 </Tip>
 
 ***
@@ -2840,15 +3232,15 @@ When deciding which method to use to grade evals, choose the fastest, most relia
 
 2. **Human grading:** Most flexible and high quality, but slow and expensive. Avoid if possible.
 
-3. **LLM-based grading:** Fast and flexible, scalable and suitable for complex judgment. Test to ensure reliability first then scale.
+3. **LLM-based grading:** Fast and flexible, scalable and suitable for complex judgment. Test to ensure reliability first, then scale.
 
 ### Tips for LLM-based grading
 
-* **Have detailed, clear rubrics:** "The answer should always mention 'Acme Inc.' in the first sentence. If it does not, the answer is automatically graded as 'incorrect.'"
+* **Have detailed, clear rubrics:** “The answer should always mention ‘Acme Inc.’ in the first sentence. If it does not, the answer is automatically graded as ‘incorrect.’”
   <Note>
-    A given use case, or even a specific success criteria for that use case, might require several rubrics for holistic evaluation.
+    A given use case, or even a specific success criterion for that use case, might require several rubrics for holistic evaluation.
   </Note>
-* **Empirical or specific:** For example, instruct the LLM to output only 'correct' or 'incorrect', or to judge from a scale of 1–5. Purely qualitative evaluations are hard to assess quickly and at scale.
+* **Be empirical or specific:** For example, instruct the LLM to output only ‘correct’ or ‘incorrect’, or to judge from a scale of 1–5. Purely qualitative evaluations are hard to assess quickly and at scale.
 * **Encourage reasoning:** Use a grader model with [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking) on, so that it reasons before it produces an evaluation score. This increases evaluation performance, particularly for tasks requiring complex judgment.
 
 <Accordion title="Example: LLM-based grading">
@@ -2986,7 +3378,7 @@ When deciding which method to use to grade evals, choose the fastest, most relia
         {
             Model = Model.ClaudeOpus5_5,
             MaxTokens = 2048,
-            Messages = [new() { Role = Role.User, Content = BuildGraderPrompt(output, goldenAnswer) }],
+            Messages = [new UserMessageParam { Content = BuildGraderPrompt(output, goldenAnswer) }],
         });
         return ContentText(graderResponse).ToLowerInvariant().Contains("<result>correct</result>")
             ? "correct"
@@ -3008,7 +3400,7 @@ When deciding which method to use to grade evals, choose the fastest, most relia
         {
             Model = Model.ClaudeOpus5_5,
             MaxTokens = 1024,
-            Messages = [new() { Role = Role.User, Content = prompt }],
+            Messages = [new UserMessageParam { Content = prompt }],
         });
         return ContentText(message);
     }
@@ -3324,7 +3716,7 @@ When deciding which method to use to grade evals, choose the fastest, most relia
     **Tip:** Drop this page into the chat as guidance for Claude!
   </Card>
 
-  <Card title="Evals cookbook" icon="link" href="https://platform.claude.com/cookbook/misc-building-evals">
+  <Card title="Evals recipe" icon="link" href="https://platform.claude.com/cookbook/misc-building-evals">
     More code examples of human-, code-, and LLM-graded evals.
   </Card>
 </CardGroup>

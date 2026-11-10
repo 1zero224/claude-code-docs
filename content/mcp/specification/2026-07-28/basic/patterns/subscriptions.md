@@ -4,8 +4,6 @@
 
 # Subscriptions
 
-<div id="enable-section-numbers" />
-
 `subscriptions/listen` opens a long-lived notification stream from the server to the
 client. Unlike one-off requests, the stream stays open and delivers notifications until
 the client cancels it. It replaces the former `resources/subscribe` RPC and the HTTP GET
@@ -165,4 +163,4 @@ subscriptions — the server holds no subscription state across reconnections.
 
 See [Cancellation][cancellation] for the full rules.
 
-[cancellation]: /specification/2026-07-28/basic/patterns/cancellation
+[cancellation]: https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/cancellation.md

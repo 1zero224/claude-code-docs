@@ -4,8 +4,6 @@
 
 # Authorization Server Discovery
 
-<div id="enable-section-numbers" />
-
 This document describes the mechanisms by which MCP servers advertise their associated
 authorization servers to MCP clients, as well as the discovery process through which MCP
 clients can determine authorization server endpoints and supported capabilities.
@@ -33,7 +31,7 @@ identifiers are unique to the authorization server that issued them. Clients **M
 separate registration state (client credentials, tokens) per authorization server and
 **MUST NOT** assume that credentials valid for one authorization server will be accepted by
 another. See
-[Authorization Server Binding](/specification/2026-07-28/basic/authorization/client-registration#authorization-server-binding)
+[Authorization Server Binding](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/client-registration.md#authorization-server-binding)
 for the requirements on associating client credentials with the authorization server that issued them.
 
 ## Protected Resource Metadata Discovery Requirements
@@ -52,7 +50,7 @@ MCP clients **MUST** be able to parse `WWW-Authenticate` headers and respond app
 
 Servers can also include a `scope` parameter in the `WWW-Authenticate` challenge to indicate the
 scopes required for accessing the resource; the scope semantics and the associated client behavior
-are defined in the [Scope Selection Strategy](/specification/2026-07-28/basic/authorization#scope-selection-strategy) section.
+are defined in the [Scope Selection Strategy](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization.md#scope-selection-strategy) section.
 
 ## Authorization Server Metadata Discovery
 

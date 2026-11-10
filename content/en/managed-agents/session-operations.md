@@ -8,6 +8,33 @@ featureMetadata:
     url: https://platform.claude.com/docs/en/managed-agents/overview
   status: beta
   betaHeader: managed-agents-2026-04-01
+  zdr:
+    eligibility: not-eligible
+    note: Sessions are stateful resources; transcripts persist until you delete them. Applies to all Managed Agents sub-features, including Self-hosted sandboxes.
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: beta
+    Claude Platform on AWS: beta
+    Claude Models on Google Cloud (Anthropic managed): beta
 ---
 
 Once a session exists, use these operations to read, update, archive, or delete it. See [Start a session](https://platform.claude.com/docs/en/managed-agents/sessions) for creating a session and sending it work.
@@ -18,41 +45,39 @@ Sessions progress through these statuses. See [Start a session](https://platform
 
 | Status         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `idle`         | Agent is waiting for input, including user messages or tool confirmations. Sessions created without `initial_events` (java, php: `initialEvents`; csharp, go: `InitialEvents`) start in `idle`. A session can be `idle` while a [workflow run](https://platform.claude.com/docs/en/managed-agents/workflow-runs#while-a-run-is-open) is still open, so `idle` alone doesn't mean that the work is done. See [Know when the work is done](https://platform.claude.com/docs/en/managed-agents/workflow-runs#know-when-the-work-is-done). |
+| `idle`         | Agent is waiting for input, including user messages or tool confirmations. Sessions created without `initial_events` (java, php: `initialEvents`; csharp, go: `InitialEvents`) start in `idle`. A session can be `idle` while a [workflow run](https://platform.claude.com/docs/en/managed-agents/workflow-runs#while-a-run-is-open) is still open, so `idle` alone doesn’t mean that the work is done. See [Know when the work is done](https://platform.claude.com/docs/en/managed-agents/workflow-runs#know-when-the-work-is-done). |
 | `running`      | Agent is actively executing.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | `rescheduling` | Transient error occurred, retrying automatically.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| `terminated`   | Session has ended, either because of an unrecoverable error or because it was archived. A session that finishes its work goes `idle`, not `terminated`.                                                                                                                                                                                                                                                                                                                                                                                |
+| `terminated`   | Session has ended, either because of an unrecoverable error or because it was archived. A session that completes its work goes `idle`, not `terminated`.                                                                                                                                                                                                                                                                                                                                                                               |
 
 ## Updating the agent configuration
 
-You can update a session's `agent.tools` (csharp, go: `Agent.Tools`) and `agent.mcp_servers` (java, php: `agent.mcpServers`; csharp: `Agent.McpServers`; go: `Agent.MCPServers`), including permission policies and per-tool web settings such as [domain filters](https://platform.claude.com/docs/en/managed-agents/tools-web-restrictions#change-the-lists-mid-session), mid-session without creating a new agent version. Updates are session-local and do not propagate back to the underlying agent. Updated `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) and `blocked_domains` (java, php: `blockedDomains`; csharp, go: `BlockedDomains`) apply to the rest of the session.
+You can update a session’s `agent.tools` (csharp, go: `Agent.Tools`) and `agent.mcp_servers` (java, php: `agent.mcpServers`; csharp: `Agent.McpServers`; go: `Agent.MCPServers`), including permission policies and per-tool web settings such as [domain filters](https://platform.claude.com/docs/en/managed-agents/tools-web-restrictions#change-the-lists-mid-session), mid-session without creating a new agent version. Updates are session-local and do not apply to the underlying agent. Updated `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) and `blocked_domains` (java, php: `blockedDomains`; csharp, go: `BlockedDomains`) apply to the rest of the session.
 
-Only the agent's `tools` (csharp, go: `Tools`) and `mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`) can change after a session is created. To run a session with `model` (csharp, go: `Model`), `system` (csharp, go: `System`; ruby: `system_`), or `skills` (csharp, go: `Skills`) values other than the agent's, use [agent configuration overrides](https://platform.claude.com/docs/en/managed-agents/sessions#override-agent-configuration-for-a-session) when you create the session. The agent's model configuration, including its [`inference_geo`](https://platform.claude.com/docs/en/manage-claude/data-residency) pin, also can't change mid-session: set the pin when you save the agent, or set or clear it for a single session with a `model` (csharp, go: `Model`) override when you create it. The agent's configured `system` (csharp, go: `System`; ruby: `system_`) field is fixed for the session's lifetime. On models that support it, you can still append system-level guidance mid-session by sending a [`system.message` event](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#send-system-messages).
+Only the agent’s `tools` (csharp, go: `Tools`) and `mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`) can change after a session is created. To run a session with `model` (csharp, go: `Model`), `system` (csharp, go: `System`; ruby: `system_`), or `skills` (csharp, go: `Skills`) values other than the agent’s, use [agent configuration overrides](https://platform.claude.com/docs/en/managed-agents/sessions#override-agent-configuration-for-a-session) when you create the session. The agent’s model configuration, including its [`inference_geo`](https://platform.claude.com/docs/en/manage-claude/data-residency) pin, also can’t change mid-session: set the pin when you save the agent, or set or clear it for a single session with a `model` (csharp, go: `Model`) override when you create it. The agent’s configured `system` (csharp, go: `System`; ruby: `system_`) field is fixed for the session’s lifetime. On models that support it, you can still append system-level guidance mid-session by sending a [`system.message` event](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#send-system-messages).
 
 The semantics of a `tools` (csharp, go: `Tools`) or `mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`) update are full replacement: the provided array is the new value. To preserve existing entries, `GET` the session, modify the array, and `POST` it back.
 
-The session must be `idle` to update the agent. To update the agent while the session is running, send a [`user.interrupt` event](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#interrupt-the-agent) by itself and wait for the session to become `idle`. If a [workflow run](https://platform.claude.com/docs/en/managed-agents/workflow-runs#while-a-run-is-open) is open, whether it's running or paused, the update returns a 400 error, even when the session is `idle`. An interrupt doesn't end a run, so the update still fails after you interrupt the session. Send a `user.message` that [asks the agent to stop its runs](https://platform.claude.com/docs/en/managed-agents/workflow-runs#interrupt-a-session-with-runs-open), or wait until every run has ended.
+The session must be `idle` to update the agent. To update the agent while the session is running, send a [`user.interrupt` event](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#interrupt-the-agent) by itself and wait for the session to become `idle`. If a [workflow run](https://platform.claude.com/docs/en/managed-agents/workflow-runs#while-a-run-is-open) is open, whether it’s running or paused, the update returns a 400 error, even when the session is `idle`. An interrupt doesn’t end a run, so the update still fails after you interrupt the session. Send a `user.message` that [asks the agent to stop its runs](https://platform.claude.com/docs/en/managed-agents/workflow-runs#interrupt-a-session-with-runs-open), or wait until every run has ended.
 
 <CodeGroup>
   ```bash cURL
   curl -sS --fail-with-body "https://api.anthropic.com/v1/sessions/$SESSION_ID" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
     -H "content-type: application/json" \
-    -d @- <<EOF
-  {
-    "agent": {
-      "tools": [
-        {"type": "agent_toolset_20260401"},
-        {"type": "mcp_toolset", "mcp_server_name": "linear"}
-      ],
-      "mcp_servers": [
-        {"type": "url", "name": "linear", "url": "https://mcp.linear.app/sse"}
-      ]
-    }
-  }
-  EOF
+    -d '{
+      "agent": {
+        "tools": [
+          {"type": "agent_toolset_20260401"},
+          {"type": "mcp_toolset", "mcp_server_name": "linear"}
+        ],
+        "mcp_servers": [
+          {"type": "url", "name": "linear", "url": "https://mcp.linear.app/sse"}
+        ]
+      }
+    }'
   ```
 
   ```bash CLI
@@ -103,21 +128,13 @@ The session must be `idle` to update the agent. To update the agent while the se
       {
           Tools =
           [
-              new BetaManagedAgentsAgentToolset20260401Params
-              {
-                  Type = BetaManagedAgentsAgentToolset20260401ParamsType.AgentToolset20260401,
-              },
-              new BetaManagedAgentsMcpToolsetParams
-              {
-                  Type = BetaManagedAgentsMcpToolsetParamsType.McpToolset,
-                  McpServerName = "linear",
-              },
+              new BetaManagedAgentsAgentToolset20260401Params(),
+              new BetaManagedAgentsMcpToolsetParams { McpServerName = "linear" },
           ],
           McpServers =
           [
               new()
               {
-                  Type = BetaManagedAgentsUrlMcpServerParamsType.Url,
                   Name = "linear",
                   Url = "https://mcp.linear.app/sse",
               },
@@ -131,20 +148,16 @@ The session must be `idle` to update the agent. To update the agent while the se
   	Agent: anthropic.BetaManagedAgentsSessionAgentUpdateParam{
   		Tools: []anthropic.BetaManagedAgentsSessionAgentUpdateToolUnionParam{
   			{
-  				OfAgentToolset20260401: &anthropic.BetaManagedAgentsAgentToolset20260401Params{
-  					Type: anthropic.BetaManagedAgentsAgentToolset20260401ParamsTypeAgentToolset20260401,
-  				},
+  				OfAgentToolset20260401: &anthropic.BetaManagedAgentsAgentToolset20260401Params{},
   			},
   			{
   				OfMCPToolset: &anthropic.BetaManagedAgentsMCPToolsetParams{
-  					Type:          anthropic.BetaManagedAgentsMCPToolsetParamsTypeMCPToolset,
   					MCPServerName: "linear",
   				},
   			},
   		},
   		MCPServers: []anthropic.BetaManagedAgentsURLMCPServerParams{
   			{
-  				Type: anthropic.BetaManagedAgentsURLMCPServerParamsTypeURL,
   				Name: "linear",
   				URL:  "https://mcp.linear.app/sse",
   			},
@@ -161,15 +174,11 @@ The session must be `idle` to update the agent. To update the agent while the se
       session.id(),
       SessionUpdateParams.builder()
           .agent(BetaManagedAgentsSessionAgentUpdate.builder()
-              .addTool(BetaManagedAgentsAgentToolset20260401Params.builder()
-                  .type(BetaManagedAgentsAgentToolset20260401Params.Type.AGENT_TOOLSET_20260401)
-                  .build())
+              .addTool(BetaManagedAgentsAgentToolset20260401Params.builder().build())
               .addTool(BetaManagedAgentsMcpToolsetParams.builder()
-                  .type(BetaManagedAgentsMcpToolsetParams.Type.MCP_TOOLSET)
                   .mcpServerName("linear")
                   .build())
               .addMcpServer(BetaManagedAgentsUrlMcpServerParams.builder()
-                  .type(BetaManagedAgentsUrlMcpServerParams.Type.URL)
                   .name("linear")
                   .url("https://mcp.linear.app/sse")
                   .build())
@@ -183,13 +192,12 @@ The session must be `idle` to update the agent. To update the agent while the se
       $session->id,
       agent: BetaManagedAgentsSessionAgentUpdate::with(
           tools: [
-              BetaManagedAgentsAgentToolset20260401Params::with(type: 'agent_toolset_20260401'),
-              BetaManagedAgentsMCPToolsetParams::with(mcpServerName: 'linear', type: 'mcp_toolset'),
+              BetaManagedAgentsAgentToolset20260401Params::with(),
+              BetaManagedAgentsMCPToolsetParams::with(mcpServerName: 'linear'),
           ],
           mcpServers: [
               BetaManagedAgentsURLMCPServerParams::with(
                   name: 'linear',
-                  type: 'url',
                   url: 'https://mcp.linear.app/sse',
               ),
           ],
@@ -215,7 +223,7 @@ The session must be `idle` to update the agent. To update the agent while the se
 
 ## Updating the session budget
 
-A session [created with a budget](https://platform.claude.com/docs/en/managed-agents/sessions#set-a-session-budget) accepts two kinds of budget update: replacing the cap with a new `max_list_cost` (java, php: `maxListCost`; csharp, go: `MaxListCost`), and removing it by passing `"budget": null` (python: `budget=None`; typescript: `budget: null`; ruby: `budget: nil`; go: `Budget: param.NullStruct[anthropic.BetaManagedAgentsBudgetLimitParam]()`; java: `.budget(Optional.empty())`; csharp: `Budget = null`; php: `requestOptions: ['extraBodyParams' => ['budget' => null]]`; cli: `--budget null`). Both automatically resume work that paused when the session reached its cap. A replacement cap can be higher or lower than the current one, but it must be strictly greater than the session's consumed list cost, and removal is one-way: a non-null `budget` (csharp, go: `Budget`) is accepted only on a session that currently has one, so you can't re-add a removed budget or add one to a session created without it. See [Session budgets](https://platform.claude.com/docs/en/managed-agents/budgets#resume-a-session-at-its-budget) for request examples, the error behaviors, and what counts toward list cost.
+A session [created with a budget](https://platform.claude.com/docs/en/managed-agents/sessions#set-a-session-budget) accepts two kinds of budget update: replacing the cap with a new `max_list_cost` (java, php: `maxListCost`; csharp, go: `MaxListCost`), and removing it by passing `"budget": null` (python: `budget=None`; typescript: `budget: null`; ruby: `budget: nil`; go: `Budget: param.NullStruct[anthropic.BetaManagedAgentsBudgetLimitParam]()`; java: `.budget(Optional.empty())`; csharp: `Budget = null`; php: `requestOptions: ['extraBodyParams' => ['budget' => null]]`; cli: `--budget null`). Both automatically resume work that paused when the session reached its cap. A replacement cap can be higher or lower than the current one, but it must be strictly greater than the session’s consumed list cost. Removal is one-way: a non-null `budget` (csharp, go: `Budget`) is accepted only on a session that currently has one. You therefore can’t re-add a removed budget or add one to a session created without it. See [Session budgets](https://platform.claude.com/docs/en/managed-agents/budgets#resume-a-session-at-its-budget) for request examples, the error behaviors, and what counts toward list cost.
 
 ## Retrieving a session
 
@@ -223,7 +231,7 @@ A session [created with a budget](https://platform.claude.com/docs/en/managed-ag
   ```bash cURL
   curl -fsSL "https://api.anthropic.com/v1/sessions/$SESSION_ID" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01"
   ```
 
@@ -274,54 +282,26 @@ A session [created with a budget](https://platform.claude.com/docs/en/managed-ag
 
 Results from `GET /v1/sessions` are paginated. Use the `limit` query parameter to control the page size. Each response includes a `next_page` cursor; pass it as the `page` parameter on the next request to fetch the following page. `next_page` is `null` when there are no more results.
 
-To go back a page, pass `prev_page` as the `page` parameter. `prev_page` is `null` when you're on the first page.
+To go back a page, pass `prev_page` as the `page` parameter. `prev_page` is `null` when you’re on the first page.
 
-A `page` cursor is opaque and encodes the `order` of the request that produced it. The `order` query parameter sets the sort direction of the results, `asc` or `desc` by creation time; the default is `desc` (newest first). Reusing a cursor with a different `order` returns a 400 error, as does changing a `created_at` filter so that it excludes the cursor's position. Other query parameters, including the remaining filters and `limit`, can change between paginated requests. For the pagination fields shared across list endpoints, see [Pagination](https://platform.claude.com/docs/en/api/overview#pagination).
+A `page` cursor is opaque and encodes the `order` of the request that produced it. The `order` query parameter sets the sort direction of the results, `asc` or `desc` by creation time; the default is `desc` (newest first). Reusing a cursor with a different `order` returns a 400 error, as does changing a `created_at` filter so that it excludes the cursor’s position. Other query parameters, including the remaining filters and `limit`, can change between paginated requests. For the pagination fields shared across list endpoints, see [Pagination](https://platform.claude.com/docs/en/api/overview#pagination).
 
 <CodeGroup>
   ```bash cURL
-  first_page=$(curl -sS --fail-with-body \
+  curl -sS --fail-with-body \
     "https://api.anthropic.com/v1/sessions?agent_id=$AGENT_ID&limit=1" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
-    -H "anthropic-beta: managed-agents-2026-04-01")
-  jq '{prev_page, next_page}' <<< "$first_page"  # prev_page is null on the first page
-
-  next_cursor=$(jq -r '.next_page' <<< "$first_page")
-  second_page=$(curl -sS --fail-with-body \
-    "https://api.anthropic.com/v1/sessions?agent_id=$AGENT_ID&limit=1&page=$next_cursor" \
-    -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
-    -H "anthropic-beta: managed-agents-2026-04-01")
-
-  prev_cursor=$(jq -r '.prev_page' <<< "$second_page")
-  curl -sS --fail-with-body \
-    "https://api.anthropic.com/v1/sessions?agent_id=$AGENT_ID&limit=1&page=$prev_cursor" \
-    -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
-    -H "anthropic-beta: managed-agents-2026-04-01" \
-    | jq '{prev_page, next_page}'
+    -H "anthropic-version: 2026-10-21" \
+    -H "anthropic-beta: managed-agents-2026-04-01"
+  # Pass next_page back as the page query parameter to fetch the next page,
+  # or prev_page to go back.
   ```
 
   ```bash CLI
   # --format raw returns one page envelope with its prev_page and next_page
   # cursors; the default output auto-paginates and emits only the sessions.
-  cursors=$(ant beta:sessions list \
-    --agent-id "$AGENT_ID" \
-    --limit 1 \
-    --format raw \
-    --transform '{prev_page,next_page}')
-  printf '%s\n' "$cursors"
-
-  # Pass the next_page cursor back as --page to fetch the next page.
-  NEXT_PAGE=$(jq -r '.next_page' <<< "$cursors")
-  ant beta:sessions list \
-    --agent-id "$AGENT_ID" \
-    --limit 1 \
-    --page "$NEXT_PAGE" \
-    --format raw \
-    --transform '{prev_page,next_page}'
-  # Pass that response's prev_page as --page to go back the same way.
+  ant beta:sessions list --agent-id "$AGENT_ID" --limit 1 --format raw
+  # Pass next_page back as --page to fetch the next page, or prev_page to go back.
   ```
 
   ```python Python
@@ -463,11 +443,15 @@ A `page` cursor is opaque and encodes the `order` of the request that produced i
 
   // Advance by passing next_page as the page cursor.
   var nextCursor = firstPage.response().nextPage().orElseThrow();
-  var secondPage = client.beta().sessions().list(params.toBuilder().page(nextCursor).build());
+  var secondPage = client.beta().sessions().list(params.toBuilder()
+      .page(nextCursor)
+      .build());
 
   // Go back by passing prev_page as the same page cursor.
   var prevCursor = secondPage.response().prevPage().orElseThrow();
-  var previousPage = client.beta().sessions().list(params.toBuilder().page(prevCursor).build());
+  var previousPage = client.beta().sessions().list(params.toBuilder()
+      .page(prevCursor)
+      .build());
   // Back on the first page, so prev_page is empty again.
   IO.println("prev_page: " + previousPage.response().prevPage());
   // For forward-only iteration, page.autoPager() returns an Iterable that auto-follows next_page.
@@ -533,19 +517,18 @@ A `page` cursor is opaque and encodes the `order` of the request that produced i
 
 ## Archiving a session
 
-Archive a session to prevent new events from being sent while preserving its history. A `running` session cannot be archived; to archive one, send a [`user.interrupt` event](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#interrupt-the-agent) by itself and wait for the session to become `idle`. If a [workflow run](https://platform.claude.com/docs/en/managed-agents/workflow-runs#while-a-run-is-open) is open, archiving might return a 400 error, even when the session is `idle`, or it might succeed and end the run. Before you archive, send a `user.message` that [asks the agent to stop its runs](https://platform.claude.com/docs/en/managed-agents/workflow-runs#interrupt-a-session-with-runs-open), or wait until each run has ended. Then archive the session once it's `idle`.
+Archive a session to prevent new events from being sent while preserving its history. A `running` session cannot be archived; to archive one, send a [`user.interrupt` event](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#interrupt-the-agent) by itself and wait for the session to become `idle`. If a [workflow run](https://platform.claude.com/docs/en/managed-agents/workflow-runs#while-a-run-is-open) is open, archiving might return a 400 error, even when the session is `idle`, or it might succeed and end the run. Before you archive, send a `user.message` that [asks the agent to stop its runs](https://platform.claude.com/docs/en/managed-agents/workflow-runs#interrupt-a-session-with-runs-open), or wait until each run has ended. Then archive the session once it’s `idle`.
 
 <CodeGroup>
   ```bash cURL
   curl -fsSL -X POST "https://api.anthropic.com/v1/sessions/$SESSION_ID/archive" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01"
   ```
 
   ```bash CLI
-  ant beta:sessions archive \
-    --session-id "$SESSION_ID"
+  ant beta:sessions archive --session-id "$SESSION_ID"
   ```
 
   ```python Python
@@ -582,21 +565,20 @@ Archive a session to prevent new events from being sent while preserving its his
 
 ## Deleting a session
 
-Delete a session to permanently remove its record, events, and associated sandbox. A `running` session cannot be deleted; to delete one, send a [`user.interrupt` event](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#interrupt-the-agent) by itself and wait for the session to become `idle`. If a [workflow run](https://platform.claude.com/docs/en/managed-agents/workflow-runs#while-a-run-is-open) is open, deleting might return a 400 error, even when the session is `idle`, or it might succeed. After a delete that succeeds, no `workflow_run` event reports the end of the session's runs. Before you delete, send a `user.message` that [asks the agent to stop its runs](https://platform.claude.com/docs/en/managed-agents/workflow-runs#interrupt-a-session-with-runs-open), or wait until each run has ended. Then delete the session once it's `idle`.
+Deleting a session is permanent. It deletes the session’s record, events, and associated sandbox. A `running` session cannot be deleted; to delete one, send a [`user.interrupt` event](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#interrupt-the-agent) by itself and wait for the session to become `idle`. If a [workflow run](https://platform.claude.com/docs/en/managed-agents/workflow-runs#while-a-run-is-open) is open, deleting might return a 400 error, even when the session is `idle`, or it might succeed. After a delete that succeeds, no `workflow_run` event reports the end of the session’s runs. Before you delete, send a `user.message` that [asks the agent to stop its runs](https://platform.claude.com/docs/en/managed-agents/workflow-runs#interrupt-a-session-with-runs-open), or wait until each run has ended. Then delete the session once it’s `idle`.
 
-Memory stores, vaults, skills, environments, and agents are independent resources and are not affected by session deletion. Files you uploaded through the Files API are also unaffected, but files the session itself produced are scoped to it and are permanently deleted along with its filesystem. Download anything you need to keep before deleting the session. An output file written at the end of the last turn can take a few seconds after the session goes idle to appear in the [session's file list](https://platform.claude.com/docs/en/managed-agents/files#listing-and-downloading-session-files), so check that the files you expect are listed first.
+Memory stores, vaults, skills, environments, and agents are independent resources and are not affected by session deletion. Files you uploaded through the Files API are also unaffected, but files the session itself produced are scoped to it and are permanently deleted along with its filesystem. Download anything you need to keep before deleting the session. An output file written at the end of the last turn can take a few seconds after the session goes idle to appear in the [session’s file list](https://platform.claude.com/docs/en/managed-agents/files#listing-and-downloading-session-files), so check that the files you expect are listed first.
 
 <CodeGroup>
   ```bash cURL
   curl -fsSL -X DELETE "https://api.anthropic.com/v1/sessions/$SESSION_ID" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01"
   ```
 
   ```bash CLI
-  ant beta:sessions delete \
-    --session-id "$SESSION_ID"
+  ant beta:sessions delete --session-id "$SESSION_ID"
   ```
 
   ```python Python

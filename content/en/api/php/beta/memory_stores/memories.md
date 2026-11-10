@@ -5,13 +5,13 @@ url: https://platform.claude.com/docs/en/api/php/beta/memory_stores/memories
 
 # Memories
 
-## Create a memory
+## Create a Memory
 
 `$client->beta->memoryStores->memories->create(string memoryStoreID, ?string content, string path, ?ManagedAgentsMemoryView view, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsMemory`
 
 **POST** `/v1/memory_stores/{memory_store_id}/memories`
 
-Create a memory
+Create a Memory
 
 ### Parameters
 
@@ -21,19 +21,31 @@ Create a memory
 
 - `content: string`
 
-  UTF-8 text content for the new memory. Maximum 100 kB (102,400 bytes). Required; pass `""` explicitly to create an empty memory.
+  The UTF-8 text content of the new memory. Pass `""` to create an empty memory.
+
+  The maximum size is 100 kB (102,400 bytes).
 
 - `path: string`
 
-  Hierarchical path for the new memory, e.g. `/projects/foo/notes.md`. Must start with `/`, contain at least one non-empty segment, and be at most 1,024 bytes. Must not contain empty segments, `.` or `..` segments, control or format characters, or the Unicode line and paragraph separators (U+2028, U+2029), and must be NFC-normalized. Paths are case-sensitive.
+  The path of the new memory, such as `/projects/foo/notes.md`. Paths are case-sensitive.
 
-- `view?:optional ManagedAgentsMemoryView` (query parameter)
+  A path starts with `/` and has 1 to 20 segments. A segment can't be empty and can't be `.` or `..`. A path can't contain control characters, format characters, or the line and paragraph separators U+2028 and U+2029. It must be in Unicode Normalization Form C and at most 1,024 bytes long.
 
-  Selects which projection of a `memory` or `memory_version` the server returns. `basic` returns the object with `content` set to `null`; `full` populates `content`. When omitted, the default is endpoint-specific: retrieve operations default to `full`; list, create, and update operations default to `basic`. Listing with `view=full` caps `limit` at 20.
+- `view?: optional ManagedAgentsMemoryView` (query parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+  Whether a `memory` or `memory_version` in the response includes its `content`. Defaults to `full` on retrieve operations and to `basic` on list, create, and update operations.
 
-  Optional header to specify the beta version(s) you want to use.
+  With `full`, list operations return at most 20 items per page.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -45,11 +57,13 @@ Create a memory
 
 - `class ManagedAgentsMemory`
 
-  - `Type type`
+  - `"memory" type`
 
   - `string id`
 
-    Unique identifier for this memory (a `mem_...` value). Stable across renames; use this ID, not the path, to read, update, or delete the memory.
+    The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
+
+    To retrieve, update, or delete the memory, pass this ID.
 
   - `string contentSha256`
 
@@ -57,7 +71,7 @@ Create a memory
 
   - `int contentSizeBytes`
 
-    Size of `content` in bytes (the UTF-8 plaintext length). Always populated, regardless of `view`.
+    The size of the memory's `content` in UTF-8 bytes. It is set regardless of `view`.
 
   - `\Datetime createdAt`
 
@@ -69,7 +83,11 @@ Create a memory
 
   - `string memoryVersionID`
 
-    ID of the `memory_version` representing this memory's current content (a `memver_...` value). This is the authoritative head pointer; `memory_version` objects do not carry an `is_latest` flag, so compare against this field instead. Enumerate the history via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    The ID of the memory version that holds the memory's current content (`memver_...`).
+
+    Memory versions don't have a flag that marks the latest one. Compare their IDs with this field instead.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#audit-memory-changes) to learn more about memory versions.
 
   - `string path`
 
@@ -77,11 +95,15 @@ Create a memory
 
   - `\Datetime updatedAt`
 
-    When this memory was last modified, in RFC 3339 format. Use this as a cheap freshness signal; for who made the change, look up the head version's `created_by` via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    When the memory was last changed, in RFC 3339.
+
+    To find out who made the change, look at `created_by` on the memory version that `memory_version_id` references.
 
   - `?string content`
 
-    The memory's UTF-8 text content. Populated when `view=full`; `null` when `view=basic`. Maximum 100 kB (102,400 bytes).
+    The memory's UTF-8 text content, or `null` when the response uses `view=basic`.
+
+    The maximum size is 100 kB (102,400 bytes).
 
 ### Example
 
@@ -90,12 +112,16 @@ Create a memory
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\MemoryStores\Memories\ManagedAgentsMemoryView;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsMemory = $client->beta->memoryStores->memories->create(
   'memory_store_id',
   content: 'content',
-  path: 'xx',
+  path: '/P',
   view: ManagedAgentsMemoryView::BASIC,
   betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
   workspaceID: 'wrkspc_011CZkZaBF1tNoB5wlCeusgy',
@@ -121,13 +147,13 @@ var_dump($betaManagedAgentsMemory);
 }
 ```
 
-## List memories
+## List Memories
 
 `$client->beta->memoryStores->memories->list(string memoryStoreID, ?int depth, ?int limit, ?string page, ?string pathPrefix, ?ManagedAgentsMemoryView view, ?list<AnthropicBeta> betas, ?string workspaceID): PageCursor<ManagedAgentsMemoryListItem>`
 
 **GET** `/v1/memory_stores/{memory_store_id}/memories`
 
-List memories
+List Memories
 
 ### Parameters
 
@@ -135,29 +161,43 @@ List memories
 
   The ID of the memory store to list memories from (`memstore_...`).
 
-- `depth?:optional int` (query parameter)
+- `depth?: optional int` (query parameter)
 
-  `0` (or omitted) returns all descendants below `path_prefix` (recursive). `1` returns immediate children only; deeper entries roll up as `memory_prefix` items. `depth=1` behaves like `ls`; omitting `depth` behaves like `find`.
+  How far below `path_prefix` to list. Defaults to `0`, which lists every memory below the prefix.
 
-- `limit?:optional int` (query parameter)
+  Pass `1` to list only the direct children. Deeper memories are then grouped into `memory_prefix` items.
 
-  Maximum number of items to return per page. Must be between 1 and 100. Defaults to 20 when omitted. Capped at 20 when `view=full`. Both `memory` and `memory_prefix` items count toward the limit.
+- `limit?: optional int` (query parameter)
 
-- `page?:optional string` (query parameter)
+  The maximum number of items to return per page, from 1 to 100. Defaults to 20.
 
-  Opaque pagination cursor (a `page_...` value). Pass the `next_page` value from a previous response to fetch the next page; omit for the first page.
+  With `view=full`, a page holds at most 20 items. `memory` and `memory_prefix` items both count toward the limit.
 
-- `pathPrefix?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
-  Optional path prefix filter. Must end with `/` (segment-aligned), e.g., `/notes/`. This value appears in request URLs. Do not include secrets or personally identifiable information.
+  The `next_page` value from a previous response, to get the next page. Omit it to get the first page.
 
-- `view?:optional ManagedAgentsMemoryView` (query parameter)
+- `pathPrefix?: optional string` (query parameter)
 
-  Which projection of each `memory` to return. Defaults to `basic` (content omitted). `full` populates `content` on each item and caps `limit` at 20; use this as the bulk-read path for export and sync.
+  Return only memories whose path starts with this prefix, such as `/notes/`. This value appears in request URLs. Do not include secrets or personally identifiable information.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+  Omit it to list the whole store. The prefix must end with `/` and matches whole segments, so `/notes/` matches `/notes/todo.md` but not `/notes-archive/todo.md`.
 
-  Optional header to specify the beta version(s) you want to use.
+- `view?: optional ManagedAgentsMemoryView` (query parameter)
+
+  Whether each memory in the response includes `content`. Defaults to `basic`, which sets it to `null`.
+
+  With `full`, a page holds at most 20 items.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -171,11 +211,13 @@ List memories
 
   - `class ManagedAgentsMemory`
 
-    - `Type type`
+    - `"memory" type`
 
     - `string id`
 
-      Unique identifier for this memory (a `mem_...` value). Stable across renames; use this ID, not the path, to read, update, or delete the memory.
+      The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
+
+      To retrieve, update, or delete the memory, pass this ID.
 
     - `string contentSha256`
 
@@ -183,7 +225,7 @@ List memories
 
     - `int contentSizeBytes`
 
-      Size of `content` in bytes (the UTF-8 plaintext length). Always populated, regardless of `view`.
+      The size of the memory's `content` in UTF-8 bytes. It is set regardless of `view`.
 
     - `\Datetime createdAt`
 
@@ -195,7 +237,11 @@ List memories
 
     - `string memoryVersionID`
 
-      ID of the `memory_version` representing this memory's current content (a `memver_...` value). This is the authoritative head pointer; `memory_version` objects do not carry an `is_latest` flag, so compare against this field instead. Enumerate the history via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+      The ID of the memory version that holds the memory's current content (`memver_...`).
+
+      Memory versions don't have a flag that marks the latest one. Compare their IDs with this field instead.
+
+      See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#audit-memory-changes) to learn more about memory versions.
 
     - `string path`
 
@@ -203,15 +249,19 @@ List memories
 
     - `\Datetime updatedAt`
 
-      When this memory was last modified, in RFC 3339 format. Use this as a cheap freshness signal; for who made the change, look up the head version's `created_by` via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+      When the memory was last changed, in RFC 3339.
+
+      To find out who made the change, look at `created_by` on the memory version that `memory_version_id` references.
 
     - `?string content`
 
-      The memory's UTF-8 text content. Populated when `view=full`; `null` when `view=basic`. Maximum 100 kB (102,400 bytes).
+      The memory's UTF-8 text content, or `null` when the response uses `view=basic`.
+
+      The maximum size is 100 kB (102,400 bytes).
 
   - `class ManagedAgentsMemoryPrefix`
 
-    - `Type type`
+    - `"memory_prefix" type`
 
     - `string path`
 
@@ -223,6 +273,10 @@ List memories
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\MemoryStores\Memories\ManagedAgentsMemoryView;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -262,13 +316,13 @@ var_dump($page);
 }
 ```
 
-## Retrieve a memory
+## Retrieve a Memory
 
 `$client->beta->memoryStores->memories->retrieve(string memoryID, string memoryStoreID, ?ManagedAgentsMemoryView view, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsMemory`
 
 **GET** `/v1/memory_stores/{memory_store_id}/memories/{memory_id}`
 
-Retrieve a memory
+Retrieve a Memory
 
 ### Parameters
 
@@ -280,13 +334,21 @@ Retrieve a memory
 
   The ID of the memory to retrieve (`mem_...`).
 
-- `view?:optional ManagedAgentsMemoryView` (query parameter)
+- `view?: optional ManagedAgentsMemoryView` (query parameter)
 
-  Selects which projection of a `memory` or `memory_version` the server returns. `basic` returns the object with `content` set to `null`; `full` populates `content`. When omitted, the default is endpoint-specific: retrieve operations default to `full`; list, create, and update operations default to `basic`. Listing with `view=full` caps `limit` at 20.
+  Whether a `memory` or `memory_version` in the response includes its `content`. Defaults to `full` on retrieve operations and to `basic` on list, create, and update operations.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+  With `full`, list operations return at most 20 items per page.
 
-  Optional header to specify the beta version(s) you want to use.
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -298,11 +360,13 @@ Retrieve a memory
 
 - `class ManagedAgentsMemory`
 
-  - `Type type`
+  - `"memory" type`
 
   - `string id`
 
-    Unique identifier for this memory (a `mem_...` value). Stable across renames; use this ID, not the path, to read, update, or delete the memory.
+    The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
+
+    To retrieve, update, or delete the memory, pass this ID.
 
   - `string contentSha256`
 
@@ -310,7 +374,7 @@ Retrieve a memory
 
   - `int contentSizeBytes`
 
-    Size of `content` in bytes (the UTF-8 plaintext length). Always populated, regardless of `view`.
+    The size of the memory's `content` in UTF-8 bytes. It is set regardless of `view`.
 
   - `\Datetime createdAt`
 
@@ -322,7 +386,11 @@ Retrieve a memory
 
   - `string memoryVersionID`
 
-    ID of the `memory_version` representing this memory's current content (a `memver_...` value). This is the authoritative head pointer; `memory_version` objects do not carry an `is_latest` flag, so compare against this field instead. Enumerate the history via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    The ID of the memory version that holds the memory's current content (`memver_...`).
+
+    Memory versions don't have a flag that marks the latest one. Compare their IDs with this field instead.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#audit-memory-changes) to learn more about memory versions.
 
   - `string path`
 
@@ -330,11 +398,15 @@ Retrieve a memory
 
   - `\Datetime updatedAt`
 
-    When this memory was last modified, in RFC 3339 format. Use this as a cheap freshness signal; for who made the change, look up the head version's `created_by` via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    When the memory was last changed, in RFC 3339.
+
+    To find out who made the change, look at `created_by` on the memory version that `memory_version_id` references.
 
   - `?string content`
 
-    The memory's UTF-8 text content. Populated when `view=full`; `null` when `view=basic`. Maximum 100 kB (102,400 bytes).
+    The memory's UTF-8 text content, or `null` when the response uses `view=basic`.
+
+    The maximum size is 100 kB (102,400 bytes).
 
 ### Example
 
@@ -342,6 +414,10 @@ Retrieve a memory
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\MemoryStores\Memories\ManagedAgentsMemoryView;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -373,13 +449,13 @@ var_dump($betaManagedAgentsMemory);
 }
 ```
 
-## Update a memory
+## Update a Memory
 
 `$client->beta->memoryStores->memories->update(string memoryID, string memoryStoreID, ?ManagedAgentsMemoryView view, ?string content, ?string path, ?ManagedAgentsPrecondition precondition, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsMemory`
 
 **POST** `/v1/memory_stores/{memory_store_id}/memories/{memory_id}`
 
-Update a memory
+Update a Memory
 
 ### Parameters
 
@@ -391,25 +467,37 @@ Update a memory
 
   The ID of the memory to update (`mem_...`).
 
-- `view?:optional ManagedAgentsMemoryView` (query parameter)
+- `view?: optional ManagedAgentsMemoryView` (query parameter)
 
-  Selects which projection of a `memory` or `memory_version` the server returns. `basic` returns the object with `content` set to `null`; `full` populates `content`. When omitted, the default is endpoint-specific: retrieve operations default to `full`; list, create, and update operations default to `basic`. Listing with `view=full` caps `limit` at 20.
+  Whether a `memory` or `memory_version` in the response includes its `content`. Defaults to `full` on retrieve operations and to `basic` on list, create, and update operations.
 
-- `content?:optional string`
+  With `full`, list operations return at most 20 items per page.
+
+- `content?: optional string`
 
   New UTF-8 text content for the memory. Maximum 100 kB (102,400 bytes). Omit to leave the content unchanged (e.g., for a rename-only update).
 
-- `path?:optional string`
+- `path?: optional string`
 
-  New path for the memory (a rename). Must start with `/`, contain at least one non-empty segment, and be at most 1,024 bytes. Must not contain empty segments, `.` or `..` segments, control or format characters, or the Unicode line and paragraph separators (U+2028, U+2029), and must be NFC-normalized. Paths are case-sensitive. The memory's `id` is preserved across renames. Omit to leave the path unchanged.
+  The new path of the memory, which renames it. Omit it to keep the current path.
 
-- `precondition?:optional ManagedAgentsPrecondition`
+  The memory keeps its `id`. A path starts with `/` and has 1 to 20 segments. A segment can't be empty and can't be `.` or `..`. A path can't contain control characters, format characters, or the line and paragraph separators U+2028 and U+2029. It must be in Unicode Normalization Form C and at most 1,024 bytes long. Paths are case-sensitive.
 
-  Optional optimistic-concurrency precondition. When supplied, the update applies only if the memory's current state matches; on mismatch the request returns `memory_precondition_failed_error` (HTTP 409). When omitted, the update is unconditional.
+- `precondition?: optional ManagedAgentsPrecondition`
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+  The condition that the memory must meet for the update to apply. Omit it to update unconditionally.
 
-  Optional header to specify the beta version(s) you want to use.
+  If the condition fails, the request fails with HTTP status 409.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -421,11 +509,13 @@ Update a memory
 
 - `class ManagedAgentsMemory`
 
-  - `Type type`
+  - `"memory" type`
 
   - `string id`
 
-    Unique identifier for this memory (a `mem_...` value). Stable across renames; use this ID, not the path, to read, update, or delete the memory.
+    The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
+
+    To retrieve, update, or delete the memory, pass this ID.
 
   - `string contentSha256`
 
@@ -433,7 +523,7 @@ Update a memory
 
   - `int contentSizeBytes`
 
-    Size of `content` in bytes (the UTF-8 plaintext length). Always populated, regardless of `view`.
+    The size of the memory's `content` in UTF-8 bytes. It is set regardless of `view`.
 
   - `\Datetime createdAt`
 
@@ -445,7 +535,11 @@ Update a memory
 
   - `string memoryVersionID`
 
-    ID of the `memory_version` representing this memory's current content (a `memver_...` value). This is the authoritative head pointer; `memory_version` objects do not carry an `is_latest` flag, so compare against this field instead. Enumerate the history via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    The ID of the memory version that holds the memory's current content (`memver_...`).
+
+    Memory versions don't have a flag that marks the latest one. Compare their IDs with this field instead.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#audit-memory-changes) to learn more about memory versions.
 
   - `string path`
 
@@ -453,11 +547,15 @@ Update a memory
 
   - `\Datetime updatedAt`
 
-    When this memory was last modified, in RFC 3339 format. Use this as a cheap freshness signal; for who made the change, look up the head version's `created_by` via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    When the memory was last changed, in RFC 3339.
+
+    To find out who made the change, look at `created_by` on the memory version that `memory_version_id` references.
 
   - `?string content`
 
-    The memory's UTF-8 text content. Populated when `view=full`; `null` when `view=basic`. Maximum 100 kB (102,400 bytes).
+    The memory's UTF-8 text content, or `null` when the response uses `view=basic`.
+
+    The maximum size is 100 kB (102,400 bytes).
 
 ### Example
 
@@ -466,6 +564,10 @@ Update a memory
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\MemoryStores\Memories\ManagedAgentsMemoryView;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsMemory = $client->beta->memoryStores->memories->update(
@@ -473,9 +575,10 @@ $betaManagedAgentsMemory = $client->beta->memoryStores->memories->update(
   memoryStoreID: 'memory_store_id',
   view: ManagedAgentsMemoryView::BASIC,
   content: 'content',
-  path: 'xx',
+  path: '/P',
   precondition: [
-    'type' => 'content_sha256', 'contentSha256' => 'content_sha256'
+    'type' => 'content_sha256',
+    'contentSha256' => '210b9798eb53baa4e69d31c1071cf03d212b8ad0ca30cf321e0ea82e120aac26',
   ],
   betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
   workspaceID: 'wrkspc_011CZkZaBF1tNoB5wlCeusgy',
@@ -501,13 +604,13 @@ var_dump($betaManagedAgentsMemory);
 }
 ```
 
-## Delete a memory
+## Delete a Memory
 
 `$client->beta->memoryStores->memories->delete(string memoryID, string memoryStoreID, ?string expectedContentSha256, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsDeletedMemory`
 
 **DELETE** `/v1/memory_stores/{memory_store_id}/memories/{memory_id}`
 
-Delete a memory
+Delete a Memory
 
 ### Parameters
 
@@ -519,15 +622,21 @@ Delete a memory
 
   The ID of the memory to delete (`mem_...`).
 
-- `expectedContentSha256?:optional string` (query parameter)
+- `expectedContentSha256?: optional string` (query parameter)
 
   Delete the memory only if its current `content_sha256` equals this value, given as 64 lowercase hexadecimal characters. Omit it to delete unconditionally.
 
   If the hashes differ, the request fails with HTTP status 409 and nothing is deleted.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -539,7 +648,7 @@ Delete a memory
 
 - `class ManagedAgentsDeletedMemory`
 
-  - `Type type`
+  - `"memory_deleted" type`
 
   - `string id`
 
@@ -551,6 +660,9 @@ Delete a memory
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -580,7 +692,7 @@ var_dump($betaManagedAgentsDeletedMemory);
 
 - `class ManagedAgentsConflictError`
 
-  - `Type type`
+  - `"conflict_error" type`
 
   - `?string message`
 
@@ -588,7 +700,7 @@ var_dump($betaManagedAgentsDeletedMemory);
 
 - `class ManagedAgentsContentSha256Precondition`
 
-  - `Type type`
+  - `"content_sha256" type`
 
   - `?string contentSha256`
 
@@ -598,7 +710,7 @@ var_dump($betaManagedAgentsDeletedMemory);
 
 - `class ManagedAgentsDeletedMemory`
 
-  - `Type type`
+  - `"memory_deleted" type`
 
   - `string id`
 
@@ -612,67 +724,101 @@ var_dump($betaManagedAgentsDeletedMemory);
 
     - `"invalid_request_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaAuthenticationError`
 
     - `"authentication_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaBillingError`
 
     - `"billing_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaPermissionError`
 
     - `"permission_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaNotFoundError`
 
     - `"not_found_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaRateLimitError`
 
     - `"rate_limit_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaGatewayTimeoutError`
 
     - `"timeout_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaAPIError`
 
     - `"api_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaOverloadedError`
 
     - `"overloaded_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class ManagedAgentsMemoryPreconditionFailedError`
 
-    - `Type type`
+    - `"memory_precondition_failed_error" type`
 
     - `?string message`
 
-      A human-readable explanation of why the precondition failed.
-
   - `class ManagedAgentsMemoryPathConflictError`
 
-    - `Type type`
+    - `"memory_path_conflict_error" type`
 
     - `?string conflictingMemoryID`
 
@@ -686,11 +832,9 @@ var_dump($betaManagedAgentsDeletedMemory);
 
     - `?string message`
 
-      A human-readable explanation of the conflict. To handle the error in code, use `conflicting_path` and `conflicting_memory_id` instead.
-
   - `class ManagedAgentsConflictError`
 
-    - `Type type`
+    - `"conflict_error" type`
 
     - `?string message`
 
@@ -698,11 +842,13 @@ var_dump($betaManagedAgentsDeletedMemory);
 
 - `class ManagedAgentsMemory`
 
-  - `Type type`
+  - `"memory" type`
 
   - `string id`
 
-    Unique identifier for this memory (a `mem_...` value). Stable across renames; use this ID, not the path, to read, update, or delete the memory.
+    The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
+
+    To retrieve, update, or delete the memory, pass this ID.
 
   - `string contentSha256`
 
@@ -710,7 +856,7 @@ var_dump($betaManagedAgentsDeletedMemory);
 
   - `int contentSizeBytes`
 
-    Size of `content` in bytes (the UTF-8 plaintext length). Always populated, regardless of `view`.
+    The size of the memory's `content` in UTF-8 bytes. It is set regardless of `view`.
 
   - `\Datetime createdAt`
 
@@ -722,7 +868,11 @@ var_dump($betaManagedAgentsDeletedMemory);
 
   - `string memoryVersionID`
 
-    ID of the `memory_version` representing this memory's current content (a `memver_...` value). This is the authoritative head pointer; `memory_version` objects do not carry an `is_latest` flag, so compare against this field instead. Enumerate the history via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    The ID of the memory version that holds the memory's current content (`memver_...`).
+
+    Memory versions don't have a flag that marks the latest one. Compare their IDs with this field instead.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#audit-memory-changes) to learn more about memory versions.
 
   - `string path`
 
@@ -730,11 +880,15 @@ var_dump($betaManagedAgentsDeletedMemory);
 
   - `\Datetime updatedAt`
 
-    When this memory was last modified, in RFC 3339 format. Use this as a cheap freshness signal; for who made the change, look up the head version's `created_by` via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    When the memory was last changed, in RFC 3339.
+
+    To find out who made the change, look at `created_by` on the memory version that `memory_version_id` references.
 
   - `?string content`
 
-    The memory's UTF-8 text content. Populated when `view=full`; `null` when `view=basic`. Maximum 100 kB (102,400 bytes).
+    The memory's UTF-8 text content, or `null` when the response uses `view=basic`.
+
+    The maximum size is 100 kB (102,400 bytes).
 
 ### Beta Managed Agents Memory List Item
 
@@ -742,11 +896,13 @@ var_dump($betaManagedAgentsDeletedMemory);
 
   - `class ManagedAgentsMemory`
 
-    - `Type type`
+    - `"memory" type`
 
     - `string id`
 
-      Unique identifier for this memory (a `mem_...` value). Stable across renames; use this ID, not the path, to read, update, or delete the memory.
+      The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
+
+      To retrieve, update, or delete the memory, pass this ID.
 
     - `string contentSha256`
 
@@ -754,7 +910,7 @@ var_dump($betaManagedAgentsDeletedMemory);
 
     - `int contentSizeBytes`
 
-      Size of `content` in bytes (the UTF-8 plaintext length). Always populated, regardless of `view`.
+      The size of the memory's `content` in UTF-8 bytes. It is set regardless of `view`.
 
     - `\Datetime createdAt`
 
@@ -766,7 +922,11 @@ var_dump($betaManagedAgentsDeletedMemory);
 
     - `string memoryVersionID`
 
-      ID of the `memory_version` representing this memory's current content (a `memver_...` value). This is the authoritative head pointer; `memory_version` objects do not carry an `is_latest` flag, so compare against this field instead. Enumerate the history via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+      The ID of the memory version that holds the memory's current content (`memver_...`).
+
+      Memory versions don't have a flag that marks the latest one. Compare their IDs with this field instead.
+
+      See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#audit-memory-changes) to learn more about memory versions.
 
     - `string path`
 
@@ -774,15 +934,19 @@ var_dump($betaManagedAgentsDeletedMemory);
 
     - `\Datetime updatedAt`
 
-      When this memory was last modified, in RFC 3339 format. Use this as a cheap freshness signal; for who made the change, look up the head version's `created_by` via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+      When the memory was last changed, in RFC 3339.
+
+      To find out who made the change, look at `created_by` on the memory version that `memory_version_id` references.
 
     - `?string content`
 
-      The memory's UTF-8 text content. Populated when `view=full`; `null` when `view=basic`. Maximum 100 kB (102,400 bytes).
+      The memory's UTF-8 text content, or `null` when the response uses `view=basic`.
+
+      The maximum size is 100 kB (102,400 bytes).
 
   - `class ManagedAgentsMemoryPrefix`
 
-    - `Type type`
+    - `"memory_prefix" type`
 
     - `string path`
 
@@ -792,7 +956,7 @@ var_dump($betaManagedAgentsDeletedMemory);
 
 - `class ManagedAgentsMemoryPathConflictError`
 
-  - `Type type`
+  - `"memory_path_conflict_error" type`
 
   - `?string conflictingMemoryID`
 
@@ -812,7 +976,7 @@ var_dump($betaManagedAgentsDeletedMemory);
 
 - `class ManagedAgentsMemoryPreconditionFailedError`
 
-  - `Type type`
+  - `"memory_precondition_failed_error" type`
 
   - `?string message`
 
@@ -822,7 +986,7 @@ var_dump($betaManagedAgentsDeletedMemory);
 
 - `class ManagedAgentsMemoryPrefix`
 
-  - `Type type`
+  - `"memory_prefix" type`
 
   - `string path`
 
@@ -844,7 +1008,7 @@ var_dump($betaManagedAgentsDeletedMemory);
 
 - `class ManagedAgentsPrecondition`
 
-  - `Type type`
+  - `"content_sha256" type`
 
   - `?string contentSha256`
 

@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/python/messages/create
 
 # Create a Message
 
-`messages.create(**kwargs)  -> Message`
+`messages.create(**kwargs) -> Message`
 
 **POST** `/v1/messages`
 
@@ -76,290 +76,19 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   See [input examples](https://platform.claude.com/docs/en/build-with-claude/working-with-messages?sdk_languages=python).
 
-  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=python#give-claude-a-role), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
+  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=python#give-claude-a-role), you can use the top-level `system` parameter.
 
   There is a limit of 100,000 messages in a single request.
 
-  - `content: Union[str, Iterable[Union[TextBlockParam, ImageBlockParam, DocumentBlockParam, 14 more]]]`
+  - `class UserMessageParam`
 
-    - `str`
+    - `content: MessageContentParam`
 
-    - `Iterable[Union[TextBlockParam, ImageBlockParam, DocumentBlockParam, 14 more]]`
+      - `str`
 
-      - `class TextBlockParam`
+      - `Iterable[Union[TextBlockParam, ImageBlockParam, DocumentBlockParam, 14 more]]`
 
-        - `type: Literal["text"]`
-
-        - `text: str`
-
-          minLength: 1
-
-        - `cache_control: Optional[CacheControlEphemeralParam]`
-
-          Create a cache control breakpoint at this content block.
-
-          - `type: Literal["ephemeral"]`
-
-          - `ttl: Optional[Literal["5m", "1h"]]`
-
-            The time-to-live for the cache control breakpoint.
-
-            This may be one the following values:
-
-            - `5m`: 5 minutes
-            - `1h`: 1 hour
-
-            Defaults to `5m`. See [prompt caching pricing](https://platform.claude.com/docs/en/build-with-claude/prompt-caching?sdk_languages=python) for details.
-
-            - `"5m"`
-
-            - `"1h"`
-
-        - `citations: Optional[Iterable[TextCitationParam]]`
-
-          - `class CitationCharLocationParam`
-
-            - `type: Literal["char_location"]`
-
-            - `cited_text: str`
-
-            - `document_index: int`
-
-              minimum: 0
-
-            - `document_title: Optional[str]`
-
-              minLength: 1, maxLength: 500
-
-            - `end_char_index: int`
-
-            - `start_char_index: int`
-
-              minimum: 0
-
-          - `class CitationPageLocationParam`
-
-            - `type: Literal["page_location"]`
-
-            - `cited_text: str`
-
-            - `document_index: int`
-
-              minimum: 0
-
-            - `document_title: Optional[str]`
-
-              minLength: 1, maxLength: 500
-
-            - `end_page_number: int`
-
-            - `start_page_number: int`
-
-              minimum: 1
-
-          - `class CitationContentBlockLocationParam`
-
-            - `type: Literal["content_block_location"]`
-
-            - `cited_text: str`
-
-              The full text of the cited block range, concatenated.
-
-              Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
-
-            - `document_index: int`
-
-              minimum: 0
-
-            - `document_title: Optional[str]`
-
-              minLength: 1, maxLength: 500
-
-            - `end_block_index: int`
-
-              Exclusive 0-based end index of the cited block range in the source's `content` array.
-
-              Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
-
-            - `start_block_index: int`
-
-              0-based index of the first cited block in the source's `content` array.
-
-              minimum: 0
-
-          - `class CitationWebSearchResultLocationParam`
-
-            - `type: Literal["web_search_result_location"]`
-
-            - `cited_text: str`
-
-            - `encrypted_index: str`
-
-            - `title: Optional[str]`
-
-              minLength: 1, maxLength: 512
-
-            - `url: str`
-
-              minLength: 1
-
-          - `class CitationSearchResultLocationParam`
-
-            - `type: Literal["search_result_location"]`
-
-            - `cited_text: str`
-
-              The full text of the cited block range, concatenated.
-
-              Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
-
-            - `end_block_index: int`
-
-              Exclusive 0-based end index of the cited block range in the source's `content` array.
-
-              Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
-
-            - `search_result_index: int`
-
-              0-based index of the cited search result among all `search_result` content blocks in the request, in the order they appear across messages and tool results.
-
-              Counted separately from `document_index`; server-side web search results are not included in this count.
-
-              minimum: 0
-
-            - `source: str`
-
-            - `start_block_index: int`
-
-              0-based index of the first cited block in the source's `content` array.
-
-              minimum: 0
-
-            - `title: Optional[str]`
-
-      - `class ImageBlockParam`
-
-        - `type: Literal["image"]`
-
-        - `source: Source`
-
-          - `class Base64ImageSourceParam`
-
-            - `type: Literal["base64"]`
-
-            - `data: Union[str, Base64FileInput]`
-
-              format: byte
-
-            - `media_type: Literal["image/jpeg", "image/png", "image/gif", "image/webp"]`
-
-              - `"image/jpeg"`
-
-              - `"image/png"`
-
-              - `"image/gif"`
-
-              - `"image/webp"`
-
-          - `class URLImageSourceParam`
-
-            - `type: Literal["url"]`
-
-            - `url: str`
-
-          - `class FileImageSourceParam`
-
-            - `type: Literal["file"]`
-
-            - `file_id: str`
-
-        - `cache_control: Optional[CacheControlEphemeralParam]`
-
-          Create a cache control breakpoint at this content block.
-
-        - `transformations: Optional[ImageTransformationsParam]`
-
-          Configures the transformations the server applies to this image before the model observes it. Each key names a condition the server transforms images for; its value selects the transformation applied. Omitted keys keep their default behavior, and an empty object is equivalent to omitting the field.
-
-          - `oversized_image: Optional[Literal["downsize", "error"]]`
-
-            What the server does when this image exceeds the model's maximum image size. `"downsize"` (the default) scales the image down to fit, which changes the dimensions the model observes without telling you. `"error"` instead rejects the request with a 400 error naming the image's dimensions and the largest dimensions that fit, so you can scale the image deliberately — your image is never silently scaled down.
-
-            - `"downsize"`
-
-            - `"error"`
-
-      - `class DocumentBlockParam`
-
-        - `type: Literal["document"]`
-
-        - `source: Source`
-
-          - `class Base64PDFSource`
-
-            - `type: Literal["base64"]`
-
-            - `data: str`
-
-              format: byte
-
-            - `media_type: Literal["application/pdf"]`
-
-          - `class PlainTextSource`
-
-            - `type: Literal["text"]`
-
-            - `data: str`
-
-            - `media_type: Literal["text/plain"]`
-
-          - `class ContentBlockSourceParam`
-
-            - `type: Literal["content"]`
-
-            - `content: Union[str, Iterable[ContentBlockSourceContentParam]]`
-
-              - `str`
-
-              - `Iterable[ContentBlockSourceContentParam]`
-
-                - `class TextBlockParam`
-
-                - `class ImageBlockParam`
-
-          - `class URLPDFSourceParam`
-
-            - `type: Literal["url"]`
-
-            - `url: str`
-
-          - `class FileDocumentSourceParam`
-
-            - `type: Literal["file"]`
-
-            - `file_id: str`
-
-        - `cache_control: Optional[CacheControlEphemeralParam]`
-
-          Create a cache control breakpoint at this content block.
-
-        - `citations: Optional[CitationsConfigParam]`
-
-          - `enabled: Optional[bool]`
-
-        - `context: Optional[str]`
-
-          minLength: 1
-
-        - `title: Optional[str]`
-
-          minLength: 1, maxLength: 500
-
-      - `class SearchResultBlockParam`
-
-        - `type: Literal["search_result"]`
-
-        - `content: Iterable[TextBlockParam]`
+        - `class TextBlockParam`
 
           - `type: Literal["text"]`
 
@@ -371,697 +100,1002 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             Create a cache control breakpoint at this content block.
 
+            - `type: Literal["ephemeral"]`
+
+            - `ttl: Optional[Literal["5m", "1h"]]`
+
+              The time-to-live for the cache control breakpoint.
+
+              This may be one the following values:
+
+              - `5m`: 5 minutes
+              - `1h`: 1 hour
+
+              Defaults to `5m`. See [prompt caching pricing](https://platform.claude.com/docs/en/build-with-claude/prompt-caching?sdk_languages=python) for details.
+
+              - `"5m"`
+
+              - `"1h"`
+
           - `citations: Optional[Iterable[TextCitationParam]]`
 
-        - `source: str`
+            - `class CitationCharLocationParam`
 
-        - `title: str`
+              - `type: Literal["char_location"]`
 
-        - `cache_control: Optional[CacheControlEphemeralParam]`
+              - `cited_text: str`
 
-          Create a cache control breakpoint at this content block.
+              - `document_index: int`
 
-        - `citations: Optional[CitationsConfigParam]`
+                minimum: 0
 
-      - `class ThinkingBlockParam`
+              - `document_title: Optional[str]`
 
-        - `type: Literal["thinking"]`
+                minLength: 1, maxLength: 500
 
-        - `signature: str`
+              - `end_char_index: int`
 
-          The `signature` value of this thinking block, exactly as returned by the API in a previous response. Used to verify that the block was generated by Claude.
+              - `start_char_index: int`
 
-          Thinking blocks must be passed back unmodified and in their original order; a modified block results in a 400 `invalid_request_error`.
+                minimum: 0
 
-        - `thinking: str`
+            - `class CitationPageLocationParam`
 
-          The `thinking` text of this block as returned by the API.
+              - `type: Literal["page_location"]`
 
-      - `class RedactedThinkingBlockParam`
+              - `cited_text: str`
 
-        - `type: Literal["redacted_thinking"]`
+              - `document_index: int`
 
-        - `data: str`
+                minimum: 0
 
-          The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
+              - `document_title: Optional[str]`
 
-      - `class ToolUseBlockParam`
+                minLength: 1, maxLength: 500
 
-        - `type: Literal["tool_use"]`
+              - `end_page_number: int`
 
-        - `id: str`
+              - `start_page_number: int`
 
-          pattern: ^[a-zA-Z0-9_-]+$
+                minimum: 1
 
-        - `input: Dict[str, object]`
+            - `class CitationContentBlockLocationParam`
 
-        - `name: str`
+              - `type: Literal["content_block_location"]`
 
-          minLength: 1, maxLength: 200
+              - `cited_text: str`
 
-        - `cache_control: Optional[CacheControlEphemeralParam]`
+                The full text of the cited block range, concatenated.
 
-          Create a cache control breakpoint at this content block.
+                Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
 
-        - `caller: Optional[Caller]`
+              - `document_index: int`
 
-          - `class DirectCaller`
+                minimum: 0
 
-            Tool invocation directly from the model.
+              - `document_title: Optional[str]`
 
-            - `type: Literal["direct"]`
+                minLength: 1, maxLength: 500
 
-          - `class ServerToolCaller`
+              - `end_block_index: int`
 
-            Tool invocation generated by a server-side tool.
+                Exclusive 0-based end index of the cited block range in the source's `content` array.
 
-            - `type: Literal["code_execution_20250825"]`
+                Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
 
-            - `tool_id: str`
+              - `start_block_index: int`
 
-              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+                0-based index of the first cited block in the source's `content` array.
 
-          - `class ServerToolCaller20260120`
+                minimum: 0
 
-            - `type: Literal["code_execution_20260120"]`
+            - `class CitationWebSearchResultLocationParam`
 
-            - `tool_id: str`
+              - `type: Literal["web_search_result_location"]`
 
-              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+              - `cited_text: str`
 
-        - `toolset_name: Optional[str]`
+              - `encrypted_index: str`
 
-          For a toolset member tool_use, the toolset family this member belongs to.
+              - `title: Optional[str]`
 
-          minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+                minLength: 1, maxLength: 512
 
-      - `class ToolResultBlockParam`
+              - `url: str`
 
-        - `type: Literal["tool_result"]`
+                minLength: 1
 
-        - `tool_use_id: str`
+            - `class CitationSearchResultLocationParam`
 
-          pattern: ^[a-zA-Z0-9_-]+$
+              - `type: Literal["search_result_location"]`
 
-        - `cache_control: Optional[CacheControlEphemeralParam]`
+              - `cited_text: str`
 
-          Create a cache control breakpoint at this content block.
+                The full text of the cited block range, concatenated.
 
-        - `content: Optional[Union[str, Iterable[Content]]]`
+                Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
 
-          - `str`
+              - `end_block_index: int`
 
-          - `Iterable[Content]`
+                Exclusive 0-based end index of the cited block range in the source's `content` array.
 
-            - `class TextBlockParam`
+                Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
 
-            - `class ImageBlockParam`
+              - `search_result_index: int`
 
-            - `class SearchResultBlockParam`
+                0-based index of the cited search result among all `search_result` content blocks in the request, in the order they appear across messages and tool results.
 
-            - `class DocumentBlockParam`
+                Counted separately from `document_index`; server-side web search results are not included in this count.
 
-            - `class ToolReferenceBlockParam`
+                minimum: 0
 
-              Tool reference block that can be included in tool_result content.
+              - `source: str`
 
-              - `type: Literal["tool_reference"]`
+              - `start_block_index: int`
 
-              - `tool_name: str`
+                0-based index of the first cited block in the source's `content` array.
 
-                minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+                minimum: 0
 
-              - `cache_control: Optional[CacheControlEphemeralParam]`
+              - `title: Optional[str]`
 
-                Create a cache control breakpoint at this content block.
+        - `class ImageBlockParam`
 
-            - `class BrowserStateBlockParam`
+          - `type: Literal["image"]`
 
-              The caller's browser state after a browser toolset member call —
-              the full inventory of open tabs, which tab is active, and any side
-              effects (tabs opened, download state changes) the call produced.
+          - `source: Source`
 
-              At most one per `tool_result`, only on a non-error result answering a
-              browser toolset member `tool_use`. The server renders the
-              model-visible text from it; the model never sees the raw fields.
+            - `class Base64ImageSourceParam`
 
-              - `type: Literal["browser_state"]`
+              - `type: Literal["base64"]`
 
-              - `tabs: Iterable[BrowserStateTabEntryParam]`
+              - `data: Union[str, Base64FileInput]`
 
-                All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
+                format: byte
 
-                maxItems: 100
+              - `media_type: Literal["image/jpeg", "image/png", "image/gif", "image/webp"]`
 
-                - `tab_id: str`
+                - `"image/jpeg"`
 
-                  The caller-assigned identifier for this tab, unique within the inventory.
+                - `"image/png"`
 
-                  minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                - `"image/gif"`
 
-                - `title: str`
+                - `"image/webp"`
 
-                  The title of the page the tab is showing. May be empty.
+            - `class URLImageSourceParam`
 
-                  maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+              - `type: Literal["url"]`
 
-                - `url: str`
+              - `url: str`
 
-                  The URL of the page the tab is showing. May be empty.
+            - `class FileImageSourceParam`
 
-                  maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+              - `type: Literal["file"]`
 
-                - `active: Optional[bool]`
+              - `file_id: str`
 
-                  Whether this tab is the active tab after this call. Whenever `tabs` is non-empty, exactly one entry is marked `active: true`.
+          - `cache_control: Optional[CacheControlEphemeralParam]`
 
-              - `cache_control: Optional[CacheControlEphemeralParam]`
+            Create a cache control breakpoint at this content block.
 
-                Create a cache control breakpoint at this content block.
+          - `transformations: Optional[ImageTransformationsParam]`
 
-              - `state_changes: Optional[Iterable[BrowserStateChangeParam]]`
+            Configures the transformations the server applies to this image before the model observes it. Each key names a condition the server transforms images for; its value selects the transformation applied. Omitted keys keep their default behavior, and an empty object is equivalent to omitting the field.
 
-                Tabs opened and download state changes during this call. "Nothing to report" is expressed by omitting the field, never by an empty list.
+            - `oversized_image: Optional[Literal["downsize", "error"]]`
 
-                minItems: 1, maxItems: 200
+              What the server does when this image exceeds the model's maximum image size. `"downsize"` (the default) scales the image down to fit, which changes the dimensions the model observes without telling you. `"error"` instead rejects the request with a 400 error naming the image's dimensions and the largest dimensions that fit, so you can scale the image deliberately — your image is never silently scaled down.
 
-                - `class BrowserStateChangeTabOpenedParam`
+              - `"downsize"`
 
-                  A tab this call's execution opened that remains open at its end —
-                  the creation delta of the `tabs` inventory, not an event log.
+              - `"error"`
 
-                  Carries only the `tab_id`; the tab's `title` and `url` live on its
-                  `tabs` entry, which must include the same `tab_id`. A tab opened
-                  during a failed call gets no deferred `tab_opened`; it simply appears
-                  in the next result's `tabs` inventory.
+        - `class DocumentBlockParam`
+
+          - `type: Literal["document"]`
+
+          - `source: Source`
+
+            - `class Base64PDFSource`
+
+              - `type: Literal["base64"]`
+
+              - `data: str`
+
+                format: byte
+
+              - `media_type: Literal["application/pdf"]`
+
+            - `class PlainTextSource`
+
+              - `type: Literal["text"]`
+
+              - `data: str`
+
+              - `media_type: Literal["text/plain"]`
+
+            - `class ContentBlockSourceParam`
+
+              - `type: Literal["content"]`
+
+              - `content: Union[str, Iterable[ContentBlockSourceContentParam]]`
+
+                - `str`
+
+                - `Iterable[ContentBlockSourceContentParam]`
+
+                  - `class TextBlockParam`
+
+                  - `class ImageBlockParam`
+
+            - `class URLPDFSourceParam`
+
+              - `type: Literal["url"]`
+
+              - `url: str`
+
+            - `class FileDocumentSourceParam`
+
+              - `type: Literal["file"]`
+
+              - `file_id: str`
+
+          - `cache_control: Optional[CacheControlEphemeralParam]`
+
+            Create a cache control breakpoint at this content block.
+
+          - `citations: Optional[CitationsConfigParam]`
+
+            - `enabled: Optional[bool]`
+
+          - `context: Optional[str]`
+
+            minLength: 1
+
+          - `title: Optional[str]`
+
+            minLength: 1, maxLength: 500
+
+        - `class SearchResultBlockParam`
+
+          - `type: Literal["search_result"]`
+
+          - `content: Iterable[TextBlockParam]`
+
+            - `type: Literal["text"]`
+
+            - `text: str`
+
+              minLength: 1
+
+            - `cache_control: Optional[CacheControlEphemeralParam]`
+
+              Create a cache control breakpoint at this content block.
+
+            - `citations: Optional[Iterable[TextCitationParam]]`
+
+          - `source: str`
+
+          - `title: str`
+
+          - `cache_control: Optional[CacheControlEphemeralParam]`
+
+            Create a cache control breakpoint at this content block.
+
+          - `citations: Optional[CitationsConfigParam]`
+
+        - `class ThinkingBlockParam`
+
+          - `type: Literal["thinking"]`
+
+          - `signature: str`
+
+            The `signature` value of this thinking block, exactly as returned by the API in a previous response. Used to verify that the block was generated by Claude.
+
+            Thinking blocks must be passed back unmodified and in their original order; a modified block results in a 400 `invalid_request_error`.
+
+          - `thinking: str`
+
+            The `thinking` text of this block as returned by the API.
+
+        - `class RedactedThinkingBlockParam`
+
+          - `type: Literal["redacted_thinking"]`
+
+          - `data: str`
+
+            The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
+
+        - `class ToolUseBlockParam`
+
+          - `type: Literal["tool_use"]`
+
+          - `id: str`
+
+            pattern: ^[a-zA-Z0-9_-]+$
+
+          - `input: Dict[str, object]`
+
+          - `name: str`
+
+            minLength: 1, maxLength: 200
+
+          - `cache_control: Optional[CacheControlEphemeralParam]`
+
+            Create a cache control breakpoint at this content block.
+
+          - `caller: Optional[Caller]`
+
+            - `class DirectCaller`
+
+              Tool invocation directly from the model.
+
+              - `type: Literal["direct"]`
+
+            - `class ServerToolCaller`
+
+              Tool invocation generated by a server-side tool.
+
+              - `type: Literal["code_execution_20250825"]`
+
+              - `tool_id: str`
+
+                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+            - `class ServerToolCaller20260120`
+
+              - `type: Literal["code_execution_20260120"]`
+
+              - `tool_id: str`
+
+                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+          - `toolset_name: Optional[str]`
+
+            For a toolset member tool_use, the toolset family this member belongs to.
+
+            minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+
+        - `class ToolResultBlockParam`
+
+          - `type: Literal["tool_result"]`
+
+          - `tool_use_id: str`
+
+            pattern: ^[a-zA-Z0-9_-]+$
+
+          - `cache_control: Optional[CacheControlEphemeralParam]`
+
+            Create a cache control breakpoint at this content block.
+
+          - `content: Optional[Union[str, Iterable[Content]]]`
+
+            - `str`
+
+            - `Iterable[Content]`
+
+              - `class TextBlockParam`
+
+              - `class ImageBlockParam`
+
+              - `class SearchResultBlockParam`
+
+              - `class DocumentBlockParam`
+
+              - `class ToolReferenceBlockParam`
+
+                Tool reference block that can be included in tool_result content.
+
+                - `type: Literal["tool_reference"]`
+
+                - `tool_name: str`
+
+                  minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+
+                - `cache_control: Optional[CacheControlEphemeralParam]`
+
+                  Create a cache control breakpoint at this content block.
+
+              - `class BrowserStateBlockParam`
+
+                The caller's browser state after a browser toolset member call —
+                the full inventory of open tabs, which tab is active, and any side
+                effects (tabs opened, download state changes) the call produced.
+
+                At most one per `tool_result`, only on a non-error result answering a
+                browser toolset member `tool_use`. The server renders the
+                model-visible text from it; the model never sees the raw fields.
+
+                - `type: Literal["browser_state"]`
+
+                - `tabs: Iterable[BrowserStateTabEntryParam]`
+
+                  All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
+
+                  maxItems: 100
 
                   - `type: Literal["tab_opened"]`
 
                   - `tab_id: str`
 
-                    The `tab_id` of the opened tab, present in `tabs`.
+                    The caller-assigned identifier for this tab, unique within the inventory.
 
                     minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                - `class BrowserStateChangeDownloadStartedParam`
+                  - `title: str`
 
-                  A file download that started during this call.
+                    The title of the page the tab is showing. May be empty.
 
-                  - `type: Literal["download_started"]`
-
-                  - `download_id: str`
-
-                    The caller-assigned identifier for this download, stable across the state changes reporting it.
-
-                    minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                    maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
                   - `url: str`
 
-                    The final post-redirect URL the download was served from.
+                    The URL of the page the tab is showing. May be empty.
 
                     maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                - `class BrowserStateChangeDownloadCompletedParam`
+                  - `active: Optional[bool]`
 
-                  A file download that finished during this call, reported with the
-                  same `download_id` as its `download_started` — or without a prior
-                  `download_started`, when the download finished during the call that
-                  started it (at most one state change per `download_id` per result).
+                    Whether this tab is the active tab after this call. Whenever `tabs` is non-empty, exactly one entry is marked `active: true`.
 
-                  - `type: Literal["download_completed"]`
+                - `cache_control: Optional[CacheControlEphemeralParam]`
 
-                  - `download_id: str`
+                  Create a cache control breakpoint at this content block.
 
-                    The caller-assigned identifier for this download, stable across the state changes reporting it.
+                - `state_changes: Optional[Iterable[BrowserStateChangeParam]]`
 
-                    minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                  Tabs opened and download state changes during this call. "Nothing to report" is expressed by omitting the field, never by an empty list.
 
-                  - `url: str`
+                  minItems: 1, maxItems: 200
 
-                    The final post-redirect URL the download was served from.
+                  - `class BrowserStateChangeTabOpenedParam`
 
-                    maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                    A tab this call's execution opened that remains open at its end —
+                    the creation delta of the `tabs` inventory, not an event log.
 
-                  - `path: Optional[str]`
+                    Carries only the `tab_id`; the tab's `title` and `url` live on its
+                    `tabs` entry, which must include the same `tab_id`. A tab opened
+                    during a failed call gets no deferred `tab_opened`; it simply appears
+                    in the next result's `tabs` inventory.
 
-                    Where the executor saved the file, on the executor's filesystem. Only included when another tool in the same environment can read the file at that path.
+                    - `type: Literal["tab_opened"]`
 
-                    maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                    - `tab_id: str`
 
-                  - `size_bytes: Optional[int]`
+                      The `tab_id` of the opened tab, present in `tabs`.
 
-                    The completed download's size.
+                      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    minimum: 0
+                  - `class BrowserStateChangeDownloadStartedParam`
 
-                - `class BrowserStateChangeDownloadFailedParam`
+                    A file download that started during this call.
 
-                  A file download that failed — or was cancelled — during this call.
+                    - `type: Literal["download_started"]`
 
-                  - `type: Literal["download_failed"]`
+                    - `download_id: str`
 
-                  - `download_id: str`
+                      The caller-assigned identifier for this download, stable across the state changes reporting it.
 
-                    The caller-assigned identifier for this download, stable across the state changes reporting it.
+                      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                    - `url: str`
 
-                  - `url: str`
+                      The final post-redirect URL the download was served from.
 
-                    The final post-redirect URL the download was served from.
+                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                  - `class BrowserStateChangeDownloadCompletedParam`
 
-                  - `error: Optional[str]`
+                    A file download that finished during this call, reported with the
+                    same `download_id` as its `download_started` — or without a prior
+                    `download_started`, when the download finished during the call that
+                    started it (at most one state change per `download_id` per result).
 
-                    The failure or cancellation detail, when known.
+                    - `type: Literal["download_completed"]`
 
-                    maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                    - `download_id: str`
 
-        - `is_error: Optional[bool]`
+                      The caller-assigned identifier for this download, stable across the state changes reporting it.
 
-        - `toolset_name: Optional[str]`
+                      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-          For a toolset member tool_result, the toolset family of the paired tool_use.
+                    - `url: str`
 
-          minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+                      The final post-redirect URL the download was served from.
 
-      - `class ServerToolUseBlockParam`
+                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-        - `type: Literal["server_tool_use"]`
+                    - `path: Optional[str]`
 
-        - `id: str`
+                      Where the executor saved the file, on the executor's filesystem. Only included when another tool in the same environment can read the file at that path.
 
-          pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-        - `input: Dict[str, object]`
+                    - `size_bytes: Optional[int]`
 
-        - `name: Literal["web_search", "web_fetch", "code_execution", 4 more]`
+                      The completed download's size.
 
-          - `"web_search"`
+                      minimum: 0
 
-          - `"web_fetch"`
+                  - `class BrowserStateChangeDownloadFailedParam`
 
-          - `"code_execution"`
+                    A file download that failed — or was cancelled — during this call.
 
-          - `"bash_code_execution"`
+                    - `type: Literal["download_failed"]`
 
-          - `"text_editor_code_execution"`
+                    - `download_id: str`
 
-          - `"tool_search_tool_regex"`
+                      The caller-assigned identifier for this download, stable across the state changes reporting it.
 
-          - `"tool_search_tool_bm25"`
+                      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+
+                    - `url: str`
+
+                      The final post-redirect URL the download was served from.
+
+                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+
+                    - `error: Optional[str]`
+
+                      The failure or cancellation detail, when known.
+
+                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+
+          - `is_error: Optional[bool]`
+
+          - `toolset_name: Optional[str]`
+
+            For a toolset member tool_result, the toolset family of the paired tool_use.
+
+            minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+
+        - `class ServerToolUseBlockParam`
+
+          - `type: Literal["server_tool_use"]`
+
+          - `id: str`
+
+            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+          - `input: Dict[str, object]`
+
+          - `name: Literal["web_search", "web_fetch", "code_execution", 4 more]`
+
+            - `"web_search"`
+
+            - `"web_fetch"`
+
+            - `"code_execution"`
+
+            - `"bash_code_execution"`
+
+            - `"text_editor_code_execution"`
+
+            - `"tool_search_tool_regex"`
+
+            - `"tool_search_tool_bm25"`
+
+          - `cache_control: Optional[CacheControlEphemeralParam]`
+
+            Create a cache control breakpoint at this content block.
+
+          - `caller: Optional[Caller]`
+
+            - `class DirectCaller`
+
+              Tool invocation directly from the model.
+
+            - `class ServerToolCaller`
+
+              Tool invocation generated by a server-side tool.
+
+            - `class ServerToolCaller20260120`
+
+        - `class WebSearchToolResultBlockParam`
+
+          - `type: Literal["web_search_tool_result"]`
+
+          - `content: WebSearchToolResultBlockParamContentParam`
+
+            - `Iterable[WebSearchResultBlockParam]`
+
+              - `type: Literal["web_search_result"]`
+
+              - `encrypted_content: str`
+
+              - `title: str`
+
+              - `url: str`
+
+              - `page_age: Optional[str]`
+
+            - `class WebSearchToolRequestErrorParam`
+
+              - `type: Literal["web_search_tool_result_error"]`
+
+              - `error_code: WebSearchToolResultErrorCode`
+
+                - `"invalid_tool_input"`
+
+                - `"unavailable"`
+
+                - `"max_uses_exceeded"`
+
+                - `"too_many_requests"`
+
+                - `"query_too_long"`
+
+                - `"request_too_large"`
+
+          - `tool_use_id: str`
+
+            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+          - `cache_control: Optional[CacheControlEphemeralParam]`
+
+            Create a cache control breakpoint at this content block.
+
+          - `caller: Optional[Caller]`
+
+            - `class DirectCaller`
+
+              Tool invocation directly from the model.
+
+            - `class ServerToolCaller`
+
+              Tool invocation generated by a server-side tool.
+
+            - `class ServerToolCaller20260120`
+
+        - `class WebFetchToolResultBlockParam`
+
+          - `type: Literal["web_fetch_tool_result"]`
+
+          - `content: Content`
+
+            - `class WebFetchToolResultErrorBlockParam`
+
+              - `type: Literal["web_fetch_tool_result_error"]`
+
+              - `error_code: WebFetchToolResultErrorCode`
+
+                - `"invalid_tool_input"`
+
+                - `"url_too_long"`
+
+                - `"url_not_allowed"`
+
+                - `"url_not_in_prior_context"`
+
+                - `"url_not_accessible"`
+
+                - `"unsupported_content_type"`
+
+                - `"too_many_requests"`
+
+                - `"max_uses_exceeded"`
+
+                - `"unavailable"`
+
+                - `"content_too_large"`
+
+            - `class WebFetchBlockParam`
+
+              - `type: Literal["web_fetch_result"]`
+
+              - `content: DocumentBlockParam`
+
+              - `url: str`
+
+                Fetched content URL
+
+              - `retrieved_at: Optional[str]`
+
+                ISO 8601 timestamp when the content was retrieved
+
+          - `tool_use_id: str`
+
+            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+          - `cache_control: Optional[CacheControlEphemeralParam]`
+
+            Create a cache control breakpoint at this content block.
+
+          - `caller: Optional[Caller]`
+
+            - `class DirectCaller`
+
+              Tool invocation directly from the model.
+
+            - `class ServerToolCaller`
+
+              Tool invocation generated by a server-side tool.
+
+            - `class ServerToolCaller20260120`
+
+        - `class CodeExecutionToolResultBlockParam`
+
+          - `type: Literal["code_execution_tool_result"]`
+
+          - `content: CodeExecutionToolResultBlockParamContentParam`
+
+            - `class CodeExecutionToolResultErrorParam`
+
+              - `type: Literal["code_execution_tool_result_error"]`
+
+              - `error_code: CodeExecutionToolResultErrorCode`
+
+                - `"invalid_tool_input"`
+
+                - `"unavailable"`
+
+                - `"too_many_requests"`
+
+                - `"execution_time_exceeded"`
+
+            - `class CodeExecutionResultBlockParam`
+
+              - `type: Literal["code_execution_result"]`
+
+              - `content: Iterable[CodeExecutionOutputBlockParam]`
+
+                - `type: Literal["code_execution_output"]`
+
+                - `file_id: str`
+
+              - `return_code: int`
+
+              - `stderr: str`
+
+              - `stdout: str`
+
+            - `class EncryptedCodeExecutionResultBlockParam`
+
+              The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
+
+              - `type: Literal["encrypted_code_execution_result"]`
+
+              - `content: Iterable[CodeExecutionOutputBlockParam]`
+
+                - `type: Literal["code_execution_output"]`
+
+                - `file_id: str`
+
+              - `encrypted_stdout: str`
+
+              - `return_code: int`
+
+              - `stderr: str`
+
+          - `tool_use_id: str`
+
+            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+          - `cache_control: Optional[CacheControlEphemeralParam]`
+
+            Create a cache control breakpoint at this content block.
+
+        - `class BashCodeExecutionToolResultBlockParam`
+
+          - `type: Literal["bash_code_execution_tool_result"]`
+
+          - `content: Content`
+
+            - `class BashCodeExecutionToolResultErrorParam`
+
+              - `type: Literal["bash_code_execution_tool_result_error"]`
+
+              - `error_code: BashCodeExecutionToolResultErrorCode`
+
+                - `"invalid_tool_input"`
+
+                - `"unavailable"`
+
+                - `"too_many_requests"`
+
+                - `"execution_time_exceeded"`
+
+                - `"output_file_too_large"`
+
+            - `class BashCodeExecutionResultBlockParam`
+
+              - `type: Literal["bash_code_execution_result"]`
+
+              - `content: Iterable[BashCodeExecutionOutputBlockParam]`
+
+                - `type: Literal["bash_code_execution_output"]`
+
+                - `file_id: str`
+
+              - `return_code: int`
+
+              - `stderr: str`
+
+              - `stdout: str`
+
+          - `tool_use_id: str`
+
+            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+          - `cache_control: Optional[CacheControlEphemeralParam]`
+
+            Create a cache control breakpoint at this content block.
+
+        - `class TextEditorCodeExecutionToolResultBlockParam`
+
+          - `type: Literal["text_editor_code_execution_tool_result"]`
+
+          - `content: Content`
+
+            - `class TextEditorCodeExecutionToolResultErrorParam`
+
+              - `type: Literal["text_editor_code_execution_tool_result_error"]`
+
+              - `error_code: TextEditorCodeExecutionToolResultErrorCode`
+
+                - `"invalid_tool_input"`
+
+                - `"unavailable"`
+
+                - `"too_many_requests"`
+
+                - `"execution_time_exceeded"`
+
+                - `"file_not_found"`
+
+              - `error_message: Optional[str]`
+
+            - `class TextEditorCodeExecutionViewResultBlockParam`
+
+              - `type: Literal["text_editor_code_execution_view_result"]`
+
+              - `content: str`
+
+              - `file_type: Literal["text", "image", "pdf"]`
+
+                - `"text"`
+
+                - `"image"`
+
+                - `"pdf"`
+
+              - `num_lines: Optional[int]`
+
+              - `start_line: Optional[int]`
+
+              - `total_lines: Optional[int]`
+
+            - `class TextEditorCodeExecutionCreateResultBlockParam`
+
+              - `type: Literal["text_editor_code_execution_create_result"]`
+
+              - `is_file_update: bool`
+
+            - `class TextEditorCodeExecutionStrReplaceResultBlockParam`
+
+              - `type: Literal["text_editor_code_execution_str_replace_result"]`
+
+              - `lines: Optional[Sequence[str]]`
+
+              - `new_lines: Optional[int]`
+
+              - `new_start: Optional[int]`
+
+              - `old_lines: Optional[int]`
+
+              - `old_start: Optional[int]`
+
+          - `tool_use_id: str`
+
+            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+          - `cache_control: Optional[CacheControlEphemeralParam]`
+
+            Create a cache control breakpoint at this content block.
+
+        - `class ToolSearchToolResultBlockParam`
+
+          - `type: Literal["tool_search_tool_result"]`
+
+          - `content: Content`
+
+            - `class ToolSearchToolResultErrorParam`
+
+              - `type: Literal["tool_search_tool_result_error"]`
+
+              - `error_code: ToolSearchToolResultErrorCode`
+
+                - `"invalid_tool_input"`
+
+                - `"unavailable"`
+
+                - `"too_many_requests"`
+
+                - `"execution_time_exceeded"`
+
+              - `error_message: Optional[str]`
+
+            - `class ToolSearchToolSearchResultBlockParam`
+
+              - `type: Literal["tool_search_tool_search_result"]`
+
+              - `tool_references: Iterable[ToolReferenceBlockParam]`
+
+                - `type: Literal["tool_reference"]`
+
+                - `tool_name: str`
+
+                  minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+
+                - `cache_control: Optional[CacheControlEphemeralParam]`
+
+                  Create a cache control breakpoint at this content block.
+
+          - `tool_use_id: str`
+
+            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+          - `cache_control: Optional[CacheControlEphemeralParam]`
+
+            Create a cache control breakpoint at this content block.
+
+        - `class ContainerUploadBlockParam`
+
+          A content block that represents a file to be uploaded to the container
+          Files uploaded via this block will be available in the container's input directory.
+
+          - `type: Literal["container_upload"]`
+
+          - `file_id: str`
+
+          - `cache_control: Optional[CacheControlEphemeralParam]`
+
+            Create a cache control breakpoint at this content block.
+
+    - `role: Literal["user"]`
+
+  - `class AssistantMessageParam`
+
+    - `content: MessageContentParam`
+
+    - `role: Literal["assistant"]`
+
+  - `class SystemMessageParam`
+
+    - `content: Union[str, Iterable[TextBlockParam]]`
+
+      - `str`
+
+      - `Iterable[TextBlockParam]`
+
+        - `type: Literal["text"]`
+
+        - `text: str`
+
+          minLength: 1
 
         - `cache_control: Optional[CacheControlEphemeralParam]`
 
           Create a cache control breakpoint at this content block.
 
-        - `caller: Optional[Caller]`
+        - `citations: Optional[Iterable[TextCitationParam]]`
 
-          - `class DirectCaller`
-
-            Tool invocation directly from the model.
-
-          - `class ServerToolCaller`
-
-            Tool invocation generated by a server-side tool.
-
-          - `class ServerToolCaller20260120`
-
-      - `class WebSearchToolResultBlockParam`
-
-        - `type: Literal["web_search_tool_result"]`
-
-        - `content: WebSearchToolResultBlockParamContentParam`
-
-          - `Iterable[WebSearchResultBlockParam]`
-
-            - `type: Literal["web_search_result"]`
-
-            - `encrypted_content: str`
-
-            - `title: str`
-
-            - `url: str`
-
-            - `page_age: Optional[str]`
-
-          - `class WebSearchToolRequestErrorParam`
-
-            - `type: Literal["web_search_tool_result_error"]`
-
-            - `error_code: WebSearchToolResultErrorCode`
-
-              - `"invalid_tool_input"`
-
-              - `"unavailable"`
-
-              - `"max_uses_exceeded"`
-
-              - `"too_many_requests"`
-
-              - `"query_too_long"`
-
-              - `"request_too_large"`
-
-        - `tool_use_id: str`
-
-          pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-        - `cache_control: Optional[CacheControlEphemeralParam]`
-
-          Create a cache control breakpoint at this content block.
-
-        - `caller: Optional[Caller]`
-
-          - `class DirectCaller`
-
-            Tool invocation directly from the model.
-
-          - `class ServerToolCaller`
-
-            Tool invocation generated by a server-side tool.
-
-          - `class ServerToolCaller20260120`
-
-      - `class WebFetchToolResultBlockParam`
-
-        - `type: Literal["web_fetch_tool_result"]`
-
-        - `content: Content`
-
-          - `class WebFetchToolResultErrorBlockParam`
-
-            - `type: Literal["web_fetch_tool_result_error"]`
-
-            - `error_code: WebFetchToolResultErrorCode`
-
-              - `"invalid_tool_input"`
-
-              - `"url_too_long"`
-
-              - `"url_not_allowed"`
-
-              - `"url_not_in_prior_context"`
-
-              - `"url_not_accessible"`
-
-              - `"unsupported_content_type"`
-
-              - `"too_many_requests"`
-
-              - `"max_uses_exceeded"`
-
-              - `"unavailable"`
-
-              - `"content_too_large"`
-
-          - `class WebFetchBlockParam`
-
-            - `type: Literal["web_fetch_result"]`
-
-            - `content: DocumentBlockParam`
-
-            - `url: str`
-
-              Fetched content URL
-
-            - `retrieved_at: Optional[str]`
-
-              ISO 8601 timestamp when the content was retrieved
-
-        - `tool_use_id: str`
-
-          pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-        - `cache_control: Optional[CacheControlEphemeralParam]`
-
-          Create a cache control breakpoint at this content block.
-
-        - `caller: Optional[Caller]`
-
-          - `class DirectCaller`
-
-            Tool invocation directly from the model.
-
-          - `class ServerToolCaller`
-
-            Tool invocation generated by a server-side tool.
-
-          - `class ServerToolCaller20260120`
-
-      - `class CodeExecutionToolResultBlockParam`
-
-        - `type: Literal["code_execution_tool_result"]`
-
-        - `content: CodeExecutionToolResultBlockParamContentParam`
-
-          - `class CodeExecutionToolResultErrorParam`
-
-            - `type: Literal["code_execution_tool_result_error"]`
-
-            - `error_code: CodeExecutionToolResultErrorCode`
-
-              - `"invalid_tool_input"`
-
-              - `"unavailable"`
-
-              - `"too_many_requests"`
-
-              - `"execution_time_exceeded"`
-
-          - `class CodeExecutionResultBlockParam`
-
-            - `type: Literal["code_execution_result"]`
-
-            - `content: Iterable[CodeExecutionOutputBlockParam]`
-
-              - `type: Literal["code_execution_output"]`
-
-              - `file_id: str`
-
-            - `return_code: int`
-
-            - `stderr: str`
-
-            - `stdout: str`
-
-          - `class EncryptedCodeExecutionResultBlockParam`
-
-            Code execution result with encrypted stdout for PFC + web_search results.
-
-            - `type: Literal["encrypted_code_execution_result"]`
-
-            - `content: Iterable[CodeExecutionOutputBlockParam]`
-
-              - `type: Literal["code_execution_output"]`
-
-              - `file_id: str`
-
-            - `encrypted_stdout: str`
-
-            - `return_code: int`
-
-            - `stderr: str`
-
-        - `tool_use_id: str`
-
-          pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-        - `cache_control: Optional[CacheControlEphemeralParam]`
-
-          Create a cache control breakpoint at this content block.
-
-      - `class BashCodeExecutionToolResultBlockParam`
-
-        - `type: Literal["bash_code_execution_tool_result"]`
-
-        - `content: Content`
-
-          - `class BashCodeExecutionToolResultErrorParam`
-
-            - `type: Literal["bash_code_execution_tool_result_error"]`
-
-            - `error_code: BashCodeExecutionToolResultErrorCode`
-
-              - `"invalid_tool_input"`
-
-              - `"unavailable"`
-
-              - `"too_many_requests"`
-
-              - `"execution_time_exceeded"`
-
-              - `"output_file_too_large"`
-
-          - `class BashCodeExecutionResultBlockParam`
-
-            - `type: Literal["bash_code_execution_result"]`
-
-            - `content: Iterable[BashCodeExecutionOutputBlockParam]`
-
-              - `type: Literal["bash_code_execution_output"]`
-
-              - `file_id: str`
-
-            - `return_code: int`
-
-            - `stderr: str`
-
-            - `stdout: str`
-
-        - `tool_use_id: str`
-
-          pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-        - `cache_control: Optional[CacheControlEphemeralParam]`
-
-          Create a cache control breakpoint at this content block.
-
-      - `class TextEditorCodeExecutionToolResultBlockParam`
-
-        - `type: Literal["text_editor_code_execution_tool_result"]`
-
-        - `content: Content`
-
-          - `class TextEditorCodeExecutionToolResultErrorParam`
-
-            - `type: Literal["text_editor_code_execution_tool_result_error"]`
-
-            - `error_code: TextEditorCodeExecutionToolResultErrorCode`
-
-              - `"invalid_tool_input"`
-
-              - `"unavailable"`
-
-              - `"too_many_requests"`
-
-              - `"execution_time_exceeded"`
-
-              - `"file_not_found"`
-
-            - `error_message: Optional[str]`
-
-          - `class TextEditorCodeExecutionViewResultBlockParam`
-
-            - `type: Literal["text_editor_code_execution_view_result"]`
-
-            - `content: str`
-
-            - `file_type: Literal["text", "image", "pdf"]`
-
-              - `"text"`
-
-              - `"image"`
-
-              - `"pdf"`
-
-            - `num_lines: Optional[int]`
-
-            - `start_line: Optional[int]`
-
-            - `total_lines: Optional[int]`
-
-          - `class TextEditorCodeExecutionCreateResultBlockParam`
-
-            - `type: Literal["text_editor_code_execution_create_result"]`
-
-            - `is_file_update: bool`
-
-          - `class TextEditorCodeExecutionStrReplaceResultBlockParam`
-
-            - `type: Literal["text_editor_code_execution_str_replace_result"]`
-
-            - `lines: Optional[Sequence[str]]`
-
-            - `new_lines: Optional[int]`
-
-            - `new_start: Optional[int]`
-
-            - `old_lines: Optional[int]`
-
-            - `old_start: Optional[int]`
-
-        - `tool_use_id: str`
-
-          pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-        - `cache_control: Optional[CacheControlEphemeralParam]`
-
-          Create a cache control breakpoint at this content block.
-
-      - `class ToolSearchToolResultBlockParam`
-
-        - `type: Literal["tool_search_tool_result"]`
-
-        - `content: Content`
-
-          - `class ToolSearchToolResultErrorParam`
-
-            - `type: Literal["tool_search_tool_result_error"]`
-
-            - `error_code: ToolSearchToolResultErrorCode`
-
-              - `"invalid_tool_input"`
-
-              - `"unavailable"`
-
-              - `"too_many_requests"`
-
-              - `"execution_time_exceeded"`
-
-            - `error_message: Optional[str]`
-
-          - `class ToolSearchToolSearchResultBlockParam`
-
-            - `type: Literal["tool_search_tool_search_result"]`
-
-            - `tool_references: Iterable[ToolReferenceBlockParam]`
-
-              - `type: Literal["tool_reference"]`
-
-              - `tool_name: str`
-
-                minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
-
-              - `cache_control: Optional[CacheControlEphemeralParam]`
-
-                Create a cache control breakpoint at this content block.
-
-        - `tool_use_id: str`
-
-          pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-        - `cache_control: Optional[CacheControlEphemeralParam]`
-
-          Create a cache control breakpoint at this content block.
-
-      - `class ContainerUploadBlockParam`
-
-        A content block that represents a file to be uploaded to the container
-        Files uploaded via this block will be available in the container's input directory.
-
-        - `type: Literal["container_upload"]`
-
-        - `file_id: str`
-
-        - `cache_control: Optional[CacheControlEphemeralParam]`
-
-          Create a cache control breakpoint at this content block.
-
-  - `role: Literal["user", "assistant", "system"]`
-
-    - `"user"`
-
-    - `"assistant"`
-
-    - `"system"`
+    - `role: Literal["system"]`
 
 - `model: ModelParam`
 
   The model that will complete your prompt.
 
   See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+  - `"claude-fable-5-2"`
+
+    Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+  - `"claude-mythos-5-2"`
+
+    Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
   - `"claude-haiku-5-5"`
 
@@ -1256,6 +1290,16 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
   - `"auto"`
 
   - `"standard_only"`
+
+- `speed: Optional[Literal["standard", "fast"]]`
+
+  The inference speed mode for this request. `"fast"` enables high output-tokens-per-second inference.
+
+  Some models require the `fast-mode-2026-02-01` beta header for any `speed` value. See [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode?sdk_languages=python) for which models.
+
+  - `"standard"`
+
+  - `"fast"`
 
 - `stop_sequences: Optional[Sequence[str]]`
 
@@ -1615,7 +1659,11 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   - `class CodeExecutionTool20260120Param`
 
-    Code execution tool with REPL state persistence (daemon mode + gVisor checkpoint).
+    A `tools` entry for the code execution tool, version `code_execution_20260120`. It adds REPL state persistence to version `code_execution_20250825`.
+
+    REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
+
+    See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=python#tool-versions) to learn what each tool version adds.
 
     - `type: Literal["code_execution_20260120"]`
 
@@ -3035,7 +3083,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
 - `user_profile_id: Optional[str]` (header parameter)
 
-  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header.
+  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization.
+
+- `workspace_id: Optional[str]` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -3608,13 +3662,17 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         - `class EncryptedCodeExecutionResultBlock`
 
-          Code execution result with encrypted stdout for PFC + web_search results.
+          The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+          The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+          See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=python) to learn more about programmatic tool calling.
 
           - `type: Literal["encrypted_code_execution_result"]`
 
             default: encrypted_code_execution_result
 
-          - `content: List[CodeExecutionOutputBlock]`
+          - `type: Literal["encrypted_code_execution_result"]`
 
             - `type: Literal["code_execution_output"]`
 
@@ -3826,6 +3884,10 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `class CacheMissModelChanged`
 
+        A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=python#cache-miss-reason-types) to learn what to change for each reason.
+
         - `type: Literal["model_changed"]`
 
           default: model_changed
@@ -3835,6 +3897,10 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
       - `class CacheMissSystemChanged`
+
+        A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=python#cache-miss-reason-types) to learn what to change for each reason.
 
         - `type: Literal["system_changed"]`
 
@@ -3846,6 +3912,10 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `class CacheMissToolsChanged`
 
+        A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=python#cache-miss-reason-types) to learn what to change for each reason.
+
         - `type: Literal["tools_changed"]`
 
           default: tools_changed
@@ -3855,6 +3925,10 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
       - `class CacheMissMessagesChanged`
+
+        A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=python#cache-miss-reason-types) to learn what to change for each reason.
 
         - `type: Literal["messages_changed"]`
 
@@ -3866,11 +3940,23 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `class CacheMissPreviousMessageNotFound`
 
+        A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+        This doesn't mean that this request changed.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=python#cache-miss-reason-types) to learn what to change for each reason.
+
         - `type: Literal["previous_message_not_found"]`
 
           default: previous_message_not_found
 
       - `class CacheMissUnavailable`
+
+        A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+        This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=python#cache-miss-reason-types) to learn what to change for each reason.
 
         - `type: Literal["unavailable"]`
 
@@ -3881,6 +3967,14 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
     The model that will complete your prompt.
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+    - `"claude-fable-5-2"`
+
+      Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+    - `"claude-mythos-5-2"`
+
+      Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
     - `"claude-haiku-5-5"`
 
@@ -4123,8 +4217,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
         the thinking-block delimiter tokens.
 
         Reflects the raw reasoning the model produced, not the (possibly shorter)
-        summarized thinking text returned in the response body. Computed by
-        re-tokenizing the raw reasoning text, so it may differ from the model's exact
+        summarized thinking text returned in the response body. It may differ from the model's exact
         generation count by a small number of tokens. Always ≤ `output_tokens`;
         `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -4155,6 +4248,14 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       - `"priority"`
 
       - `"batch"`
+
+    - `speed: Optional[Literal["standard", "fast"]]`
+
+      The inference speed mode used for this request.
+
+      - `"standard"`
+
+      - `"fast"`
 
 - `type RawMessageStreamEvent = ...`
 
@@ -4441,7 +4542,8 @@ print(message.id)
       "web_fetch_requests": 2,
       "web_search_requests": 0
     },
-    "service_tier": "standard"
+    "service_tier": "standard",
+    "speed": "standard"
   }
 }
 ```

@@ -21,7 +21,7 @@ Retrieve detailed information about a specific work item.
 
 - `work_id: String` (path parameter)
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -127,7 +127,19 @@ Retrieve detailed information about a specific work item.
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -151,7 +163,7 @@ Retrieve detailed information about a specific work item.
 
     Work identifier (e.g., 'work_...')
 
-  - `acknowledged_at: String`
+  - `acknowledged_at: String | nil`
 
     RFC 3339 timestamp when the work item was acknowledged and assigned to a self-hosted sandbox
 
@@ -175,7 +187,7 @@ Retrieve detailed information about a specific work item.
 
     Environment identifier this work belongs to (e.g., `env_...`)
 
-  - `latest_heartbeat_at: String`
+  - `latest_heartbeat_at: String | nil`
 
     RFC 3339 timestamp of the most recent heartbeat
 
@@ -183,11 +195,11 @@ Retrieve detailed information about a specific work item.
 
     User-provided metadata key-value pairs associated with this work item
 
-  - `secret: String`
+  - `secret: String | nil`
 
     Credential payload used by the environment worker to execute this work item. May be populated when polling for work; null on all other retrieval paths.
 
-  - `started_at: String`
+  - `started_at: String | nil`
 
     RFC 3339 timestamp when work execution started
 
@@ -205,11 +217,11 @@ Retrieve detailed information about a specific work item.
 
     - `:stopped`
 
-  - `stop_requested_at: String`
+  - `stop_requested_at: String | nil`
 
     RFC 3339 timestamp when stop was requested
 
-  - `stopped_at: String`
+  - `stopped_at: String | nil`
 
     RFC 3339 timestamp when work execution stopped
 
@@ -252,7 +264,7 @@ puts(beta_self_hosted_work)
 
 ## Poll for Work
 
-`beta.environments.work.poll(environment_id, **kwargs) -> BetaSelfHostedWork`
+`beta.environments.work.poll(environment_id, **kwargs) -> BetaSelfHostedWork | nil`
 
 **GET** `/v1/environments/{environment_id}/work/poll`
 
@@ -264,19 +276,19 @@ Long poll for work items in the queue.
 
 - `environment_id: String` (path parameter)
 
-- `block_ms: Integer` (query parameter)
+- `block_ms: optional Integer | nil` (query parameter)
 
   How long to wait for work to arrive before returning. Must be 1-999 in milliseconds. Defaults to non-blocking (returns immediately if no work is available).
 
   minimum: 1
 
-- `reclaim_older_than_ms: Integer` (query parameter)
+- `reclaim_older_than_ms: optional Integer | nil` (query parameter)
 
   Reclaim unacknowledged work items older than this many milliseconds. If omitted, uses the default (5000ms).
 
   minimum: 1
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -382,7 +394,19 @@ Long poll for work items in the queue.
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `anthropic_worker_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `anthropic_worker_id: optional String` (header parameter)
 
   Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
 
@@ -404,7 +428,7 @@ Long poll for work items in the queue.
 
     Work identifier (e.g., 'work_...')
 
-  - `acknowledged_at: String`
+  - `acknowledged_at: String | nil`
 
     RFC 3339 timestamp when the work item was acknowledged and assigned to a self-hosted sandbox
 
@@ -428,7 +452,7 @@ Long poll for work items in the queue.
 
     Environment identifier this work belongs to (e.g., `env_...`)
 
-  - `latest_heartbeat_at: String`
+  - `latest_heartbeat_at: String | nil`
 
     RFC 3339 timestamp of the most recent heartbeat
 
@@ -436,11 +460,11 @@ Long poll for work items in the queue.
 
     User-provided metadata key-value pairs associated with this work item
 
-  - `secret: String`
+  - `secret: String | nil`
 
     Credential payload used by the environment worker to execute this work item. May be populated when polling for work; null on all other retrieval paths.
 
-  - `started_at: String`
+  - `started_at: String | nil`
 
     RFC 3339 timestamp when work execution started
 
@@ -458,11 +482,11 @@ Long poll for work items in the queue.
 
     - `:stopped`
 
-  - `stop_requested_at: String`
+  - `stop_requested_at: String | nil`
 
     RFC 3339 timestamp when stop was requested
 
-  - `stopped_at: String`
+  - `stopped_at: String | nil`
 
     RFC 3339 timestamp when work execution stopped
 
@@ -519,7 +543,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
 - `work_id: String` (path parameter)
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -625,6 +649,18 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
   - `:"spend-limit-reads-2026-09-26"`
 
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
 ### Returns
 
 - `class BetaSelfHostedWork`
@@ -643,7 +679,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     Work identifier (e.g., 'work_...')
 
-  - `acknowledged_at: String`
+  - `acknowledged_at: String | nil`
 
     RFC 3339 timestamp when the work item was acknowledged and assigned to a self-hosted sandbox
 
@@ -667,7 +703,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     Environment identifier this work belongs to (e.g., `env_...`)
 
-  - `latest_heartbeat_at: String`
+  - `latest_heartbeat_at: String | nil`
 
     RFC 3339 timestamp of the most recent heartbeat
 
@@ -675,11 +711,11 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     User-provided metadata key-value pairs associated with this work item
 
-  - `secret: String`
+  - `secret: String | nil`
 
     Credential payload used by the environment worker to execute this work item. May be populated when polling for work; null on all other retrieval paths.
 
-  - `started_at: String`
+  - `started_at: String | nil`
 
     RFC 3339 timestamp when work execution started
 
@@ -697,11 +733,11 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     - `:stopped`
 
-  - `stop_requested_at: String`
+  - `stop_requested_at: String | nil`
 
     RFC 3339 timestamp when stop was requested
 
-  - `stopped_at: String`
+  - `stopped_at: String | nil`
 
     RFC 3339 timestamp when work execution stopped
 
@@ -758,15 +794,15 @@ Record a heartbeat for a work item to maintain the lease.
 
 - `work_id: String` (path parameter)
 
-- `desired_ttl_seconds: Integer` (query parameter)
+- `desired_ttl_seconds: optional Integer | nil` (query parameter)
 
   Desired TTL in seconds
 
-- `expected_last_heartbeat: String` (query parameter)
+- `expected_last_heartbeat: optional String | nil` (query parameter)
 
-  Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match.
+  Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match. The server does not compare the value when the work item is 'stopping' or 'stopped'.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -872,6 +908,18 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `:"spend-limit-reads-2026-09-26"`
 
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
 ### Returns
 
 - `class BetaSelfHostedWorkHeartbeatResponse`
@@ -884,7 +932,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `last_heartbeat: String`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `lease_extended: bool`
 
@@ -948,11 +996,11 @@ Stop a work item, initiating graceful or forced shutdown.
 
 - `work_id: String` (path parameter)
 
-- `force: bool`
+- `force: optional bool`
 
   If true, immediately stop work without graceful shutdown
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -1058,7 +1106,19 @@ Stop a work item, initiating graceful or forced shutdown.
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1082,7 +1142,7 @@ Stop a work item, initiating graceful or forced shutdown.
 
     Work identifier (e.g., 'work_...')
 
-  - `acknowledged_at: String`
+  - `acknowledged_at: String | nil`
 
     RFC 3339 timestamp when the work item was acknowledged and assigned to a self-hosted sandbox
 
@@ -1106,7 +1166,7 @@ Stop a work item, initiating graceful or forced shutdown.
 
     Environment identifier this work belongs to (e.g., `env_...`)
 
-  - `latest_heartbeat_at: String`
+  - `latest_heartbeat_at: String | nil`
 
     RFC 3339 timestamp of the most recent heartbeat
 
@@ -1114,11 +1174,11 @@ Stop a work item, initiating graceful or forced shutdown.
 
     User-provided metadata key-value pairs associated with this work item
 
-  - `secret: String`
+  - `secret: String | nil`
 
     Credential payload used by the environment worker to execute this work item. May be populated when polling for work; null on all other retrieval paths.
 
-  - `started_at: String`
+  - `started_at: String | nil`
 
     RFC 3339 timestamp when work execution started
 
@@ -1136,11 +1196,11 @@ Stop a work item, initiating graceful or forced shutdown.
 
     - `:stopped`
 
-  - `stop_requested_at: String`
+  - `stop_requested_at: String | nil`
 
     RFC 3339 timestamp when stop was requested
 
-  - `stopped_at: String`
+  - `stopped_at: String | nil`
 
     RFC 3339 timestamp when work execution stopped
 
@@ -1195,17 +1255,17 @@ List work items in an environment.
 
 - `environment_id: String` (path parameter)
 
-- `limit: Integer` (query parameter)
+- `limit: optional Integer` (query parameter)
 
   Maximum number of work items to return
 
   minimum: 1, maximum: 1000
 
-- `page: String` (query parameter)
+- `page: optional String | nil` (query parameter)
 
   Opaque cursor from previous response for pagination
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -1311,6 +1371,18 @@ List work items in an environment.
 
   - `:"spend-limit-reads-2026-09-26"`
 
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
 ### Returns
 
 - `class BetaSelfHostedWork`
@@ -1329,7 +1401,7 @@ List work items in an environment.
 
     Work identifier (e.g., 'work_...')
 
-  - `acknowledged_at: String`
+  - `acknowledged_at: String | nil`
 
     RFC 3339 timestamp when the work item was acknowledged and assigned to a self-hosted sandbox
 
@@ -1353,7 +1425,7 @@ List work items in an environment.
 
     Environment identifier this work belongs to (e.g., `env_...`)
 
-  - `latest_heartbeat_at: String`
+  - `latest_heartbeat_at: String | nil`
 
     RFC 3339 timestamp of the most recent heartbeat
 
@@ -1361,11 +1433,11 @@ List work items in an environment.
 
     User-provided metadata key-value pairs associated with this work item
 
-  - `secret: String`
+  - `secret: String | nil`
 
     Credential payload used by the environment worker to execute this work item. May be populated when polling for work; null on all other retrieval paths.
 
-  - `started_at: String`
+  - `started_at: String | nil`
 
     RFC 3339 timestamp when work execution started
 
@@ -1383,11 +1455,11 @@ List work items in an environment.
 
     - `:stopped`
 
-  - `stop_requested_at: String`
+  - `stop_requested_at: String | nil`
 
     RFC 3339 timestamp when stop was requested
 
-  - `stopped_at: String`
+  - `stopped_at: String | nil`
 
     RFC 3339 timestamp when work execution stopped
 
@@ -1449,11 +1521,11 @@ Update work item metadata with merge semantics.
 
 - `work_id: String` (path parameter)
 
-- `metadata: Hash[Symbol, String]`
+- `metadata: Hash[Symbol, String | nil]`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve existing metadata.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -1559,7 +1631,19 @@ Update work item metadata with merge semantics.
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1583,7 +1667,7 @@ Update work item metadata with merge semantics.
 
     Work identifier (e.g., 'work_...')
 
-  - `acknowledged_at: String`
+  - `acknowledged_at: String | nil`
 
     RFC 3339 timestamp when the work item was acknowledged and assigned to a self-hosted sandbox
 
@@ -1607,7 +1691,7 @@ Update work item metadata with merge semantics.
 
     Environment identifier this work belongs to (e.g., `env_...`)
 
-  - `latest_heartbeat_at: String`
+  - `latest_heartbeat_at: String | nil`
 
     RFC 3339 timestamp of the most recent heartbeat
 
@@ -1615,11 +1699,11 @@ Update work item metadata with merge semantics.
 
     User-provided metadata key-value pairs associated with this work item
 
-  - `secret: String`
+  - `secret: String | nil`
 
     Credential payload used by the environment worker to execute this work item. May be populated when polling for work; null on all other retrieval paths.
 
-  - `started_at: String`
+  - `started_at: String | nil`
 
     RFC 3339 timestamp when work execution started
 
@@ -1637,11 +1721,11 @@ Update work item metadata with merge semantics.
 
     - `:stopped`
 
-  - `stop_requested_at: String`
+  - `stop_requested_at: String | nil`
 
     RFC 3339 timestamp when stop was requested
 
-  - `stopped_at: String`
+  - `stopped_at: String | nil`
 
     RFC 3339 timestamp when work execution stopped
 
@@ -1698,7 +1782,7 @@ Get statistics about the work queue for an environment.
 
 - `environment_id: String` (path parameter)
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -1804,7 +1888,19 @@ Get statistics about the work queue for an environment.
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1816,7 +1912,9 @@ Get statistics about the work queue for an environment.
 
   Statistics about the work queue for an environment.
 
-  Uses Redis Stream consumer group metrics for O(1) queries.
+  - `type: :work_queue_stats`
+
+    The type of object
 
   - `type: :work_queue_stats`
 
@@ -1824,9 +1922,9 @@ Get statistics about the work queue for an environment.
 
   - `depth: Integer`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
-  - `oldest_queued_at: String`
+  - `oldest_queued_at: String | nil`
 
     RFC 3339 timestamp of oldest item in the work stream (includes both queued and pending items), null if stream empty
 
@@ -1834,7 +1932,7 @@ Get statistics about the work queue for an environment.
 
     Number of work items being processed (polled but not acknowledged)
 
-  - `workers_polling: Integer`
+  - `workers_polling: Integer | nil`
 
     Number of workers that have polled for work in the last 30 seconds. Requires worker_id to be sent with poll requests.
 
@@ -1864,6 +1962,44 @@ puts(beta_self_hosted_work_queue_stats)
 
 ## Domain types
 
+### Beta Heartbeat Precondition Failed Error Details
+
+- `class BetaHeartbeatPreconditionFailedErrorDetails`
+
+  `expected_last_heartbeat` does not match the stored heartbeat, so another worker may hold the lease.
+
+  - `current_state: BetaWorkLeaseState`
+
+    The lease as the server holds it.
+
+    - `last_heartbeat: String | nil`
+
+      RFC 3339 timestamp of the stored heartbeat, or null if there has been none
+
+    - `lease_extended: bool`
+
+      Always false: a refused heartbeat does not extend the lease
+
+    - `state: :queued | :starting | :active | 2 more`
+
+      Current state of the work item
+
+      - `:queued`
+
+      - `:starting`
+
+      - `:active`
+
+      - `:stopping`
+
+      - `:stopped`
+
+    - `ttl_seconds: Integer`
+
+      TTL of the lease
+
+  - `error_code: :heartbeat_precondition_failed`
+
 ### Beta Self Hosted Work
 
 - `class BetaSelfHostedWork`
@@ -1882,7 +2018,7 @@ puts(beta_self_hosted_work_queue_stats)
 
     Work identifier (e.g., 'work_...')
 
-  - `acknowledged_at: String`
+  - `acknowledged_at: String | nil`
 
     RFC 3339 timestamp when the work item was acknowledged and assigned to a self-hosted sandbox
 
@@ -1906,7 +2042,7 @@ puts(beta_self_hosted_work_queue_stats)
 
     Environment identifier this work belongs to (e.g., `env_...`)
 
-  - `latest_heartbeat_at: String`
+  - `latest_heartbeat_at: String | nil`
 
     RFC 3339 timestamp of the most recent heartbeat
 
@@ -1914,11 +2050,11 @@ puts(beta_self_hosted_work_queue_stats)
 
     User-provided metadata key-value pairs associated with this work item
 
-  - `secret: String`
+  - `secret: String | nil`
 
     Credential payload used by the environment worker to execute this work item. May be populated when polling for work; null on all other retrieval paths.
 
-  - `started_at: String`
+  - `started_at: String | nil`
 
     RFC 3339 timestamp when work execution started
 
@@ -1936,11 +2072,11 @@ puts(beta_self_hosted_work_queue_stats)
 
     - `:stopped`
 
-  - `stop_requested_at: String`
+  - `stop_requested_at: String | nil`
 
     RFC 3339 timestamp when stop was requested
 
-  - `stopped_at: String`
+  - `stopped_at: String | nil`
 
     RFC 3339 timestamp when work execution stopped
 
@@ -1956,7 +2092,7 @@ puts(beta_self_hosted_work_queue_stats)
 
   - `last_heartbeat: String`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `lease_extended: bool`
 
@@ -1998,7 +2134,7 @@ puts(beta_self_hosted_work_queue_stats)
 
       Work identifier (e.g., 'work_...')
 
-    - `acknowledged_at: String`
+    - `acknowledged_at: String | nil`
 
       RFC 3339 timestamp when the work item was acknowledged and assigned to a self-hosted sandbox
 
@@ -2022,7 +2158,7 @@ puts(beta_self_hosted_work_queue_stats)
 
       Environment identifier this work belongs to (e.g., `env_...`)
 
-    - `latest_heartbeat_at: String`
+    - `latest_heartbeat_at: String | nil`
 
       RFC 3339 timestamp of the most recent heartbeat
 
@@ -2030,11 +2166,11 @@ puts(beta_self_hosted_work_queue_stats)
 
       User-provided metadata key-value pairs associated with this work item
 
-    - `secret: String`
+    - `secret: String | nil`
 
       Credential payload used by the environment worker to execute this work item. May be populated when polling for work; null on all other retrieval paths.
 
-    - `started_at: String`
+    - `started_at: String | nil`
 
       RFC 3339 timestamp when work execution started
 
@@ -2052,15 +2188,15 @@ puts(beta_self_hosted_work_queue_stats)
 
       - `:stopped`
 
-    - `stop_requested_at: String`
+    - `stop_requested_at: String | nil`
 
       RFC 3339 timestamp when stop was requested
 
-    - `stopped_at: String`
+    - `stopped_at: String | nil`
 
       RFC 3339 timestamp when work execution stopped
 
-  - `next_page: String`
+  - `next_page: String | nil`
 
     Opaque cursor for fetching the next page of results
 
@@ -2070,7 +2206,9 @@ puts(beta_self_hosted_work_queue_stats)
 
   Statistics about the work queue for an environment.
 
-  Uses Redis Stream consumer group metrics for O(1) queries.
+  - `type: :work_queue_stats`
+
+    The type of object
 
   - `type: :work_queue_stats`
 
@@ -2078,9 +2216,9 @@ puts(beta_self_hosted_work_queue_stats)
 
   - `depth: Integer`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
-  - `oldest_queued_at: String`
+  - `oldest_queued_at: String | nil`
 
     RFC 3339 timestamp of oldest item in the work stream (includes both queued and pending items), null if stream empty
 
@@ -2088,7 +2226,7 @@ puts(beta_self_hosted_work_queue_stats)
 
     Number of work items being processed (polled but not acknowledged)
 
-  - `workers_polling: Integer`
+  - `workers_polling: Integer | nil`
 
     Number of workers that have polled for work in the last 30 seconds. Requires worker_id to be sent with poll requests.
 
@@ -2098,7 +2236,7 @@ puts(beta_self_hosted_work_queue_stats)
 
   Request to stop a work item.
 
-  - `force: bool`
+  - `force: optional bool`
 
     If true, immediately stop work without graceful shutdown
 
@@ -2108,7 +2246,7 @@ puts(beta_self_hosted_work_queue_stats)
 
   Request to update work item metadata.
 
-  - `metadata: Hash[Symbol, String]`
+  - `metadata: Hash[Symbol, String | nil]`
 
     Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve existing metadata.
 
@@ -2128,3 +2266,35 @@ puts(beta_self_hosted_work_queue_stats)
   - `id: String`
 
     Session identifier (e.g., 'session_...')
+
+### Beta Work Lease State
+
+- `class BetaWorkLeaseState`
+
+  A work item's lease as the server holds it.
+
+  - `last_heartbeat: String | nil`
+
+    RFC 3339 timestamp of the stored heartbeat, or null if there has been none
+
+  - `lease_extended: bool`
+
+    Always false: a refused heartbeat does not extend the lease
+
+  - `state: :queued | :starting | :active | 2 more`
+
+    Current state of the work item
+
+    - `:queued`
+
+    - `:starting`
+
+    - `:active`
+
+    - `:stopping`
+
+    - `:stopped`
+
+  - `ttl_seconds: Integer`
+
+    TTL of the lease

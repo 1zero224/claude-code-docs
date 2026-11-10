@@ -6,9 +6,9 @@
 
 > Fix every finding before you submit a plugin to the Claude plugin directory: what the developer portal's validation and scan check, and what each result means.
 
-Before the [Claude plugin directory](/docs/directory/publish) lists your plugin, the developer portal checks the plugin's files at two points. Validation runs in the plugin submission form at [claude.ai/directory/manage](https://claude.ai/directory/manage) when you select the **Validate** button. A scan runs after you submit, on each new commit that the directory picks up from the branch or tag that it follows. The scan checks the plugin's files again and runs a security scan.
+Before the [Claude plugin directory](https://claude.com/docs/directory/publish.md) lists your plugin, the developer portal checks the plugin's files at two points. Validation runs in the plugin submission form at [claude.ai/directory/manage](https://claude.ai/directory/manage) when you select the **Validate** button. A scan runs after you submit, on each new commit that the directory picks up from the branch or tag that it follows. The scan checks the plugin's files again and runs a security scan.
 
-Use this checklist to fix problems before you [submit your plugin](/docs/plugins/submit) from the developer portal on claude.ai. The checklist covers the automated checks only, and every plugin in the directory also has to follow the [Anthropic Software Directory Policy](https://support.claude.com/en/articles/13145358-anthropic-software-directory-policy). Start by [running the checks](#run-the-checks-before-you-submit) and [reading a validation result](#read-a-validation-result). Then use the tables in [what validation and the scan check](#review-what-validation-and-the-scan-check) to fix each finding, and [prepare for the security scan](#prepare-for-the-security-scan) that runs after you submit.
+Use this checklist to fix problems before you [submit your plugin](https://claude.com/docs/plugins/submit.md) from the developer portal on claude.ai. The checklist covers the automated checks only, and every plugin in the directory also has to follow the [Anthropic Software Directory Policy](https://support.claude.com/en/articles/13145358-anthropic-software-directory-policy). Start by [running the checks](#run-the-checks-before-you-submit) and [reading a validation result](#read-a-validation-result). Then use the tables in [what validation and the scan check](#review-what-validation-and-the-scan-check) to fix each finding, and [prepare for the security scan](#prepare-for-the-security-scan) that runs after you submit.
 
 ## Run the checks before you submit
 
@@ -18,7 +18,7 @@ Checking a plugin before you submit it takes three steps:
 2. [Validate in the developer portal](#validate-in-the-developer-portal), which runs every directory check in the tables on this page
 3. [Read the result](#read-a-validation-result), fix every finding that the report marks **Blocking**, and then submit
 
-The portal is open to the people who [can submit](/docs/directory/publish#confirm-you-can-submit-to-the-directory). If you can't submit, ask someone who can to run **Validate**.
+The portal is open to the people who [can submit](https://claude.com/docs/directory/publish.md#confirm-you-can-submit-to-the-directory). If you can't submit, ask someone who can to run **Validate**.
 
 ### Check the plugin on your machine (optional)
 
@@ -36,27 +36,25 @@ The `claude plugin validate` command only checks that your files are well-formed
 
 The portal's **Validate** button runs every check in this page's tables against your repository and gives you a report before you submit anything.
 
-<Steps>
-  <Step title="Start a submission">
-    Open the [developer portal](https://claude.ai/directory/manage) and select **Submit new**.
-  </Step>
+**1. Start a submission**
 
-  <Step title="Choose Plugin bundle">
-    When the portal asks **What would you like to submit?**, select **Plugin bundle**.
-  </Step>
+Open the [developer portal](https://claude.ai/directory/manage) and select **Submit new**.
 
-  <Step title="Enter the repository">
-    On the **Source** step, enter the repository. [Submit your plugin](/docs/plugins/submit#submit-a-plugin) describes each field.
-  </Step>
+**2. Choose Plugin bundle**
 
-  <Step title="Validate">
-    Select **Validate**. The report lists each finding with its result and, for many findings, a fix.
-  </Step>
+When the portal asks **What would you like to submit?**, select **Plugin bundle**.
 
-  <Step title="Fix blocking findings and validate again">
-    The report covers only the commit that validation read, so it doesn't change when you push a fix. Push the fix, then select **Re-validate** on the **Source** step of the same form. When the new report has no findings with the **Blocks** result, continue through the form to submit the plugin.
-  </Step>
-</Steps>
+**3. Enter the repository**
+
+On the **Source** step, enter the repository. [Submit your plugin](https://claude.com/docs/plugins/submit.md#submit-a-plugin) describes each field.
+
+**4. Validate**
+
+Select **Validate**. The report lists each finding with its result and, for many findings, a fix.
+
+**5. Fix blocking findings and validate again**
+
+The report covers only the commit that validation read, so it doesn't change when you push a fix. Push the fix, then select **Re-validate** on the **Source** step of the same form. When the new report has no findings with the **Blocks** result, continue through the form to submit the plugin.
 
 ### Read a validation result
 
@@ -69,7 +67,7 @@ Validation produces a report in the submission form, and the scan's results appe
 
 Some problems with the repository stop validation before there is a report. The submission form then shows one error, such as **Couldn’t validate that repository**, and no findings. The tables in [what validation and the scan check](#review-what-validation-and-the-scan-check) mark those checks as "Validation stops".
 
-[Submit your plugin](/docs/plugins/submit#after-you-submit-a-plugin) explains how review and publishing proceed after you submit.
+[Submit your plugin](https://claude.com/docs/plugins/submit.md#after-you-submit-a-plugin) explains how review and publishing proceed after you submit.
 
 ## Review what validation and the scan check
 
@@ -87,7 +85,7 @@ The repository and folder layout checks cover the plugin's location in the repos
 | - | - | - |
 | Submit a folder that contains `.claude-plugin/plugin.json` | Blocks, except that a folder with no `plugin.json` anywhere and at least one `skills/<name>/SKILL.md` passes with a note and is listed for Claude Code only | |
 | Submit one plugin at a time. In a [marketplace repository](https://code.claude.com/docs/en/plugins/create-marketplace) with several plugins, validate and submit each plugin folder on its own. | Blocks | **Pick one plugin first**, when you select **Submit for review** |
-| Keep every file that a hook, an MCP server command, or a script uses inside the plugin folder, and point every component path in `plugin.json` inside it | Blocks for a `plugin.json` path that points outside the plugin folder | |
+| Keep every file that a hook, an MCP server command, or a script uses inside the plugin folder, and point every component path in `plugin.json` inside it | Blocks for a `plugin.json` path that points outside the plugin folder, and for a path in a command or script that climbs out of it with `..` | **Path climbs out of the plugin** for a `plugin.json` path with `..`. **Command reaches above the plugin folder** for a path in a command or script. |
 | Commit regular files and folders for everything the plugin loads, not symbolic links, Git submodules, or Git LFS pointer files | Blocks where the plugin loads the entry. Warning elsewhere. | |
 | Remove `.DS_Store`, `Thumbs.db`, `desktop.ini`, and `__MACOSX` entries from the plugin folder | Blocks | In validation, a message that begins "This is a macOS or Windows system file". After you submit, **Files in the repository the scanner won’t accept**. |
 | Use file and folder names that are valid on both Windows and macOS: no colon, no trailing dot or space, no Windows device name such as `con.md` or `prn`, and no two names that differ only by capitalization | Validation stops | **Couldn’t validate that repository** |
@@ -145,9 +143,9 @@ A package launcher is a command that downloads a package and runs it: `npx`, `bu
 | Don't read a credential that is already set in the user's environment, such as `$GITHUB_TOKEN`, and send it to a server, even in a README example. Ask for it through `userConfig` instead. | Held for a reviewer. Blocks for an HTTP hook that sends the credential. | **Uses a credential from the user’s machine** when held |
 | Make `.mcp.json` valid JSON in which every server entry matches the schema in the [MCP documentation](https://code.claude.com/docs/en/mcp) | Blocks | **.mcp.json can’t be parsed** for invalid JSON |
 | Give each remote MCP server a `type` of `http`, `sse`, or `ws` and a `url` that is an absolute `https://` or `wss://` URL, a `${user_config.KEY}` reference, or `""` when the plugin has no fixed endpoint | Blocks | **MCP server URL is not https** for a URL with another scheme |
-| Start each local MCP server by running a file in the plugin with plain arguments, such as `node ${CLAUDE_PLUGIN_ROOT}/server.js`, not through a shell, an inline program such as `-c`, or a package-manager script such as `npm run` | Held for a reviewer | **MCP server command wasn’t read** |
-| In the command of a hook or an MCP server, write each path in full from `${CLAUDE_PLUGIN_ROOT}`, with no other variable, command substitution, wildcard, or inline program such as `python3 -c` | Blocks when the plugin folder is a subfolder of the repository | |
-| Keep launchers and package installs out of each script that a hook or an MCP server runs. When the plugin folder is a subfolder of the repository, also keep shell variables other than `${CLAUDE_PLUGIN_ROOT}`, command substitutions, and calls to other files in the plugin out of those scripts. | Held for a reviewer | **Scripts the validator couldn’t follow** |
+| Start each local MCP server by running a file in the plugin with plain arguments, such as `node ${CLAUDE_PLUGIN_ROOT}/server.js`, not through a shell or a package-manager script such as `npm run` | Held for a reviewer | **MCP server command wasn’t read** |
+| In the command of a hook or an MCP server, write each path in full from `${CLAUDE_PLUGIN_ROOT}`, with no other variable, command substitution, wildcard, or inline program such as `python3 -c` | Blocks for another variable, a command substitution, a wildcard, or an inline program | **Command path can’t be followed** |
+| Keep launchers, package installs, shell variables other than `${CLAUDE_PLUGIN_ROOT}`, command substitutions, and calls to other files in the plugin out of each script that a hook or an MCP server runs | Held for a reviewer | **Scripts the validator couldn’t follow** |
 
 ### Choices a reviewer always checks
 
@@ -155,7 +153,7 @@ These choices are held for a reviewer even when the plugin meets every other che
 
 * **A package from a registry:** a launcher that runs a package pinned to an exact version, or `uv run` with `--locked` or `--frozen`, is still held, because the package's own dependencies resolve at install time. The finding is **Runs a pinned npx or uvx package**
 * **A lockfile install:** `package.json` beside `package-lock.json`, `npm-shrinkwrap.json`, `bun.lock`, or `bun.lockb` in the root of the plugin folder is held, because Claude Code [installs the packages in that lockfile](https://code.claude.com/docs/en/plugins/loading#node-js-package-dependencies) when a user installs the plugin. The finding is **Dependencies install from a lockfile**
-* **A program the validator can't read through, when the plugin folder is a subfolder of the repository:** the validator follows only plain shell scripts. When a hook, an MCP or LSP server command, or a `` !`…` `` line in a skill or command runs a non-shell file from the plugin, passes a whole directory to an interpreter, or runs a shell script that itself runs another file, that file is held. A script that `SKILL.md` only tells Claude to run isn't part of this check. To avoid the hold, keep the plugin at the root of its own repository, or keep the logic a hook or server runs in shell scripts that name each path as `${CLAUDE_PLUGIN_ROOT}/<file>`. The finding is **Scripts the validator couldn’t follow**
+* **A program the validator can't read through:** the validator follows only plain shell scripts. When a hook, an MCP or LSP server command, or a `` !`…` `` line in a skill or command runs a non-shell file from the plugin, passes a whole directory to an interpreter, or runs a shell script that itself runs another file, that file is held. A script that `SKILL.md` only tells Claude to run isn't part of this check. To avoid the hold, keep the logic a hook or server runs in shell scripts that name each path as `${CLAUDE_PLUGIN_ROOT}/<file>`. The finding is **Scripts the validator couldn’t follow**
 
 If you bundle a package's code into the plugin instead, the launcher or install finding no longer applies, and a reviewer hold can still apply. Validation and the scan check the bundled file like every other file in the plugin folder, including the 256 KiB limit in [Files in the plugin folder](#files-in-the-plugin-folder).
 
@@ -174,7 +172,7 @@ The component checks confirm that Claude Code can load each hook, skill, command
 
 The security scan looks for behavior that a plugin doesn't disclose, such as sending data elsewhere, running hidden code, or changing Claude's permission settings.
 
-A first submission that fails the security scan is rejected, and a later version that fails can't go live. A new version that the scan flags can be held for a reviewer. The **Versions** tab on the plugin's page in the developer portal shows **Didn’t pass the security scan**, or the category of the finding, such as **Sends data to an undisclosed destination**. [Submit your plugin](/docs/plugins/submit#fix-a-failed-version) explains what to do when a version doesn't pass.
+A first submission that fails the security scan is rejected, and a later version that fails can't go live. A new version that the scan flags can be held for a reviewer. The **Versions** tab on the plugin's page in the developer portal shows **Didn’t pass the security scan**, or the category of the finding, such as **Sends data to an undisclosed destination**. [Submit your plugin](https://claude.com/docs/plugins/submit.md#fix-a-failed-version) explains what to do when a version doesn't pass.
 
 To prepare, make the plugin's behavior visible in its README and its source:
 
@@ -185,17 +183,15 @@ To prepare, make the plugin's behavior visible in its README and its source:
 
 Validation and the scan check how the plugin is built. They don't check whether the plugin helps the people who install it. Before you submit, test the plugin's output and how it loads on the surfaces your users will use:
 
-<Steps>
-  <Step title="Compare output with and without the plugin">
-    Run the plugin's skills on real prompts and compare the output with what Claude produces without the plugin. [`claude plugin eval`](https://code.claude.com/docs/en/plugin-evals) runs that comparison for the whole plugin in Claude Code, and [Measure whether the skill improves the output](/docs/skills/how-to#measure-whether-the-skill-improves-the-output) covers one skill at a time.
-  </Step>
+**1. Compare output with and without the plugin**
 
-  <Step title="Load the plugin on each surface">
-    Load the plugin on each surface your users will use, as [Test the plugin on each surface](/docs/plugins/build#test-the-plugin-on-each-surface) describes.
-  </Step>
-</Steps>
+Run the plugin's skills on real prompts and compare the output with what Claude produces without the plugin. [`claude plugin eval`](https://code.claude.com/docs/en/plugin-evals) runs that comparison for the whole plugin in Claude Code, and [Measure whether the skill improves the output](https://claude.com/docs/skills/how-to.md#measure-whether-the-skill-improves-the-output) covers one skill at a time.
+
+**2. Load the plugin on each surface**
+
+Load the plugin on each surface your users will use, as [Test the plugin on each surface](https://claude.com/docs/plugins/build.md#test-the-plugin-on-each-surface) describes.
 
 ## Next steps
 
-* [Submit your plugin](/docs/plugins/submit): enter the repository in the developer portal, follow the review, and publish
-* [Publish to the directory](/docs/directory/publish): confirm your plan and role can submit, and see what Anthropic's review involves
+* [Submit your plugin](https://claude.com/docs/plugins/submit.md): enter the repository in the developer portal, follow the review, and publish
+* [Publish to the directory](https://claude.com/docs/directory/publish.md): confirm your plan and role can submit, and see what Anthropic's review involves

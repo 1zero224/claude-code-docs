@@ -2,7 +2,7 @@
 
 Claude can execute code to create and work with files directly in your conversations. Prompt Claude using natural language to generate Excel spreadsheets, PowerPoint presentations, Word documents, and PDF files that you can download and use immediately.
 
-Code execution and file creation is available to all Claude users (Free, Pro, Max, Team, and Enterprise) on the web, Claude Desktop, and Claude Mobile.
+Code execution and file creation is available to all Claude users (Free, Pro, Max, Ultra, Team, and Enterprise) on the web, Claude Desktop, and Claude Mobile.
 
 These capabilities make it easy to produce professional documents by simply chatting with Claude. You can create financial models in Excel with working formulas, perform advanced analyses on uploaded data, produce reports with charts and visualizations, and generate presentations from your documents—all without specialized software skills.
 
@@ -10,7 +10,7 @@ These capabilities make it easy to produce professional documents by simply chat
 
 ## Availability
 
-**Free, Pro, and Max plans:**
+**Free, Pro, Max, and Ultra plans:**
 
 - Code execution and file creation is enabled by default
 
@@ -44,11 +44,11 @@ These capabilities make it easy to produce professional documents by simply chat
 
 **Team plans:** This capability is enabled by default at the organization level with **Allow network egress** toggled on with access to package managers only. An organization owner can manually disable this for the organization in **[Organization settings > Capabilities](https://claude.ai/admin-settings/capabilities)** if needed.
 
-**Free, Pro, and Max plans:** Enable file creation from **[Settings > Capabilities](https://claude.ai/settings/capabilities)** by toggling **Code execution and file creation** on.
+**Free, Pro, Max, and Ultra plans:** Enable file creation from **Settings > Capabilities** by toggling **Code execution and file creation** (called **Create and edit files** in the updated Settings layout) on.
 
 To give Claude access to external data sources, toggle **Allow network egress** on:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2054774005/25bcfffba6c249cd128d6c3f6d52/CleanShot+2026-02-11+at+16_34_47%402x.png?expires=1792008900&amp;signature=5bafabad0f3cf7e6d90e5ab0f1efd1611c6be3fa7c931aed44a9267dfe3030f8&amp;req=diAiEs55mYFfXPMW1HO4zYFJyg9FDJHHPQVowIiib2lGQiP89855GrRl53F7%0AbX1SXwUvCdkt37Bsza8%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2054774005/25bcfffba6c249cd128d6c3f6d52/CleanShot+2026-02-11+at+16_34_47%402x.png?expires=1794298500&amp;signature=3c258f43b2ea96973ebcf15b5622cf5c6e34bbfe89fd18664e49643d4f79a0aa&amp;req=diAiEs55mYFfXPMW1HO4zYFJyglHBZHLPQVowIiib2mKGKmteuV1cECeANds%0AHPNrLvhktw6gIZARXYs%3D%0A)
 
 ### Enabling on Claude Mobile
 
@@ -66,11 +66,11 @@ Team and Enterprise organization owners can control network access settings in *
 
 - **Allow network egress to package managers and specific domains:** Claude can access package managers plus additional domains you specify. Add domains individually to whitelist specific resources your organization needs:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1789945362/ad72504d5429960f369b8b91b43c/86f06c0e-6eaa-4574-a4cb-2c38b273613a?expires=1792008900&amp;signature=278aa37103c5137aab162d13bbfed439492c79b18b22221689094f390a2b3d4f&amp;req=dScvH8B6mIJZW%2FMW1HO4zXJcB29DlSFCpMW6Iph6YZfmhBtNO%2BXPuratIO8X%0Ank62EWnQwmVSb54bI5g%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1789945362/ad72504d5429960f369b8b91b43c/86f06c0e-6eaa-4574-a4cb-2c38b273613a?expires=1794298500&amp;signature=3759813acbb0007ba62e8d5e68f378627772e54d80b68de9a075d1bca833a9a5&amp;req=dScvH8B6mIJZW%2FMW1HO4zXJcB2lBnCFOpMW6Iph6YZdLSmQZ58mJEIrEt9YL%0AY4bilp3oYHrJ6CCjd2Y%3D%0A)
 
 **All domains:** Claude has full internet access except for domains on Anthropic's legal blocklist. While this provides maximum flexibility for file creation and analysis tasks, it’s also the riskiest option. Please review the **[security considerations below](#h_0ee9d698a1)** before enabling “All domains”:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1789945361/e3188cb8edb9ca7c303615da6378/f1c99a7d-5956-48d5-9ec7-b7ae6c8c3d28?expires=1792008900&amp;signature=82a82ef773557b8ce8eba72e92030dc9aed19dbde4751ce074e9f84e4b007074&amp;req=dScvH8B6mIJZWPMW1HO4zdnseRaS7jerqgKIA6CM1to%2BUryA9f66eBUWYydW%0A0iBv5UkxcxBObzOohC0%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1789945361/e3188cb8edb9ca7c303615da6378/f1c99a7d-5956-48d5-9ec7-b7ae6c8c3d28?expires=1794298500&amp;signature=358a5c3a66069cc00353569035fea1e4e580a8cc225165ee79999e633f7a5bc4&amp;req=dScvH8B6mIJZWPMW1HO4zdnseRCQ5zenqgKIA6CM1trfecgTxwDShJbIAR3A%0AjFqXDBkxYPWx2zLH9WU%3D%0A)
 
 ---
 
@@ -182,7 +182,7 @@ In line with our **[safe and trustworthy agents framework](https://www.anthropic
 
 - Given you the ability to review and audit actions taken by Claude within the sandbox environment.
 
-- Disabled public sharing of conversations that include any file artifacts from the code execution and file creation feature for free, Pro, and Max users.
+- Disabled public sharing of conversations that include any file artifacts from the code execution and file creation feature for Free, Pro, Max, and Ultra users.
 
 - Limited the duration of tasks that can be completed by Claude and the length of time you can use a single sandbox container to avoid loops of malicious activity.
 
@@ -237,7 +237,7 @@ When network access is enabled, Claude can access the following approved domains
 Generate spreadsheets with working formulas and calculations by describing your needs. Try:
 
 ```
-Create a monthly budget tracker with income, expenses categories, and
+Create a monthly budget tracker with income, expense categories, and
 automatic calculations for savings.
 ```
 
@@ -305,6 +305,10 @@ Claude can handle multiple files in a single chat, allowing you to create compre
 
 File creation is supported on Claude for iOS and Android. Note that when you tap "Download" on Claude Mobile, the file will open in either the system preview or a separate app (for example, the Word app for .docx files).
 
+### Can Claude create files in a chat that uses my linked accounts?
+
+Claude can make plain text files (such as .csv, .md, and .html) and show text and tables in the chat. After Claude uses your linked accounts in Personal Finance in a chat, it may not be able to run code, make other files (Word, Excel, PowerPoint, or PDF), or publish an artifact. Learn more in **[Use Personal Finance in Claude](https://support.claude.com/en/articles/18185620-use-personal-finance-with-claude)**.
+
 ### Do artifacts work with file creation?
 
-Yes you are still able to create artifacts (e.g., HTML or react apps, markdown documents, mermaid diagrams, SVGs) with file creation on. Claude now uses the computing environment to create artifacts so the user experience may look slightly different than users are used to. Please report any issues or feedback using the thumbs up/down functionality when chatting with Claude.
+Yes, you are still able to create artifacts (e.g., HTML or react apps, markdown documents, mermaid diagrams, SVGs) with file creation on. Claude now uses the computing environment to create artifacts so the user experience may look slightly different than users are used to. Please report any issues or feedback using the thumbs up/down functionality when chatting with Claude.

@@ -1,593 +1,278 @@
 ---
-title: Configure Azure Key Vault for CMEK
+title: Set up CMEK with Azure Key Vault
 url: https://platform.claude.com/docs/en/manage-claude/cmek-azure-key-vault
-description: Use Azure Key Vault to provide an encryption key for your organization.
+description: Create an Azure Key Vault key, give Anthropic access to it, and put it to use in Claude Platform or Claude Enterprise.
 ---
 
-```bash Configure with the /claude-api skill in Claude Code
-claude "/claude-api help me configure a customer-managed encryption key with Azure Key Vault"
+Let Claude Code set up this feature for you
+
+```text
+/claude-api help me configure a customer-managed encryption key with Azure Key Vault
 ```
 
-This guide walks through configuring an Azure Key Vault key as a [customer-managed encryption key (CMEK)](https://platform.claude.com/docs/en/manage-claude/cmek) for your Anthropic organization.
+## Before you start
 
-<Warning>
-  Enabling CMEK is permanent. If your Key Vault key is deleted or disabled, Anthropic cannot recover the data encrypted under it. Review the [warnings and limitations](https://platform.claude.com/docs/en/manage-claude/cmek) before you start.
-</Warning>
+In Claude:
 
-## Prerequisites
+* Customer-managed encryption keys (CMEK) are [turned on for your organization](https://platform.claude.com/docs/en/manage-claude/cmek#availability).
+* You have your Anthropic organization ID, the UUID without the `org_` prefix. Copy it from [Organization](https://platform.claude.com/settings/organization) in the Claude Console, or from **Organization settings > Organization and access** on claude.ai. Whoever creates the key needs it.
+* You’re an Organization Admin on Claude Platform, or an Owner or Primary Owner on Claude Enterprise.
+* On Claude Platform, you have a workspace that [retains data](https://platform.claude.com/docs/en/manage-claude/cmek-data-retention#data-retention), ideally a new one, because [existing data stays under Anthropic’s key](https://platform.claude.com/docs/en/manage-claude/cmek-how-it-works#when-your-key-takes-effect).
+* On Claude Enterprise, you know [which features turn off or change](https://platform.claude.com/docs/en/manage-claude/cmek-coverage-claude-enterprise#turned-off-or-changed).
 
-* An Azure Key Vault with **RBAC authorization enabled** (`enableRbacAuthorization: true`) and **public network access allowed**. Anthropic calls your vault over the public data-plane endpoint; private endpoints are not supported.
-* **Purge protection enabled** (`enablePurgeProtection: true`) on the vault. Without it, a deleted key can be permanently purged during the soft-delete retention window, causing irreversible loss of your CMEK-protected data. Purge protection cannot be disabled once enabled.
-* Permissions to create keys in the vault and to assign RBAC roles on it.
-* Permissions to create service principals in your Entra tenant (`Application Administrator`, `Cloud Application Administrator`, or an equivalent custom role).
-* An Anthropic Admin API key for your organization.
-* The [`az` CLI](https://learn.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) installed and authenticated.
-* **Diagnostic Settings** configured on the vault to route the `AuditEvent` log category to Log Analytics, a storage account, or an event hub. Azure Key Vault does not emit data-plane audit logs (such as `KeyWrap`, `KeyUnwrap`, and `KeyGet`) by default, so without this you get no audit trail for Anthropic's key operations.
+In Azure:
 
-## Anthropic app information
+* You can create keys in your key vault and assign RBAC roles on it.
+* You can create service principals in your Entra tenant (Application Administrator, Cloud Application Administrator, or an equivalent custom role).
+* The vault has a diagnostic setting for the `AuditEvent` log category. Without one, Anthropic’s key operations leave no audit trail.
 
-To have Anthropic use your encryption key, you must configure an Anthropic multitenant application ID and display name. Those values are:
+## In Azure: create the key
 
-| Field                          | Value                                  |
-| ------------------------------ | -------------------------------------- |
-| Multitenant app client ID (US) | `8635ae1a-3e5d-44e8-a4ed-e0f614466f87` |
-| App display name               | `anthropic-cmek-client-us`             |
+After a failed **Verify** or **Add**, see the [fixes for Azure Key Vault](https://platform.claude.com/docs/en/manage-claude/cmek-troubleshooting#azure-key-vault).
 
-<Warning>
-  Use only this published client ID and display name. Never trust an identifier provided over email, chat, or any onboarding channel.
-</Warning>
+These steps give Anthropic’s multitenant application access to your key:
 
-## Encryption key setup
+* **Name:** `anthropic-cmek-client-us`
+* **Client ID:** `8635ae1a-3e5d-44e8-a4ed-e0f614466f87`
 
-<Steps>
-  <Step title="Consent to the Anthropic multitenant application">
-    This creates a service principal in your Entra tenant for Anthropic's CMEK client application. The application requests no Microsoft Graph permissions; it exists solely as a federation target for Key Vault data-plane access.
+Use only this client ID and name, never ones sent by email or chat. The application requests no Microsoft Graph permissions.
 
-    ```bash
-    az ad sp create --id 8635ae1a-3e5d-44e8-a4ed-e0f614466f87
-    ```
+### Check the vault
 
-    From the output, capture the `id` field. This is the service principal's object ID in your tenant, which you use when you assign the RBAC role.
+For the lowest latency, use a vault in `northcentralus` or `eastus2`. Run this first, in the Azure CLI or Cloud Shell:
 
-    ```json
-    {
-      "appId": "8635ae1a-3e5d-44e8-a4ed-e0f614466f87",
-      "displayName": "anthropic-cmek-client-us",
-      "id": "<sp-object-id>"
-    }
-    ```
+```bash
+az keyvault show --name <your-vault-name> \
+  --query "{rbac:properties.enableRbacAuthorization, purge:properties.enablePurgeProtection, pub:properties.publicNetworkAccess, net:properties.networkAcls.defaultAction, ipRules:properties.networkAcls.ipRules, uri:properties.vaultUri, tenantId:properties.tenantId}"
+```
 
-    If the service principal already exists in your tenant (from a prior attempt or another integration), `az ad sp create` exits with an "already exists" error. Fetch its object ID instead:
+| Field   | Must be                                                                                                                                                  |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `rbac`  | `true`                                                                                                                                                   |
+| `purge` | `true`. If it’s `false` or `null`, turn on purge protection first. You can’t turn it off again.                                                          |
+| `pub`   | `"Enabled"`. Private endpoints aren’t supported.                                                                                                         |
+| `net`   | `"Allow"`, or `"Deny"` with [Anthropic’s outbound IP addresses](https://platform.claude.com/docs/en/api/ip-addresses#outbound-ip-addresses) in `ipRules` |
 
-    ```bash
-    az ad sp show --id 8635ae1a-3e5d-44e8-a4ed-e0f614466f87 --query id -o tsv
-    ```
+Copy `uri` (the vault URI) and `tenantId`.
 
-    This step has no Portal equivalent. If you do not have the Azure CLI installed locally, open Cloud Shell from the Portal's top navigation bar. After the command succeeds, you can find the service principal's object ID in **Microsoft Entra ID > Enterprise applications** by clearing the default application-type filter and searching for `anthropic-cmek-client-us`.
+### Create the key and grant access
 
-    <Frame caption="Find the service principal's Object ID on its Entra enterprise application overview.">
-      ![Microsoft Entra enterprise application overview for anthropic-cmek-client-us, showing its Application ID and Object ID.](https://platform.claude.com/docs/images/cmek/azure-service-principal.png)
-    </Frame>
-  </Step>
-
-  <Step title="Create an RSA key in your vault">
-    Azure Key Vault does not support symmetric key wrapping, so the key must be RSA (3072-bit or larger) with `wrapKey` and `unwrapKey` in its allowed operations.
-
-    The `--tags` option adds the organization tag, `anthropic-org-<ORGANIZATION_UUID>` with the value `true`, where `<ORGANIZATION_UUID>` is your Anthropic organization ID in lowercase. The tag is required for Anthropic to validate the key.
-
-    <Note>
-      **Finding your organization ID:** Copy the **Organization ID** field under **Settings > Organization** in the Claude Console, or under **Organization settings > Organization** in claude.ai, or read the `id` field from the [Organization Info](https://platform.claude.com/docs/en/api/organization/retrieve) endpoint. Use the bare UUID, not the `org_`-prefixed ID.
-    </Note>
-
-    ```bash
-    az keyvault key create \
-      --vault-name <VAULT_NAME> \
-      --name <KEY_NAME> \
-      --kty RSA --size 3072 \
-      --ops wrapKey unwrapKey \
-      --tags anthropic-org-<ORGANIZATION_UUID>=true
-    ```
-
-    For HSM-backed keys, use `--kty RSA-HSM` (requires a Premium-SKU vault). Software-protected RSA keys are acceptable for this integration.
-
-    From the Portal, open your Key Vault, select **Keys**, then **Generate/Import**. Set the key type to RSA and the size to 3072 or larger. To restrict the key to wrap and unwrap only, open the key version, scroll to **Permitted operations**, and uncheck everything except **Wrap Key** and **Unwrap Key**.
-
-    On the **Create a key** page, also add the organization tag under **Tags**.
-
-    <Frame caption="Create an RSA key sized 3072 or larger, with the tag anthropic-org-<ORGANIZATION_UUID> set to true.">
-      ![Azure Key Vault Create a key page with RSA, 3072 key size, and the anthropic-org tag set to true.](https://platform.claude.com/docs/images/cmek/azure-create-key-tag.png)
-    </Frame>
-
-    <Frame caption="Restrict permitted operations to Wrap Key and Unwrap Key. The key version shows the organization tag.">
-      ![Azure Key Vault key version with 1 tag and Permitted operations limited to Wrap Key and Unwrap Key.](https://platform.claude.com/docs/images/cmek/azure-permitted-operations-tag.png)
-    </Frame>
-
-    To share one key among several Anthropic organizations, add one such tag for each organization. A key version can carry at most 15 tags, including your own.
-
-    <Note>
-      To add the tag to a key you already have, open the key's current version in the Portal, select the link next to **Tags**, add the tag, and click **Save**. With the Azure CLI, run `az keyvault key set-attributes --vault-name <VAULT_NAME> --name <KEY_NAME> --tags anthropic-org-<ORGANIZATION_UUID>=true`. Its `--tags` option replaces the version's tags, so also put each tag the version already has in `--tags`, as `name=value`. For a key in a Managed HSM, use `--hsm-name <HSM_NAME>` instead of `--vault-name`.
-    </Note>
-  </Step>
-
-  <Step title="Grant the Anthropic service principal access to your key">
-    Assign the `Key Vault Crypto User` role to the service principal from the first step, scoped to the **individual key** rather than the whole vault.
-
-    ```bash
-    VAULT_ID=$(az keyvault show --name <your-vault-name> --query id -o tsv)
-
-    az role assignment create \
-      --role "Key Vault Crypto User" \
-      --assignee-object-id <sp-object-id> \
-      --assignee-principal-type ServicePrincipal \
-      --scope "${VAULT_ID}/keys/<your-key-name>"
-    ```
-
-    The built-in `Key Vault Crypto User` role grants key cryptographic operations (encrypt, decrypt, wrap, unwrap, sign, verify) plus key read on its assigned scope. The `--ops wrapKey unwrapKey` restriction you set on the key in the previous step further narrows which of those operations can succeed against this key, so in practice Anthropic can only wrap and unwrap.
-
-    From the Portal, open the **key** (not the vault), select its **Access control (IAM)** tab, click **Add > Add role assignment**, select **Key Vault Crypto User**, and assign it to the `anthropic-cmek-client-us` service principal.
-
-    <Note>
-      **Dedicated vault alternative:** Microsoft recommends a dedicated vault per application with roles assigned at the vault scope. If you provision a vault that holds only this Anthropic CMEK key, you can assign the role at the vault scope instead and the effect is identical. Scope to the individual key when the key lives in a shared vault.
-    </Note>
-
-    <Frame caption="Assign Key Vault Crypto User to the Anthropic service principal, scoped to the key.">
-      ![Key Vault IAM role assignments showing anthropic-cmek-client-us assigned the Key Vault Crypto User role.](https://platform.claude.com/docs/images/cmek/azure-role-assignment.png)
-    </Frame>
-  </Step>
-
-  <Step title="Verify your vault configuration">
-    ```bash
-    az keyvault show --name <your-vault-name> \
-      --query "{rbac:properties.enableRbacAuthorization, purge:properties.enablePurgeProtection, pub:properties.publicNetworkAccess, net:properties.networkAcls.defaultAction, ipRules:properties.networkAcls.ipRules, uri:properties.vaultUri, tenantId:properties.tenantId}"
-    ```
-
-    Confirm that:
-
-    * `rbac` is `true`.
-    * `purge` is `true`. If it is `false` or `null`, enable purge protection on the vault before proceeding. Without it, a soft-deleted key can be permanently purged during the retention window, making your CMEK-protected data unrecoverable.
-    * `pub` is `"Enabled"`. If it is `"Disabled"`, Anthropic cannot reach the vault over its public data-plane endpoint and validation fails.
-    * `net` is `"Allow"`, or, if it is `"Deny"`, that `ipRules` include Anthropic's egress ranges (contact Anthropic for the current list).
-    * `uri` is the vault URI you use when you register the key.
-    * `tenantId` is the tenant that governs the vault. Use this value as `tenant_id` when you register the key, not the tenant of your currently-active subscription (the two can differ in cross-tenant setups).
-  </Step>
-</Steps>
-
-## Register the key with Anthropic
-
-How you register the key depends on which product you use.
+On this page, `<ORGANIZATION_UUID>` is your [Anthropic organization ID](https://platform.claude.com/docs/en/manage-claude/cmek-azure-key-vault#prerequisites) in lowercase. To use a key you already have, [add the organization tag](https://platform.claude.com/docs/en/manage-claude/cmek-azure-key-vault#organization-tag) first.
 
 <Tabs>
-  <Tab title="Claude Platform">
-    You can set up the key in the Claude Console or through the Admin API, with the same result.
-
-    <Tabs>
-      <Tab title="Claude Console">
-        <Steps>
-          <Step title="Register the key with Anthropic">
-            In the Claude Console, go to the [Data retention](https://platform.claude.com/settings/privacy#encryption-keys) page (`platform.claude.com/settings/privacy`). If you don't see **Encryption keys**, select **Organization** from the dropdown menu at the top of the page. Under **Encryption keys**, click **Add key**. Enter a display name, choose **Azure Key Vault**, and click **Continue**. Fill in **Vault URI**, **Key name**, and **Tenant ID**, and click **Add**.
-
-            The key details step shows the organization tag. Add it to the key, as [the create step](https://platform.claude.com/docs/en/manage-claude/cmek-azure-key-vault#organization-tag) describes, before you click **Add**.
-          </Step>
-
-          <Step title="Validate the key">
-            In the **Encryption keys** list, click **Verify** next to the key. **Connected** appears when the check passes. If it fails, a message gives the reason.
-          </Step>
-
-          <Step title="Attach the key to a workspace">
-            In the Claude Console, go to the [Data retention](https://platform.claude.com/settings/privacy) page (`platform.claude.com/settings/privacy`) and select the workspace from the dropdown menu at the top of the page. Under **Encryption key**, select the key, click **Save**, and confirm. Attaching a key can't be undone. For a workspace that already receives requests, the key can take [up to a day to take effect](https://platform.claude.com/docs/en/manage-claude/cmek#how-it-works).
-          </Step>
-        </Steps>
-      </Tab>
-
-      <Tab title="API">
-        <Steps>
-          <Step title="Register the key with Anthropic">
-            Create an external key configuration through the Admin API.
-
-            <CodeGroup>
-              ```bash cURL
-              curl -sS "https://api.anthropic.com/v1/organizations/external_keys" \
-                -H "x-api-key: $ANTHROPIC_API_KEY" \
-                -H "anthropic-version: 2023-06-01" \
-                -H "content-type: application/json" \
-                -d '{
-                  "display_name": "<friendly-name>",
-                  "geo": "us",
-                  "provider_config": {
-                    "type": "azure",
-                    "vault_uri": "https://<your-vault-name>.vault.azure.net/",
-                    "key_name": "<your-key-name>",
-                    "tenant_id": "<your-tenant-id>"
-                  }
-                }'
-              ```
-
-              ```bash CLI
-              ant organization:external-keys create <<'YAML'
-              display_name: "<friendly-name>"
-              geo: us
-              provider_config:
-                type: azure
-                vault_uri: "https://<your-vault-name>.vault.azure.net/"
-                key_name: "<your-key-name>"
-                tenant_id: "<your-tenant-id>"
-              YAML
-              ```
-
-              ```python Python
-              client = anthropic.Anthropic()
-
-              external_key = client.organization.external_keys.create(
-                  display_name="<friendly-name>",
-                  geo="us",
-                  provider_config={
-                      "type": "azure",
-                      "vault_uri": "https://<your-vault-name>.vault.azure.net/",
-                      "key_name": "<your-key-name>",
-                      "tenant_id": "<your-tenant-id>",
-                  },
-              )
-
-              print(f"id: {external_key.id}")
-              print(f"display_name: {external_key.display_name}")
-              ```
-
-              ```typescript TypeScript
-              const client = new Anthropic();
-
-              const externalKey = await client.organization.externalKeys.create({
-                display_name: "<friendly-name>",
-                geo: "us",
-                provider_config: {
-                  type: "azure",
-                  vault_uri: "https://<your-vault-name>.vault.azure.net/",
-                  key_name: "<your-key-name>",
-                  tenant_id: "<your-tenant-id>"
-                }
-              });
-
-              console.log(`id: ${externalKey.id}`);
-              console.log(`display_name: ${externalKey.display_name}`);
-              ```
-
-              ```csharp C#
-              using Anthropic.Models.Organization.ExternalKeys;
-
-              AnthropicClient client = new();
-
-              var externalKey = await client.Organization.ExternalKeys.Create(new()
-              {
-                  DisplayName = "<friendly-name>",
-                  Geo = Geo.Us,
-                  ProviderConfig = new AzureExternalKeyConfigParam
-                  {
-                      VaultUri = "https://<your-vault-name>.vault.azure.net/",
-                      KeyName = "<your-key-name>",
-                      TenantID = "<your-tenant-id>"
-                  }
-              });
-
-              Console.WriteLine($"id: {externalKey.ID}");
-              Console.WriteLine($"display_name: {externalKey.DisplayName}");
-              ```
-
-              ```go Go
-              client := anthropic.NewClient()
-
-              externalKey, err := client.Organization.ExternalKeys.New(context.Background(), anthropic.OrganizationExternalKeyNewParams{
-              	DisplayName: anthropic.String("<friendly-name>"),
-              	Geo:         anthropic.OrganizationExternalKeyNewParamsGeoUs,
-              	ProviderConfig: anthropic.OrganizationExternalKeyNewParamsProviderConfigUnion{
-              		OfAzure: &anthropic.AzureExternalKeyConfigParam{
-              			VaultURI: "https://<your-vault-name>.vault.azure.net/",
-              			KeyName:  "<your-key-name>",
-              			TenantID: "<your-tenant-id>",
-              		},
-              	},
-              })
-              if err != nil {
-              	log.Fatal(err)
-              }
-
-              fmt.Printf("id: %s\n", externalKey.ID)
-              fmt.Printf("display_name: %s\n", externalKey.DisplayName)
-              ```
-
-              ```java Java
-              import com.anthropic.models.organization.externalkeys.AzureExternalKeyConfigParam;
-              import com.anthropic.models.organization.externalkeys.ExternalKeyCreateParams;
-
-              void main() {
-                  AnthropicClient client = AnthropicOkHttpClient.fromEnv();
-
-                  var params = ExternalKeyCreateParams.builder()
-                      .displayName("<friendly-name>")
-                      .geo(ExternalKeyCreateParams.Geo.US)
-                      .providerConfig(AzureExternalKeyConfigParam.builder()
-                          .vaultUri("https://<your-vault-name>.vault.azure.net/")
-                          .keyName("<your-key-name>")
-                          .tenantId("<your-tenant-id>")
-                          .build())
-                      .build();
-                  var externalKey = client.organization().externalKeys().create(params);
-
-                  IO.println("id: " + externalKey.id());
-                  IO.println("display_name: " + externalKey.displayName().orElseThrow());
-              }
-              ```
-
-              ```php PHP
-              use Anthropic\Organization\ExternalKeys\ExternalKeyCreateParams\Geo;
-              // ...
-
-              $client = new Client();
-
-              $externalKey = $client->organization->externalKeys->create(
-                  displayName: '<friendly-name>',
-                  geo: Geo::US,
-                  providerConfig: [
-                      'type' => 'azure',
-                      'vaultURI' => 'https://<your-vault-name>.vault.azure.net/',
-                      'keyName' => '<your-key-name>',
-                      'tenantID' => '<your-tenant-id>',
-                  ],
-              );
-
-              echo "id: {$externalKey->id}\n";
-              echo "display_name: {$externalKey->displayName}\n";
-              ```
-
-              ```ruby Ruby
-              client = Anthropic::Client.new
-
-              external_key = client.organization.external_keys.create(
-                display_name: "<friendly-name>",
-                geo: :us,
-                provider_config: {
-                  type: :azure,
-                  vault_uri: "https://<your-vault-name>.vault.azure.net/",
-                  key_name: "<your-key-name>",
-                  tenant_id: "<your-tenant-id>"
-                }
-              )
-
-              puts "id: #{external_key.id}"
-              puts "display_name: #{external_key.display_name}"
-              ```
-            </CodeGroup>
-
-            The response contains the external key ID:
-
-            ```json
-            {
-              "type": "external_key",
-              "id": "ekey_<id>",
-              "display_name": "<friendly-name>"
-            }
-            ```
-          </Step>
-
-          <Step title="Validate the key">
-            Trigger an encrypt and decrypt round-trip against your key. This confirms that Anthropic can authenticate to your tenant and perform wrap and unwrap operations.
-
-            <CodeGroup>
-              ```bash cURL
-              curl -sS -X POST "https://api.anthropic.com/v1/organizations/external_keys/ekey_<id>/validate" \
-                -H "x-api-key: $ANTHROPIC_API_KEY" \
-                -H "anthropic-version: 2023-06-01"
-              ```
-
-              ```bash CLI
-              ant organization:external-keys validate --external-key-id "ekey_<id>"
-              ```
-
-              ```python Python
-              client = anthropic.Anthropic()
-
-              validation = client.organization.external_keys.validate("ekey_<id>")
-
-              print(f"status: {validation.status}")
-              print(f"error: {validation.error}")
-              ```
-
-              ```typescript TypeScript
-              const client = new Anthropic();
-
-              const validation = await client.organization.externalKeys.validate("ekey_<id>");
-
-              console.log(`status: ${validation.status}`);
-              console.log(`error: ${validation.error}`);
-              ```
-
-              ```csharp C#
-              AnthropicClient client = new();
-
-              var validation = await client.Organization.ExternalKeys.Validate("ekey_<id>");
-
-              Console.WriteLine($"status: {validation.Status.Raw()}");
-              Console.WriteLine($"error: {validation.Error}");
-              ```
-
-              ```go Go
-              client := anthropic.NewClient()
-
-              validation, err := client.Organization.ExternalKeys.Validate(context.Background(), "ekey_<id>")
-              if err != nil {
-              	log.Fatal(err)
-              }
-
-              fmt.Printf("status: %s\n", validation.Status)
-              fmt.Printf("error: %s\n", validation.Error)
-              ```
-
-              ```java Java
-              AnthropicClient client = AnthropicOkHttpClient.fromEnv();
-
-              var validation = client.organization().externalKeys().validate("ekey_<id>");
-
-              IO.println("status: " + validation.status().asString());
-              IO.println("error: " + validation.error().orElse(""));
-              ```
-
-              ```php PHP
-              $client = new Client();
-
-              $validation = $client->organization->externalKeys->validate(
-                  externalKeyID: 'ekey_<id>',
-              );
-
-              echo "status: {$validation->status}\n";
-              echo "error: {$validation->error}\n";
-              ```
-
-              ```ruby Ruby
-              client = Anthropic::Client.new
-
-              validation = client.organization.external_keys.validate("ekey_<id>")
-
-              puts "status: #{validation.status}"
-              puts "error: #{validation.error}"
-              ```
-            </CodeGroup>
-
-            A successful response looks like this:
-
-            ```json
-            { "type": "external_key_validation", "status": "success", "error": null }
-            ```
-
-            If validation fails, the `error` field describes the problem. Common causes are:
-
-            * **RBAC propagation delay:** role assignments can take a few minutes to take effect. Wait and retry.
-            * **Network ACLs blocking Anthropic:** confirm public network access and `ipRules` as described in the verification step.
-            * **Conditional access policies on workload identities:** if your tenant has conditional access policies that target service principals, exclude the Anthropic service principal or add Anthropic's egress ranges to the policy's named locations.
-          </Step>
-
-          <Step title="Attach the key to a workspace">
-            Once the key is validated, attach it to a new workspace before you send any requests to that workspace. For a workspace that already receives requests, the key can take [up to a day to take effect](https://platform.claude.com/docs/en/manage-claude/cmek#how-it-works).
-
-            <CodeGroup>
-              ```bash cURL
-              curl -sS -X POST "https://api.anthropic.com/v1/organizations/workspaces/<workspace-id>" \
-                -H "x-api-key: $ANTHROPIC_API_KEY" \
-                -H "anthropic-version: 2023-06-01" \
-                -H "content-type: application/json" \
-                -d '{
-                  "external_key_id": "ekey_<id>"
-                }'
-              ```
-
-              ```bash CLI
-              ant organization:workspaces update \
-                --workspace-id "<workspace-id>" \
-                --external-key-id "ekey_<id>"
-              ```
-
-              ```python Python
-              client = anthropic.Anthropic()
-
-              workspace = client.organization.workspaces.update(
-                  "<workspace-id>", external_key_id="ekey_<id>"
-              )
-
-              print(f"id: {workspace.id}")
-              print(f"external_key_id: {workspace.external_key_id}")
-              ```
-
-              ```typescript TypeScript
-              const client = new Anthropic();
-
-              const workspace = await client.organization.workspaces.update("<workspace-id>", {
-                external_key_id: "ekey_<id>"
-              });
-
-              console.log(`id: ${workspace.id}`);
-              console.log(`external_key_id: ${workspace.external_key_id}`);
-              ```
-
-              ```csharp C#
-              AnthropicClient client = new();
-
-              var workspace = await client.Organization.Workspaces.Update("<workspace-id>", new()
-              {
-                  ExternalKeyID = "ekey_<id>"
-              });
-
-              Console.WriteLine($"id: {workspace.ID}");
-              Console.WriteLine($"external_key_id: {workspace.ExternalKeyID}");
-              ```
-
-              ```go Go
-              client := anthropic.NewClient()
-
-              workspace, err := client.Organization.Workspaces.Update(
-              	context.Background(),
-              	"<workspace-id>",
-              	anthropic.OrganizationWorkspaceUpdateParams{
-              		ExternalKeyID: anthropic.String("ekey_<id>"),
-              	},
-              )
-              if err != nil {
-              	log.Fatal(err)
-              }
-
-              fmt.Printf("id: %s\n", workspace.ID)
-              fmt.Printf("external_key_id: %s\n", workspace.ExternalKeyID)
-              ```
-
-              ```java Java
-              import com.anthropic.models.organization.workspaces.WorkspaceUpdateParams;
-
-              void main() {
-                  AnthropicClient client = AnthropicOkHttpClient.fromEnv();
-
-                  var params = WorkspaceUpdateParams.builder()
-                      .externalKeyId("ekey_<id>")
-                      .build();
-                  var workspace = client.organization().workspaces().update("<workspace-id>", params);
-
-                  IO.println("id: " + workspace.id());
-                  IO.println("external_key_id: " + workspace.externalKeyId().orElseThrow());
-              }
-              ```
-
-              ```php PHP
-              $client = new Client();
-
-              $workspace = $client->organization->workspaces->update(
-                  workspaceID: '<workspace-id>',
-                  externalKeyID: 'ekey_<id>',
-              );
-
-              echo "id: {$workspace->id}\n";
-              echo "external_key_id: {$workspace->externalKeyID}\n";
-              ```
-
-              ```ruby Ruby
-              client = Anthropic::Client.new
-
-              workspace = client.organization.workspaces.update(
-                "<workspace-id>",
-                external_key_id: "ekey_<id>"
-              )
-
-              puts "id: #{workspace.id}"
-              puts "external_key_id: #{workspace.external_key_id}"
-              ```
-            </CodeGroup>
-          </Step>
-        </Steps>
-      </Tab>
-    </Tabs>
+  <Tab title="Azure portal">
+    <Steps>
+      <Step title="Create Anthropic’s service principal">
+        Open Cloud Shell from the portal’s top navigation bar. Run this command:
+
+        ```bash
+        az ad sp create --id 8635ae1a-3e5d-44e8-a4ed-e0f614466f87
+        ```
+
+        If the service principal already exists, continue to the next step.
+      </Step>
+
+      <Step title="Confirm the service principal exists">
+        Go to **Microsoft Entra ID > Enterprise applications** and clear the default application-type filter. Search for `anthropic-cmek-client-us`.
+
+        <Frame caption="The anthropic-cmek-client-us service principal in Entra enterprise applications.">
+          ![Microsoft Entra enterprise application overview for anthropic-cmek-client-us, showing its Application ID and Object ID.](https://platform.claude.com/docs/images/cmek/azure-service-principal.png)
+        </Frame>
+      </Step>
+
+      <Step title="Open the Create a key page">
+        Open your key vault and select **Keys**. Click **Generate/Import**.
+      </Step>
+
+      <Step title="Create an RSA key in your vault">
+        Set these values:
+
+        * **Name:** a name for the key
+        * **Key type:** RSA
+        * **RSA key size:** 3072 or larger
+
+        Click the link next to **Tags**.
+      </Step>
+
+      <Step title="Add the organization tag">
+        Enter these values:
+
+        * **Tag Name:** `anthropic-org-<ORGANIZATION_UUID>`
+        * **Tag Value:** `true`
+
+        Click **OK**, then click **Create**.
+
+        <Frame caption="Create an RSA key sized 3072 or larger, with the tag anthropic-org-<ORGANIZATION_UUID> set to true.">
+          ![Azure Key Vault Create a key page with RSA, 3072 key size, and the anthropic-org tag set to true.](https://platform.claude.com/docs/images/cmek/azure-create-key-tag.png)
+        </Frame>
+      </Step>
+
+      <Step title="Limit the permitted operations">
+        Open the new key, then open its current version. Under **Permitted operations**, clear every checkbox except **Wrap Key** and **Unwrap Key**. Click **Save**.
+
+        <Frame caption="Restrict permitted operations to Wrap Key and Unwrap Key. The key version shows the organization tag.">
+          ![Azure Key Vault key version with 1 tag and Permitted operations limited to Wrap Key and Unwrap Key.](https://platform.claude.com/docs/images/cmek/azure-permitted-operations-tag.png)
+        </Frame>
+      </Step>
+
+      <Step title="Open the key’s access control">
+        Open the key itself, not the vault. Select its **Access control (IAM)** tab and click **Add > Add role assignment**.
+      </Step>
+
+      <Step title="Select the role">
+        On the **Role** tab, select **Key Vault Crypto User**. Click **Next**.
+      </Step>
+
+      <Step title="Add Anthropic’s service principal">
+        On the **Members** tab, click **Select members**. Search for `anthropic-cmek-client-us` and select it. Click **Select**, then click **Next**.
+      </Step>
+
+      <Step title="Review and assign">
+        On the **Review + assign** tab, click **Review + assign**.
+      </Step>
+    </Steps>
   </Tab>
 
-  <Tab title="Claude Enterprise">
-    In [claude.ai > Organization settings > Data and privacy](https://claude.ai/admin-settings/data-privacy-controls), open **Encryption keys**, then click **Add key**. Choose **Azure**, enter the vault URI, key name, and tenant ID from the verification step, and click **Continue**. Anthropic validates the key with an encrypt and decrypt round-trip. Once it shows as verified, your organization is CMEK-protected from that point forward.
+  <Tab title="Azure CLI">
+    <Steps>
+      <Step title="Create Anthropic’s service principal">
+        ```bash
+        az ad sp create --id 8635ae1a-3e5d-44e8-a4ed-e0f614466f87
+        ```
 
-    On Claude Enterprise, CMEK applies to the whole organization, so there is no separate workspace attach step, and an organization can have only one key.
+        Copy the `id` field from the output.
+
+        If the command exits with an “already exists” error, get the `id` with this command instead:
+
+        ```bash
+        az ad sp show --id 8635ae1a-3e5d-44e8-a4ed-e0f614466f87 --query id -o tsv
+        ```
+      </Step>
+
+      <Step title="Create an RSA key in your vault">
+        ```bash
+        az keyvault key create \
+          --vault-name <your-vault-name> \
+          --name <your-key-name> \
+          --kty RSA --size 3072 \
+          --ops wrapKey unwrapKey \
+          --tags anthropic-org-<ORGANIZATION_UUID>=true
+        ```
+
+        Replace the placeholders:
+
+        * **`<your-vault-name>`:** the name of your key vault
+        * **`<your-key-name>`:** a name for the key
+        * **`<ORGANIZATION_UUID>`:** your Anthropic organization ID in lowercase
+
+        For an HSM-backed key, use `--kty RSA-HSM`.
+      </Step>
+
+      <Step title="Grant the Anthropic service principal access to your key">
+        ```bash
+        VAULT_ID=$(az keyvault show --name <your-vault-name> --query id -o tsv)
+
+        az role assignment create \
+          --role "Key Vault Crypto User" \
+          --assignee-object-id <sp-object-id> \
+          --assignee-principal-type ServicePrincipal \
+          --scope "${VAULT_ID}/keys/<your-key-name>"
+        ```
+
+        Replace the placeholders:
+
+        * **`<your-vault-name>`:** the name of your key vault
+        * **`<sp-object-id>`:** the `id` value from the first step
+        * **`<your-key-name>`:** the name of the key
+      </Step>
+    </Steps>
   </Tab>
 </Tabs>
 
-## Terraform
+Whoever adds the key in Claude needs the vault URI, the key name, and the tenant ID.
 
-For infrastructure-as-code deployments, the same steps map to the `azurerm` and `azuread` providers.
+### Add the organization tag to a key you already have
+
+Verification fails without the organization tag. The key must be RSA, 3072-bit or larger.
+
+Instead of creating a key, run this command in the Azure CLI or Cloud Shell. It limits the key to `wrapKey` and `unwrapKey`. It also replaces the current version’s tags, so list any you want to keep in `--tags` as `name=value`.
+
+```bash
+az keyvault key set-attributes \
+  --vault-name <your-vault-name> \
+  --name <your-key-name> \
+  --ops wrapKey unwrapKey \
+  --tags anthropic-org-<ORGANIZATION_UUID>=true
+```
+
+You still need the service principal and role assignment steps.
+
+## In Claude: add and attach the key
+
+To script this part on Claude Platform, [use the Admin API](https://platform.claude.com/docs/en/manage-claude/cmek-admin-api) instead.
+
+<Tabs>
+  <Tab title="Claude Platform">
+    <Steps>
+      <Step title="Open the encryption key settings">
+        In the Claude Console, open [Encryption keys](https://platform.claude.com/settings/privacy#encryption-keys) on the Data retention page. If the section isn’t there, select **Organization** from the dropdown menu at the top.
+      </Step>
+
+      <Step title="Add the key">
+        Under **Encryption keys**, click **Add key**. Enter a **Display name**, select **Azure Key Vault**, and click **Continue**.
+      </Step>
+
+      <Step title="Enter the key details">
+        Check that your key has the **Organization tag** shown in the dialog box. Enter the **Vault URI**, **Key name**, and **Tenant ID**, leave **Client ID** empty, and click **Add**.
+      </Step>
+
+      <Step title="Verify the key">
+        In the **Encryption keys** list, click **Verify** next to the key. **Connected** appears when the check passes. If **Connection failed** appears instead, see [Troubleshoot CMEK](https://platform.claude.com/docs/en/manage-claude/cmek-troubleshooting).
+      </Step>
+
+      <Step title="Attach the key to a workspace">
+        <Warning>
+          Attaching a key [can’t be undone](https://platform.claude.com/docs/en/manage-claude/cmek-key-lifecycle#what-each-action-does). You can’t remove it from the workspace or replace it. If the key is deleted, Anthropic can’t recover the data it protects.
+        </Warning>
+
+        1. At the top of the Data retention page, select the workspace from the dropdown menu.
+        2. Under **Encryption key**, select the key and click **Save**.
+        3. Select the checkbox to confirm that you have read the CMEK documentation, then click **Confirm**.
+
+        You see **Workspace settings updated.** Once the key [takes effect](https://platform.claude.com/docs/en/manage-claude/cmek-how-it-works#when-your-key-takes-effect), your cloud provider’s audit log shows Anthropic’s calls to the key.
+
+        In a [ZDR organization](https://platform.claude.com/docs/en/manage-claude/cmek-data-retention#zdr-organizations), after you select the workspace, select **Standard data retention** so that **Encryption key** appears. After you click **Save**, click **Accept** on the data retention terms.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Claude Enterprise">
+    On Claude Enterprise, CMEK applies to the whole organization, and you can add only one key.
+
+    <Warning>
+      Adding a key [can’t be undone](https://platform.claude.com/docs/en/manage-claude/cmek-key-lifecycle#what-each-action-does). You can’t remove it from the organization or replace it. If the key is deleted, Anthropic can’t recover the data it protects.
+    </Warning>
+
+    Adding the key [turns off or changes some features](https://platform.claude.com/docs/en/manage-claude/cmek-coverage-claude-enterprise#turned-off-or-changed) for every user. To try CMEK first, use a separate organization.
+
+    <Steps>
+      <Step title="Open the encryption key settings">
+        Go to [claude.ai > Organization settings > Data and privacy](https://claude.ai/admin-settings/data-privacy-controls) and find **Encryption keys**.
+      </Step>
+
+      <Step title="Add the key">
+        Click **Add key**. Enter a **Display name** and select **Azure Key Vault**. Select the checkbox to confirm that you have read the CMEK documentation, then click **Continue**.
+      </Step>
+
+      <Step title="Enter the key details">
+        Check that your key has the **Organization tag** shown in the dialog box. Enter the **Vault URI**, **Key name**, and **Tenant ID**, leave **Client ID** empty, and click **Add**.
+      </Step>
+
+      <Step title="Confirm that the key was added">
+        The check can take up to 30 seconds. When **Encryption key configured.** appears, click **Done**. If **The encryption key couldn’t be added.** appears instead, [find the cause and retry](https://platform.claude.com/docs/en/manage-claude/cmek-troubleshooting#claude-ai-add-fails).
+
+        Your key protects data written from then on. Tell your users [which features changed](https://platform.claude.com/docs/en/manage-claude/cmek-coverage-claude-enterprise#turned-off-or-changed).
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>

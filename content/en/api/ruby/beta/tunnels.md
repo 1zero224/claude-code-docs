@@ -17,15 +17,15 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
 ### Parameters
 
-- `display_name: String`
+- `display_name: optional String | nil`
 
   Optional human-readable name for the tunnel (1-255 characters).
 
   minLength: 1, maxLength: 255
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `String = String`
 
@@ -129,7 +129,19 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -147,7 +159,7 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
     Unique identifier for the tunnel, prefixed with `tnl_`.
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     RFC 3339 datetime string indicating when the tunnel was archived. Null if it is not archived.
 
@@ -159,7 +171,7 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
     format: date-time
 
-  - `display_name: String`
+  - `display_name: String | nil`
 
     Human-readable name for the tunnel (1-255 characters). Null if unset.
 
@@ -208,9 +220,9 @@ Fetches a tunnel by ID.
 
   ID of the tunnel (`tnl_...`).
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `String = String`
 
@@ -314,7 +326,19 @@ Fetches a tunnel by ID.
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -332,7 +356,7 @@ Fetches a tunnel by ID.
 
     Unique identifier for the tunnel, prefixed with `tnl_`.
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     RFC 3339 datetime string indicating when the tunnel was archived. Null if it is not archived.
 
@@ -344,7 +368,7 @@ Fetches a tunnel by ID.
 
     format: date-time
 
-  - `display_name: String`
+  - `display_name: String | nil`
 
     Human-readable name for the tunnel (1-255 characters). Null if unset.
 
@@ -389,23 +413,23 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
 ### Parameters
 
-- `include_archived: bool` (query parameter)
+- `include_archived: optional bool` (query parameter)
 
   Whether to include archived tunnels in the results. Defaults to false.
 
-- `limit: Integer` (query parameter)
+- `limit: optional Integer` (query parameter)
 
   Maximum number of tunnels to return per page. Defaults to 20, maximum 1000.
 
   format: int32
 
-- `page: String` (query parameter)
+- `page: optional String` (query parameter)
 
   Opaque pagination cursor from a previous `list_tunnels` response.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `String = String`
 
@@ -509,7 +533,19 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -527,7 +563,7 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
     Unique identifier for the tunnel, prefixed with `tnl_`.
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     RFC 3339 datetime string indicating when the tunnel was archived. Null if it is not archived.
 
@@ -539,7 +575,7 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
     format: date-time
 
-  - `display_name: String`
+  - `display_name: String | nil`
 
     Human-readable name for the tunnel (1-255 characters). Null if unset.
 
@@ -593,9 +629,9 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
   ID of the tunnel (`tnl_...`).
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `String = String`
 
@@ -699,7 +735,19 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -717,7 +765,7 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
     Unique identifier for the tunnel, prefixed with `tnl_`.
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     RFC 3339 datetime string indicating when the tunnel was archived. Null if it is not archived.
 
@@ -729,7 +777,7 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
     format: date-time
 
-  - `display_name: String`
+  - `display_name: String | nil`
 
     Human-readable name for the tunnel (1-255 characters). Null if unset.
 
@@ -778,9 +826,9 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
 
   ID of the tunnel (`tnl_...`).
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `String = String`
 
@@ -884,7 +932,19 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -944,15 +1004,15 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
 
   ID of the tunnel (`tnl_...`).
 
-- `reason: String`
+- `reason: optional String | nil`
 
   Optional free-text reason for the rotation, recorded for audit.
 
   maxLength: 1024
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `String = String`
 
@@ -1056,7 +1116,19 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1114,7 +1186,7 @@ puts(beta_tunnel_token)
 
     Unique identifier for the tunnel, prefixed with `tnl_`.
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     RFC 3339 datetime string indicating when the tunnel was archived. Null if it is not archived.
 
@@ -1126,7 +1198,7 @@ puts(beta_tunnel_token)
 
     format: date-time
 
-  - `display_name: String`
+  - `display_name: String | nil`
 
     Human-readable name for the tunnel (1-255 characters). Null if unset.
 
@@ -1174,9 +1246,9 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 
   maxLength: 8192
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `String = String`
 
@@ -1280,7 +1352,19 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1298,7 +1382,7 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 
     Unique identifier for the certificate, prefixed with `tcrt_`.
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     RFC 3339 datetime string indicating when the certificate was archived. Null if it is still in the trusted set.
 
@@ -1310,7 +1394,7 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 
     format: date-time
 
-  - `expires_at: Time`
+  - `expires_at: Time | nil`
 
     RFC 3339 datetime string indicating when the certificate expires, or `null` if it does not expire.
 
@@ -1370,9 +1454,9 @@ Fetches a tunnel certificate by ID.
 
   ID of the certificate (`tcrt_...`).
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `String = String`
 
@@ -1476,7 +1560,19 @@ Fetches a tunnel certificate by ID.
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1494,7 +1590,7 @@ Fetches a tunnel certificate by ID.
 
     Unique identifier for the certificate, prefixed with `tcrt_`.
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     RFC 3339 datetime string indicating when the certificate was archived. Null if it is still in the trusted set.
 
@@ -1506,7 +1602,7 @@ Fetches a tunnel certificate by ID.
 
     format: date-time
 
-  - `expires_at: Time`
+  - `expires_at: Time | nil`
 
     RFC 3339 datetime string indicating when the certificate expires, or `null` if it does not expire.
 
@@ -1562,23 +1658,23 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
   ID of the tunnel (`tnl_...`).
 
-- `include_archived: bool` (query parameter)
+- `include_archived: optional bool` (query parameter)
 
   Whether to include archived certificates in the results. Defaults to false.
 
-- `limit: Integer` (query parameter)
+- `limit: optional Integer` (query parameter)
 
   Maximum number of certificates to return per page. Defaults to 20, maximum 1000.
 
   format: int32
 
-- `page: String` (query parameter)
+- `page: optional String` (query parameter)
 
   Opaque pagination cursor from a previous `list_tunnel_certificates` response.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `String = String`
 
@@ -1682,7 +1778,19 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1700,7 +1808,7 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
     Unique identifier for the certificate, prefixed with `tcrt_`.
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     RFC 3339 datetime string indicating when the certificate was archived. Null if it is still in the trusted set.
 
@@ -1712,7 +1820,7 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
     format: date-time
 
-  - `expires_at: Time`
+  - `expires_at: Time | nil`
 
     RFC 3339 datetime string indicating when the certificate expires, or `null` if it does not expire.
 
@@ -1777,9 +1885,9 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 
   ID of the certificate to archive (`tcrt_...`).
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `String = String`
 
@@ -1883,7 +1991,19 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1901,7 +2021,7 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 
     Unique identifier for the certificate, prefixed with `tcrt_`.
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     RFC 3339 datetime string indicating when the certificate was archived. Null if it is still in the trusted set.
 
@@ -1913,7 +2033,7 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 
     format: date-time
 
-  - `expires_at: Time`
+  - `expires_at: Time | nil`
 
     RFC 3339 datetime string indicating when the certificate expires, or `null` if it does not expire.
 

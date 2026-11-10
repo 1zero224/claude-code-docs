@@ -5,11 +5,11 @@ url: https://platform.claude.com/docs/en/api/beta/vaults/credentials
 
 # Credentials
 
-## Create Credential
+## Create a Credential
 
 **POST** `/v1/vaults/{vault_id}/credentials`
 
-Create Credential
+Create a Credential
 
 ### Path parameters
 
@@ -21,9 +21,13 @@ Create Credential
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -127,6 +131,18 @@ Create Credential
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -147,9 +163,9 @@ Create Credential
 
     - `access_token: string`
 
-      OAuth access token.
+      The OAuth access token to send to the MCP server.
 
-      minLength: 1, maxLength: 8192
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
     - `mcp_server_url: string`
 
@@ -159,7 +175,9 @@ Create Credential
 
     - `expires_at: optional string or null`
 
-      A timestamp in RFC 3339 format
+      When `access_token` expires, in RFC 3339.
+
+      Must be in the future.
 
       format: date-time
 
@@ -169,13 +187,13 @@ Create Credential
 
       - `client_id: string`
 
-        OAuth client ID.
+        The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
 
         minLength: 1, maxLength: 1024
 
       - `refresh_token: string`
 
-        OAuth refresh token.
+        The OAuth refresh token that the API uses to get a new access token when the current one expires.
 
         minLength: 1, maxLength: 8192
 
@@ -201,7 +219,7 @@ Create Credential
 
           - `client_secret: string`
 
-            OAuth client secret.
+            The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
             minLength: 1, maxLength: 512
 
@@ -213,7 +231,7 @@ Create Credential
 
           - `client_secret: string`
 
-            OAuth client secret.
+            The OAuth client secret, sent to `token_endpoint` in the POST body.
 
             minLength: 1, maxLength: 512
 
@@ -237,9 +255,9 @@ Create Credential
 
     - `token: string`
 
-      Static bearer token value.
+      The static bearer token to send to the MCP server, such as an API key or personal access token.
 
-      minLength: 1, maxLength: 8192
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
     - `mcp_server_url: string`
 
@@ -271,19 +289,21 @@ Create Credential
 
         - `allowed_hosts: array of string`
 
-          Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+          The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+          Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
     - `secret_name: string`
 
       Name of the environment variable. Immutable after create.
 
-      minLength: 1, maxLength: 255
+      minLength: 1, maxLength: 255, pattern: ^[A-Z_][A-Z0-9_]*$
 
     - `secret_value: string`
 
-      Secret value. Write-only; never returned in responses.
+      The secret to substitute into the agent's outbound requests. It's write-only and never returned in responses.
 
-      minLength: 1, maxLength: 4096
+      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
     - `injection_location: optional BetaManagedAgentsInjectionLocationParams`
 
@@ -317,7 +337,7 @@ Create Credential
 
   - `id: string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `archived_at: string or null`
 
@@ -341,7 +361,7 @@ Create Credential
 
       - `expires_at: optional string or null`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -351,7 +371,7 @@ Create Credential
 
         - `client_id: string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: string`
 
@@ -431,7 +451,9 @@ Create Credential
 
           - `allowed_hosts: array of string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: string`
 
@@ -466,9 +488,9 @@ Create Credential
 ```bash
 curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials \
     -H 'Content-Type: application/json' \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY" \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
           "auth": {
             "token": "bearer_exampletoken",
@@ -519,7 +541,7 @@ List Credentials
 
 - `include_archived: optional boolean`
 
-  Whether to include archived credentials in the results.
+  Whether to include archived credentials in the results. Defaults to `false`.
 
 - `limit: optional number`
 
@@ -529,15 +551,19 @@ List Credentials
 
 - `page: optional string`
 
-  Opaque pagination token from a previous `list_credentials` response.
+  The `next_page` value from a previous [List Credentials](https://platform.claude.com/docs/en/api/beta/vaults/credentials/list?sdk_languages=http) response, to get the next page. Leave it out to get the first page.
 
 ### Headers
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -641,6 +667,18 @@ List Credentials
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -651,13 +689,15 @@ List Credentials
 
 - `data: optional array of BetaManagedAgentsCredential`
 
-  List of credentials.
+  The credentials on this page, newest first.
+
+  - `type: "vault_credential"`
 
   - `type: "vault_credential"`
 
   - `id: string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `archived_at: string or null`
 
@@ -681,7 +721,7 @@ List Credentials
 
       - `expires_at: optional string or null`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -691,7 +731,7 @@ List Credentials
 
         - `client_id: string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: string`
 
@@ -771,7 +811,9 @@ List Credentials
 
           - `allowed_hosts: array of string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: string`
 
@@ -809,9 +851,9 @@ List Credentials
 
 ```bash
 curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -840,11 +882,11 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials \
 }
 ```
 
-## Get Credential
+## Retrieve a Credential
 
 **GET** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Get Credential
+Retrieve a Credential
 
 ### Path parameters
 
@@ -860,9 +902,13 @@ Get Credential
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -966,6 +1012,18 @@ Get Credential
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -982,7 +1040,7 @@ Get Credential
 
   - `id: string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `archived_at: string or null`
 
@@ -1006,7 +1064,7 @@ Get Credential
 
       - `expires_at: optional string or null`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -1016,7 +1074,7 @@ Get Credential
 
         - `client_id: string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: string`
 
@@ -1096,7 +1154,9 @@ Get Credential
 
           - `allowed_hosts: array of string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: string`
 
@@ -1130,9 +1190,9 @@ Get Credential
 
 ```bash
 curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -1156,11 +1216,11 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 }
 ```
 
-## Update Credential
+## Update a Credential
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Update Credential
+Update a Credential
 
 ### Path parameters
 
@@ -1176,9 +1236,13 @@ Update Credential
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -1282,6 +1346,18 @@ Update Credential
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1292,7 +1368,7 @@ Update Credential
 
 - `auth: optional BetaManagedAgentsMCPOAuthUpdateParams or BetaManagedAgentsStaticBearerUpdateParams or BetaManagedAgentsEnvironmentVariableUpdateParams`
 
-  Updated authentication configuration. The `type` is immutable; the variant sent must match the stored credential's type.
+  New authentication settings for the credential. The `type` must match the credential's current type, which can't be changed.
 
   - `BetaManagedAgentsMCPOAuthUpdateParams object`
 
@@ -1302,13 +1378,17 @@ Update Credential
 
     - `access_token: optional string or null`
 
-      Updated OAuth access token.
+      The new OAuth access token to replace the stored one.
 
-      minLength: 1, maxLength: 8192
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
     - `expires_at: optional string or null`
 
-      A timestamp in RFC 3339 format
+      When the credential's access token expires, in RFC 3339. Leave it out to keep the stored expiry.
+
+      If you send a new `access_token`, send its `expires_at` too, or the new token keeps the old expiry.
+
+      Must be in the future.
 
       format: date-time
 
@@ -1318,13 +1398,13 @@ Update Credential
 
       - `refresh_token: optional string or null`
 
-        Updated OAuth refresh token.
+        The new OAuth refresh token to replace the stored one.
 
         minLength: 1, maxLength: 8192
 
       - `scope: optional string or null`
 
-        Updated OAuth scope for the refresh request.
+        The new OAuth scope for refresh requests. Send an empty string to clear the stored scope.
 
         maxLength: 8192
 
@@ -1338,7 +1418,9 @@ Update Credential
 
           - `client_secret: optional string or null`
 
-            Updated OAuth client secret.
+            A new OAuth client secret to replace the stored one.
+
+            The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
             minLength: 1, maxLength: 512
 
@@ -1350,7 +1432,9 @@ Update Credential
 
           - `client_secret: optional string or null`
 
-            Updated OAuth client secret.
+            A new OAuth client secret to replace the stored one.
+
+            The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
             minLength: 1, maxLength: 512
 
@@ -1362,9 +1446,9 @@ Update Credential
 
     - `token: optional string or null`
 
-      Updated static bearer token value.
+      The new static bearer token to replace the stored one.
 
-      minLength: 1, maxLength: 8192
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `BetaManagedAgentsEnvironmentVariableUpdateParams object`
 
@@ -1386,7 +1470,7 @@ Update Credential
 
     - `networking: optional BetaManagedAgentsCredentialNetworkingParams or null`
 
-      Updated networking scope. Full replacement.
+      The new networking scope, which replaces the stored one as a whole.
 
       - `BetaManagedAgentsUnrestrictedCredentialNetworkingParams object`
 
@@ -1402,13 +1486,15 @@ Update Credential
 
         - `allowed_hosts: array of string`
 
-          Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+          The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+          Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
     - `secret_value: optional string or null`
 
-      Updated secret value.
+      The new secret value to replace the stored one.
 
-      minLength: 1, maxLength: 4096
+      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
 - `display_name: optional string or null`
 
@@ -1430,7 +1516,7 @@ Update Credential
 
   - `id: string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `archived_at: string or null`
 
@@ -1454,7 +1540,7 @@ Update Credential
 
       - `expires_at: optional string or null`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -1464,7 +1550,7 @@ Update Credential
 
         - `client_id: string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: string`
 
@@ -1544,7 +1630,9 @@ Update Credential
 
           - `allowed_hosts: array of string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: string`
 
@@ -1579,9 +1667,9 @@ Update Credential
 ```bash
 curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
     -H 'Content-Type: application/json' \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY" \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
           "display_name": "Example credential",
           "metadata": {
@@ -1611,11 +1699,11 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 }
 ```
 
-## Delete Credential
+## Delete a Credential
 
 **DELETE** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Delete Credential
+Delete a Credential
 
 ### Path parameters
 
@@ -1631,9 +1719,13 @@ Delete Credential
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -1736,6 +1828,18 @@ Delete Credential
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `"anthropic-workspace-id": optional string`
 
@@ -1753,16 +1857,16 @@ Delete Credential
 
   - `id: string`
 
-    Unique identifier of the deleted credential.
+    The unique ID of the deleted credential (`vcrd_...`).
 
 ### Example
 
 ```bash
 curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
     -X DELETE \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -1774,11 +1878,11 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 }
 ```
 
-## Archive Credential
+## Archive a Credential
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/archive`
 
-Archive Credential
+Archive a Credential
 
 ### Path parameters
 
@@ -1794,9 +1898,13 @@ Archive Credential
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -1900,6 +2008,18 @@ Archive Credential
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1916,7 +2036,7 @@ Archive Credential
 
   - `id: string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `archived_at: string or null`
 
@@ -1940,7 +2060,7 @@ Archive Credential
 
       - `expires_at: optional string or null`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -1950,7 +2070,7 @@ Archive Credential
 
         - `client_id: string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: string`
 
@@ -2030,7 +2150,9 @@ Archive Credential
 
           - `allowed_hosts: array of string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: string`
 
@@ -2065,9 +2187,9 @@ Archive Credential
 ```bash
 curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/archive \
     -X POST \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -2091,11 +2213,11 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/ar
 }
 ```
 
-## Validate Credential
+## Validate an MCP OAuth Credential
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/mcp_oauth_validate`
 
-Validate Credential
+Validate an MCP OAuth Credential
 
 ### Path parameters
 
@@ -2111,9 +2233,13 @@ Validate Credential
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -2217,6 +2343,18 @@ Validate Credential
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -2241,11 +2379,11 @@ Validate Credential
 
   - `mcp_probe: BetaManagedAgentsMCPProbe or null`
 
-    Details of the failing MCP probe step. Null when the probe succeeded.
+    Details of the MCP probe step that failed, or `null` if the probe succeeded or there was no access token to test.
 
     - `http_response: BetaManagedAgentsRefreshHTTPResponse or null`
 
-      The captured HTTP error response. Null when no HTTP response was received (timeout, DNS, TLS).
+      The HTTP error response from the MCP server, or `null` if the MCP server didn't return one for the failing step, for example after a timeout or a DNS or TLS failure.
 
       - `body: string`
 
@@ -2307,11 +2445,11 @@ Validate Credential
 
     - `"invalid"`
 
-      The probe reached the MCP server and was rejected, and a refresh (if attempted) did not recover it.
+      The probe reached the MCP server and the server rejected the credential, or no access token is stored. A refresh, if one was tried, didn't recover it. Usually the end user needs to authorize again.
 
     - `"unknown"`
 
-      The probe could not determine validity — for example, a transport error or a successful refresh that was not re-probed.
+      The probe couldn't tell whether the credential works, for example because of a network error or because a refresh succeeded but the new access token wasn't tested. Validate the credential again to find out.
 
   - `validated_at: string`
 
@@ -2328,9 +2466,9 @@ Validate Credential
 ```bash
 curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mcp_oauth_validate \
     -X POST \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -2376,7 +2514,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `id: string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `archived_at: string or null`
 
@@ -2400,7 +2538,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
       - `expires_at: optional string or null`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -2410,7 +2548,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
         - `client_id: string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: string`
 
@@ -2490,7 +2628,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
           - `allowed_hosts: array of string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: string`
 
@@ -2538,7 +2678,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
     - `allowed_hosts: array of string`
 
-      Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+      The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+      Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
 ### Beta Managed Agents Credential Validation
 
@@ -2558,11 +2700,11 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `mcp_probe: BetaManagedAgentsMCPProbe or null`
 
-    Details of the failing MCP probe step. Null when the probe succeeded.
+    Details of the MCP probe step that failed, or `null` if the probe succeeded or there was no access token to test.
 
     - `http_response: BetaManagedAgentsRefreshHTTPResponse or null`
 
-      The captured HTTP error response. Null when no HTTP response was received (timeout, DNS, TLS).
+      The HTTP error response from the MCP server, or `null` if the MCP server didn't return one for the failing step, for example after a timeout or a DNS or TLS failure.
 
       - `body: string`
 
@@ -2624,11 +2766,11 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
     - `"invalid"`
 
-      The probe reached the MCP server and was rejected, and a refresh (if attempted) did not recover it.
+      The probe reached the MCP server and the server rejected the credential, or no access token is stored. A refresh, if one was tried, didn't recover it. Usually the end user needs to authorize again.
 
     - `"unknown"`
 
-      The probe could not determine validity — for example, a transport error or a successful refresh that was not re-probed.
+      The probe couldn't tell whether the credential works, for example because of a network error or because a refresh succeeded but the new access token wasn't tested. Validate the credential again to find out.
 
   - `validated_at: string`
 
@@ -2652,11 +2794,11 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `"invalid"`
 
-    The probe reached the MCP server and was rejected, and a refresh (if attempted) did not recover it.
+    The probe reached the MCP server and the server rejected the credential, or no access token is stored. A refresh, if one was tried, didn't recover it. Usually the end user needs to authorize again.
 
   - `"unknown"`
 
-    The probe could not determine validity — for example, a transport error or a successful refresh that was not re-probed.
+    The probe couldn't tell whether the credential works, for example because of a network error or because a refresh succeeded but the new access token wasn't tested. Validate the credential again to find out.
 
 ### Beta Managed Agents Deleted Credential
 
@@ -2668,7 +2810,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `id: string`
 
-    Unique identifier of the deleted credential.
+    The unique ID of the deleted credential (`vcrd_...`).
 
 ### Beta Managed Agents Environment Variable Auth Response
 
@@ -2708,7 +2850,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
       - `allowed_hosts: array of string`
 
-        Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+        The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+        An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
   - `secret_name: string`
 
@@ -2740,19 +2884,21 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
       - `allowed_hosts: array of string`
 
-        Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+        The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+        Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
   - `secret_name: string`
 
     Name of the environment variable. Immutable after create.
 
-    minLength: 1, maxLength: 255
+    minLength: 1, maxLength: 255, pattern: ^[A-Z_][A-Z0-9_]*$
 
   - `secret_value: string`
 
-    Secret value. Write-only; never returned in responses.
+    The secret to substitute into the agent's outbound requests. It's write-only and never returned in responses.
 
-    minLength: 1, maxLength: 4096
+    minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `injection_location: optional BetaManagedAgentsInjectionLocationParams`
 
@@ -2788,7 +2934,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `networking: optional BetaManagedAgentsCredentialNetworkingParams or null`
 
-    Updated networking scope. Full replacement.
+    The new networking scope, which replaces the stored one as a whole.
 
     - `BetaManagedAgentsUnrestrictedCredentialNetworkingParams object`
 
@@ -2804,13 +2950,15 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
       - `allowed_hosts: array of string`
 
-        Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+        The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+        Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
   - `secret_value: optional string or null`
 
-    Updated secret value.
+    The new secret value to replace the stored one.
 
-    minLength: 1, maxLength: 4096
+    minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
 ### Beta Managed Agents Injection Location Params
 
@@ -2844,7 +2992,11 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
 - `BetaManagedAgentsInjectionLocationUpdateParams object`
 
-  Updated injection location.
+  Changes which parts of an outbound request the secret is substituted into. A location you leave out keeps its current setting.
+
+  After the change, at least one location must be enabled.
+
+  See [Authenticate with vaults](https://platform.claude.com/docs/en/managed-agents/vaults?sdk_languages=http#add-a-credential) to learn more about injection locations.
 
   - `body: optional boolean`
 
@@ -2864,7 +3016,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `allowed_hosts: array of string`
 
-    Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+    The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+    Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
 ### Beta Managed Agents Limited Credential Networking Response
 
@@ -2876,7 +3030,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `allowed_hosts: array of string`
 
-    Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+    The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+    An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
 ### Beta Managed Agents MCP OAuth Auth Response
 
@@ -2892,7 +3048,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `expires_at: optional string or null`
 
-    A timestamp in RFC 3339 format
+    When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
     format: date-time
 
@@ -2902,7 +3058,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
     - `client_id: string`
 
-      OAuth client ID.
+      The OAuth client ID used when refreshing the access token.
 
     - `token_endpoint: string`
 
@@ -2946,9 +3102,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `access_token: string`
 
-    OAuth access token.
+    The OAuth access token to send to the MCP server.
 
-    minLength: 1, maxLength: 8192
+    minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `mcp_server_url: string`
 
@@ -2958,7 +3114,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `expires_at: optional string or null`
 
-    A timestamp in RFC 3339 format
+    When `access_token` expires, in RFC 3339.
+
+    Must be in the future.
 
     format: date-time
 
@@ -2968,13 +3126,13 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
     - `client_id: string`
 
-      OAuth client ID.
+      The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
 
       minLength: 1, maxLength: 1024
 
     - `refresh_token: string`
 
-      OAuth refresh token.
+      The OAuth refresh token that the API uses to get a new access token when the current one expires.
 
       minLength: 1, maxLength: 8192
 
@@ -3000,7 +3158,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
         - `client_secret: string`
 
-          OAuth client secret.
+          The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
           minLength: 1, maxLength: 512
 
@@ -3012,7 +3170,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
         - `client_secret: string`
 
-          OAuth client secret.
+          The OAuth client secret, sent to `token_endpoint` in the POST body.
 
           minLength: 1, maxLength: 512
 
@@ -3036,13 +3194,13 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `client_id: string`
 
-    OAuth client ID.
+    The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
 
     minLength: 1, maxLength: 1024
 
   - `refresh_token: string`
 
-    OAuth refresh token.
+    The OAuth refresh token that the API uses to get a new access token when the current one expires.
 
     minLength: 1, maxLength: 8192
 
@@ -3068,7 +3226,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
       - `client_secret: string`
 
-        OAuth client secret.
+        The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
         minLength: 1, maxLength: 512
 
@@ -3080,7 +3238,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
       - `client_secret: string`
 
-        OAuth client secret.
+        The OAuth client secret, sent to `token_endpoint` in the POST body.
 
         minLength: 1, maxLength: 512
 
@@ -3104,7 +3262,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `client_id: string`
 
-    OAuth client ID.
+    The OAuth client ID used when refreshing the access token.
 
   - `token_endpoint: string`
 
@@ -3146,13 +3304,13 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `refresh_token: optional string or null`
 
-    Updated OAuth refresh token.
+    The new OAuth refresh token to replace the stored one.
 
     minLength: 1, maxLength: 8192
 
   - `scope: optional string or null`
 
-    Updated OAuth scope for the refresh request.
+    The new OAuth scope for refresh requests. Send an empty string to clear the stored scope.
 
     maxLength: 8192
 
@@ -3166,7 +3324,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
       - `client_secret: optional string or null`
 
-        Updated OAuth client secret.
+        A new OAuth client secret to replace the stored one.
+
+        The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
         minLength: 1, maxLength: 512
 
@@ -3178,7 +3338,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
       - `client_secret: optional string or null`
 
-        Updated OAuth client secret.
+        A new OAuth client secret to replace the stored one.
+
+        The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
         minLength: 1, maxLength: 512
 
@@ -3192,13 +3354,17 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `access_token: optional string or null`
 
-    Updated OAuth access token.
+    The new OAuth access token to replace the stored one.
 
-    minLength: 1, maxLength: 8192
+    minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `expires_at: optional string or null`
 
-    A timestamp in RFC 3339 format
+    When the credential's access token expires, in RFC 3339. Leave it out to keep the stored expiry.
+
+    If you send a new `access_token`, send its `expires_at` too, or the new token keeps the old expiry.
+
+    Must be in the future.
 
     format: date-time
 
@@ -3208,13 +3374,13 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
     - `refresh_token: optional string or null`
 
-      Updated OAuth refresh token.
+      The new OAuth refresh token to replace the stored one.
 
       minLength: 1, maxLength: 8192
 
     - `scope: optional string or null`
 
-      Updated OAuth scope for the refresh request.
+      The new OAuth scope for refresh requests. Send an empty string to clear the stored scope.
 
       maxLength: 8192
 
@@ -3228,7 +3394,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
         - `client_secret: optional string or null`
 
-          Updated OAuth client secret.
+          A new OAuth client secret to replace the stored one.
+
+          The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
           minLength: 1, maxLength: 512
 
@@ -3240,7 +3408,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
         - `client_secret: optional string or null`
 
-          Updated OAuth client secret.
+          A new OAuth client secret to replace the stored one.
+
+          The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
           minLength: 1, maxLength: 512
 
@@ -3252,7 +3422,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `http_response: BetaManagedAgentsRefreshHTTPResponse or null`
 
-    The captured HTTP error response. Null when no HTTP response was received (timeout, DNS, TLS).
+    The HTTP error response from the MCP server, or `null` if the MCP server didn't return one for the failing step, for example after a timeout or a DNS or TLS failure.
 
     - `body: string`
 
@@ -3370,9 +3540,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `token: string`
 
-    Static bearer token value.
+    The static bearer token to send to the MCP server, such as an API key or personal access token.
 
-    minLength: 1, maxLength: 8192
+    minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `mcp_server_url: string`
 
@@ -3390,9 +3560,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `token: optional string or null`
 
-    Updated static bearer token value.
+    The new static bearer token to replace the stored one.
 
-    minLength: 1, maxLength: 8192
+    minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
 ### Beta Managed Agents Token Endpoint Auth Basic Param
 
@@ -3404,7 +3574,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `client_secret: string`
 
-    OAuth client secret.
+    The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
     minLength: 1, maxLength: 512
 
@@ -3426,7 +3596,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `client_secret: optional string or null`
 
-    Updated OAuth client secret.
+    A new OAuth client secret to replace the stored one.
+
+    The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
     minLength: 1, maxLength: 512
 
@@ -3456,7 +3628,7 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `client_secret: string`
 
-    OAuth client secret.
+    The OAuth client secret, sent to `token_endpoint` in the POST body.
 
     minLength: 1, maxLength: 512
 
@@ -3478,7 +3650,9 @@ curl https://api.anthropic.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID/mc
 
   - `client_secret: optional string or null`
 
-    Updated OAuth client secret.
+    A new OAuth client secret to replace the stored one.
+
+    The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
     minLength: 1, maxLength: 512
 

@@ -16,6 +16,8 @@ Projects are available to all users, including those with free Claude accounts. 
 
   - **Share with your broader organization:** Everyone in your organization can view and use this project (where enabled by administrators).
 
+5. If you're on an Enterprise plan and your organization requires project tags (beta), set a value for each required tag. See **[Track spend by cost code with project tags](https://support.claude.com/en/articles/18251257-track-spend-by-project-with-tags)**. Tag names and values are visible to all users in your organization, so keep sensitive information out of them.
+
 Once your project is set up, you can initiate chats with Claude within the project.
 
 ## Add content to project knowledge
@@ -60,7 +62,7 @@ If you're on a Team or Enterprise plan, you can share projects with other users 
 
   - **Can view:** Members can see project contents, knowledge, and instructions, and chat within the project, but cannot edit it.
 
-  - **Can edit:** Members can modify project instructions and knowledge, update member settings, and actively contribute to the project.
+  - **Can edit:** Members can modify project instructions and knowledge, update member settings, add project tags (beta) on Enterprise plans, and actively contribute to the project.
 
 5. Click "Share" to send invitations.
 
@@ -104,21 +106,21 @@ Starring a project allows for quick access from your projects and chats list, vi
 
 You can move a standalone chat into a project by clicking on the dropdown arrow next to the chat name, then “Add to project”:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784190248/0f19c8de18b494a27be252fdfaff/d4e7a5c5-25f5-4623-862b-c593d2dc0b39?expires=1792108800&amp;signature=af1d0d3609d05d90f3194266b282c295b08cc595aba2f81f2fb30e3ec8f60ded&amp;req=dScvEsh3nYNbUfMW3nq%2BgXuLDiqr6TQxVPcvfZakkxH5GlDFZ%2B8ZfYcPCAmz%0AsfC9JtDnYUSpRVhgXXEB21Un%2BSw%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784190248/0f19c8de18b494a27be252fdfaff/d4e7a5c5-25f5-4623-862b-c593d2dc0b39?expires=1794298500&amp;signature=cd217762c50235a7579e41bd8de0e4532b2ca879b26f294fa7b258ae58b8fe63&amp;req=dScvEsh3nYNbUfMW1HO4zQABaGVuQ6gQBSXNVFXQ%2FVFF%2Fbj7R0Krry%2FBi88e%0AQX7r4rtnMEgNkGw%2FI2c%3D%0A)
 
 Browse or search for the correct project in the **Move chat** modal that appears, then click on it to move the chat.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784190951/34dc256ccd4c0cf74976f31062e6/55365cf2-059d-41b2-ac95-4b00c4389a76?expires=1792108800&amp;signature=653d3f78f3403ce81ff0b84863b21cb7d10a23ee02dfdceff03118c214688c01&amp;req=dScvEsh3nYhaWPMW3nq%2BgaHJV1YEkYwc%2FSOLKq4iewpxZe7aWfMaaUsn5A6V%0AVcpAqpfsAFHUa0n53nttSxd5Ro8%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784190951/34dc256ccd4c0cf74976f31062e6/55365cf2-059d-41b2-ac95-4b00c4389a76?expires=1794298500&amp;signature=732cfb49a4f98707584afce53c71e9e1a8f7fad82aaa8968d1521cf554f8d9b1&amp;req=dScvEsh3nYhaWPMW1HO4zSMECySywgEEgYbpTjViBxCTY7VCxeLfrEc%2BEvC%2F%0AumtacHOZvVhtWk73XRw%3D%0A)
 
 You can also remove chats from projects, or move them between projects, using the same dropdown menu within the chat:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784185682/8625eac15b9fa452f148a6c47250/c53a1bc4-a991-4684-a789-5447ed789d35?expires=1792108800&amp;signature=c7c8e0e087ffa7f7f4e47b5ee5dae90f47dc9b9a9010e35a2a3950911605025a&amp;req=dScvEsh2mIdXW%2FMW3nq%2BgcRackgj712vAoJgXkUx%2BGGi1OmAB3EbjGuD8Jij%0AZbfA%2FWZrHSdvcYk4UFvbXJIctTM%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1784185682/8625eac15b9fa452f148a6c47250/c53a1bc4-a991-4684-a789-5447ed789d35?expires=1794298500&amp;signature=1b67c2f632edd5e28f4ab6055e054fb0983cdbf0f35802bd02c1813af06fcc4a&amp;req=dScvEsh2mIdXW%2FMW1HO4zb6DufMuB00PS2r1%2FGRlqOQnyMFyXZ%2B25AHxASZA%0AGTTqbt72XSRRnQH%2B1S0%3D%0A)
 
 ---
 
 ## Manage Claude’s memory in projects
 
-Memory is on by default for Free, Pro, and Max plans on the web, Claude Desktop, and Claude Mobile. On Team and Enterprise plans, memory is available when an owner has enabled it.
+Memory is on by default for Free, Pro, Max, and Ultra plans on the web, Claude Desktop, and Claude Mobile. On Team and Enterprise plans, owners control whether memory is available.
 
 Each project has its own memory. While working in a project, Claude uses the project's memory alongside your memory from chats outside of projects, but not memory from other projects. New memory is saved to the project, and if you have memory turned on, Claude can reference it in chats outside of projects too. To keep a project's memory fully separate, turn off "Use account memory" under **Memory** on the project's page.
 

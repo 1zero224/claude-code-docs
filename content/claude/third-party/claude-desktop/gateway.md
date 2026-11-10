@@ -13,7 +13,9 @@ The gateway must implement the Anthropic [Messages API](https://docs.claude.com/
 * `POST /v1/messages` with [streaming](https://docs.claude.com/en/api/streaming) and [tool use](https://docs.claude.com/en/docs/tool-use) is required.
 * `GET /v1/models` is optional. If the gateway implements it, Claude Desktop on 3P auto-discovers available models; if not, set `inferenceModels` explicitly.
 
-The gateway should also preserve [prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching). Cowork and Code sessions send `cache_control` breakpoints with each turn so that the provider can reuse the tool definitions, system prompt, and earlier turns of the conversation instead of reprocessing them. A gateway that forwards these fields, or translates them for its upstream provider, keeps that behavior. A gateway that strips `cache_control`, or that changes the system prompt or tool list from one request to the next, makes the provider reprocess the whole conversation on every turn at full input-token cost and higher latency. To verify, check the [usage fields](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#tracking-cache-performance) your gateway returns or logs for Claude Desktop traffic: after the first request of a session, `cache_read_input_tokens` should be well above zero on most requests. If it is zero on every request, review the gateway's request transformation and caching settings for the route that serves Claude models.
+The gateway should also preserve [prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching). Chat, Cowork, and Code sessions send `cache_control` breakpoints with each turn so that the provider can reuse the tool definitions, system prompt, and earlier turns of the conversation instead of reprocessing them. A gateway that forwards these fields, or translates them for its upstream provider, keeps that behavior. A gateway that strips `cache_control`, or that changes the system prompt or tool list from one request to the next, makes the provider reprocess the whole conversation on every turn at full input-token cost and higher latency. To verify, check the [usage fields](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#tracking-cache-performance) your gateway returns or logs for Claude Desktop traffic: after the first request of a session, `cache_read_input_tokens` should be well above zero on most requests. If it is zero on every request, review the gateway's request transformation and caching settings for the route that serves Claude models.
+
+In Chat and Cowork, the main conversation's breakpoints ask for a one-hour lifetime (`"ttl": "1h"`). In each response's `usage`, return the provider's `cache_creation` object with its `ephemeral_5m_input_tokens` and `ephemeral_1h_input_tokens` fields. Without that object, the [API request event](https://claude.com/docs/cowork/monitoring.md#api-request-event) in your OpenTelemetry export reports `0` for both `cache_creation_5m_tokens` and `cache_creation_1h_tokens`.
 
 ## Choose an authentication approach
 
@@ -21,7 +23,7 @@ The gateway should also preserve [prompt caching](https://platform.claude.com/do
 | - | - | - |
 | Proof of concept, or your gateway already issues per-team keys | [Static API key](#static-api-key) (`inferenceGatewayApiKey`) | A long-lived secret distributed in the managed profile. |
 | Per-user attribution and identity-provider enforcement (MFA, conditional access) | [Single sign-on](#single-sign-on-with-your-identity-provider) (`inferenceGatewayOidc`) | Each user signs in with their own work account. Requires app version 1.6889.0 or later. |
-| Your organization already has tooling that obtains a gateway credential | [Credential helper](/docs/third-party/claude-desktop/configuration#inferencecredentialhelper) (`inferenceCredentialHelper`) | An executable that prints the gateway credential to stdout at runtime. |
+| Your organization already has tooling that obtains a gateway credential | [Credential helper](https://claude.com/docs/third-party/claude-desktop/configuration.md#inferencecredentialhelper) (`inferenceCredentialHelper`) | An executable that prints the gateway credential to stdout at runtime. |
 
 ## Prepare devices
 
@@ -45,58 +47,56 @@ The walkthrough below uses Microsoft Entra ID. An Okta variant follows.
 
 #### Set up single sign-on
 
-<Steps>
-  <Step title="Register an application in Entra ID">
-    In the [Microsoft Entra admin center](https://entra.microsoft.com), go to **Identity → Applications → App registrations** and select **New registration**. Give it a name such as `Claude Desktop gateway`, choose **Accounts in this organizational directory only**, and select **Register**.
+**1. Register an application in Entra ID**
 
-    On the overview page, copy the **Application (client) ID** and **Directory (tenant) ID**. You will use both in the next two steps.
+In the [Microsoft Entra admin center](https://entra.microsoft.com), go to **Identity → Applications → App registrations** and select **New registration**. Give it a name such as `Claude Desktop gateway`, choose **Accounts in this organizational directory only**, and select **Register**.
 
-    Open the **Authentication** blade, select **Add a platform**, and choose **Mobile and desktop applications**. Under **Custom redirect URIs**, add exactly:
+On the overview page, copy the **Application (client) ID** and **Directory (tenant) ID**. You will use both in the next two steps.
 
-    ```text theme={null}
-    http://127.0.0.1/callback
-    ```
+Open the **Authentication** blade, select **Add a platform**, and choose **Mobile and desktop applications**. Under **Custom redirect URIs**, add exactly:
 
-    A few details that matter here: use `127.0.0.1` (not `localhost`), include the `/callback` path, and add it under the **Mobile and desktop applications** platform specifically. That platform is the only one Entra allows to use any local port, which the app needs because it picks a free port at sign-in time. You do not need a client secret or any additional API permissions.
-  </Step>
+```text theme={null}
+http://127.0.0.1/callback
+```
 
-  <Step title="Configure your gateway to validate the token">
-    Tell your gateway to accept the bearer token only if it was issued by your tenant **for this application**. In LiteLLM that looks like:
+A few details that matter here: use `127.0.0.1` (not `localhost`), include the `/callback` path, and add it under the **Mobile and desktop applications** platform specifically. That platform is the only one Entra allows to use any local port, which the app needs because it picks a free port at sign-in time. You do not need a client secret or any additional API permissions.
 
-    ```yaml theme={null}
-    general_settings:
-      litellm_jwtauth:
-        public_key_url: https://login.microsoftonline.com/YOUR_TENANT_ID/discovery/v2.0/keys
-        audience: YOUR_CLIENT_ID
-        user_id_jwt_field: oid
-    ```
+**2. Configure your gateway to validate the token**
 
-    Replace `YOUR_TENANT_ID` and `YOUR_CLIENT_ID` with the values from step 1.
+Tell your gateway to accept the bearer token only if it was issued by your tenant **for this application**. In LiteLLM that looks like:
 
-    <Warning>
-      The `audience` line is required. Without it, your gateway accepts tokens issued to any application in your tenant, not just this one.
-    </Warning>
+```yaml theme={null}
+general_settings:
+  litellm_jwtauth:
+    public_key_url: https://login.microsoftonline.com/YOUR_TENANT_ID/discovery/v2.0/keys
+    audience: YOUR_CLIENT_ID
+    user_id_jwt_field: oid
+```
 
-    For Kong, Envoy, or Azure API Management, configure the equivalent JWT validation policy with the same JWKS URL and audience.
-  </Step>
+Replace `YOUR_TENANT_ID` and `YOUR_CLIENT_ID` with the values from step 1.
 
-  <Step title="Configure in the app">
-    Open the [in-app configuration window](/docs/third-party/claude-desktop/in-app-configuration#open-the-configuration-window) (**Developer → Configure Third-Party Inference…**). In the **Connection** section, set **Inference provider** to **Gateway** and **Credential kind** to **Interactive sign-in**. This hides the API-key field and reveals **Gateway SSO IdP (OIDC)**:
+> [!WARNING]
+>
+> The `audience` line is required. Without it, your gateway accepts tokens issued to any application in your tenant, not just this one.
 
-    | Field | Value |
-    | - | - |
-    | Gateway base URL | `https://llm-gateway.example.corp` |
-    | Credential kind | **Interactive sign-in** |
-    | Gateway SSO IdP (OIDC) → Client ID | `YOUR_CLIENT_ID` |
-    | Gateway SSO IdP (OIDC) → Issuer URL | `https://login.microsoftonline.com/YOUR_TENANT_ID/v2.0` |
-    | Gateway SSO IdP (OIDC) → Scopes | *leave empty for the default* |
-    | Gateway SSO IdP (OIDC) → Redirect port | *leave empty* |
+For Kong, Envoy, or Azure API Management, configure the equivalent JWT validation policy with the same JWKS URL and audience.
 
-    Then click **Export** to produce a `.mobileconfig` (macOS) or `.reg` (Windows) file for your MDM. See [Deploy with MDM](/docs/third-party/claude-desktop/mdm) for the export and deployment workflow.
+**3. Configure in the app**
 
-    When a user next opens Claude Desktop, they see a **Sign in to your organization** button. Clicking it opens their browser to your Entra sign-in page; once they approve, they return to the app and can start working. The app keeps them signed in and refreshes the token in the background. If the session is revoked or expires under your tenant's policy, the app shows a **Sign in again** prompt; clicking it reopens the sign-in page in the browser.
-  </Step>
-</Steps>
+Open the [in-app configuration window](https://claude.com/docs/third-party/claude-desktop/in-app-configuration.md#open-the-configuration-window) (**Developer → Configure Third-Party Inference…**). In the **Connection** section, set **Inference provider** to **Gateway** and **Credential kind** to **Interactive sign-in**. This hides the API-key field and reveals **Gateway SSO IdP (OIDC)**:
+
+| Field | Value |
+| - | - |
+| Gateway base URL | `https://llm-gateway.example.corp` |
+| Credential kind | **Interactive sign-in** |
+| Gateway SSO IdP (OIDC) → Client ID | `YOUR_CLIENT_ID` |
+| Gateway SSO IdP (OIDC) → Issuer URL | `https://login.microsoftonline.com/YOUR_TENANT_ID/v2.0` |
+| Gateway SSO IdP (OIDC) → Scopes | *leave empty for the default* |
+| Gateway SSO IdP (OIDC) → Redirect port | *leave empty* |
+
+Then click **Export** to produce a `.mobileconfig` (macOS) or `.reg` (Windows) file for your MDM. See [Deploy with MDM](https://claude.com/docs/third-party/claude-desktop/mdm.md) for the export and deployment workflow.
+
+When a user next opens Claude Desktop, they see a **Sign in with your organization** button. Clicking it opens their browser to your Entra sign-in page; once they approve, they return to the app and can start working. The app keeps them signed in and refreshes the token in the background. If the session is revoked or expires under your tenant's policy, the app shows a **Sign in again** prompt; clicking it reopens the sign-in page in the browser.
 
 #### Using Okta instead
 
@@ -109,9 +109,9 @@ In the Okta Admin Console, create a **Native** application with the **Authorizat
 | Scopes | *leave empty for the default* |
 | Redirect port | `53180` |
 
-<Note>
-  Use the **issuer** value, not the **Metadata URI**. Okta's admin console shows the metadata URI (ending in `/.well-known/openid-configuration`) prominently — that is the discovery document the app fetches *from* the issuer, not the issuer itself. If you are unsure, open the metadata URI in a browser and copy the `"issuer"` field from the JSON response. For a custom Okta authorization server the issuer is `https://YOUR_ORG.okta.com/oauth2/AUTH_SERVER_ID`.
-</Note>
+> [!NOTE]
+>
+> Use the **issuer** value, not the **Metadata URI**. Okta's admin console shows the metadata URI (ending in `/.well-known/openid-configuration`) prominently — that is the discovery document the app fetches *from* the issuer, not the issuer itself. If you are unsure, open the metadata URI in a browser and copy the `"issuer"` field from the JSON response. For a custom Okta authorization server the issuer is `https://YOUR_ORG.okta.com/oauth2/AUTH_SERVER_ID`.
 
 Point your gateway's JWT validation at `https://YOUR_ORG.okta.com/oauth2/v1/keys` with `audience` set to the Okta client ID.
 
@@ -151,13 +151,13 @@ Silent token refresh requires a refresh token from your identity provider, which
 
 Per [OpenID Connect Core 1.0 §11](https://openid.net/specs/openid-connect-core-1_0.html#OfflineAccess), requesting `offline_access` signals that the client may use the refresh token while the user is not present, and the provider must obtain consent for it. Claude Desktop therefore does not add this scope to an administrator-supplied `scopes` value in the default mode, so that requesting offline access remains an explicit choice.
 
-**Authorization servers that reject `offline_access`.** Standard OIDC providers (Entra ID, Okta, Auth0) accept `offline_access` and require it to issue a refresh token, so the automatic append is what you want. If your authorization server instead rejects unrecognized scopes with an `invalid_scope` error — for example, servers that issue refresh tokens via a provider-specific scope rather than `offline_access` — set `appendOfflineAccess` to `false` and include your provider's own refresh-token scope in `scopes` directly.
+**Authorization servers that reject `offline_access`.** Standard OIDC providers (Entra ID, Okta, Auth0) accept `offline_access` and require it to issue a refresh token, so keep the automatic append. If your authorization server rejects `offline_access` with an `invalid_scope` error, set `appendOfflineAccess` to `false` and include your provider's own refresh-token scope in `scopes`.
 
-Refresh tokens govern whether users are re-prompted to sign in, not how long a sign-in may stay valid. To cap the sign-in lifetime under your identity provider's session policy, set [`inferenceSessionLifetimeSec`](/docs/third-party/claude-desktop/configuration#inferencesessionlifetimesec); Claude Desktop shows a re-authenticate banner before the session expires.
+Refresh tokens govern whether users are re-prompted to sign in, not how long a sign-in may stay valid. To cap the sign-in lifetime under your identity provider's session policy, set [`inferenceSessionLifetimeSec`](https://claude.com/docs/third-party/claude-desktop/configuration#inferencesessionlifetimesec); Claude Desktop shows a re-authenticate banner before the session expires.
 
 ## Configure the app
 
-Open the [in-app configuration window](/docs/third-party/claude-desktop/in-app-configuration#open-the-configuration-window) (**Developer → Configure Third-Party Inference…**). In the **Connection** section, set **Inference provider** to **Gateway**, then fill in the **Gateway credentials** card:
+Open the [in-app configuration window](https://claude.com/docs/third-party/claude-desktop/in-app-configuration.md#open-the-configuration-window) (**Developer → Configure Third-Party Inference…**). In the **Connection** section, set **Inference provider** to **Gateway**, then fill in the **Gateway credentials** card:
 
 | Field | Value |
 | - | - |
@@ -166,104 +166,329 @@ Open the [in-app configuration window](/docs/third-party/claude-desktop/in-app-c
 | Credential kind | **Static API key** (default), or **Interactive sign-in** for [single sign-on](#single-sign-on-with-your-identity-provider) |
 | Gateway auth scheme | **Bearer** (default) or **x-api-key** |
 
-Then click **Export** to produce a `.mobileconfig` (macOS) or `.reg` (Windows) file for your MDM. See [Deploy with MDM](/docs/third-party/claude-desktop/mdm) for the export and deployment workflow.
+Then click **Export** to produce a `.mobileconfig` (macOS) or `.reg` (Windows) file for your MDM. See [Deploy with MDM](https://claude.com/docs/third-party/claude-desktop/mdm.md) for the export and deployment workflow.
 
 ### Configuration keys
 
-| Setting | Type | Availability | Default | Description |
-| - | - | - | - | - |
-| <span id="inferencegatewaybaseurl" />Gateway base URL<br />`inferenceGatewayBaseUrl` | `string` | MDM + Bootstrap<br />Added in 1.2581.0 | — | Full URL of the inference gateway endpoint. |
-| <span id="inferencestreamidletimeoutsec" />Stream idle timeout<br />`inferenceStreamIdleTimeoutSec` | `integer` | MDM + Bootstrap<br />Added in 1.44121.1 | — | Extra seconds to wait for model output on a streaming response that is sending only keep-alive pings. Gateway provider only. Default 300. Range: 300–1800. |
-| <span id="inferencegatewayapikey" />Gateway API key<br />`inferenceGatewayApiKey` | `string` | MDM + Bootstrap<br />Added in 1.2581.0 | — | API key for the configured inference gateway. |
-| <span id="inferencegatewayauthscheme" />Gateway auth scheme<br />`inferenceGatewayAuthScheme` | `enum` | MDM + Bootstrap<br />Added in 1.3036.0 | `bearer` | How the gateway credential is sent on the wire (Authorization: Bearer vs x-api-key header). One of: `bearer`, `x-api-key`. Defaults to `bearer`. Deprecated: `inferenceGatewayAuthScheme: "sso"`; use inferenceCredentialKind: "interactive". The original spelling will keep working; no end date has been set. |
-| <span id="inferencegatewayoidcauthflow" />Gateway sign-in flow<br />`inferenceGatewayOidcAuthFlow` | `enum` | MDM + Bootstrap<br />Added in 1.25927.0 | — | How the IdP sign-in runs: system browser (default) or the OS Microsoft Entra broker. One of: `browser`, `broker`. Deprecated: `inferenceGatewayOidcAuthFlow`; use inferenceIdpAuthFlow together with inferenceIdpOidc once every desktop in the fleet is on a release that reads them. The original spelling will keep working; no end date has been set. |
-| <span id="inferencegatewayoidc" />Gateway SSO IdP (OIDC)<br />`inferenceGatewayOidc` | `object` | MDM + Bootstrap<br />Added in 1.6889.0 | — | External IdP for gateway sign-in. The user’s token from this issuer is sent to the gateway as the Bearer credential. Deprecated: `inferenceGatewayOidc`; use inferenceIdpOidc with inferenceCredentialKind: "external-idp" once every desktop in the fleet is on a release that reads them. The original spelling will keep working; no end date has been set. |
-| <span id="inferenceidpauthflow" />Identity provider sign-in flow<br />`inferenceIdpAuthFlow` | `enum` | MDM + Bootstrap<br />Added in 2.7032.0 | — | How the identity-provider sign-in runs: system browser (default) or the OS Microsoft Entra broker. One of: `browser`, `broker`. |
-| <span id="inferenceidpoidc" />Identity provider (OIDC)<br />`inferenceIdpOidc` | `object` | MDM + Bootstrap<br />Added in 2.7032.0 | — | Your organization’s OpenID Connect identity provider. The user’s token is sent as the Bearer credential to the gateway or the Bedrock proxy. |
+[Entry labels](https://claude.com/docs/third-party/claude-desktop/configuration.md#entry-labels) says what each label means.
 
-<AccordionGroup>
-  <Accordion title="inferenceStreamIdleTimeoutSec details">
-    Raises how long Cowork, Chat and Code sessions wait for the next model event on an open streaming response (Claude Code's `CLAUDE_STREAM_IDLE_TIMEOUT_MS`). It only helps when the gateway writes SSE keep-alive `ping` events (or `:` comment lines) into the response while the upstream model is silent — for example a LiteLLM proxy with keep-alive pings enabled in front of Amazon Bedrock. With pings arriving, Claude Code accepts at least about five minutes of keep-alives and then waits this many seconds more for real model output before abandoning the request. Gateway provider only; the other providers keep Claude Code's defaults.
+#### `inferenceGatewayBaseUrl`
 
-    A response on which nothing at all arrives — no pings — still fails after about 5 minutes regardless of this key, because at the device a silent connection cannot be told apart from a dead one. If long generations fail behind a gateway that does not send pings, configure the gateway to send them rather than raising this value. A common case is automatic compaction, in which a session sends its whole conversation in one streaming request and waits for a long summary; when that request fails, the error reads `Prompt is too long · automatic compaction failed:` followed by the cause. While this key is set, the app's value takes precedence over `CLAUDE_STREAM_IDLE_TIMEOUT_MS` in Claude Code's own managed settings for sessions the app starts; when it is unset, that setting still applies. Values outside 300–1800 are rejected at parse time (the error is listed in the diagnostics report) and the default applies.
-  </Accordion>
+string
 
-  <Accordion title="inferenceGatewayOidcAuthFlow details">
-    * **`browser`** (default) — opens the system browser for an authorization-code (PKCE) sign-in on a loopback redirect URI. See the **IdP setup** notes on `inferenceGatewayOidc` for redirect-URI registration.
-    * **`broker`** — signs in through the OS identity broker (Web Account Manager on Windows, Company Portal on macOS). Requires the IdP to be **Microsoft Entra ID** — the `issuer` on `inferenceGatewayOidc` must be `https://login.microsoftonline.com/{tenant-id}/v2.0`. The broker satisfies Conditional Access policies that require a compliant/managed device or token protection, and needs no loopback redirect. The Entra app registration must include the broker redirect URIs `ms-appx-web://Microsoft.AAD.BrokerPlugin/{client-id}` (Windows) and `msauth.com.anthropic.claudefordesktop://auth` (macOS) under the **Mobile and desktop applications** platform. Not supported on Linux.
+Consent required (A value that a bootstrap server delivers applies only after the user approves it, unless machine-scoped device management set that server's address. The trustBootstrapDelivery key overrides that default. A value set in an MDM profile, the local configuration file or the Enterprise Admin Console needs no approval.)
 
-    Broker mode mints a token in the customer's own Entra tenant with the customer-configured `scopes`, and forwards it to the customer's own gateway; both endpoints of that trust relationship are inside the customer's control. A desktop that has the `external-idp` kind reads this key, together with `inferenceGatewayOidc`, as that kind's sign-in flow; it stays readable.
-  </Accordion>
+Origin-pinned (A URL that a bootstrap server delivers must share the origin of bootstrapUrl, or Claude Desktop drops it. The limit is lifted when bootstrapOidc is set, and it does not apply to a value set in an MDM profile, the local configuration file or the Enterprise Admin Console.)
 
-  <Accordion title="inferenceGatewayOidc details">
-    **External IdP mode.** The app discovers `<issuer>/.well-known/openid-configuration`, runs an OIDC authorization-code-with-PKCE sign-in in the system browser with `clientId`, and sends the resulting token as `Authorization: Bearer` on every inference request. Leave this unset for a gateway that hosts its own RFC 8414 metadata at `<baseUrl>/.well-known/oauth-authorization-server`. A desktop that has the `external-idp` kind reads this block as that kind's identity-provider key; it stays readable, so a fleet keeps this spelling until every desktop is on such a release.
+Since 1.2581.0
 
-    **Bearer token type.** `id_token` (the default) sends the OIDC ID token; the gateway validates signature, `iss`, and `aud` (the `clientId` configured here). `access_token` sends the OAuth access token, for gateways that validate as a resource server (Portkey, Kong, Envoy JWT filter, AWS API Gateway authorizers); `scopes` must then name the gateway's registered API scope. Either way the gateway must check `aud`, not just signature and issuer, or it accepts any token from your tenant.
+**Gateway base URL.** Full URL of the inference gateway endpoint.
 
-    **IdP setup.** The callback is `http://127.0.0.1:<port>/callback` by default (`http://localhost:<port>/callback` with `redirectHost: "localhost"`); register exactly the one you use and include `/callback`. **Entra:** a public-client app with a *Mobile and desktop applications* redirect URI of `http://127.0.0.1/callback` (any port; omitting the path fails with `AADSTS50011`); in `access_token` mode also grant the gateway API's delegated permission, or sign-in fails with `AADSTS65001`. **Okta:** a *Native* app with the exact URI `http://127.0.0.1:<port>/callback` and that port in `redirectPort`.
+***
 
-    **Refresh.** With `offline_access` the app renews the token silently and prompts a browser sign-in only when refresh fails. Google never returns an `id_token` on refresh, so a Google Workspace-backed gateway in `id_token` mode re-prompts about hourly; `access_token` mode is unaffected.
+#### `inferenceGatewayApiKey`
 
-    | Field | Type | Default | Description |
-    | - | - | - | - |
-    | `clientId` | `string` | — | OAuth client ID of the desktop app registration at your identity provider (public client, PKCE). |
-    | `issuer` | `string` | — | HTTPS issuer with OIDC discovery. Set this, or set the authorization and token URLs instead. |
-    | `authorizationUrl` | `string` | — | HTTPS authorization endpoint. Used with the token URL when no issuer is set. |
-    | `tokenUrl` | `string` | — | HTTPS token endpoint. Used with the authorization URL when no issuer is set. |
-    | `bearerTokenType` | `enum` | `id_token` | Which token to send as the bearer. Use access token for a gateway or proxy that validates as an OAuth resource server. One of: `id_token`, `access_token`. |
-    | `scopes` | `string` | — | Space-separated scopes. Required in access-token mode: set the gateway or proxy API scope. offline\_access is appended automatically unless disabled below. |
-    | `appendOfflineAccess` | `boolean` | `true` | Automatically append offline\_access to scopes so the IdP returns a refresh token for silent refresh. |
-    | `resource` | `string` | — | Access-token audience of the gateway or proxy: an https URL or an AD FS relying-party identifier, sent as the RFC 8707 resource. Leave unset for Entra ID. |
-    | `redirectPort` | `integer` | — | Fixed loopback port for the sign-in redirect. Leave unset to use a free port each time. |
-    | `redirectHost` | `enum` | — | Use localhost only if your IdP’s registered redirect URI specifies it. One of: `127.0.0.1`, `localhost`. |
-    | `additionalRedirectReferrerHosts` | `string` | — | Space-separated hostnames also accepted as the referrer of the sign-in callback. Only needed when the IdP completes sign-in from a different host. |
-  </Accordion>
+stringSince 1.2581.0
 
-  <Accordion title="inferenceIdpAuthFlow details">
-    * **`browser`** (default) — opens the system browser for an authorization-code (PKCE) sign-in on a loopback redirect URI. See the **IdP setup** notes on `inferenceIdpOidc` for redirect-URI registration.
-    * **`broker`** — signs in through the OS identity broker (Web Account Manager on Windows, Company Portal on macOS). Requires the IdP to be **Microsoft Entra ID** — the `issuer` on `inferenceIdpOidc` must be `https://login.microsoftonline.com/{tenant-id}/v2.0`. The broker satisfies Conditional Access policies that require a compliant/managed device or token protection, and needs no loopback redirect. The Entra app registration must include the broker redirect URIs `ms-appx-web://Microsoft.AAD.BrokerPlugin/{client-id}` (Windows) and `msauth.com.anthropic.claudefordesktop://auth` (macOS) under the **Mobile and desktop applications** platform. Not supported on Linux.
+**Gateway API key.** API key for the configured inference gateway.
 
-    Broker mode mints a token in the customer's own Entra tenant with the customer-configured `scopes` and forwards it to the customer's own gateway or proxy; both endpoints of that trust relationship are inside the customer's control.
-  </Accordion>
+***
 
-  <Accordion title="inferenceIdpOidc details">
-    Used with `inferenceCredentialKind: "external-idp"`. The app discovers `<issuer>/.well-known/openid-configuration`, runs an OIDC authorization-code (PKCE) sign-in in the browser with `clientId` (or through the OS broker, see `inferenceIdpAuthFlow`) and sends the token as `Authorization: Bearer` on every inference request: to `inferenceGatewayBaseUrl` on the gateway provider, or on Bedrock to `inferenceBedrockBaseUrl`, which is then required: only a proxy that validates the token accepts it, never Amazon Bedrock itself (to sign in straight to Bedrock use `interactive`, AWS IAM Identity Center). On Bedrock this kind has no model discovery: list the models in `inferenceModels`.
+#### `inferenceGatewayAuthScheme`
 
-    **Bearer token type.** `id_token` (the default) sends the OIDC ID token; the receiver validates signature, `iss` and `aud` (the `clientId` here). `access_token` sends the OAuth access token, for gateways and proxies that validate as an OAuth resource server; `scopes` must then name the registered API scope. Either way the receiver must check `aud`, or it accepts any token from your tenant.
+enumDefault: bearerSince 1.3036.0
 
-    **IdP setup.** The callback is `http://127.0.0.1:<port>/callback` (`localhost` with `redirectHost: "localhost"`); register exactly that. **Entra:** a public-client app with a *Mobile and desktop applications* redirect URI `http://127.0.0.1/callback` (omitting the path fails with `AADSTS50011`); in `access_token` mode also grant the API's delegated permission, or sign-in fails with `AADSTS65001`. **Okta:** a *Native* app with `http://127.0.0.1:<port>/callback` and that port in `redirectPort`.
+**Gateway auth scheme.** How the gateway credential is sent on the wire (Authorization: Bearer vs x-api-key header).
 
-    **Refresh.** With `offline_access` the app renews the token silently and asks for a browser sign-in only when refresh fails (Google returns no `id_token` on refresh, so `id_token` mode there re-prompts about hourly).
+One of: `bearer` (default), `x-api-key`
 
-    **Older names.** Gateway configurations written before this key use `inferenceGatewayOidc` / `inferenceGatewayOidcAuthFlow` with the `interactive` kind; they stay readable and mean the same sign-in.
+> [!WARNING]
+>
+> **Deprecated**
+>
+> * `inferenceGatewayAuthScheme: "sso"`; use inferenceCredentialKind: "interactive". The original spelling will keep working; no end date has been set.
 
-    | Field | Type | Default | Description |
-    | - | - | - | - |
-    | `clientId` | `string` | — | OAuth client ID of the desktop app registration at your identity provider (public client, PKCE). |
-    | `issuer` | `string` | — | HTTPS issuer with OIDC discovery. Set this, or set the authorization and token URLs instead. |
-    | `authorizationUrl` | `string` | — | HTTPS authorization endpoint. Used with the token URL when no issuer is set. |
-    | `tokenUrl` | `string` | — | HTTPS token endpoint. Used with the authorization URL when no issuer is set. |
-    | `bearerTokenType` | `enum` | `id_token` | Which token to send as the bearer. Use access token for a gateway or proxy that validates as an OAuth resource server. One of: `id_token`, `access_token`. |
-    | `scopes` | `string` | — | Space-separated scopes. Required in access-token mode: set the gateway or proxy API scope. offline\_access is appended automatically unless disabled below. |
-    | `appendOfflineAccess` | `boolean` | `true` | Automatically append offline\_access to scopes so the IdP returns a refresh token for silent refresh. |
-    | `resource` | `string` | — | Access-token audience of the gateway or proxy: an https URL or an AD FS relying-party identifier, sent as the RFC 8707 resource. Leave unset for Entra ID. |
-    | `redirectPort` | `integer` | — | Fixed loopback port for the sign-in redirect. Leave unset to use a free port each time. |
-    | `redirectHost` | `enum` | — | Use localhost only if your IdP’s registered redirect URI specifies it. One of: `127.0.0.1`, `localhost`. |
-    | `additionalRedirectReferrerHosts` | `string` | — | Space-separated hostnames also accepted as the referrer of the sign-in callback. Only needed when the IdP completes sign-in from a different host. |
-  </Accordion>
-</AccordionGroup>
+***
 
-To send additional HTTP headers on every inference request (tenant routing, org IDs, and similar), set [`inferenceCustomHeaders`](/docs/third-party/claude-desktop/configuration#inferencecustomheaders). It applies to all providers, not just gateways.
+#### `inferenceGatewayOidcAuthFlow`
+
+enumSince 1.25927.0
+
+**Gateway sign-in flow.** How the IdP sign-in runs: system browser (default) or the OS Microsoft Entra broker.
+
+One of: `browser`, `broker`
+
+> [!WARNING]
+>
+> **Deprecated**
+>
+> * Use inferenceIdpAuthFlow together with inferenceIdpOidc once every desktop in the fleet is on a release that reads them. The original spelling will keep working; no end date has been set.
+
+> [accordion] More detail
+>
+> * **`browser`:** register the redirect URI `http://127.0.0.1:<port>/callback` with your identity provider (for Entra, `http://127.0.0.1/callback`).
+> * **`broker`:** uses Web Account Manager on Windows or Company Portal on macOS, and does not work on Linux. It can satisfy Conditional Access policies that require a compliant or managed device, or token protection.
+>
+> `broker` needs Microsoft Entra ID, with the `issuer` in `inferenceGatewayOidc` set to `https://login.microsoftonline.com/{tenant-id}/v2.0`. Add the redirect URIs listed under [Register the Entra ID application](https://claude.com/docs/third-party/claude-desktop/entra-broker.md#register-the-entra-id-application).
+
+***
+
+#### `inferenceGatewayOidc`
+
+object
+
+Consent required (A value that a bootstrap server delivers applies only after the user approves it, unless machine-scoped device management set that server's address. The trustBootstrapDelivery key overrides that default. A value set in an MDM profile, the local configuration file or the Enterprise Admin Console needs no approval.)
+
+Since 1.6889.0
+
+**Gateway SSO IdP (OIDC).** External IdP for gateway sign-in. The user’s token from this issuer is sent to the gateway as the Bearer credential.
+
+> [!WARNING]
+>
+> **Deprecated**
+>
+> * Use inferenceIdpOidc with inferenceCredentialKind: "external-idp" once every desktop in the fleet is on a release that reads them. The original spelling will keep working; no end date has been set.
+
+> [accordion] More detail
+>
+> Used with `inferenceCredentialKind` set to `interactive`. Leave it unset for a gateway that runs its own sign-in and serves `<baseUrl>/.well-known/oauth-authorization-server`.
+>
+> Your gateway must check the token's audience (`aud`). Otherwise it accepts any token from your tenant.
+>
+> Register the redirect URI given under `inferenceGatewayOidcAuthFlow`.
+
+> [accordion] Child attributes (11)
+>
+> **clientId** `string` *required*
+>
+> OAuth client ID of the desktop app registration at your identity provider (public client, PKCE).
+>
+> **issuer** `string`
+>
+> HTTPS issuer with OIDC discovery. Set this, or set the authorization and token URLs instead.
+>
+> **authorizationUrl** `string`
+>
+> HTTPS authorization endpoint. Used with the token URL when no issuer is set.
+>
+> **tokenUrl** `string`
+>
+> HTTPS token endpoint. Used with the authorization URL when no issuer is set.
+>
+> **bearerTokenType** `enum` (default: id\_token)
+>
+> Which token to send as the bearer. Use access token for a gateway or proxy that validates as an OAuth resource server.
+>
+> One of: `id_token` (default), `access_token`
+>
+> > [accordion] More detail
+> >
+> > An ID token's audience (`aud`) is `clientId`. An access token's audience must be your gateway or proxy.
+> >
+> > With Entra ID the scopes decide the audience, so add the gateway's API scope to `scopes`, such as `api://<gateway-app-id>/.default`.
+>
+> **scopes** `string`
+>
+> Space-separated scopes. Access-token mode needs the gateway or proxy API scope, and adds offline\_access unless Append offline\_access is off.
+>
+> > [accordion] More detail
+> >
+> > In ID-token mode, `offline_access` is not added to scopes that you set. Include it yourself, or users sign in again each time the token expires.
+>
+> **appendOfflineAccess** `boolean` (default: true)
+>
+> In access-token mode, add offline\_access to scopes so the identity provider returns a refresh token for silent refresh.
+>
+> > [accordion] More detail
+> >
+> > Turn off only if your authorization server rejects `offline_access` as an unknown scope. Then add the server’s own refresh-token scope to `scopes`.
+>
+> **resource** `string`
+>
+> Access-token audience of the gateway or proxy: an https URL or an AD FS relying-party identifier. Leave unset for Entra ID.
+>
+> > [accordion] More detail
+> >
+> > Use it only with `bearerTokenType` set to `access_token`, and only if your identity provider supports RFC 8707. Changing it signs users in again.
+> >
+> > For AD FS, enter one of the relying-party trust's identifiers. A value with no scheme is sent as `https://<value>`, so a plain name or GUID does not match. Add an `https://…` or `urn:…` identifier to the trust and enter that.
+>
+> **redirectPort** `integer`
+>
+> Fixed loopback port for the sign-in redirect. Leave unset to use a free port each time.
+>
+> **redirectHost** `enum`
+>
+> Use localhost only if your IdP’s registered redirect URI specifies it.
+>
+> One of: `127.0.0.1`, `localhost`
+>
+> **additionalRedirectReferrerHosts** `string`
+>
+> Space-separated hostnames also accepted as the referrer of the sign-in callback, besides the authorization URL’s host.
+>
+> > [accordion] More detail
+> >
+> > If a callback is rejected for a referrer mismatch, the app log names the rejected host. Add that hostname here.
+
+***
+
+#### `inferenceIdpAuthFlow`
+
+enumSince 2.7032.0
+
+**Identity provider sign-in flow.** How the identity-provider sign-in runs: system browser (default) or the OS Microsoft Entra broker.
+
+One of: `browser`, `broker`
+
+> [accordion] More detail
+>
+> * **`browser`:** register the redirect URI `http://127.0.0.1:<port>/callback` with your identity provider (for Entra, `http://127.0.0.1/callback`).
+> * **`broker`:** uses Web Account Manager on Windows or Company Portal on macOS, and does not work on Linux. It can satisfy Conditional Access policies that require a compliant or managed device, or token protection.
+>
+> `broker` needs Microsoft Entra ID, with the `issuer` in `inferenceIdpOidc` set to `https://login.microsoftonline.com/{tenant-id}/v2.0`. Add the redirect URIs listed under [Register the Entra ID application](https://claude.com/docs/third-party/claude-desktop/entra-broker.md#register-the-entra-id-application).
+
+***
+
+#### `inferenceIdpOidc`
+
+object
+
+Consent required (A value that a bootstrap server delivers applies only after the user approves it, unless machine-scoped device management set that server's address. The trustBootstrapDelivery key overrides that default. A value set in an MDM profile, the local configuration file or the Enterprise Admin Console needs no approval.)
+
+Since 2.7032.0
+
+**Identity provider (OIDC).** Your organization’s OpenID Connect identity provider. The user’s token is sent as the Bearer credential to the gateway or the Bedrock proxy.
+
+> [accordion] More detail
+>
+> Used when `inferenceCredentialKind` is `external-idp`. Register the redirect URI given under `inferenceIdpAuthFlow` with your identity provider.
+>
+> Your gateway or proxy must check the token's audience (`aud`). Otherwise it accepts any token from your tenant.
+>
+> On Bedrock, set `inferenceBedrockBaseUrl` to a proxy that checks the token, because Amazon Bedrock itself does not accept it. Also list your models in `inferenceModels`.
+
+> [accordion] Child attributes (11)
+>
+> **clientId** `string` *required*
+>
+> OAuth client ID of the desktop app registration at your identity provider (public client, PKCE).
+>
+> **issuer** `string`
+>
+> HTTPS issuer with OIDC discovery. Set this, or set the authorization and token URLs instead.
+>
+> **authorizationUrl** `string`
+>
+> HTTPS authorization endpoint. Used with the token URL when no issuer is set.
+>
+> **tokenUrl** `string`
+>
+> HTTPS token endpoint. Used with the authorization URL when no issuer is set.
+>
+> **bearerTokenType** `enum` (default: id\_token)
+>
+> Which token to send as the bearer. Use access token for a gateway or proxy that validates as an OAuth resource server.
+>
+> One of: `id_token` (default), `access_token`
+>
+> > [accordion] More detail
+> >
+> > An ID token's audience (`aud`) is `clientId`. An access token's audience must be your gateway or proxy.
+> >
+> > With Entra ID the scopes decide the audience, so add the gateway's API scope to `scopes`, such as `api://<gateway-app-id>/.default`.
+>
+> **scopes** `string`
+>
+> Space-separated scopes. Access-token mode needs the gateway or proxy API scope, and adds offline\_access unless Append offline\_access is off.
+>
+> > [accordion] More detail
+> >
+> > In ID-token mode, `offline_access` is not added to scopes that you set. Include it yourself, or users sign in again each time the token expires.
+>
+> **appendOfflineAccess** `boolean` (default: true)
+>
+> In access-token mode, add offline\_access to scopes so the identity provider returns a refresh token for silent refresh.
+>
+> > [accordion] More detail
+> >
+> > Turn off only if your authorization server rejects `offline_access` as an unknown scope. Then add the server’s own refresh-token scope to `scopes`.
+>
+> **resource** `string`
+>
+> Access-token audience of the gateway or proxy: an https URL or an AD FS relying-party identifier. Leave unset for Entra ID.
+>
+> > [accordion] More detail
+> >
+> > Use it only with `bearerTokenType` set to `access_token`, and only if your identity provider supports RFC 8707. Changing it signs users in again.
+> >
+> > For AD FS, enter one of the relying-party trust's identifiers. A value with no scheme is sent as `https://<value>`, so a plain name or GUID does not match. Add an `https://…` or `urn:…` identifier to the trust and enter that.
+>
+> **redirectPort** `integer`
+>
+> Fixed loopback port for the sign-in redirect. Leave unset to use a free port each time.
+>
+> **redirectHost** `enum`
+>
+> Use localhost only if your IdP’s registered redirect URI specifies it.
+>
+> One of: `127.0.0.1`, `localhost`
+>
+> **additionalRedirectReferrerHosts** `string`
+>
+> Space-separated hostnames also accepted as the referrer of the sign-in callback, besides the authorization URL’s host.
+>
+> > [accordion] More detail
+> >
+> > If a callback is rejected for a referrer mismatch, the app log names the rejected host. Add that hostname here.
+
+***
+
+#### `inferenceStreamIdleTimeoutSec`
+
+integerRange: 300–1,800Since 1.44121.1
+
+**Stream idle timeout.** Extra seconds to wait for model output on a streaming response that is sending only keep-alive pings. Gateway provider only. Default 300.
+
+> [accordion] More detail
+>
+> With pings arriving (SSE `ping` events or `:` comment lines), sessions accept at least about five minutes of them, then wait this many seconds more. With no pings, a silent response still fails after about 5 minutes whatever this value, so make the gateway send them.
+>
+> While this key is set, it takes priority over `CLAUDE_STREAM_IDLE_TIMEOUT_MS` in Claude Code's managed settings for sessions the app starts.
+
+***
+
+#### `inferenceGatewayAutoModeServerChecks`
+
+booleanSince 4.16336.0
+
+**Server-side Auto mode checks.** Temporary setting: sends session details, such as folder paths and a user name, so your gateway’s provider checks risky Auto mode actions.
+
+> [accordion] More detail
+>
+> Off unless you set it to `true`. While off, Auto mode's built-in safety check reviews risky actions.
+>
+> This setting is temporary. It goes away when Claude Code drops that built-in check. After that, only turning off **Allow Auto mode** avoids the provider's check.
+>
+> When on, each Auto mode request carries one more `anthropic-beta` value and a `safeguards` field. The field describes the session, including Claude Code's `autoMode` settings, permission rules, folder paths, a user name and Git state. Your gateway must forward both unchanged, and return `safeguard_results` and tool-use IDs unchanged. If it returns an error such as 401 or 500, every Auto mode turn fails. Turn this off and have users restart the app.
+>
+> Claude Code's gateway mode ignores this and sends these details by default.
+
+***
+
+To send additional HTTP headers on every inference request (tenant routing, org IDs, and similar), set [`inferenceCustomHeaders`](https://claude.com/docs/third-party/claude-desktop/configuration#inferencecustomheaders). It applies to all providers, not just gateways.
 
 ### Single sign-on configuration keys
 
-Single sign-on is enabled by setting `inferenceCredentialKind` to `interactive` **and** supplying `inferenceGatewayOidc`. Both are required — `interactive` alone (without `inferenceGatewayOidc`) selects a different mode where the gateway itself acts as the authorization server.
+Single sign-on is enabled by setting `inferenceCredentialKind` to `interactive` **and** supplying `inferenceGatewayOidc`. `interactive` alone (without `inferenceGatewayOidc`) selects a different mode where the gateway itself acts as the authorization server.
+
+From Claude Desktop 2.7032.0, `inferenceCredentialKind: "external-idp"` with [`inferenceIdpOidc`](https://claude.com/docs/third-party/claude-desktop/configuration#inferenceidpoidc) and `inferenceIdpAuthFlow`, the keys [Amazon Bedrock identity provider sign-in](https://claude.com/docs/third-party/claude-desktop/bedrock.md#sign-in-with-your-identity-provider) uses, is an equivalent spelling of this configuration; `interactive` with `inferenceGatewayOidc` keeps working, so keep it until every device runs 2.7032.0 or later.
 
 | Setting | MDM key | Required | Description |
 | - | - | - | - |
-| Credential kind | `inferenceCredentialKind` | Yes — must be `interactive` | Selects sign-in instead of an API key. |
+| Credential kind | `inferenceCredentialKind` | Yes | `interactive` selects sign-in instead of an API key. |
 | Gateway SSO IdP (OIDC) | `inferenceGatewayOidc` | Yes | A **single JSON object** describing the identity provider (fields below). The resulting token is sent to the gateway as the bearer credential. |
-| Sign-in flow | `inferenceGatewayOidcAuthFlow` | No | `browser` (the default) runs the sign-in in the system browser. `broker` runs it through the [OS identity broker](/docs/third-party/claude-desktop/entra-broker) on Windows and macOS, which requires `issuer` to be a Microsoft Entra ID issuer (`https://login.microsoftonline.com/TENANT_ID/v2.0`) and needs no loopback redirect. |
+| Gateway sign-in flow | `inferenceGatewayOidcAuthFlow` | No | `browser` (the default) runs the sign-in in the system browser. `broker` runs it through the [OS identity broker](https://claude.com/docs/third-party/claude-desktop/entra-broker.md) on Windows and macOS, which requires `issuer` to be a Microsoft Entra ID issuer (`https://login.microsoftonline.com/TENANT_ID/v2.0`) and needs no loopback redirect. |
 
 The `inferenceGatewayOidc` value is one JSON object with these fields:
 
@@ -283,9 +508,9 @@ The `inferenceGatewayOidc` value is one JSON object with these fields:
 
 \* Either `issuer`, or both `authorizationUrl` and `tokenUrl`, is required.
 
-<Warning>
-  `inferenceGatewayOidc` is **one MDM key whose value is a JSON string** — not separate keys like `inferenceGatewayOidc.clientId`. See [how object-typed keys are encoded](/docs/third-party/claude-desktop/configuration#value-types). The in-app **Export** produces the correct format automatically.
-</Warning>
+> [!WARNING]
+>
+> `inferenceGatewayOidc` is **one MDM key whose value is a JSON string** — not separate keys like `inferenceGatewayOidc.clientId`. See [how object-typed keys are encoded](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#value-types). The in-app **Export** produces the correct format automatically.
 
 In a macOS `.mobileconfig` payload (Okta example):
 
@@ -296,25 +521,47 @@ In a macOS `.mobileconfig` payload (Okta example):
 <string>{"issuer":"https://YOUR_ORG.okta.com","clientId":"YOUR_CLIENT_ID","redirectPort":53180}</string>
 ```
 
-From Claude Desktop 2.7032.0, `inferenceCredentialKind: "external-idp"` with [`inferenceIdpOidc`](/docs/third-party/claude-desktop/configuration#inferenceidpoidc) and `inferenceIdpAuthFlow`, the keys [Amazon Bedrock identity provider sign-in](/docs/third-party/claude-desktop/bedrock#sign-in-with-your-identity-provider) uses, is an equivalent spelling of this configuration; `interactive` with `inferenceGatewayOidc` keeps working, so keep it until every device runs 2.7032.0 or later.
-
-Earlier app versions used `inferenceGatewayAuthScheme: "sso"` to select this mode. That value is deprecated, so set `inferenceCredentialKind: "interactive"` instead. The [configuration changelog](/docs/third-party/claude-desktop/configuration-changelog#v2-26454-0) says which app versions read the deprecated value.
+Earlier app versions used `inferenceGatewayAuthScheme: "sso"` to select this mode. That value is deprecated, so set `inferenceCredentialKind: "interactive"` instead. The [configuration changelog](https://claude.com/docs/third-party/claude-desktop/configuration-changelog.md#v2-26454-0) says which app versions read the deprecated value.
 
 ### Models
 
-When `inferenceModels` is unset, Claude Desktop on 3P populates the model picker from your gateway's `GET /v1/models` response. Auto-discovery shows only models whose IDs are recognizably Claude. Set [`inferenceModels`](/docs/third-party/claude-desktop/configuration#models) to replace discovery with an explicit list. Use the model IDs your gateway expects (for example `bedrock/us.anthropic.claude-opus-5` for a LiteLLM-style routing prefix).
+When `inferenceModels` is unset, Claude Desktop on 3P populates the model picker from your gateway's `GET /v1/models` response. Auto-discovery shows only models whose IDs are recognizably Claude. Set [`inferenceModels`](https://claude.com/docs/third-party/claude-desktop/configuration#models) to replace discovery with an explicit list. Use the model IDs your gateway expects (for example `bedrock/us.anthropic.claude-opus-5` for a LiteLLM-style routing prefix).
 
-Your gateway can mark which Claude tier a model serves by returning an `anthropic_family_tier` field (a tier name such as `sonnet` or `opus`) on that model object in its `/v1/models` response, optionally with `is_family_default: true` when several models map to the same tier. The app uses the marked model when it needs that tier, for example to resolve a bare `sonnet` alias. The app also reads other optional fields on each model object. `display_name` sets the picker label when the app cannot derive one from the model ID. `description` adds a one-line description beneath the label (Claude Desktop 1.49585.0 or later). `supports_1m: true`, or a `max_input_tokens` value of 1,000,000 or more, marks a discovered model as supporting the 1M-token context window, as `supports1m` does on an `inferenceModels` entry.
+If your gateway serves Claude models under routing aliases, list each alias in `inferenceModels` and set `behavesAs` on its entry to the ID of the Claude model it routes to, such as `claude-sonnet-5`. For an alias without a model version, users then get that model's **Effort** control, and sessions assume that model's context window. Requires Claude Desktop 4.29.0 or later. For an alias that contains a model version, see [Map an unrecognized model ID to a Claude model](https://claude.com/docs/third-party/claude-desktop/models.md#map-an-unrecognized-model-id-to-a-claude-model).
 
-If your gateway does not implement `GET /v1/models`, give every `inferenceModels` entry the full model ID your gateway accepts; bare tier aliases such as `sonnet` rely on discovery to resolve. When every entry is a full model ID, the app skips the `/v1/models` call automatically. A list that contains a bare alias keeps discovery on, so for a gateway without the endpoint, replace the alias with the full model ID; a bare alias cannot be resolved without discovery. On earlier app versions that do not skip the call automatically, also set [`modelDiscoveryEnabled`](/docs/third-party/claude-desktop/configuration#modeldiscoveryenabled) to `false` to avoid the discovery attempt. The cost of leaving discovery on without the endpoint depends on how the gateway fails: an error response makes the app fall back to the `inferenceModels` list immediately, while an endpoint that accepts the request and hangs delays the model list by up to 10 seconds at launch.
+Your gateway can mark which Claude tier a model serves by returning an `anthropic_family_tier` field (a tier name such as `sonnet` or `opus`) on that model object in its `/v1/models` response, optionally with `is_family_default: true` when several models map to the same tier. The app and its sessions use the marked model when they need that tier, such as for a sub-agent that asks for `sonnet`, even if the user picked another model. The app also reads other optional fields on each model object. `display_name` sets the picker label when the app cannot derive one from the model ID. `description` adds a one-line description beneath the label (Claude Desktop 1.49585.0 or later). `supports_1m: true`, or a `max_input_tokens` value of 1,000,000 or more, marks a discovered model as supporting the 1M-token context window, as `supports1m` does on an `inferenceModels` entry.
 
-If your deployment supports the 1M-token context window for a model, set `supports1m: true` on that model's entry:
+If your gateway doesn't implement `GET /v1/models`, give every `inferenceModels` entry the full model ID your gateway accepts. When every entry is a full model ID, the app skips the `/v1/models` call automatically. A bare tier alias such as `sonnet` can't be resolved without discovery, so a list that contains one keeps discovery on. On earlier app versions that don't skip the call automatically, also set [`modelDiscoveryEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#modeldiscoveryenabled) to `false`. If discovery stays on, a gateway that answers the call with an error makes the app fall back to the `inferenceModels` list immediately. A gateway that accepts the call and hangs delays the model list by up to 10 seconds at launch.
+
+A session assumes 200K tokens for a model ID it doesn't recognize as having a native 1M context window (see [Context window and compaction](#context-window-and-compaction)). If your deployment supports the 1M-token context window for that model, set `supports1m: true` on its entry:
 
 ```json theme={null}
-[{"name": "bedrock/us.anthropic.claude-opus-5", "supports1m": true}]
+[{"name": "bedrock/us.anthropic.claude-opus-4-6-v1", "supports1m": true}]
 ```
 
-The model picker then shows a second entry for the model, described as **1M context window**; the standard entry has no context-size label, and the default selection is unchanged. `supports1m` is an assertion about your gateway rather than something the app can verify: if the gateway does not accept 1M-token requests for that model, requests made from the 1M picker entry fail at inference time. Only set it on models you have confirmed against your deployment. The [Models section of the configuration reference](/docs/third-party/claude-desktop/configuration#models) documents the remaining entry fields, including display labels and tier mapping.
+The model picker then shows a second entry for the model, described as **1M context window**. The default selection is unchanged. If the gateway doesn't accept 1M-token requests for that model, requests made from the 1M picker entry fail at inference time. Only set `supports1m` on models you have confirmed against your deployment. The [Models section of the configuration reference](https://claude.com/docs/third-party/claude-desktop/configuration.md#models) documents the remaining entry fields, including display labels and tier mapping.
+
+To show a model as one entry, add `prefer1m: true` next to `supports1m` on its entry, or use [`modelPrefer1mContext`](https://claude.com/docs/third-party/claude-desktop/configuration#modelprefer1mcontext), as described under [Model list and default model](https://claude.com/docs/third-party/claude-desktop/models.md#model-list-and-default-model).
+
+### Context window and compaction
+
+Cowork and Code sessions keep a long conversation within the model's context window by compacting it. To compact, the session sends one request that asks the model to summarize the conversation so far, then continues from the summary. Through a gateway, a session can't read the model's real context window from the provider, so it assumes one from the model ID and the picker entry:
+
+* **Standard entry**: 1M tokens for a model the session recognizes as having a native 1M context window, as listed under [the context window behind a gateway](https://code.claude.com/docs/en/model-config#context-window-behind-a-gateway) in the Claude Code documentation, and 200K tokens for every other model ID, including an ID the session doesn't recognize whose `inferenceModels` entry doesn't set [`behavesAs`](https://claude.com/docs/third-party/claude-desktop/models#map-an-unrecognized-model-id-to-a-claude-model). On Claude Desktop versions earlier than 2.19675.0, a session assumes 200K tokens on this entry for every model.
+* **1M context window entry**, or the single entry from `prefer1m` or `modelPrefer1mContext`: 1M tokens, regardless of the model ID.
+
+If the gateway or the provider accepts less than the window a session assumes, requests past that limit fail. The session then compacts and retries only when the provider's too-long error reaches it unchanged. To make sessions compact earlier than the window they assume, for example when your provider serves a natively 1M model with only a 200K window, see [Set the auto-compact window](https://code.claude.com/docs/en/model-config#set-the-auto-compact-window) in the Claude Code documentation. For a model ID the session doesn't recognize, see [Correct the window for a gateway or custom model ID](https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id).
+
+The following table lists what the model configuration and the gateway need to provide so that sessions use the full context window and compact when they reach it, and how to check each requirement.
+
+| Requirement | What fails without it | How to check |
+| - | - | - |
+| Set `supports1m`, or mark the model in discovery (see [Models](#models)), for each model your provider serves with a 1M-token context window but a session assumes 200K tokens for. Also accept the `context-1m-2025-08-07` value in the `anthropic-beta` request header. | Sessions on such a model's standard picker entry assume a 200K-token window, even when the provider accepts 1M. A gateway that rejects the header value fails every request made from the **1M context window** entry. | From a session on the **1M context window** entry, confirm in the gateway's logs that requests carry the header value and that requests above 200K input tokens succeed. |
+| [Stream responses](https://code.claude.com/docs/en/llm-gateway-protocol#streaming) through without buffering, including the provider's SSE `ping` events, and set the response timeout on every proxy and load balancer on the route longer than your slowest complete response. | The summary request carries the whole conversation, and while the provider works on it, pings can be the only bytes on the connection. If a proxy buffers them, the session sees no bytes and gives up after about five minutes, and if a proxy's response timeout is shorter than the response takes, it ends the request with its own error, such as `504`. | Run a streaming request with `curl -N` against the hostname clients use and confirm that events print as they are generated, not in one burst at the end. |
+| Return the provider's `usage` object unchanged on every response, including `cache_creation_input_tokens` and `cache_read_input_tokens`. | The session counts the conversation's tokens from the `usage` of the latest response. With the cache fields missing it undercounts, and requests reach the provider's limit before the session compacts. | Compare the `usage` object in the gateway's upstream response log with the one the client receives for the same request. They should be identical, and where the provider supports prompt caching, `cache_read_input_tokens` is above zero after the first turn. |
+| [Forward the provider's status code and error body unchanged](https://code.claude.com/docs/en/llm-gateway-protocol#automatic-retry-and-error-forwarding) when it rejects a request. | Where the provider's too-long error is the compaction trigger, the session compacts and retries only if that error reaches it unchanged. With a rewritten error, the session shows the error and doesn't compact. | Send an oversized request through the gateway and confirm that the client receives the provider's status code and error body. |
+
+On a response that delivers only keep-alive pings, a session accepts about five minutes of pings and then waits [`inferenceStreamIdleTimeoutSec`](https://claude.com/docs/third-party/claude-desktop/configuration#inferencestreamidletimeoutsec) seconds more for model output (300 by default, so about ten minutes in all). Raise that key if your provider needs longer than that before its first output on a large request.
 
 To show a model as one entry, add `prefer1m: true` next to `supports1m` on its entry. New conversations with that model use the 1M context window. To do this for every model that supports 1M, set [`modelPrefer1mContext`](/docs/third-party/claude-desktop/configuration#modelprefer1mcontext) to `true`.
 
@@ -342,13 +589,160 @@ On a response that delivers only keep-alive pings, a session accepts about five 
 
 [MCP tool search](https://code.claude.com/docs/en/mcp#scale-with-mcp-tool-search) loads MCP tool schemas on demand instead of inlining every schema into the context window. It reduces context pressure when many MCP tools are configured (sessions that otherwise compact every turn or two).
 
-On gateway deployments, Claude Desktop turns tool search off by default, along with Claude Code's other experimental beta features, because strict gateways reject the experimental `anthropic-beta` request headers and request fields those features add. The same applies to Microsoft Foundry deployments and to any provider configured with a custom base URL. Setting the `ENABLE_TOOL_SEARCH` environment variable to `true` does not lift this suppression. To turn tool search on for these deployments, set the [`toolSearchEnabled`](/docs/third-party/claude-desktop/configuration#toolsearchenabled) configuration key. Requires app version 1.21459.0 or later.
+On gateway deployments, Claude Desktop turns off tool search and Claude Code's other experimental beta features by default, because strict gateways reject the experimental `anthropic-beta` request headers and request fields those features add. The same applies to Microsoft Foundry deployments and to any provider configured with a custom base URL. Setting the `ENABLE_TOOL_SEARCH` environment variable to `true` does not lift this suppression. To turn tool search on for these deployments, set the [`toolSearchEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#toolsearchenabled) configuration key. Requires app version 1.21459.0 or later.
 
-On Claude API, Google Cloud's Agent Platform, Amazon Bedrock, and Amazon Bedrock Mantle deployments with no custom base URL, tool search is on by default from Claude Desktop 1.49585.0 and `toolSearchEnabled` is not needed. These versions leave Claude Code's experimental beta features on for those providers, as terminal Claude Code does (on Google Cloud's Agent Platform, tool search applies to Claude 4.5 and newer models). To turn tool search off on these deployments, set `ENABLE_TOOL_SEARCH` to `false` in the `env` block of OS-level [Claude Code managed settings](https://code.claude.com/docs/en/settings#settings-files), with [`parentSettingsBehavior`](/docs/third-party/claude-desktop/code) set to `merge`. On earlier app versions these providers also have tool search off by default, and `toolSearchEnabled` turns it on.
+On Claude API, Google Cloud's Agent Platform, Amazon Bedrock, and Amazon Bedrock Mantle deployments with no custom base URL, tool search is on by default from Claude Desktop 1.49585.0 and `toolSearchEnabled` is not needed. These versions leave Claude Code's experimental beta features on for those providers, as terminal Claude Code does (on Google Cloud's Agent Platform, tool search applies to Claude 4.5 and newer models). To turn tool search off on these deployments, set `ENABLE_TOOL_SEARCH` to `false` in the `env` block of OS-level [Claude Code managed settings](https://code.claude.com/docs/en/settings#settings-files), with [`parentSettingsBehavior`](https://claude.com/docs/third-party/claude-desktop/code) set to `merge`. On earlier app versions these providers also have tool search off by default, and `toolSearchEnabled` turns it on.
 
-<Warning>
-  Setting `toolSearchEnabled` causes sessions to send experimental request headers and fields to your gateway or provider. On gateway deployments running Claude Desktop 1.40609.0 or later this is only the tool-search request shape (the `tool-search-tool-2025-10-19` value in the `anthropic-beta` header, deferred tool loading, and `tool_reference` content blocks), and every other experimental Claude Code beta stays off. On earlier versions, on Microsoft Foundry, and on providers behind a custom base URL, the key instead lifts the experimental-beta suppression for these sessions, so requests also carry Claude Code's other experimental beta headers and fields for that provider. Enable it only if your gateway forwards and accepts what it will receive; when it does not, requests fail with HTTP 400. LiteLLM in passthrough mode and Cloudflare AI Gateway both forward `anthropic-beta` headers and `tool_reference` content blocks.
-</Warning>
+> [!WARNING]
+>
+> Setting `toolSearchEnabled` causes sessions to send experimental request headers and fields to your gateway or provider. On gateway deployments running Claude Desktop 1.40609.0 or later the key adds only the tool-search request shape (the `tool-search-tool-2025-10-19` value in the `anthropic-beta` header, deferred tool loading, and `tool_reference` content blocks). On earlier versions, on Microsoft Foundry, and on providers behind a custom base URL, the key instead lifts the experimental-beta suppression for these sessions, so requests also carry Claude Code's other experimental beta headers and fields for that provider. Enable it only if your gateway forwards and accepts what it will receive; when it does not, requests fail with HTTP 400. LiteLLM in passthrough mode and Cloudflare AI Gateway both forward `anthropic-beta` headers and `tool_reference` content blocks.
+
+### Auto mode checks
+
+In [**Auto mode**](https://claude.com/docs/third-party/claude-desktop/configuration.md#automodeenabled), which Cowork shows as **Automatically approve**, a safety classifier reviews Claude's actions and blocks the ones it judges risky. On a gateway deployment, these can do the review:
+
+* **Claude Code's built-in safety check (the default)**: it sends its own requests through your gateway, and you pay for them like the rest of your usage.
+* **The model provider behind your gateway**: the session asks for the review in its normal request, and the provider returns its verdict with the response. The session sends no separate request for an action that gets a verdict.
+
+> [!NOTE]
+>
+> If a card or notice titled **Auto mode switched to its built-in safety check for this session** sent you here, you can keep working. Share this section with whoever manages Claude Desktop or the gateway for you.
+
+To have the provider do the review, set [`inferenceGatewayAutoModeServerChecks`](https://claude.com/docs/third-party/claude-desktop/configuration#inferencegatewayautomodeserverchecks) to `true`. In the [in-app configuration window](https://claude.com/docs/third-party/claude-desktop/in-app-configuration.md#open-the-configuration-window), it's the **Server-side Auto mode checks** toggle under **Connection**. Quit and reopen Claude Desktop after you change the setting, as after [any configuration change](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#when-a-configuration-change-on-a-device-takes-effect). Before you deploy the setting, [test it on one device](#test-auto-mode-checks-on-one-device).
+
+Sessions that a [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) runs in Claude Code's gateway mode ask for the review by default, and the setting doesn't change them.
+
+#### Gateway requirements for Auto mode checks
+
+With the setting on, your gateway needs to pass these parts of each Auto mode request and response through unchanged.
+
+| What to pass through | Where it appears |
+| - | - |
+| The `dangerous-tool-use-2026-09-03` value | The `anthropic-beta` request header |
+| The `safeguards` field | The top level of the request body |
+| The `safeguard_results` field | The `delta` object of the `message_delta` streaming event |
+| The `id` of each `tool_use` content block | The `content_block_start` streaming events |
+
+The provider behind your gateway also needs to run the review for the model that a session uses. The [test](#test-auto-mode-checks-on-one-device) shows whether it does for the model you test with.
+
+> [!WARNING]
+>
+> The `safeguards` field describes the session so that the provider can judge each action. A gateway that logs request bodies logs this field too. The field includes details such as the following:
+>
+> * [`autoMode` settings](https://claude.com/docs/third-party/claude-desktop/code#tune-the-auto-mode-classifier), including any that your organization or, in Code sessions, the user added
+> * Permission rules and folder paths, including the user's home folder
+> * A user name, such as the login name on the device or the part of the user's Git email address before the `@`
+> * Git state such as the branch, the remotes, and the number of changed files
+
+#### What users see when no Auto mode verdict arrives
+
+In sessions where the setting turns the review on, users see one of the following when your gateway or provider doesn't meet the requirements.
+
+* **A card or notice, and work continues**: no result comes back, the provider answers that it doesn't run the review or has it turned off, or the request gets a `400`, `403`, or `422` and succeeds when the session sends it again without the review. The session switches to the built-in safety check. Code shows a card titled **Auto mode switched to its built-in safety check for this session**, and Cowork shows the same words as a notice. In Code, the turn continues once the user selects **Continue**. If nobody answers the card within five minutes, the turn ends, and the action that waited reads `Stopped` and doesn't run.
+* **Nothing, and work continues**: the `tool_use` IDs are rewritten, or the provider answers that it couldn't run the review. The built-in safety check reviews actions.
+* **Actions don't run**: the `safeguard_results` field arrives in a form the session can't read. Actions that need a review read `Blocked` in Code and, after the turn, `Failed` in Cowork. The turn can stop with a card titled `Auto mode’s safety check was unavailable` in Code, and with a notice that begins `Auto mode is unavailable` in Cowork. [Turn the setting off](#turn-off-server-side-auto-mode-checks).
+* **Every Auto mode turn fails**: the request gets another error, such as `401` or `500`. See [Troubleshoot](#troubleshoot).
+
+After a user selects **Continue**, the card stays hidden for that user on that device for 24 hours, so rely on the diagnostic report when you test again.
+
+#### Test Auto mode checks on one device
+
+The admin console can't limit the setting to a group, so use a device that isn't signed in to your console organization.
+
+**1. Turn the setting on**
+
+Set the key in the device's managed profile, or in the [bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md)'s response for its user, then quit and reopen Claude Desktop. On a device with no managed profile, turn the toggle on in the in-app configuration window, then click **Apply Changes** and **Save & Restart**.
+
+**2. Run one task in Auto mode**
+
+Note the time in UTC. Start a Code session on the device itself, not on an SSH host, and select **Auto mode**. Ask Claude for an action that Auto mode reviews, such as creating a file outside the project folder or fetching a web page. If the card appears, select **Continue**, because the session may write its result only after you answer.
+
+**3. Read the result in the diagnostic report**
+
+Right after the task, go to **Help > Troubleshooting > Generate Diagnostic Report** and select **Export to file**. In the exported report, open `cli-diagnostics-log.txt` and find the lines whose `event` is `cli_api_auto_mode_server_check`. Every session on the device writes to this log, so read only the lines whose `timestamp` is later than the time you noted. Look up the `state` and `reason` in each line's `data` under [Auto mode check results in the diagnostic report](#auto-mode-check-results-in-the-diagnostic-report).
+
+#### Auto mode check results in the diagnostic report
+
+A `requested` line means that the session asked for the review. The lines after it are the result. A session writes each kind of line only once, so start a new session for each test.
+
+| Line in the report | What it means | What to do |
+| - | - | - |
+| `verdict` | Your gateway passes the review through. | Repeat the test with each model that your users can select. If a `no_verdict` line also appears, follow its row first. |
+| `no_verdict`, `server_no_result` | No result came back. Part of the review was dropped on the way, or the provider returned none. | Compare what the gateway sent upstream and returned to the client with [the requirements](#gateway-requirements-for-auto-mode-checks). If it passed everything through, follow the `server_unsupported` row. |
+| `no_verdict`, `server_unsupported` | The provider doesn't run the review for this model or key. | Use a provider and model that run the review, or [turn the setting off](#turn-off-server-side-auto-mode-checks). |
+| `no_verdict`, `other_tool_use_ids` | Verdicts came back under IDs that none of the response's actions has. | Return the provider's `tool_use` IDs unchanged. |
+| `no_verdict`, `server_unrecognized_result` | The session can't read the `safeguard_results` field. | [Turn the setting off](#turn-off-server-side-auto-mode-checks), because actions that need a review don't run. Then compare what your gateway returned to the client with [the requirements](#gateway-requirements-for-auto-mode-checks). |
+| `not_requested`, `beta_rejected` | Your gateway, or the provider behind it, answered `400`, `403`, or `422` to an earlier request that asked for the review, so the session stopped asking. | Check your gateway's logs for which of the two refused the request. For your gateway, accept the header value and the field. For the provider, follow the `server_unsupported` row. |
+| `not_requested`, `betas_disabled`, `switch` is `off` | The setting is off or not set for this device. | Turn the setting on, then quit and reopen Claude Desktop. |
+| `not_requested`, `betas_disabled`, `switch` is `on` | The device's own Claude Code managed settings or a compliance policy turn experimental betas off, which takes priority. | If a `requested` line follows, ignore this line. If none follows, check whether the device's [Claude Code managed settings](https://code.claude.com/docs/en/managed-settings) set `CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS`. |
+| Only `requested`, and Claude's actions read `Blocked`, or `Failed` with an error that names auto mode | The session couldn't read the verdicts, or the response ended before they arrived. | If the log also holds `cli_stream_failed` lines, see the streaming requirement in [Context window and compaction](#context-window-and-compaction). Otherwise, follow the `server_unrecognized_result` row. |
+| Only `requested`, and the turn failed with an error that doesn't name Auto mode | The request that asked for the review got an error. | See [Troubleshoot](#troubleshoot). |
+| Only `requested`, and the turn finished | No action in the turn got a verdict. | Start a new session, and ask for an action that Auto mode reviews. |
+| No `cli_api_auto_mode_server_check` line | The session recorded nothing about the review. | Check that the session ran in **Auto mode**, then update Claude Desktop. |
+
+For any other line, or if these steps don't help, share the report with your Anthropic representative.
+
+#### Turn off server-side Auto mode checks
+
+Set [`inferenceGatewayAutoModeServerChecks`](https://claude.com/docs/third-party/claude-desktop/configuration#inferencegatewayautomodeserverchecks) to `false` to have Claude Code's built-in safety check review Auto mode's actions, except in sessions that a [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) runs in Claude Code's gateway mode. A key that isn't set follows the default, so set it to `false` rather than leaving it out.
+
+Set the key in whichever of these holds the device's gateway settings:
+
+* **A managed profile that doesn't set `bootstrapUrl`**: add the key to the profile that already holds your gateway settings. If you deploy the key in a profile without them, [the managed configuration takes effect](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#which-configuration-source-applies-on-a-device) and Claude Desktop ignores gateway settings made in the in-app configuration window.
+* **A [bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md) that you host**: return the key in the response.
+* **The [in-app configuration window](https://claude.com/docs/third-party/claude-desktop/in-app-configuration.md#apply-locally-or-export-for-a-fleet)**: turn off the **Server-side Auto mode checks** toggle under **Connection**. The window stores the toggle only after you change it, so if the toggle already shows off, turn it on and then off. Then use the **Export** menu for a profile to deploy, or click **Apply Changes** on a device that takes its settings from the window.
+* **The [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md#configure-claude-desktop)**: open **Organization settings** and go to the **Connection** page under **Desktop 3P**. If the **Server-side Auto mode checks** switch is off and its row shows **Reset to default**, the console already stores the setting as off. Otherwise, turn off the switch, or turn it on and then off if it already shows off. Then click **Save changes**.
+
+The change takes effect once each user [relaunches Claude Desktop](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#when-a-configuration-change-on-a-device-takes-effect). To confirm it on a device, go to **Help > Troubleshooting > Generate Diagnostic Report** after the relaunch and select **Export to file**. In the exported report, `managed-config.txt` lists `inferenceGatewayAutoModeServerChecks = false`.
+
+## Block requests at a spend limit
+
+To show users your own message when your gateway blocks them at a budget or spend limit, return HTTP `402` with the message in a [Messages API error body](https://platform.claude.com/docs/en/api/errors#error-shapes):
+
+```json theme={null}
+{
+  "type": "error",
+  "error": {
+    "type": "billing_error",
+    "message": "You reached your monthly spend limit of $500. Ask your manager for an increase."
+  }
+}
+```
+
+Claude Desktop doesn't retry a `402`. Once your gateway accepts requests again, the user's next message in the same session goes through.
+
+Cowork, Chat, and Code show a **Billing issue** card, with your message below the app's own explanation.
+
+![Cowork card titled Billing issue. The app's explanation reads: You won't be able to start tasks until your IT team adds credits or updates billing. Below it, in monospace, is the gateway's message: You reached your monthly spend limit of \$500. Ask your manager for an increase.](https://mintcdn.com/claude-ai/_XP3pgAHpW92TgGc/images/third-party/gateway-billing-issue-card.png?fit=max\&auto=format\&n=_XP3pgAHpW92TgGc\&q=85\&s=b54737876348e2fa4f53a0adc5d01a1d)
+
+The Billing issue card in Cowork, with an example gateway message in monospace.
+
+> [!NOTE]
+>
+> The **Billing issue** card in Cowork and Chat requires Claude Desktop 4.4212.0 or later. In earlier versions, both show your message in a **Something went wrong** card with a **Try again** button.
+
+### Write the spend limit message
+
+Keep `error.message` short and say who can raise the limit. The **Billing issue** card shows your message as plain text, so a URL or email address in it isn't clickable. To give users a clickable HTTPS link, set `linkUrl` on the [`banner`](https://claude.com/docs/third-party/claude-desktop/configuration#banner), the notice across the top of the app window.
+
+Avoid phrases from the app's own error messages, such as "usage limit", "hit your limit", "hit your monthly limit", "out of usage", and "credit balance is too low". If your message contains one, the app can show its own card or text instead.
+
+### Other status codes at a spend limit
+
+With these status codes, users can see a general error or a card about a different problem, and Code's card can hide or drop your message.
+
+* **`429`**: Claude Desktop can retry for about three minutes or longer before it shows an error, unless the response carries `x-should-retry: false`. Code then shows **Server is temporarily limiting requests**. In Claude Desktop 4.23118.0 or later, when a [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) blocks a user at a spend limit, local Code sessions outside WSL show **Spend limit reached** with the gateway's message instead.
+* **`401` or `403`**: Code shows a card about credentials, sign-in, or permissions.
+* **`400`**: Code shows **Invalid request**.
+
+### Warn users before the spend limit
+
+To tell users where they stand before your gateway blocks them, show one line of text in one of these places:
+
+* **Across the top of the app window**: set the [`banner`](https://claude.com/docs/third-party/claude-desktop/configuration#banner) configuration key to show a one-line notice. If you serve configuration per user, for example from a [bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md), each user's notice can show their own figure, such as "You have used 82% of your monthly budget."
+* **Above the message box**: set up a [status line](https://claude.com/docs/third-party/claude-desktop/status-line.md). Claude Desktop runs a program that you install on the user's device and shows the line it prints.
+
+Claude Desktop can also limit each user's tokens, separately from your gateway's budget, and warn users before they reach that limit. To set up the limit and check where it applies, see the [token limit keys](https://claude.com/docs/third-party/claude-desktop/configuration.md#inferencemaxtokensperwindow) in the configuration reference.
 
 ## Troubleshoot
 
@@ -359,17 +753,36 @@ On Claude API, Google Cloud's Agent Platform, Amazon Bedrock, and Amazon Bedrock
 **`no credential configured for provider "gateway": set inferenceCredentialKind or one of the credential fields`.** `inferenceCredentialKind: "interactive"` isn't present in the configuration Claude Desktop is using. Add it where Claude Desktop gets its configuration:
 
 * **A managed profile that doesn't set `bootstrapUrl`**: add the key to the profile you push to devices.
-* **A [bootstrap server](/docs/third-party/claude-desktop/bootstrap)**: return the key in the response, then quit and reopen Claude Desktop. A copy of the key in the managed profile has no effect. A message that also includes `bootstrap response failed validation` comes from this case.
+* **A [bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md)**: return the key in the response, then quit and reopen Claude Desktop. A copy of the key in the managed profile has no effect. A message that also includes `bootstrap response failed validation` comes from this case.
 
-A [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) is a bootstrap server that sets the connection keys in its response itself, so you can't add this key in the gateway's configuration. Earlier gateway versions send `inferenceGatewayAuthScheme: "sso"` in place of this key. [Upgrade the gateway](https://code.claude.com/docs/en/claude-apps-gateway-deploy#upgrades) to the current Claude Code version, then quit and reopen Claude Desktop. Or update Claude Desktop to a version that [reads `inferenceGatewayAuthScheme: "sso"`](/docs/third-party/claude-desktop/configuration-changelog#v2-26454-0).
+A [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) is a bootstrap server that sets the connection keys in its response itself, so you can't add this key in the gateway's configuration. Earlier gateway versions send `inferenceGatewayAuthScheme: "sso"` in place of this key. [Upgrade the gateway](https://code.claude.com/docs/en/claude-apps-gateway-deploy#upgrades) to the current Claude Code version, then quit and reopen Claude Desktop. Or update Claude Desktop to a version that [reads `inferenceGatewayAuthScheme: "sso"`](https://claude.com/docs/third-party/claude-desktop/configuration-changelog#v2-26454-0).
 
 **Browser shows "Connected" but the app reports the sign-in failed, or `Token exchange failed (HTTP 401)`** — The browser step succeeded, but the identity provider rejected the follow-up token request. This usually means the IdP application is registered as a confidential (Web) client, which expects a client secret. Claude is a public PKCE client and doesn't send one. Register a public/native client instead: **Native Application** in Okta, or the **Mobile and desktop applications** platform in Entra ID. Application type generally can't be changed after creation, so you may need to create a new one.
 
-<Note>
-  Google Workspace can be used as the identity provider, but in the default `id_token` mode Google does not issue a fresh ID token on background refresh, so users are prompted to sign in again roughly once an hour. Setting `bearerTokenType` to `access_token` avoids this. Entra ID and Okta are not affected in either mode.
-</Note>
+> [!NOTE]
+>
+> Google Workspace can be used as the identity provider, but in the default `id_token` mode Google does not issue a fresh ID token on background refresh, so users are prompted to sign in again roughly once an hour. Setting `bearerTokenType` to `access_token` avoids this. Entra ID and Okta are not affected in either mode.
+
+**`Auto mode’s safety check was unavailable` or `Auto mode is unavailable`, after actions that read `Blocked` or `Failed`.** With **Server-side Auto mode checks** on, the session can't read the verdicts. Follow the `server_unrecognized_result` row under [Auto mode check results in the diagnostic report](#auto-mode-check-results-in-the-diagnostic-report). If Code shows `Connection problem` cards instead, or Cowork shows `API Error: Connection lost mid-response` first, the responses end before the verdicts arrive. See the streaming requirement in [Context window and compaction](#context-window-and-compaction).
+
+**Every Auto mode turn fails after you turn on Server-side Auto mode checks.** Your gateway rejects requests that ask for the [Auto mode review](#auto-mode-checks), with an error such as `401`, `404`, or `500`. After a `500`, or a `401` where users sign in through an identity provider, the session first retries for several minutes. Code then shows `Server error` or `Authentication failed`. Code shows `Credentials rejected` right away after a `401` with a static API key, and `Model isn’t available` after a `404`. None of these messages names Auto mode or the setting.
+
+Until the gateway meets [the requirements](#gateway-requirements-for-auto-mode-checks), either of these stops the failures:
+
+* Set `inferenceGatewayAutoModeServerChecks` to `false`, as described in [Turn off server-side Auto mode checks](#turn-off-server-side-auto-mode-checks). The change takes effect once each user [relaunches Claude Desktop](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#when-a-configuration-change-on-a-device-takes-effect).
+* Have users start new sessions in **Manual** mode, which Cowork shows as **Manually approve**. If turns fail in those sessions too, the review isn't the cause.
 
 **Model picker is empty or missing models.** Check your gateway's `GET /v1/models` response and your `inferenceModels` list (see [Models](#models)). When `/v1/models` is unreachable or returns an error, the picker falls back to the `inferenceModels` list; if that list is empty, so is the picker.
+
+**Chat conversations and Cowork tasks fail with `SSL certificate verification failed (UNABLE_TO_VERIFY_LEAF_SIGNATURE)`.** Claude Code, which runs these sessions, couldn't find the certificate authority (CA) that issued your gateway's certificate. A gateway that doesn't send its intermediate certificate and a private CA that the device doesn't trust can both produce this message. A passing connection test in the app doesn't rule out a missing intermediate certificate, because the app can fetch one itself and Claude Code can't.
+
+To see which certificates your gateway sends, run this command in a terminal on a machine that connects to the gateway directly. Use your gateway's host name in place of `llm-gateway.example.corp`:
+
+```bash theme={null}
+openssl s_client -connect llm-gateway.example.corp:443 -servername llm-gateway.example.corp -showcerts </dev/null
+```
+
+If the output doesn't include the intermediate certificate that issued the gateway's certificate, configure the gateway, or the load balancer in front of it, to send its full certificate chain. For a private CA, see [TLS-intercepting proxies](https://claude.com/docs/third-party/claude-desktop/network-proxy.md#tls-intercepting-proxies).
 
 **The 1M context window entry does not appear in the picker.** `supports1m` takes effect only when the entry's `name` matches the model ID the picker uses. Setting it on a bare alias (for example `sonnet`) while discovery returns full model IDs produces no match. Set `supports1m` on an entry whose `name` is the exact ID your gateway's `/v1/models` endpoint returns. With `prefer1m` or `modelPrefer1mContext` set, a model whose `name` matches has one entry and no **1M context window** label.
 

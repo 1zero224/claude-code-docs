@@ -21,9 +21,9 @@ List Credentials
 
   - `Optional<Boolean> includeArchived` (query parameter)
 
-    Whether to include archived credentials in the results.
+    Whether to include archived credentials in the results. Defaults to `false`.
 
-  - `Optional<Long> limit` (query parameter)
+  - `Optional<Integer> limit` (query parameter)
 
     Maximum number of credentials to return per page. Defaults to 20, maximum 100.
 
@@ -31,11 +31,11 @@ List Credentials
 
   - `Optional<String> page` (query parameter)
 
-    Opaque pagination token from a previous `list_credentials` response.
+    The `next_page` value from a previous [List Credentials](https://platform.claude.com/docs/en/api/beta/vaults/credentials/list?sdk_languages=java) response, to get the next page. Leave it out to get the first page.
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -137,6 +137,18 @@ List Credentials
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -149,13 +161,13 @@ List Credentials
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type type`
+  - `JsonValue type = "vault_credential"`
 
   - `String id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the credential was archived. Null if not archived.
 
@@ -169,15 +181,15 @@ List Credentials
 
       OAuth credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "mcp_oauth"`
 
       - `String mcpServerUrl`
 
         URL of the MCP server this credential authenticates against.
 
-      - `Optional<LocalDateTime> expiresAt`
+      - `Optional<OffsetDateTime> expiresAt`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -187,7 +199,7 @@ List Credentials
 
         - `String clientId`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `String tokenEndpoint`
 
@@ -199,19 +211,19 @@ List Credentials
 
             Token endpoint requires no client authentication.
 
-            - `Type type`
+            - `JsonValue type = "none"`
 
           - `class BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_basic"`
 
           - `class BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_post"`
 
         - `Optional<String> resource`
 
@@ -225,7 +237,7 @@ List Credentials
 
       Static bearer token credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "static_bearer"`
 
       - `String mcpServerUrl`
 
@@ -235,7 +247,7 @@ List Credentials
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type type`
+      - `JsonValue type = "environment_variable"`
 
       - `BetaManagedAgentsInjectionLocationResponse injectionLocation`
 
@@ -257,23 +269,25 @@ List Credentials
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type type`
+          - `JsonValue type = "unrestricted"`
 
         - `class BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type type`
+          - `JsonValue type = "limited"`
 
           - `List<String> allowedHosts`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `String secretName`
 
         Name of the environment variable.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -283,7 +297,7 @@ List Credentials
 
     Arbitrary key-value metadata attached to the credential.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 

@@ -15,7 +15,7 @@ Get statistics about the work queue for an environment.
 
 - `environment_id: String` (path parameter)
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -121,7 +121,19 @@ Get statistics about the work queue for an environment.
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -133,7 +145,9 @@ Get statistics about the work queue for an environment.
 
   Statistics about the work queue for an environment.
 
-  Uses Redis Stream consumer group metrics for O(1) queries.
+  - `type: :work_queue_stats`
+
+    The type of object
 
   - `type: :work_queue_stats`
 
@@ -141,9 +155,9 @@ Get statistics about the work queue for an environment.
 
   - `depth: Integer`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
-  - `oldest_queued_at: String`
+  - `oldest_queued_at: String | nil`
 
     RFC 3339 timestamp of oldest item in the work stream (includes both queued and pending items), null if stream empty
 
@@ -151,7 +165,7 @@ Get statistics about the work queue for an environment.
 
     Number of work items being processed (polled but not acknowledged)
 
-  - `workers_polling: Integer`
+  - `workers_polling: Integer | nil`
 
     Number of workers that have polled for work in the last 30 seconds. Requires worker_id to be sent with poll requests.
 

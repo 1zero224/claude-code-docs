@@ -1,15 +1,15 @@
 ---
-title: Validate Credential
+title: Validate an MCP OAuth Credential
 url: https://platform.claude.com/docs/en/api/php/beta/vaults/credentials/mcp_oauth_validate
 ---
 
-# Validate Credential
+# Validate an MCP OAuth Credential
 
 `$client->beta->vaults->credentials->mcpOAuthValidate(string credentialID, string vaultID, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsCredentialValidation`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/mcp_oauth_validate`
 
-Validate Credential
+Validate an MCP OAuth Credential
 
 ## Parameters
 
@@ -21,9 +21,15 @@ Validate Credential
 
   Unique identifier of the credential to validate.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -35,7 +41,7 @@ Validate Credential
 
 - `class ManagedAgentsCredentialValidation`
 
-  - `Type type`
+  - `"vault_credential_validation" type`
 
   - `string credentialID`
 
@@ -47,7 +53,7 @@ Validate Credential
 
   - `?ManagedAgentsMCPProbe mcpProbe`
 
-    Details of the failing MCP probe step. Null when the probe succeeded.
+    Details of the MCP probe step that failed, or `null` if the probe succeeded or there was no access token to test.
 
   - `?ManagedAgentsRefreshObject refresh`
 
@@ -71,6 +77,9 @@ Validate Credential
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

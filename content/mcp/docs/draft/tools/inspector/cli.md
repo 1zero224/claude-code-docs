@@ -12,12 +12,12 @@ Each CLI run connects to a server, invokes the single request you name with `--m
 npx @modelcontextprotocol/inspector --cli node build/index.js --method tools/list
 ```
 
-<Tip>
-  Running several commands against the same server, or a flow that spans one
-  session (tasks, subscriptions, elicitation)? The [mcpdo connection
-  client](/docs/draft/tools/inspector/mcpdo) connects once and keeps the
-  connection open between commands.
-</Tip>
+> [!TIP]
+>
+> Running several commands against the same server, or a flow that spans one
+> session (tasks, subscriptions, elicitation)? The [mcpdo connection
+> client](https://modelcontextprotocol.io/docs/draft/tools/inspector/mcpdo.md) connects once and keeps the
+> connection open between commands.
 
 The examples below use the installed `mcp-inspector` binary. Without a global install, prefix each command with `npx @modelcontextprotocol/inspector` instead, as above.
 
@@ -36,20 +36,20 @@ mcp-inspector --cli https://api.example.com/mcp --transport http --method tools/
 mcp-inspector --cli --config ./mcp.json --server myserver --method tools/list
 ```
 
-When the server comes from a file, its per-server settings (headers, timeouts, OAuth, [protocol era](/docs/draft/tools/inspector/protocol-eras), and roots) apply to the connection, resolved exactly as the TUI and web client resolve them. A `--header` flag overrides the file's headers for that run while leaving its timeouts and OAuth in place.
+When the server comes from a file, its per-server settings (headers, timeouts, OAuth, [protocol era](https://modelcontextprotocol.io/docs/draft/tools/inspector/protocol-eras.md), and roots) apply to the connection, resolved exactly as the TUI and web client resolve them. A `--header` flag overrides the file's headers for that run while leaving its timeouts and OAuth in place.
 
 Later examples abbreviate whichever of these forms you use, along with its `--transport` or `--config`/`--server` flags, as `<server>`.
 
-<Note>
-  **The config file is the only durable way to give a run its
-  [roots](/specification/draft/client/roots):** there is no roots flag, and the
-  CLI has no `roots/set` method. Roots configured for a server are advertised at
-  connect, so a server that calls `roots/list` (as
-  `@modelcontextprotocol/server-filesystem` does, to learn its allowed
-  directories) gets them.
-</Note>
+> [!NOTE]
+>
+> **The config file is the only durable way to give a run its
+> [roots](https://modelcontextprotocol.io/specification/draft/client/roots.md):** there is no roots flag, and the
+> CLI has no `roots/set` method. Roots configured for a server are advertised at
+> connect, so a server that calls `roots/list` (as
+> `@modelcontextprotocol/server-filesystem` does, to learn its allowed
+> directories) gets them.
 
-See [Configuration and flags](/docs/draft/tools/inspector/configuration) for `--catalog` vs. `--config`, the `--` separator, and the shared server-selection flags.
+See [Configuration and flags](https://modelcontextprotocol.io/docs/draft/tools/inspector/configuration.md) for `--catalog` vs. `--config`, the `--` separator, and the shared server-selection flags.
 
 ## Methods
 
@@ -101,7 +101,7 @@ mcp-inspector --cli <server> --method tools/list --format json | jq '.result.too
 
 ## Probing MCP Apps
 
-`--app-info` reports whether a tool ships an [MCP App](/extensions/apps/overview) UI (its `ui://` resource, CSP, and permissions) **without calling the tool**, so a pipeline can decide whether it needs a browser before invoking anything:
+`--app-info` reports whether a tool ships an [MCP App](https://modelcontextprotocol.io/extensions/apps/overview.md) UI (its `ui://` resource, CSP, and permissions) **without calling the tool**, so a pipeline can decide whether it needs a browser before invoking anything:
 
 ```bash theme={null}
 # One tool -> one JSON line
@@ -116,11 +116,11 @@ Exit codes distinguish the outcomes: a tool with an app exits `0`, one with no a
 
 The CLI can't render an App, so by default it doesn't advertise the MCP Apps extension at `initialize`. A server that exposes its App tools only to clients claiming App support will then look app-less (exit `2`). Add `--advertise-apps` to claim the extension for that run.
 
-<Note>
-  `tools/list --app-info` always emits NDJSON (one line per tool) regardless of
-  `--format`; `--format json` reshapes only the single-tool output of
-  `tools/call --app-info`.
-</Note>
+> [!NOTE]
+>
+> `tools/list --app-info` always emits NDJSON (one line per tool) regardless of
+> `--format`; `--format json` reshapes only the single-tool output of
+> `tools/call --app-info`.
 
 ## Exit codes and error envelopes
 
@@ -138,6 +138,8 @@ Every non-zero exit maps to a stable failure class, so a caller can branch on *w
 | `7` | `--verify` found a skill that violates SEP-2640 (conformance, digest, or size mismatch). |
 | `8` | `--verify` couldn't check every skill within its read bounds. |
 | `9` | `--verify --require-digests` found a skill that advertises no digests. |
+| `10` | A `--load` run breached a `--load-max-error-rate` or `--load-max-p99` threshold. The summary is printed first, and the envelope `code` names the threshold: `load_error_rate_exceeded` or `load_p99_exceeded`. |
+| `11` | The server answered HTTP 429 (envelope `code` `rate_limited`). The envelope also carries `method`, plus `retryAfter` (the `Retry-After` header as sent) and `retryAfterMs` when the server sent one that parses. |
 
 On any non-zero exit the CLI also writes a **single JSON line to stderr**:
 
@@ -152,7 +154,7 @@ On any non-zero exit the CLI also writes a **single JSON line to stderr**:
 }
 ```
 
-The envelope carries `code` and `message` always, plus `cause` (the underlying error, such as a DNS failure), `status` (the HTTP status) and `url` when known. Query-string secrets in a URL are redacted. `code` is a stable name for the failure: `auth_required`, `unreachable`, `tool_not_found`, `tool_is_error`, `no_app`, `schema_unportable`, `store_unavailable`, `oauth_state_unrecognized`, or the catch-all `error`, among others.
+The envelope carries `code` and `message` always, plus `cause` (the underlying error, such as a DNS failure), `status` (the HTTP status) and `url` when known. Query-string secrets in a URL are redacted. `code` is a stable name for the failure: `auth_required`, `unreachable`, `tool_not_found`, `tool_is_error`, `no_app`, `schema_unportable`, `store_unavailable`, `oauth_state_unrecognized`, `rate_limited`, or the catch-all `error`, among others.
 
 Because it's one line, a caller can parse it with `2>&1 | tail -1 | jq .error`.
 
@@ -167,7 +169,7 @@ By default the CLI runs the same loopback OAuth flow as the TUI: it opens a brow
 
 Without either, and with no TTY on stdin or stderr, the CLI fails fast with `auth_required` rather than hanging for fifteen minutes on a callback nobody will complete.
 
-See [Authorization](/docs/draft/tools/inspector/authorization) for the full flow, the web-to-CLI handoff, and `--print-handoff`.
+See [Authorization](https://modelcontextprotocol.io/docs/draft/tools/inspector/authorization.md) for the full flow, the web-to-CLI handoff, and `--print-handoff`.
 
 ## Recipes
 
@@ -184,15 +186,17 @@ mcp-inspector --cli --config ./ci-servers.json --server my-server \
 
 ### CI gates
 
-Three flags turn a check into a non-zero exit, each with its own code so a job can tell the failures apart:
+These flags turn a check into a non-zero exit, each with its own code so a job can tell the failures apart:
 
 * `--strict` (with `tools/list`): reports tool-schema portability problems in full on stderr (path, issue, suggested fix) and exits `6` if any is error-severity. Without it, `tools/list` prints only a one-line count. Under `--format json` the findings are folded into the output as `schemaFindings`.
 * `--verify` (with `skills/list` or `skills/get`): runs the SEP-2640 conformance and digest checks, writes one JSON report per skill on stdout, and exits `7` on a violation or `8` when the read bounds stopped it before every skill was checked. `--skill-catalog-max-skills` and `--skill-catalog-max-bytes` set those bounds.
 * `--require-digests` (with `--verify`): exits `9` for a skill that advertises no digests, instead of reporting it as unverifiable and exiting `0`.
+* `--load-max-error-rate <fraction>` and `--load-max-p99 <ms>` (with `--load`): turn a load run into a gate. The run prints its summary, then exits `10` when the share of failed calls is above the fraction (`0` to `1`, so `0` fails on any failed call), when the p99 latency is above the given milliseconds, or when no call completed. `--load` (with `tools/call --tool-name`) calls the tool repeatedly and concurrently and prints a latency and error-rate summary instead of a result, bounded by `--load-duration <sec>` (default `10` when `--load-requests` is not set) and `--load-requests <n>`, with in-flight calls still finishing. `--load-concurrency <n>` (default `10`) caps the calls in flight, `--load-connections <n>` (default `1`, at most `--load-concurrency`, HTTP and SSE servers only) spreads them over independent sessions opened before timing starts, and `--load-rate <n>` (default unlimited) caps the calls started per second.
 
 ```bash theme={null}
 mcp-inspector --cli <server> --method tools/list --strict > /dev/null
 mcp-inspector --cli <server> --method skills/list --verify --require-digests
+mcp-inspector --cli <server> --method tools/call --tool-name get_weather --load --load-requests 200 --load-max-p99 500
 ```
 
 ### Branch on the failure class
@@ -223,12 +227,29 @@ mcp-inspector --cli --catalog ~/.mcp-inspector/mcp.json --method servers/list
 mcp-inspector --cli --catalog ~/.mcp-inspector/mcp.json --method servers/show --server my-server
 ```
 
-<Warning>
-  `servers/show` redacts secret-bearing fields (`env` values, sensitive headers,
-  OAuth client secrets), but it does **not** scrub credentials embedded in a
-  server `url` (userinfo or query tokens) or in stdio `args`. Treat raw URL and
-  `detail` fields as sensitive before pasting them into an issue.
-</Warning>
+> [!WARNING]
+>
+> `servers/show` redacts secret-bearing fields (`env` values, sensitive headers,
+> OAuth client secrets), but it does **not** scrub credentials embedded in a
+> server `url` (userinfo or query tokens) or in stdio `args`. Treat raw URL and
+> `detail` fields as sensitive before pasting them into an issue.
+
+### Editing the catalog
+
+`servers/add`, `servers/edit`, and `servers/remove` write the catalog without connecting to anything. They go through the same code as the web client's server list, so `env` values and client secrets land in the [secret store](https://modelcontextprotocol.io/docs/draft/tools/inspector/configuration.md#where-secrets-are-stored) exactly as they would from the UI, and a running web client picks up the change.
+
+```bash theme={null}
+# Add: the positional target or --server-url describes the entry, not a server to connect to
+mcp-inspector --cli node build/index.js -e API_KEY=secret --method servers/add --server my-server
+
+# Edit: change the target, -e, --cwd, --header, or --protocol-era, or rename it
+mcp-inspector --cli --method servers/edit --server my-server --rename my-renamed-server
+
+# Remove the entry and its stored secrets
+mcp-inspector --cli --method servers/remove --server my-renamed-server
+```
+
+Only the writable catalog (`--catalog`, `MCP_CATALOG_PATH`, or the default) can be written; `--config` is refused. With an in-memory secret store, a write that supplies `-e` values (and a `--rename`) is refused, since the secrets would be lost when the run exits.
 
 ### Editing the catalog
 

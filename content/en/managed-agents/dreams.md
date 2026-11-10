@@ -1,22 +1,42 @@
 ---
 title: Dreams
 url: https://platform.claude.com/docs/en/managed-agents/dreams
-description: Let Claude reflect on past sessions to curate an agent's memory and surface new insights.
+description: Let Claude review past sessions to curate an agent's memory and surface new insights.
+featureMetadata:
+  status: research-preview
+  betaHeader: managed-agents-2026-04-01, dreaming-2026-04-21
+  zdr:
+    eligibility: not-eligible
+    note: Sessions are stateful resources; transcripts persist until you delete them. Applies to all Managed Agents sub-features, including Self-hosted sandboxes.
+  supportedModels:
+    - claude-fable-5-1
+    - claude-fable-5
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-sonnet-4-6
+  supportedPlatforms:
+    Claude API: research-preview
 ---
 
+<Note>
+  Dreams are in research preview.
+
+  * [Request access](https://claude.com/form/claude-managed-agents)
+</Note>
+
 <Tip>
-  Dreaming is a research preview feature. [Request access](https://claude.com/form/claude-managed-agents) to try it.
+  Want more control over dreaming? The [Dreaming with a dynamic workflow](https://platform.claude.com/cookbook/managed-agents-cma-dreaming-with-a-dynamic-workflow) recipe in the Claude Cookbook shows how to build your own dream with prompts and models you choose. You decide when it runs, which transcripts it reads, and what it does with them.
 </Tip>
 
 Agents write to their [memory stores](https://platform.claude.com/docs/en/managed-agents/memory) as they work, but these writes are local and incremental: over many sessions a memory store accumulates duplicates, contradictions, and stale entries.
 
 **Dreams** let Claude clean that up. A dream reads an existing memory store alongside past session transcripts, then produces a new, reorganized memory store: duplicates merged, stale or contradicted entries replaced with the latest value, and new insights surfaced.
 
-The input store is never modified, so you can review the output and discard it if you don't like the result.
-
-<Note>
-  Dream endpoints are gated by the `dreaming-2026-04-21` beta header; the `managed-agents-2026-04-01` header on its own doesn't grant access to dreams. The dream-endpoint examples on this page send both headers; session and memory-store calls need only `managed-agents-2026-04-01`. The SDK sets these automatically.
-</Note>
+The input store is never modified, so you can review the output and discard it if you don’t like the result.
 
 ## How it works
 
@@ -25,7 +45,7 @@ A **dream** is an asynchronous job that takes:
 * a pre-existing **memory store:** the store Claude verifies, deduplicates, and reorganizes, and
 * 1 to 100 **sessions:** past transcripts Claude mines for patterns and insights to fold into the output.
 
-The dream produces another **output memory store**, separate from the input. The output store ID appears in the dream's `outputs` (csharp, go: `Outputs`) array shortly after the dream starts `running`, once the workflow has cloned the input store; a `running` dream can briefly report an empty `outputs` (csharp, go: `Outputs`) array.
+The dream produces another **output memory store**, separate from the input. The output store ID appears in the dream’s `outputs` (csharp, go: `Outputs`) array shortly after the dream starts `running`, once the workflow has cloned the input store; a `running` dream can briefly report an empty `outputs` (csharp, go: `Outputs`) array.
 
 ## Create a dream
 
@@ -33,19 +53,17 @@ The dream produces another **output memory store**, separate from the input. The
   ```bash cURL
   curl -s https://api.anthropic.com/v1/dreams \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01,dreaming-2026-04-21" \
     -H "content-type: application/json" \
-    --data @- <<EOF
-  {
-    "inputs": [
-      { "type": "memory_store", "memory_store_id": "$store_id" },
-      { "type": "sessions", "session_ids": ["$session_a", "$session_b"] }
-    ],
-    "model": "claude-opus-5-5",
-    "instructions": "Focus on coding-style preferences; ignore one-off debugging notes."
-  }
-  EOF
+    -d '{
+      "inputs": [
+        { "type": "memory_store", "memory_store_id": "'"$store_id"'" },
+        { "type": "sessions", "session_ids": ["'"$session_a"'", "'"$session_b"'"] }
+      ],
+      "model": "claude-opus-5-5",
+      "instructions": "Focus on coding-style preferences; ignore one-off debugging notes."
+    }'
   ```
 
   ```bash CLI
@@ -76,10 +94,10 @@ The dream produces another **output memory store**, separate from the input. The
   let dream = await client.beta.dreams.create({
     inputs: [
       { type: "memory_store", memory_store_id: storeId },
-      { type: "sessions", session_ids: [sessionA, sessionB] },
+      { type: "sessions", session_ids: [sessionA, sessionB] }
     ],
     model: "claude-opus-5-5",
-    instructions: "Focus on coding-style preferences; ignore one-off debugging notes.",
+    instructions: "Focus on coding-style preferences; ignore one-off debugging notes."
   });
   console.log(dream.id); // drm_01...
   ```
@@ -89,16 +107,8 @@ The dream produces another **output memory store**, separate from the input. The
   {
       Inputs =
       [
-          new BetaDreamMemoryStoreInput
-          {
-              Type = BetaDreamMemoryStoreInputType.MemoryStore,
-              MemoryStoreID = storeID,
-          },
-          new BetaDreamSessionsInput
-          {
-              Type = BetaDreamSessionsInputType.Sessions,
-              SessionIds = [sessionA, sessionB],
-          },
+          new BetaDreamMemoryStoreInput { MemoryStoreID = storeID },
+          new BetaDreamSessionsInput { SessionIds = [sessionA, sessionB] },
       ],
       Model = "claude-opus-5-5",
       Instructions = "Focus on coding-style preferences; ignore one-off debugging notes.",
@@ -160,7 +170,7 @@ The dream produces another **output memory store**, separate from the input. The
   ```
 </CodeGroup>
 
-Dreaming inputs include the pre-existing memory store and an array of sessions. The selected model runs the dreaming pipeline. During the research preview, `claude-opus-5-5`, `claude-fable-5-1`, `claude-opus-5`, `claude-fable-5`, `claude-opus-4-8`, `claude-opus-4-7`, `claude-sonnet-5-5`, `claude-sonnet-5`, and `claude-sonnet-4-6` are supported. You can optionally pass `instructions` (csharp, go: `Instructions`) to steer the dreaming process. See [Steer with instructions](https://platform.claude.com/docs/en/managed-agents/dreams#steer-with-instructions).
+Dreaming inputs include the pre-existing memory store and an array of sessions. The model you choose runs the dreaming pipeline. Only [select models](https://platform.claude.com/docs/en/managed-agents/dreams#feature-availability) are supported. You can optionally pass `instructions` (csharp, go: `Instructions`) to steer the dreaming process. See [Steer with instructions](https://platform.claude.com/docs/en/managed-agents/dreams#steer-with-instructions).
 
 The response is the full `dream` resource with `status: "pending"`:
 
@@ -198,7 +208,7 @@ The response is the full `dream` resource with `status: "pending"`:
 
 The optional `instructions` (csharp, go: `Instructions`) field steers what the dreaming pipeline synthesizes. It is applied throughout the pipeline: what to read closely, what to merge or drop, and how to structure the output store.
 
-Use `instructions` (csharp, go: `Instructions`) for high-level synthesis guidance such as focus areas ("focus on coding-style preferences"), content to preserve unchanged, or output conventions you want applied across the store. The pipeline is a synthesis pass over the inputs, not an editor applied to the text of the store, so imperative directives that target specific lines ("change sentence X to Y", "fix the count in section Z") generally produce no change. To make targeted edits to individual memories, use the [Memory Stores API](https://platform.claude.com/docs/en/managed-agents/memory#view-and-edit-memories) on the output store directly.
+Use `instructions` (csharp, go: `Instructions`) for high-level synthesis guidance such as focus areas (“focus on coding-style preferences”), content to preserve unchanged, or output conventions you want applied across the store. The pipeline is a synthesis pass over the inputs, not an editor applied to the text of the store, so imperative directives that target specific lines (“change sentence X to Y,” “fix the count in section Z”) generally produce no change. To make targeted edits to individual memories, use the [Memory Stores API](https://platform.claude.com/docs/en/managed-agents/memory#view-and-edit-memories) on the output store directly.
 
 ## Track progress
 
@@ -206,16 +216,10 @@ Dreams run asynchronously and typically take minutes to a few hours, driven by t
 
 <CodeGroup>
   ```bash cURL
-  while true; do
-    dream=$(curl -s "https://api.anthropic.com/v1/dreams/$dream_id" \
-      -H "x-api-key: $ANTHROPIC_API_KEY" \
-      -H "anthropic-version: 2023-06-01" \
-      -H "anthropic-beta: managed-agents-2026-04-01,dreaming-2026-04-21")
-    status=$(jq -r '.status' <<< "$dream")
-    echo "status=$status input_tokens=$(jq -r '.usage.input_tokens' <<< "$dream")"
-    [[ "$status" == "pending" || "$status" == "running" ]] || break
-    sleep 10
-  done
+  curl -s "https://api.anthropic.com/v1/dreams/$dream_id" \
+    -H "x-api-key: $ANTHROPIC_API_KEY" \
+    -H "anthropic-version: 2026-10-21" \
+    -H "anthropic-beta: managed-agents-2026-04-01,dreaming-2026-04-21"
   ```
 
   ```bash CLI
@@ -231,7 +235,7 @@ Dreams run asynchronously and typically take minutes to a few hours, driven by t
 
   ```typescript TypeScript
   while (dream.status === "pending" || dream.status === "running") {
-    await sleep(10_000);
+    await new Promise((resolve) => setTimeout(resolve, 10_000));
     dream = await client.beta.dreams.retrieve(dream.id);
     console.log(`status=${dream.status} input_tokens=${dream.usage.input_tokens}`);
   }
@@ -295,40 +299,34 @@ Dreams run asynchronously and typically take minutes to a few hours, driven by t
 
 ### Watch the pipeline run
 
-Once a dream is `running`, its `session_id` (java: `sessionId`; php: `sessionID`; csharp, go: `SessionID`) field points at the underlying [session](https://platform.claude.com/docs/en/managed-agents/sessions) running the pipeline. You can stream that session's [events](https://platform.claude.com/docs/en/managed-agents/events-and-streaming) to observe what the dream is reading and writing in real time. The session is archived (not deleted) when the dream reaches a terminal state, so the transcript remains available afterward.
+Once a dream is `running`, its `session_id` (java: `sessionId`; php: `sessionID`; csharp, go: `SessionID`) field points at the underlying [session](https://platform.claude.com/docs/en/managed-agents/sessions) running the pipeline. You can stream that session’s [events](https://platform.claude.com/docs/en/managed-agents/events-and-streaming) to observe what the dream is reading and writing in real time. The session is archived (not deleted) when the dream reaches a terminal state, so the transcript remains available afterward.
 
 ## Use the output
 
-When `status` (csharp, go: `Status`) reaches `completed`, the `memory_store` entry in `outputs` (csharp, go: `Outputs`) references a fully populated store. It's an ordinary memory store in your workspace. Review it with the [Memory Stores API](https://platform.claude.com/docs/en/managed-agents/memory#view-and-edit-memories) or in the Console, then either:
+When `status` (csharp, go: `Status`) reaches `completed`, the `memory_store` entry in `outputs` (csharp, go: `Outputs`) references a fully populated store. It’s an ordinary memory store in your workspace. Review it with the [Memory Stores API](https://platform.claude.com/docs/en/managed-agents/memory#view-and-edit-memories) or in the Claude Console, then either:
 
-* **Leverage it:** attach it to future sessions as a `memory_store` resource in place of (or alongside) the input memory store, or
+* **Use it:** attach it to future sessions as a `memory_store` resource in place of (or alongside) the input memory store, or
 * **Discard it:** [delete the memory store](https://platform.claude.com/docs/en/api/beta/memory_stores/delete) or [archive the memory store](https://platform.claude.com/docs/en/api/beta/memory_stores/archive).
 
 <CodeGroup>
   ```bash cURL
-  # After the dream ends, the memory_store output holds the rebuilt store
-  output_store_id=$(jq -r 'first(.outputs[] | select(.type == "memory_store")).memory_store_id' <<< "$dream")
-
+  # $output_store_id is the memory_store_id of the completed dream's memory_store output
   curl -s https://api.anthropic.com/v1/sessions \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
     -H "content-type: application/json" \
-    --data @- <<EOF
-  {
-    "agent": "$agent_id",
-    "environment_id": "$environment_id",
-    "resources": [
-      { "type": "memory_store", "memory_store_id": "$output_store_id" }
-    ]
-  }
-  EOF
+    -d '{
+      "agent": "'"$agent_id"'",
+      "environment_id": "'"$environment_id"'",
+      "resources": [
+        { "type": "memory_store", "memory_store_id": "'"$output_store_id"'" }
+      ]
+    }'
   ```
 
   ```bash CLI
-  output_store_id=$(ant beta:dreams retrieve --dream-id "$dream_id" --format json |
-    jq -r 'first(.outputs[] | select(.type == "memory_store")).memory_store_id')
-
+  # $output_store_id is the memory_store_id of the completed dream's memory_store output
   ant beta:sessions create <<YAML
   agent: $agent_id
   environment_id: $environment_id
@@ -361,14 +359,12 @@ When `status` (csharp, go: `Status`) reaches `completed`, the `memory_store` ent
   await client.beta.sessions.create({
     agent: agentId,
     environment_id: environmentId,
-    resources: [
-      { type: "memory_store", memory_store_id: outputStoreId },
-    ],
+    resources: [{ type: "memory_store", memory_store_id: outputStoreId }]
   });
   ```
 
   ```csharp C#
-  var output = dream.Outputs.FirstOrDefault(entry => entry.Type == "memory_store");
+  var output = dream.Outputs.FirstOrDefault(entry => entry.Type.GetString() == "memory_store");
   if (output is { MemoryStoreID: var outputStoreID })
   {
       await client.Beta.Sessions.Create(new()
@@ -377,11 +373,7 @@ When `status` (csharp, go: `Status`) reaches `completed`, the `memory_store` ent
           EnvironmentID = environmentID,
           Resources =
           [
-              new BetaManagedAgentsMemoryStoreResourceParam
-              {
-                  Type = BetaManagedAgentsMemoryStoreResourceParamType.MemoryStore,
-                  MemoryStoreID = outputStoreID,
-              },
+              new BetaManagedAgentsMemoryStoreResourceParam { MemoryStoreID = outputStoreID },
           ],
       });
   }
@@ -416,7 +408,7 @@ When `status` (csharp, go: `Status`) reaches `completed`, the `memory_store` ent
 
   ```java Java
   var output = dream.outputs().stream()
-      .filter(entry -> entry.type().equals(BetaDreamOutput.Type.MEMORY_STORE))
+      .filter(entry -> entry._type().equals(JsonValue.from("memory_store")))
       .findFirst();
   if (output.isPresent()) {
       var outputStoreId = output.get().memoryStoreId();
@@ -459,7 +451,7 @@ When `status` (csharp, go: `Status`) reaches `completed`, the `memory_store` ent
   ```
 </CodeGroup>
 
-The dream itself never deletes or modifies its inputs. On `failed` or `canceled` the output store persists with partial contents so you can inspect what was produced before stopping; clean it up through the Memory Stores API if you don't need it.
+The dream itself never deletes or modifies its inputs. On `failed` or `canceled` the output store persists with partial contents so you can inspect what was produced before stopping; clean it up through the Memory Stores API if you don’t need it.
 
 <Warning>
   While a dream is `pending` or `running`, the 400 guard applies to archiving the dream itself, not its stores. Archiving or deleting an *input* memory store mid-run (or deleting an input session) will cause the dream to fail with `input_memory_store_unavailable` or `input_session_unavailable`.
@@ -470,14 +462,14 @@ The dream itself never deletes or modifies its inputs. On `failed` or `canceled`
 Cancel moves a `pending` or `running` dream to `canceled` immediately. Canceling an already-`canceled` dream is an idempotent no-op; canceling a `completed` or `failed` dream returns 400.
 
 <Note>
-  After cancellation, the dream's `usage` (csharp, go: `Usage`) fields might continue to update for a few seconds while in-flight work winds down. Poll the dream until `usage` (csharp, go: `Usage`) stabilizes if you need the final count.
+  After cancellation, the dream’s `usage` (csharp, go: `Usage`) fields might continue to update for a few seconds while in-flight work winds down. Poll the dream until `usage` (csharp, go: `Usage`) stabilizes if you need the final count.
 </Note>
 
 <CodeGroup>
   ```bash cURL
   curl -s -X POST "https://api.anthropic.com/v1/dreams/$dream_id/cancel" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01,dreaming-2026-04-21"
   ```
 
@@ -525,7 +517,7 @@ Archive sets `archived_at` (java, php: `archivedAt`; csharp, go: `ArchivedAt`) o
   ```bash cURL
   curl -s -X POST "https://api.anthropic.com/v1/dreams/$dream_id/archive" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01,dreaming-2026-04-21"
   ```
 
@@ -575,7 +567,7 @@ Returns all non-archived dreams in the workspace, newest first. Use `limit` (csh
   ```bash cURL
   curl -s "https://api.anthropic.com/v1/dreams?limit=20" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01,dreaming-2026-04-21"
   ```
 
@@ -617,7 +609,9 @@ Returns all non-archived dreams in the workspace, newest first. Use `limit` (csh
 
   ```java Java
   for (var listedDream : client.beta().dreams().list(
-      DreamListParams.builder().limit(20).build()
+      DreamListParams.builder()
+          .limit(20)
+          .build()
   ).autoPager()) {
       IO.println(listedDream.id() + " " + listedDream.status());
   }
@@ -645,20 +639,54 @@ A non-exhaustive list of possible dreaming errors follows.
 | `timeout`                         | The pipeline exceeded its runtime budget.                                                       |
 | `internal_error`                  | Unclassified pipeline failure.                                                                  |
 | `memory_store_org_limit_exceeded` | Your organization hit its memory-store cap while the pipeline was provisioning working storage. |
-| `input_memory_store_too_large`    | The input memory store exceeds the pipeline's size limit.                                       |
+| `input_memory_store_too_large`    | The input memory store exceeds the pipeline’s size limit.                                       |
 | `input_memory_store_unavailable`  | The input memory store was archived or deleted after the dream was created.                     |
 | `input_session_unavailable`       | An input session was deleted after the dream was created.                                       |
 
 ## Billing
 
-Dreams are billed at standard API token rates for the model you select; `usage` (csharp, go: `Usage`) on the resource reports the exact totals. Cost scales roughly linearly with the number and length of input sessions. Start with a small batch of sessions and scale up once you're satisfied with the curation quality.
+Dreams are billed at standard API token rates for the model you select; `usage` (csharp, go: `Usage`) on the resource reports the exact totals. Cost scales roughly linearly with the number and length of input sessions. Start with a small batch of sessions and scale up once you’re satisfied with the curation quality.
 
 ## Limits
 
-| Limit                                              | Value                                                                                                                                                                       |
-| -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Sessions per dream                                 | 100                                                                                                                                                                         |
-| `instructions` (csharp, go: `Instructions`) length | 4,096 characters                                                                                                                                                            |
-| Supported models                                   | `claude-opus-5-5`, `claude-fable-5-1`, `claude-opus-5`, `claude-fable-5`, `claude-opus-4-8`, `claude-opus-4-7`, `claude-sonnet-5-5`, `claude-sonnet-5`, `claude-sonnet-4-6` |
-
 Default rate limits apply to dream creation while this feature is in research preview. [Contact support](https://support.claude.com) if you need higher limits.
+
+## Availability
+
+Dreams are in research preview on select models.
+
+### API support
+
+#### [Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview)
+
+* Availability: Available
+
+| Status           | Cloud platforms | Models                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ---------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Research preview | Claude API      | [Claude Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/en/models/fable-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/en/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/en/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/en/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/en/models/sonnet-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/en/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/en/models/opus-4-7/overview), [Claude Sonnet 4.6](https://platform.claude.com/docs/en/models/sonnet-4-6/overview) |
+
+### Required beta headers
+
+[Beta headers overview](https://platform.claude.com/docs/en/api/beta-headers)
+
+Beta headers allow you to access experimental features and new model capabilities before they become part of the standard API.
+
+* `managed-agents-2026-04-01`
+* `dreaming-2026-04-21`
+
+Dream endpoints require the `dreaming-2026-04-21` beta header. The `managed-agents-2026-04-01` header on its own doesn’t grant access to dreams. Session calls use `managed-agents-2026-04-01`, and memory store calls use `agent-memory-2026-07-22`. The SDK sets the right header on each call.
+
+### Data handling
+
+[Data handling overview](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#feature-eligibility)
+
+| Item    | Zero data retention                                                                                                                                      | HIPAA                                                                        |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Status  | Not eligible                                                                                                                                             | Not eligible                                                                 |
+| Details | Sessions are stateful resources; transcripts persist until you delete them. Applies to all Managed Agents sub-features, including Self-hosted sandboxes. | Applies to all Managed Agents sub-features, including Self-hosted sandboxes. |
+
+Applicable endpoints:
+
+* `/v1/agents`
+* `/v1/sessions`
+* `/v1/environments`

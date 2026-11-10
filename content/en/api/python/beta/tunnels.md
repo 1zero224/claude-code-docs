@@ -7,7 +7,7 @@ url: https://platform.claude.com/docs/en/api/python/beta/tunnels
 
 ## Create Tunnel
 
-`beta.tunnels.create(**kwargs)  -> BetaTunnel`
+`beta.tunnels.create(**kwargs) -> BetaTunnel`
 
 **POST** `/v1/tunnels`
 
@@ -25,7 +25,7 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `str`
 
@@ -128,6 +128,18 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -197,7 +209,7 @@ print(beta_tunnel.id)
 
 ## Get Tunnel
 
-`beta.tunnels.retrieve(tunnel_id, **kwargs)  -> BetaTunnel`
+`beta.tunnels.retrieve(tunnel_id, **kwargs) -> BetaTunnel`
 
 **GET** `/v1/tunnels/{tunnel_id}`
 
@@ -213,7 +225,7 @@ Fetches a tunnel by ID.
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `str`
 
@@ -316,6 +328,18 @@ Fetches a tunnel by ID.
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -387,7 +411,7 @@ print(beta_tunnel.id)
 
 ## List Tunnels
 
-`beta.tunnels.list(**kwargs)  -> SyncPageCursor[BetaTunnel]`
+`beta.tunnels.list(**kwargs) -> SyncPageCursor[BetaTunnel]`
 
 **GET** `/v1/tunnels`
 
@@ -413,7 +437,7 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `str`
 
@@ -516,6 +540,18 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -591,7 +627,7 @@ print(page.id)
 
 ## Archive Tunnel
 
-`beta.tunnels.archive(tunnel_id, **kwargs)  -> BetaTunnel`
+`beta.tunnels.archive(tunnel_id, **kwargs) -> BetaTunnel`
 
 **POST** `/v1/tunnels/{tunnel_id}/archive`
 
@@ -607,7 +643,7 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `str`
 
@@ -710,6 +746,18 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -781,7 +829,7 @@ print(beta_tunnel.id)
 
 ## Reveal Tunnel Token
 
-`beta.tunnels.reveal_token(tunnel_id, **kwargs)  -> BetaTunnelToken`
+`beta.tunnels.reveal_token(tunnel_id, **kwargs) -> BetaTunnelToken`
 
 **POST** `/v1/tunnels/{tunnel_id}/reveal_token`
 
@@ -797,7 +845,7 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `str`
 
@@ -900,6 +948,18 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -952,7 +1012,7 @@ print(beta_tunnel_token.id)
 
 ## Rotate Tunnel Token
 
-`beta.tunnels.rotate_token(tunnel_id, **kwargs)  -> BetaTunnelToken`
+`beta.tunnels.rotate_token(tunnel_id, **kwargs) -> BetaTunnelToken`
 
 **POST** `/v1/tunnels/{tunnel_id}/rotate_token`
 
@@ -974,7 +1034,7 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `str`
 
@@ -1077,6 +1137,18 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -1181,7 +1253,7 @@ print(beta_tunnel_token.id)
 
 ### Create Tunnel Certificate
 
-`beta.tunnels.certificates.create(tunnel_id, **kwargs)  -> BetaTunnelCertificate`
+`beta.tunnels.certificates.create(tunnel_id, **kwargs) -> BetaTunnelCertificate`
 
 **POST** `/v1/tunnels/{tunnel_id}/certificates`
 
@@ -1203,7 +1275,7 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `str`
 
@@ -1306,6 +1378,18 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -1385,7 +1469,7 @@ print(beta_tunnel_certificate.id)
 
 ### Get Tunnel Certificate
 
-`beta.tunnels.certificates.retrieve(certificate_id, **kwargs)  -> BetaTunnelCertificate`
+`beta.tunnels.certificates.retrieve(certificate_id, **kwargs) -> BetaTunnelCertificate`
 
 **GET** `/v1/tunnels/{tunnel_id}/certificates/{certificate_id}`
 
@@ -1405,7 +1489,7 @@ Fetches a tunnel certificate by ID.
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `str`
 
@@ -1508,6 +1592,18 @@ Fetches a tunnel certificate by ID.
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -1587,7 +1683,7 @@ print(beta_tunnel_certificate.id)
 
 ### List Tunnel Certificates
 
-`beta.tunnels.certificates.list(tunnel_id, **kwargs)  -> SyncPageCursor[BetaTunnelCertificate]`
+`beta.tunnels.certificates.list(tunnel_id, **kwargs) -> SyncPageCursor[BetaTunnelCertificate]`
 
 **GET** `/v1/tunnels/{tunnel_id}/certificates`
 
@@ -1617,7 +1713,7 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `str`
 
@@ -1720,6 +1816,18 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -1804,7 +1912,7 @@ print(page.id)
 
 ### Archive Tunnel Certificate
 
-`beta.tunnels.certificates.archive(certificate_id, **kwargs)  -> BetaTunnelCertificate`
+`beta.tunnels.certificates.archive(certificate_id, **kwargs) -> BetaTunnelCertificate`
 
 **POST** `/v1/tunnels/{tunnel_id}/certificates/{certificate_id}/archive`
 
@@ -1824,7 +1932,7 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
   - `str`
 
@@ -1927,6 +2035,18 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 

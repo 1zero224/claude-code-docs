@@ -12,10 +12,10 @@ Every organization has a **Default Workspace** that cannot be renamed, archived,
 
 Key characteristics:
 
-* **Workspace identifiers** use the `wrkspc_` prefix (for example, `wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ`)
-* **Maximum 100 workspaces** per organization by default (archived workspaces don't count); contact your account team if you need more
-* **Default Workspace** has a `wrkspc_` ID like any other workspace (returned in the [`anthropic-workspace-id` response header](https://platform.claude.com/docs/en/manage-claude/workspaces#identify-the-workspace-behind-an-api-response) and accepted by [Get Workspace](https://platform.claude.com/docs/en/api/organization/workspaces/retrieve)), but it appears in [List Workspaces](https://platform.claude.com/docs/en/api/organization/workspaces/list) results only when you pass `include_default=true`, and API keys, usage reports, and cost reports show `null` for its `workspace_id`, as do all-workspaces API keys (an API key's `scope` field tells them apart; for a key bound to the Default Workspace it carries the real ID)
-* **API keys** can be scoped to a single workspace. In this case, they can only access resources within that workspace. Some API keys can be granted permissions across multiple workspaces, and provide a [workspace ID header](https://platform.claude.com/docs/en/manage-claude/authentication#select-a-workspace) to access resources within that workspace
+* **Workspace identifiers** use the `wrkspc_` prefix (for example, `wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ`).
+* **Maximum 100 workspaces** for each organization by default (archived workspaces don’t count). Contact your account team if you need more.
+* **Default Workspace** has a `wrkspc_` ID like any other workspace (returned in the [`anthropic-workspace-id` response header](https://platform.claude.com/docs/en/manage-claude/workspaces#identify-the-workspace-behind-an-api-response) and accepted by [Get Workspace](https://platform.claude.com/docs/en/api/organization/workspaces/retrieve)), but it appears in [List Workspaces](https://platform.claude.com/docs/en/api/organization/workspaces/list) results only when you pass `include_default=true`. The [Usage and Cost Analytics API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api) reports its usage and cost under that ID, whereas the legacy [Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-api) reports show `null` for its `workspace_id` (an API key’s `scope` field carries the real ID for a key bound to the Default Workspace).
+* **API keys** can be scoped to a single workspace. In this case, they can only access resources within that workspace. Other API keys aren’t scoped to a workspace. With one of these keys, send a [workspace ID header](https://platform.claude.com/docs/en/manage-claude/authentication#select-a-workspace) on each request to choose the workspace. The key’s user or service account must have access to that workspace.
 
 ### Claude Code workspace
 
@@ -25,7 +25,7 @@ The Claude Code workspace keeps Claude Code traffic separate from your other API
 
 * Claude Code mints a per-user API key in this workspace at sign-in. You cannot create keys in it manually from the Console.
 * A Claude Code key stops working if its owner is removed from the workspace or organization, unlike a workspace key.
-* Claude Code usage is rate-limited separately, and admins can cap its share of the organization's limits on the [Rate limits](https://platform.claude.com/usage/limits) page in the Claude Console.
+* Claude Code usage is rate-limited separately, and admins can cap its share of the organization’s limits under [Rate limits in the Claude Console](https://platform.claude.com/usage/limits).
 * It is the only workspace that supports per-user monthly spend limits.
 
 <Warning>
@@ -36,23 +36,23 @@ The Claude Code workspace keeps Claude Code traffic separate from your other API
 
 Members can have different roles in each workspace, allowing fine-grained access control.
 
-| Role                        | Permissions                                                                                     |
-| --------------------------- | ----------------------------------------------------------------------------------------------- |
-| Workspace User              | Use playground only                                                                             |
-| Workspace Limited Developer | Create and manage API keys, use the API. Cannot access session tracing views or download files. |
-| Workspace Developer         | Create and manage API keys, use the API                                                         |
-| Workspace Admin             | Full control over workspace settings and members                                                |
-| Workspace Billing           | View workspace billing information (inherited from organization billing role)                   |
+| Role                        | Permissions                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Workspace User              | Use playground only                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| Workspace Limited Developer | Create and manage API keys, use the API<br />For [Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview) in the Claude Console, members with this role cannot open or start sessions, open memory stores, or manage deployments. They also cannot download or delete files on the Console’s [Files](https://platform.claude.com/files) page. These limits apply only to the Console’s interface, not to the API. |
+| Workspace Developer         | Create and manage API keys, use the API                                                                                                                                                                                                                                                                                                                                                                                                       |
+| Workspace Admin             | Full control over workspace settings and members                                                                                                                                                                                                                                                                                                                                                                                              |
+| Workspace Billing           | View workspace billing information (inherited from organization billing role)                                                                                                                                                                                                                                                                                                                                                                 |
 
 ### Role inheritance
 
-* **Organization admins** automatically receive Workspace Admin access to all workspaces
-* **Organization billing members** automatically receive Workspace Billing access to all workspaces
-* **Organization users and developers** must be explicitly added to each workspace
-* **Service accounts** are added to workspaces in [Settings > Service accounts](https://platform.claude.com/settings/service-accounts): select **Add to workspace** in the account's menu or on its own page. To see the accounts in one workspace, filter the list by workspace.
+* **Organization admins** automatically receive Workspace Admin access to all workspaces.
+* **Organization billing members** automatically receive Workspace Billing access to all workspaces.
+* **Organization users and developers** must be explicitly added to each workspace.
+* **Service accounts** are added to workspaces on the [Service accounts](https://platform.claude.com/settings/service-accounts) page (`platform.claude.com/settings/service-accounts`) in the Claude Console: select **Add to workspace** in the account’s menu or on its own page. To see the accounts in one workspace, filter the list by workspace.
 
 <Note>
-  The Workspace Billing role cannot be manually assigned. It's inherited from having the organization billing role.
+  The Workspace Billing role cannot be manually assigned. It’s inherited from having the organization billing role.
 </Note>
 
 ## Managing workspaces
@@ -63,17 +63,17 @@ Members can have different roles in each workspace, allowing fine-grained access
 
 ### Using the Console
 
-Create and manage workspaces in the [Claude Console](https://platform.claude.com/settings/workspaces).
+Create and manage workspaces on the [Workspaces](https://platform.claude.com/settings/workspaces) page in the Claude Console.
 
 #### Create a workspace
 
 <Steps>
   <Step title="Open workspace settings">
-    In the Claude Console, go to **Settings > Workspaces**.
+    In the Claude Console, go to the [Workspaces](https://platform.claude.com/settings/workspaces) page (`platform.claude.com/settings/workspaces`).
   </Step>
 
-  <Step title="Create a workspace">
-    Click **Create workspace**.
+  <Step title="Open the Create workspace page">
+    Click **Create workspace** to open the [Create workspace](https://platform.claude.com/settings/workspaces/new) page (`platform.claude.com/settings/workspaces/new`) in the Console.
   </Step>
 
   <Step title="Configure the workspace">
@@ -86,12 +86,12 @@ Create and manage workspaces in the [Claude Console](https://platform.claude.com
 </Steps>
 
 <Tip>
-  To switch between workspaces in the Console, leave Settings and use the workspace picker at the top of the sidebar.
+  To switch between workspaces in the Console, open a page that belongs to a workspace, such as [Files](https://platform.claude.com/files) (`platform.claude.com/files`), and use the workspace picker in the sidebar.
 </Tip>
 
 #### Edit workspace details
 
-To modify a workspace's name or color:
+To modify a workspace’s name or color:
 
 1. Select the workspace from the list.
 2. Open the **More actions** menu (three dots) and select **Edit details**.
@@ -103,15 +103,15 @@ To modify a workspace's name or color:
 
 #### Add members to a workspace
 
-1. In the Claude Console, go to the [Members](https://platform.claude.com/settings/members) page.
+1. In the Claude Console, go to the [Members](https://platform.claude.com/settings/members) page (`platform.claude.com/settings/members`).
 2. Click **Add to workspace**.
 3. Select the workspace, the organization member to add, and their [workspace role](https://platform.claude.com/docs/en/manage-claude/workspaces#workspace-roles-and-permissions).
 4. Click **Add to workspace** to confirm.
 
 #### Remove members from a workspace
 
-1. On the [Members](https://platform.claude.com/settings/members) page, select the workspace from the **Workspace** dropdown menu. If it shows **All**, **Remove member** removes the member from your organization instead.
-2. At the end of the member's row, open the **More actions** menu (three dots) and select **Remove member**.
+1. On the [Members](https://platform.claude.com/settings/members) page in the Claude Console, select the workspace from the **Workspace** dropdown menu. If it shows **All**, **Remove member** removes the member from your organization instead.
+2. At the end of the member’s row, open the **More actions** menu (three dots) and select **Remove member**.
 3. Click **Remove** to confirm.
 
 <Note>
@@ -120,10 +120,10 @@ To modify a workspace's name or color:
 
 #### Set workspace limits
 
-You set a workspace's rate limits and spend limits in different places:
+You set a workspace’s rate limits and spend limits in different places:
 
-* **Rate limits:** On the [Rate limits](https://platform.claude.com/usage/limits) page, select the workspace from the **Workspace** dropdown menu and click **Edit** next to a model to set limits for requests per minute, input tokens, or output tokens.
-* **Spend limits:** Select the workspace under [Settings > Workspaces](https://platform.claude.com/settings/workspaces). In the panel that opens, click **Spend limits** to cap monthly spending and configure alerts when spending reaches certain thresholds.
+* **Rate limits:** Under [Rate limits in the Claude Console](https://platform.claude.com/usage/limits), select the workspace from the **Workspace** dropdown menu and click **Edit** next to a model to set limits for requests per minute, input tokens, or output tokens.
+* **Spend limits:** On the [Workspaces](https://platform.claude.com/settings/workspaces) page in the Claude Console, select the workspace. In the panel that opens, click **Spend limits** to cap monthly spending and configure alerts when spending reaches certain thresholds.
 
 #### Archive a workspace
 
@@ -134,7 +134,7 @@ To archive a workspace, open its **More actions** menu (three dots) and select *
 * Cannot be undone
 
 <Warning>
-  Archiving a workspace archives every API key created for that workspace within seconds (they remain listed in the Admin API as archived), and multi-workspace keys can no longer act in it. This action cannot be undone. If you archive the [Claude Code workspace](https://platform.claude.com/docs/en/manage-claude/workspaces#claude-code-workspace), members of your organization can no longer sign in to Claude Code through Console billing.
+  Archiving a workspace archives every API key created for that workspace within seconds (they remain listed in the Admin API as archived), and keys that aren’t scoped to a workspace can no longer act in it. This action cannot be undone. If you archive the [Claude Code workspace](https://platform.claude.com/docs/en/manage-claude/workspaces#claude-code-workspace), members of your organization can no longer sign in to Claude Code through Console billing.
 </Warning>
 
 ### Using the Admin API
@@ -142,10 +142,10 @@ To archive a workspace, open its **More actions** menu (three dots) and select *
 Programmatically manage workspaces using the [Admin API](https://platform.claude.com/docs/en/manage-claude/admin-api).
 
 <Note>
-  Admin API endpoints accept an [Admin API key](https://platform.claude.com/docs/en/manage-claude/admin-api-keys), an `org:admin` OAuth token, or a personal or service account key that isn't scoped to a specific workspace. Workspace keys don't work there. See [Authentication](https://platform.claude.com/docs/en/manage-claude/admin-api#authentication).
+  Admin API endpoints accept an [Admin API key](https://platform.claude.com/docs/en/manage-claude/admin-api-keys), an `org:admin` OAuth token, or a personal or service account key that isn’t scoped to a specific workspace. Workspace keys don’t work there. See [Authentication](https://platform.claude.com/docs/en/manage-claude/admin-api#authentication).
 </Note>
 
-The following SDK and CLI examples construct the default client, which reads the Admin API key from the `ANTHROPIC_API_KEY` environment variable; the SDKs expose these endpoints under `client.organization.workspaces` (csharp, go: `client.Organization.Workspaces`; java: `client.organization().workspaces()`; php: `$client->organization->workspaces`). SDK list methods fetch further pages on demand, so `limit` sets the page size; the PHP, Ruby, and curl examples return one page.
+The following SDK and CLI examples construct the default client, which reads the Admin API key from the `ANTHROPIC_API_KEY` environment variable; the SDK exposes these endpoints under `client.organization.workspaces` (csharp, go: `client.Organization.Workspaces`; java: `client.organization().workspaces()`; php: `$client->organization->workspaces`). SDK list methods fetch further pages on demand, so `limit` sets the page size; the PHP, Ruby, and curl examples return one page.
 
 Create a workspace:
 
@@ -153,7 +153,7 @@ Create a workspace:
   ```bash cURL
   curl -X POST "https://api.anthropic.com/v1/organizations/workspaces" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{"name": "Production"}'
   ```
@@ -249,7 +249,7 @@ List workspaces:
   ```bash cURL
   curl "https://api.anthropic.com/v1/organizations/workspaces?limit=10&include_archived=false" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
@@ -358,11 +358,12 @@ Archive a workspace:
   ```bash cURL
   curl -X POST "https://api.anthropic.com/v1/organizations/workspaces/wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ/archive" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
-  ant organization:workspaces archive --workspace-id wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ
+  ant organization:workspaces archive \
+    --workspace-id wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ
   ```
 
   ```python Python
@@ -450,10 +451,10 @@ Add a member to a workspace:
   ```bash cURL
   curl -X POST "https://api.anthropic.com/v1/organizations/workspaces/wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ/members" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
-      "user_id": "user_01XyDMpzjS89pFZXqSFUBDr6",
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
       "workspace_role": "workspace_developer"
     }'
   ```
@@ -461,7 +462,7 @@ Add a member to a workspace:
   ```bash CLI
   ant organization:workspaces:members add \
     --workspace-id wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ \
-    --user-id user_01XyDMpzjS89pFZXqSFUBDr6 \
+    --user-id user_01WxYzAbCdEfGhJkMnPqRsTu \
     --workspace-role workspace_developer
   ```
 
@@ -470,7 +471,7 @@ Add a member to a workspace:
 
   member = client.organization.workspaces.members.add(
       "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
-      user_id="user_01XyDMpzjS89pFZXqSFUBDr6",
+      user_id="user_01WxYzAbCdEfGhJkMnPqRsTu",
       workspace_role="workspace_developer",
   )
 
@@ -484,7 +485,7 @@ Add a member to a workspace:
   const member = await client.organization.workspaces.members.add(
     "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
     {
-      user_id: "user_01XyDMpzjS89pFZXqSFUBDr6",
+      user_id: "user_01WxYzAbCdEfGhJkMnPqRsTu",
       workspace_role: "workspace_developer"
     }
   );
@@ -502,7 +503,7 @@ Add a member to a workspace:
       "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
       new()
       {
-          UserID = "user_01XyDMpzjS89pFZXqSFUBDr6",
+          UserID = "user_01WxYzAbCdEfGhJkMnPqRsTu",
           WorkspaceRole = NoBillingWorkspaceRole.WorkspaceDeveloper
       }
   );
@@ -518,7 +519,7 @@ Add a member to a workspace:
   	context.Background(),
   	"wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
   	anthropic.OrganizationWorkspaceMemberAddParams{
-  		UserID:        "user_01XyDMpzjS89pFZXqSFUBDr6",
+  		UserID:        "user_01WxYzAbCdEfGhJkMnPqRsTu",
   		WorkspaceRole: anthropic.NoBillingWorkspaceRoleWorkspaceDeveloper,
   	},
   )
@@ -538,7 +539,7 @@ Add a member to a workspace:
       AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
       var params = MemberAddParams.builder()
-          .userId("user_01XyDMpzjS89pFZXqSFUBDr6")
+          .userId("user_01WxYzAbCdEfGhJkMnPqRsTu")
           .workspaceRole(NoBillingWorkspaceRole.WORKSPACE_DEVELOPER)
           .build();
       var member = client.organization().workspaces().members()
@@ -557,7 +558,7 @@ Add a member to a workspace:
 
   $member = $client->organization->workspaces->members->add(
       workspaceID: 'wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ',
-      userID: 'user_01XyDMpzjS89pFZXqSFUBDr6',
+      userID: 'user_01WxYzAbCdEfGhJkMnPqRsTu',
       workspaceRole: NoBillingWorkspaceRole::WORKSPACE_DEVELOPER,
   );
 
@@ -571,7 +572,7 @@ Add a member to a workspace:
   workspace_id = "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
   member = client.organization.workspaces.members.add(
     workspace_id,
-    user_id: "user_01XyDMpzjS89pFZXqSFUBDr6",
+    user_id: "user_01WxYzAbCdEfGhJkMnPqRsTu",
     workspace_role: :workspace_developer
   )
 
@@ -580,20 +581,20 @@ Add a member to a workspace:
   ```
 </CodeGroup>
 
-Update a member's role:
+Update a member’s role:
 
 <CodeGroup>
   ```bash cURL
-  curl -X POST "https://api.anthropic.com/v1/organizations/workspaces/wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ/members/user_01XyDMpzjS89pFZXqSFUBDr6" \
+  curl -X POST "https://api.anthropic.com/v1/organizations/workspaces/wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ/members/user_01WxYzAbCdEfGhJkMnPqRsTu" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{"workspace_role": "workspace_admin"}'
   ```
 
   ```bash CLI
   ant organization:workspaces:members update \
-    --user-id user_01XyDMpzjS89pFZXqSFUBDr6 \
+    --user-id user_01WxYzAbCdEfGhJkMnPqRsTu \
     --workspace-id wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ \
     --workspace-role workspace_admin
   ```
@@ -602,7 +603,7 @@ Update a member's role:
   client = anthropic.Anthropic()
 
   member = client.organization.workspaces.members.update(
-      "user_01XyDMpzjS89pFZXqSFUBDr6",
+      "user_01WxYzAbCdEfGhJkMnPqRsTu",
       workspace_id="wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
       workspace_role="workspace_admin",
   )
@@ -615,7 +616,7 @@ Update a member's role:
   const client = new Anthropic();
 
   const member = await client.organization.workspaces.members.update(
-    "user_01XyDMpzjS89pFZXqSFUBDr6",
+    "user_01WxYzAbCdEfGhJkMnPqRsTu",
     {
       workspace_id: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
       workspace_role: "workspace_admin"
@@ -632,7 +633,7 @@ Update a member's role:
   AnthropicClient client = new();
 
   var member = await client.Organization.Workspaces.Members.Update(
-      "user_01XyDMpzjS89pFZXqSFUBDr6",
+      "user_01WxYzAbCdEfGhJkMnPqRsTu",
       new()
       {
           WorkspaceID = "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
@@ -649,7 +650,7 @@ Update a member's role:
 
   member, err := client.Organization.Workspaces.Members.Update(
   	context.Background(),
-  	"user_01XyDMpzjS89pFZXqSFUBDr6",
+  	"user_01WxYzAbCdEfGhJkMnPqRsTu",
   	anthropic.OrganizationWorkspaceMemberUpdateParams{
   		WorkspaceID:   "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
   		WorkspaceRole: anthropic.WorkspaceRoleWorkspaceAdmin,
@@ -675,7 +676,7 @@ Update a member's role:
           .workspaceRole(WorkspaceRole.WORKSPACE_ADMIN)
           .build();
       var member = client.organization().workspaces().members()
-          .update("user_01XyDMpzjS89pFZXqSFUBDr6", params);
+          .update("user_01WxYzAbCdEfGhJkMnPqRsTu", params);
 
       IO.println("user_id: " + member.userId());
       IO.println("workspace_role: " + member.workspaceRole().asString());
@@ -689,7 +690,7 @@ Update a member's role:
   $client = new Client();
 
   $member = $client->organization->workspaces->members->update(
-      userID: 'user_01XyDMpzjS89pFZXqSFUBDr6',
+      userID: 'user_01WxYzAbCdEfGhJkMnPqRsTu',
       workspaceID: 'wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ',
       workspaceRole: WorkspaceRole::WORKSPACE_ADMIN,
   );
@@ -701,7 +702,7 @@ Update a member's role:
   ```ruby Ruby
   client = Anthropic::Client.new
 
-  user_id = "user_01XyDMpzjS89pFZXqSFUBDr6"
+  user_id = "user_01WxYzAbCdEfGhJkMnPqRsTu"
   member = client.organization.workspaces.members.update(
     user_id,
     workspace_id: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
@@ -717,14 +718,14 @@ Remove a member from a workspace:
 
 <CodeGroup>
   ```bash cURL
-  curl -X DELETE "https://api.anthropic.com/v1/organizations/workspaces/wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ/members/user_01XyDMpzjS89pFZXqSFUBDr6" \
+  curl -X DELETE "https://api.anthropic.com/v1/organizations/workspaces/wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ/members/user_01WxYzAbCdEfGhJkMnPqRsTu" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
   ant organization:workspaces:members remove \
-    --user-id user_01XyDMpzjS89pFZXqSFUBDr6 \
+    --user-id user_01WxYzAbCdEfGhJkMnPqRsTu \
     --workspace-id wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ
   ```
 
@@ -732,7 +733,7 @@ Remove a member from a workspace:
   client = anthropic.Anthropic()
 
   removed_member = client.organization.workspaces.members.remove(
-      "user_01XyDMpzjS89pFZXqSFUBDr6",
+      "user_01WxYzAbCdEfGhJkMnPqRsTu",
       workspace_id="wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
   )
 
@@ -743,7 +744,7 @@ Remove a member from a workspace:
   const client = new Anthropic();
 
   const removedMember = await client.organization.workspaces.members.remove(
-    "user_01XyDMpzjS89pFZXqSFUBDr6",
+    "user_01WxYzAbCdEfGhJkMnPqRsTu",
     { workspace_id: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ" }
   );
 
@@ -754,7 +755,7 @@ Remove a member from a workspace:
   AnthropicClient client = new();
 
   var removedMember = await client.Organization.Workspaces.Members.Remove(
-      "user_01XyDMpzjS89pFZXqSFUBDr6",
+      "user_01WxYzAbCdEfGhJkMnPqRsTu",
       new() { WorkspaceID = "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ" }
   );
 
@@ -766,7 +767,7 @@ Remove a member from a workspace:
 
   removedMember, err := client.Organization.Workspaces.Members.Remove(
   	context.Background(),
-  	"user_01XyDMpzjS89pFZXqSFUBDr6",
+  	"user_01WxYzAbCdEfGhJkMnPqRsTu",
   	anthropic.OrganizationWorkspaceMemberRemoveParams{
   		WorkspaceID: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
   	},
@@ -788,7 +789,7 @@ Remove a member from a workspace:
           .workspaceId("wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ")
           .build();
       var removedMember = client.organization().workspaces().members()
-          .remove("user_01XyDMpzjS89pFZXqSFUBDr6", params);
+          .remove("user_01WxYzAbCdEfGhJkMnPqRsTu", params);
 
       IO.println("user_id: " + removedMember.userId());
   }
@@ -798,7 +799,7 @@ Remove a member from a workspace:
   $client = new Client();
 
   $removedMember = $client->organization->workspaces->members->remove(
-      userID: 'user_01XyDMpzjS89pFZXqSFUBDr6',
+      userID: 'user_01WxYzAbCdEfGhJkMnPqRsTu',
       workspaceID: 'wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ',
   );
 
@@ -808,7 +809,7 @@ Remove a member from a workspace:
   ```ruby Ruby
   client = Anthropic::Client.new
 
-  user_id = "user_01XyDMpzjS89pFZXqSFUBDr6"
+  user_id = "user_01WxYzAbCdEfGhJkMnPqRsTu"
   removed_member = client.organization.workspaces.members.remove(
     user_id,
     workspace_id: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
@@ -825,7 +826,7 @@ For complete parameter details, see the [Workspace Members API reference](https:
 Every request runs in exactly one workspace and can only access resources within that workspace. Which workspace depends on the [key type](https://platform.claude.com/docs/en/manage-claude/authentication#key-types):
 
 * A **workspace key** (a legacy key without an owner) belongs to the workspace it was created in and always runs there.
-* A **personal key** or **service account key** acts as its user or service account. A single-workspace key always runs in the workspace chosen when it was created. A multi-workspace key runs in the workspace named by each request's `anthropic-workspace-id` header. Accounts must have access to the workspace to use it.
+* A **personal key** or **service account key** acts as its user or service account. A single-workspace key always runs in the workspace chosen when it was created. A key that isn’t scoped to a workspace runs in the workspace named by each request’s `anthropic-workspace-id` header. Accounts must have access to the workspace to use it.
 
 Resources scoped to workspaces include:
 
@@ -836,17 +837,17 @@ Resources scoped to workspaces include:
 Some resources are managed differently:
 
 * **[MCP tunnels](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/overview)** are managed with a `workspace:manage_tunnels` OAuth token obtained through [Workload Identity Federation](https://platform.claude.com/docs/en/manage-claude/workload-identity-federation), not an API key. Tunnels are created in a workspace, and the Console **MCP tunnels** list and the Managed Agent server picker show tunnels in the current workspace only; the cap of 10 active tunnels applies organization-wide. Tunnel management requires a role with tunnel management permissions; organization developers can view but not change them.
-* **Workspaces** themselves and **organization members** are managed at the organization level through the [Admin API](https://platform.claude.com/docs/en/manage-claude/admin-api), using an Admin API key, an `org:admin` OAuth token, or a personal or service account key that isn't scoped to a specific workspace.
+* **Workspaces** themselves and **organization members** are managed at the organization level through the [Admin API](https://platform.claude.com/docs/en/manage-claude/admin-api), using an Admin API key, an `org:admin` OAuth token, or a personal or service account key that isn’t scoped to a specific workspace.
 
-To look up your organization's workspace IDs, call the [List Workspaces](https://platform.claude.com/docs/en/api/organization/workspaces/list) endpoint (pass `include_default=true` to include the Default Workspace) or find them in the [Claude Console](https://platform.claude.com/settings/workspaces).
+To look up your organization’s workspace IDs, call the [List Workspaces](https://platform.claude.com/docs/en/api/organization/workspaces/list) endpoint (pass `include_default=true` to include the Default Workspace) or find them on the [Workspaces](https://platform.claude.com/settings/workspaces) page in the Claude Console.
 
 <Note>
-  [Prompt caches](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) are also isolated per workspace on the Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), and [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry). On Amazon Bedrock and Google Cloud, prompt caches are isolated per organization.
+  [Prompt caches](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) are also isolated by workspace on the Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), and [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry). On Claude Models on Google Cloud (Google managed) and Amazon Bedrock, prompt caches are isolated by organization.
 </Note>
 
 ## Identify the workspace behind an API response
 
-Claude API responses include an `anthropic-workspace-id` header alongside the `request-id` and `anthropic-organization-id` [response headers](https://platform.claude.com/docs/en/api/overview#response-headers). Its value is the `wrkspc_`-prefixed ID of the workspace that the request's API key or access token resolved to, including when that workspace is the Default Workspace. For example, a successful response includes headers like these:
+Claude API responses include an `anthropic-workspace-id` header alongside the `request-id` and `anthropic-organization-id` [response headers](https://platform.claude.com/docs/en/api/overview#response-headers). Its value is the `wrkspc_`-prefixed ID of the workspace that the request’s API key or access token resolved to, including when that workspace is the Default Workspace. For example, a successful response includes headers like these:
 
 ```http
 HTTP/1.1 200 OK
@@ -855,31 +856,31 @@ anthropic-organization-id: 0d0e7a3b-52f1-4c7e-9a51-3f6f2f7c1b9e
 anthropic-workspace-id: wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ
 ```
 
-The header is absent when the credential doesn't resolve to a workspace (for example, on Admin API requests) or when the request fails before authentication completes, such as a 401 error.
+The header is absent when the credential doesn’t resolve to a workspace (for example, on Admin API requests) or when the request fails before authentication completes, such as a 401 error.
 
-The following examples send a Messages API request and print the workspace ID from the response headers:
+The following examples send a Messages API request and read the workspace ID from the response headers:
 
 <CodeGroup>
   ```bash cURL
-  # -D - prints the response headers; -o /dev/null discards the body
-  curl -sS -D - -o /dev/null https://api.anthropic.com/v1/messages \
+  # -i prints the response headers, including anthropic-workspace-id, before the body
+  curl -sS -i https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
       "max_tokens": 1024,
       "messages": [{"role": "user", "content": "Hello, Claude"}]
-    }' | grep -i '^anthropic-workspace-id'
+    }'
   ```
 
   ```bash CLI
   # --debug prints the HTTP response, including the Anthropic-Workspace-Id
-  # header, to stderr; > /dev/null hides the JSON body on stdout
+  # header, to stderr
   ant --debug messages create \
     --model claude-opus-5-5 \
     --max-tokens 1024 \
-    --message '{role: user, content: "Hello, Claude"}' > /dev/null
+    --message '{role: user, content: "Hello, Claude"}'
   ```
 
   ```python Python
@@ -914,7 +915,7 @@ The following examples send a Messages API request and print the workspace ID fr
   {
       Model = Model.ClaudeOpus5_5,
       MaxTokens = 1024,
-      Messages = [new() { Role = Role.User, Content = "Hello, Claude" }]
+      Messages = [new UserMessageParam { Content = "Hello, Claude" }]
   });
   var workspaceId = response.GetHeaderValues("anthropic-workspace-id").First();
   Console.WriteLine($"Workspace ID: {workspaceId}");
@@ -1008,10 +1009,10 @@ The same accessors read the header from other Claude API endpoints too, includin
 
 With the workspace ID from a response, you can:
 
-* Confirm which workspace's usage, cost, and [rate limits](https://platform.claude.com/docs/en/api/rate-limits) the request counted toward
-* Match it against the `workspace_id` field in [Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-api) reports and on [Admin API](https://platform.claude.com/docs/en/manage-claude/admin-api) objects such as API keys (both report `null` for the Default Workspace, as API keys also do for all-workspaces keys; an API key's `scope` field tells the two apart and, for a key bound to one workspace, carries that workspace's real ID)
-* Check whether it's your Default Workspace's ID by passing it to [Get Workspace](https://platform.claude.com/docs/en/api/organization/workspaces/retrieve) with an [Admin API key](https://platform.claude.com/docs/en/manage-claude/admin-api-keys): the Default Workspace comes back with `"name": "Default"`, even though [List Workspaces](https://platform.claude.com/docs/en/api/organization/workspaces/list) omits it unless you pass `include_default=true`
-* Open that workspace in the [Console](https://platform.claude.com/settings/workspaces) to find the request's resources, such as sessions, files, message batches, and skills
+* Confirm which workspace’s usage, cost, and [rate limits](https://platform.claude.com/docs/en/api/rate-limits) the request counted toward
+* Match it against the `workspace_id` field in [Usage and Cost Analytics API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api) rows, which carry this same ID for the Default Workspace, and against the `scope` field of API keys in the [Admin API](https://platform.claude.com/docs/en/manage-claude/admin-api), which carries the real ID of the workspace a key is bound to, including the Default Workspace
+* Check whether it’s your Default Workspace’s ID by passing it to [Get Workspace](https://platform.claude.com/docs/en/api/organization/workspaces/retrieve) with an [Admin API key](https://platform.claude.com/docs/en/manage-claude/admin-api-keys): the Default Workspace comes back with `"name": "Default"`, even though [List Workspaces](https://platform.claude.com/docs/en/api/organization/workspaces/list) omits it unless you pass `include_default=true`
+* Open that workspace in the [Console](https://platform.claude.com/settings/workspaces) to find the request’s resources, such as sessions, files, message batches, and skills
 
 ## Workspace limits
 
@@ -1019,35 +1020,178 @@ You can set custom spend and rate limits for each workspace to protect against o
 
 ### Setting workspace limits
 
-You can set workspace limits lower than (but not higher than) your organization's limits:
+You can set workspace limits lower than (but not higher than) your organization’s limits:
 
-* **Spend limits:** Cap monthly spending for a workspace. To set these, select the workspace under [Settings > Workspaces](https://platform.claude.com/settings/workspaces) in the Claude Console. In the panel that opens, click **Spend limits**.
-* **Rate limits:** Limit requests per minute, input tokens per minute, or output tokens per minute. To set these, go to the [Rate limits](https://platform.claude.com/usage/limits) page in the Claude Console, select the workspace from the **Workspace** dropdown menu, and click **Edit** next to a model.
+* **Spend limits:** Cap monthly spending for a workspace. To set these, go to the [Workspaces](https://platform.claude.com/settings/workspaces) page (`platform.claude.com/settings/workspaces`) in the Claude Console and select the workspace. In the panel that opens, click **Spend limits**.
+* **Rate limits:** Limit requests per minute, input tokens per minute, or output tokens per minute. To set these, go to [Rate limits in the Claude Console](https://platform.claude.com/usage/limits), select the workspace from the **Workspace** dropdown menu, and click **Edit** next to a model.
 
 <Note>
-  - You cannot set limits on the Default Workspace
-  - If not set, workspace limits match the organization's limits
-  - Organization-wide limits always apply, even if workspace limits add up to more
+  - You cannot set spend limits on the Default Workspace.
+  - If not set, workspace limits match the organization’s limits.
+  - Organization-wide limits always apply, even if workspace limits add up to more.
 </Note>
 
-For detailed information on rate limits and how they work, see [Rate limits](https://platform.claude.com/docs/en/api/rate-limits). You can also read your current organization and workspace rate limits programmatically with the [Rate Limits API](https://platform.claude.com/docs/en/manage-claude/rate-limits-api).
+For detailed information on rate limits and how they work, see [Rate limits](https://platform.claude.com/docs/en/api/rate-limits). You can also read your current organization and workspace rate limits and set workspace rate limits programmatically with the [Rate Limits API](https://platform.claude.com/docs/en/manage-claude/rate-limits-api), which stores a value above the organization’s limit but still enforces the lower of the two.
 
 ## Usage and cost tracking
 
-Track usage and costs by workspace using the [Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-api):
+Track usage and costs by workspace using the [Usage and Cost Analytics API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api):
 
-```bash cURL
-curl "https://api.anthropic.com/v1/organizations/usage_report/messages?\
-starting_at=2025-01-01T00:00:00Z&\
-ending_at=2025-01-08T00:00:00Z&\
-workspace_ids[]=wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ&\
-group_by[]=workspace_id&\
-bucket_width=1d" \
-  -H "anthropic-version: 2023-06-01" \
-  -H "x-api-key: $ANTHROPIC_ADMIN_KEY"
-```
+<CodeGroup>
+  ```bash cURL
+  curl --globoff "https://api.anthropic.com/v1/organizations/analytics/usage?\
+  starting_at=2026-09-01T00:00:00Z&\
+  ending_at=2026-09-08T00:00:00Z&\
+  workspace_ids[]=wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ&\
+  group_by[]=workspace_id&\
+  time_bucket_width=1d" \
+    -H "anthropic-version: 2026-10-21" \
+    -H "anthropic-beta: analytics-usage-cost-2026-08-24" \
+    -H "x-api-key: $ANTHROPIC_API_KEY"
+  ```
 
-Usage and costs attributed to the Default Workspace have a `null` value for `workspace_id`.
+  ```bash CLI
+  ant beta:organization:analytics:usage list \
+    --starting-at 2026-09-01T00:00:00Z \
+    --ending-at 2026-09-08T00:00:00Z \
+    --time-bucket-width 1d \
+    --workspace-id wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ \
+    --group-by workspace_id
+  ```
+
+  ```python Python
+  client = anthropic.Anthropic()
+
+  rows = client.beta.organization.analytics.usage.list(
+      starting_at="2026-09-01T00:00:00Z",
+      ending_at="2026-09-08T00:00:00Z",
+      time_bucket_width="1d",
+      workspace_ids=["wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"],
+      group_by=["workspace_id"],
+  )
+
+  for row in rows:
+      print(f"{row.starting_at} {row.group.workspace_id}: {row.usage.total_tokens}")
+  ```
+
+  ```typescript TypeScript
+  const client = new Anthropic();
+
+  const rows = await client.beta.organization.analytics.usage.list({
+    starting_at: "2026-09-01T00:00:00Z",
+    ending_at: "2026-09-08T00:00:00Z",
+    time_bucket_width: "1d",
+    workspace_ids: ["wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"],
+    group_by: ["workspace_id"]
+  });
+
+  for await (const row of rows) {
+    console.log(`${row.starting_at} ${row.group.workspace_id}: ${row.usage.total_tokens}`);
+  }
+  ```
+
+  ```csharp C#
+  using Anthropic.Models.Beta.Organization.Analytics;
+  using Anthropic.Models.Beta.Organization.Analytics.Usage;
+
+  AnthropicClient client = new();
+
+  var page = await client.Beta.Organization.Analytics.Usage.List(
+      new()
+      {
+          StartingAt = DateTimeOffset.Parse("2026-09-01T00:00:00Z"),
+          EndingAt = DateTimeOffset.Parse("2026-09-08T00:00:00Z"),
+          TimeBucketWidth = BetaAnalyticsTimeBucketWidth.Day,
+          WorkspaceIds = ["wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"],
+          GroupBy = [BetaAnalyticsUsageGroupBy.WorkspaceID],
+      }
+  );
+
+  await foreach (var row in page.Paginate())
+  {
+      Console.WriteLine($"{row.StartingAt} {row.Group.WorkspaceID}: {row.Usage.TotalTokens}");
+  }
+  ```
+
+  ```go Go
+  client := anthropic.NewClient()
+
+  rows := client.Beta.Organization.Analytics.Usage.ListAutoPaging(context.Background(), anthropic.BetaOrganizationAnalyticsUsageListParams{
+  	StartingAt:      time.Date(2026, time.September, 1, 0, 0, 0, 0, time.UTC),
+  	EndingAt:        anthropic.Time(time.Date(2026, time.September, 8, 0, 0, 0, 0, time.UTC)),
+  	TimeBucketWidth: anthropic.BetaAnalyticsTimeBucketWidthDay,
+  	WorkspaceIDs:    []string{"wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"},
+  	GroupBy:         []anthropic.BetaAnalyticsUsageGroupBy{anthropic.BetaAnalyticsUsageGroupByWorkspaceID},
+  })
+
+  for rows.Next() {
+  	row := rows.Current()
+  	fmt.Printf("%s %s: %d\n", row.StartingAt.Format(time.RFC3339), row.Group.WorkspaceID, row.Usage.TotalTokens)
+  }
+  if err := rows.Err(); err != nil {
+  	log.Fatal(err)
+  }
+  ```
+
+  ```java Java
+  import com.anthropic.models.beta.organization.analytics.BetaAnalyticsTimeBucketWidth;
+  import com.anthropic.models.beta.organization.analytics.usage.BetaAnalyticsUsageGroupBy;
+  import com.anthropic.models.beta.organization.analytics.usage.UsageListParams;
+  import java.time.OffsetDateTime;
+
+  void main() {
+      AnthropicClient client = AnthropicOkHttpClient.fromEnv();
+
+      var params = UsageListParams.builder()
+          .startingAt(OffsetDateTime.parse("2026-09-01T00:00:00Z"))
+          .endingAt(OffsetDateTime.parse("2026-09-08T00:00:00Z"))
+          .timeBucketWidth(BetaAnalyticsTimeBucketWidth.DAY)
+          .addWorkspaceId("wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ")
+          .addGroupBy(BetaAnalyticsUsageGroupBy.WORKSPACE_ID)
+          .build();
+      var rows = client.beta().organization().analytics().usage().list(params);
+
+      for (var row : rows.autoPager()) {
+          IO.println(row.startingAt() + " " + row.group().workspaceId().orElse(null) + ": " + row.usage().totalTokens());
+      }
+  }
+  ```
+
+  ```php PHP
+  $client = new Client();
+
+  $rows = $client->beta->organization->analytics->usage->list(
+      startingAt: new \DateTimeImmutable('2026-09-01T00:00:00Z'),
+      endingAt: new \DateTimeImmutable('2026-09-08T00:00:00Z'),
+      timeBucketWidth: '1d',
+      workspaceIDs: ['wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ'],
+      groupBy: ['workspace_id'],
+  );
+
+  foreach ($rows->pagingEachItem() as $row) {
+      $startingAt = $row->startingAt->format(\DateTimeInterface::ATOM);
+      echo "{$startingAt} {$row->group->workspaceID}: {$row->usage->totalTokens}\n";
+  }
+  ```
+
+  ```ruby Ruby
+  client = Anthropic::Client.new
+
+  page = client.beta.organization.analytics.usage.list(
+    starting_at: Time.utc(2026, 9, 1),
+    ending_at: Time.utc(2026, 9, 8),
+    time_bucket_width: :"1d",
+    workspace_ids: ["wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"],
+    group_by: [:workspace_id]
+  )
+
+  page.auto_paging_each do |row|
+    puts "#{row.starting_at} #{row.group.workspace_id}: #{row.usage.total_tokens}"
+  end
+  ```
+</CodeGroup>
+
+Usage and costs in the Default Workspace are reported under the Default Workspace’s own ID.
 
 ## Common use cases
 
@@ -1077,11 +1221,11 @@ Create workspaces for specific projects or products to track usage and costs sep
 
 <Steps>
   <Step title="Plan your workspace structure">
-    Consider how you'll organize workspaces before creating them. Think about billing, access control, and usage tracking needs.
+    Consider how you’ll organize workspaces before creating them. Think about billing, access control, and usage tracking needs.
   </Step>
 
   <Step title="Use meaningful names">
-    Name workspaces clearly to indicate their purpose (for example, "Production - Customer Chatbot" or "Dev - Internal Tools").
+    Name workspaces clearly to indicate their purpose (for example, “Production - Customer Chatbot” or “Dev - Internal Tools”).
   </Step>
 
   <Step title="Set appropriate limits">
@@ -1093,23 +1237,23 @@ Create workspaces for specific projects or products to track usage and costs sep
   </Step>
 
   <Step title="Monitor usage">
-    Use the [Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-api) to track workspace-level consumption.
+    Use the [Usage and Cost Analytics API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api) to track workspace-level consumption.
   </Step>
 </Steps>
 
 ## FAQ
 
 <AccordionGroup>
-  <Accordion title="What's the Default Workspace?">
-    Every organization has a "Default Workspace" that cannot be renamed, archived, or deleted. Like every workspace, it has a `wrkspc_` ID: the API returns it in the [`anthropic-workspace-id` response header](https://platform.claude.com/docs/en/manage-claude/workspaces#identify-the-workspace-behind-an-api-response), and you can pass it to [Get Workspace](https://platform.claude.com/docs/en/api/organization/workspaces/retrieve) and [Update Workspace](https://platform.claude.com/docs/en/api/organization/workspaces/update). It has no member list of its own, because access to it follows each member's organization role. It appears in [List Workspaces](https://platform.claude.com/docs/en/api/organization/workspaces/list) results only when you pass `include_default=true`, and API keys, usage reports, and cost reports that belong to it show `null` for `workspace_id`, as do all-workspaces API keys; an API key's `scope` field tells the two apart and, for a key that belongs to the Default Workspace, carries its real ID.
+  <Accordion title="What’s the Default Workspace?">
+    Every organization has a “Default Workspace” that cannot be renamed, archived, or deleted. Like every workspace, it has a `wrkspc_` ID: the API returns it in the [`anthropic-workspace-id` response header](https://platform.claude.com/docs/en/manage-claude/workspaces#identify-the-workspace-behind-an-api-response), and you can pass it to [Get Workspace](https://platform.claude.com/docs/en/api/organization/workspaces/retrieve) and [Update Workspace](https://platform.claude.com/docs/en/api/organization/workspaces/update). It has no member list of its own, because access to it follows each member’s organization role. It appears in [List Workspaces](https://platform.claude.com/docs/en/api/organization/workspaces/list) results only when you pass `include_default=true`. The [Usage and Cost Analytics API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api) reports its usage and cost under its real ID. The legacy [Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-api) reports show `null` for `workspace_id`. For an API key that belongs to it, the key’s `scope` field carries the workspace’s real ID.
   </Accordion>
 
-  <Accordion title="What's the Claude Code workspace?">
-    Anthropic creates the Claude Code workspace automatically the first time a member of your organization signs in to Claude Code with their Console account. It isolates Claude Code's API keys, usage, and rate limits from your other workloads. See [Claude Code workspace](https://platform.claude.com/docs/en/manage-claude/workspaces#claude-code-workspace) for details.
+  <Accordion title="What’s the Claude Code workspace?">
+    Anthropic creates the Claude Code workspace automatically the first time a member of your organization signs in to Claude Code with their Console account. It isolates Claude Code’s API keys, usage, and rate limits from your other workloads. See [Claude Code workspace](https://platform.claude.com/docs/en/manage-claude/workspaces#claude-code-workspace) for details.
   </Accordion>
 
   <Accordion title="Are there limits on workspaces?">
-    Yes. Each organization can have up to 100 workspaces by default, and archived workspaces don't count toward this limit. If you need more, contact your account team.
+    Yes. Each organization can have up to 100 workspaces by default, and archived workspaces don’t count toward this limit. If you need more, contact your account team.
   </Accordion>
 
   <Accordion title="How do organization roles affect workspace access?">
@@ -1117,10 +1261,10 @@ Create workspaces for specific projects or products to track usage and costs sep
   </Accordion>
 
   <Accordion title="Which roles can be assigned in workspaces?">
-    Organization users and developers can be assigned Workspace Admin, Workspace Developer, Workspace Limited Developer, or Workspace User roles. The Workspace Billing role cannot be manually assigned; it's inherited from having the organization `billing` role.
+    Organization users and developers can be assigned Workspace Admin, Workspace Developer, Workspace Limited Developer, or Workspace User roles. The Workspace Billing role cannot be manually assigned; it’s inherited from having the organization `billing` role.
   </Accordion>
 
-  <Accordion title="Can organization admin or billing members' workspace roles be changed?">
+  <Accordion title="Can organization admin or billing members’ workspace roles be changed?">
     Organization admins and billing members cannot have their workspace roles changed or be removed from workspaces while they hold those organization roles (with one exception: billing members can be upgraded to a Workspace Admin role). For everyone else covered by this constraint, change their organization role first to change their workspace access.
   </Accordion>
 
@@ -1142,4 +1286,4 @@ Create workspaces for specific projects or products to track usage and costs sep
 * [Admin API](https://platform.claude.com/docs/en/manage-claude/admin-api)
 * [Admin API reference](https://platform.claude.com/docs/en/api/organization)
 * [Rate limits](https://platform.claude.com/docs/en/api/rate-limits)
-* [Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-api)
+* [Usage and Cost Analytics API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api) and the legacy [Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-api)

@@ -1,15 +1,15 @@
 ---
-title: Archive Credential
+title: Archive a Credential
 url: https://platform.claude.com/docs/en/api/csharp/beta/vaults/credentials/archive
 ---
 
-# Archive Credential
+# Archive a Credential
 
 `BetaManagedAgentsCredential Beta.Vaults.Credentials.Archive(parameters, cancellationToken = default)`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/archive`
 
-Archive Credential
+Archive a Credential
 
 ## Parameters
 
@@ -25,7 +25,7 @@ Archive Credential
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
@@ -127,6 +127,18 @@ Archive Credential
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -139,11 +151,11 @@ Archive Credential
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `required Type Type`
+  - `JsonElement Type = "vault_credential"`
 
   - `required string ID`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `required DateTimeOffset? ArchivedAt`
 
@@ -159,7 +171,7 @@ Archive Credential
 
       OAuth credential details for an MCP server.
 
-      - `required Type Type`
+      - `JsonElement Type = "mcp_oauth"`
 
       - `required string McpServerUrl`
 
@@ -167,7 +179,7 @@ Archive Credential
 
       - `DateTimeOffset? ExpiresAt`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -177,7 +189,7 @@ Archive Credential
 
         - `required string ClientID`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `required string TokenEndpoint`
 
@@ -189,19 +201,19 @@ Archive Credential
 
             Token endpoint requires no client authentication.
 
-            - `required Type Type`
+            - `JsonElement Type = "none"`
 
           - `class BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `required Type Type`
+            - `JsonElement Type = "client_secret_basic"`
 
           - `class BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `required Type Type`
+            - `JsonElement Type = "client_secret_post"`
 
         - `string? Resource`
 
@@ -215,7 +227,7 @@ Archive Credential
 
       Static bearer token credential details for an MCP server.
 
-      - `required Type Type`
+      - `JsonElement Type = "static_bearer"`
 
       - `required string McpServerUrl`
 
@@ -225,7 +237,7 @@ Archive Credential
 
       Environment variable credential details. The secret value is never returned.
 
-      - `required Type Type`
+      - `JsonElement Type = "environment_variable"`
 
       - `required BetaManagedAgentsInjectionLocationResponse InjectionLocation`
 
@@ -247,17 +259,19 @@ Archive Credential
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `required Type Type`
+          - `JsonElement Type = "unrestricted"`
 
         - `class BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `required Type Type`
+          - `JsonElement Type = "limited"`
 
           - `required IReadOnlyList<string> AllowedHosts`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `required string SecretName`
 
@@ -290,6 +304,9 @@ Archive Credential
 ## Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Vaults.Credentials;
+
 CredentialArchiveParams parameters = new()
 {
     VaultID = "vlt_011CZkZDLs7fYzm1hXNPeRjv",

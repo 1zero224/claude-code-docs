@@ -100,290 +100,21 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         See [input examples](https://platform.claude.com/docs/en/build-with-claude/working-with-messages?sdk_languages=typescript).
 
-        Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=typescript#give-claude-a-role), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
+        Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=typescript#give-claude-a-role), you can use the top-level `system` parameter.
 
         There is a limit of 100,000 messages in a single request.
 
-        - `content: string | Array<ContentBlockParam>`
+        - `interface UserMessageParam`
 
-          - `string`
+          - `content: MessageContentParam`
 
-          - `Array<ContentBlockParam>`
+            - `string`
 
-            - `interface TextBlockParam`
+            - `Array<ContentBlockParam>`
 
-              - `type: "text"`
+              - `interface TextBlockParam`
 
-              - `text: string`
-
-                minLength: 1
-
-              - `cache_control?: CacheControlEphemeral | null`
-
-                Create a cache control breakpoint at this content block.
-
-                - `type: "ephemeral"`
-
-                - `ttl?: "5m" | "1h"`
-
-                  The time-to-live for the cache control breakpoint.
-
-                  This may be one the following values:
-
-                  - `5m`: 5 minutes
-                  - `1h`: 1 hour
-
-                  Defaults to `5m`. See [prompt caching pricing](https://platform.claude.com/docs/en/build-with-claude/prompt-caching?sdk_languages=typescript) for details.
-
-                  - `"5m"`
-
-                  - `"1h"`
-
-              - `citations?: Array<TextCitationParam> | null`
-
-                - `interface CitationCharLocationParam`
-
-                  - `type: "char_location"`
-
-                  - `cited_text: string`
-
-                  - `document_index: number`
-
-                    minimum: 0
-
-                  - `document_title: string | null`
-
-                    minLength: 1, maxLength: 500
-
-                  - `end_char_index: number`
-
-                  - `start_char_index: number`
-
-                    minimum: 0
-
-                - `interface CitationPageLocationParam`
-
-                  - `type: "page_location"`
-
-                  - `cited_text: string`
-
-                  - `document_index: number`
-
-                    minimum: 0
-
-                  - `document_title: string | null`
-
-                    minLength: 1, maxLength: 500
-
-                  - `end_page_number: number`
-
-                  - `start_page_number: number`
-
-                    minimum: 1
-
-                - `interface CitationContentBlockLocationParam`
-
-                  - `type: "content_block_location"`
-
-                  - `cited_text: string`
-
-                    The full text of the cited block range, concatenated.
-
-                    Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
-
-                  - `document_index: number`
-
-                    minimum: 0
-
-                  - `document_title: string | null`
-
-                    minLength: 1, maxLength: 500
-
-                  - `end_block_index: number`
-
-                    Exclusive 0-based end index of the cited block range in the source's `content` array.
-
-                    Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
-
-                  - `start_block_index: number`
-
-                    0-based index of the first cited block in the source's `content` array.
-
-                    minimum: 0
-
-                - `interface CitationWebSearchResultLocationParam`
-
-                  - `type: "web_search_result_location"`
-
-                  - `cited_text: string`
-
-                  - `encrypted_index: string`
-
-                  - `title: string | null`
-
-                    minLength: 1, maxLength: 512
-
-                  - `url: string`
-
-                    minLength: 1
-
-                - `interface CitationSearchResultLocationParam`
-
-                  - `type: "search_result_location"`
-
-                  - `cited_text: string`
-
-                    The full text of the cited block range, concatenated.
-
-                    Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
-
-                  - `end_block_index: number`
-
-                    Exclusive 0-based end index of the cited block range in the source's `content` array.
-
-                    Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
-
-                  - `search_result_index: number`
-
-                    0-based index of the cited search result among all `search_result` content blocks in the request, in the order they appear across messages and tool results.
-
-                    Counted separately from `document_index`; server-side web search results are not included in this count.
-
-                    minimum: 0
-
-                  - `source: string`
-
-                  - `start_block_index: number`
-
-                    0-based index of the first cited block in the source's `content` array.
-
-                    minimum: 0
-
-                  - `title: string | null`
-
-            - `interface ImageBlockParam`
-
-              - `type: "image"`
-
-              - `source: Base64ImageSource | URLImageSource | FileImageSource`
-
-                - `interface Base64ImageSource`
-
-                  - `type: "base64"`
-
-                  - `data: string`
-
-                    format: byte
-
-                  - `media_type: "image/jpeg" | "image/png" | "image/gif" | "image/webp"`
-
-                    - `"image/jpeg"`
-
-                    - `"image/png"`
-
-                    - `"image/gif"`
-
-                    - `"image/webp"`
-
-                - `interface URLImageSource`
-
-                  - `type: "url"`
-
-                  - `url: string`
-
-                - `interface FileImageSource`
-
-                  - `type: "file"`
-
-                  - `file_id: string`
-
-              - `cache_control?: CacheControlEphemeral | null`
-
-                Create a cache control breakpoint at this content block.
-
-              - `transformations?: ImageTransformationsParam | null`
-
-                Configures the transformations the server applies to this image before the model observes it. Each key names a condition the server transforms images for; its value selects the transformation applied. Omitted keys keep their default behavior, and an empty object is equivalent to omitting the field.
-
-                - `oversized_image?: "downsize" | "error"`
-
-                  What the server does when this image exceeds the model's maximum image size. `"downsize"` (the default) scales the image down to fit, which changes the dimensions the model observes without telling you. `"error"` instead rejects the request with a 400 error naming the image's dimensions and the largest dimensions that fit, so you can scale the image deliberately — your image is never silently scaled down.
-
-                  - `"downsize"`
-
-                  - `"error"`
-
-            - `interface DocumentBlockParam`
-
-              - `type: "document"`
-
-              - `source: Base64PDFSource | PlainTextSource | ContentBlockSource | 2 more`
-
-                - `interface Base64PDFSource`
-
-                  - `type: "base64"`
-
-                  - `data: string`
-
-                    format: byte
-
-                  - `media_type: "application/pdf"`
-
-                - `interface PlainTextSource`
-
-                  - `type: "text"`
-
-                  - `data: string`
-
-                  - `media_type: "text/plain"`
-
-                - `interface ContentBlockSource`
-
-                  - `type: "content"`
-
-                  - `content: string | Array<ContentBlockSourceContent>`
-
-                    - `string`
-
-                    - `Array<ContentBlockSourceContent>`
-
-                      - `interface TextBlockParam`
-
-                      - `interface ImageBlockParam`
-
-                - `interface URLPDFSource`
-
-                  - `type: "url"`
-
-                  - `url: string`
-
-                - `interface FileDocumentSource`
-
-                  - `type: "file"`
-
-                  - `file_id: string`
-
-              - `cache_control?: CacheControlEphemeral | null`
-
-                Create a cache control breakpoint at this content block.
-
-              - `citations?: CitationsConfigParam | null`
-
-                - `enabled?: boolean`
-
-              - `context?: string | null`
-
-                minLength: 1
-
-              - `title?: string | null`
-
-                minLength: 1, maxLength: 500
-
-            - `interface SearchResultBlockParam`
-
-              - `type: "search_result"`
-
-              - `content: Array<TextBlockParam>`
+                - `type: "text"`
 
                 - `type: "text"`
 
@@ -395,697 +126,1002 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   Create a cache control breakpoint at this content block.
 
+                  - `type: "ephemeral"`
+
+                  - `ttl?: "5m" | "1h"`
+
+                    The time-to-live for the cache control breakpoint.
+
+                    This may be one the following values:
+
+                    - `5m`: 5 minutes
+                    - `1h`: 1 hour
+
+                    Defaults to `5m`. See [prompt caching pricing](https://platform.claude.com/docs/en/build-with-claude/prompt-caching?sdk_languages=typescript) for details.
+
+                    - `"5m"`
+
+                    - `"1h"`
+
                 - `citations?: Array<TextCitationParam> | null`
 
-              - `source: string`
+                  - `interface CitationCharLocationParam`
 
-              - `title: string`
+                    - `type: "char_location"`
 
-              - `cache_control?: CacheControlEphemeral | null`
+                    - `cited_text: string`
 
-                Create a cache control breakpoint at this content block.
+                    - `document_index: number`
 
-              - `citations?: CitationsConfigParam`
+                      minimum: 0
 
-            - `interface ThinkingBlockParam`
+                    - `document_title: string | null`
 
-              - `type: "thinking"`
+                      minLength: 1, maxLength: 500
 
-              - `signature: string`
+                    - `end_char_index: number`
 
-                The `signature` value of this thinking block, exactly as returned by the API in a previous response. Used to verify that the block was generated by Claude.
+                    - `start_char_index: number`
 
-                Thinking blocks must be passed back unmodified and in their original order; a modified block results in a 400 `invalid_request_error`.
+                      minimum: 0
 
-              - `thinking: string`
+                  - `interface CitationPageLocationParam`
 
-                The `thinking` text of this block as returned by the API.
+                    - `type: "page_location"`
 
-            - `interface RedactedThinkingBlockParam`
+                    - `cited_text: string`
 
-              - `type: "redacted_thinking"`
+                    - `document_index: number`
 
-              - `data: string`
+                      minimum: 0
 
-                The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
+                    - `document_title: string | null`
 
-            - `interface ToolUseBlockParam`
+                      minLength: 1, maxLength: 500
 
-              - `type: "tool_use"`
+                    - `end_page_number: number`
 
-              - `id: string`
+                    - `start_page_number: number`
 
-                pattern: ^[a-zA-Z0-9_-]+$
+                      minimum: 1
 
-              - `input: Record<string, unknown>`
+                  - `interface CitationContentBlockLocationParam`
 
-              - `name: string`
+                    - `type: "content_block_location"`
 
-                minLength: 1, maxLength: 200
+                    - `cited_text: string`
 
-              - `cache_control?: CacheControlEphemeral | null`
+                      The full text of the cited block range, concatenated.
 
-                Create a cache control breakpoint at this content block.
+                      Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
 
-              - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
+                    - `document_index: number`
 
-                - `interface DirectCaller`
+                      minimum: 0
 
-                  Tool invocation directly from the model.
+                    - `document_title: string | null`
 
-                  - `type: "direct"`
+                      minLength: 1, maxLength: 500
 
-                - `interface ServerToolCaller`
+                    - `end_block_index: number`
 
-                  Tool invocation generated by a server-side tool.
+                      Exclusive 0-based end index of the cited block range in the source's `content` array.
 
-                  - `type: "code_execution_20250825"`
+                      Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
 
-                  - `tool_id: string`
+                    - `start_block_index: number`
 
-                    pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+                      0-based index of the first cited block in the source's `content` array.
 
-                - `interface ServerToolCaller20260120`
+                      minimum: 0
 
-                  - `type: "code_execution_20260120"`
+                  - `interface CitationWebSearchResultLocationParam`
 
-                  - `tool_id: string`
+                    - `type: "web_search_result_location"`
 
-                    pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+                    - `cited_text: string`
 
-              - `toolset_name?: string | null`
+                    - `encrypted_index: string`
 
-                For a toolset member tool_use, the toolset family this member belongs to.
+                    - `title: string | null`
 
-                minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+                      minLength: 1, maxLength: 512
 
-            - `interface ToolResultBlockParam`
+                    - `url: string`
 
-              - `type: "tool_result"`
+                      minLength: 1
 
-              - `tool_use_id: string`
+                  - `interface CitationSearchResultLocationParam`
 
-                pattern: ^[a-zA-Z0-9_-]+$
+                    - `type: "search_result_location"`
 
-              - `cache_control?: CacheControlEphemeral | null`
+                    - `cited_text: string`
 
-                Create a cache control breakpoint at this content block.
+                      The full text of the cited block range, concatenated.
 
-              - `content?: string | Array<TextBlockParam | ImageBlockParam | SearchResultBlockParam | 3 more>`
+                      Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
 
-                - `string`
+                    - `end_block_index: number`
 
-                - `Array<TextBlockParam | ImageBlockParam | SearchResultBlockParam | 3 more>`
+                      Exclusive 0-based end index of the cited block range in the source's `content` array.
 
-                  - `interface TextBlockParam`
+                      Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
 
-                  - `interface ImageBlockParam`
+                    - `search_result_index: number`
 
-                  - `interface SearchResultBlockParam`
+                      0-based index of the cited search result among all `search_result` content blocks in the request, in the order they appear across messages and tool results.
 
-                  - `interface DocumentBlockParam`
+                      Counted separately from `document_index`; server-side web search results are not included in this count.
 
-                  - `interface ToolReferenceBlockParam`
+                      minimum: 0
 
-                    Tool reference block that can be included in tool_result content.
+                    - `source: string`
 
-                    - `type: "tool_reference"`
+                    - `start_block_index: number`
 
-                    - `tool_name: string`
+                      0-based index of the first cited block in the source's `content` array.
 
-                      minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+                      minimum: 0
 
-                    - `cache_control?: CacheControlEphemeral | null`
+                    - `title: string | null`
 
-                      Create a cache control breakpoint at this content block.
+              - `interface ImageBlockParam`
 
-                  - `interface BrowserStateBlockParam`
+                - `type: "image"`
 
-                    The caller's browser state after a browser toolset member call —
-                    the full inventory of open tabs, which tab is active, and any side
-                    effects (tabs opened, download state changes) the call produced.
+                - `source: Base64ImageSource | URLImageSource | FileImageSource`
 
-                    At most one per `tool_result`, only on a non-error result answering a
-                    browser toolset member `tool_use`. The server renders the
-                    model-visible text from it; the model never sees the raw fields.
+                  - `interface Base64ImageSource`
 
-                    - `type: "browser_state"`
+                    - `type: "base64"`
 
-                    - `tabs: Array<BrowserStateTabEntry>`
+                    - `data: string`
 
-                      All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
+                      format: byte
 
-                      maxItems: 100
+                    - `media_type: "image/jpeg" | "image/png" | "image/gif" | "image/webp"`
 
-                      - `tab_id: string`
+                      - `"image/jpeg"`
 
-                        The caller-assigned identifier for this tab, unique within the inventory.
+                      - `"image/png"`
 
-                        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                      - `"image/gif"`
 
-                      - `title: string`
+                      - `"image/webp"`
 
-                        The title of the page the tab is showing. May be empty.
+                  - `interface URLImageSource`
 
-                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                    - `type: "url"`
 
-                      - `url: string`
+                    - `url: string`
 
-                        The URL of the page the tab is showing. May be empty.
+                  - `interface FileImageSource`
 
-                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                    - `type: "file"`
 
-                      - `active?: boolean`
+                    - `file_id: string`
 
-                        Whether this tab is the active tab after this call. Whenever `tabs` is non-empty, exactly one entry is marked `active: true`.
+                - `cache_control?: CacheControlEphemeral | null`
 
-                    - `cache_control?: CacheControlEphemeral | null`
+                  Create a cache control breakpoint at this content block.
 
-                      Create a cache control breakpoint at this content block.
+                - `transformations?: ImageTransformationsParam | null`
 
-                    - `state_changes?: Array<BrowserStateChange> | null`
+                  Configures the transformations the server applies to this image before the model observes it. Each key names a condition the server transforms images for; its value selects the transformation applied. Omitted keys keep their default behavior, and an empty object is equivalent to omitting the field.
 
-                      Tabs opened and download state changes during this call. "Nothing to report" is expressed by omitting the field, never by an empty list.
+                  - `oversized_image?: "downsize" | "error"`
 
-                      minItems: 1, maxItems: 200
+                    What the server does when this image exceeds the model's maximum image size. `"downsize"` (the default) scales the image down to fit, which changes the dimensions the model observes without telling you. `"error"` instead rejects the request with a 400 error naming the image's dimensions and the largest dimensions that fit, so you can scale the image deliberately — your image is never silently scaled down.
 
-                      - `interface BrowserStateChangeTabOpened`
+                    - `"downsize"`
 
-                        A tab this call's execution opened that remains open at its end —
-                        the creation delta of the `tabs` inventory, not an event log.
+                    - `"error"`
 
-                        Carries only the `tab_id`; the tab's `title` and `url` live on its
-                        `tabs` entry, which must include the same `tab_id`. A tab opened
-                        during a failed call gets no deferred `tab_opened`; it simply appears
-                        in the next result's `tabs` inventory.
+              - `interface DocumentBlockParam`
+
+                - `type: "document"`
+
+                - `source: Base64PDFSource | PlainTextSource | ContentBlockSource | 2 more`
+
+                  - `interface Base64PDFSource`
+
+                    - `type: "base64"`
+
+                    - `data: string`
+
+                      format: byte
+
+                    - `media_type: "application/pdf"`
+
+                  - `interface PlainTextSource`
+
+                    - `type: "text"`
+
+                    - `data: string`
+
+                    - `media_type: "text/plain"`
+
+                  - `interface ContentBlockSource`
+
+                    - `type: "content"`
+
+                    - `content: string | Array<ContentBlockSourceContent>`
+
+                      - `string`
+
+                      - `Array<ContentBlockSourceContent>`
+
+                        - `interface TextBlockParam`
+
+                        - `interface ImageBlockParam`
+
+                  - `interface URLPDFSource`
+
+                    - `type: "url"`
+
+                    - `url: string`
+
+                  - `interface FileDocumentSource`
+
+                    - `type: "file"`
+
+                    - `file_id: string`
+
+                - `cache_control?: CacheControlEphemeral | null`
+
+                  Create a cache control breakpoint at this content block.
+
+                - `citations?: CitationsConfigParam | null`
+
+                  - `enabled?: boolean`
+
+                - `context?: string | null`
+
+                  minLength: 1
+
+                - `title?: string | null`
+
+                  minLength: 1, maxLength: 500
+
+              - `interface SearchResultBlockParam`
+
+                - `type: "search_result"`
+
+                - `content: Array<TextBlockParam>`
+
+                  - `type: "text"`
+
+                  - `text: string`
+
+                    minLength: 1
+
+                  - `cache_control?: CacheControlEphemeral | null`
+
+                    Create a cache control breakpoint at this content block.
+
+                  - `citations?: Array<TextCitationParam> | null`
+
+                - `source: string`
+
+                - `title: string`
+
+                - `cache_control?: CacheControlEphemeral | null`
+
+                  Create a cache control breakpoint at this content block.
+
+                - `citations?: CitationsConfigParam`
+
+              - `interface ThinkingBlockParam`
+
+                - `type: "thinking"`
+
+                - `signature: string`
+
+                  The `signature` value of this thinking block, exactly as returned by the API in a previous response. Used to verify that the block was generated by Claude.
+
+                  Thinking blocks must be passed back unmodified and in their original order; a modified block results in a 400 `invalid_request_error`.
+
+                - `thinking: string`
+
+                  The `thinking` text of this block as returned by the API.
+
+              - `interface RedactedThinkingBlockParam`
+
+                - `type: "redacted_thinking"`
+
+                - `data: string`
+
+                  The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
+
+              - `interface ToolUseBlockParam`
+
+                - `type: "tool_use"`
+
+                - `id: string`
+
+                  pattern: ^[a-zA-Z0-9_-]+$
+
+                - `input: Record<string, unknown>`
+
+                - `name: string`
+
+                  minLength: 1, maxLength: 200
+
+                - `cache_control?: CacheControlEphemeral | null`
+
+                  Create a cache control breakpoint at this content block.
+
+                - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
+
+                  - `interface DirectCaller`
+
+                    Tool invocation directly from the model.
+
+                    - `type: "direct"`
+
+                  - `interface ServerToolCaller`
+
+                    Tool invocation generated by a server-side tool.
+
+                    - `type: "code_execution_20250825"`
+
+                    - `tool_id: string`
+
+                      pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+                  - `interface ServerToolCaller20260120`
+
+                    - `type: "code_execution_20260120"`
+
+                    - `tool_id: string`
+
+                      pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+                - `toolset_name?: string | null`
+
+                  For a toolset member tool_use, the toolset family this member belongs to.
+
+                  minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+
+              - `interface ToolResultBlockParam`
+
+                - `type: "tool_result"`
+
+                - `tool_use_id: string`
+
+                  pattern: ^[a-zA-Z0-9_-]+$
+
+                - `cache_control?: CacheControlEphemeral | null`
+
+                  Create a cache control breakpoint at this content block.
+
+                - `content?: string | Array<TextBlockParam | ImageBlockParam | SearchResultBlockParam | 3 more>`
+
+                  - `string`
+
+                  - `Array<TextBlockParam | ImageBlockParam | SearchResultBlockParam | 3 more>`
+
+                    - `interface TextBlockParam`
+
+                    - `interface ImageBlockParam`
+
+                    - `interface SearchResultBlockParam`
+
+                    - `interface DocumentBlockParam`
+
+                    - `interface ToolReferenceBlockParam`
+
+                      Tool reference block that can be included in tool_result content.
+
+                      - `type: "tool_reference"`
+
+                      - `tool_name: string`
+
+                        minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+
+                      - `cache_control?: CacheControlEphemeral | null`
+
+                        Create a cache control breakpoint at this content block.
+
+                    - `interface BrowserStateBlockParam`
+
+                      The caller's browser state after a browser toolset member call —
+                      the full inventory of open tabs, which tab is active, and any side
+                      effects (tabs opened, download state changes) the call produced.
+
+                      At most one per `tool_result`, only on a non-error result answering a
+                      browser toolset member `tool_use`. The server renders the
+                      model-visible text from it; the model never sees the raw fields.
+
+                      - `type: "browser_state"`
+
+                      - `tabs: Array<BrowserStateTabEntry>`
+
+                        All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
+
+                        maxItems: 100
 
                         - `type: "tab_opened"`
 
                         - `tab_id: string`
 
-                          The `tab_id` of the opened tab, present in `tabs`.
+                          The caller-assigned identifier for this tab, unique within the inventory.
 
                           minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                      - `interface BrowserStateChangeDownloadStarted`
+                        - `title: string`
 
-                        A file download that started during this call.
+                          The title of the page the tab is showing. May be empty.
 
-                        - `type: "download_started"`
-
-                        - `download_id: string`
-
-                          The caller-assigned identifier for this download, stable across the state changes reporting it.
-
-                          minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                          maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
                         - `url: string`
 
-                          The final post-redirect URL the download was served from.
+                          The URL of the page the tab is showing. May be empty.
 
                           maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                      - `interface BrowserStateChangeDownloadCompleted`
+                        - `active?: boolean`
 
-                        A file download that finished during this call, reported with the
-                        same `download_id` as its `download_started` — or without a prior
-                        `download_started`, when the download finished during the call that
-                        started it (at most one state change per `download_id` per result).
+                          Whether this tab is the active tab after this call. Whenever `tabs` is non-empty, exactly one entry is marked `active: true`.
 
-                        - `type: "download_completed"`
+                      - `cache_control?: CacheControlEphemeral | null`
 
-                        - `download_id: string`
+                        Create a cache control breakpoint at this content block.
 
-                          The caller-assigned identifier for this download, stable across the state changes reporting it.
+                      - `state_changes?: Array<BrowserStateChange> | null`
 
-                          minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                        Tabs opened and download state changes during this call. "Nothing to report" is expressed by omitting the field, never by an empty list.
 
-                        - `url: string`
+                        minItems: 1, maxItems: 200
 
-                          The final post-redirect URL the download was served from.
+                        - `interface BrowserStateChangeTabOpened`
 
-                          maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                          A tab this call's execution opened that remains open at its end —
+                          the creation delta of the `tabs` inventory, not an event log.
 
-                        - `path?: string | null`
+                          Carries only the `tab_id`; the tab's `title` and `url` live on its
+                          `tabs` entry, which must include the same `tab_id`. A tab opened
+                          during a failed call gets no deferred `tab_opened`; it simply appears
+                          in the next result's `tabs` inventory.
 
-                          Where the executor saved the file, on the executor's filesystem. Only included when another tool in the same environment can read the file at that path.
+                          - `type: "tab_opened"`
 
-                          maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                          - `tab_id: string`
 
-                        - `size_bytes?: number | null`
+                            The `tab_id` of the opened tab, present in `tabs`.
 
-                          The completed download's size.
+                            minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                          minimum: 0
+                        - `interface BrowserStateChangeDownloadStarted`
 
-                      - `interface BrowserStateChangeDownloadFailed`
+                          A file download that started during this call.
 
-                        A file download that failed — or was cancelled — during this call.
+                          - `type: "download_started"`
 
-                        - `type: "download_failed"`
+                          - `download_id: string`
 
-                        - `download_id: string`
+                            The caller-assigned identifier for this download, stable across the state changes reporting it.
 
-                          The caller-assigned identifier for this download, stable across the state changes reporting it.
+                            minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                          minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                          - `url: string`
 
-                        - `url: string`
+                            The final post-redirect URL the download was served from.
 
-                          The final post-redirect URL the download was served from.
+                            maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                          maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                        - `interface BrowserStateChangeDownloadCompleted`
 
-                        - `error?: string | null`
+                          A file download that finished during this call, reported with the
+                          same `download_id` as its `download_started` — or without a prior
+                          `download_started`, when the download finished during the call that
+                          started it (at most one state change per `download_id` per result).
 
-                          The failure or cancellation detail, when known.
+                          - `type: "download_completed"`
 
-                          maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                          - `download_id: string`
 
-              - `is_error?: boolean`
+                            The caller-assigned identifier for this download, stable across the state changes reporting it.
 
-              - `toolset_name?: string | null`
+                            minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                For a toolset member tool_result, the toolset family of the paired tool_use.
+                          - `url: string`
 
-                minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+                            The final post-redirect URL the download was served from.
 
-            - `interface ServerToolUseBlockParam`
+                            maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-              - `type: "server_tool_use"`
+                          - `path?: string | null`
 
-              - `id: string`
+                            Where the executor saved the file, on the executor's filesystem. Only included when another tool in the same environment can read the file at that path.
 
-                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+                            maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-              - `input: Record<string, unknown>`
+                          - `size_bytes?: number | null`
 
-              - `name: "web_search" | "web_fetch" | "code_execution" | 4 more`
+                            The completed download's size.
 
-                - `"web_search"`
+                            minimum: 0
 
-                - `"web_fetch"`
+                        - `interface BrowserStateChangeDownloadFailed`
 
-                - `"code_execution"`
+                          A file download that failed — or was cancelled — during this call.
 
-                - `"bash_code_execution"`
+                          - `type: "download_failed"`
 
-                - `"text_editor_code_execution"`
+                          - `download_id: string`
 
-                - `"tool_search_tool_regex"`
+                            The caller-assigned identifier for this download, stable across the state changes reporting it.
 
-                - `"tool_search_tool_bm25"`
+                            minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+
+                          - `url: string`
+
+                            The final post-redirect URL the download was served from.
+
+                            maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+
+                          - `error?: string | null`
+
+                            The failure or cancellation detail, when known.
+
+                            maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+
+                - `is_error?: boolean`
+
+                - `toolset_name?: string | null`
+
+                  For a toolset member tool_result, the toolset family of the paired tool_use.
+
+                  minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+
+              - `interface ServerToolUseBlockParam`
+
+                - `type: "server_tool_use"`
+
+                - `id: string`
+
+                  pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+                - `input: Record<string, unknown>`
+
+                - `name: "web_search" | "web_fetch" | "code_execution" | 4 more`
+
+                  - `"web_search"`
+
+                  - `"web_fetch"`
+
+                  - `"code_execution"`
+
+                  - `"bash_code_execution"`
+
+                  - `"text_editor_code_execution"`
+
+                  - `"tool_search_tool_regex"`
+
+                  - `"tool_search_tool_bm25"`
+
+                - `cache_control?: CacheControlEphemeral | null`
+
+                  Create a cache control breakpoint at this content block.
+
+                - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
+
+                  - `interface DirectCaller`
+
+                    Tool invocation directly from the model.
+
+                  - `interface ServerToolCaller`
+
+                    Tool invocation generated by a server-side tool.
+
+                  - `interface ServerToolCaller20260120`
+
+              - `interface WebSearchToolResultBlockParam`
+
+                - `type: "web_search_tool_result"`
+
+                - `content: WebSearchToolResultBlockParamContent`
+
+                  - `Array<WebSearchResultBlockParam>`
+
+                    - `type: "web_search_result"`
+
+                    - `encrypted_content: string`
+
+                    - `title: string`
+
+                    - `url: string`
+
+                    - `page_age?: string | null`
+
+                  - `interface WebSearchToolRequestError`
+
+                    - `type: "web_search_tool_result_error"`
+
+                    - `error_code: WebSearchToolResultErrorCode`
+
+                      - `"invalid_tool_input"`
+
+                      - `"unavailable"`
+
+                      - `"max_uses_exceeded"`
+
+                      - `"too_many_requests"`
+
+                      - `"query_too_long"`
+
+                      - `"request_too_large"`
+
+                - `tool_use_id: string`
+
+                  pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+                - `cache_control?: CacheControlEphemeral | null`
+
+                  Create a cache control breakpoint at this content block.
+
+                - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
+
+                  - `interface DirectCaller`
+
+                    Tool invocation directly from the model.
+
+                  - `interface ServerToolCaller`
+
+                    Tool invocation generated by a server-side tool.
+
+                  - `interface ServerToolCaller20260120`
+
+              - `interface WebFetchToolResultBlockParam`
+
+                - `type: "web_fetch_tool_result"`
+
+                - `content: WebFetchToolResultErrorBlockParam | WebFetchBlockParam`
+
+                  - `interface WebFetchToolResultErrorBlockParam`
+
+                    - `type: "web_fetch_tool_result_error"`
+
+                    - `error_code: WebFetchToolResultErrorCode`
+
+                      - `"invalid_tool_input"`
+
+                      - `"url_too_long"`
+
+                      - `"url_not_allowed"`
+
+                      - `"url_not_in_prior_context"`
+
+                      - `"url_not_accessible"`
+
+                      - `"unsupported_content_type"`
+
+                      - `"too_many_requests"`
+
+                      - `"max_uses_exceeded"`
+
+                      - `"unavailable"`
+
+                      - `"content_too_large"`
+
+                  - `interface WebFetchBlockParam`
+
+                    - `type: "web_fetch_result"`
+
+                    - `content: DocumentBlockParam`
+
+                    - `url: string`
+
+                      Fetched content URL
+
+                    - `retrieved_at?: string | null`
+
+                      ISO 8601 timestamp when the content was retrieved
+
+                - `tool_use_id: string`
+
+                  pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+                - `cache_control?: CacheControlEphemeral | null`
+
+                  Create a cache control breakpoint at this content block.
+
+                - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
+
+                  - `interface DirectCaller`
+
+                    Tool invocation directly from the model.
+
+                  - `interface ServerToolCaller`
+
+                    Tool invocation generated by a server-side tool.
+
+                  - `interface ServerToolCaller20260120`
+
+              - `interface CodeExecutionToolResultBlockParam`
+
+                - `type: "code_execution_tool_result"`
+
+                - `content: CodeExecutionToolResultBlockParamContent`
+
+                  - `interface CodeExecutionToolResultErrorParam`
+
+                    - `type: "code_execution_tool_result_error"`
+
+                    - `error_code: CodeExecutionToolResultErrorCode`
+
+                      - `"invalid_tool_input"`
+
+                      - `"unavailable"`
+
+                      - `"too_many_requests"`
+
+                      - `"execution_time_exceeded"`
+
+                  - `interface CodeExecutionResultBlockParam`
+
+                    - `type: "code_execution_result"`
+
+                    - `content: Array<CodeExecutionOutputBlockParam>`
+
+                      - `type: "code_execution_output"`
+
+                      - `file_id: string`
+
+                    - `return_code: number`
+
+                    - `stderr: string`
+
+                    - `stdout: string`
+
+                  - `interface EncryptedCodeExecutionResultBlockParam`
+
+                    The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
+
+                    - `type: "encrypted_code_execution_result"`
+
+                    - `content: Array<CodeExecutionOutputBlockParam>`
+
+                      - `type: "code_execution_output"`
+
+                      - `file_id: string`
+
+                    - `encrypted_stdout: string`
+
+                    - `return_code: number`
+
+                    - `stderr: string`
+
+                - `tool_use_id: string`
+
+                  pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+                - `cache_control?: CacheControlEphemeral | null`
+
+                  Create a cache control breakpoint at this content block.
+
+              - `interface BashCodeExecutionToolResultBlockParam`
+
+                - `type: "bash_code_execution_tool_result"`
+
+                - `content: BashCodeExecutionToolResultErrorParam | BashCodeExecutionResultBlockParam`
+
+                  - `interface BashCodeExecutionToolResultErrorParam`
+
+                    - `type: "bash_code_execution_tool_result_error"`
+
+                    - `error_code: BashCodeExecutionToolResultErrorCode`
+
+                      - `"invalid_tool_input"`
+
+                      - `"unavailable"`
+
+                      - `"too_many_requests"`
+
+                      - `"execution_time_exceeded"`
+
+                      - `"output_file_too_large"`
+
+                  - `interface BashCodeExecutionResultBlockParam`
+
+                    - `type: "bash_code_execution_result"`
+
+                    - `content: Array<BashCodeExecutionOutputBlockParam>`
+
+                      - `type: "bash_code_execution_output"`
+
+                      - `file_id: string`
+
+                    - `return_code: number`
+
+                    - `stderr: string`
+
+                    - `stdout: string`
+
+                - `tool_use_id: string`
+
+                  pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+                - `cache_control?: CacheControlEphemeral | null`
+
+                  Create a cache control breakpoint at this content block.
+
+              - `interface TextEditorCodeExecutionToolResultBlockParam`
+
+                - `type: "text_editor_code_execution_tool_result"`
+
+                - `content: TextEditorCodeExecutionToolResultErrorParam | TextEditorCodeExecutionViewResultBlockParam | TextEditorCodeExecutionCreateResultBlockParam | TextEditorCodeExecutionStrReplaceResultBlockParam`
+
+                  - `interface TextEditorCodeExecutionToolResultErrorParam`
+
+                    - `type: "text_editor_code_execution_tool_result_error"`
+
+                    - `error_code: TextEditorCodeExecutionToolResultErrorCode`
+
+                      - `"invalid_tool_input"`
+
+                      - `"unavailable"`
+
+                      - `"too_many_requests"`
+
+                      - `"execution_time_exceeded"`
+
+                      - `"file_not_found"`
+
+                    - `error_message?: string | null`
+
+                  - `interface TextEditorCodeExecutionViewResultBlockParam`
+
+                    - `type: "text_editor_code_execution_view_result"`
+
+                    - `content: string`
+
+                    - `file_type: "text" | "image" | "pdf"`
+
+                      - `"text"`
+
+                      - `"image"`
+
+                      - `"pdf"`
+
+                    - `num_lines?: number | null`
+
+                    - `start_line?: number | null`
+
+                    - `total_lines?: number | null`
+
+                  - `interface TextEditorCodeExecutionCreateResultBlockParam`
+
+                    - `type: "text_editor_code_execution_create_result"`
+
+                    - `is_file_update: boolean`
+
+                  - `interface TextEditorCodeExecutionStrReplaceResultBlockParam`
+
+                    - `type: "text_editor_code_execution_str_replace_result"`
+
+                    - `lines?: Array<string> | null`
+
+                    - `new_lines?: number | null`
+
+                    - `new_start?: number | null`
+
+                    - `old_lines?: number | null`
+
+                    - `old_start?: number | null`
+
+                - `tool_use_id: string`
+
+                  pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+                - `cache_control?: CacheControlEphemeral | null`
+
+                  Create a cache control breakpoint at this content block.
+
+              - `interface ToolSearchToolResultBlockParam`
+
+                - `type: "tool_search_tool_result"`
+
+                - `content: ToolSearchToolResultErrorParam | ToolSearchToolSearchResultBlockParam`
+
+                  - `interface ToolSearchToolResultErrorParam`
+
+                    - `type: "tool_search_tool_result_error"`
+
+                    - `error_code: ToolSearchToolResultErrorCode`
+
+                      - `"invalid_tool_input"`
+
+                      - `"unavailable"`
+
+                      - `"too_many_requests"`
+
+                      - `"execution_time_exceeded"`
+
+                    - `error_message?: string | null`
+
+                  - `interface ToolSearchToolSearchResultBlockParam`
+
+                    - `type: "tool_search_tool_search_result"`
+
+                    - `tool_references: Array<ToolReferenceBlockParam>`
+
+                      - `type: "tool_reference"`
+
+                      - `tool_name: string`
+
+                        minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+
+                      - `cache_control?: CacheControlEphemeral | null`
+
+                        Create a cache control breakpoint at this content block.
+
+                - `tool_use_id: string`
+
+                  pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+                - `cache_control?: CacheControlEphemeral | null`
+
+                  Create a cache control breakpoint at this content block.
+
+              - `interface ContainerUploadBlockParam`
+
+                A content block that represents a file to be uploaded to the container
+                Files uploaded via this block will be available in the container's input directory.
+
+                - `type: "container_upload"`
+
+                - `file_id: string`
+
+                - `cache_control?: CacheControlEphemeral | null`
+
+                  Create a cache control breakpoint at this content block.
+
+          - `role: "user"`
+
+        - `interface AssistantMessageParam`
+
+          - `content: MessageContentParam`
+
+          - `role: "assistant"`
+
+        - `interface SystemMessageParam`
+
+          - `content: string | Array<TextBlockParam>`
+
+            - `string`
+
+            - `Array<TextBlockParam>`
+
+              - `type: "text"`
+
+              - `text: string`
+
+                minLength: 1
 
               - `cache_control?: CacheControlEphemeral | null`
 
                 Create a cache control breakpoint at this content block.
 
-              - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
+              - `citations?: Array<TextCitationParam> | null`
 
-                - `interface DirectCaller`
-
-                  Tool invocation directly from the model.
-
-                - `interface ServerToolCaller`
-
-                  Tool invocation generated by a server-side tool.
-
-                - `interface ServerToolCaller20260120`
-
-            - `interface WebSearchToolResultBlockParam`
-
-              - `type: "web_search_tool_result"`
-
-              - `content: WebSearchToolResultBlockParamContent`
-
-                - `Array<WebSearchResultBlockParam>`
-
-                  - `type: "web_search_result"`
-
-                  - `encrypted_content: string`
-
-                  - `title: string`
-
-                  - `url: string`
-
-                  - `page_age?: string | null`
-
-                - `interface WebSearchToolRequestError`
-
-                  - `type: "web_search_tool_result_error"`
-
-                  - `error_code: WebSearchToolResultErrorCode`
-
-                    - `"invalid_tool_input"`
-
-                    - `"unavailable"`
-
-                    - `"max_uses_exceeded"`
-
-                    - `"too_many_requests"`
-
-                    - `"query_too_long"`
-
-                    - `"request_too_large"`
-
-              - `tool_use_id: string`
-
-                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-              - `cache_control?: CacheControlEphemeral | null`
-
-                Create a cache control breakpoint at this content block.
-
-              - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
-
-                - `interface DirectCaller`
-
-                  Tool invocation directly from the model.
-
-                - `interface ServerToolCaller`
-
-                  Tool invocation generated by a server-side tool.
-
-                - `interface ServerToolCaller20260120`
-
-            - `interface WebFetchToolResultBlockParam`
-
-              - `type: "web_fetch_tool_result"`
-
-              - `content: WebFetchToolResultErrorBlockParam | WebFetchBlockParam`
-
-                - `interface WebFetchToolResultErrorBlockParam`
-
-                  - `type: "web_fetch_tool_result_error"`
-
-                  - `error_code: WebFetchToolResultErrorCode`
-
-                    - `"invalid_tool_input"`
-
-                    - `"url_too_long"`
-
-                    - `"url_not_allowed"`
-
-                    - `"url_not_in_prior_context"`
-
-                    - `"url_not_accessible"`
-
-                    - `"unsupported_content_type"`
-
-                    - `"too_many_requests"`
-
-                    - `"max_uses_exceeded"`
-
-                    - `"unavailable"`
-
-                    - `"content_too_large"`
-
-                - `interface WebFetchBlockParam`
-
-                  - `type: "web_fetch_result"`
-
-                  - `content: DocumentBlockParam`
-
-                  - `url: string`
-
-                    Fetched content URL
-
-                  - `retrieved_at?: string | null`
-
-                    ISO 8601 timestamp when the content was retrieved
-
-              - `tool_use_id: string`
-
-                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-              - `cache_control?: CacheControlEphemeral | null`
-
-                Create a cache control breakpoint at this content block.
-
-              - `caller?: DirectCaller | ServerToolCaller | ServerToolCaller20260120`
-
-                - `interface DirectCaller`
-
-                  Tool invocation directly from the model.
-
-                - `interface ServerToolCaller`
-
-                  Tool invocation generated by a server-side tool.
-
-                - `interface ServerToolCaller20260120`
-
-            - `interface CodeExecutionToolResultBlockParam`
-
-              - `type: "code_execution_tool_result"`
-
-              - `content: CodeExecutionToolResultBlockParamContent`
-
-                - `interface CodeExecutionToolResultErrorParam`
-
-                  - `type: "code_execution_tool_result_error"`
-
-                  - `error_code: CodeExecutionToolResultErrorCode`
-
-                    - `"invalid_tool_input"`
-
-                    - `"unavailable"`
-
-                    - `"too_many_requests"`
-
-                    - `"execution_time_exceeded"`
-
-                - `interface CodeExecutionResultBlockParam`
-
-                  - `type: "code_execution_result"`
-
-                  - `content: Array<CodeExecutionOutputBlockParam>`
-
-                    - `type: "code_execution_output"`
-
-                    - `file_id: string`
-
-                  - `return_code: number`
-
-                  - `stderr: string`
-
-                  - `stdout: string`
-
-                - `interface EncryptedCodeExecutionResultBlockParam`
-
-                  Code execution result with encrypted stdout for PFC + web_search results.
-
-                  - `type: "encrypted_code_execution_result"`
-
-                  - `content: Array<CodeExecutionOutputBlockParam>`
-
-                    - `type: "code_execution_output"`
-
-                    - `file_id: string`
-
-                  - `encrypted_stdout: string`
-
-                  - `return_code: number`
-
-                  - `stderr: string`
-
-              - `tool_use_id: string`
-
-                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-              - `cache_control?: CacheControlEphemeral | null`
-
-                Create a cache control breakpoint at this content block.
-
-            - `interface BashCodeExecutionToolResultBlockParam`
-
-              - `type: "bash_code_execution_tool_result"`
-
-              - `content: BashCodeExecutionToolResultErrorParam | BashCodeExecutionResultBlockParam`
-
-                - `interface BashCodeExecutionToolResultErrorParam`
-
-                  - `type: "bash_code_execution_tool_result_error"`
-
-                  - `error_code: BashCodeExecutionToolResultErrorCode`
-
-                    - `"invalid_tool_input"`
-
-                    - `"unavailable"`
-
-                    - `"too_many_requests"`
-
-                    - `"execution_time_exceeded"`
-
-                    - `"output_file_too_large"`
-
-                - `interface BashCodeExecutionResultBlockParam`
-
-                  - `type: "bash_code_execution_result"`
-
-                  - `content: Array<BashCodeExecutionOutputBlockParam>`
-
-                    - `type: "bash_code_execution_output"`
-
-                    - `file_id: string`
-
-                  - `return_code: number`
-
-                  - `stderr: string`
-
-                  - `stdout: string`
-
-              - `tool_use_id: string`
-
-                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-              - `cache_control?: CacheControlEphemeral | null`
-
-                Create a cache control breakpoint at this content block.
-
-            - `interface TextEditorCodeExecutionToolResultBlockParam`
-
-              - `type: "text_editor_code_execution_tool_result"`
-
-              - `content: TextEditorCodeExecutionToolResultErrorParam | TextEditorCodeExecutionViewResultBlockParam | TextEditorCodeExecutionCreateResultBlockParam | TextEditorCodeExecutionStrReplaceResultBlockParam`
-
-                - `interface TextEditorCodeExecutionToolResultErrorParam`
-
-                  - `type: "text_editor_code_execution_tool_result_error"`
-
-                  - `error_code: TextEditorCodeExecutionToolResultErrorCode`
-
-                    - `"invalid_tool_input"`
-
-                    - `"unavailable"`
-
-                    - `"too_many_requests"`
-
-                    - `"execution_time_exceeded"`
-
-                    - `"file_not_found"`
-
-                  - `error_message?: string | null`
-
-                - `interface TextEditorCodeExecutionViewResultBlockParam`
-
-                  - `type: "text_editor_code_execution_view_result"`
-
-                  - `content: string`
-
-                  - `file_type: "text" | "image" | "pdf"`
-
-                    - `"text"`
-
-                    - `"image"`
-
-                    - `"pdf"`
-
-                  - `num_lines?: number | null`
-
-                  - `start_line?: number | null`
-
-                  - `total_lines?: number | null`
-
-                - `interface TextEditorCodeExecutionCreateResultBlockParam`
-
-                  - `type: "text_editor_code_execution_create_result"`
-
-                  - `is_file_update: boolean`
-
-                - `interface TextEditorCodeExecutionStrReplaceResultBlockParam`
-
-                  - `type: "text_editor_code_execution_str_replace_result"`
-
-                  - `lines?: Array<string> | null`
-
-                  - `new_lines?: number | null`
-
-                  - `new_start?: number | null`
-
-                  - `old_lines?: number | null`
-
-                  - `old_start?: number | null`
-
-              - `tool_use_id: string`
-
-                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-              - `cache_control?: CacheControlEphemeral | null`
-
-                Create a cache control breakpoint at this content block.
-
-            - `interface ToolSearchToolResultBlockParam`
-
-              - `type: "tool_search_tool_result"`
-
-              - `content: ToolSearchToolResultErrorParam | ToolSearchToolSearchResultBlockParam`
-
-                - `interface ToolSearchToolResultErrorParam`
-
-                  - `type: "tool_search_tool_result_error"`
-
-                  - `error_code: ToolSearchToolResultErrorCode`
-
-                    - `"invalid_tool_input"`
-
-                    - `"unavailable"`
-
-                    - `"too_many_requests"`
-
-                    - `"execution_time_exceeded"`
-
-                  - `error_message?: string | null`
-
-                - `interface ToolSearchToolSearchResultBlockParam`
-
-                  - `type: "tool_search_tool_search_result"`
-
-                  - `tool_references: Array<ToolReferenceBlockParam>`
-
-                    - `type: "tool_reference"`
-
-                    - `tool_name: string`
-
-                      minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
-
-                    - `cache_control?: CacheControlEphemeral | null`
-
-                      Create a cache control breakpoint at this content block.
-
-              - `tool_use_id: string`
-
-                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-              - `cache_control?: CacheControlEphemeral | null`
-
-                Create a cache control breakpoint at this content block.
-
-            - `interface ContainerUploadBlockParam`
-
-              A content block that represents a file to be uploaded to the container
-              Files uploaded via this block will be available in the container's input directory.
-
-              - `type: "container_upload"`
-
-              - `file_id: string`
-
-              - `cache_control?: CacheControlEphemeral | null`
-
-                Create a cache control breakpoint at this content block.
-
-        - `role: "user" | "assistant" | "system"`
-
-          - `"user"`
-
-          - `"assistant"`
-
-          - `"system"`
+          - `role: "system"`
 
       - `model: Model`
 
         The model that will complete your prompt.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+        - `"claude-mythos-5-2"`
+
+          Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
         - `"claude-haiku-5-5"`
 
@@ -1280,6 +1316,16 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
         - `"auto"`
 
         - `"standard_only"`
+
+      - `speed?: "standard" | "fast" | null`
+
+        The inference speed mode for this request. `"fast"` enables high output-tokens-per-second inference.
+
+        Some models require the `fast-mode-2026-02-01` beta header for any `speed` value. See [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode?sdk_languages=typescript) for which models.
+
+        - `"standard"`
+
+        - `"fast"`
 
       - `stop_sequences?: Array<string>`
 
@@ -1639,7 +1685,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
         - `interface CodeExecutionTool20260120`
 
-          Code execution tool with REPL state persistence (daemon mode + gVisor checkpoint).
+          A `tools` entry for the code execution tool, version `code_execution_20260120`. It adds REPL state persistence to version `code_execution_20250825`.
+
+          REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
+
+          See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=typescript#tool-versions) to learn what each tool version adds.
 
           - `type: "code_execution_20260120"`
 
@@ -3057,45 +3107,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             When true, guarantees schema validation on tool names and inputs
 
-      - `temperature?: number`
-
-        **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting temperature. A value of 1.0 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-        Amount of randomness injected into the response.
-
-        Defaults to `1.0`. Ranges from `0.0` to `1.0`. Use `temperature` closer to `0.0` for analytical / multiple choice, and closer to `1.0` for creative and generative tasks.
-
-        Note that even with `temperature` of `0.0`, the results will not be fully deterministic.
-
-        minimum: 0, maximum: 1
-
-      - `top_k?: number`
-
-        **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not accept top_k; any value will be rejected with a 400 error.
-
-        Only sample from the top K options for each subsequent token.
-
-        Used to remove "long tail" low probability responses. [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-
-        Recommended for advanced use cases only.
-
-        minimum: 0
-
-      - `top_p?: number`
-
-        **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting top_p. A value >= 0.99 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-        Use nucleus sampling.
-
-        In nucleus sampling, we compute the cumulative distribution over all the options for each subsequent token in decreasing probability order and cut it off once it reaches a particular probability specified by `top_p`.
-
-        Recommended for advanced use cases only.
-
-        minimum: 0, maximum: 1
-
   - `user_profile_id?: string` (header parameter)
 
-    The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
+    The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
 
   - `workspace_id?: string` (header parameter)
 
@@ -4474,13 +4488,17 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `interface EncryptedCodeExecutionResultBlock`
 
-                Code execution result with encrypted stdout for PFC + web_search results.
+                The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+                The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+                See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=typescript) to learn more about programmatic tool calling.
 
                 - `type: "encrypted_code_execution_result"`
 
                   default: encrypted_code_execution_result
 
-                - `content: Array<CodeExecutionOutputBlock>`
+                - `type: "encrypted_code_execution_result"`
 
                   - `type: "code_execution_output"`
 
@@ -4692,6 +4710,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `interface CacheMissModelChanged`
 
+              A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "model_changed"`
 
                 default: model_changed
@@ -4701,6 +4723,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `interface CacheMissSystemChanged`
+
+              A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "system_changed"`
 
@@ -4712,6 +4738,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `interface CacheMissToolsChanged`
 
+              A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "tools_changed"`
 
                 default: tools_changed
@@ -4721,6 +4751,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `interface CacheMissMessagesChanged`
+
+              A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "messages_changed"`
 
@@ -4732,11 +4766,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `interface CacheMissPreviousMessageNotFound`
 
+              A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+              This doesn't mean that this request changed.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "previous_message_not_found"`
 
                 default: previous_message_not_found
 
             - `interface CacheMissUnavailable`
+
+              A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+              This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "unavailable"`
 
@@ -4747,6 +4793,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           The model that will complete your prompt.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+          - `"claude-mythos-5-2"`
+
+            Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
           - `"claude-haiku-5-5"`
 
@@ -4989,8 +5043,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               the thinking-block delimiter tokens.
 
               Reflects the raw reasoning the model produced, not the (possibly shorter)
-              summarized thinking text returned in the response body. Computed by
-              re-tokenizing the raw reasoning text, so it may differ from the model's exact
+              summarized thinking text returned in the response body. It may differ from the model's exact
               generation count by a small number of tokens. Always ≤ `output_tokens`;
               `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -5022,6 +5075,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `"batch"`
 
+          - `speed: "standard" | "fast" | null`
+
+            The inference speed mode used for this request.
+
+            - `"standard"`
+
+            - `"fast"`
+
     - `interface MessageBatchErroredResult`
 
       - `type: "errored"`
@@ -5040,9 +5101,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "invalid_request_error"`
 
+              The broad category of the error.
+
               default: invalid_request_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Invalid request
 
@@ -5050,9 +5115,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "authentication_error"`
 
+              The broad category of the error.
+
               default: authentication_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Authentication error
 
@@ -5060,9 +5129,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "billing_error"`
 
+              The broad category of the error.
+
               default: billing_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Billing error
 
@@ -5070,9 +5143,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "permission_error"`
 
+              The broad category of the error.
+
               default: permission_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Permission denied
 
@@ -5080,9 +5157,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "not_found_error"`
 
+              The broad category of the error.
+
               default: not_found_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Not found
 
@@ -5090,9 +5171,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "rate_limit_error"`
 
+              The broad category of the error.
+
               default: rate_limit_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Rate limited
 
@@ -5100,9 +5185,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "timeout_error"`
 
+              The broad category of the error.
+
               default: timeout_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Request timeout
 
@@ -5110,9 +5199,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "api_error"`
 
+              The broad category of the error.
+
               default: api_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Internal server error
 
@@ -5120,9 +5213,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "overloaded_error"`
 
+              The broad category of the error.
+
               default: overloaded_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Overloaded
 
@@ -5311,9 +5408,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
         - `type: "invalid_request_error"`
 
+          The broad category of the error.
+
           default: invalid_request_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Invalid request
 
@@ -5321,9 +5422,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
         - `type: "authentication_error"`
 
+          The broad category of the error.
+
           default: authentication_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Authentication error
 
@@ -5331,9 +5436,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
         - `type: "billing_error"`
 
+          The broad category of the error.
+
           default: billing_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Billing error
 
@@ -5341,9 +5450,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
         - `type: "permission_error"`
 
+          The broad category of the error.
+
           default: permission_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Permission denied
 
@@ -5351,9 +5464,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
         - `type: "not_found_error"`
 
+          The broad category of the error.
+
           default: not_found_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Not found
 
@@ -5361,9 +5478,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
         - `type: "rate_limit_error"`
 
+          The broad category of the error.
+
           default: rate_limit_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Rate limited
 
@@ -5371,9 +5492,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
         - `type: "timeout_error"`
 
+          The broad category of the error.
+
           default: timeout_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Request timeout
 
@@ -5381,9 +5506,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
         - `type: "api_error"`
 
+          The broad category of the error.
+
           default: api_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Internal server error
 
@@ -5391,9 +5520,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
         - `type: "overloaded_error"`
 
+          The broad category of the error.
+
           default: overloaded_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Overloaded
 
@@ -5994,13 +6127,17 @@ for await (const messageBatchIndividualResponse of stream) {
 
               - `interface EncryptedCodeExecutionResultBlock`
 
-                Code execution result with encrypted stdout for PFC + web_search results.
+                The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+                The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+                See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=typescript) to learn more about programmatic tool calling.
 
                 - `type: "encrypted_code_execution_result"`
 
                   default: encrypted_code_execution_result
 
-                - `content: Array<CodeExecutionOutputBlock>`
+                - `type: "encrypted_code_execution_result"`
 
                   - `type: "code_execution_output"`
 
@@ -6212,6 +6349,10 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `interface CacheMissModelChanged`
 
+              A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "model_changed"`
 
                 default: model_changed
@@ -6221,6 +6362,10 @@ for await (const messageBatchIndividualResponse of stream) {
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `interface CacheMissSystemChanged`
+
+              A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "system_changed"`
 
@@ -6232,6 +6377,10 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `interface CacheMissToolsChanged`
 
+              A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "tools_changed"`
 
                 default: tools_changed
@@ -6241,6 +6390,10 @@ for await (const messageBatchIndividualResponse of stream) {
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `interface CacheMissMessagesChanged`
+
+              A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "messages_changed"`
 
@@ -6252,11 +6405,23 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `interface CacheMissPreviousMessageNotFound`
 
+              A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+              This doesn't mean that this request changed.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "previous_message_not_found"`
 
                 default: previous_message_not_found
 
             - `interface CacheMissUnavailable`
+
+              A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+              This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "unavailable"`
 
@@ -6267,6 +6432,14 @@ for await (const messageBatchIndividualResponse of stream) {
           The model that will complete your prompt.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+          - `"claude-mythos-5-2"`
+
+            Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
           - `"claude-haiku-5-5"`
 
@@ -6509,8 +6682,7 @@ for await (const messageBatchIndividualResponse of stream) {
               the thinking-block delimiter tokens.
 
               Reflects the raw reasoning the model produced, not the (possibly shorter)
-              summarized thinking text returned in the response body. Computed by
-              re-tokenizing the raw reasoning text, so it may differ from the model's exact
+              summarized thinking text returned in the response body. It may differ from the model's exact
               generation count by a small number of tokens. Always ≤ `output_tokens`;
               `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -6542,6 +6714,14 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `"batch"`
 
+          - `speed: "standard" | "fast" | null`
+
+            The inference speed mode used for this request.
+
+            - `"standard"`
+
+            - `"fast"`
+
     - `interface MessageBatchErroredResult`
 
       - `type: "errored"`
@@ -6560,9 +6740,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `type: "invalid_request_error"`
 
+              The broad category of the error.
+
               default: invalid_request_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Invalid request
 
@@ -6570,9 +6754,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `type: "authentication_error"`
 
+              The broad category of the error.
+
               default: authentication_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Authentication error
 
@@ -6580,9 +6768,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `type: "billing_error"`
 
+              The broad category of the error.
+
               default: billing_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Billing error
 
@@ -6590,9 +6782,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `type: "permission_error"`
 
+              The broad category of the error.
+
               default: permission_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Permission denied
 
@@ -6600,9 +6796,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `type: "not_found_error"`
 
+              The broad category of the error.
+
               default: not_found_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Not found
 
@@ -6610,9 +6810,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `type: "rate_limit_error"`
 
+              The broad category of the error.
+
               default: rate_limit_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Rate limited
 
@@ -6620,9 +6824,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `type: "timeout_error"`
 
+              The broad category of the error.
+
               default: timeout_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Request timeout
 
@@ -6630,9 +6838,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `type: "api_error"`
 
+              The broad category of the error.
+
               default: api_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Internal server error
 
@@ -6640,9 +6852,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `type: "overloaded_error"`
 
+              The broad category of the error.
+
               default: overloaded_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Overloaded
 
@@ -7279,13 +7495,17 @@ for await (const messageBatchIndividualResponse of stream) {
 
             - `interface EncryptedCodeExecutionResultBlock`
 
-              Code execution result with encrypted stdout for PFC + web_search results.
+              The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+              The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+              See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=typescript) to learn more about programmatic tool calling.
 
               - `type: "encrypted_code_execution_result"`
 
                 default: encrypted_code_execution_result
 
-              - `content: Array<CodeExecutionOutputBlock>`
+              - `type: "encrypted_code_execution_result"`
 
                 - `type: "code_execution_output"`
 
@@ -7497,6 +7717,10 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `interface CacheMissModelChanged`
 
+            A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+            See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
             - `type: "model_changed"`
 
               default: model_changed
@@ -7506,6 +7730,10 @@ for await (const messageBatchIndividualResponse of stream) {
               Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
           - `interface CacheMissSystemChanged`
+
+            A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+            See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
             - `type: "system_changed"`
 
@@ -7517,6 +7745,10 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `interface CacheMissToolsChanged`
 
+            A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+            See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
             - `type: "tools_changed"`
 
               default: tools_changed
@@ -7526,6 +7758,10 @@ for await (const messageBatchIndividualResponse of stream) {
               Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
           - `interface CacheMissMessagesChanged`
+
+            A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+            See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
             - `type: "messages_changed"`
 
@@ -7537,11 +7773,23 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `interface CacheMissPreviousMessageNotFound`
 
+            A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+            This doesn't mean that this request changed.
+
+            See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
             - `type: "previous_message_not_found"`
 
               default: previous_message_not_found
 
           - `interface CacheMissUnavailable`
+
+            A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+            This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+            See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
             - `type: "unavailable"`
 
@@ -7552,6 +7800,14 @@ for await (const messageBatchIndividualResponse of stream) {
         The model that will complete your prompt.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+        - `"claude-mythos-5-2"`
+
+          Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
         - `"claude-haiku-5-5"`
 
@@ -7794,8 +8050,7 @@ for await (const messageBatchIndividualResponse of stream) {
             the thinking-block delimiter tokens.
 
             Reflects the raw reasoning the model produced, not the (possibly shorter)
-            summarized thinking text returned in the response body. Computed by
-            re-tokenizing the raw reasoning text, so it may differ from the model's exact
+            summarized thinking text returned in the response body. It may differ from the model's exact
             generation count by a small number of tokens. Always ≤ `output_tokens`;
             `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -7827,6 +8082,14 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `"batch"`
 
+        - `speed: "standard" | "fast" | null`
+
+          The inference speed mode used for this request.
+
+          - `"standard"`
+
+          - `"fast"`
+
   - `interface MessageBatchErroredResult`
 
     - `type: "errored"`
@@ -7845,9 +8108,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `type: "invalid_request_error"`
 
+            The broad category of the error.
+
             default: invalid_request_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Invalid request
 
@@ -7855,9 +8122,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `type: "authentication_error"`
 
+            The broad category of the error.
+
             default: authentication_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Authentication error
 
@@ -7865,9 +8136,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `type: "billing_error"`
 
+            The broad category of the error.
+
             default: billing_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Billing error
 
@@ -7875,9 +8150,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `type: "permission_error"`
 
+            The broad category of the error.
+
             default: permission_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Permission denied
 
@@ -7885,9 +8164,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `type: "not_found_error"`
 
+            The broad category of the error.
+
             default: not_found_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Not found
 
@@ -7895,9 +8178,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `type: "rate_limit_error"`
 
+            The broad category of the error.
+
             default: rate_limit_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Rate limited
 
@@ -7905,9 +8192,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `type: "timeout_error"`
 
+            The broad category of the error.
+
             default: timeout_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Request timeout
 
@@ -7915,9 +8206,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `type: "api_error"`
 
+            The broad category of the error.
+
             default: api_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Internal server error
 
@@ -7925,9 +8220,13 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `type: "overloaded_error"`
 
+            The broad category of the error.
+
             default: overloaded_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Overloaded
 
@@ -8516,13 +8815,17 @@ for await (const messageBatchIndividualResponse of stream) {
 
           - `interface EncryptedCodeExecutionResultBlock`
 
-            Code execution result with encrypted stdout for PFC + web_search results.
+            The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+            The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+            See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=typescript) to learn more about programmatic tool calling.
 
             - `type: "encrypted_code_execution_result"`
 
               default: encrypted_code_execution_result
 
-            - `content: Array<CodeExecutionOutputBlock>`
+            - `type: "encrypted_code_execution_result"`
 
               - `type: "code_execution_output"`
 
@@ -8734,6 +9037,10 @@ for await (const messageBatchIndividualResponse of stream) {
 
         - `interface CacheMissModelChanged`
 
+          A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+          See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
           - `type: "model_changed"`
 
             default: model_changed
@@ -8743,6 +9050,10 @@ for await (const messageBatchIndividualResponse of stream) {
             Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
         - `interface CacheMissSystemChanged`
+
+          A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+          See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
           - `type: "system_changed"`
 
@@ -8754,6 +9065,10 @@ for await (const messageBatchIndividualResponse of stream) {
 
         - `interface CacheMissToolsChanged`
 
+          A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+          See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
           - `type: "tools_changed"`
 
             default: tools_changed
@@ -8763,6 +9078,10 @@ for await (const messageBatchIndividualResponse of stream) {
             Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
         - `interface CacheMissMessagesChanged`
+
+          A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+          See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
           - `type: "messages_changed"`
 
@@ -8774,11 +9093,23 @@ for await (const messageBatchIndividualResponse of stream) {
 
         - `interface CacheMissPreviousMessageNotFound`
 
+          A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+          This doesn't mean that this request changed.
+
+          See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
+
           - `type: "previous_message_not_found"`
 
             default: previous_message_not_found
 
         - `interface CacheMissUnavailable`
+
+          A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+          This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+          See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=typescript#cache-miss-reason-types) to learn what to change for each reason.
 
           - `type: "unavailable"`
 
@@ -8789,6 +9120,14 @@ for await (const messageBatchIndividualResponse of stream) {
       The model that will complete your prompt.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+      - `"claude-mythos-5-2"`
+
+        Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
       - `"claude-haiku-5-5"`
 
@@ -9031,8 +9370,7 @@ for await (const messageBatchIndividualResponse of stream) {
           the thinking-block delimiter tokens.
 
           Reflects the raw reasoning the model produced, not the (possibly shorter)
-          summarized thinking text returned in the response body. Computed by
-          re-tokenizing the raw reasoning text, so it may differ from the model's exact
+          summarized thinking text returned in the response body. It may differ from the model's exact
           generation count by a small number of tokens. Always ≤ `output_tokens`;
           `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -9063,3 +9401,11 @@ for await (const messageBatchIndividualResponse of stream) {
         - `"priority"`
 
         - `"batch"`
+
+      - `speed: "standard" | "fast" | null`
+
+        The inference speed mode used for this request.
+
+        - `"standard"`
+
+        - `"fast"`

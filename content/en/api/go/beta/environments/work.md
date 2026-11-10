@@ -127,6 +127,18 @@ Retrieve detailed information about a specific work item.
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -181,7 +193,7 @@ Retrieve detailed information about a specific work item.
 
     RFC 3339 timestamp of the most recent heartbeat
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     User-provided metadata key-value pairs associated with this work item
 
@@ -224,8 +236,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -403,6 +415,18 @@ Long poll for work items in the queue.
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `AnthropicWorkerID param.Opt[string] Optional` (header parameter)
 
     Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
@@ -455,7 +479,7 @@ Long poll for work items in the queue.
 
     RFC 3339 timestamp of the most recent heartbeat
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     User-provided metadata key-value pairs associated with this work item
 
@@ -498,8 +522,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -514,7 +538,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", betaSelfHostedWork.ID)
+	fmt.Printf("%+v\n", betaSelfHostedWork)
 }
 ```
 
@@ -665,6 +689,18 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
 ### Returns
 
 - `type BetaSelfHostedWork`
@@ -713,7 +749,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
     RFC 3339 timestamp of the most recent heartbeat
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     User-provided metadata key-value pairs associated with this work item
 
@@ -756,8 +792,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -827,7 +863,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `ExpectedLastHeartbeat param.Opt[string] Optional` (query parameter)
 
-    Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match.
+    Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match. The server does not compare the value when the work item is 'stopping' or 'stopped'.
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
@@ -933,6 +969,18 @@ Record a heartbeat for a work item to maintain the lease.
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
 ### Returns
 
 - `type BetaSelfHostedWorkHeartbeatResponse`
@@ -947,7 +995,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `LastHeartbeat string`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `LeaseExtended bool`
 
@@ -980,8 +1028,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -1140,6 +1188,18 @@ Stop a work item, initiating graceful or forced shutdown.
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1194,7 +1254,7 @@ Stop a work item, initiating graceful or forced shutdown.
 
     RFC 3339 timestamp of the most recent heartbeat
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     User-provided metadata key-value pairs associated with this work item
 
@@ -1237,8 +1297,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -1415,6 +1475,18 @@ List work items in an environment.
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
 ### Returns
 
 - `type BetaSelfHostedWork`
@@ -1463,7 +1535,7 @@ List work items in an environment.
 
     RFC 3339 timestamp of the most recent heartbeat
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     User-provided metadata key-value pairs associated with this work item
 
@@ -1506,8 +1578,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -1682,6 +1754,18 @@ Update work item metadata with merge semantics.
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1736,7 +1820,7 @@ Update work item metadata with merge semantics.
 
     RFC 3339 timestamp of the most recent heartbeat
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     User-provided metadata key-value pairs associated with this work item
 
@@ -1779,8 +1863,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -1949,6 +2033,18 @@ Get statistics about the work queue for an environment.
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1961,7 +2057,11 @@ Get statistics about the work queue for an environment.
 
   Statistics about the work queue for an environment.
 
-  Uses Redis Stream consumer group metrics for O(1) queries.
+  - `Type WorkQueueStats`
+
+    The type of object
+
+    default: work_queue_stats
 
   - `Type WorkQueueStats`
 
@@ -1971,7 +2071,7 @@ Get statistics about the work queue for an environment.
 
   - `Depth int64`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
   - `OldestQueuedAt string`
 
@@ -1996,8 +2096,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -2029,6 +2129,44 @@ func main() {
 ```
 
 ## Domain types
+
+### Beta Heartbeat Precondition Failed Error Details
+
+- `type BetaHeartbeatPreconditionFailedErrorDetails`
+
+  `expected_last_heartbeat` does not match the stored heartbeat, so another worker may hold the lease.
+
+  - `CurrentState BetaWorkLeaseState`
+
+    The lease as the server holds it.
+
+    - `LastHeartbeat string`
+
+      RFC 3339 timestamp of the stored heartbeat, or null if there has been none
+
+    - `LeaseExtended bool`
+
+      Always false: a refused heartbeat does not extend the lease
+
+    - `State BetaWorkLeaseStateState`
+
+      Current state of the work item
+
+      - `const BetaWorkLeaseStateStateQueued BetaWorkLeaseStateState = "queued"`
+
+      - `const BetaWorkLeaseStateStateStarting BetaWorkLeaseStateState = "starting"`
+
+      - `const BetaWorkLeaseStateStateActive BetaWorkLeaseStateState = "active"`
+
+      - `const BetaWorkLeaseStateStateStopping BetaWorkLeaseStateState = "stopping"`
+
+      - `const BetaWorkLeaseStateStateStopped BetaWorkLeaseStateState = "stopped"`
+
+    - `TTLSeconds int64`
+
+      TTL of the lease
+
+  - `ErrorCode BetaHeartbeatPreconditionFailedErrorCode`
 
 ### Beta Self Hosted Work
 
@@ -2078,7 +2216,7 @@ func main() {
 
     RFC 3339 timestamp of the most recent heartbeat
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     User-provided metadata key-value pairs associated with this work item
 
@@ -2126,7 +2264,7 @@ func main() {
 
   - `LastHeartbeat string`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `LeaseExtended bool`
 
@@ -2198,7 +2336,7 @@ func main() {
 
       RFC 3339 timestamp of the most recent heartbeat
 
-    - `Metadata map[string, string]`
+    - `Metadata map[string]string`
 
       User-provided metadata key-value pairs associated with this work item
 
@@ -2242,7 +2380,11 @@ func main() {
 
   Statistics about the work queue for an environment.
 
-  Uses Redis Stream consumer group metrics for O(1) queries.
+  - `Type WorkQueueStats`
+
+    The type of object
+
+    default: work_queue_stats
 
   - `Type WorkQueueStats`
 
@@ -2252,7 +2394,7 @@ func main() {
 
   - `Depth int64`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
   - `OldestQueuedAt string`
 
@@ -2286,7 +2428,7 @@ func main() {
 
   Request to update work item metadata.
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve existing metadata.
 
@@ -2306,3 +2448,35 @@ func main() {
   - `ID string`
 
     Session identifier (e.g., 'session_...')
+
+### Beta Work Lease State
+
+- `type BetaWorkLeaseState`
+
+  A work item's lease as the server holds it.
+
+  - `LastHeartbeat string`
+
+    RFC 3339 timestamp of the stored heartbeat, or null if there has been none
+
+  - `LeaseExtended bool`
+
+    Always false: a refused heartbeat does not extend the lease
+
+  - `State BetaWorkLeaseStateState`
+
+    Current state of the work item
+
+    - `const BetaWorkLeaseStateStateQueued BetaWorkLeaseStateState = "queued"`
+
+    - `const BetaWorkLeaseStateStateStarting BetaWorkLeaseStateState = "starting"`
+
+    - `const BetaWorkLeaseStateStateActive BetaWorkLeaseStateState = "active"`
+
+    - `const BetaWorkLeaseStateStateStopping BetaWorkLeaseStateState = "stopping"`
+
+    - `const BetaWorkLeaseStateStateStopped BetaWorkLeaseStateState = "stopped"`
+
+  - `TTLSeconds int64`
+
+    TTL of the lease

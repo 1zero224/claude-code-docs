@@ -7,7 +7,7 @@ url: https://platform.claude.com/docs/en/api/php/beta/messages
 
 ## Create a Message
 
-`$client->beta->messages->create(int maxTokens, list<BetaMessageParam> messages, Model model, ?BetaCacheControlEphemeral cacheControl, ?BetaCompactionConfig compaction, ?Container container, ?BetaContextManagementConfig contextManagement, ?BetaDiagnosticsParam diagnostics, ?FallbackCreditToken fallbackCreditToken, ?BetaFallbacksParam fallbacks, ?string inferenceGeo, ?list<BetaRequestMCPServerURLDefinition> mcpServers, ?BetaMetadata metadata, ?BetaOutputConfig outputConfig, ?BetaJSONOutputFormat outputFormat, ?ServiceTier serviceTier, ?Speed speed, ?list<string> stopSequences, ?System system, ?float temperature, ?BetaThinkingConfigParam thinking, ?BetaToolChoice toolChoice, ?list<BetaToolUnion> tools, ?int topK, ?float topP, ?list<AnthropicBeta> betas, ?string userProfileID, ?string workspaceID): BetaMessage`
+`$client->beta->messages->create(int maxTokens, list<BetaMessageParam> messages, Model model, ?BetaCacheControlEphemeral cacheControl, ?BetaCompactionConfig compaction, ?Container container, ?BetaContextManagementConfig contextManagement, ?BetaDiagnosticsParam diagnostics, ?FallbackCreditToken fallbackCreditToken, ?BetaFallbacksParam fallbacks, ?string inferenceGeo, ?list<BetaRequestMCPServerURLDefinition> mcpServers, ?BetaMetadata metadata, ?BetaOutputConfig outputConfig, ?BetaJSONOutputFormat outputFormat, ?ServiceTier serviceTier, ?Speed speed, ?list<string> stopSequences, ?System system, ?BetaThinkingConfigParam thinking, ?BetaMessageThreadParam thread, ?BetaToolChoice toolChoice, ?list<BetaToolUnion> tools, ?list<AnthropicBeta> betas, ?string userProfileID, ?string workspaceID): BetaMessage`
 
 **POST** `/v1/messages`
 
@@ -76,7 +76,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   See [input examples](https://platform.claude.com/docs/en/build-with-claude/working-with-messages?sdk_languages=php).
 
-  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
+  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role), you can use the top-level `system` parameter.
 
   There is a limit of 100,000 messages in a single request.
 
@@ -86,31 +86,31 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-- `cacheControl?:optional BetaCacheControlEphemeral`
+- `cacheControl?: optional BetaCacheControlEphemeral`
 
   Top-level cache control automatically applies a cache_control marker to the last cacheable block in the request.
 
-- `compaction?:optional BetaCompactionConfig`
+- `compaction?: optional BetaCompactionConfig`
 
   Compaction configuration.
 
   When set on `POST /v1/messages`, the request is a compaction request: the conversation in `messages` is summarized and the response holds only the resulting `compaction` block (`stop_reason` `"compaction"`), which later requests send first in `messages` in place of the messages it summarizes. `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the count it returns is for the conversation in `messages` as sent. Cannot be combined with `context_management`.
 
-- `container?:optional Container`
+- `container?: optional Container`
 
   Container identifier for reuse across requests.
 
-- `contextManagement?:optional BetaContextManagementConfig`
+- `contextManagement?: optional BetaContextManagementConfig`
 
   Context management configuration.
 
   This allows you to control how Claude manages context across multiple requests, such as whether to clear function results or not.
 
-- `diagnostics?:optional BetaDiagnosticsParam`
+- `diagnostics?: optional BetaDiagnosticsParam`
 
   Request-level diagnostics. Supply `previous_message_id` to have the response include `diagnostics.cache_miss_reason` explaining any prompt-cache divergence from that prior request.
 
-- `fallbackCreditToken?:optional FallbackCreditToken`
+- `fallbackCreditToken?: optional FallbackCreditToken`
 
   The `fallback_credit_token` from a prior refusal's `stop_details`.
 
@@ -133,37 +133,39 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
   When the appended-assistant form is used on a model that otherwise disallows
   assistant-turn prefill, this token also authorizes that one prefill.
 
-- `fallbacks?:optional BetaFallbacksParam`
+- `fallbacks?: optional BetaFallbacksParam`
 
   Opt-in server-side retry on one or more substitute models when the requested model declines for policy reasons. Tried in order: if the first entry also declines, the second is tried, and so on. Some models don't support fallbacks; on those models, a list of fallback models returns a 400 error. See [Server-side fallback](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback?sdk_languages=php#server-side-fallback). The string "default" requests the requested model's server-defined default fallback configuration. On a model that doesn't support fallbacks, the request runs on the requested model alone, so a declined request stays declined.
 
-- `inferenceGeo?:optional string`
+- `inferenceGeo?: optional string`
 
   Specifies the geographic region for inference processing. If not specified, the workspace's `default_inference_geo` is used.
 
-- `mcpServers?:optional list<BetaRequestMCPServerURLDefinition>`
+- `mcpServers?: optional list<BetaRequestMCPServerURLDefinition>`
 
   MCP servers to be utilized in this request
 
-- `metadata?:optional BetaMetadata`
+- `metadata?: optional BetaMetadata`
 
   An object describing metadata about the request.
 
-- `outputConfig?:optional BetaOutputConfig`
+- `outputConfig?: optional BetaOutputConfig`
 
   Configuration options for the model's output, such as the output format.
 
-- `serviceTier?:optional ServiceTier`
+- `serviceTier?: optional ServiceTier`
 
   Determines whether to use priority capacity (if available) or standard capacity for this request.
 
   Anthropic offers different levels of service for your API requests. See [service-tiers](https://platform.claude.com/docs/en/api/service-tiers?sdk_languages=php) for details.
 
-- `speed?:optional Speed`
+- `speed?: optional Speed`
 
   The inference speed mode for this request. `"fast"` enables high output-tokens-per-second inference.
 
-- `stopSequences?:optional list<string>`
+  Some models require the `fast-mode-2026-02-01` beta header for any `speed` value. See [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode?sdk_languages=php) for which models.
+
+- `stopSequences?: optional list<string>`
 
   Custom text sequences that will cause the model to stop generating.
 
@@ -171,19 +173,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   If you want the model to stop generating when it encounters custom strings of text, you can use the `stop_sequences` parameter. If the model encounters one of the custom sequences, the response `stop_reason` value will be `"stop_sequence"` and the response `stop_sequence` value will contain the matched stop sequence.
 
-- `stream?:optional bool`
-
-  Whether to incrementally stream the response using server-sent events. When `true`, SDKs return a raw event stream.
-
-  In the TypeScript, Python and Ruby SDKs, the recommended way to stream is `messages.stream()`. It sets `stream` for you and accumulates the events into the final message. See [Streaming with SDKs](https://platform.claude.com/docs/en/build-with-claude/streaming?sdk_languages=php#streaming-with-sdks) for an example in each language.
-
-- `system?:optional System`
+- `system?: optional System`
 
   System prompt.
 
   A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role. See our [guide to system prompts](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role).
 
-- `thinking?:optional BetaThinkingConfigParam`
+- `thinking?: optional BetaThinkingConfigParam`
 
   Configuration for Claude's thinking.
 
@@ -191,11 +187,15 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   Which `type` values are accepted, and what happens when you omit `thinking`, depend on the model. See [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking?sdk_languages=php#configuring-thinking) for each model's behavior.
 
-- `toolChoice?:optional BetaToolChoice`
+- `thread?: optional BetaMessageThreadParam`
+
+  Server-held conversation state (a Thread). `{"type": "create"}` asks the server to hold this conversation's state under the response's `id`; `{"type": "continue", "previous_message_id": ...}` resumes from a previous response so only the new turn's messages are sent. The response shape is unchanged.
+
+- `toolChoice?: optional BetaToolChoice`
 
   How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
 
-- `tools?:optional list<BetaToolUnion>`
+- `tools?: optional list<BetaToolUnion>`
 
   Definitions of tools that the model may use.
 
@@ -259,57 +259,27 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   See our [guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview?sdk_languages=php) for more details.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `userProfileID?:optional string` (header parameter)
+- `userProfileID?: optional string` (header parameter)
 
-  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header.
+  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `outputFormat?:optional BetaJSONOutputFormat`
+- `outputFormat?: optional BetaJSONOutputFormat`
 
   **Deprecated**
 
   Deprecated: Use `output_config.format` instead. See [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs?sdk_languages=php)
 
   A schema to specify Claude's output format in responses. This parameter will be removed in a future release.
-
-- `temperature?:optional float`
-
-  **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting temperature. A value of 1.0 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-  Amount of randomness injected into the response.
-
-  Defaults to `1.0`. Ranges from `0.0` to `1.0`. Use `temperature` closer to `0.0` for analytical / multiple choice, and closer to `1.0` for creative and generative tasks.
-
-  Note that even with `temperature` of `0.0`, the results will not be fully deterministic.
-
-- `topK?:optional int`
-
-  **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not accept top_k; any value will be rejected with a 400 error.
-
-  Only sample from the top K options for each subsequent token.
-
-  Used to remove "long tail" low probability responses. [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-
-  Recommended for advanced use cases only.
-
-- `topP?:optional float`
-
-  **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting top_p. A value >= 0.99 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-  Use nucleus sampling.
-
-  In nucleus sampling, we compute the cumulative distribution over all the options for each subsequent token in decreasing probability order and cut it off once it reaches a particular probability specified by `top_p`.
-
-  Recommended for advanced use cases only.
 
 ### Returns
 
@@ -535,18 +505,16 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Messages\BetaThinkingPrefixMismatchBehavior;
+use Anthropic\Messages\Model;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaMessage = $client->beta->messages->create(
   maxTokens: 1024,
-  messages: [
-    [
-      'content' => 'Hello, world',
-      'role' => 'user',
-      'clearAt' => 'next_user_message',
-      'outputConfig' => ['effort' => 'low'],
-    ],
-  ],
+  messages: [['content' => 'Hello, world', 'role' => 'user']],
   model: Model::CLAUDE_OPUS_5_5,
   cacheControl: ['type' => 'ephemeral', 'ttl' => '5m'],
   compaction: ['type' => 'summarize', 'instructions' => 'instructions'],
@@ -608,7 +576,6 @@ $betaMessage = $client->beta->messages->create(
       ],
     ],
   ],
-  temperature: 1,
   thinking: [
     'type' => 'adaptive',
     'blockBinding' => [
@@ -616,6 +583,7 @@ $betaMessage = $client->beta->messages->create(
     ],
     'display' => 'summarized',
   ],
+  thread: ['type' => 'create'],
   toolChoice: ['type' => 'auto', 'disableParallelToolUse' => true],
   tools: [
     [
@@ -635,8 +603,6 @@ $betaMessage = $client->beta->messages->create(
       'type' => 'custom',
     ],
   ],
-  topK: 5,
-  topP: 0.7,
   betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
   userProfileID: 'anthropic-user-profile-id',
   workspaceID: 'wrkspc_011CZkZaBF1tNoB5wlCeusgy',
@@ -729,7 +695,7 @@ var_dump($betaMessage);
         "cache_creation_input_tokens": 0,
         "cache_read_input_tokens": 0,
         "input_tokens": 0,
-        "model": "claude-haiku-5-5",
+        "model": "claude-fable-5-2",
         "output_tokens": 0,
         "type": "message"
       }
@@ -816,7 +782,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   See [input examples](https://platform.claude.com/docs/en/build-with-claude/working-with-messages?sdk_languages=php).
 
-  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
+  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role), you can use the top-level `system` parameter.
 
   There is a limit of 100,000 messages in a single request.
 
@@ -826,41 +792,43 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-- `cacheControl?:optional BetaCacheControlEphemeral`
+- `cacheControl?: optional BetaCacheControlEphemeral`
 
   Top-level cache control automatically applies a cache_control marker to the last cacheable block in the request.
 
-- `compaction?:optional BetaCompactionConfig`
+- `compaction?: optional BetaCompactionConfig`
 
   Compaction configuration.
 
   When set on `POST /v1/messages`, the request is a compaction request: the conversation in `messages` is summarized and the response holds only the resulting `compaction` block (`stop_reason` `"compaction"`), which later requests send first in `messages` in place of the messages it summarizes. `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the count it returns is for the conversation in `messages` as sent. Cannot be combined with `context_management`.
 
-- `contextManagement?:optional BetaContextManagementConfig`
+- `contextManagement?: optional BetaContextManagementConfig`
 
   Context management configuration.
 
   This allows you to control how Claude manages context across multiple requests, such as whether to clear function results or not.
 
-- `mcpServers?:optional list<BetaRequestMCPServerURLDefinition>`
+- `mcpServers?: optional list<BetaRequestMCPServerURLDefinition>`
 
   MCP servers to be utilized in this request
 
-- `outputConfig?:optional BetaOutputConfig`
+- `outputConfig?: optional BetaOutputConfig`
 
   Configuration options for the model's output, such as the output format.
 
-- `speed?:optional Speed`
+- `speed?: optional Speed`
 
   The inference speed mode for this request. `"fast"` enables high output-tokens-per-second inference.
 
-- `system?:optional System`
+  Some models require the `fast-mode-2026-02-01` beta header for any `speed` value. See [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode?sdk_languages=php) for which models.
+
+- `system?: optional System`
 
   System prompt.
 
   A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role. See our [guide to system prompts](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role).
 
-- `thinking?:optional BetaThinkingConfigParam`
+- `thinking?: optional BetaThinkingConfigParam`
 
   Configuration for Claude's thinking.
 
@@ -868,11 +836,11 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   Which `type` values are accepted, and what happens when you omit `thinking`, depend on the model. See [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking?sdk_languages=php#configuring-thinking) for each model's behavior.
 
-- `toolChoice?:optional BetaToolChoice`
+- `toolChoice?: optional BetaToolChoice`
 
   How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
 
-- `tools?:optional list<Tool>`
+- `tools?: optional list<Tool>`
 
   Definitions of tools that the model may use.
 
@@ -936,21 +904,21 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   See our [guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview?sdk_languages=php) for more details.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `userProfileID?:optional string` (header parameter)
+- `userProfileID?: optional string` (header parameter)
 
-  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header.
+  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `outputFormat?:optional BetaJSONOutputFormat`
+- `outputFormat?: optional BetaJSONOutputFormat`
 
   **Deprecated**
 
@@ -977,17 +945,15 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Messages\BetaThinkingPrefixMismatchBehavior;
+use Anthropic\Messages\Model;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaMessageTokensCount = $client->beta->messages->countTokens(
-  messages: [
-    [
-      'content' => 'Hello, world',
-      'role' => 'user',
-      'clearAt' => 'next_user_message',
-      'outputConfig' => ['effort' => 'low'],
-    ],
-  ],
+  messages: [['content' => 'Hello, world', 'role' => 'user']],
   model: Model::CLAUDE_OPUS_5_5,
   cacheControl: ['type' => 'ephemeral', 'ttl' => '5m'],
   compaction: ['type' => 'summarize', 'instructions' => 'instructions'],
@@ -1199,7 +1165,7 @@ var_dump($betaMessageTokensCount);
 
   - `?int maxTokens`
 
-    Bounds the advisor's total output (thinking + text) per call. When the advisor hits this cap, the returned advisor_result or advisor_redacted_result block carries stop_reason='max_tokens', and a truncation note is appended to the advice text the worker model sees (inside the encrypted blob in redacted mode). When set, the server also emits a remaining-tokens budget block in the advisor's prompt so the advisor self-shapes toward the cap. When omitted, the advisor model's default output cap applies and no budget block is emitted.
+    Bounds the advisor's total output (thinking + text) per call. When the advisor hits this cap, the returned advisor_result or advisor_redacted_result block carries stop_reason='max_tokens', and a truncation note is appended to the advice text the worker model sees (inside the encrypted blob in redacted mode). When set, the API also passes the advisor its remaining-token budget, so the advisor shapes its output toward the cap. When omitted, the advisor model's default output cap applies and the API doesn't pass a budget.
 
   - `?int maxUses`
 
@@ -1254,6 +1220,14 @@ var_dump($betaMessageTokensCount);
 - `class BetaAllThinkingTurns`
 
   - `"all" type`
+
+### Beta Assistant Message Param
+
+- `class BetaAssistantMessageParam`
+
+  - `BetaMessageContentParam content`
+
+  - `"assistant" role`
 
 ### Beta Base64 Image Source
 
@@ -6595,13 +6569,37 @@ var_dump($betaMessageTokensCount);
 
   - `?int maxTokens`
 
+    The `max_tokens` for the fallback attempt that uses this `fallbacks` entry's `model`, in place of the request's `max_tokens`. If you leave it out or set it to `null`, the attempt uses the request's `max_tokens`.
+
+    See the [refusals and fallback guide](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback?sdk_languages=php#naming-your-own-fallback-models) to learn more about fallback entries.
+
   - `?BetaOutputConfig outputConfig`
+
+    Output parameters for the fallback attempt that uses this `fallbacks` entry's `model`, combined with the request's `output_config` one field at a time.
+
+    - `format`: If you leave it out, the attempt uses the request's `format`. If you set it to `null`, the attempt runs without a format.
+    - `effort`: If you leave it out, the attempt uses the request's `effort` when `model` supports that level with the attempt's `thinking`. If the request doesn't set `effort`, if `model` doesn't support the level, or if you set `effort` to `null`, the attempt runs at the default effort of `model`.
+    - `task_budget`: If you leave it out, the attempt uses the request's `task_budget` when `model` accepts a task budget of that size. If the request doesn't set `task_budget`, if `model` doesn't accept it, or if you set `task_budget` to `null`, the attempt runs without a task budget.
+
+    Set `output_config` to `null` to run the attempt without a format or a task budget, at the default effort of `model`.
+
+    These rules apply with the `server-side-fallback-2026-07-01` beta header.
 
   - `?Speed speed`
 
-    Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Not all models support `fast`; invalid combinations are rejected at create time.
+    The inference speed mode for the fallback attempt that uses this `fallbacks` entry's `model`. If you leave it out, the attempt runs at `fast` speed only when the request sets `speed` to `fast` and your organization can use fast mode on `model`.
+
+    Otherwise, or when you set this field to `null`, the attempt runs at `standard` speed.
+
+    These rules apply with the `server-side-fallback-2026-07-01` beta header.
 
   - `?Thinking thinking`
+
+    The thinking configuration for the fallback attempt that uses this `fallbacks` entry's `model`. If you leave it out, the attempt uses the request's `thinking` when `model` supports that thinking `type`.
+
+    If you leave it out and the request's thinking `type` is `between_tools` but `model` doesn't support `between_tools`, the attempt uses `disabled` if `model` supports it. Otherwise, if `model` doesn't support the request's thinking `type`, if the request doesn't set `thinking`, or if you set this field to `null`, the attempt uses the thinking `type` that `model` uses when a request leaves out `thinking`. The request's `thinking.display` still applies where `model` allows it.
+
+    These rules apply with the `server-side-fallback-2026-07-01` beta header.
 
 ### Beta Fallback Refusal Trigger
 
@@ -6627,13 +6625,37 @@ var_dump($betaMessageTokensCount);
 
     - `?int maxTokens`
 
+      The `max_tokens` for the fallback attempt that uses this `fallbacks` entry's `model`, in place of the request's `max_tokens`. If you leave it out or set it to `null`, the attempt uses the request's `max_tokens`.
+
+      See the [refusals and fallback guide](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback?sdk_languages=php#naming-your-own-fallback-models) to learn more about fallback entries.
+
     - `?BetaOutputConfig outputConfig`
+
+      Output parameters for the fallback attempt that uses this `fallbacks` entry's `model`, combined with the request's `output_config` one field at a time.
+
+      - `format`: If you leave it out, the attempt uses the request's `format`. If you set it to `null`, the attempt runs without a format.
+      - `effort`: If you leave it out, the attempt uses the request's `effort` when `model` supports that level with the attempt's `thinking`. If the request doesn't set `effort`, if `model` doesn't support the level, or if you set `effort` to `null`, the attempt runs at the default effort of `model`.
+      - `task_budget`: If you leave it out, the attempt uses the request's `task_budget` when `model` accepts a task budget of that size. If the request doesn't set `task_budget`, if `model` doesn't accept it, or if you set `task_budget` to `null`, the attempt runs without a task budget.
+
+      Set `output_config` to `null` to run the attempt without a format or a task budget, at the default effort of `model`.
+
+      These rules apply with the `server-side-fallback-2026-07-01` beta header.
 
     - `?Speed speed`
 
-      Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Not all models support `fast`; invalid combinations are rejected at create time.
+      The inference speed mode for the fallback attempt that uses this `fallbacks` entry's `model`. If you leave it out, the attempt runs at `fast` speed only when the request sets `speed` to `fast` and your organization can use fast mode on `model`.
+
+      Otherwise, or when you set this field to `null`, the attempt runs at `standard` speed.
+
+      These rules apply with the `server-side-fallback-2026-07-01` beta header.
 
     - `?Thinking thinking`
+
+      The thinking configuration for the fallback attempt that uses this `fallbacks` entry's `model`. If you leave it out, the attempt uses the request's `thinking` when `model` supports that thinking `type`.
+
+      If you leave it out and the request's thinking `type` is `between_tools` but `model` doesn't support `between_tools`, the attempt uses `disabled` if `model` supports it. Otherwise, if `model` doesn't support the request's thinking `type`, if the request doesn't set `thinking`, or if you set this field to `null`, the attempt uses the thinking `type` that `model` uses when a request leaves out `thinking`. The request's `thinking.display` still applies where `model` allows it.
+
+      These rules apply with the `server-side-fallback-2026-07-01` beta header.
 
   - `"default"`
 
@@ -7392,6 +7414,350 @@ var_dump($betaMessageTokensCount);
     in which case it holds the serving model's entries and replaces the one in
     `message_start`.
 
+### Beta Message Content Param
+
+- `class BetaMessageContentParam`
+
+  - `string`
+
+  - `list<BetaContentBlockParam>`
+
+    - `class BetaTextBlockParam`
+
+      - `"text" type`
+
+      - `string text`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+      - `?list<BetaTextCitationParam> citations`
+
+    - `class BetaImageBlockParam`
+
+      - `"image" type`
+
+      - `Source source`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+      - `?BetaImageTransformationsParam transformations`
+
+        Configures the transformations the server applies to this image before the model observes it. Each key names a condition the server transforms images for; its value selects the transformation applied. Omitted keys keep their default behavior, and an empty object is equivalent to omitting the field.
+
+    - `class BetaRequestDocumentBlock`
+
+      - `"document" type`
+
+      - `Source source`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+      - `?BetaCitationsConfigParam citations`
+
+      - `?string context`
+
+      - `?string title`
+
+    - `class BetaSearchResultBlockParam`
+
+      - `"search_result" type`
+
+      - `list<BetaTextBlockParam> content`
+
+      - `string source`
+
+      - `string title`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+      - `?BetaCitationsConfigParam citations`
+
+    - `class BetaThinkingBlockParam`
+
+      - `"thinking" type`
+
+      - `string signature`
+
+        The `signature` value of this thinking block, exactly as returned by the API in a previous response. Used to verify that the block was generated by Claude.
+
+        Thinking blocks must be passed back unmodified and in their original order; a modified block results in a 400 `invalid_request_error`.
+
+      - `string thinking`
+
+        The `thinking` text of this block as returned by the API.
+
+    - `class BetaRedactedThinkingBlockParam`
+
+      - `"redacted_thinking" type`
+
+      - `string data`
+
+        The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
+
+    - `class BetaToolUseBlockParam`
+
+      - `"tool_use" type`
+
+      - `string id`
+
+      - `array<string,mixed> input`
+
+      - `string name`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+      - `?Caller caller`
+
+      - `?string toolsetName`
+
+        For a toolset member tool_use, the toolset family this member belongs to.
+
+    - `class BetaToolResultBlockParam`
+
+      - `"tool_result" type`
+
+      - `string toolUseID`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+      - `?Content content`
+
+      - `?bool isError`
+
+      - `?string toolsetName`
+
+        For a toolset member tool_result, the toolset family of the paired tool_use.
+
+    - `class BetaServerToolUseBlockParam`
+
+      - `"server_tool_use" type`
+
+      - `string id`
+
+      - `array<string,mixed> input`
+
+      - `Name name`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+      - `?Caller caller`
+
+    - `class BetaWebSearchToolResultBlockParam`
+
+      - `"web_search_tool_result" type`
+
+      - `BetaWebSearchToolResultBlockParamContent content`
+
+      - `string toolUseID`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+      - `?Caller caller`
+
+    - `class BetaWebFetchToolResultBlockParam`
+
+      - `"web_fetch_tool_result" type`
+
+      - `Content content`
+
+      - `string toolUseID`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+      - `?Caller caller`
+
+    - `class BetaAdvisorToolResultBlockParam`
+
+      - `"advisor_tool_result" type`
+
+      - `Content content`
+
+      - `string toolUseID`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+    - `class BetaCodeExecutionToolResultBlockParam`
+
+      - `"code_execution_tool_result" type`
+
+      - `BetaCodeExecutionToolResultBlockParamContent content`
+
+      - `string toolUseID`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+    - `class BetaBashCodeExecutionToolResultBlockParam`
+
+      - `"bash_code_execution_tool_result" type`
+
+      - `Content content`
+
+      - `string toolUseID`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+    - `class BetaTextEditorCodeExecutionToolResultBlockParam`
+
+      - `"text_editor_code_execution_tool_result" type`
+
+      - `Content content`
+
+      - `string toolUseID`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+    - `class BetaToolSearchToolResultBlockParam`
+
+      - `"tool_search_tool_result" type`
+
+      - `Content content`
+
+      - `string toolUseID`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+    - `class BetaMCPToolUseBlockParam`
+
+      - `"mcp_tool_use" type`
+
+      - `string id`
+
+      - `array<string,mixed> input`
+
+      - `string name`
+
+      - `string serverName`
+
+        The name of the MCP server
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+    - `class BetaRequestMCPToolResultBlockParam`
+
+      - `"mcp_tool_result" type`
+
+      - `string toolUseID`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+      - `?Content content`
+
+      - `?bool isError`
+
+    - `class BetaContainerUploadBlockParam`
+
+      - `"container_upload" type`
+
+      - `string fileID`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+    - `class BetaCompactionBlockParam`
+
+      - `"compaction" type`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+      - `?string content`
+
+        Summary of previously compacted content, or null if compaction failed
+
+      - `?string encryptedContent`
+
+        Opaque metadata from prior compaction, to be round-tripped verbatim
+
+      - `?string signature`
+
+        The block's signature as returned, to be sent back verbatim
+
+      - `?list<ToolChange> toolChanges`
+
+        The tool changes of the compacted range, as the server returned them on this block: the `tool_addition` and `tool_removal` entries that take the request's `tools` to the tool set in effect at the end of the range. Send them back unchanged with the block.
+
+    - `class BetaRequestToolAdditionBlock`
+
+      - `"tool_addition" type`
+
+      - `Tool tool`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+    - `class BetaRequestToolRemovalBlock`
+
+      - `"tool_removal" type`
+
+      - `Tool tool`
+
+      - `?BetaCacheControlEphemeral cacheControl`
+
+        Create a cache control breakpoint at this content block.
+
+    - `class BetaMCPToolListingBlockParam`
+
+      - `"mcp_tool_listing" type`
+
+      - `string mcpServerName`
+
+        The name of the MCP server this listing came from, as `mcp_servers` declares it.
+
+      - `list<BetaMCPToolParam> tools`
+
+        The server's tools, exactly as the response listed them.
+
+    - `class BetaFallbackBlockParam`
+
+      - `"fallback" type`
+
+      - `BetaFallbackInfoParam from`
+
+        Identifies one hop of a fallback transition.
+
+      - `BetaFallbackInfoParam to`
+
+        Identifies one hop of a fallback transition.
+
+      - `?mixed trigger`
+
+        The response block's `trigger`, echoed verbatim. Accepted and ignored by the server; any object or `null` is allowed.
+
 ### Beta Message Delta Usage
 
 - `class BetaMessageDeltaUsage`
@@ -7482,9 +7848,51 @@ var_dump($betaMessageTokensCount);
 
 - `class BetaMessageParam`
 
-  - `Content content`
+  - `class BetaUserMessageParam`
 
-  - `Role role`
+    - `BetaMessageContentParam content`
+
+    - `"user" role`
+
+  - `class BetaAssistantMessageParam`
+
+    - `BetaMessageContentParam content`
+
+    - `"assistant" role`
+
+  - `class BetaSystemMessageParam`
+
+    - `"system" role`
+
+    - `?ClearAt clearAt`
+
+      How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
+
+    - `?Content content`
+
+    - `?BetaSystemMessageOutputConfig outputConfig`
+
+      Per-message output configuration on a role:"system" input message.
+
+      Fields here apply per-turn; `format` remains top-level only. An
+      empty `{}` is accepted on a message that carries content; a message
+      with neither content nor output_config fields is rejected.
+
+### Beta Message Thread Param
+
+- `class BetaMessageThreadParam`
+
+  - `class BetaThreadCreateParams`
+
+    - `"create" type`
+
+  - `class BetaThreadContinueParams`
+
+    - `"continue" type`
+
+    - `string previousMessageID`
+
+      The `id` of the previous response in this Thread.
 
   - `?ClearAt clearAt`
 
@@ -7548,8 +7956,7 @@ var_dump($betaMessageTokensCount);
     the thinking-block delimiter tokens.
 
     Reflects the raw reasoning the model produced, not the (possibly shorter)
-    summarized thinking text returned in the response body. Computed by
-    re-tokenizing the raw reasoning text, so it may differ from the model's exact
+    summarized thinking text returned in the response body. It may differ from the model's exact
     generation count by a small number of tokens. Always ≤ `output_tokens`;
     `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -8880,7 +9287,7 @@ var_dump($betaMessageTokensCount);
 
     - `?int maxTokens`
 
-      Bounds the advisor's total output (thinking + text) per call. When the advisor hits this cap, the returned advisor_result or advisor_redacted_result block carries stop_reason='max_tokens', and a truncation note is appended to the advice text the worker model sees (inside the encrypted blob in redacted mode). When set, the server also emits a remaining-tokens budget block in the advisor's prompt so the advisor self-shapes toward the cap. When omitted, the advisor model's default output cap applies and no budget block is emitted.
+      Bounds the advisor's total output (thinking + text) per call. When the advisor hits this cap, the returned advisor_result or advisor_redacted_result block carries stop_reason='max_tokens', and a truncation note is appended to the advice text the worker model sees (inside the encrypted blob in redacted mode). When set, the API also passes the advisor its remaining-token budget, so the advisor shapes its output toward the cap. When omitted, the advisor model's default output cap applies and the API doesn't pass a budget.
 
     - `?int maxUses`
 
@@ -9105,6 +9512,26 @@ var_dump($betaMessageTokensCount);
     How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
 
     Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
+
+### Beta System Message Param
+
+- `class BetaSystemMessageParam`
+
+  - `"system" role`
+
+  - `?ClearAt clearAt`
+
+    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
+
+  - `?Content content`
+
+  - `?BetaSystemMessageOutputConfig outputConfig`
+
+    Per-message output configuration on a role:"system" input message.
+
+    Fields here apply per-turn; `format` remains top-level only. An
+    empty `{}` is accepted on a message that carries content; a message
+    with neither content nor output_config fields is rejected.
 
 ### Beta Text Block
 
@@ -9687,6 +10114,22 @@ var_dump($betaMessageTokensCount);
   - `"thinking_turns" type`
 
   - `int value`
+
+### Beta Thread Continue Params
+
+- `class BetaThreadContinueParams`
+
+  - `"continue" type`
+
+  - `string previousMessageID`
+
+    The `id` of the previous response in this Thread.
+
+### Beta Thread Create Params
+
+- `class BetaThreadCreateParams`
+
+  - `"create" type`
 
 ### Beta Token Task Budget
 
@@ -11156,7 +11599,7 @@ var_dump($betaMessageTokensCount);
 
     - `?int maxTokens`
 
-      Bounds the advisor's total output (thinking + text) per call. When the advisor hits this cap, the returned advisor_result or advisor_redacted_result block carries stop_reason='max_tokens', and a truncation note is appended to the advice text the worker model sees (inside the encrypted blob in redacted mode). When set, the server also emits a remaining-tokens budget block in the advisor's prompt so the advisor self-shapes toward the cap. When omitted, the advisor model's default output cap applies and no budget block is emitted.
+      Bounds the advisor's total output (thinking + text) per call. When the advisor hits this cap, the returned advisor_result or advisor_redacted_result block carries stop_reason='max_tokens', and a truncation note is appended to the advice text the worker model sees (inside the encrypted blob in redacted mode). When set, the API also passes the advisor its remaining-token budget, so the advisor shapes its output toward the cap. When omitted, the advisor model's default output cap applies and the API doesn't pass a budget.
 
     - `?int maxUses`
 
@@ -12344,6 +12787,14 @@ var_dump($betaMessageTokensCount);
 
     The [IANA timezone](https://nodatime.org/TimeZones) of the user.
 
+### Beta User Message Param
+
+- `class BetaUserMessageParam`
+
+  - `BetaMessageContentParam content`
+
+  - `"user" role`
+
 ### Beta Web Fetch Block
 
 - `class BetaWebFetchBlock`
@@ -12990,13 +13441,19 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   List of requests for prompt completion. Each is an individual request to create a Message.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `userProfileID?:optional string` (header parameter)
+- `userProfileID?: optional string` (header parameter)
 
-  The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
+  The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -13065,6 +13522,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Messages\BetaThinkingPrefixMismatchBehavior;
+use Anthropic\Messages\Model;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaMessageBatch = $client->beta->messages->batches->create(
@@ -13073,14 +13535,7 @@ $betaMessageBatch = $client->beta->messages->batches->create(
       'customID' => 'my-custom-id-1',
       'params' => [
         'maxTokens' => 1024,
-        'messages' => [
-          [
-            'content' => 'Hello, world',
-            'role' => 'user',
-            'clearAt' => 'next_user_message',
-            'outputConfig' => ['effort' => 'low'],
-          ],
-        ],
+        'messages' => [['content' => 'Hello, world', 'role' => 'user']],
         'model' => Model::CLAUDE_OPUS_5_5,
         'cacheControl' => ['type' => 'ephemeral', 'ttl' => '5m'],
         'compaction' => [
@@ -13151,7 +13606,6 @@ $betaMessageBatch = $client->beta->messages->batches->create(
             ],
           ],
         ],
-        'temperature' => 1,
         'thinking' => [
           'type' => 'adaptive',
           'blockBinding' => [
@@ -13159,6 +13613,7 @@ $betaMessageBatch = $client->beta->messages->batches->create(
           ],
           'display' => 'summarized',
         ],
+        'thread' => ['type' => 'create'],
         'toolChoice' => ['type' => 'auto', 'disableParallelToolUse' => true],
         'tools' => [
           [
@@ -13178,8 +13633,6 @@ $betaMessageBatch = $client->beta->messages->batches->create(
             'type' => 'custom',
           ],
         ],
-        'topK' => 5,
-        'topP' => 0.7,
       ],
     ],
   ],
@@ -13230,11 +13683,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   ID of the Message Batch.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -13300,6 +13753,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -13347,15 +13803,15 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
 #### Parameters
 
-- `afterID?:optional string` (query parameter)
+- `afterID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
 
-- `beforeID?:optional string` (query parameter)
+- `beforeID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -13363,11 +13819,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   default: 20
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -13433,6 +13889,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -13495,11 +13954,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   ID of the Message Batch.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -13566,6 +14025,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaMessageBatch = $client->beta->messages->batches->cancel(
@@ -13618,11 +14080,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   ID of the Message Batch.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -13648,6 +14110,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -13687,11 +14152,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   ID of the Message Batch.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -13719,6 +14184,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

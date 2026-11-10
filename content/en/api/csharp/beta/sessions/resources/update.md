@@ -27,7 +27,7 @@ Update Session Resource
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
@@ -129,6 +129,18 @@ Update Session Resource
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -143,7 +155,7 @@ Update Session Resource
 
   - `class BetaManagedAgentsGitHubRepositoryResource`
 
-    - `required BetaManagedAgentsGitHubRepositoryResourceType Type`
+    - `JsonElement Type = "github_repository"`
 
     - `required string ID`
 
@@ -167,7 +179,7 @@ Update Session Resource
 
       - `class BetaManagedAgentsBranchCheckout`
 
-        - `required Type Type`
+        - `JsonElement Type = "branch"`
 
         - `required string Name`
 
@@ -177,17 +189,17 @@ Update Session Resource
 
       - `class BetaManagedAgentsCommitCheckout`
 
-        - `required Type Type`
+        - `JsonElement Type = "commit"`
 
         - `required string Sha`
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `class BetaManagedAgentsFileResource`
 
-    - `required BetaManagedAgentsFileResourceType Type`
+    - `JsonElement Type = "file"`
 
     - `required string ID`
 
@@ -211,11 +223,13 @@ Update Session Resource
 
     A memory store attached to an agent session.
 
-    - `required BetaManagedAgentsMemoryStoreResourceType Type`
+    - `JsonElement Type = "memory_store"`
 
     - `required string MemoryStoreID`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `Access? Access`
 
@@ -246,6 +260,9 @@ Update Session Resource
 ## Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Sessions.Resources;
+
 ResourceUpdateParams parameters = new()
 {
     SessionID = "sesn_011CZkZAtmR3yMPDzynEDxu7",

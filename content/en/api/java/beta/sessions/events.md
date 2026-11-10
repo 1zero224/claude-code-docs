@@ -19,31 +19,31 @@ List Events
 
   - `Optional<String> sessionId` (path parameter)
 
-  - `Optional<LocalDateTime> createdAtGt` (query parameter)
+  - `Optional<OffsetDateTime> createdAtGt` (query parameter)
 
     Return events created after this time (exclusive). Compared against the event's `processed_at` value.
 
     format: date-time
 
-  - `Optional<LocalDateTime> createdAtGte` (query parameter)
+  - `Optional<OffsetDateTime> createdAtGte` (query parameter)
 
     Return events created at or after this time (inclusive). Compared against the event's `processed_at` value.
 
     format: date-time
 
-  - `Optional<LocalDateTime> createdAtLt` (query parameter)
+  - `Optional<OffsetDateTime> createdAtLt` (query parameter)
 
     Return events created before this time (exclusive). Compared against the event's `processed_at` value.
 
     format: date-time
 
-  - `Optional<LocalDateTime> createdAtLte` (query parameter)
+  - `Optional<OffsetDateTime> createdAtLte` (query parameter)
 
     Return events created at or before this time (inclusive). Compared against the event's `processed_at` value.
 
     format: date-time
 
-  - `Optional<Long> limit` (query parameter)
+  - `Optional<Integer> limit` (query parameter)
 
     format: int32
 
@@ -147,7 +147,7 @@ List Events
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -249,6 +249,18 @@ List Events
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -265,7 +277,7 @@ List Events
 
     A user message event in the session conversation.
 
-    - `Type type`
+    - `JsonValue type = "user.message"`
 
     - `String id`
 
@@ -279,7 +291,7 @@ List Events
 
         Regular text content.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -291,7 +303,7 @@ List Events
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type type`
+        - `JsonValue type = "image"`
 
         - `Source source`
 
@@ -301,7 +313,7 @@ List Events
 
             Base64-encoded image data.
 
-            - `Type type`
+            - `JsonValue type = "base64"`
 
             - `String data`
 
@@ -319,7 +331,7 @@ List Events
 
             Image referenced by URL.
 
-            - `Type type`
+            - `JsonValue type = "url"`
 
             - `String url`
 
@@ -331,7 +343,7 @@ List Events
 
             Image referenced by file ID.
 
-            - `Type type`
+            - `JsonValue type = "file"`
 
             - `String fileId`
 
@@ -343,7 +355,7 @@ List Events
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type type`
+        - `JsonValue type = "document"`
 
         - `Source source`
 
@@ -353,7 +365,7 @@ List Events
 
             Base64-encoded document data.
 
-            - `Type type`
+            - `JsonValue type = "base64"`
 
             - `String data`
 
@@ -371,7 +383,7 @@ List Events
 
             Plain text document content.
 
-            - `Type type`
+            - `JsonValue type = "text"`
 
             - `String data`
 
@@ -379,7 +391,7 @@ List Events
 
               minLength: 1
 
-            - `MediaType mediaType`
+            - `JsonValue mediaType = "text/plain"`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -387,7 +399,7 @@ List Events
 
             Document referenced by URL.
 
-            - `Type type`
+            - `JsonValue type = "url"`
 
             - `String url`
 
@@ -399,7 +411,7 @@ List Events
 
             Document referenced by file ID.
 
-            - `Type type`
+            - `JsonValue type = "file"`
 
             - `String fileId`
 
@@ -419,9 +431,9 @@ List Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type type`
+        - `JsonValue type = "redacted"`
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the agent finished processing this message.
 
@@ -431,13 +443,13 @@ List Events
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `Type type`
+    - `JsonValue type = "user.interrupt"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the interrupt was processed.
 
@@ -451,7 +463,7 @@ List Events
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `Type type`
+    - `JsonValue type = "user.tool_confirmation"`
 
     - `String id`
 
@@ -475,7 +487,7 @@ List Events
 
       maxLength: 10000
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the confirmation was processed.
 
@@ -489,7 +501,7 @@ List Events
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `Type type`
+    - `JsonValue type = "user.custom_tool_result"`
 
     - `String id`
 
@@ -519,7 +531,7 @@ List Events
 
         A block containing a web search result.
 
-        - `Type type`
+        - `JsonValue type = "search_result"`
 
         - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -533,7 +545,7 @@ List Events
 
           Array of text content blocks from the search result.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String text`
 
@@ -557,7 +569,7 @@ List Events
 
       Whether the tool execution resulted in an error.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this result was processed.
 
@@ -571,7 +583,7 @@ List Events
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `Type type`
+    - `JsonValue type = "agent.custom_tool_use"`
 
     - `String id`
 
@@ -585,7 +597,7 @@ List Events
 
       Name of the custom tool being called.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this tool use was processed.
 
@@ -599,7 +611,7 @@ List Events
 
     An agent response event in the session conversation.
 
-    - `Type type`
+    - `JsonValue type = "agent.message"`
 
     - `String id`
 
@@ -617,7 +629,7 @@ List Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this response was generated.
 
@@ -627,13 +639,13 @@ List Events
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `Type type`
+    - `JsonValue type = "agent.thinking"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this thinking was produced.
 
@@ -643,7 +655,7 @@ List Events
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `Type type`
+    - `JsonValue type = "agent.mcp_tool_use"`
 
     - `String id`
 
@@ -661,7 +673,7 @@ List Events
 
       Name of the MCP tool being used.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -741,7 +753,7 @@ List Events
 
     Event representing the result of an MCP tool execution.
 
-    - `Type type`
+    - `JsonValue type = "agent.mcp_tool_result"`
 
     - `String id`
 
@@ -751,7 +763,7 @@ List Events
 
       The id of the `agent.mcp_tool_use` event this result corresponds to.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -785,7 +797,7 @@ List Events
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `Type type`
+    - `JsonValue type = "agent.tool_use"`
 
     - `String id`
 
@@ -799,7 +811,7 @@ List Events
 
       Name of the agent tool being used.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -821,13 +833,13 @@ List Events
 
     Event representing the result of an agent tool execution.
 
-    - `Type type`
+    - `JsonValue type = "agent.tool_result"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -865,7 +877,7 @@ List Events
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_message_received"`
 
     - `String id`
 
@@ -895,7 +907,7 @@ List Events
 
       Public `sthr_` ID of the thread that sent the message.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the message was received.
 
@@ -909,7 +921,7 @@ List Events
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_message_sent"`
 
     - `String id`
 
@@ -935,7 +947,7 @@ List Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the message was sent.
 
@@ -953,13 +965,13 @@ List Events
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_context_compacted"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when compaction was processed.
 
@@ -969,7 +981,7 @@ List Events
 
     An error event indicating a problem occurred during session execution.
 
-    - `Type type`
+    - `JsonValue type = "session.error"`
 
     - `String id`
 
@@ -981,7 +993,7 @@ List Events
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `Type type`
+        - `JsonValue type = "unknown_error"`
 
         - `String message`
 
@@ -995,25 +1007,25 @@ List Events
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `Type type`
+            - `JsonValue type = "retrying"`
 
           - `class BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `Type type`
+            - `JsonValue type = "exhausted"`
 
           - `class BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `Type type`
+            - `JsonValue type = "terminal"`
 
       - `class BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `Type type`
+        - `JsonValue type = "model_overloaded_error"`
 
         - `String message`
 
@@ -1039,7 +1051,7 @@ List Events
 
         The model request was rate-limited.
 
-        - `Type type`
+        - `JsonValue type = "model_rate_limited_error"`
 
         - `String message`
 
@@ -1065,7 +1077,7 @@ List Events
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `Type type`
+        - `JsonValue type = "model_request_failed_error"`
 
         - `String message`
 
@@ -1091,7 +1103,7 @@ List Events
 
         Failed to connect to an MCP server.
 
-        - `Type type`
+        - `JsonValue type = "mcp_connection_failed_error"`
 
         - `String mcpServerName`
 
@@ -1121,7 +1133,7 @@ List Events
 
         Authentication to an MCP server failed.
 
-        - `Type type`
+        - `JsonValue type = "mcp_authentication_failed_error"`
 
         - `String mcpServerName`
 
@@ -1151,7 +1163,7 @@ List Events
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `Type type`
+        - `JsonValue type = "billing_error"`
 
         - `String message`
 
@@ -1177,7 +1189,7 @@ List Events
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `Type type`
+        - `JsonValue type = "credential_host_unreachable_error"`
 
         - `String credentialId`
 
@@ -1206,6 +1218,58 @@ List Events
         - `String vaultId`
 
           ID of the vault containing the affected credential.
+
+      - `class BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonValue type = "tool_use_limit_reached_error"`
+
+        - `String message`
+
+          Human-readable error description.
+
+        - `RetryStatus retryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `class BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonValue type = "compaction_limit_reached_error"`
+
+        - `String message`
+
+          Human-readable error description.
+
+        - `RetryStatus retryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `class BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -1357,7 +1421,7 @@ List Events
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the error occurred.
 
@@ -1367,13 +1431,13 @@ List Events
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `Type type`
+    - `JsonValue type = "session.status_rescheduled"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -1383,13 +1447,13 @@ List Events
 
     Indicates the session is actively running and the agent is working.
 
-    - `Type type`
+    - `JsonValue type = "session.status_running"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -1399,13 +1463,13 @@ List Events
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `Type type`
+    - `JsonValue type = "session.status_idle"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -1441,13 +1505,13 @@ List Events
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `Type type`
+        - `JsonValue type = "end_turn"`
 
       - `class BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `Type type`
+        - `JsonValue type = "requires_action"`
 
         - `List<String> eventIds`
 
@@ -1457,13 +1521,13 @@ List Events
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `Type type`
+        - `JsonValue type = "retries_exhausted"`
 
       - `class BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `Type type`
+        - `JsonValue type = "budget_reached"`
 
       - `class BetaManagedAgentsSessionRefusal`
 
@@ -1475,13 +1539,13 @@ List Events
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `Type type`
+    - `JsonValue type = "session.status_terminated"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -1491,7 +1555,7 @@ List Events
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_created"`
 
     - `String id`
 
@@ -1501,7 +1565,7 @@ List Events
 
       Name of the callable agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the thread was created.
 
@@ -1519,13 +1583,13 @@ List Events
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_start"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle. 0 is the first evaluation; 1 is the re-evaluation after the first revision; etc.
 
@@ -1535,7 +1599,7 @@ List Events
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when outcome evaluation started.
 
@@ -1545,7 +1609,7 @@ List Events
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_end"`
 
     - `String id`
 
@@ -1555,7 +1619,7 @@ List Events
 
       Human-readable explanation of the verdict. For `needs_revision`, describes which criteria failed and why.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
 
@@ -1569,7 +1633,7 @@ List Events
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when outcome evaluation ended.
 
@@ -1583,25 +1647,25 @@ List Events
 
       Aggregate token usage for this evaluation cycle. Sums across all grader model requests within the cycle.
 
-      - `long cacheCreationInputTokens`
+      - `int cacheCreationInputTokens`
 
         Tokens used to create prompt cache in this request.
 
         format: int32
 
-      - `long cacheReadInputTokens`
+      - `int cacheReadInputTokens`
 
         Tokens read from prompt cache in this request.
 
         format: int32
 
-      - `long inputTokens`
+      - `int inputTokens`
 
         Input tokens consumed by this request.
 
         format: int32
 
-      - `long outputTokens`
+      - `int outputTokens`
 
         Output tokens generated by this request.
 
@@ -1619,13 +1683,13 @@ List Events
 
     Emitted when a model request is initiated by the agent.
 
-    - `Type type`
+    - `JsonValue type = "span.model_request_start"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the model request started.
 
@@ -1635,7 +1699,7 @@ List Events
 
     Emitted when a model request completes.
 
-    - `Type type`
+    - `JsonValue type = "span.model_request_end"`
 
     - `String id`
 
@@ -1653,7 +1717,7 @@ List Events
 
       Token usage for this model request.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the model request completed.
 
@@ -1663,13 +1727,13 @@ List Events
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_ongoing"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
 
@@ -1679,7 +1743,7 @@ List Events
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this heartbeat was emitted.
 
@@ -1689,7 +1753,7 @@ List Events
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `Type type`
+    - `JsonValue type = "user.define_outcome"`
 
     - `String id`
 
@@ -1699,7 +1763,7 @@ List Events
 
       What the agent should produce. Copied from the input event.
 
-    - `Optional<Long> maxIterations`
+    - `Optional<Integer> maxIterations`
 
       Evaluate-then-revise cycles before giving up. Default 3, max 20.
 
@@ -1709,7 +1773,7 @@ List Events
 
       Server-generated `outc_` ID for this outcome. Referenced by `span.outcome_evaluation_*` events and the session's `outcome_evaluations` list.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the outcome was accepted.
 
@@ -1723,7 +1787,7 @@ List Events
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type type`
+        - `JsonValue type = "file"`
 
         - `String fileId`
 
@@ -1733,7 +1797,7 @@ List Events
 
         Rubric content provided inline as text.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String content`
 
@@ -1743,13 +1807,13 @@ List Events
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `Type type`
+    - `JsonValue type = "session.deleted"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the session was deleted.
 
@@ -1759,7 +1823,7 @@ List Events
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_running"`
 
     - `String id`
 
@@ -1769,7 +1833,7 @@ List Events
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -1783,7 +1847,7 @@ List Events
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_idle"`
 
     - `String id`
 
@@ -1793,7 +1857,7 @@ List Events
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -1833,7 +1897,7 @@ List Events
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_terminated"`
 
     - `String id`
 
@@ -1843,7 +1907,7 @@ List Events
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -1857,7 +1921,7 @@ List Events
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type type`
+    - `JsonValue type = "user.tool_result"`
 
     - `String id`
 
@@ -1891,7 +1955,7 @@ List Events
 
       Whether the tool execution resulted in an error.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this result was processed.
 
@@ -1905,7 +1969,7 @@ List Events
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_rescheduled"`
 
     - `String id`
 
@@ -1915,7 +1979,7 @@ List Events
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -1929,13 +1993,13 @@ List Events
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `Type type`
+    - `JsonValue type = "session.updated"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the update was applied.
 
@@ -1945,15 +2009,37 @@ List Events
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `Type type`
+      - `JsonValue type = "agent"`
 
       - `String id`
 
       - `Optional<String> description`
 
+      - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `JsonValue type = "aws_role"`
+
+          - `String roleArn`
+
+            The IAM role's ARN.
+
+        - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `JsonValue type = "service_account"`
+
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-        - `Type type`
+        - `JsonValue type = "url"`
+
+        - `String name`
 
         - `String name`
 
@@ -1968,6 +2054,10 @@ List Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -2045,31 +2135,31 @@ List Events
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "low"`
 
           - `class BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "medium"`
 
           - `class BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "high"`
 
           - `class BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type type`
+            - `JsonValue type = "xhigh"`
 
           - `class BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type type`
+            - `JsonValue type = "max"`
 
         - `Optional<String> inferenceGeo`
 
@@ -2091,7 +2181,7 @@ List Events
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `Type type`
+          - `JsonValue type = "coordinator"`
 
           - `List<Agent> agents`
 
@@ -2101,15 +2191,19 @@ List Events
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `Type type`
+              - `JsonValue type = "agent"`
 
               - `String id`
 
               - `Optional<String> description`
 
+              - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-                - `Type type`
+                - `JsonValue type = "url"`
 
                 - `String name`
 
@@ -2127,7 +2221,7 @@ List Events
 
                   A resolved Anthropic-managed skill.
 
-                  - `Type type`
+                  - `JsonValue type = "anthropic"`
 
                   - `String skillId`
 
@@ -2137,7 +2231,7 @@ List Events
 
                   A resolved user-created custom skill.
 
-                  - `Type type`
+                  - `JsonValue type = "custom"`
 
                   - `String skillId`
 
@@ -2149,7 +2243,7 @@ List Events
 
                 - `class BetaManagedAgentsAgentToolset20260401`
 
-                  - `Type type`
+                  - `JsonValue type = "agent_toolset_20260401"`
 
                   - `List<BetaManagedAgentsAgentToolConfig> configs`
 
@@ -2171,13 +2265,13 @@ List Events
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `Type type`
+                          - `JsonValue type = "always_allow"`
 
                         - `class BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `Type type`
+                          - `JsonValue type = "always_ask"`
 
                         - `class BetaManagedAgentsAutoPolicy`
 
@@ -2421,7 +2515,7 @@ List Events
 
                       - `Optional<List<String>> blockedDomains`
 
-                      - `Optional<Long> maxContentTokens`
+                      - `Optional<Integer> maxContentTokens`
 
                         format: int32
 
@@ -2473,6 +2567,8 @@ List Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `Optional<String> region`
 
                           Region or state name.
@@ -2509,7 +2605,7 @@ List Events
 
                 - `class BetaManagedAgentsMcpToolset`
 
-                  - `Type type`
+                  - `JsonValue type = "mcp_toolset"`
 
                   - `List<BetaManagedAgentsMcpToolConfig> configs`
 
@@ -2561,7 +2657,7 @@ List Events
 
                   A custom tool as returned in API responses.
 
-                  - `Type type`
+                  - `JsonValue type = "custom"`
 
                   - `String description`
 
@@ -2577,7 +2673,7 @@ List Events
 
                   - `String name`
 
-              - `long version`
+              - `int version`
 
                 format: int32
 
@@ -2585,7 +2681,7 @@ List Events
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `Type type`
+              - `JsonValue type = "advisor"`
 
               - `String model`
 
@@ -2647,11 +2743,15 @@ List Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `Type type`
+                - `JsonValue type = "agent"`
 
                 - `String id`
 
                 - `Optional<String> description`
+
+                - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -2667,7 +2767,7 @@ List Events
 
                 - `List<Tool> tools`
 
-                - `long version`
+                - `int version`
 
                   format: int32
 
@@ -2695,11 +2795,15 @@ List Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `Type type`
+                - `JsonValue type = "agent"`
 
                 - `String id`
 
                 - `Optional<String> description`
+
+                - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -2715,7 +2819,7 @@ List Events
 
                 - `List<Tool> tools`
 
-                - `long version`
+                - `int version`
 
                   format: int32
 
@@ -2749,7 +2853,7 @@ List Events
 
           A custom tool as returned in API responses.
 
-      - `long version`
+      - `int version`
 
         format: int32
 
@@ -2757,7 +2861,7 @@ List Events
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `Type type`
+      - `JsonValue type = "limit"`
 
       - `BetaMonetaryAmount maxListCost`
 
@@ -2766,6 +2870,8 @@ List Events
         - `String amount`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `BetaCurrency currency`
 
@@ -2783,7 +2889,7 @@ List Events
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `Type type`
+    - `JsonValue type = "system.message"`
 
     - `String id`
 
@@ -2793,7 +2899,7 @@ List Events
 
       System content blocks. Text-only.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -2801,7 +2907,7 @@ List Events
 
         minLength: 1
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this system message was processed.
 
@@ -2811,13 +2917,13 @@ List Events
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `Type type`
+    - `JsonValue type = "session.usage"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the snapshot was taken.
 
@@ -2837,25 +2943,25 @@ List Events
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `Optional<Long> ephemeral1hInputTokens`
+        - `Optional<Integer> ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
           format: int32
 
-        - `Optional<Long> ephemeral5mInputTokens`
+        - `Optional<Integer> ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
           format: int32
 
-      - `Optional<Long> cacheReadInputTokens`
+      - `Optional<Integer> cacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
         format: int32
 
-      - `Optional<Long> inputTokens`
+      - `Optional<Integer> inputTokens`
 
         Total input tokens consumed across all turns.
 
@@ -2865,7 +2971,7 @@ List Events
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `Optional<Long> outputTokens`
+      - `Optional<Integer> outputTokens`
 
         Total output tokens generated across all turns.
 
@@ -2875,13 +2981,13 @@ List Events
 
         Cumulative server-executed tool usage across all turns.
 
-        - `Optional<Long> webFetchRequests`
+        - `Optional<Integer> webFetchRequests`
 
           Number of server-executed web fetch requests.
 
           format: int32
 
-        - `Optional<Long> webSearchRequests`
+        - `Optional<Integer> webSearchRequests`
 
           Number of server-executed web search requests.
 
@@ -2925,7 +3031,7 @@ List Events
 
         Name that the agent gave the phase, passed on as written.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -2945,7 +3051,7 @@ List Events
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -3041,7 +3147,7 @@ List Events
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -3069,7 +3175,7 @@ List Events
 
       Identifier of the `workflow_run.phase_started` event that opened the phase.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -3093,7 +3199,7 @@ List Events
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -3113,7 +3219,7 @@ List Events
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -3137,7 +3243,7 @@ List Events
 
       Why the run did not finish, or was not created.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -3216,7 +3322,7 @@ Send Events
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -3318,6 +3424,18 @@ Send Events
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -3332,7 +3450,7 @@ Send Events
 
       Parameters for sending a user message to the session.
 
-      - `Type type`
+      - `JsonValue type = "user.message"`
 
       - `List<Content> content`
 
@@ -3342,7 +3460,7 @@ Send Events
 
           Regular text content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String text`
 
@@ -3354,7 +3472,7 @@ Send Events
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `Type type`
+          - `JsonValue type = "image"`
 
           - `Source source`
 
@@ -3364,7 +3482,7 @@ Send Events
 
               Base64-encoded image data.
 
-              - `Type type`
+              - `JsonValue type = "base64"`
 
               - `String data`
 
@@ -3382,7 +3500,7 @@ Send Events
 
               Image referenced by URL.
 
-              - `Type type`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -3394,7 +3512,7 @@ Send Events
 
               Image referenced by file ID.
 
-              - `Type type`
+              - `JsonValue type = "file"`
 
               - `String fileId`
 
@@ -3406,7 +3524,7 @@ Send Events
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `Type type`
+          - `JsonValue type = "document"`
 
           - `Source source`
 
@@ -3416,7 +3534,7 @@ Send Events
 
               Base64-encoded document data.
 
-              - `Type type`
+              - `JsonValue type = "base64"`
 
               - `String data`
 
@@ -3434,7 +3552,7 @@ Send Events
 
               Plain text document content.
 
-              - `Type type`
+              - `JsonValue type = "text"`
 
               - `String data`
 
@@ -3442,7 +3560,7 @@ Send Events
 
                 minLength: 1
 
-              - `MediaType mediaType`
+              - `JsonValue mediaType = "text/plain"`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -3450,7 +3568,7 @@ Send Events
 
               Document referenced by URL.
 
-              - `Type type`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -3462,7 +3580,7 @@ Send Events
 
               Document referenced by file ID.
 
-              - `Type type`
+              - `JsonValue type = "file"`
 
               - `String fileId`
 
@@ -3482,13 +3600,13 @@ Send Events
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `Type type`
+          - `JsonValue type = "redacted"`
 
     - `class BetaManagedAgentsUserInterruptEventParams`
 
       Parameters for sending an interrupt to pause the agent.
 
-      - `Type type`
+      - `JsonValue type = "user.interrupt"`
 
       - `Optional<String> sessionThreadId`
 
@@ -3498,7 +3616,7 @@ Send Events
 
       Parameters for confirming or denying a tool execution request.
 
-      - `Type type`
+      - `JsonValue type = "user.tool_confirmation"`
 
       - `Result result`
 
@@ -3524,7 +3642,7 @@ Send Events
 
       Parameters for providing the result of a custom tool execution.
 
-      - `Type type`
+      - `JsonValue type = "user.custom_tool_result"`
 
       - `String customToolUseId`
 
@@ -3552,7 +3670,7 @@ Send Events
 
           A block containing a web search result.
 
-          - `Type type`
+          - `JsonValue type = "search_result"`
 
           - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -3566,7 +3684,7 @@ Send Events
 
             Array of text content blocks from the search result.
 
-            - `Type type`
+            - `JsonValue type = "text"`
 
             - `String text`
 
@@ -3594,7 +3712,7 @@ Send Events
 
       Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-      - `Type type`
+      - `JsonValue type = "user.define_outcome"`
 
       - `String description`
 
@@ -3608,7 +3726,7 @@ Send Events
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -3618,7 +3736,7 @@ Send Events
 
           Rubric content provided inline as text.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String content`
 
@@ -3626,7 +3744,7 @@ Send Events
 
             maxLength: 262144
 
-      - `Optional<Long> maxIterations`
+      - `Optional<Integer> maxIterations`
 
         Eval→revision cycles before giving up. Default 3, max 20.
 
@@ -3636,7 +3754,7 @@ Send Events
 
       Parameters for providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-      - `Type type`
+      - `JsonValue type = "user.tool_result"`
 
       - `String toolUseId`
 
@@ -3672,13 +3790,13 @@ Send Events
 
       Privileged context for the accompanying turn and all subsequent turns, appended to the session's system context as a `role: "system"` turn rather than replacing the top-level system prompt. At most one per request: it must be the final event and immediately follow the `user.message`, `user.tool_result`, or `user.custom_tool_result` it accompanies. Only supported on models that accept mid-conversation system messages.
 
-      - `Type type`
+      - `JsonValue type = "system.message"`
 
       - `List<BetaManagedAgentsSystemContentBlock> content`
 
         System content blocks to append. Text-only.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -3700,7 +3818,7 @@ Send Events
 
       A user message event in the session conversation.
 
-      - `Type type`
+      - `JsonValue type = "user.message"`
 
       - `String id`
 
@@ -3714,7 +3832,7 @@ Send Events
 
           Regular text content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String text`
 
@@ -3726,7 +3844,7 @@ Send Events
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `Type type`
+          - `JsonValue type = "image"`
 
           - `Source source`
 
@@ -3736,7 +3854,7 @@ Send Events
 
               Base64-encoded image data.
 
-              - `Type type`
+              - `JsonValue type = "base64"`
 
               - `String data`
 
@@ -3754,7 +3872,7 @@ Send Events
 
               Image referenced by URL.
 
-              - `Type type`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -3766,7 +3884,7 @@ Send Events
 
               Image referenced by file ID.
 
-              - `Type type`
+              - `JsonValue type = "file"`
 
               - `String fileId`
 
@@ -3778,7 +3896,7 @@ Send Events
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `Type type`
+          - `JsonValue type = "document"`
 
           - `Source source`
 
@@ -3788,7 +3906,7 @@ Send Events
 
               Base64-encoded document data.
 
-              - `Type type`
+              - `JsonValue type = "base64"`
 
               - `String data`
 
@@ -3806,7 +3924,7 @@ Send Events
 
               Plain text document content.
 
-              - `Type type`
+              - `JsonValue type = "text"`
 
               - `String data`
 
@@ -3814,7 +3932,7 @@ Send Events
 
                 minLength: 1
 
-              - `MediaType mediaType`
+              - `JsonValue mediaType = "text/plain"`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -3822,7 +3940,7 @@ Send Events
 
               Document referenced by URL.
 
-              - `Type type`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -3834,7 +3952,7 @@ Send Events
 
               Document referenced by file ID.
 
-              - `Type type`
+              - `JsonValue type = "file"`
 
               - `String fileId`
 
@@ -3854,9 +3972,9 @@ Send Events
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `Type type`
+          - `JsonValue type = "redacted"`
 
-      - `Optional<LocalDateTime> processedAt`
+      - `Optional<OffsetDateTime> processedAt`
 
         Timestamp when the agent finished processing this message.
 
@@ -3866,13 +3984,13 @@ Send Events
 
       An interrupt event that pauses agent execution and returns control to the user.
 
-      - `Type type`
+      - `JsonValue type = "user.interrupt"`
 
       - `String id`
 
         Unique identifier for this event.
 
-      - `Optional<LocalDateTime> processedAt`
+      - `Optional<OffsetDateTime> processedAt`
 
         Timestamp when the interrupt was processed.
 
@@ -3886,7 +4004,7 @@ Send Events
 
       A tool confirmation event that approves or denies a pending tool execution.
 
-      - `Type type`
+      - `JsonValue type = "user.tool_confirmation"`
 
       - `String id`
 
@@ -3910,7 +4028,7 @@ Send Events
 
         maxLength: 10000
 
-      - `Optional<LocalDateTime> processedAt`
+      - `Optional<OffsetDateTime> processedAt`
 
         Timestamp when the confirmation was processed.
 
@@ -3924,7 +4042,7 @@ Send Events
 
       Event sent by the client providing the result of a custom tool execution.
 
-      - `Type type`
+      - `JsonValue type = "user.custom_tool_result"`
 
       - `String id`
 
@@ -3954,7 +4072,7 @@ Send Events
 
           A block containing a web search result.
 
-          - `Type type`
+          - `JsonValue type = "search_result"`
 
           - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -3968,7 +4086,7 @@ Send Events
 
             Array of text content blocks from the search result.
 
-            - `Type type`
+            - `JsonValue type = "text"`
 
             - `String text`
 
@@ -3992,7 +4110,7 @@ Send Events
 
         Whether the tool execution resulted in an error.
 
-      - `Optional<LocalDateTime> processedAt`
+      - `Optional<OffsetDateTime> processedAt`
 
         Timestamp when this result was processed.
 
@@ -4006,7 +4124,7 @@ Send Events
 
       Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-      - `Type type`
+      - `JsonValue type = "user.define_outcome"`
 
       - `String id`
 
@@ -4016,7 +4134,7 @@ Send Events
 
         What the agent should produce. Copied from the input event.
 
-      - `Optional<Long> maxIterations`
+      - `Optional<Integer> maxIterations`
 
         Evaluate-then-revise cycles before giving up. Default 3, max 20.
 
@@ -4026,7 +4144,7 @@ Send Events
 
         Server-generated `outc_` ID for this outcome. Referenced by `span.outcome_evaluation_*` events and the session's `outcome_evaluations` list.
 
-      - `LocalDateTime processedAt`
+      - `OffsetDateTime processedAt`
 
         Timestamp when the outcome was accepted.
 
@@ -4040,7 +4158,7 @@ Send Events
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -4050,7 +4168,7 @@ Send Events
 
           Rubric content provided inline as text.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String content`
 
@@ -4060,7 +4178,7 @@ Send Events
 
       Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-      - `Type type`
+      - `JsonValue type = "user.tool_result"`
 
       - `String id`
 
@@ -4094,7 +4212,7 @@ Send Events
 
         Whether the tool execution resulted in an error.
 
-      - `Optional<LocalDateTime> processedAt`
+      - `Optional<OffsetDateTime> processedAt`
 
         Timestamp when this result was processed.
 
@@ -4108,7 +4226,7 @@ Send Events
 
       A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-      - `Type type`
+      - `JsonValue type = "system.message"`
 
       - `String id`
 
@@ -4118,7 +4236,7 @@ Send Events
 
         System content blocks. Text-only.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -4126,7 +4244,7 @@ Send Events
 
           minLength: 1
 
-      - `Optional<LocalDateTime> processedAt`
+      - `Optional<OffsetDateTime> processedAt`
 
         Timestamp when this system message was processed.
 
@@ -4140,7 +4258,6 @@ package com.anthropic.example;
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
 import com.anthropic.models.beta.sessions.events.BetaManagedAgentsSendSessionEvents;
-import com.anthropic.models.beta.sessions.events.BetaManagedAgentsTextBlock;
 import com.anthropic.models.beta.sessions.events.BetaManagedAgentsUserMessageEventParams;
 import com.anthropic.models.beta.sessions.events.EventSendParams;
 import java.util.List;
@@ -4153,10 +4270,7 @@ public final class Main {
 
         EventSendParams params = EventSendParams.builder()
             .sessionId("sesn_011CZkZAtmR3yMPDzynEDxu7")
-            .addUserMessageEvent(List.of(BetaManagedAgentsUserMessageEventParams.Content.ofText(BetaManagedAgentsTextBlock.builder()
-                .text("Where is my order #1234?")
-                .type(BetaManagedAgentsTextBlock.Type.TEXT)
-                .build())))
+            .addUserMessageEvent(List.of(BetaManagedAgentsUserMessageEventParams.Content.ofText("Where is my order #1234?")))
             .build();
         BetaManagedAgentsSendSessionEvents betaManagedAgentsSendSessionEvents = client.beta().sessions().events().send(params);
     }
@@ -4207,7 +4321,7 @@ Stream Events
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -4309,6 +4423,18 @@ Stream Events
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -4325,7 +4451,7 @@ Stream Events
 
     A user message event in the session conversation.
 
-    - `Type type`
+    - `JsonValue type = "user.message"`
 
     - `String id`
 
@@ -4339,7 +4465,7 @@ Stream Events
 
         Regular text content.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -4351,7 +4477,7 @@ Stream Events
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type type`
+        - `JsonValue type = "image"`
 
         - `Source source`
 
@@ -4361,7 +4487,7 @@ Stream Events
 
             Base64-encoded image data.
 
-            - `Type type`
+            - `JsonValue type = "base64"`
 
             - `String data`
 
@@ -4379,7 +4505,7 @@ Stream Events
 
             Image referenced by URL.
 
-            - `Type type`
+            - `JsonValue type = "url"`
 
             - `String url`
 
@@ -4391,7 +4517,7 @@ Stream Events
 
             Image referenced by file ID.
 
-            - `Type type`
+            - `JsonValue type = "file"`
 
             - `String fileId`
 
@@ -4403,7 +4529,7 @@ Stream Events
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type type`
+        - `JsonValue type = "document"`
 
         - `Source source`
 
@@ -4413,7 +4539,7 @@ Stream Events
 
             Base64-encoded document data.
 
-            - `Type type`
+            - `JsonValue type = "base64"`
 
             - `String data`
 
@@ -4431,7 +4557,7 @@ Stream Events
 
             Plain text document content.
 
-            - `Type type`
+            - `JsonValue type = "text"`
 
             - `String data`
 
@@ -4439,7 +4565,7 @@ Stream Events
 
               minLength: 1
 
-            - `MediaType mediaType`
+            - `JsonValue mediaType = "text/plain"`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -4447,7 +4573,7 @@ Stream Events
 
             Document referenced by URL.
 
-            - `Type type`
+            - `JsonValue type = "url"`
 
             - `String url`
 
@@ -4459,7 +4585,7 @@ Stream Events
 
             Document referenced by file ID.
 
-            - `Type type`
+            - `JsonValue type = "file"`
 
             - `String fileId`
 
@@ -4479,9 +4605,9 @@ Stream Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type type`
+        - `JsonValue type = "redacted"`
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the agent finished processing this message.
 
@@ -4491,13 +4617,13 @@ Stream Events
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `Type type`
+    - `JsonValue type = "user.interrupt"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the interrupt was processed.
 
@@ -4511,7 +4637,7 @@ Stream Events
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `Type type`
+    - `JsonValue type = "user.tool_confirmation"`
 
     - `String id`
 
@@ -4535,7 +4661,7 @@ Stream Events
 
       maxLength: 10000
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the confirmation was processed.
 
@@ -4549,7 +4675,7 @@ Stream Events
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `Type type`
+    - `JsonValue type = "user.custom_tool_result"`
 
     - `String id`
 
@@ -4579,7 +4705,7 @@ Stream Events
 
         A block containing a web search result.
 
-        - `Type type`
+        - `JsonValue type = "search_result"`
 
         - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -4593,7 +4719,7 @@ Stream Events
 
           Array of text content blocks from the search result.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String text`
 
@@ -4617,7 +4743,7 @@ Stream Events
 
       Whether the tool execution resulted in an error.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this result was processed.
 
@@ -4631,7 +4757,7 @@ Stream Events
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `Type type`
+    - `JsonValue type = "agent.custom_tool_use"`
 
     - `String id`
 
@@ -4645,7 +4771,7 @@ Stream Events
 
       Name of the custom tool being called.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this tool use was processed.
 
@@ -4659,7 +4785,7 @@ Stream Events
 
     An agent response event in the session conversation.
 
-    - `Type type`
+    - `JsonValue type = "agent.message"`
 
     - `String id`
 
@@ -4677,7 +4803,7 @@ Stream Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this response was generated.
 
@@ -4687,13 +4813,13 @@ Stream Events
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `Type type`
+    - `JsonValue type = "agent.thinking"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this thinking was produced.
 
@@ -4703,7 +4829,7 @@ Stream Events
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `Type type`
+    - `JsonValue type = "agent.mcp_tool_use"`
 
     - `String id`
 
@@ -4721,7 +4847,7 @@ Stream Events
 
       Name of the MCP tool being used.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -4801,7 +4927,7 @@ Stream Events
 
     Event representing the result of an MCP tool execution.
 
-    - `Type type`
+    - `JsonValue type = "agent.mcp_tool_result"`
 
     - `String id`
 
@@ -4811,7 +4937,7 @@ Stream Events
 
       The id of the `agent.mcp_tool_use` event this result corresponds to.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -4845,7 +4971,7 @@ Stream Events
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `Type type`
+    - `JsonValue type = "agent.tool_use"`
 
     - `String id`
 
@@ -4859,7 +4985,7 @@ Stream Events
 
       Name of the agent tool being used.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -4881,13 +5007,13 @@ Stream Events
 
     Event representing the result of an agent tool execution.
 
-    - `Type type`
+    - `JsonValue type = "agent.tool_result"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -4925,7 +5051,7 @@ Stream Events
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_message_received"`
 
     - `String id`
 
@@ -4955,7 +5081,7 @@ Stream Events
 
       Public `sthr_` ID of the thread that sent the message.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the message was received.
 
@@ -4969,7 +5095,7 @@ Stream Events
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_message_sent"`
 
     - `String id`
 
@@ -4995,7 +5121,7 @@ Stream Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the message was sent.
 
@@ -5013,13 +5139,13 @@ Stream Events
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_context_compacted"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when compaction was processed.
 
@@ -5029,7 +5155,7 @@ Stream Events
 
     An error event indicating a problem occurred during session execution.
 
-    - `Type type`
+    - `JsonValue type = "session.error"`
 
     - `String id`
 
@@ -5041,7 +5167,7 @@ Stream Events
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `Type type`
+        - `JsonValue type = "unknown_error"`
 
         - `String message`
 
@@ -5055,25 +5181,25 @@ Stream Events
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `Type type`
+            - `JsonValue type = "retrying"`
 
           - `class BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `Type type`
+            - `JsonValue type = "exhausted"`
 
           - `class BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `Type type`
+            - `JsonValue type = "terminal"`
 
       - `class BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `Type type`
+        - `JsonValue type = "model_overloaded_error"`
 
         - `String message`
 
@@ -5099,7 +5225,7 @@ Stream Events
 
         The model request was rate-limited.
 
-        - `Type type`
+        - `JsonValue type = "model_rate_limited_error"`
 
         - `String message`
 
@@ -5125,7 +5251,7 @@ Stream Events
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `Type type`
+        - `JsonValue type = "model_request_failed_error"`
 
         - `String message`
 
@@ -5151,7 +5277,7 @@ Stream Events
 
         Failed to connect to an MCP server.
 
-        - `Type type`
+        - `JsonValue type = "mcp_connection_failed_error"`
 
         - `String mcpServerName`
 
@@ -5181,7 +5307,7 @@ Stream Events
 
         Authentication to an MCP server failed.
 
-        - `Type type`
+        - `JsonValue type = "mcp_authentication_failed_error"`
 
         - `String mcpServerName`
 
@@ -5211,7 +5337,7 @@ Stream Events
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `Type type`
+        - `JsonValue type = "billing_error"`
 
         - `String message`
 
@@ -5237,7 +5363,7 @@ Stream Events
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `Type type`
+        - `JsonValue type = "credential_host_unreachable_error"`
 
         - `String credentialId`
 
@@ -5266,6 +5392,58 @@ Stream Events
         - `String vaultId`
 
           ID of the vault containing the affected credential.
+
+      - `class BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonValue type = "tool_use_limit_reached_error"`
+
+        - `String message`
+
+          Human-readable error description.
+
+        - `RetryStatus retryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `class BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonValue type = "compaction_limit_reached_error"`
+
+        - `String message`
+
+          Human-readable error description.
+
+        - `RetryStatus retryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `class BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -5417,7 +5595,7 @@ Stream Events
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the error occurred.
 
@@ -5427,13 +5605,13 @@ Stream Events
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `Type type`
+    - `JsonValue type = "session.status_rescheduled"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -5443,13 +5621,13 @@ Stream Events
 
     Indicates the session is actively running and the agent is working.
 
-    - `Type type`
+    - `JsonValue type = "session.status_running"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -5459,13 +5637,13 @@ Stream Events
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `Type type`
+    - `JsonValue type = "session.status_idle"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -5501,13 +5679,13 @@ Stream Events
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `Type type`
+        - `JsonValue type = "end_turn"`
 
       - `class BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `Type type`
+        - `JsonValue type = "requires_action"`
 
         - `List<String> eventIds`
 
@@ -5517,13 +5695,13 @@ Stream Events
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `Type type`
+        - `JsonValue type = "retries_exhausted"`
 
       - `class BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `Type type`
+        - `JsonValue type = "budget_reached"`
 
       - `class BetaManagedAgentsSessionRefusal`
 
@@ -5535,13 +5713,13 @@ Stream Events
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `Type type`
+    - `JsonValue type = "session.status_terminated"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -5551,7 +5729,7 @@ Stream Events
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_created"`
 
     - `String id`
 
@@ -5561,7 +5739,7 @@ Stream Events
 
       Name of the callable agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the thread was created.
 
@@ -5579,13 +5757,13 @@ Stream Events
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_start"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle. 0 is the first evaluation; 1 is the re-evaluation after the first revision; etc.
 
@@ -5595,7 +5773,7 @@ Stream Events
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when outcome evaluation started.
 
@@ -5605,7 +5783,7 @@ Stream Events
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_end"`
 
     - `String id`
 
@@ -5615,7 +5793,7 @@ Stream Events
 
       Human-readable explanation of the verdict. For `needs_revision`, describes which criteria failed and why.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
 
@@ -5629,7 +5807,7 @@ Stream Events
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when outcome evaluation ended.
 
@@ -5643,25 +5821,25 @@ Stream Events
 
       Aggregate token usage for this evaluation cycle. Sums across all grader model requests within the cycle.
 
-      - `long cacheCreationInputTokens`
+      - `int cacheCreationInputTokens`
 
         Tokens used to create prompt cache in this request.
 
         format: int32
 
-      - `long cacheReadInputTokens`
+      - `int cacheReadInputTokens`
 
         Tokens read from prompt cache in this request.
 
         format: int32
 
-      - `long inputTokens`
+      - `int inputTokens`
 
         Input tokens consumed by this request.
 
         format: int32
 
-      - `long outputTokens`
+      - `int outputTokens`
 
         Output tokens generated by this request.
 
@@ -5679,13 +5857,13 @@ Stream Events
 
     Emitted when a model request is initiated by the agent.
 
-    - `Type type`
+    - `JsonValue type = "span.model_request_start"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the model request started.
 
@@ -5695,7 +5873,7 @@ Stream Events
 
     Emitted when a model request completes.
 
-    - `Type type`
+    - `JsonValue type = "span.model_request_end"`
 
     - `String id`
 
@@ -5713,7 +5891,7 @@ Stream Events
 
       Token usage for this model request.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the model request completed.
 
@@ -5723,13 +5901,13 @@ Stream Events
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_ongoing"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
 
@@ -5739,7 +5917,7 @@ Stream Events
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this heartbeat was emitted.
 
@@ -5749,7 +5927,7 @@ Stream Events
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `Type type`
+    - `JsonValue type = "user.define_outcome"`
 
     - `String id`
 
@@ -5759,7 +5937,7 @@ Stream Events
 
       What the agent should produce. Copied from the input event.
 
-    - `Optional<Long> maxIterations`
+    - `Optional<Integer> maxIterations`
 
       Evaluate-then-revise cycles before giving up. Default 3, max 20.
 
@@ -5769,7 +5947,7 @@ Stream Events
 
       Server-generated `outc_` ID for this outcome. Referenced by `span.outcome_evaluation_*` events and the session's `outcome_evaluations` list.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the outcome was accepted.
 
@@ -5783,7 +5961,7 @@ Stream Events
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type type`
+        - `JsonValue type = "file"`
 
         - `String fileId`
 
@@ -5793,7 +5971,7 @@ Stream Events
 
         Rubric content provided inline as text.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String content`
 
@@ -5803,13 +5981,13 @@ Stream Events
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `Type type`
+    - `JsonValue type = "session.deleted"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the session was deleted.
 
@@ -5819,7 +5997,7 @@ Stream Events
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_running"`
 
     - `String id`
 
@@ -5829,7 +6007,7 @@ Stream Events
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -5843,7 +6021,7 @@ Stream Events
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_idle"`
 
     - `String id`
 
@@ -5853,7 +6031,7 @@ Stream Events
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -5893,7 +6071,7 @@ Stream Events
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_terminated"`
 
     - `String id`
 
@@ -5903,7 +6081,7 @@ Stream Events
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -5917,7 +6095,7 @@ Stream Events
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type type`
+    - `JsonValue type = "user.tool_result"`
 
     - `String id`
 
@@ -5951,7 +6129,7 @@ Stream Events
 
       Whether the tool execution resulted in an error.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this result was processed.
 
@@ -5965,7 +6143,7 @@ Stream Events
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_rescheduled"`
 
     - `String id`
 
@@ -5975,7 +6153,7 @@ Stream Events
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -5989,13 +6167,13 @@ Stream Events
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `Type type`
+    - `JsonValue type = "session.updated"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the update was applied.
 
@@ -6005,15 +6183,37 @@ Stream Events
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `Type type`
+      - `JsonValue type = "agent"`
 
       - `String id`
 
       - `Optional<String> description`
 
+      - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `JsonValue type = "aws_role"`
+
+          - `String roleArn`
+
+            The IAM role's ARN.
+
+        - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `JsonValue type = "service_account"`
+
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-        - `Type type`
+        - `JsonValue type = "url"`
+
+        - `String name`
 
         - `String name`
 
@@ -6028,6 +6228,10 @@ Stream Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -6105,31 +6309,31 @@ Stream Events
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "low"`
 
           - `class BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "medium"`
 
           - `class BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "high"`
 
           - `class BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type type`
+            - `JsonValue type = "xhigh"`
 
           - `class BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type type`
+            - `JsonValue type = "max"`
 
         - `Optional<String> inferenceGeo`
 
@@ -6151,7 +6355,7 @@ Stream Events
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `Type type`
+          - `JsonValue type = "coordinator"`
 
           - `List<Agent> agents`
 
@@ -6161,15 +6365,19 @@ Stream Events
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `Type type`
+              - `JsonValue type = "agent"`
 
               - `String id`
 
               - `Optional<String> description`
 
+              - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-                - `Type type`
+                - `JsonValue type = "url"`
 
                 - `String name`
 
@@ -6187,7 +6395,7 @@ Stream Events
 
                   A resolved Anthropic-managed skill.
 
-                  - `Type type`
+                  - `JsonValue type = "anthropic"`
 
                   - `String skillId`
 
@@ -6197,7 +6405,7 @@ Stream Events
 
                   A resolved user-created custom skill.
 
-                  - `Type type`
+                  - `JsonValue type = "custom"`
 
                   - `String skillId`
 
@@ -6209,7 +6417,7 @@ Stream Events
 
                 - `class BetaManagedAgentsAgentToolset20260401`
 
-                  - `Type type`
+                  - `JsonValue type = "agent_toolset_20260401"`
 
                   - `List<BetaManagedAgentsAgentToolConfig> configs`
 
@@ -6231,13 +6439,13 @@ Stream Events
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `Type type`
+                          - `JsonValue type = "always_allow"`
 
                         - `class BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `Type type`
+                          - `JsonValue type = "always_ask"`
 
                         - `class BetaManagedAgentsAutoPolicy`
 
@@ -6481,7 +6689,7 @@ Stream Events
 
                       - `Optional<List<String>> blockedDomains`
 
-                      - `Optional<Long> maxContentTokens`
+                      - `Optional<Integer> maxContentTokens`
 
                         format: int32
 
@@ -6533,6 +6741,8 @@ Stream Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `Optional<String> region`
 
                           Region or state name.
@@ -6569,7 +6779,7 @@ Stream Events
 
                 - `class BetaManagedAgentsMcpToolset`
 
-                  - `Type type`
+                  - `JsonValue type = "mcp_toolset"`
 
                   - `List<BetaManagedAgentsMcpToolConfig> configs`
 
@@ -6621,7 +6831,7 @@ Stream Events
 
                   A custom tool as returned in API responses.
 
-                  - `Type type`
+                  - `JsonValue type = "custom"`
 
                   - `String description`
 
@@ -6637,7 +6847,7 @@ Stream Events
 
                   - `String name`
 
-              - `long version`
+              - `int version`
 
                 format: int32
 
@@ -6645,7 +6855,7 @@ Stream Events
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `Type type`
+              - `JsonValue type = "advisor"`
 
               - `String model`
 
@@ -6707,11 +6917,15 @@ Stream Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `Type type`
+                - `JsonValue type = "agent"`
 
                 - `String id`
 
                 - `Optional<String> description`
+
+                - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -6727,7 +6941,7 @@ Stream Events
 
                 - `List<Tool> tools`
 
-                - `long version`
+                - `int version`
 
                   format: int32
 
@@ -6755,11 +6969,15 @@ Stream Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `Type type`
+                - `JsonValue type = "agent"`
 
                 - `String id`
 
                 - `Optional<String> description`
+
+                - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -6775,7 +6993,7 @@ Stream Events
 
                 - `List<Tool> tools`
 
-                - `long version`
+                - `int version`
 
                   format: int32
 
@@ -6809,7 +7027,7 @@ Stream Events
 
           A custom tool as returned in API responses.
 
-      - `long version`
+      - `int version`
 
         format: int32
 
@@ -6817,7 +7035,7 @@ Stream Events
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `Type type`
+      - `JsonValue type = "limit"`
 
       - `BetaMonetaryAmount maxListCost`
 
@@ -6826,6 +7044,8 @@ Stream Events
         - `String amount`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `BetaCurrency currency`
 
@@ -6843,7 +7063,7 @@ Stream Events
 
     Opens a preview of a buffered event. Carries the previewed event's type and id only. Followed by zero or more event_delta events with the same event id, normally concluded by the buffered event carrying that id. If the producing model request ends without that event (an error or interrupt mid-stream), its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `Type type`
+    - `JsonValue type = "event_start"`
 
     - `BetaManagedAgentsStartEventPreview event`
 
@@ -6851,7 +7071,7 @@ Stream Events
 
       - `class BetaManagedAgentsAgentMessagePreview`
 
-        - `Type type`
+        - `JsonValue type = "agent.message"`
 
         - `String id`
 
@@ -6859,7 +7079,7 @@ Stream Events
 
       - `class BetaManagedAgentsAgentThinkingPreview`
 
-        - `Type type`
+        - `JsonValue type = "agent.thinking"`
 
         - `String id`
 
@@ -6869,13 +7089,13 @@ Stream Events
 
     An incremental update to an event that is still being streamed. Deltas are best-effort and may stop early; when the buffered event with id == event_id is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no buffered event — its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `Type type`
+    - `JsonValue type = "event_delta"`
 
     - `BetaManagedAgentsDeltaContent delta`
 
       One fragment of the previewed event. The delta type is named for the previewed event's field it streams into: agent.message events stream content_delta fragments, each a partial element of the content array.
 
-      - `Type type`
+      - `JsonValue type = "content_delta"`
 
       - `BetaManagedAgentsTextBlock content`
 
@@ -6893,7 +7113,7 @@ Stream Events
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `Type type`
+    - `JsonValue type = "system.message"`
 
     - `String id`
 
@@ -6903,7 +7123,7 @@ Stream Events
 
       System content blocks. Text-only.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -6911,7 +7131,7 @@ Stream Events
 
         minLength: 1
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this system message was processed.
 
@@ -6921,13 +7141,13 @@ Stream Events
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `Type type`
+    - `JsonValue type = "session.usage"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the snapshot was taken.
 
@@ -6947,25 +7167,25 @@ Stream Events
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `Optional<Long> ephemeral1hInputTokens`
+        - `Optional<Integer> ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
           format: int32
 
-        - `Optional<Long> ephemeral5mInputTokens`
+        - `Optional<Integer> ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
           format: int32
 
-      - `Optional<Long> cacheReadInputTokens`
+      - `Optional<Integer> cacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
         format: int32
 
-      - `Optional<Long> inputTokens`
+      - `Optional<Integer> inputTokens`
 
         Total input tokens consumed across all turns.
 
@@ -6975,7 +7195,7 @@ Stream Events
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `Optional<Long> outputTokens`
+      - `Optional<Integer> outputTokens`
 
         Total output tokens generated across all turns.
 
@@ -6985,13 +7205,13 @@ Stream Events
 
         Cumulative server-executed tool usage across all turns.
 
-        - `Optional<Long> webFetchRequests`
+        - `Optional<Integer> webFetchRequests`
 
           Number of server-executed web fetch requests.
 
           format: int32
 
-        - `Optional<Long> webSearchRequests`
+        - `Optional<Integer> webSearchRequests`
 
           Number of server-executed web search requests.
 
@@ -7035,7 +7255,7 @@ Stream Events
 
         Name that the agent gave the phase, passed on as written.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -7055,7 +7275,7 @@ Stream Events
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -7151,7 +7371,7 @@ Stream Events
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -7179,7 +7399,7 @@ Stream Events
 
       Identifier of the `workflow_run.phase_started` event that opened the phase.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -7203,7 +7423,7 @@ Stream Events
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -7223,7 +7443,7 @@ Stream Events
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -7247,7 +7467,7 @@ Stream Events
 
       Why the run did not finish, or was not created.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -7375,7 +7595,7 @@ public final class Main {
 
   Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-  - `Type type`
+  - `JsonValue type = "agent.custom_tool_use"`
 
   - `String id`
 
@@ -7389,7 +7609,7 @@ public final class Main {
 
     Name of the custom tool being called.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this tool use was processed.
 
@@ -7415,7 +7635,7 @@ public final class Main {
 
   Event representing the result of an MCP tool execution.
 
-  - `Type type`
+  - `JsonValue type = "agent.mcp_tool_result"`
 
   - `String id`
 
@@ -7425,7 +7645,7 @@ public final class Main {
 
     The id of the `agent.mcp_tool_use` event this result corresponds to.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this event was processed.
 
@@ -7439,7 +7659,7 @@ public final class Main {
 
       Regular text content.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -7451,7 +7671,7 @@ public final class Main {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "image"`
 
       - `Source source`
 
@@ -7461,7 +7681,7 @@ public final class Main {
 
           Base64-encoded image data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -7479,7 +7699,7 @@ public final class Main {
 
           Image referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -7491,7 +7711,7 @@ public final class Main {
 
           Image referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -7503,7 +7723,7 @@ public final class Main {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "document"`
 
       - `Source source`
 
@@ -7513,7 +7733,7 @@ public final class Main {
 
           Base64-encoded document data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -7531,7 +7751,7 @@ public final class Main {
 
           Plain text document content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String data`
 
@@ -7539,7 +7759,7 @@ public final class Main {
 
             minLength: 1
 
-          - `MediaType mediaType`
+          - `JsonValue mediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -7547,7 +7767,7 @@ public final class Main {
 
           Document referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -7559,7 +7779,7 @@ public final class Main {
 
           Document referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -7579,7 +7799,7 @@ public final class Main {
 
       A block containing a web search result.
 
-      - `Type type`
+      - `JsonValue type = "search_result"`
 
       - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -7593,7 +7813,7 @@ public final class Main {
 
         Array of text content blocks from the search result.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -7623,7 +7843,7 @@ public final class Main {
 
   Event emitted when the agent invokes a tool provided by an MCP server.
 
-  - `Type type`
+  - `JsonValue type = "agent.mcp_tool_use"`
 
   - `String id`
 
@@ -7641,7 +7861,7 @@ public final class Main {
 
     Name of the MCP tool being used.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this event was processed.
 
@@ -7723,7 +7943,7 @@ public final class Main {
 
   An agent response event in the session conversation.
 
-  - `Type type`
+  - `JsonValue type = "agent.message"`
 
   - `String id`
 
@@ -7737,7 +7957,7 @@ public final class Main {
 
       Regular text content.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -7749,9 +7969,9 @@ public final class Main {
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `Type type`
+      - `JsonValue type = "redacted"`
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this response was generated.
 
@@ -7763,13 +7983,13 @@ public final class Main {
 
   Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-  - `Type type`
+  - `JsonValue type = "agent.thinking"`
 
   - `String id`
 
     Unique identifier for this event.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this thinking was produced.
 
@@ -7781,13 +8001,13 @@ public final class Main {
 
   Indicates that context compaction (summarization) occurred during the session.
 
-  - `Type type`
+  - `JsonValue type = "agent.thread_context_compacted"`
 
   - `String id`
 
     Unique identifier for this event.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when compaction was processed.
 
@@ -7799,7 +8019,7 @@ public final class Main {
 
   Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-  - `Type type`
+  - `JsonValue type = "agent.thread_message_received"`
 
   - `String id`
 
@@ -7813,7 +8033,7 @@ public final class Main {
 
       Regular text content.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -7825,7 +8045,7 @@ public final class Main {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "image"`
 
       - `Source source`
 
@@ -7835,7 +8055,7 @@ public final class Main {
 
           Base64-encoded image data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -7853,7 +8073,7 @@ public final class Main {
 
           Image referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -7865,7 +8085,7 @@ public final class Main {
 
           Image referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -7877,7 +8097,7 @@ public final class Main {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "document"`
 
       - `Source source`
 
@@ -7887,7 +8107,7 @@ public final class Main {
 
           Base64-encoded document data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -7905,7 +8125,7 @@ public final class Main {
 
           Plain text document content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String data`
 
@@ -7913,7 +8133,7 @@ public final class Main {
 
             minLength: 1
 
-          - `MediaType mediaType`
+          - `JsonValue mediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -7921,7 +8141,7 @@ public final class Main {
 
           Document referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -7933,7 +8153,7 @@ public final class Main {
 
           Document referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -7953,13 +8173,13 @@ public final class Main {
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `Type type`
+      - `JsonValue type = "redacted"`
 
   - `String fromSessionThreadId`
 
     Public `sthr_` ID of the thread that sent the message.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when the message was received.
 
@@ -7975,7 +8195,7 @@ public final class Main {
 
   Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-  - `Type type`
+  - `JsonValue type = "agent.thread_message_sent"`
 
   - `String id`
 
@@ -7989,7 +8209,7 @@ public final class Main {
 
       Regular text content.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -8001,7 +8221,7 @@ public final class Main {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "image"`
 
       - `Source source`
 
@@ -8011,7 +8231,7 @@ public final class Main {
 
           Base64-encoded image data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -8029,7 +8249,7 @@ public final class Main {
 
           Image referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -8041,7 +8261,7 @@ public final class Main {
 
           Image referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -8053,7 +8273,7 @@ public final class Main {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "document"`
 
       - `Source source`
 
@@ -8063,7 +8283,7 @@ public final class Main {
 
           Base64-encoded document data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -8081,7 +8301,7 @@ public final class Main {
 
           Plain text document content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String data`
 
@@ -8089,7 +8309,7 @@ public final class Main {
 
             minLength: 1
 
-          - `MediaType mediaType`
+          - `JsonValue mediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -8097,7 +8317,7 @@ public final class Main {
 
           Document referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -8109,7 +8329,7 @@ public final class Main {
 
           Document referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -8129,9 +8349,9 @@ public final class Main {
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `Type type`
+      - `JsonValue type = "redacted"`
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when the message was sent.
 
@@ -8267,13 +8487,13 @@ public final class Main {
 
   Event representing the result of an agent tool execution.
 
-  - `Type type`
+  - `JsonValue type = "agent.tool_result"`
 
   - `String id`
 
     Unique identifier for this event.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this event was processed.
 
@@ -8291,7 +8511,7 @@ public final class Main {
 
       Regular text content.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -8303,7 +8523,7 @@ public final class Main {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "image"`
 
       - `Source source`
 
@@ -8313,7 +8533,7 @@ public final class Main {
 
           Base64-encoded image data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -8331,7 +8551,7 @@ public final class Main {
 
           Image referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -8343,7 +8563,7 @@ public final class Main {
 
           Image referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -8355,7 +8575,7 @@ public final class Main {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "document"`
 
       - `Source source`
 
@@ -8365,7 +8585,7 @@ public final class Main {
 
           Base64-encoded document data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -8383,7 +8603,7 @@ public final class Main {
 
           Plain text document content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String data`
 
@@ -8391,7 +8611,7 @@ public final class Main {
 
             minLength: 1
 
-          - `MediaType mediaType`
+          - `JsonValue mediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -8399,7 +8619,7 @@ public final class Main {
 
           Document referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -8411,7 +8631,7 @@ public final class Main {
 
           Document referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -8431,7 +8651,7 @@ public final class Main {
 
       A block containing a web search result.
 
-      - `Type type`
+      - `JsonValue type = "search_result"`
 
       - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -8445,7 +8665,7 @@ public final class Main {
 
         Array of text content blocks from the search result.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -8475,7 +8695,7 @@ public final class Main {
 
   Event emitted when the agent invokes a built-in agent tool.
 
-  - `Type type`
+  - `JsonValue type = "agent.tool_use"`
 
   - `String id`
 
@@ -8489,7 +8709,7 @@ public final class Main {
 
     Name of the agent tool being used.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this event was processed.
 
@@ -8571,7 +8791,7 @@ public final class Main {
 
   Base64-encoded document data.
 
-  - `Type type`
+  - `JsonValue type = "base64"`
 
   - `String data`
 
@@ -8591,7 +8811,7 @@ public final class Main {
 
   Base64-encoded image data.
 
-  - `Type type`
+  - `JsonValue type = "base64"`
 
   - `String data`
 
@@ -8611,7 +8831,7 @@ public final class Main {
 
   The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-  - `Type type`
+  - `JsonValue type = "billing_error"`
 
   - `String message`
 
@@ -8625,19 +8845,53 @@ public final class Main {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type type`
+      - `JsonValue type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type type`
+      - `JsonValue type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type type`
+      - `JsonValue type = "terminal"`
+
+### Beta Managed Agents Compaction Limit Reached Error
+
+- `class BetaManagedAgentsCompactionLimitReachedError`
+
+  The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+  - `JsonValue type = "compaction_limit_reached_error"`
+
+  - `String message`
+
+    Human-readable error description.
+
+  - `RetryStatus retryStatus`
+
+    What the client should do next.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonValue type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonValue type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonValue type = "terminal"`
 
 ### Beta Managed Agents Credential Host Unreachable Error
 
@@ -8645,7 +8899,7 @@ public final class Main {
 
   An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-  - `Type type`
+  - `JsonValue type = "credential_host_unreachable_error"`
 
   - `String credentialId`
 
@@ -8663,19 +8917,19 @@ public final class Main {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type type`
+      - `JsonValue type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type type`
+      - `JsonValue type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type type`
+      - `JsonValue type = "terminal"`
 
   - `String vaultId`
 
@@ -8687,7 +8941,7 @@ public final class Main {
 
   Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-  - `Type type`
+  - `JsonValue type = "document"`
 
   - `Source source`
 
@@ -8697,7 +8951,7 @@ public final class Main {
 
       Base64-encoded document data.
 
-      - `Type type`
+      - `JsonValue type = "base64"`
 
       - `String data`
 
@@ -8715,7 +8969,7 @@ public final class Main {
 
       Plain text document content.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String data`
 
@@ -8723,7 +8977,7 @@ public final class Main {
 
         minLength: 1
 
-      - `MediaType mediaType`
+      - `JsonValue mediaType = "text/plain"`
 
         MIME type of the text content. Must be "text/plain".
 
@@ -8731,7 +8985,7 @@ public final class Main {
 
       Document referenced by URL.
 
-      - `Type type`
+      - `JsonValue type = "url"`
 
       - `String url`
 
@@ -8743,7 +8997,7 @@ public final class Main {
 
       Document referenced by file ID.
 
-      - `Type type`
+      - `JsonValue type = "file"`
 
       - `String fileId`
 
@@ -8769,7 +9023,7 @@ public final class Main {
 
     Parameters for sending a user message to the session.
 
-    - `Type type`
+    - `JsonValue type = "user.message"`
 
     - `List<Content> content`
 
@@ -8779,7 +9033,7 @@ public final class Main {
 
         Regular text content.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -8791,7 +9045,7 @@ public final class Main {
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type type`
+        - `JsonValue type = "image"`
 
         - `Source source`
 
@@ -8801,7 +9055,7 @@ public final class Main {
 
             Base64-encoded image data.
 
-            - `Type type`
+            - `JsonValue type = "base64"`
 
             - `String data`
 
@@ -8819,7 +9073,7 @@ public final class Main {
 
             Image referenced by URL.
 
-            - `Type type`
+            - `JsonValue type = "url"`
 
             - `String url`
 
@@ -8831,7 +9085,7 @@ public final class Main {
 
             Image referenced by file ID.
 
-            - `Type type`
+            - `JsonValue type = "file"`
 
             - `String fileId`
 
@@ -8843,7 +9097,7 @@ public final class Main {
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type type`
+        - `JsonValue type = "document"`
 
         - `Source source`
 
@@ -8853,7 +9107,7 @@ public final class Main {
 
             Base64-encoded document data.
 
-            - `Type type`
+            - `JsonValue type = "base64"`
 
             - `String data`
 
@@ -8871,7 +9125,7 @@ public final class Main {
 
             Plain text document content.
 
-            - `Type type`
+            - `JsonValue type = "text"`
 
             - `String data`
 
@@ -8879,7 +9133,7 @@ public final class Main {
 
               minLength: 1
 
-            - `MediaType mediaType`
+            - `JsonValue mediaType = "text/plain"`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -8887,7 +9141,7 @@ public final class Main {
 
             Document referenced by URL.
 
-            - `Type type`
+            - `JsonValue type = "url"`
 
             - `String url`
 
@@ -8899,7 +9153,7 @@ public final class Main {
 
             Document referenced by file ID.
 
-            - `Type type`
+            - `JsonValue type = "file"`
 
             - `String fileId`
 
@@ -8919,13 +9173,13 @@ public final class Main {
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type type`
+        - `JsonValue type = "redacted"`
 
   - `class BetaManagedAgentsUserInterruptEventParams`
 
     Parameters for sending an interrupt to pause the agent.
 
-    - `Type type`
+    - `JsonValue type = "user.interrupt"`
 
     - `Optional<String> sessionThreadId`
 
@@ -8935,7 +9189,7 @@ public final class Main {
 
     Parameters for confirming or denying a tool execution request.
 
-    - `Type type`
+    - `JsonValue type = "user.tool_confirmation"`
 
     - `Result result`
 
@@ -8961,7 +9215,7 @@ public final class Main {
 
     Parameters for providing the result of a custom tool execution.
 
-    - `Type type`
+    - `JsonValue type = "user.custom_tool_result"`
 
     - `String customToolUseId`
 
@@ -8989,7 +9243,7 @@ public final class Main {
 
         A block containing a web search result.
 
-        - `Type type`
+        - `JsonValue type = "search_result"`
 
         - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -9003,7 +9257,7 @@ public final class Main {
 
           Array of text content blocks from the search result.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String text`
 
@@ -9031,7 +9285,7 @@ public final class Main {
 
     Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-    - `Type type`
+    - `JsonValue type = "user.define_outcome"`
 
     - `String description`
 
@@ -9045,7 +9299,7 @@ public final class Main {
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type type`
+        - `JsonValue type = "file"`
 
         - `String fileId`
 
@@ -9055,7 +9309,7 @@ public final class Main {
 
         Rubric content provided inline as text.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String content`
 
@@ -9063,7 +9317,7 @@ public final class Main {
 
           maxLength: 262144
 
-    - `Optional<Long> maxIterations`
+    - `Optional<Integer> maxIterations`
 
       Eval→revision cycles before giving up. Default 3, max 20.
 
@@ -9073,7 +9327,7 @@ public final class Main {
 
     Parameters for providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type type`
+    - `JsonValue type = "user.tool_result"`
 
     - `String toolUseId`
 
@@ -9109,13 +9363,13 @@ public final class Main {
 
     Privileged context for the accompanying turn and all subsequent turns, appended to the session's system context as a `role: "system"` turn rather than replacing the top-level system prompt. At most one per request: it must be the final event and immediately follow the `user.message`, `user.tool_result`, or `user.custom_tool_result` it accompanies. Only supported on models that accept mid-conversation system messages.
 
-    - `Type type`
+    - `JsonValue type = "system.message"`
 
     - `List<BetaManagedAgentsSystemContentBlock> content`
 
       System content blocks to append. Text-only.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -9129,7 +9383,7 @@ public final class Main {
 
   Document referenced by file ID.
 
-  - `Type type`
+  - `JsonValue type = "file"`
 
   - `String fileId`
 
@@ -9143,7 +9397,7 @@ public final class Main {
 
   Image referenced by file ID.
 
-  - `Type type`
+  - `JsonValue type = "file"`
 
   - `String fileId`
 
@@ -9157,7 +9411,7 @@ public final class Main {
 
   Rubric referenced by a file uploaded via the Files API.
 
-  - `Type type`
+  - `JsonValue type = "file"`
 
   - `String fileId`
 
@@ -9169,7 +9423,7 @@ public final class Main {
 
   Rubric referenced by a file uploaded via the Files API.
 
-  - `Type type`
+  - `JsonValue type = "file"`
 
   - `String fileId`
 
@@ -9181,7 +9435,7 @@ public final class Main {
 
   Image content specified directly as base64 data or as a reference via a URL.
 
-  - `Type type`
+  - `JsonValue type = "image"`
 
   - `Source source`
 
@@ -9191,7 +9445,7 @@ public final class Main {
 
       Base64-encoded image data.
 
-      - `Type type`
+      - `JsonValue type = "base64"`
 
       - `String data`
 
@@ -9209,7 +9463,7 @@ public final class Main {
 
       Image referenced by URL.
 
-      - `Type type`
+      - `JsonValue type = "url"`
 
       - `String url`
 
@@ -9221,7 +9475,7 @@ public final class Main {
 
       Image referenced by file ID.
 
-      - `Type type`
+      - `JsonValue type = "file"`
 
       - `String fileId`
 
@@ -9247,7 +9501,7 @@ public final class Main {
 
   Authentication to an MCP server failed.
 
-  - `Type type`
+  - `JsonValue type = "mcp_authentication_failed_error"`
 
   - `String mcpServerName`
 
@@ -9265,19 +9519,19 @@ public final class Main {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type type`
+      - `JsonValue type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type type`
+      - `JsonValue type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type type`
+      - `JsonValue type = "terminal"`
 
 ### Beta Managed Agents MCP Connection Failed Error
 
@@ -9285,7 +9539,7 @@ public final class Main {
 
   Failed to connect to an MCP server.
 
-  - `Type type`
+  - `JsonValue type = "mcp_connection_failed_error"`
 
   - `String mcpServerName`
 
@@ -9303,19 +9557,19 @@ public final class Main {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type type`
+      - `JsonValue type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type type`
+      - `JsonValue type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type type`
+      - `JsonValue type = "terminal"`
 
 ### Beta Managed Agents Model Overloaded Error
 
@@ -9323,7 +9577,7 @@ public final class Main {
 
   The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-  - `Type type`
+  - `JsonValue type = "model_overloaded_error"`
 
   - `String message`
 
@@ -9337,19 +9591,19 @@ public final class Main {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type type`
+      - `JsonValue type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type type`
+      - `JsonValue type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type type`
+      - `JsonValue type = "terminal"`
 
 ### Beta Managed Agents Model Rate Limited Error
 
@@ -9357,7 +9611,7 @@ public final class Main {
 
   The model request was rate-limited.
 
-  - `Type type`
+  - `JsonValue type = "model_rate_limited_error"`
 
   - `String message`
 
@@ -9371,19 +9625,19 @@ public final class Main {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type type`
+      - `JsonValue type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type type`
+      - `JsonValue type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type type`
+      - `JsonValue type = "terminal"`
 
 ### Beta Managed Agents Model Request Failed Error
 
@@ -9391,7 +9645,7 @@ public final class Main {
 
   A model request failed for a reason other than overload or rate-limiting.
 
-  - `Type type`
+  - `JsonValue type = "model_request_failed_error"`
 
   - `String message`
 
@@ -9405,19 +9659,19 @@ public final class Main {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type type`
+      - `JsonValue type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type type`
+      - `JsonValue type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type type`
+      - `JsonValue type = "terminal"`
 
 ### Beta Managed Agents Plain Text Document Source
 
@@ -9425,7 +9679,7 @@ public final class Main {
 
   Plain text document content.
 
-  - `Type type`
+  - `JsonValue type = "text"`
 
   - `String data`
 
@@ -9433,7 +9687,7 @@ public final class Main {
 
     minLength: 1
 
-  - `MediaType mediaType`
+  - `JsonValue mediaType = "text/plain"`
 
     MIME type of the text content. Must be "text/plain".
 
@@ -9455,7 +9709,197 @@ public final class Main {
 
   Placeholder for content withheld by Anthropic model policy.
 
-  - `Type type`
+  - `JsonValue type = "redacted"`
+
+### Beta Managed Agents Repository Authentication Error
+
+- `class BetaManagedAgentsRepositoryAuthenticationError`
+
+  The repository host rejected the credentials, or required credentials and received none.
+
+  - `JsonValue type = "repository_authentication_error"`
+
+  - `String message`
+
+    Human-readable error description.
+
+  - `Optional<String> repositoryUrl`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `RetryStatus retryStatus`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonValue type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonValue type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonValue type = "terminal"`
+
+### Beta Managed Agents Repository Checkout Error
+
+- `class BetaManagedAgentsRepositoryCheckoutError`
+
+  The requested branch or commit does not exist in the repository.
+
+  - `JsonValue type = "repository_checkout_error"`
+
+  - `String message`
+
+    Human-readable error description.
+
+  - `Optional<String> repositoryUrl`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `RetryStatus retryStatus`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonValue type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonValue type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonValue type = "terminal"`
+
+### Beta Managed Agents Repository Clone Error
+
+- `class BetaManagedAgentsRepositoryCloneError`
+
+  The repository could not be cloned.
+
+  - `JsonValue type = "repository_clone_error"`
+
+  - `String message`
+
+    Human-readable error description.
+
+  - `Optional<String> repositoryUrl`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `RetryStatus retryStatus`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonValue type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonValue type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonValue type = "terminal"`
+
+### Beta Managed Agents Repository Forbidden Error
+
+- `class BetaManagedAgentsRepositoryForbiddenError`
+
+  The repository host refused access to the repository.
+
+  - `JsonValue type = "repository_forbidden_error"`
+
+  - `String message`
+
+    Human-readable error description.
+
+  - `Optional<String> repositoryUrl`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `RetryStatus retryStatus`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonValue type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonValue type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonValue type = "terminal"`
+
+### Beta Managed Agents Repository Not Found Error
+
+- `class BetaManagedAgentsRepositoryNotFoundError`
+
+  The repository host reported the repository as not found.
+
+  - `JsonValue type = "repository_not_found_error"`
+
+  - `String message`
+
+    Human-readable error description.
+
+  - `Optional<String> repositoryUrl`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `RetryStatus retryStatus`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonValue type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonValue type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonValue type = "terminal"`
 
 ### Beta Managed Agents Repository Authentication Error
 
@@ -9653,7 +10097,7 @@ public final class Main {
 
   This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-  - `Type type`
+  - `JsonValue type = "exhausted"`
 
 ### Beta Managed Agents Retry Status Retrying
 
@@ -9661,7 +10105,7 @@ public final class Main {
 
   The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-  - `Type type`
+  - `JsonValue type = "retrying"`
 
 ### Beta Managed Agents Retry Status Terminal
 
@@ -9669,7 +10113,7 @@ public final class Main {
 
   The session encountered a terminal error and will transition to `terminated` state.
 
-  - `Type type`
+  - `JsonValue type = "terminal"`
 
 ### Beta Managed Agents Search Result Block
 
@@ -9677,7 +10121,7 @@ public final class Main {
 
   A block containing a web search result.
 
-  - `Type type`
+  - `JsonValue type = "search_result"`
 
   - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -9691,7 +10135,7 @@ public final class Main {
 
     Array of text content blocks from the search result.
 
-    - `Type type`
+    - `JsonValue type = "text"`
 
     - `String text`
 
@@ -9727,7 +10171,7 @@ public final class Main {
 
   Text content within a search result.
 
-  - `Type type`
+  - `JsonValue type = "text"`
 
   - `String text`
 
@@ -9749,7 +10193,7 @@ public final class Main {
 
       A user message event in the session conversation.
 
-      - `Type type`
+      - `JsonValue type = "user.message"`
 
       - `String id`
 
@@ -9763,7 +10207,7 @@ public final class Main {
 
           Regular text content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String text`
 
@@ -9775,7 +10219,7 @@ public final class Main {
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `Type type`
+          - `JsonValue type = "image"`
 
           - `Source source`
 
@@ -9785,7 +10229,7 @@ public final class Main {
 
               Base64-encoded image data.
 
-              - `Type type`
+              - `JsonValue type = "base64"`
 
               - `String data`
 
@@ -9803,7 +10247,7 @@ public final class Main {
 
               Image referenced by URL.
 
-              - `Type type`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -9815,7 +10259,7 @@ public final class Main {
 
               Image referenced by file ID.
 
-              - `Type type`
+              - `JsonValue type = "file"`
 
               - `String fileId`
 
@@ -9827,7 +10271,7 @@ public final class Main {
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `Type type`
+          - `JsonValue type = "document"`
 
           - `Source source`
 
@@ -9837,7 +10281,7 @@ public final class Main {
 
               Base64-encoded document data.
 
-              - `Type type`
+              - `JsonValue type = "base64"`
 
               - `String data`
 
@@ -9855,7 +10299,7 @@ public final class Main {
 
               Plain text document content.
 
-              - `Type type`
+              - `JsonValue type = "text"`
 
               - `String data`
 
@@ -9863,7 +10307,7 @@ public final class Main {
 
                 minLength: 1
 
-              - `MediaType mediaType`
+              - `JsonValue mediaType = "text/plain"`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -9871,7 +10315,7 @@ public final class Main {
 
               Document referenced by URL.
 
-              - `Type type`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -9883,7 +10327,7 @@ public final class Main {
 
               Document referenced by file ID.
 
-              - `Type type`
+              - `JsonValue type = "file"`
 
               - `String fileId`
 
@@ -9903,9 +10347,9 @@ public final class Main {
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `Type type`
+          - `JsonValue type = "redacted"`
 
-      - `Optional<LocalDateTime> processedAt`
+      - `Optional<OffsetDateTime> processedAt`
 
         Timestamp when the agent finished processing this message.
 
@@ -9915,13 +10359,13 @@ public final class Main {
 
       An interrupt event that pauses agent execution and returns control to the user.
 
-      - `Type type`
+      - `JsonValue type = "user.interrupt"`
 
       - `String id`
 
         Unique identifier for this event.
 
-      - `Optional<LocalDateTime> processedAt`
+      - `Optional<OffsetDateTime> processedAt`
 
         Timestamp when the interrupt was processed.
 
@@ -9935,7 +10379,7 @@ public final class Main {
 
       A tool confirmation event that approves or denies a pending tool execution.
 
-      - `Type type`
+      - `JsonValue type = "user.tool_confirmation"`
 
       - `String id`
 
@@ -9959,7 +10403,7 @@ public final class Main {
 
         maxLength: 10000
 
-      - `Optional<LocalDateTime> processedAt`
+      - `Optional<OffsetDateTime> processedAt`
 
         Timestamp when the confirmation was processed.
 
@@ -9973,7 +10417,7 @@ public final class Main {
 
       Event sent by the client providing the result of a custom tool execution.
 
-      - `Type type`
+      - `JsonValue type = "user.custom_tool_result"`
 
       - `String id`
 
@@ -10003,7 +10447,7 @@ public final class Main {
 
           A block containing a web search result.
 
-          - `Type type`
+          - `JsonValue type = "search_result"`
 
           - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -10017,7 +10461,7 @@ public final class Main {
 
             Array of text content blocks from the search result.
 
-            - `Type type`
+            - `JsonValue type = "text"`
 
             - `String text`
 
@@ -10041,7 +10485,7 @@ public final class Main {
 
         Whether the tool execution resulted in an error.
 
-      - `Optional<LocalDateTime> processedAt`
+      - `Optional<OffsetDateTime> processedAt`
 
         Timestamp when this result was processed.
 
@@ -10055,7 +10499,7 @@ public final class Main {
 
       Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-      - `Type type`
+      - `JsonValue type = "user.define_outcome"`
 
       - `String id`
 
@@ -10065,7 +10509,7 @@ public final class Main {
 
         What the agent should produce. Copied from the input event.
 
-      - `Optional<Long> maxIterations`
+      - `Optional<Integer> maxIterations`
 
         Evaluate-then-revise cycles before giving up. Default 3, max 20.
 
@@ -10075,7 +10519,7 @@ public final class Main {
 
         Server-generated `outc_` ID for this outcome. Referenced by `span.outcome_evaluation_*` events and the session's `outcome_evaluations` list.
 
-      - `LocalDateTime processedAt`
+      - `OffsetDateTime processedAt`
 
         Timestamp when the outcome was accepted.
 
@@ -10089,7 +10533,7 @@ public final class Main {
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -10099,7 +10543,7 @@ public final class Main {
 
           Rubric content provided inline as text.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String content`
 
@@ -10109,7 +10553,7 @@ public final class Main {
 
       Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-      - `Type type`
+      - `JsonValue type = "user.tool_result"`
 
       - `String id`
 
@@ -10143,7 +10587,7 @@ public final class Main {
 
         Whether the tool execution resulted in an error.
 
-      - `Optional<LocalDateTime> processedAt`
+      - `Optional<OffsetDateTime> processedAt`
 
         Timestamp when this result was processed.
 
@@ -10157,7 +10601,7 @@ public final class Main {
 
       A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-      - `Type type`
+      - `JsonValue type = "system.message"`
 
       - `String id`
 
@@ -10167,7 +10611,7 @@ public final class Main {
 
         System content blocks. Text-only.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -10175,7 +10619,7 @@ public final class Main {
 
           minLength: 1
 
-      - `Optional<LocalDateTime> processedAt`
+      - `Optional<OffsetDateTime> processedAt`
 
         Timestamp when this system message was processed.
 
@@ -10187,7 +10631,7 @@ public final class Main {
 
   The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-  - `Type type`
+  - `JsonValue type = "budget_reached"`
 
 ### Beta Managed Agents Session Deleted Event
 
@@ -10195,13 +10639,13 @@ public final class Main {
 
   Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-  - `Type type`
+  - `JsonValue type = "session.deleted"`
 
   - `String id`
 
     Unique identifier for this event.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when the session was deleted.
 
@@ -10213,7 +10657,7 @@ public final class Main {
 
   The agent completed its turn naturally and is ready for the next user message.
 
-  - `Type type`
+  - `JsonValue type = "end_turn"`
 
 ### Beta Managed Agents Session Error Event
 
@@ -10221,7 +10665,7 @@ public final class Main {
 
   An error event indicating a problem occurred during session execution.
 
-  - `Type type`
+  - `JsonValue type = "session.error"`
 
   - `String id`
 
@@ -10233,7 +10677,7 @@ public final class Main {
 
       An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-      - `Type type`
+      - `JsonValue type = "unknown_error"`
 
       - `String message`
 
@@ -10247,25 +10691,25 @@ public final class Main {
 
           The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-          - `Type type`
+          - `JsonValue type = "retrying"`
 
         - `class BetaManagedAgentsRetryStatusExhausted`
 
           This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-          - `Type type`
+          - `JsonValue type = "exhausted"`
 
         - `class BetaManagedAgentsRetryStatusTerminal`
 
           The session encountered a terminal error and will transition to `terminated` state.
 
-          - `Type type`
+          - `JsonValue type = "terminal"`
 
     - `class BetaManagedAgentsModelOverloadedError`
 
       The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-      - `Type type`
+      - `JsonValue type = "model_overloaded_error"`
 
       - `String message`
 
@@ -10291,7 +10735,7 @@ public final class Main {
 
       The model request was rate-limited.
 
-      - `Type type`
+      - `JsonValue type = "model_rate_limited_error"`
 
       - `String message`
 
@@ -10317,7 +10761,7 @@ public final class Main {
 
       A model request failed for a reason other than overload or rate-limiting.
 
-      - `Type type`
+      - `JsonValue type = "model_request_failed_error"`
 
       - `String message`
 
@@ -10343,7 +10787,7 @@ public final class Main {
 
       Failed to connect to an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "mcp_connection_failed_error"`
 
       - `String mcpServerName`
 
@@ -10373,7 +10817,7 @@ public final class Main {
 
       Authentication to an MCP server failed.
 
-      - `Type type`
+      - `JsonValue type = "mcp_authentication_failed_error"`
 
       - `String mcpServerName`
 
@@ -10403,7 +10847,7 @@ public final class Main {
 
       The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-      - `Type type`
+      - `JsonValue type = "billing_error"`
 
       - `String message`
 
@@ -10429,7 +10873,7 @@ public final class Main {
 
       An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-      - `Type type`
+      - `JsonValue type = "credential_host_unreachable_error"`
 
       - `String credentialId`
 
@@ -10458,6 +10902,58 @@ public final class Main {
       - `String vaultId`
 
         ID of the vault containing the affected credential.
+
+    - `class BetaManagedAgentsToolUseLimitReachedError`
+
+      The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+      - `JsonValue type = "tool_use_limit_reached_error"`
+
+      - `String message`
+
+        Human-readable error description.
+
+      - `RetryStatus retryStatus`
+
+        What the client should do next.
+
+        - `class BetaManagedAgentsRetryStatusRetrying`
+
+          The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+        - `class BetaManagedAgentsRetryStatusExhausted`
+
+          This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+        - `class BetaManagedAgentsRetryStatusTerminal`
+
+          The session encountered a terminal error and will transition to `terminated` state.
+
+    - `class BetaManagedAgentsCompactionLimitReachedError`
+
+      The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+      - `JsonValue type = "compaction_limit_reached_error"`
+
+      - `String message`
+
+        Human-readable error description.
+
+      - `RetryStatus retryStatus`
+
+        What the client should do next.
+
+        - `class BetaManagedAgentsRetryStatusRetrying`
+
+          The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+        - `class BetaManagedAgentsRetryStatusExhausted`
+
+          This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+        - `class BetaManagedAgentsRetryStatusTerminal`
+
+          The session encountered a terminal error and will transition to `terminated` state.
 
     - `class BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -10609,7 +11105,7 @@ public final class Main {
 
           The session encountered a terminal error and will transition to `terminated` state.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when the error occurred.
 
@@ -10625,7 +11121,7 @@ public final class Main {
 
     A user message event in the session conversation.
 
-    - `Type type`
+    - `JsonValue type = "user.message"`
 
     - `String id`
 
@@ -10639,7 +11135,7 @@ public final class Main {
 
         Regular text content.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -10651,7 +11147,7 @@ public final class Main {
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type type`
+        - `JsonValue type = "image"`
 
         - `Source source`
 
@@ -10661,7 +11157,7 @@ public final class Main {
 
             Base64-encoded image data.
 
-            - `Type type`
+            - `JsonValue type = "base64"`
 
             - `String data`
 
@@ -10679,7 +11175,7 @@ public final class Main {
 
             Image referenced by URL.
 
-            - `Type type`
+            - `JsonValue type = "url"`
 
             - `String url`
 
@@ -10691,7 +11187,7 @@ public final class Main {
 
             Image referenced by file ID.
 
-            - `Type type`
+            - `JsonValue type = "file"`
 
             - `String fileId`
 
@@ -10703,7 +11199,7 @@ public final class Main {
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type type`
+        - `JsonValue type = "document"`
 
         - `Source source`
 
@@ -10713,7 +11209,7 @@ public final class Main {
 
             Base64-encoded document data.
 
-            - `Type type`
+            - `JsonValue type = "base64"`
 
             - `String data`
 
@@ -10731,7 +11227,7 @@ public final class Main {
 
             Plain text document content.
 
-            - `Type type`
+            - `JsonValue type = "text"`
 
             - `String data`
 
@@ -10739,7 +11235,7 @@ public final class Main {
 
               minLength: 1
 
-            - `MediaType mediaType`
+            - `JsonValue mediaType = "text/plain"`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -10747,7 +11243,7 @@ public final class Main {
 
             Document referenced by URL.
 
-            - `Type type`
+            - `JsonValue type = "url"`
 
             - `String url`
 
@@ -10759,7 +11255,7 @@ public final class Main {
 
             Document referenced by file ID.
 
-            - `Type type`
+            - `JsonValue type = "file"`
 
             - `String fileId`
 
@@ -10779,9 +11275,9 @@ public final class Main {
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type type`
+        - `JsonValue type = "redacted"`
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the agent finished processing this message.
 
@@ -10791,13 +11287,13 @@ public final class Main {
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `Type type`
+    - `JsonValue type = "user.interrupt"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the interrupt was processed.
 
@@ -10811,7 +11307,7 @@ public final class Main {
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `Type type`
+    - `JsonValue type = "user.tool_confirmation"`
 
     - `String id`
 
@@ -10835,7 +11331,7 @@ public final class Main {
 
       maxLength: 10000
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the confirmation was processed.
 
@@ -10849,7 +11345,7 @@ public final class Main {
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `Type type`
+    - `JsonValue type = "user.custom_tool_result"`
 
     - `String id`
 
@@ -10879,7 +11375,7 @@ public final class Main {
 
         A block containing a web search result.
 
-        - `Type type`
+        - `JsonValue type = "search_result"`
 
         - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -10893,7 +11389,7 @@ public final class Main {
 
           Array of text content blocks from the search result.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String text`
 
@@ -10917,7 +11413,7 @@ public final class Main {
 
       Whether the tool execution resulted in an error.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this result was processed.
 
@@ -10931,7 +11427,7 @@ public final class Main {
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `Type type`
+    - `JsonValue type = "agent.custom_tool_use"`
 
     - `String id`
 
@@ -10945,7 +11441,7 @@ public final class Main {
 
       Name of the custom tool being called.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this tool use was processed.
 
@@ -10959,7 +11455,7 @@ public final class Main {
 
     An agent response event in the session conversation.
 
-    - `Type type`
+    - `JsonValue type = "agent.message"`
 
     - `String id`
 
@@ -10977,7 +11473,7 @@ public final class Main {
 
         Placeholder for content withheld by Anthropic model policy.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this response was generated.
 
@@ -10987,13 +11483,13 @@ public final class Main {
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `Type type`
+    - `JsonValue type = "agent.thinking"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this thinking was produced.
 
@@ -11003,7 +11499,7 @@ public final class Main {
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `Type type`
+    - `JsonValue type = "agent.mcp_tool_use"`
 
     - `String id`
 
@@ -11021,7 +11517,7 @@ public final class Main {
 
       Name of the MCP tool being used.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -11101,7 +11597,7 @@ public final class Main {
 
     Event representing the result of an MCP tool execution.
 
-    - `Type type`
+    - `JsonValue type = "agent.mcp_tool_result"`
 
     - `String id`
 
@@ -11111,7 +11607,7 @@ public final class Main {
 
       The id of the `agent.mcp_tool_use` event this result corresponds to.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -11145,7 +11641,7 @@ public final class Main {
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `Type type`
+    - `JsonValue type = "agent.tool_use"`
 
     - `String id`
 
@@ -11159,7 +11655,7 @@ public final class Main {
 
       Name of the agent tool being used.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -11181,13 +11677,13 @@ public final class Main {
 
     Event representing the result of an agent tool execution.
 
-    - `Type type`
+    - `JsonValue type = "agent.tool_result"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -11225,7 +11721,7 @@ public final class Main {
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_message_received"`
 
     - `String id`
 
@@ -11255,7 +11751,7 @@ public final class Main {
 
       Public `sthr_` ID of the thread that sent the message.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the message was received.
 
@@ -11269,7 +11765,7 @@ public final class Main {
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_message_sent"`
 
     - `String id`
 
@@ -11295,7 +11791,7 @@ public final class Main {
 
         Placeholder for content withheld by Anthropic model policy.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the message was sent.
 
@@ -11313,13 +11809,13 @@ public final class Main {
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_context_compacted"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when compaction was processed.
 
@@ -11329,7 +11825,7 @@ public final class Main {
 
     An error event indicating a problem occurred during session execution.
 
-    - `Type type`
+    - `JsonValue type = "session.error"`
 
     - `String id`
 
@@ -11341,7 +11837,7 @@ public final class Main {
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `Type type`
+        - `JsonValue type = "unknown_error"`
 
         - `String message`
 
@@ -11355,25 +11851,25 @@ public final class Main {
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `Type type`
+            - `JsonValue type = "retrying"`
 
           - `class BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `Type type`
+            - `JsonValue type = "exhausted"`
 
           - `class BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `Type type`
+            - `JsonValue type = "terminal"`
 
       - `class BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `Type type`
+        - `JsonValue type = "model_overloaded_error"`
 
         - `String message`
 
@@ -11399,7 +11895,7 @@ public final class Main {
 
         The model request was rate-limited.
 
-        - `Type type`
+        - `JsonValue type = "model_rate_limited_error"`
 
         - `String message`
 
@@ -11425,7 +11921,7 @@ public final class Main {
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `Type type`
+        - `JsonValue type = "model_request_failed_error"`
 
         - `String message`
 
@@ -11451,7 +11947,7 @@ public final class Main {
 
         Failed to connect to an MCP server.
 
-        - `Type type`
+        - `JsonValue type = "mcp_connection_failed_error"`
 
         - `String mcpServerName`
 
@@ -11481,7 +11977,7 @@ public final class Main {
 
         Authentication to an MCP server failed.
 
-        - `Type type`
+        - `JsonValue type = "mcp_authentication_failed_error"`
 
         - `String mcpServerName`
 
@@ -11511,7 +12007,7 @@ public final class Main {
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `Type type`
+        - `JsonValue type = "billing_error"`
 
         - `String message`
 
@@ -11537,7 +12033,7 @@ public final class Main {
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `Type type`
+        - `JsonValue type = "credential_host_unreachable_error"`
 
         - `String credentialId`
 
@@ -11566,6 +12062,58 @@ public final class Main {
         - `String vaultId`
 
           ID of the vault containing the affected credential.
+
+      - `class BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonValue type = "tool_use_limit_reached_error"`
+
+        - `String message`
+
+          Human-readable error description.
+
+        - `RetryStatus retryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `class BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonValue type = "compaction_limit_reached_error"`
+
+        - `String message`
+
+          Human-readable error description.
+
+        - `RetryStatus retryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `class BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -11717,7 +12265,7 @@ public final class Main {
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the error occurred.
 
@@ -11727,13 +12275,13 @@ public final class Main {
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `Type type`
+    - `JsonValue type = "session.status_rescheduled"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -11743,13 +12291,13 @@ public final class Main {
 
     Indicates the session is actively running and the agent is working.
 
-    - `Type type`
+    - `JsonValue type = "session.status_running"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -11759,13 +12307,13 @@ public final class Main {
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `Type type`
+    - `JsonValue type = "session.status_idle"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -11801,13 +12349,13 @@ public final class Main {
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `Type type`
+        - `JsonValue type = "end_turn"`
 
       - `class BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `Type type`
+        - `JsonValue type = "requires_action"`
 
         - `List<String> eventIds`
 
@@ -11817,13 +12365,13 @@ public final class Main {
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `Type type`
+        - `JsonValue type = "retries_exhausted"`
 
       - `class BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `Type type`
+        - `JsonValue type = "budget_reached"`
 
       - `class BetaManagedAgentsSessionRefusal`
 
@@ -11835,13 +12383,13 @@ public final class Main {
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `Type type`
+    - `JsonValue type = "session.status_terminated"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -11851,7 +12399,7 @@ public final class Main {
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_created"`
 
     - `String id`
 
@@ -11861,7 +12409,7 @@ public final class Main {
 
       Name of the callable agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the thread was created.
 
@@ -11879,13 +12427,13 @@ public final class Main {
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_start"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle. 0 is the first evaluation; 1 is the re-evaluation after the first revision; etc.
 
@@ -11895,7 +12443,7 @@ public final class Main {
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when outcome evaluation started.
 
@@ -11905,7 +12453,7 @@ public final class Main {
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_end"`
 
     - `String id`
 
@@ -11915,7 +12463,7 @@ public final class Main {
 
       Human-readable explanation of the verdict. For `needs_revision`, describes which criteria failed and why.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
 
@@ -11929,7 +12477,7 @@ public final class Main {
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when outcome evaluation ended.
 
@@ -11943,25 +12491,25 @@ public final class Main {
 
       Aggregate token usage for this evaluation cycle. Sums across all grader model requests within the cycle.
 
-      - `long cacheCreationInputTokens`
+      - `int cacheCreationInputTokens`
 
         Tokens used to create prompt cache in this request.
 
         format: int32
 
-      - `long cacheReadInputTokens`
+      - `int cacheReadInputTokens`
 
         Tokens read from prompt cache in this request.
 
         format: int32
 
-      - `long inputTokens`
+      - `int inputTokens`
 
         Input tokens consumed by this request.
 
         format: int32
 
-      - `long outputTokens`
+      - `int outputTokens`
 
         Output tokens generated by this request.
 
@@ -11979,13 +12527,13 @@ public final class Main {
 
     Emitted when a model request is initiated by the agent.
 
-    - `Type type`
+    - `JsonValue type = "span.model_request_start"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the model request started.
 
@@ -11995,7 +12543,7 @@ public final class Main {
 
     Emitted when a model request completes.
 
-    - `Type type`
+    - `JsonValue type = "span.model_request_end"`
 
     - `String id`
 
@@ -12013,7 +12561,7 @@ public final class Main {
 
       Token usage for this model request.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the model request completed.
 
@@ -12023,13 +12571,13 @@ public final class Main {
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_ongoing"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
 
@@ -12039,7 +12587,7 @@ public final class Main {
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this heartbeat was emitted.
 
@@ -12049,7 +12597,7 @@ public final class Main {
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `Type type`
+    - `JsonValue type = "user.define_outcome"`
 
     - `String id`
 
@@ -12059,7 +12607,7 @@ public final class Main {
 
       What the agent should produce. Copied from the input event.
 
-    - `Optional<Long> maxIterations`
+    - `Optional<Integer> maxIterations`
 
       Evaluate-then-revise cycles before giving up. Default 3, max 20.
 
@@ -12069,7 +12617,7 @@ public final class Main {
 
       Server-generated `outc_` ID for this outcome. Referenced by `span.outcome_evaluation_*` events and the session's `outcome_evaluations` list.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the outcome was accepted.
 
@@ -12083,7 +12631,7 @@ public final class Main {
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type type`
+        - `JsonValue type = "file"`
 
         - `String fileId`
 
@@ -12093,7 +12641,7 @@ public final class Main {
 
         Rubric content provided inline as text.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String content`
 
@@ -12103,13 +12651,13 @@ public final class Main {
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `Type type`
+    - `JsonValue type = "session.deleted"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the session was deleted.
 
@@ -12119,7 +12667,7 @@ public final class Main {
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_running"`
 
     - `String id`
 
@@ -12129,7 +12677,7 @@ public final class Main {
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -12143,7 +12691,7 @@ public final class Main {
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_idle"`
 
     - `String id`
 
@@ -12153,7 +12701,7 @@ public final class Main {
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -12193,7 +12741,7 @@ public final class Main {
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_terminated"`
 
     - `String id`
 
@@ -12203,7 +12751,7 @@ public final class Main {
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -12217,7 +12765,7 @@ public final class Main {
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type type`
+    - `JsonValue type = "user.tool_result"`
 
     - `String id`
 
@@ -12251,7 +12799,7 @@ public final class Main {
 
       Whether the tool execution resulted in an error.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this result was processed.
 
@@ -12265,7 +12813,7 @@ public final class Main {
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_rescheduled"`
 
     - `String id`
 
@@ -12275,7 +12823,7 @@ public final class Main {
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -12289,13 +12837,13 @@ public final class Main {
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `Type type`
+    - `JsonValue type = "session.updated"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the update was applied.
 
@@ -12305,15 +12853,37 @@ public final class Main {
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `Type type`
+      - `JsonValue type = "agent"`
 
       - `String id`
 
       - `Optional<String> description`
 
+      - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `JsonValue type = "aws_role"`
+
+          - `String roleArn`
+
+            The IAM role's ARN.
+
+        - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `JsonValue type = "service_account"`
+
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-        - `Type type`
+        - `JsonValue type = "url"`
+
+        - `String name`
 
         - `String name`
 
@@ -12328,6 +12898,10 @@ public final class Main {
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -12405,31 +12979,31 @@ public final class Main {
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "low"`
 
           - `class BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "medium"`
 
           - `class BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "high"`
 
           - `class BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type type`
+            - `JsonValue type = "xhigh"`
 
           - `class BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type type`
+            - `JsonValue type = "max"`
 
         - `Optional<String> inferenceGeo`
 
@@ -12451,7 +13025,7 @@ public final class Main {
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `Type type`
+          - `JsonValue type = "coordinator"`
 
           - `List<Agent> agents`
 
@@ -12461,15 +13035,19 @@ public final class Main {
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `Type type`
+              - `JsonValue type = "agent"`
 
               - `String id`
 
               - `Optional<String> description`
 
+              - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-                - `Type type`
+                - `JsonValue type = "url"`
 
                 - `String name`
 
@@ -12487,7 +13065,7 @@ public final class Main {
 
                   A resolved Anthropic-managed skill.
 
-                  - `Type type`
+                  - `JsonValue type = "anthropic"`
 
                   - `String skillId`
 
@@ -12497,7 +13075,7 @@ public final class Main {
 
                   A resolved user-created custom skill.
 
-                  - `Type type`
+                  - `JsonValue type = "custom"`
 
                   - `String skillId`
 
@@ -12509,7 +13087,7 @@ public final class Main {
 
                 - `class BetaManagedAgentsAgentToolset20260401`
 
-                  - `Type type`
+                  - `JsonValue type = "agent_toolset_20260401"`
 
                   - `List<BetaManagedAgentsAgentToolConfig> configs`
 
@@ -12531,13 +13109,13 @@ public final class Main {
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `Type type`
+                          - `JsonValue type = "always_allow"`
 
                         - `class BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `Type type`
+                          - `JsonValue type = "always_ask"`
 
                         - `class BetaManagedAgentsAutoPolicy`
 
@@ -12781,7 +13359,7 @@ public final class Main {
 
                       - `Optional<List<String>> blockedDomains`
 
-                      - `Optional<Long> maxContentTokens`
+                      - `Optional<Integer> maxContentTokens`
 
                         format: int32
 
@@ -12833,6 +13411,8 @@ public final class Main {
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `Optional<String> region`
 
                           Region or state name.
@@ -12869,7 +13449,7 @@ public final class Main {
 
                 - `class BetaManagedAgentsMcpToolset`
 
-                  - `Type type`
+                  - `JsonValue type = "mcp_toolset"`
 
                   - `List<BetaManagedAgentsMcpToolConfig> configs`
 
@@ -12921,7 +13501,7 @@ public final class Main {
 
                   A custom tool as returned in API responses.
 
-                  - `Type type`
+                  - `JsonValue type = "custom"`
 
                   - `String description`
 
@@ -12937,7 +13517,7 @@ public final class Main {
 
                   - `String name`
 
-              - `long version`
+              - `int version`
 
                 format: int32
 
@@ -12945,7 +13525,7 @@ public final class Main {
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `Type type`
+              - `JsonValue type = "advisor"`
 
               - `String model`
 
@@ -13007,11 +13587,15 @@ public final class Main {
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `Type type`
+                - `JsonValue type = "agent"`
 
                 - `String id`
 
                 - `Optional<String> description`
+
+                - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -13027,7 +13611,7 @@ public final class Main {
 
                 - `List<Tool> tools`
 
-                - `long version`
+                - `int version`
 
                   format: int32
 
@@ -13055,11 +13639,15 @@ public final class Main {
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `Type type`
+                - `JsonValue type = "agent"`
 
                 - `String id`
 
                 - `Optional<String> description`
+
+                - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -13075,7 +13663,7 @@ public final class Main {
 
                 - `List<Tool> tools`
 
-                - `long version`
+                - `int version`
 
                   format: int32
 
@@ -13109,7 +13697,7 @@ public final class Main {
 
           A custom tool as returned in API responses.
 
-      - `long version`
+      - `int version`
 
         format: int32
 
@@ -13117,7 +13705,7 @@ public final class Main {
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `Type type`
+      - `JsonValue type = "limit"`
 
       - `BetaMonetaryAmount maxListCost`
 
@@ -13126,6 +13714,8 @@ public final class Main {
         - `String amount`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `BetaCurrency currency`
 
@@ -13143,7 +13733,7 @@ public final class Main {
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `Type type`
+    - `JsonValue type = "system.message"`
 
     - `String id`
 
@@ -13153,7 +13743,7 @@ public final class Main {
 
       System content blocks. Text-only.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -13161,7 +13751,7 @@ public final class Main {
 
         minLength: 1
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this system message was processed.
 
@@ -13171,13 +13761,13 @@ public final class Main {
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `Type type`
+    - `JsonValue type = "session.usage"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the snapshot was taken.
 
@@ -13197,25 +13787,25 @@ public final class Main {
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `Optional<Long> ephemeral1hInputTokens`
+        - `Optional<Integer> ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
           format: int32
 
-        - `Optional<Long> ephemeral5mInputTokens`
+        - `Optional<Integer> ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
           format: int32
 
-      - `Optional<Long> cacheReadInputTokens`
+      - `Optional<Integer> cacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
         format: int32
 
-      - `Optional<Long> inputTokens`
+      - `Optional<Integer> inputTokens`
 
         Total input tokens consumed across all turns.
 
@@ -13225,7 +13815,7 @@ public final class Main {
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `Optional<Long> outputTokens`
+      - `Optional<Integer> outputTokens`
 
         Total output tokens generated across all turns.
 
@@ -13235,13 +13825,13 @@ public final class Main {
 
         Cumulative server-executed tool usage across all turns.
 
-        - `Optional<Long> webFetchRequests`
+        - `Optional<Integer> webFetchRequests`
 
           Number of server-executed web fetch requests.
 
           format: int32
 
-        - `Optional<Long> webSearchRequests`
+        - `Optional<Integer> webSearchRequests`
 
           Number of server-executed web search requests.
 
@@ -13285,7 +13875,7 @@ public final class Main {
 
         Name that the agent gave the phase, passed on as written.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -13305,7 +13895,7 @@ public final class Main {
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -13401,7 +13991,7 @@ public final class Main {
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -13429,7 +14019,7 @@ public final class Main {
 
       Identifier of the `workflow_run.phase_started` event that opened the phase.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -13453,7 +14043,7 @@ public final class Main {
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -13473,7 +14063,7 @@ public final class Main {
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -13497,7 +14087,7 @@ public final class Main {
 
       Why the run did not finish, or was not created.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -13635,7 +14225,7 @@ public final class Main {
 
   The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-  - `Type type`
+  - `JsonValue type = "requires_action"`
 
   - `List<String> eventIds`
 
@@ -13647,7 +14237,7 @@ public final class Main {
 
   The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-  - `Type type`
+  - `JsonValue type = "retries_exhausted"`
 
 ### Beta Managed Agents Session Status Idle Event
 
@@ -13655,13 +14245,13 @@ public final class Main {
 
   Indicates the agent has paused and is awaiting user input.
 
-  - `Type type`
+  - `JsonValue type = "session.status_idle"`
 
   - `String id`
 
     Unique identifier for this event.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp of status change.
 
@@ -13697,13 +14287,13 @@ public final class Main {
 
       The agent completed its turn naturally and is ready for the next user message.
 
-      - `Type type`
+      - `JsonValue type = "end_turn"`
 
     - `class BetaManagedAgentsSessionRequiresAction`
 
       The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-      - `Type type`
+      - `JsonValue type = "requires_action"`
 
       - `List<String> eventIds`
 
@@ -13713,13 +14303,13 @@ public final class Main {
 
       The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-      - `Type type`
+      - `JsonValue type = "retries_exhausted"`
 
     - `class BetaManagedAgentsSessionBudgetReached`
 
       The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-      - `Type type`
+      - `JsonValue type = "budget_reached"`
 
     - `class BetaManagedAgentsSessionRefusal`
 
@@ -13733,13 +14323,13 @@ public final class Main {
 
   Indicates the session is recovering from an error state and is rescheduled for execution.
 
-  - `Type type`
+  - `JsonValue type = "session.status_rescheduled"`
 
   - `String id`
 
     Unique identifier for this event.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp of status change.
 
@@ -13751,13 +14341,13 @@ public final class Main {
 
   Indicates the session is actively running and the agent is working.
 
-  - `Type type`
+  - `JsonValue type = "session.status_running"`
 
   - `String id`
 
     Unique identifier for this event.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp of status change.
 
@@ -13769,13 +14359,13 @@ public final class Main {
 
   Indicates the session has terminated, either due to an error or completion.
 
-  - `Type type`
+  - `JsonValue type = "session.status_terminated"`
 
   - `String id`
 
     Unique identifier for this event.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp of status change.
 
@@ -13787,7 +14377,7 @@ public final class Main {
 
   Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-  - `Type type`
+  - `JsonValue type = "session.thread_created"`
 
   - `String id`
 
@@ -13797,7 +14387,7 @@ public final class Main {
 
     Name of the callable agent the thread runs.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when the thread was created.
 
@@ -13817,7 +14407,7 @@ public final class Main {
 
   A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-  - `Type type`
+  - `JsonValue type = "session.thread_status_idle"`
 
   - `String id`
 
@@ -13827,7 +14417,7 @@ public final class Main {
 
     Name of the agent the thread runs.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp of the status transition.
 
@@ -13867,13 +14457,13 @@ public final class Main {
 
       The agent completed its turn naturally and is ready for the next user message.
 
-      - `Type type`
+      - `JsonValue type = "end_turn"`
 
     - `class BetaManagedAgentsSessionRequiresAction`
 
       The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-      - `Type type`
+      - `JsonValue type = "requires_action"`
 
       - `List<String> eventIds`
 
@@ -13883,13 +14473,13 @@ public final class Main {
 
       The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-      - `Type type`
+      - `JsonValue type = "retries_exhausted"`
 
     - `class BetaManagedAgentsSessionBudgetReached`
 
       The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-      - `Type type`
+      - `JsonValue type = "budget_reached"`
 
     - `class BetaManagedAgentsSessionRefusal`
 
@@ -13903,7 +14493,7 @@ public final class Main {
 
   A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-  - `Type type`
+  - `JsonValue type = "session.thread_status_rescheduled"`
 
   - `String id`
 
@@ -13913,7 +14503,7 @@ public final class Main {
 
     Name of the agent the thread runs.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp of the status transition.
 
@@ -13929,7 +14519,7 @@ public final class Main {
 
   A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-  - `Type type`
+  - `JsonValue type = "session.thread_status_running"`
 
   - `String id`
 
@@ -13939,7 +14529,7 @@ public final class Main {
 
     Name of the agent the thread runs.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp of the status transition.
 
@@ -13955,7 +14545,7 @@ public final class Main {
 
   A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-  - `Type type`
+  - `JsonValue type = "session.thread_status_terminated"`
 
   - `String id`
 
@@ -13965,7 +14555,7 @@ public final class Main {
 
     Name of the agent the thread runs.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp of the status transition.
 
@@ -13991,25 +14581,25 @@ public final class Main {
 
     Tokens used to create prompt cache entries, broken down by cache TTL.
 
-    - `Optional<Long> ephemeral1hInputTokens`
+    - `Optional<Integer> ephemeral1hInputTokens`
 
       Tokens used to create 1-hour ephemeral cache entries.
 
       format: int32
 
-    - `Optional<Long> ephemeral5mInputTokens`
+    - `Optional<Integer> ephemeral5mInputTokens`
 
       Tokens used to create 5-minute ephemeral cache entries.
 
       format: int32
 
-  - `Optional<Long> cacheReadInputTokens`
+  - `Optional<Integer> cacheReadInputTokens`
 
     Total tokens read from prompt cache.
 
     format: int32
 
-  - `Optional<Long> inputTokens`
+  - `Optional<Integer> inputTokens`
 
     Total input tokens consumed across all turns.
 
@@ -14023,11 +14613,13 @@ public final class Main {
 
       Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+      pattern: ^(0|[1-9]\d*)$
+
     - `BetaCurrency currency`
 
       Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-  - `Optional<Long> outputTokens`
+  - `Optional<Integer> outputTokens`
 
     Total output tokens generated across all turns.
 
@@ -14037,13 +14629,13 @@ public final class Main {
 
     Cumulative server-executed tool usage across all turns.
 
-    - `Optional<Long> webFetchRequests`
+    - `Optional<Integer> webFetchRequests`
 
       Number of server-executed web fetch requests.
 
       format: int32
 
-    - `Optional<Long> webSearchRequests`
+    - `Optional<Integer> webSearchRequests`
 
       Number of server-executed web search requests.
 
@@ -14055,7 +14647,7 @@ public final class Main {
 
   Emitted when a model request completes.
 
-  - `Type type`
+  - `JsonValue type = "span.model_request_end"`
 
   - `String id`
 
@@ -14073,25 +14665,25 @@ public final class Main {
 
     Token usage for this model request.
 
-    - `long cacheCreationInputTokens`
+    - `int cacheCreationInputTokens`
 
       Tokens used to create prompt cache in this request.
 
       format: int32
 
-    - `long cacheReadInputTokens`
+    - `int cacheReadInputTokens`
 
       Tokens read from prompt cache in this request.
 
       format: int32
 
-    - `long inputTokens`
+    - `int inputTokens`
 
       Input tokens consumed by this request.
 
       format: int32
 
-    - `long outputTokens`
+    - `int outputTokens`
 
       Output tokens generated by this request.
 
@@ -14105,7 +14697,7 @@ public final class Main {
 
       - `FAST("fast")`
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when the model request completed.
 
@@ -14117,13 +14709,13 @@ public final class Main {
 
   Emitted when a model request is initiated by the agent.
 
-  - `Type type`
+  - `JsonValue type = "span.model_request_start"`
 
   - `String id`
 
     Unique identifier for this event.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when the model request started.
 
@@ -14135,25 +14727,25 @@ public final class Main {
 
   Token usage for a single model request.
 
-  - `long cacheCreationInputTokens`
+  - `int cacheCreationInputTokens`
 
     Tokens used to create prompt cache in this request.
 
     format: int32
 
-  - `long cacheReadInputTokens`
+  - `int cacheReadInputTokens`
 
     Tokens read from prompt cache in this request.
 
     format: int32
 
-  - `long inputTokens`
+  - `int inputTokens`
 
     Input tokens consumed by this request.
 
     format: int32
 
-  - `long outputTokens`
+  - `int outputTokens`
 
     Output tokens generated by this request.
 
@@ -14173,7 +14765,7 @@ public final class Main {
 
   Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-  - `Type type`
+  - `JsonValue type = "span.outcome_evaluation_end"`
 
   - `String id`
 
@@ -14183,7 +14775,7 @@ public final class Main {
 
     Human-readable explanation of the verdict. For `needs_revision`, describes which criteria failed and why.
 
-  - `long iteration`
+  - `int iteration`
 
     0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
 
@@ -14197,7 +14789,7 @@ public final class Main {
 
     The `outc_` ID of the outcome being evaluated.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when outcome evaluation ended.
 
@@ -14211,25 +14803,25 @@ public final class Main {
 
     Aggregate token usage for this evaluation cycle. Sums across all grader model requests within the cycle.
 
-    - `long cacheCreationInputTokens`
+    - `int cacheCreationInputTokens`
 
       Tokens used to create prompt cache in this request.
 
       format: int32
 
-    - `long cacheReadInputTokens`
+    - `int cacheReadInputTokens`
 
       Tokens read from prompt cache in this request.
 
       format: int32
 
-    - `long inputTokens`
+    - `int inputTokens`
 
       Input tokens consumed by this request.
 
       format: int32
 
-    - `long outputTokens`
+    - `int outputTokens`
 
       Output tokens generated by this request.
 
@@ -14249,13 +14841,13 @@ public final class Main {
 
   Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-  - `Type type`
+  - `JsonValue type = "span.outcome_evaluation_ongoing"`
 
   - `String id`
 
     Unique identifier for this event.
 
-  - `long iteration`
+  - `int iteration`
 
     0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
 
@@ -14265,7 +14857,7 @@ public final class Main {
 
     The `outc_` ID of the outcome being evaluated.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this heartbeat was emitted.
 
@@ -14277,13 +14869,13 @@ public final class Main {
 
   Emitted when an outcome evaluation cycle begins.
 
-  - `Type type`
+  - `JsonValue type = "span.outcome_evaluation_start"`
 
   - `String id`
 
     Unique identifier for this event.
 
-  - `long iteration`
+  - `int iteration`
 
     0-indexed revision cycle. 0 is the first evaluation; 1 is the re-evaluation after the first revision; etc.
 
@@ -14293,7 +14885,7 @@ public final class Main {
 
     The `outc_` ID of the outcome being evaluated.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when outcome evaluation started.
 
@@ -14309,7 +14901,7 @@ public final class Main {
 
     A user message event in the session conversation.
 
-    - `Type type`
+    - `JsonValue type = "user.message"`
 
     - `String id`
 
@@ -14323,7 +14915,7 @@ public final class Main {
 
         Regular text content.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -14335,7 +14927,7 @@ public final class Main {
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type type`
+        - `JsonValue type = "image"`
 
         - `Source source`
 
@@ -14345,7 +14937,7 @@ public final class Main {
 
             Base64-encoded image data.
 
-            - `Type type`
+            - `JsonValue type = "base64"`
 
             - `String data`
 
@@ -14363,7 +14955,7 @@ public final class Main {
 
             Image referenced by URL.
 
-            - `Type type`
+            - `JsonValue type = "url"`
 
             - `String url`
 
@@ -14375,7 +14967,7 @@ public final class Main {
 
             Image referenced by file ID.
 
-            - `Type type`
+            - `JsonValue type = "file"`
 
             - `String fileId`
 
@@ -14387,7 +14979,7 @@ public final class Main {
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type type`
+        - `JsonValue type = "document"`
 
         - `Source source`
 
@@ -14397,7 +14989,7 @@ public final class Main {
 
             Base64-encoded document data.
 
-            - `Type type`
+            - `JsonValue type = "base64"`
 
             - `String data`
 
@@ -14415,7 +15007,7 @@ public final class Main {
 
             Plain text document content.
 
-            - `Type type`
+            - `JsonValue type = "text"`
 
             - `String data`
 
@@ -14423,7 +15015,7 @@ public final class Main {
 
               minLength: 1
 
-            - `MediaType mediaType`
+            - `JsonValue mediaType = "text/plain"`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -14431,7 +15023,7 @@ public final class Main {
 
             Document referenced by URL.
 
-            - `Type type`
+            - `JsonValue type = "url"`
 
             - `String url`
 
@@ -14443,7 +15035,7 @@ public final class Main {
 
             Document referenced by file ID.
 
-            - `Type type`
+            - `JsonValue type = "file"`
 
             - `String fileId`
 
@@ -14463,9 +15055,9 @@ public final class Main {
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type type`
+        - `JsonValue type = "redacted"`
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the agent finished processing this message.
 
@@ -14475,13 +15067,13 @@ public final class Main {
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `Type type`
+    - `JsonValue type = "user.interrupt"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the interrupt was processed.
 
@@ -14495,7 +15087,7 @@ public final class Main {
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `Type type`
+    - `JsonValue type = "user.tool_confirmation"`
 
     - `String id`
 
@@ -14519,7 +15111,7 @@ public final class Main {
 
       maxLength: 10000
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the confirmation was processed.
 
@@ -14533,7 +15125,7 @@ public final class Main {
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `Type type`
+    - `JsonValue type = "user.custom_tool_result"`
 
     - `String id`
 
@@ -14563,7 +15155,7 @@ public final class Main {
 
         A block containing a web search result.
 
-        - `Type type`
+        - `JsonValue type = "search_result"`
 
         - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -14577,7 +15169,7 @@ public final class Main {
 
           Array of text content blocks from the search result.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String text`
 
@@ -14601,7 +15193,7 @@ public final class Main {
 
       Whether the tool execution resulted in an error.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this result was processed.
 
@@ -14615,7 +15207,7 @@ public final class Main {
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `Type type`
+    - `JsonValue type = "agent.custom_tool_use"`
 
     - `String id`
 
@@ -14629,7 +15221,7 @@ public final class Main {
 
       Name of the custom tool being called.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this tool use was processed.
 
@@ -14643,7 +15235,7 @@ public final class Main {
 
     An agent response event in the session conversation.
 
-    - `Type type`
+    - `JsonValue type = "agent.message"`
 
     - `String id`
 
@@ -14661,7 +15253,7 @@ public final class Main {
 
         Placeholder for content withheld by Anthropic model policy.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this response was generated.
 
@@ -14671,13 +15263,13 @@ public final class Main {
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `Type type`
+    - `JsonValue type = "agent.thinking"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this thinking was produced.
 
@@ -14687,7 +15279,7 @@ public final class Main {
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `Type type`
+    - `JsonValue type = "agent.mcp_tool_use"`
 
     - `String id`
 
@@ -14705,7 +15297,7 @@ public final class Main {
 
       Name of the MCP tool being used.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -14785,7 +15377,7 @@ public final class Main {
 
     Event representing the result of an MCP tool execution.
 
-    - `Type type`
+    - `JsonValue type = "agent.mcp_tool_result"`
 
     - `String id`
 
@@ -14795,7 +15387,7 @@ public final class Main {
 
       The id of the `agent.mcp_tool_use` event this result corresponds to.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -14829,7 +15421,7 @@ public final class Main {
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `Type type`
+    - `JsonValue type = "agent.tool_use"`
 
     - `String id`
 
@@ -14843,7 +15435,7 @@ public final class Main {
 
       Name of the agent tool being used.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -14865,13 +15457,13 @@ public final class Main {
 
     Event representing the result of an agent tool execution.
 
-    - `Type type`
+    - `JsonValue type = "agent.tool_result"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -14909,7 +15501,7 @@ public final class Main {
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_message_received"`
 
     - `String id`
 
@@ -14939,7 +15531,7 @@ public final class Main {
 
       Public `sthr_` ID of the thread that sent the message.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the message was received.
 
@@ -14953,7 +15545,7 @@ public final class Main {
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_message_sent"`
 
     - `String id`
 
@@ -14979,7 +15571,7 @@ public final class Main {
 
         Placeholder for content withheld by Anthropic model policy.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the message was sent.
 
@@ -14997,13 +15589,13 @@ public final class Main {
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_context_compacted"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when compaction was processed.
 
@@ -15013,7 +15605,7 @@ public final class Main {
 
     An error event indicating a problem occurred during session execution.
 
-    - `Type type`
+    - `JsonValue type = "session.error"`
 
     - `String id`
 
@@ -15025,7 +15617,7 @@ public final class Main {
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `Type type`
+        - `JsonValue type = "unknown_error"`
 
         - `String message`
 
@@ -15039,25 +15631,25 @@ public final class Main {
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `Type type`
+            - `JsonValue type = "retrying"`
 
           - `class BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `Type type`
+            - `JsonValue type = "exhausted"`
 
           - `class BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `Type type`
+            - `JsonValue type = "terminal"`
 
       - `class BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `Type type`
+        - `JsonValue type = "model_overloaded_error"`
 
         - `String message`
 
@@ -15083,7 +15675,7 @@ public final class Main {
 
         The model request was rate-limited.
 
-        - `Type type`
+        - `JsonValue type = "model_rate_limited_error"`
 
         - `String message`
 
@@ -15109,7 +15701,7 @@ public final class Main {
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `Type type`
+        - `JsonValue type = "model_request_failed_error"`
 
         - `String message`
 
@@ -15135,7 +15727,7 @@ public final class Main {
 
         Failed to connect to an MCP server.
 
-        - `Type type`
+        - `JsonValue type = "mcp_connection_failed_error"`
 
         - `String mcpServerName`
 
@@ -15165,7 +15757,7 @@ public final class Main {
 
         Authentication to an MCP server failed.
 
-        - `Type type`
+        - `JsonValue type = "mcp_authentication_failed_error"`
 
         - `String mcpServerName`
 
@@ -15195,7 +15787,7 @@ public final class Main {
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `Type type`
+        - `JsonValue type = "billing_error"`
 
         - `String message`
 
@@ -15221,7 +15813,7 @@ public final class Main {
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `Type type`
+        - `JsonValue type = "credential_host_unreachable_error"`
 
         - `String credentialId`
 
@@ -15250,6 +15842,58 @@ public final class Main {
         - `String vaultId`
 
           ID of the vault containing the affected credential.
+
+      - `class BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonValue type = "tool_use_limit_reached_error"`
+
+        - `String message`
+
+          Human-readable error description.
+
+        - `RetryStatus retryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `class BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonValue type = "compaction_limit_reached_error"`
+
+        - `String message`
+
+          Human-readable error description.
+
+        - `RetryStatus retryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `class BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -15401,7 +16045,7 @@ public final class Main {
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the error occurred.
 
@@ -15411,13 +16055,13 @@ public final class Main {
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `Type type`
+    - `JsonValue type = "session.status_rescheduled"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -15427,13 +16071,13 @@ public final class Main {
 
     Indicates the session is actively running and the agent is working.
 
-    - `Type type`
+    - `JsonValue type = "session.status_running"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -15443,13 +16087,13 @@ public final class Main {
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `Type type`
+    - `JsonValue type = "session.status_idle"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -15485,13 +16129,13 @@ public final class Main {
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `Type type`
+        - `JsonValue type = "end_turn"`
 
       - `class BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `Type type`
+        - `JsonValue type = "requires_action"`
 
         - `List<String> eventIds`
 
@@ -15501,13 +16145,13 @@ public final class Main {
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `Type type`
+        - `JsonValue type = "retries_exhausted"`
 
       - `class BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `Type type`
+        - `JsonValue type = "budget_reached"`
 
       - `class BetaManagedAgentsSessionRefusal`
 
@@ -15519,13 +16163,13 @@ public final class Main {
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `Type type`
+    - `JsonValue type = "session.status_terminated"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -15535,7 +16179,7 @@ public final class Main {
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_created"`
 
     - `String id`
 
@@ -15545,7 +16189,7 @@ public final class Main {
 
       Name of the callable agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the thread was created.
 
@@ -15563,13 +16207,13 @@ public final class Main {
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_start"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle. 0 is the first evaluation; 1 is the re-evaluation after the first revision; etc.
 
@@ -15579,7 +16223,7 @@ public final class Main {
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when outcome evaluation started.
 
@@ -15589,7 +16233,7 @@ public final class Main {
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_end"`
 
     - `String id`
 
@@ -15599,7 +16243,7 @@ public final class Main {
 
       Human-readable explanation of the verdict. For `needs_revision`, describes which criteria failed and why.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
 
@@ -15613,7 +16257,7 @@ public final class Main {
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when outcome evaluation ended.
 
@@ -15627,25 +16271,25 @@ public final class Main {
 
       Aggregate token usage for this evaluation cycle. Sums across all grader model requests within the cycle.
 
-      - `long cacheCreationInputTokens`
+      - `int cacheCreationInputTokens`
 
         Tokens used to create prompt cache in this request.
 
         format: int32
 
-      - `long cacheReadInputTokens`
+      - `int cacheReadInputTokens`
 
         Tokens read from prompt cache in this request.
 
         format: int32
 
-      - `long inputTokens`
+      - `int inputTokens`
 
         Input tokens consumed by this request.
 
         format: int32
 
-      - `long outputTokens`
+      - `int outputTokens`
 
         Output tokens generated by this request.
 
@@ -15663,13 +16307,13 @@ public final class Main {
 
     Emitted when a model request is initiated by the agent.
 
-    - `Type type`
+    - `JsonValue type = "span.model_request_start"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the model request started.
 
@@ -15679,7 +16323,7 @@ public final class Main {
 
     Emitted when a model request completes.
 
-    - `Type type`
+    - `JsonValue type = "span.model_request_end"`
 
     - `String id`
 
@@ -15697,7 +16341,7 @@ public final class Main {
 
       Token usage for this model request.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the model request completed.
 
@@ -15707,13 +16351,13 @@ public final class Main {
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_ongoing"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
 
@@ -15723,7 +16367,7 @@ public final class Main {
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this heartbeat was emitted.
 
@@ -15733,7 +16377,7 @@ public final class Main {
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `Type type`
+    - `JsonValue type = "user.define_outcome"`
 
     - `String id`
 
@@ -15743,7 +16387,7 @@ public final class Main {
 
       What the agent should produce. Copied from the input event.
 
-    - `Optional<Long> maxIterations`
+    - `Optional<Integer> maxIterations`
 
       Evaluate-then-revise cycles before giving up. Default 3, max 20.
 
@@ -15753,7 +16397,7 @@ public final class Main {
 
       Server-generated `outc_` ID for this outcome. Referenced by `span.outcome_evaluation_*` events and the session's `outcome_evaluations` list.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the outcome was accepted.
 
@@ -15767,7 +16411,7 @@ public final class Main {
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type type`
+        - `JsonValue type = "file"`
 
         - `String fileId`
 
@@ -15777,7 +16421,7 @@ public final class Main {
 
         Rubric content provided inline as text.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String content`
 
@@ -15787,13 +16431,13 @@ public final class Main {
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `Type type`
+    - `JsonValue type = "session.deleted"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the session was deleted.
 
@@ -15803,7 +16447,7 @@ public final class Main {
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_running"`
 
     - `String id`
 
@@ -15813,7 +16457,7 @@ public final class Main {
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -15827,7 +16471,7 @@ public final class Main {
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_idle"`
 
     - `String id`
 
@@ -15837,7 +16481,7 @@ public final class Main {
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -15877,7 +16521,7 @@ public final class Main {
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_terminated"`
 
     - `String id`
 
@@ -15887,7 +16531,7 @@ public final class Main {
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -15901,7 +16545,7 @@ public final class Main {
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type type`
+    - `JsonValue type = "user.tool_result"`
 
     - `String id`
 
@@ -15935,7 +16579,7 @@ public final class Main {
 
       Whether the tool execution resulted in an error.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this result was processed.
 
@@ -15949,7 +16593,7 @@ public final class Main {
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_rescheduled"`
 
     - `String id`
 
@@ -15959,7 +16603,7 @@ public final class Main {
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -15973,13 +16617,13 @@ public final class Main {
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `Type type`
+    - `JsonValue type = "session.updated"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the update was applied.
 
@@ -15989,15 +16633,37 @@ public final class Main {
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `Type type`
+      - `JsonValue type = "agent"`
 
       - `String id`
 
       - `Optional<String> description`
 
+      - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `JsonValue type = "aws_role"`
+
+          - `String roleArn`
+
+            The IAM role's ARN.
+
+        - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `JsonValue type = "service_account"`
+
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-        - `Type type`
+        - `JsonValue type = "url"`
+
+        - `String name`
 
         - `String name`
 
@@ -16012,6 +16678,10 @@ public final class Main {
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -16089,31 +16759,31 @@ public final class Main {
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "low"`
 
           - `class BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "medium"`
 
           - `class BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "high"`
 
           - `class BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type type`
+            - `JsonValue type = "xhigh"`
 
           - `class BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type type`
+            - `JsonValue type = "max"`
 
         - `Optional<String> inferenceGeo`
 
@@ -16135,7 +16805,7 @@ public final class Main {
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `Type type`
+          - `JsonValue type = "coordinator"`
 
           - `List<Agent> agents`
 
@@ -16145,15 +16815,19 @@ public final class Main {
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `Type type`
+              - `JsonValue type = "agent"`
 
               - `String id`
 
               - `Optional<String> description`
 
+              - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-                - `Type type`
+                - `JsonValue type = "url"`
 
                 - `String name`
 
@@ -16171,7 +16845,7 @@ public final class Main {
 
                   A resolved Anthropic-managed skill.
 
-                  - `Type type`
+                  - `JsonValue type = "anthropic"`
 
                   - `String skillId`
 
@@ -16181,7 +16855,7 @@ public final class Main {
 
                   A resolved user-created custom skill.
 
-                  - `Type type`
+                  - `JsonValue type = "custom"`
 
                   - `String skillId`
 
@@ -16193,7 +16867,7 @@ public final class Main {
 
                 - `class BetaManagedAgentsAgentToolset20260401`
 
-                  - `Type type`
+                  - `JsonValue type = "agent_toolset_20260401"`
 
                   - `List<BetaManagedAgentsAgentToolConfig> configs`
 
@@ -16215,13 +16889,13 @@ public final class Main {
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `Type type`
+                          - `JsonValue type = "always_allow"`
 
                         - `class BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `Type type`
+                          - `JsonValue type = "always_ask"`
 
                         - `class BetaManagedAgentsAutoPolicy`
 
@@ -16465,7 +17139,7 @@ public final class Main {
 
                       - `Optional<List<String>> blockedDomains`
 
-                      - `Optional<Long> maxContentTokens`
+                      - `Optional<Integer> maxContentTokens`
 
                         format: int32
 
@@ -16517,6 +17191,8 @@ public final class Main {
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `Optional<String> region`
 
                           Region or state name.
@@ -16553,7 +17229,7 @@ public final class Main {
 
                 - `class BetaManagedAgentsMcpToolset`
 
-                  - `Type type`
+                  - `JsonValue type = "mcp_toolset"`
 
                   - `List<BetaManagedAgentsMcpToolConfig> configs`
 
@@ -16605,7 +17281,7 @@ public final class Main {
 
                   A custom tool as returned in API responses.
 
-                  - `Type type`
+                  - `JsonValue type = "custom"`
 
                   - `String description`
 
@@ -16621,7 +17297,7 @@ public final class Main {
 
                   - `String name`
 
-              - `long version`
+              - `int version`
 
                 format: int32
 
@@ -16629,7 +17305,7 @@ public final class Main {
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `Type type`
+              - `JsonValue type = "advisor"`
 
               - `String model`
 
@@ -16691,11 +17367,15 @@ public final class Main {
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `Type type`
+                - `JsonValue type = "agent"`
 
                 - `String id`
 
                 - `Optional<String> description`
+
+                - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -16711,7 +17391,7 @@ public final class Main {
 
                 - `List<Tool> tools`
 
-                - `long version`
+                - `int version`
 
                   format: int32
 
@@ -16739,11 +17419,15 @@ public final class Main {
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `Type type`
+                - `JsonValue type = "agent"`
 
                 - `String id`
 
                 - `Optional<String> description`
+
+                - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -16759,7 +17443,7 @@ public final class Main {
 
                 - `List<Tool> tools`
 
-                - `long version`
+                - `int version`
 
                   format: int32
 
@@ -16793,7 +17477,7 @@ public final class Main {
 
           A custom tool as returned in API responses.
 
-      - `long version`
+      - `int version`
 
         format: int32
 
@@ -16801,7 +17485,7 @@ public final class Main {
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `Type type`
+      - `JsonValue type = "limit"`
 
       - `BetaMonetaryAmount maxListCost`
 
@@ -16810,6 +17494,8 @@ public final class Main {
         - `String amount`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `BetaCurrency currency`
 
@@ -16827,7 +17513,7 @@ public final class Main {
 
     Opens a preview of a buffered event. Carries the previewed event's type and id only. Followed by zero or more event_delta events with the same event id, normally concluded by the buffered event carrying that id. If the producing model request ends without that event (an error or interrupt mid-stream), its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `Type type`
+    - `JsonValue type = "event_start"`
 
     - `BetaManagedAgentsStartEventPreview event`
 
@@ -16835,7 +17521,7 @@ public final class Main {
 
       - `class BetaManagedAgentsAgentMessagePreview`
 
-        - `Type type`
+        - `JsonValue type = "agent.message"`
 
         - `String id`
 
@@ -16843,7 +17529,7 @@ public final class Main {
 
       - `class BetaManagedAgentsAgentThinkingPreview`
 
-        - `Type type`
+        - `JsonValue type = "agent.thinking"`
 
         - `String id`
 
@@ -16853,13 +17539,13 @@ public final class Main {
 
     An incremental update to an event that is still being streamed. Deltas are best-effort and may stop early; when the buffered event with id == event_id is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no buffered event — its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `Type type`
+    - `JsonValue type = "event_delta"`
 
     - `BetaManagedAgentsDeltaContent delta`
 
       One fragment of the previewed event. The delta type is named for the previewed event's field it streams into: agent.message events stream content_delta fragments, each a partial element of the content array.
 
-      - `Type type`
+      - `JsonValue type = "content_delta"`
 
       - `BetaManagedAgentsTextBlock content`
 
@@ -16877,7 +17563,7 @@ public final class Main {
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `Type type`
+    - `JsonValue type = "system.message"`
 
     - `String id`
 
@@ -16887,7 +17573,7 @@ public final class Main {
 
       System content blocks. Text-only.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -16895,7 +17581,7 @@ public final class Main {
 
         minLength: 1
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this system message was processed.
 
@@ -16905,13 +17591,13 @@ public final class Main {
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `Type type`
+    - `JsonValue type = "session.usage"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the snapshot was taken.
 
@@ -16931,25 +17617,25 @@ public final class Main {
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `Optional<Long> ephemeral1hInputTokens`
+        - `Optional<Integer> ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
           format: int32
 
-        - `Optional<Long> ephemeral5mInputTokens`
+        - `Optional<Integer> ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
           format: int32
 
-      - `Optional<Long> cacheReadInputTokens`
+      - `Optional<Integer> cacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
         format: int32
 
-      - `Optional<Long> inputTokens`
+      - `Optional<Integer> inputTokens`
 
         Total input tokens consumed across all turns.
 
@@ -16959,7 +17645,7 @@ public final class Main {
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `Optional<Long> outputTokens`
+      - `Optional<Integer> outputTokens`
 
         Total output tokens generated across all turns.
 
@@ -16969,13 +17655,13 @@ public final class Main {
 
         Cumulative server-executed tool usage across all turns.
 
-        - `Optional<Long> webFetchRequests`
+        - `Optional<Integer> webFetchRequests`
 
           Number of server-executed web fetch requests.
 
           format: int32
 
-        - `Optional<Long> webSearchRequests`
+        - `Optional<Integer> webSearchRequests`
 
           Number of server-executed web search requests.
 
@@ -17019,7 +17705,7 @@ public final class Main {
 
         Name that the agent gave the phase, passed on as written.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -17039,7 +17725,7 @@ public final class Main {
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -17135,7 +17821,7 @@ public final class Main {
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -17163,7 +17849,7 @@ public final class Main {
 
       Identifier of the `workflow_run.phase_started` event that opened the phase.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -17187,7 +17873,7 @@ public final class Main {
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -17207,7 +17893,7 @@ public final class Main {
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -17231,7 +17917,7 @@ public final class Main {
 
       Why the run did not finish, or was not created.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -17247,13 +17933,13 @@ public final class Main {
 
   Privileged context for the accompanying turn and all subsequent turns, appended to the session's system context as a `role: "system"` turn rather than replacing the top-level system prompt. At most one per request: it must be the final event and immediately follow the `user.message`, `user.tool_result`, or `user.custom_tool_result` it accompanies. Only supported on models that accept mid-conversation system messages.
 
-  - `Type type`
+  - `JsonValue type = "system.message"`
 
   - `List<BetaManagedAgentsSystemContentBlock> content`
 
     System content blocks to append. Text-only.
 
-    - `Type type`
+    - `JsonValue type = "text"`
 
     - `String text`
 
@@ -17267,7 +17953,7 @@ public final class Main {
 
   Regular text content.
 
-  - `Type type`
+  - `JsonValue type = "text"`
 
   - `String text`
 
@@ -17281,7 +17967,7 @@ public final class Main {
 
   Rubric content provided inline as text.
 
-  - `Type type`
+  - `JsonValue type = "text"`
 
   - `String content`
 
@@ -17293,7 +17979,7 @@ public final class Main {
 
   Rubric content provided inline as text.
 
-  - `Type type`
+  - `JsonValue type = "text"`
 
   - `String content`
 
@@ -17325,11 +18011,13 @@ public final class Main {
 
     Short explanation written by the server. It never contains content from the run or its agents.
 
-### Beta Managed Agents Unknown Error
+### Beta Managed Agents Tool Use Limit Reached Error
 
-- `class BetaManagedAgentsUnknownError`
+- `class BetaManagedAgentsToolUseLimitReachedError`
 
-  An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
+  The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+  - `JsonValue type = "tool_use_limit_reached_error"`
 
   - `Type type`
 
@@ -17345,19 +18033,53 @@ public final class Main {
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `Type type`
+      - `JsonValue type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `Type type`
+      - `JsonValue type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `Type type`
+      - `JsonValue type = "terminal"`
+
+### Beta Managed Agents Unknown Error
+
+- `class BetaManagedAgentsUnknownError`
+
+  An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
+
+  - `JsonValue type = "unknown_error"`
+
+  - `String message`
+
+    Human-readable error description.
+
+  - `RetryStatus retryStatus`
+
+    What the client should do next.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonValue type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonValue type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonValue type = "terminal"`
 
 ### Beta Managed Agents Unknown Workflow Run Error
 
@@ -17377,7 +18099,7 @@ public final class Main {
 
   Document referenced by URL.
 
-  - `Type type`
+  - `JsonValue type = "url"`
 
   - `String url`
 
@@ -17391,7 +18113,7 @@ public final class Main {
 
   Image referenced by URL.
 
-  - `Type type`
+  - `JsonValue type = "url"`
 
   - `String url`
 
@@ -17405,7 +18127,7 @@ public final class Main {
 
   Event sent by the client providing the result of a custom tool execution.
 
-  - `Type type`
+  - `JsonValue type = "user.custom_tool_result"`
 
   - `String id`
 
@@ -17423,7 +18145,7 @@ public final class Main {
 
       Regular text content.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -17435,7 +18157,7 @@ public final class Main {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "image"`
 
       - `Source source`
 
@@ -17445,7 +18167,7 @@ public final class Main {
 
           Base64-encoded image data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -17463,7 +18185,7 @@ public final class Main {
 
           Image referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -17475,7 +18197,7 @@ public final class Main {
 
           Image referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -17487,7 +18209,7 @@ public final class Main {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "document"`
 
       - `Source source`
 
@@ -17497,7 +18219,7 @@ public final class Main {
 
           Base64-encoded document data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -17515,7 +18237,7 @@ public final class Main {
 
           Plain text document content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String data`
 
@@ -17523,7 +18245,7 @@ public final class Main {
 
             minLength: 1
 
-          - `MediaType mediaType`
+          - `JsonValue mediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -17531,7 +18253,7 @@ public final class Main {
 
           Document referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -17543,7 +18265,7 @@ public final class Main {
 
           Document referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -17563,7 +18285,7 @@ public final class Main {
 
       A block containing a web search result.
 
-      - `Type type`
+      - `JsonValue type = "search_result"`
 
       - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -17577,7 +18299,7 @@ public final class Main {
 
         Array of text content blocks from the search result.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -17601,7 +18323,7 @@ public final class Main {
 
     Whether the tool execution resulted in an error.
 
-  - `Optional<LocalDateTime> processedAt`
+  - `Optional<OffsetDateTime> processedAt`
 
     Timestamp when this result was processed.
 
@@ -17617,7 +18339,7 @@ public final class Main {
 
   Parameters for providing the result of a custom tool execution.
 
-  - `Type type`
+  - `JsonValue type = "user.custom_tool_result"`
 
   - `String customToolUseId`
 
@@ -17633,7 +18355,7 @@ public final class Main {
 
       Regular text content.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -17645,7 +18367,7 @@ public final class Main {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "image"`
 
       - `Source source`
 
@@ -17655,7 +18377,7 @@ public final class Main {
 
           Base64-encoded image data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -17673,7 +18395,7 @@ public final class Main {
 
           Image referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -17685,7 +18407,7 @@ public final class Main {
 
           Image referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -17697,7 +18419,7 @@ public final class Main {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "document"`
 
       - `Source source`
 
@@ -17707,7 +18429,7 @@ public final class Main {
 
           Base64-encoded document data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -17725,7 +18447,7 @@ public final class Main {
 
           Plain text document content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String data`
 
@@ -17733,7 +18455,7 @@ public final class Main {
 
             minLength: 1
 
-          - `MediaType mediaType`
+          - `JsonValue mediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -17741,7 +18463,7 @@ public final class Main {
 
           Document referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -17753,7 +18475,7 @@ public final class Main {
 
           Document referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -17773,7 +18495,7 @@ public final class Main {
 
       A block containing a web search result.
 
-      - `Type type`
+      - `JsonValue type = "search_result"`
 
       - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -17787,7 +18509,7 @@ public final class Main {
 
         Array of text content blocks from the search result.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -17817,7 +18539,7 @@ public final class Main {
 
   Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-  - `Type type`
+  - `JsonValue type = "user.define_outcome"`
 
   - `String id`
 
@@ -17827,7 +18549,7 @@ public final class Main {
 
     What the agent should produce. Copied from the input event.
 
-  - `Optional<Long> maxIterations`
+  - `Optional<Integer> maxIterations`
 
     Evaluate-then-revise cycles before giving up. Default 3, max 20.
 
@@ -17837,7 +18559,7 @@ public final class Main {
 
     Server-generated `outc_` ID for this outcome. Referenced by `span.outcome_evaluation_*` events and the session's `outcome_evaluations` list.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when the outcome was accepted.
 
@@ -17851,7 +18573,7 @@ public final class Main {
 
       Rubric referenced by a file uploaded via the Files API.
 
-      - `Type type`
+      - `JsonValue type = "file"`
 
       - `String fileId`
 
@@ -17861,7 +18583,7 @@ public final class Main {
 
       Rubric content provided inline as text.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String content`
 
@@ -17873,7 +18595,7 @@ public final class Main {
 
   Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-  - `Type type`
+  - `JsonValue type = "user.define_outcome"`
 
   - `String description`
 
@@ -17887,7 +18609,7 @@ public final class Main {
 
       Rubric referenced by a file uploaded via the Files API.
 
-      - `Type type`
+      - `JsonValue type = "file"`
 
       - `String fileId`
 
@@ -17897,7 +18619,7 @@ public final class Main {
 
       Rubric content provided inline as text.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String content`
 
@@ -17905,7 +18627,7 @@ public final class Main {
 
         maxLength: 262144
 
-  - `Optional<Long> maxIterations`
+  - `Optional<Integer> maxIterations`
 
     Eval→revision cycles before giving up. Default 3, max 20.
 
@@ -17917,13 +18639,13 @@ public final class Main {
 
   An interrupt event that pauses agent execution and returns control to the user.
 
-  - `Type type`
+  - `JsonValue type = "user.interrupt"`
 
   - `String id`
 
     Unique identifier for this event.
 
-  - `Optional<LocalDateTime> processedAt`
+  - `Optional<OffsetDateTime> processedAt`
 
     Timestamp when the interrupt was processed.
 
@@ -17939,7 +18661,7 @@ public final class Main {
 
   Parameters for sending an interrupt to pause the agent.
 
-  - `Type type`
+  - `JsonValue type = "user.interrupt"`
 
   - `Optional<String> sessionThreadId`
 
@@ -17951,7 +18673,7 @@ public final class Main {
 
   A user message event in the session conversation.
 
-  - `Type type`
+  - `JsonValue type = "user.message"`
 
   - `String id`
 
@@ -17965,7 +18687,7 @@ public final class Main {
 
       Regular text content.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -17977,7 +18699,7 @@ public final class Main {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "image"`
 
       - `Source source`
 
@@ -17987,7 +18709,7 @@ public final class Main {
 
           Base64-encoded image data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -18005,7 +18727,7 @@ public final class Main {
 
           Image referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -18017,7 +18739,7 @@ public final class Main {
 
           Image referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -18029,7 +18751,7 @@ public final class Main {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "document"`
 
       - `Source source`
 
@@ -18039,7 +18761,7 @@ public final class Main {
 
           Base64-encoded document data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -18057,7 +18779,7 @@ public final class Main {
 
           Plain text document content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String data`
 
@@ -18065,7 +18787,7 @@ public final class Main {
 
             minLength: 1
 
-          - `MediaType mediaType`
+          - `JsonValue mediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -18073,7 +18795,7 @@ public final class Main {
 
           Document referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -18085,7 +18807,7 @@ public final class Main {
 
           Document referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -18105,9 +18827,9 @@ public final class Main {
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `Type type`
+      - `JsonValue type = "redacted"`
 
-  - `Optional<LocalDateTime> processedAt`
+  - `Optional<OffsetDateTime> processedAt`
 
     Timestamp when the agent finished processing this message.
 
@@ -18119,7 +18841,7 @@ public final class Main {
 
   Parameters for sending a user message to the session.
 
-  - `Type type`
+  - `JsonValue type = "user.message"`
 
   - `List<Content> content`
 
@@ -18129,7 +18851,7 @@ public final class Main {
 
       Regular text content.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -18141,7 +18863,7 @@ public final class Main {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "image"`
 
       - `Source source`
 
@@ -18151,7 +18873,7 @@ public final class Main {
 
           Base64-encoded image data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -18169,7 +18891,7 @@ public final class Main {
 
           Image referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -18181,7 +18903,7 @@ public final class Main {
 
           Image referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -18193,7 +18915,7 @@ public final class Main {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "document"`
 
       - `Source source`
 
@@ -18203,7 +18925,7 @@ public final class Main {
 
           Base64-encoded document data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -18221,7 +18943,7 @@ public final class Main {
 
           Plain text document content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String data`
 
@@ -18229,7 +18951,7 @@ public final class Main {
 
             minLength: 1
 
-          - `MediaType mediaType`
+          - `JsonValue mediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -18237,7 +18959,7 @@ public final class Main {
 
           Document referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -18249,7 +18971,7 @@ public final class Main {
 
           Document referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -18269,7 +18991,7 @@ public final class Main {
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `Type type`
+      - `JsonValue type = "redacted"`
 
 ### Beta Managed Agents User Tool Confirmation Event
 
@@ -18277,7 +18999,7 @@ public final class Main {
 
   A tool confirmation event that approves or denies a pending tool execution.
 
-  - `Type type`
+  - `JsonValue type = "user.tool_confirmation"`
 
   - `String id`
 
@@ -18301,7 +19023,7 @@ public final class Main {
 
     maxLength: 10000
 
-  - `Optional<LocalDateTime> processedAt`
+  - `Optional<OffsetDateTime> processedAt`
 
     Timestamp when the confirmation was processed.
 
@@ -18317,7 +19039,7 @@ public final class Main {
 
   Parameters for confirming or denying a tool execution request.
 
-  - `Type type`
+  - `JsonValue type = "user.tool_confirmation"`
 
   - `Result result`
 
@@ -18345,7 +19067,7 @@ public final class Main {
 
   Parameters for providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-  - `Type type`
+  - `JsonValue type = "user.tool_result"`
 
   - `String toolUseId`
 
@@ -18361,7 +19083,7 @@ public final class Main {
 
       Regular text content.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -18373,7 +19095,7 @@ public final class Main {
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "image"`
 
       - `Source source`
 
@@ -18383,7 +19105,7 @@ public final class Main {
 
           Base64-encoded image data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -18401,7 +19123,7 @@ public final class Main {
 
           Image referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -18413,7 +19135,7 @@ public final class Main {
 
           Image referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -18425,7 +19147,7 @@ public final class Main {
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `Type type`
+      - `JsonValue type = "document"`
 
       - `Source source`
 
@@ -18435,7 +19157,7 @@ public final class Main {
 
           Base64-encoded document data.
 
-          - `Type type`
+          - `JsonValue type = "base64"`
 
           - `String data`
 
@@ -18453,7 +19175,7 @@ public final class Main {
 
           Plain text document content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String data`
 
@@ -18461,7 +19183,7 @@ public final class Main {
 
             minLength: 1
 
-          - `MediaType mediaType`
+          - `JsonValue mediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -18469,7 +19191,7 @@ public final class Main {
 
           Document referenced by URL.
 
-          - `Type type`
+          - `JsonValue type = "url"`
 
           - `String url`
 
@@ -18481,7 +19203,7 @@ public final class Main {
 
           Document referenced by file ID.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -18501,7 +19223,7 @@ public final class Main {
 
       A block containing a web search result.
 
-      - `Type type`
+      - `JsonValue type = "search_result"`
 
       - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -18515,7 +19237,7 @@ public final class Main {
 
         Array of text content blocks from the search result.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -18575,7 +19297,7 @@ public final class Main {
 
       Name that the agent gave the phase, passed on as written.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this event was processed.
 
@@ -18707,7 +19429,7 @@ public final class Main {
 
         Short explanation written by the server. It never contains content from the run or its agents.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this event was processed.
 
@@ -18751,7 +19473,7 @@ public final class Main {
 
     Identifier of the `workflow_run.phase_started` event that opened the phase.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this event was processed.
 
@@ -18777,7 +19499,7 @@ public final class Main {
 
     Unique identifier for this event.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this event was processed.
 
@@ -18959,7 +19681,7 @@ public final class Main {
 
     Unique identifier for this event.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this event was processed.
 
@@ -19057,7 +19779,7 @@ public final class Main {
 
     Unique identifier for this event.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this event was processed.
 
@@ -19079,7 +19801,7 @@ public final class Main {
 
     Unique identifier for this event.
 
-  - `LocalDateTime processedAt`
+  - `OffsetDateTime processedAt`
 
     Timestamp when this event was processed.
 

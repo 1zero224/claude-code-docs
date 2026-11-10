@@ -6,35 +6,33 @@
 
 > Connect the Gmail connector so Claude can search your email and answer questions from your messages, with citations back to each one.
 
-The Gmail connector lets Claude search your email and answer questions from what it finds, with citations that link back to the messages it used. It's available on Pro, Max, Team, and Enterprise plans. On Team and Enterprise plans, an Owner or Primary Owner enables it for the organization before members can connect.
+The Gmail connector lets Claude search your email and answer questions from what it finds, with citations that link back to the messages it used. It's available on Pro, Max, Ultra, Team, and Enterprise plans. On Team and Enterprise plans, an Owner or Primary Owner enables it for the organization before members can connect.
 
 By the end of this page you have connected your Google account and asked Claude a first question about your email. Claude reads and searches email only; it can't create, send, or modify messages.
 
-<Note>
-  If your organization uses Outlook, see [Microsoft 365](/docs/connectors/microsoft/365) instead.
-</Note>
+> [!NOTE]
+>
+> If your organization uses Outlook, see [Microsoft 365](https://claude.com/docs/connectors/microsoft/365.md) instead.
 
 ## Connect Gmail
 
 You connect Gmail once from your connector settings, and Claude can then search your email in any conversation where you turn the connector on.
 
-<Steps>
-  <Step title="Open your connectors">
-    Go to [**Customize > Connectors**](https://claude.ai/customize/connectors) in claude.ai. **Customize** is the page that holds your connectors, skills, and plugins.
-  </Step>
+**1. Open your connectors**
 
-  <Step title="Connect Gmail">
-    Find **Gmail** in the list and select **Connect**.
-  </Step>
+Go to [**Customize > Connectors**](https://claude.ai/customize/connectors) in claude.ai. **Customize** is the page that holds your connectors, skills, and plugins.
 
-  <Step title="Sign in to Google">
-    Sign in to your Google account and grant the requested permissions.
-  </Step>
-</Steps>
+**2. Connect Gmail**
+
+Find **Gmail** in the list and select **Connect**.
+
+**3. Sign in to Google**
+
+Sign in to your Google account and grant the requested permissions.
 
 When the connection succeeds, the **Connect** button on the Gmail connector changes to **Disconnect**.
 
-On Team and Enterprise plans, Gmail doesn't appear in your connector list until an Owner or Primary Owner enables it for your organization. For the full walkthrough, including troubleshooting, see [Get started with connectors](/docs/connectors/getting-started).
+On Team and Enterprise plans, Gmail doesn't appear in your connector list until an Owner or Primary Owner enables it for your organization. For the full walkthrough, including troubleshooting, see [Get started with connectors](https://claude.com/docs/connectors/getting-started.md).
 
 ## Try the connector
 
@@ -65,7 +63,7 @@ The connector is read-only, and some email content isn't visible to Claude:
 
 ## Next steps
 
-* [Google Calendar](/docs/connectors/google/calendar): access your calendar information
-* [Google Drive](/docs/connectors/google/drive): search and read your Drive files
-* [Add a connector from the directory](/docs/connectors/getting-started#add-a-connector-from-the-directory): find a connector for another service in the directory and connect it
-* [Connectors directory](/docs/connectors/directory): browse verified and community integrations
+* [Google Calendar](https://claude.com/docs/connectors/google/calendar.md): access your calendar information
+* [Google Drive](https://claude.com/docs/connectors/google/drive.md): search and read your Drive files
+* [Add a connector from the directory](https://claude.com/docs/connectors/getting-started.md#add-a-connector-from-the-directory): find a connector for another service in the directory and connect it
+* [Connectors directory](https://claude.com/docs/connectors/directory.md): browse verified and community integrations

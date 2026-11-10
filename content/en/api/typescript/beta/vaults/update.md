@@ -1,15 +1,15 @@
 ---
-title: Update Vault
+title: Update a Vault
 url: https://platform.claude.com/docs/en/api/typescript/beta/vaults/update
 ---
 
-# Update Vault
+# Update a Vault
 
 `client.beta.vaults.update(vaultID, params, options?): BetaManagedAgentsVault`
 
 **POST** `/v1/vaults/{vault_id}`
 
-Update Vault
+Update a Vault
 
 ## Parameters
 
@@ -31,7 +31,7 @@ Update Vault
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -135,6 +135,18 @@ Update Vault
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -151,7 +163,7 @@ Update Vault
 
   - `id: string`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
   - `archived_at: string | null`
 
@@ -188,7 +200,10 @@ const client = new Anthropic({
   apiKey: process.env["ANTHROPIC_API_KEY"] // This is the default and can be omitted
 });
 
-const betaManagedAgentsVault = await client.beta.vaults.update("vlt_011CZkZDLs7fYzm1hXNPeRjv");
+const betaManagedAgentsVault = await client.beta.vaults.update(
+  "vlt_011CZkZDLs7fYzm1hXNPeRjv",
+  {}
+);
 
 console.log(betaManagedAgentsVault.id);
 ```

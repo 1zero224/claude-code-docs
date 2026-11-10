@@ -25,7 +25,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
 - `"anthropic-user-profile-id": optional string`
 
-  The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
+  The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
+
+- `"anthropic-workspace-id": optional string`
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `"anthropic-workspace-id": optional string`
 
@@ -114,290 +120,21 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
       See [input examples](https://platform.claude.com/docs/en/build-with-claude/working-with-messages?sdk_languages=http).
 
-      Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=http#give-claude-a-role), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
+      Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=http#give-claude-a-role), you can use the top-level `system` parameter.
 
       There is a limit of 100,000 messages in a single request.
 
-      - `content: string or array of ContentBlockParam`
+      - `UserMessageParam object`
 
-        - `string`
+        - `content: MessageContentParam`
 
-        - `array of ContentBlockParam`
+          - `string`
 
-          - `TextBlockParam object`
+          - `array of ContentBlockParam`
 
-            - `type: "text"`
+            - `TextBlockParam object`
 
-            - `text: string`
-
-              minLength: 1
-
-            - `cache_control: optional CacheControlEphemeral or null`
-
-              Create a cache control breakpoint at this content block.
-
-              - `type: "ephemeral"`
-
-              - `ttl: optional "5m" or "1h"`
-
-                The time-to-live for the cache control breakpoint.
-
-                This may be one the following values:
-
-                - `5m`: 5 minutes
-                - `1h`: 1 hour
-
-                Defaults to `5m`. See [prompt caching pricing](https://platform.claude.com/docs/en/build-with-claude/prompt-caching?sdk_languages=http) for details.
-
-                - `"5m"`
-
-                - `"1h"`
-
-            - `citations: optional array of TextCitationParam or null`
-
-              - `CitationCharLocationParam object`
-
-                - `type: "char_location"`
-
-                - `cited_text: string`
-
-                - `document_index: number`
-
-                  minimum: 0
-
-                - `document_title: string or null`
-
-                  minLength: 1, maxLength: 500
-
-                - `end_char_index: number`
-
-                - `start_char_index: number`
-
-                  minimum: 0
-
-              - `CitationPageLocationParam object`
-
-                - `type: "page_location"`
-
-                - `cited_text: string`
-
-                - `document_index: number`
-
-                  minimum: 0
-
-                - `document_title: string or null`
-
-                  minLength: 1, maxLength: 500
-
-                - `end_page_number: number`
-
-                - `start_page_number: number`
-
-                  minimum: 1
-
-              - `CitationContentBlockLocationParam object`
-
-                - `type: "content_block_location"`
-
-                - `cited_text: string`
-
-                  The full text of the cited block range, concatenated.
-
-                  Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
-
-                - `document_index: number`
-
-                  minimum: 0
-
-                - `document_title: string or null`
-
-                  minLength: 1, maxLength: 500
-
-                - `end_block_index: number`
-
-                  Exclusive 0-based end index of the cited block range in the source's `content` array.
-
-                  Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
-
-                - `start_block_index: number`
-
-                  0-based index of the first cited block in the source's `content` array.
-
-                  minimum: 0
-
-              - `CitationWebSearchResultLocationParam object`
-
-                - `type: "web_search_result_location"`
-
-                - `cited_text: string`
-
-                - `encrypted_index: string`
-
-                - `title: string or null`
-
-                  minLength: 1, maxLength: 512
-
-                - `url: string`
-
-                  minLength: 1
-
-              - `CitationSearchResultLocationParam object`
-
-                - `type: "search_result_location"`
-
-                - `cited_text: string`
-
-                  The full text of the cited block range, concatenated.
-
-                  Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
-
-                - `end_block_index: number`
-
-                  Exclusive 0-based end index of the cited block range in the source's `content` array.
-
-                  Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
-
-                - `search_result_index: number`
-
-                  0-based index of the cited search result among all `search_result` content blocks in the request, in the order they appear across messages and tool results.
-
-                  Counted separately from `document_index`; server-side web search results are not included in this count.
-
-                  minimum: 0
-
-                - `source: string`
-
-                - `start_block_index: number`
-
-                  0-based index of the first cited block in the source's `content` array.
-
-                  minimum: 0
-
-                - `title: string or null`
-
-          - `ImageBlockParam object`
-
-            - `type: "image"`
-
-            - `source: Base64ImageSource or URLImageSource or FileImageSource`
-
-              - `Base64ImageSource object`
-
-                - `type: "base64"`
-
-                - `data: string`
-
-                  format: byte
-
-                - `media_type: "image/jpeg" or "image/png" or "image/gif" or "image/webp"`
-
-                  - `"image/jpeg"`
-
-                  - `"image/png"`
-
-                  - `"image/gif"`
-
-                  - `"image/webp"`
-
-              - `URLImageSource object`
-
-                - `type: "url"`
-
-                - `url: string`
-
-              - `FileImageSource object`
-
-                - `type: "file"`
-
-                - `file_id: string`
-
-            - `cache_control: optional CacheControlEphemeral or null`
-
-              Create a cache control breakpoint at this content block.
-
-            - `transformations: optional ImageTransformationsParam or null`
-
-              Configures the transformations the server applies to this image before the model observes it. Each key names a condition the server transforms images for; its value selects the transformation applied. Omitted keys keep their default behavior, and an empty object is equivalent to omitting the field.
-
-              - `oversized_image: optional "downsize" or "error"`
-
-                What the server does when this image exceeds the model's maximum image size. `"downsize"` (the default) scales the image down to fit, which changes the dimensions the model observes without telling you. `"error"` instead rejects the request with a 400 error naming the image's dimensions and the largest dimensions that fit, so you can scale the image deliberately — your image is never silently scaled down.
-
-                - `"downsize"`
-
-                - `"error"`
-
-          - `DocumentBlockParam object`
-
-            - `type: "document"`
-
-            - `source: Base64PDFSource or PlainTextSource or ContentBlockSource or 2 more`
-
-              - `Base64PDFSource object`
-
-                - `type: "base64"`
-
-                - `data: string`
-
-                  format: byte
-
-                - `media_type: "application/pdf"`
-
-              - `PlainTextSource object`
-
-                - `type: "text"`
-
-                - `data: string`
-
-                - `media_type: "text/plain"`
-
-              - `ContentBlockSource object`
-
-                - `type: "content"`
-
-                - `content: string or array of ContentBlockSourceContent`
-
-                  - `string`
-
-                  - `ContentBlockSourceContent = array of ContentBlockSourceContent`
-
-                    - `TextBlockParam object`
-
-                    - `ImageBlockParam object`
-
-              - `URLPDFSource object`
-
-                - `type: "url"`
-
-                - `url: string`
-
-              - `FileDocumentSource object`
-
-                - `type: "file"`
-
-                - `file_id: string`
-
-            - `cache_control: optional CacheControlEphemeral or null`
-
-              Create a cache control breakpoint at this content block.
-
-            - `citations: optional CitationsConfigParam or null`
-
-              - `enabled: optional boolean`
-
-            - `context: optional string or null`
-
-              minLength: 1
-
-            - `title: optional string or null`
-
-              minLength: 1, maxLength: 500
-
-          - `SearchResultBlockParam object`
-
-            - `type: "search_result"`
-
-            - `content: array of TextBlockParam`
+              - `type: "text"`
 
               - `type: "text"`
 
@@ -409,697 +146,1002 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 Create a cache control breakpoint at this content block.
 
+                - `type: "ephemeral"`
+
+                - `ttl: optional "5m" or "1h"`
+
+                  The time-to-live for the cache control breakpoint.
+
+                  This may be one the following values:
+
+                  - `5m`: 5 minutes
+                  - `1h`: 1 hour
+
+                  Defaults to `5m`. See [prompt caching pricing](https://platform.claude.com/docs/en/build-with-claude/prompt-caching?sdk_languages=http) for details.
+
+                  - `"5m"`
+
+                  - `"1h"`
+
               - `citations: optional array of TextCitationParam or null`
 
-            - `source: string`
+                - `CitationCharLocationParam object`
 
-            - `title: string`
+                  - `type: "char_location"`
 
-            - `cache_control: optional CacheControlEphemeral or null`
+                  - `cited_text: string`
 
-              Create a cache control breakpoint at this content block.
+                  - `document_index: number`
 
-            - `citations: optional CitationsConfigParam`
+                    minimum: 0
 
-          - `ThinkingBlockParam object`
+                  - `document_title: string or null`
 
-            - `type: "thinking"`
+                    minLength: 1, maxLength: 500
 
-            - `signature: string`
+                  - `end_char_index: number`
 
-              The `signature` value of this thinking block, exactly as returned by the API in a previous response. Used to verify that the block was generated by Claude.
+                  - `start_char_index: number`
 
-              Thinking blocks must be passed back unmodified and in their original order; a modified block results in a 400 `invalid_request_error`.
+                    minimum: 0
 
-            - `thinking: string`
+                - `CitationPageLocationParam object`
 
-              The `thinking` text of this block as returned by the API.
+                  - `type: "page_location"`
 
-          - `RedactedThinkingBlockParam object`
+                  - `cited_text: string`
 
-            - `type: "redacted_thinking"`
+                  - `document_index: number`
 
-            - `data: string`
+                    minimum: 0
 
-              The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
+                  - `document_title: string or null`
 
-          - `ToolUseBlockParam object`
+                    minLength: 1, maxLength: 500
 
-            - `type: "tool_use"`
+                  - `end_page_number: number`
 
-            - `id: string`
+                  - `start_page_number: number`
 
-              pattern: ^[a-zA-Z0-9_-]+$
+                    minimum: 1
 
-            - `input: map[unknown]`
+                - `CitationContentBlockLocationParam object`
 
-            - `name: string`
+                  - `type: "content_block_location"`
 
-              minLength: 1, maxLength: 200
+                  - `cited_text: string`
 
-            - `cache_control: optional CacheControlEphemeral or null`
+                    The full text of the cited block range, concatenated.
 
-              Create a cache control breakpoint at this content block.
+                    Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
 
-            - `caller: optional DirectCaller or ServerToolCaller or ServerToolCaller20260120`
+                  - `document_index: number`
 
-              - `DirectCaller object`
+                    minimum: 0
 
-                Tool invocation directly from the model.
+                  - `document_title: string or null`
 
-                - `type: "direct"`
+                    minLength: 1, maxLength: 500
 
-              - `ServerToolCaller object`
+                  - `end_block_index: number`
 
-                Tool invocation generated by a server-side tool.
+                    Exclusive 0-based end index of the cited block range in the source's `content` array.
 
-                - `type: "code_execution_20250825"`
+                    Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
 
-                - `tool_id: string`
+                  - `start_block_index: number`
 
-                  pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+                    0-based index of the first cited block in the source's `content` array.
 
-              - `ServerToolCaller20260120 object`
+                    minimum: 0
 
-                - `type: "code_execution_20260120"`
+                - `CitationWebSearchResultLocationParam object`
 
-                - `tool_id: string`
+                  - `type: "web_search_result_location"`
 
-                  pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+                  - `cited_text: string`
 
-            - `toolset_name: optional string or null`
+                  - `encrypted_index: string`
 
-              For a toolset member tool_use, the toolset family this member belongs to.
+                  - `title: string or null`
 
-              minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+                    minLength: 1, maxLength: 512
 
-          - `ToolResultBlockParam object`
+                  - `url: string`
 
-            - `type: "tool_result"`
+                    minLength: 1
 
-            - `tool_use_id: string`
+                - `CitationSearchResultLocationParam object`
 
-              pattern: ^[a-zA-Z0-9_-]+$
+                  - `type: "search_result_location"`
 
-            - `cache_control: optional CacheControlEphemeral or null`
+                  - `cited_text: string`
 
-              Create a cache control breakpoint at this content block.
+                    The full text of the cited block range, concatenated.
 
-            - `content: optional string or array of TextBlockParam or ImageBlockParam or SearchResultBlockParam or 3 more`
+                    Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
 
-              - `string`
+                  - `end_block_index: number`
 
-              - `array of TextBlockParam or ImageBlockParam or SearchResultBlockParam or 3 more`
+                    Exclusive 0-based end index of the cited block range in the source's `content` array.
 
-                - `TextBlockParam object`
+                    Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
 
-                - `ImageBlockParam object`
+                  - `search_result_index: number`
 
-                - `SearchResultBlockParam object`
+                    0-based index of the cited search result among all `search_result` content blocks in the request, in the order they appear across messages and tool results.
 
-                - `DocumentBlockParam object`
+                    Counted separately from `document_index`; server-side web search results are not included in this count.
 
-                - `ToolReferenceBlockParam object`
+                    minimum: 0
 
-                  Tool reference block that can be included in tool_result content.
+                  - `source: string`
 
-                  - `type: "tool_reference"`
+                  - `start_block_index: number`
 
-                  - `tool_name: string`
+                    0-based index of the first cited block in the source's `content` array.
 
-                    minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+                    minimum: 0
 
-                  - `cache_control: optional CacheControlEphemeral or null`
+                  - `title: string or null`
 
-                    Create a cache control breakpoint at this content block.
+            - `ImageBlockParam object`
 
-                - `BrowserStateBlockParam object`
+              - `type: "image"`
 
-                  The caller's browser state after a browser toolset member call —
-                  the full inventory of open tabs, which tab is active, and any side
-                  effects (tabs opened, download state changes) the call produced.
+              - `source: Base64ImageSource or URLImageSource or FileImageSource`
 
-                  At most one per `tool_result`, only on a non-error result answering a
-                  browser toolset member `tool_use`. The server renders the
-                  model-visible text from it; the model never sees the raw fields.
+                - `Base64ImageSource object`
 
-                  - `type: "browser_state"`
+                  - `type: "base64"`
 
-                  - `tabs: array of BrowserStateTabEntry`
+                  - `data: string`
 
-                    All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
+                    format: byte
 
-                    maxItems: 100
+                  - `media_type: "image/jpeg" or "image/png" or "image/gif" or "image/webp"`
 
-                    - `tab_id: string`
+                    - `"image/jpeg"`
 
-                      The caller-assigned identifier for this tab, unique within the inventory.
+                    - `"image/png"`
 
-                      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                    - `"image/gif"`
 
-                    - `title: string`
+                    - `"image/webp"`
 
-                      The title of the page the tab is showing. May be empty.
+                - `URLImageSource object`
 
-                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                  - `type: "url"`
 
-                    - `url: string`
+                  - `url: string`
 
-                      The URL of the page the tab is showing. May be empty.
+                - `FileImageSource object`
 
-                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                  - `type: "file"`
 
-                    - `active: optional boolean`
+                  - `file_id: string`
 
-                      Whether this tab is the active tab after this call. Whenever `tabs` is non-empty, exactly one entry is marked `active: true`.
+              - `cache_control: optional CacheControlEphemeral or null`
 
-                  - `cache_control: optional CacheControlEphemeral or null`
+                Create a cache control breakpoint at this content block.
 
-                    Create a cache control breakpoint at this content block.
+              - `transformations: optional ImageTransformationsParam or null`
 
-                  - `state_changes: optional array of BrowserStateChange or null`
+                Configures the transformations the server applies to this image before the model observes it. Each key names a condition the server transforms images for; its value selects the transformation applied. Omitted keys keep their default behavior, and an empty object is equivalent to omitting the field.
 
-                    Tabs opened and download state changes during this call. "Nothing to report" is expressed by omitting the field, never by an empty list.
+                - `oversized_image: optional "downsize" or "error"`
 
-                    minItems: 1, maxItems: 200
+                  What the server does when this image exceeds the model's maximum image size. `"downsize"` (the default) scales the image down to fit, which changes the dimensions the model observes without telling you. `"error"` instead rejects the request with a 400 error naming the image's dimensions and the largest dimensions that fit, so you can scale the image deliberately — your image is never silently scaled down.
 
-                    - `BrowserStateChangeTabOpened object`
+                  - `"downsize"`
 
-                      A tab this call's execution opened that remains open at its end —
-                      the creation delta of the `tabs` inventory, not an event log.
+                  - `"error"`
 
-                      Carries only the `tab_id`; the tab's `title` and `url` live on its
-                      `tabs` entry, which must include the same `tab_id`. A tab opened
-                      during a failed call gets no deferred `tab_opened`; it simply appears
-                      in the next result's `tabs` inventory.
+            - `DocumentBlockParam object`
+
+              - `type: "document"`
+
+              - `source: Base64PDFSource or PlainTextSource or ContentBlockSource or 2 more`
+
+                - `Base64PDFSource object`
+
+                  - `type: "base64"`
+
+                  - `data: string`
+
+                    format: byte
+
+                  - `media_type: "application/pdf"`
+
+                - `PlainTextSource object`
+
+                  - `type: "text"`
+
+                  - `data: string`
+
+                  - `media_type: "text/plain"`
+
+                - `ContentBlockSource object`
+
+                  - `type: "content"`
+
+                  - `content: string or array of ContentBlockSourceContent`
+
+                    - `string`
+
+                    - `ContentBlockSourceContent = array of ContentBlockSourceContent`
+
+                      - `TextBlockParam object`
+
+                      - `ImageBlockParam object`
+
+                - `URLPDFSource object`
+
+                  - `type: "url"`
+
+                  - `url: string`
+
+                - `FileDocumentSource object`
+
+                  - `type: "file"`
+
+                  - `file_id: string`
+
+              - `cache_control: optional CacheControlEphemeral or null`
+
+                Create a cache control breakpoint at this content block.
+
+              - `citations: optional CitationsConfigParam or null`
+
+                - `enabled: optional boolean`
+
+              - `context: optional string or null`
+
+                minLength: 1
+
+              - `title: optional string or null`
+
+                minLength: 1, maxLength: 500
+
+            - `SearchResultBlockParam object`
+
+              - `type: "search_result"`
+
+              - `content: array of TextBlockParam`
+
+                - `type: "text"`
+
+                - `text: string`
+
+                  minLength: 1
+
+                - `cache_control: optional CacheControlEphemeral or null`
+
+                  Create a cache control breakpoint at this content block.
+
+                - `citations: optional array of TextCitationParam or null`
+
+              - `source: string`
+
+              - `title: string`
+
+              - `cache_control: optional CacheControlEphemeral or null`
+
+                Create a cache control breakpoint at this content block.
+
+              - `citations: optional CitationsConfigParam`
+
+            - `ThinkingBlockParam object`
+
+              - `type: "thinking"`
+
+              - `signature: string`
+
+                The `signature` value of this thinking block, exactly as returned by the API in a previous response. Used to verify that the block was generated by Claude.
+
+                Thinking blocks must be passed back unmodified and in their original order; a modified block results in a 400 `invalid_request_error`.
+
+              - `thinking: string`
+
+                The `thinking` text of this block as returned by the API.
+
+            - `RedactedThinkingBlockParam object`
+
+              - `type: "redacted_thinking"`
+
+              - `data: string`
+
+                The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
+
+            - `ToolUseBlockParam object`
+
+              - `type: "tool_use"`
+
+              - `id: string`
+
+                pattern: ^[a-zA-Z0-9_-]+$
+
+              - `input: map[unknown]`
+
+              - `name: string`
+
+                minLength: 1, maxLength: 200
+
+              - `cache_control: optional CacheControlEphemeral or null`
+
+                Create a cache control breakpoint at this content block.
+
+              - `caller: optional DirectCaller or ServerToolCaller or ServerToolCaller20260120`
+
+                - `DirectCaller object`
+
+                  Tool invocation directly from the model.
+
+                  - `type: "direct"`
+
+                - `ServerToolCaller object`
+
+                  Tool invocation generated by a server-side tool.
+
+                  - `type: "code_execution_20250825"`
+
+                  - `tool_id: string`
+
+                    pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+                - `ServerToolCaller20260120 object`
+
+                  - `type: "code_execution_20260120"`
+
+                  - `tool_id: string`
+
+                    pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+              - `toolset_name: optional string or null`
+
+                For a toolset member tool_use, the toolset family this member belongs to.
+
+                minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+
+            - `ToolResultBlockParam object`
+
+              - `type: "tool_result"`
+
+              - `tool_use_id: string`
+
+                pattern: ^[a-zA-Z0-9_-]+$
+
+              - `cache_control: optional CacheControlEphemeral or null`
+
+                Create a cache control breakpoint at this content block.
+
+              - `content: optional string or array of TextBlockParam or ImageBlockParam or SearchResultBlockParam or 3 more`
+
+                - `string`
+
+                - `array of TextBlockParam or ImageBlockParam or SearchResultBlockParam or 3 more`
+
+                  - `TextBlockParam object`
+
+                  - `ImageBlockParam object`
+
+                  - `SearchResultBlockParam object`
+
+                  - `DocumentBlockParam object`
+
+                  - `ToolReferenceBlockParam object`
+
+                    Tool reference block that can be included in tool_result content.
+
+                    - `type: "tool_reference"`
+
+                    - `tool_name: string`
+
+                      minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+
+                    - `cache_control: optional CacheControlEphemeral or null`
+
+                      Create a cache control breakpoint at this content block.
+
+                  - `BrowserStateBlockParam object`
+
+                    The caller's browser state after a browser toolset member call —
+                    the full inventory of open tabs, which tab is active, and any side
+                    effects (tabs opened, download state changes) the call produced.
+
+                    At most one per `tool_result`, only on a non-error result answering a
+                    browser toolset member `tool_use`. The server renders the
+                    model-visible text from it; the model never sees the raw fields.
+
+                    - `type: "browser_state"`
+
+                    - `tabs: array of BrowserStateTabEntry`
+
+                      All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
+
+                      maxItems: 100
 
                       - `type: "tab_opened"`
 
                       - `tab_id: string`
 
-                        The `tab_id` of the opened tab, present in `tabs`.
+                        The caller-assigned identifier for this tab, unique within the inventory.
 
                         minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    - `BrowserStateChangeDownloadStarted object`
+                      - `title: string`
 
-                      A file download that started during this call.
+                        The title of the page the tab is showing. May be empty.
 
-                      - `type: "download_started"`
-
-                      - `download_id: string`
-
-                        The caller-assigned identifier for this download, stable across the state changes reporting it.
-
-                        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
                       - `url: string`
 
-                        The final post-redirect URL the download was served from.
+                        The URL of the page the tab is showing. May be empty.
 
                         maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                    - `BrowserStateChangeDownloadCompleted object`
+                      - `active: optional boolean`
 
-                      A file download that finished during this call, reported with the
-                      same `download_id` as its `download_started` — or without a prior
-                      `download_started`, when the download finished during the call that
-                      started it (at most one state change per `download_id` per result).
+                        Whether this tab is the active tab after this call. Whenever `tabs` is non-empty, exactly one entry is marked `active: true`.
 
-                      - `type: "download_completed"`
+                    - `cache_control: optional CacheControlEphemeral or null`
 
-                      - `download_id: string`
+                      Create a cache control breakpoint at this content block.
 
-                        The caller-assigned identifier for this download, stable across the state changes reporting it.
+                    - `state_changes: optional array of BrowserStateChange or null`
 
-                        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                      Tabs opened and download state changes during this call. "Nothing to report" is expressed by omitting the field, never by an empty list.
 
-                      - `url: string`
+                      minItems: 1, maxItems: 200
 
-                        The final post-redirect URL the download was served from.
+                      - `BrowserStateChangeTabOpened object`
 
-                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                        A tab this call's execution opened that remains open at its end —
+                        the creation delta of the `tabs` inventory, not an event log.
 
-                      - `path: optional string or null`
+                        Carries only the `tab_id`; the tab's `title` and `url` live on its
+                        `tabs` entry, which must include the same `tab_id`. A tab opened
+                        during a failed call gets no deferred `tab_opened`; it simply appears
+                        in the next result's `tabs` inventory.
 
-                        Where the executor saved the file, on the executor's filesystem. Only included when another tool in the same environment can read the file at that path.
+                        - `type: "tab_opened"`
 
-                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                        - `tab_id: string`
 
-                      - `size_bytes: optional number or null`
+                          The `tab_id` of the opened tab, present in `tabs`.
 
-                        The completed download's size.
+                          minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                        minimum: 0
+                      - `BrowserStateChangeDownloadStarted object`
 
-                    - `BrowserStateChangeDownloadFailed object`
+                        A file download that started during this call.
 
-                      A file download that failed — or was cancelled — during this call.
+                        - `type: "download_started"`
 
-                      - `type: "download_failed"`
+                        - `download_id: string`
 
-                      - `download_id: string`
+                          The caller-assigned identifier for this download, stable across the state changes reporting it.
 
-                        The caller-assigned identifier for this download, stable across the state changes reporting it.
+                          minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                        - `url: string`
 
-                      - `url: string`
+                          The final post-redirect URL the download was served from.
 
-                        The final post-redirect URL the download was served from.
+                          maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                      - `BrowserStateChangeDownloadCompleted object`
 
-                      - `error: optional string or null`
+                        A file download that finished during this call, reported with the
+                        same `download_id` as its `download_started` — or without a prior
+                        `download_started`, when the download finished during the call that
+                        started it (at most one state change per `download_id` per result).
 
-                        The failure or cancellation detail, when known.
+                        - `type: "download_completed"`
 
-                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                        - `download_id: string`
 
-            - `is_error: optional boolean`
+                          The caller-assigned identifier for this download, stable across the state changes reporting it.
 
-            - `toolset_name: optional string or null`
+                          minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-              For a toolset member tool_result, the toolset family of the paired tool_use.
+                        - `url: string`
 
-              minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+                          The final post-redirect URL the download was served from.
 
-          - `ServerToolUseBlockParam object`
+                          maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-            - `type: "server_tool_use"`
+                        - `path: optional string or null`
 
-            - `id: string`
+                          Where the executor saved the file, on the executor's filesystem. Only included when another tool in the same environment can read the file at that path.
 
-              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+                          maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-            - `input: map[unknown]`
+                        - `size_bytes: optional number or null`
 
-            - `name: "web_search" or "web_fetch" or "code_execution" or 4 more`
+                          The completed download's size.
 
-              - `"web_search"`
+                          minimum: 0
 
-              - `"web_fetch"`
+                      - `BrowserStateChangeDownloadFailed object`
 
-              - `"code_execution"`
+                        A file download that failed — or was cancelled — during this call.
 
-              - `"bash_code_execution"`
+                        - `type: "download_failed"`
 
-              - `"text_editor_code_execution"`
+                        - `download_id: string`
 
-              - `"tool_search_tool_regex"`
+                          The caller-assigned identifier for this download, stable across the state changes reporting it.
 
-              - `"tool_search_tool_bm25"`
+                          minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+
+                        - `url: string`
+
+                          The final post-redirect URL the download was served from.
+
+                          maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+
+                        - `error: optional string or null`
+
+                          The failure or cancellation detail, when known.
+
+                          maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+
+              - `is_error: optional boolean`
+
+              - `toolset_name: optional string or null`
+
+                For a toolset member tool_result, the toolset family of the paired tool_use.
+
+                minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+
+            - `ServerToolUseBlockParam object`
+
+              - `type: "server_tool_use"`
+
+              - `id: string`
+
+                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+              - `input: map[unknown]`
+
+              - `name: "web_search" or "web_fetch" or "code_execution" or 4 more`
+
+                - `"web_search"`
+
+                - `"web_fetch"`
+
+                - `"code_execution"`
+
+                - `"bash_code_execution"`
+
+                - `"text_editor_code_execution"`
+
+                - `"tool_search_tool_regex"`
+
+                - `"tool_search_tool_bm25"`
+
+              - `cache_control: optional CacheControlEphemeral or null`
+
+                Create a cache control breakpoint at this content block.
+
+              - `caller: optional DirectCaller or ServerToolCaller or ServerToolCaller20260120`
+
+                - `DirectCaller object`
+
+                  Tool invocation directly from the model.
+
+                - `ServerToolCaller object`
+
+                  Tool invocation generated by a server-side tool.
+
+                - `ServerToolCaller20260120 object`
+
+            - `WebSearchToolResultBlockParam object`
+
+              - `type: "web_search_tool_result"`
+
+              - `content: WebSearchToolResultBlockParamContent`
+
+                - `WebSearchToolResultBlockItem = array of WebSearchResultBlockParam`
+
+                  - `type: "web_search_result"`
+
+                  - `encrypted_content: string`
+
+                  - `title: string`
+
+                  - `url: string`
+
+                  - `page_age: optional string or null`
+
+                - `WebSearchToolRequestError object`
+
+                  - `type: "web_search_tool_result_error"`
+
+                  - `error_code: WebSearchToolResultErrorCode`
+
+                    - `"invalid_tool_input"`
+
+                    - `"unavailable"`
+
+                    - `"max_uses_exceeded"`
+
+                    - `"too_many_requests"`
+
+                    - `"query_too_long"`
+
+                    - `"request_too_large"`
+
+              - `tool_use_id: string`
+
+                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+              - `cache_control: optional CacheControlEphemeral or null`
+
+                Create a cache control breakpoint at this content block.
+
+              - `caller: optional DirectCaller or ServerToolCaller or ServerToolCaller20260120`
+
+                - `DirectCaller object`
+
+                  Tool invocation directly from the model.
+
+                - `ServerToolCaller object`
+
+                  Tool invocation generated by a server-side tool.
+
+                - `ServerToolCaller20260120 object`
+
+            - `WebFetchToolResultBlockParam object`
+
+              - `type: "web_fetch_tool_result"`
+
+              - `content: WebFetchToolResultErrorBlockParam or WebFetchBlockParam`
+
+                - `WebFetchToolResultErrorBlockParam object`
+
+                  - `type: "web_fetch_tool_result_error"`
+
+                  - `error_code: WebFetchToolResultErrorCode`
+
+                    - `"invalid_tool_input"`
+
+                    - `"url_too_long"`
+
+                    - `"url_not_allowed"`
+
+                    - `"url_not_in_prior_context"`
+
+                    - `"url_not_accessible"`
+
+                    - `"unsupported_content_type"`
+
+                    - `"too_many_requests"`
+
+                    - `"max_uses_exceeded"`
+
+                    - `"unavailable"`
+
+                    - `"content_too_large"`
+
+                - `WebFetchBlockParam object`
+
+                  - `type: "web_fetch_result"`
+
+                  - `content: DocumentBlockParam`
+
+                  - `url: string`
+
+                    Fetched content URL
+
+                  - `retrieved_at: optional string or null`
+
+                    ISO 8601 timestamp when the content was retrieved
+
+              - `tool_use_id: string`
+
+                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+              - `cache_control: optional CacheControlEphemeral or null`
+
+                Create a cache control breakpoint at this content block.
+
+              - `caller: optional DirectCaller or ServerToolCaller or ServerToolCaller20260120`
+
+                - `DirectCaller object`
+
+                  Tool invocation directly from the model.
+
+                - `ServerToolCaller object`
+
+                  Tool invocation generated by a server-side tool.
+
+                - `ServerToolCaller20260120 object`
+
+            - `CodeExecutionToolResultBlockParam object`
+
+              - `type: "code_execution_tool_result"`
+
+              - `content: CodeExecutionToolResultBlockParamContent`
+
+                - `CodeExecutionToolResultErrorParam object`
+
+                  - `type: "code_execution_tool_result_error"`
+
+                  - `error_code: CodeExecutionToolResultErrorCode`
+
+                    - `"invalid_tool_input"`
+
+                    - `"unavailable"`
+
+                    - `"too_many_requests"`
+
+                    - `"execution_time_exceeded"`
+
+                - `CodeExecutionResultBlockParam object`
+
+                  - `type: "code_execution_result"`
+
+                  - `content: array of CodeExecutionOutputBlockParam`
+
+                    - `type: "code_execution_output"`
+
+                    - `file_id: string`
+
+                  - `return_code: number`
+
+                  - `stderr: string`
+
+                  - `stdout: string`
+
+                - `EncryptedCodeExecutionResultBlockParam object`
+
+                  The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
+
+                  - `type: "encrypted_code_execution_result"`
+
+                  - `content: array of CodeExecutionOutputBlockParam`
+
+                    - `type: "code_execution_output"`
+
+                    - `file_id: string`
+
+                  - `encrypted_stdout: string`
+
+                  - `return_code: number`
+
+                  - `stderr: string`
+
+              - `tool_use_id: string`
+
+                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+              - `cache_control: optional CacheControlEphemeral or null`
+
+                Create a cache control breakpoint at this content block.
+
+            - `BashCodeExecutionToolResultBlockParam object`
+
+              - `type: "bash_code_execution_tool_result"`
+
+              - `content: BashCodeExecutionToolResultErrorParam or BashCodeExecutionResultBlockParam`
+
+                - `BashCodeExecutionToolResultErrorParam object`
+
+                  - `type: "bash_code_execution_tool_result_error"`
+
+                  - `error_code: BashCodeExecutionToolResultErrorCode`
+
+                    - `"invalid_tool_input"`
+
+                    - `"unavailable"`
+
+                    - `"too_many_requests"`
+
+                    - `"execution_time_exceeded"`
+
+                    - `"output_file_too_large"`
+
+                - `BashCodeExecutionResultBlockParam object`
+
+                  - `type: "bash_code_execution_result"`
+
+                  - `content: array of BashCodeExecutionOutputBlockParam`
+
+                    - `type: "bash_code_execution_output"`
+
+                    - `file_id: string`
+
+                  - `return_code: number`
+
+                  - `stderr: string`
+
+                  - `stdout: string`
+
+              - `tool_use_id: string`
+
+                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+              - `cache_control: optional CacheControlEphemeral or null`
+
+                Create a cache control breakpoint at this content block.
+
+            - `TextEditorCodeExecutionToolResultBlockParam object`
+
+              - `type: "text_editor_code_execution_tool_result"`
+
+              - `content: TextEditorCodeExecutionToolResultErrorParam or TextEditorCodeExecutionViewResultBlockParam or TextEditorCodeExecutionCreateResultBlockParam or TextEditorCodeExecutionStrReplaceResultBlockParam`
+
+                - `TextEditorCodeExecutionToolResultErrorParam object`
+
+                  - `type: "text_editor_code_execution_tool_result_error"`
+
+                  - `error_code: TextEditorCodeExecutionToolResultErrorCode`
+
+                    - `"invalid_tool_input"`
+
+                    - `"unavailable"`
+
+                    - `"too_many_requests"`
+
+                    - `"execution_time_exceeded"`
+
+                    - `"file_not_found"`
+
+                  - `error_message: optional string or null`
+
+                - `TextEditorCodeExecutionViewResultBlockParam object`
+
+                  - `type: "text_editor_code_execution_view_result"`
+
+                  - `content: string`
+
+                  - `file_type: "text" or "image" or "pdf"`
+
+                    - `"text"`
+
+                    - `"image"`
+
+                    - `"pdf"`
+
+                  - `num_lines: optional number or null`
+
+                  - `start_line: optional number or null`
+
+                  - `total_lines: optional number or null`
+
+                - `TextEditorCodeExecutionCreateResultBlockParam object`
+
+                  - `type: "text_editor_code_execution_create_result"`
+
+                  - `is_file_update: boolean`
+
+                - `TextEditorCodeExecutionStrReplaceResultBlockParam object`
+
+                  - `type: "text_editor_code_execution_str_replace_result"`
+
+                  - `lines: optional array of string or null`
+
+                  - `new_lines: optional number or null`
+
+                  - `new_start: optional number or null`
+
+                  - `old_lines: optional number or null`
+
+                  - `old_start: optional number or null`
+
+              - `tool_use_id: string`
+
+                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+              - `cache_control: optional CacheControlEphemeral or null`
+
+                Create a cache control breakpoint at this content block.
+
+            - `ToolSearchToolResultBlockParam object`
+
+              - `type: "tool_search_tool_result"`
+
+              - `content: ToolSearchToolResultErrorParam or ToolSearchToolSearchResultBlockParam`
+
+                - `ToolSearchToolResultErrorParam object`
+
+                  - `type: "tool_search_tool_result_error"`
+
+                  - `error_code: ToolSearchToolResultErrorCode`
+
+                    - `"invalid_tool_input"`
+
+                    - `"unavailable"`
+
+                    - `"too_many_requests"`
+
+                    - `"execution_time_exceeded"`
+
+                  - `error_message: optional string or null`
+
+                - `ToolSearchToolSearchResultBlockParam object`
+
+                  - `type: "tool_search_tool_search_result"`
+
+                  - `tool_references: array of ToolReferenceBlockParam`
+
+                    - `type: "tool_reference"`
+
+                    - `tool_name: string`
+
+                      minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+
+                    - `cache_control: optional CacheControlEphemeral or null`
+
+                      Create a cache control breakpoint at this content block.
+
+              - `tool_use_id: string`
+
+                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+              - `cache_control: optional CacheControlEphemeral or null`
+
+                Create a cache control breakpoint at this content block.
+
+            - `ContainerUploadBlockParam object`
+
+              A content block that represents a file to be uploaded to the container
+              Files uploaded via this block will be available in the container's input directory.
+
+              - `type: "container_upload"`
+
+              - `file_id: string`
+
+              - `cache_control: optional CacheControlEphemeral or null`
+
+                Create a cache control breakpoint at this content block.
+
+        - `role: "user"`
+
+      - `AssistantMessageParam object`
+
+        - `content: MessageContentParam`
+
+        - `role: "assistant"`
+
+      - `SystemMessageParam object`
+
+        - `content: string or array of TextBlockParam`
+
+          - `string`
+
+          - `Blocks = array of TextBlockParam`
+
+            - `type: "text"`
+
+            - `text: string`
+
+              minLength: 1
 
             - `cache_control: optional CacheControlEphemeral or null`
 
               Create a cache control breakpoint at this content block.
 
-            - `caller: optional DirectCaller or ServerToolCaller or ServerToolCaller20260120`
+            - `citations: optional array of TextCitationParam or null`
 
-              - `DirectCaller object`
-
-                Tool invocation directly from the model.
-
-              - `ServerToolCaller object`
-
-                Tool invocation generated by a server-side tool.
-
-              - `ServerToolCaller20260120 object`
-
-          - `WebSearchToolResultBlockParam object`
-
-            - `type: "web_search_tool_result"`
-
-            - `content: WebSearchToolResultBlockParamContent`
-
-              - `WebSearchToolResultBlockItem = array of WebSearchResultBlockParam`
-
-                - `type: "web_search_result"`
-
-                - `encrypted_content: string`
-
-                - `title: string`
-
-                - `url: string`
-
-                - `page_age: optional string or null`
-
-              - `WebSearchToolRequestError object`
-
-                - `type: "web_search_tool_result_error"`
-
-                - `error_code: WebSearchToolResultErrorCode`
-
-                  - `"invalid_tool_input"`
-
-                  - `"unavailable"`
-
-                  - `"max_uses_exceeded"`
-
-                  - `"too_many_requests"`
-
-                  - `"query_too_long"`
-
-                  - `"request_too_large"`
-
-            - `tool_use_id: string`
-
-              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-            - `cache_control: optional CacheControlEphemeral or null`
-
-              Create a cache control breakpoint at this content block.
-
-            - `caller: optional DirectCaller or ServerToolCaller or ServerToolCaller20260120`
-
-              - `DirectCaller object`
-
-                Tool invocation directly from the model.
-
-              - `ServerToolCaller object`
-
-                Tool invocation generated by a server-side tool.
-
-              - `ServerToolCaller20260120 object`
-
-          - `WebFetchToolResultBlockParam object`
-
-            - `type: "web_fetch_tool_result"`
-
-            - `content: WebFetchToolResultErrorBlockParam or WebFetchBlockParam`
-
-              - `WebFetchToolResultErrorBlockParam object`
-
-                - `type: "web_fetch_tool_result_error"`
-
-                - `error_code: WebFetchToolResultErrorCode`
-
-                  - `"invalid_tool_input"`
-
-                  - `"url_too_long"`
-
-                  - `"url_not_allowed"`
-
-                  - `"url_not_in_prior_context"`
-
-                  - `"url_not_accessible"`
-
-                  - `"unsupported_content_type"`
-
-                  - `"too_many_requests"`
-
-                  - `"max_uses_exceeded"`
-
-                  - `"unavailable"`
-
-                  - `"content_too_large"`
-
-              - `WebFetchBlockParam object`
-
-                - `type: "web_fetch_result"`
-
-                - `content: DocumentBlockParam`
-
-                - `url: string`
-
-                  Fetched content URL
-
-                - `retrieved_at: optional string or null`
-
-                  ISO 8601 timestamp when the content was retrieved
-
-            - `tool_use_id: string`
-
-              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-            - `cache_control: optional CacheControlEphemeral or null`
-
-              Create a cache control breakpoint at this content block.
-
-            - `caller: optional DirectCaller or ServerToolCaller or ServerToolCaller20260120`
-
-              - `DirectCaller object`
-
-                Tool invocation directly from the model.
-
-              - `ServerToolCaller object`
-
-                Tool invocation generated by a server-side tool.
-
-              - `ServerToolCaller20260120 object`
-
-          - `CodeExecutionToolResultBlockParam object`
-
-            - `type: "code_execution_tool_result"`
-
-            - `content: CodeExecutionToolResultBlockParamContent`
-
-              - `CodeExecutionToolResultErrorParam object`
-
-                - `type: "code_execution_tool_result_error"`
-
-                - `error_code: CodeExecutionToolResultErrorCode`
-
-                  - `"invalid_tool_input"`
-
-                  - `"unavailable"`
-
-                  - `"too_many_requests"`
-
-                  - `"execution_time_exceeded"`
-
-              - `CodeExecutionResultBlockParam object`
-
-                - `type: "code_execution_result"`
-
-                - `content: array of CodeExecutionOutputBlockParam`
-
-                  - `type: "code_execution_output"`
-
-                  - `file_id: string`
-
-                - `return_code: number`
-
-                - `stderr: string`
-
-                - `stdout: string`
-
-              - `EncryptedCodeExecutionResultBlockParam object`
-
-                Code execution result with encrypted stdout for PFC + web_search results.
-
-                - `type: "encrypted_code_execution_result"`
-
-                - `content: array of CodeExecutionOutputBlockParam`
-
-                  - `type: "code_execution_output"`
-
-                  - `file_id: string`
-
-                - `encrypted_stdout: string`
-
-                - `return_code: number`
-
-                - `stderr: string`
-
-            - `tool_use_id: string`
-
-              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-            - `cache_control: optional CacheControlEphemeral or null`
-
-              Create a cache control breakpoint at this content block.
-
-          - `BashCodeExecutionToolResultBlockParam object`
-
-            - `type: "bash_code_execution_tool_result"`
-
-            - `content: BashCodeExecutionToolResultErrorParam or BashCodeExecutionResultBlockParam`
-
-              - `BashCodeExecutionToolResultErrorParam object`
-
-                - `type: "bash_code_execution_tool_result_error"`
-
-                - `error_code: BashCodeExecutionToolResultErrorCode`
-
-                  - `"invalid_tool_input"`
-
-                  - `"unavailable"`
-
-                  - `"too_many_requests"`
-
-                  - `"execution_time_exceeded"`
-
-                  - `"output_file_too_large"`
-
-              - `BashCodeExecutionResultBlockParam object`
-
-                - `type: "bash_code_execution_result"`
-
-                - `content: array of BashCodeExecutionOutputBlockParam`
-
-                  - `type: "bash_code_execution_output"`
-
-                  - `file_id: string`
-
-                - `return_code: number`
-
-                - `stderr: string`
-
-                - `stdout: string`
-
-            - `tool_use_id: string`
-
-              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-            - `cache_control: optional CacheControlEphemeral or null`
-
-              Create a cache control breakpoint at this content block.
-
-          - `TextEditorCodeExecutionToolResultBlockParam object`
-
-            - `type: "text_editor_code_execution_tool_result"`
-
-            - `content: TextEditorCodeExecutionToolResultErrorParam or TextEditorCodeExecutionViewResultBlockParam or TextEditorCodeExecutionCreateResultBlockParam or TextEditorCodeExecutionStrReplaceResultBlockParam`
-
-              - `TextEditorCodeExecutionToolResultErrorParam object`
-
-                - `type: "text_editor_code_execution_tool_result_error"`
-
-                - `error_code: TextEditorCodeExecutionToolResultErrorCode`
-
-                  - `"invalid_tool_input"`
-
-                  - `"unavailable"`
-
-                  - `"too_many_requests"`
-
-                  - `"execution_time_exceeded"`
-
-                  - `"file_not_found"`
-
-                - `error_message: optional string or null`
-
-              - `TextEditorCodeExecutionViewResultBlockParam object`
-
-                - `type: "text_editor_code_execution_view_result"`
-
-                - `content: string`
-
-                - `file_type: "text" or "image" or "pdf"`
-
-                  - `"text"`
-
-                  - `"image"`
-
-                  - `"pdf"`
-
-                - `num_lines: optional number or null`
-
-                - `start_line: optional number or null`
-
-                - `total_lines: optional number or null`
-
-              - `TextEditorCodeExecutionCreateResultBlockParam object`
-
-                - `type: "text_editor_code_execution_create_result"`
-
-                - `is_file_update: boolean`
-
-              - `TextEditorCodeExecutionStrReplaceResultBlockParam object`
-
-                - `type: "text_editor_code_execution_str_replace_result"`
-
-                - `lines: optional array of string or null`
-
-                - `new_lines: optional number or null`
-
-                - `new_start: optional number or null`
-
-                - `old_lines: optional number or null`
-
-                - `old_start: optional number or null`
-
-            - `tool_use_id: string`
-
-              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-            - `cache_control: optional CacheControlEphemeral or null`
-
-              Create a cache control breakpoint at this content block.
-
-          - `ToolSearchToolResultBlockParam object`
-
-            - `type: "tool_search_tool_result"`
-
-            - `content: ToolSearchToolResultErrorParam or ToolSearchToolSearchResultBlockParam`
-
-              - `ToolSearchToolResultErrorParam object`
-
-                - `type: "tool_search_tool_result_error"`
-
-                - `error_code: ToolSearchToolResultErrorCode`
-
-                  - `"invalid_tool_input"`
-
-                  - `"unavailable"`
-
-                  - `"too_many_requests"`
-
-                  - `"execution_time_exceeded"`
-
-                - `error_message: optional string or null`
-
-              - `ToolSearchToolSearchResultBlockParam object`
-
-                - `type: "tool_search_tool_search_result"`
-
-                - `tool_references: array of ToolReferenceBlockParam`
-
-                  - `type: "tool_reference"`
-
-                  - `tool_name: string`
-
-                    minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
-
-                  - `cache_control: optional CacheControlEphemeral or null`
-
-                    Create a cache control breakpoint at this content block.
-
-            - `tool_use_id: string`
-
-              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-            - `cache_control: optional CacheControlEphemeral or null`
-
-              Create a cache control breakpoint at this content block.
-
-          - `ContainerUploadBlockParam object`
-
-            A content block that represents a file to be uploaded to the container
-            Files uploaded via this block will be available in the container's input directory.
-
-            - `type: "container_upload"`
-
-            - `file_id: string`
-
-            - `cache_control: optional CacheControlEphemeral or null`
-
-              Create a cache control breakpoint at this content block.
-
-      - `role: "user" or "assistant" or "system"`
-
-        - `"user"`
-
-        - `"assistant"`
-
-        - `"system"`
+        - `role: "system"`
 
     - `model: Model`
 
       The model that will complete your prompt.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+      - `"claude-mythos-5-2"`
+
+        Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
       - `"claude-haiku-5-5"`
 
@@ -1294,6 +1336,16 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
       - `"auto"`
 
       - `"standard_only"`
+
+    - `speed: optional "standard" or "fast" or null`
+
+      The inference speed mode for this request. `"fast"` enables high output-tokens-per-second inference.
+
+      Some models require the `fast-mode-2026-02-01` beta header for any `speed` value. See [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode?sdk_languages=http) for which models.
+
+      - `"standard"`
+
+      - `"fast"`
 
     - `stop_sequences: optional array of string`
 
@@ -1653,7 +1705,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
       - `CodeExecutionTool20260120 object`
 
-        Code execution tool with REPL state persistence (daemon mode + gVisor checkpoint).
+        A `tools` entry for the code execution tool, version `code_execution_20260120`. It adds REPL state persistence to version `code_execution_20250825`.
+
+        REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
+
+        See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=http#tool-versions) to learn what each tool version adds.
+
+        - `type: "code_execution_20260120"`
 
         - `type: "code_execution_20260120"`
 
@@ -3071,42 +3129,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           When true, guarantees schema validation on tool names and inputs
 
-    - `temperature: optional number`
-
-      **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting temperature. A value of 1.0 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-      Amount of randomness injected into the response.
-
-      Defaults to `1.0`. Ranges from `0.0` to `1.0`. Use `temperature` closer to `0.0` for analytical / multiple choice, and closer to `1.0` for creative and generative tasks.
-
-      Note that even with `temperature` of `0.0`, the results will not be fully deterministic.
-
-      minimum: 0, maximum: 1
-
-    - `top_k: optional number`
-
-      **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not accept top_k; any value will be rejected with a 400 error.
-
-      Only sample from the top K options for each subsequent token.
-
-      Used to remove "long tail" low probability responses. [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-
-      Recommended for advanced use cases only.
-
-      minimum: 0
-
-    - `top_p: optional number`
-
-      **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting top_p. A value >= 0.99 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-      Use nucleus sampling.
-
-      In nucleus sampling, we compute the cumulative distribution over all the options for each subsequent token in decreasing probability order and cut it off once it reaches a particular probability specified by `top_p`.
-
-      Recommended for advanced use cases only.
-
-      minimum: 0, maximum: 1
-
 ### Returns
 
 - `MessageBatch object`
@@ -3222,8 +3244,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 ```bash
 curl https://api.anthropic.com/v1/messages/batches \
     -H 'Content-Type: application/json' \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY" \
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
           "requests": [
             {
@@ -3408,8 +3430,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
 ```bash
 curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -3601,8 +3623,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
 ```bash
 curl https://api.anthropic.com/v1/messages/batches \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -3780,8 +3802,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 ```bash
 curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/cancel \
     -X POST \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -3858,8 +3880,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 ```bash
 curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID \
     -X DELETE \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -4488,13 +4510,17 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `EncryptedCodeExecutionResultBlock object`
 
-                Code execution result with encrypted stdout for PFC + web_search results.
+                The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+                The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+                See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=http) to learn more about programmatic tool calling.
 
                 - `type: "encrypted_code_execution_result"`
 
                   default: encrypted_code_execution_result
 
-                - `content: array of CodeExecutionOutputBlock`
+                - `type: "encrypted_code_execution_result"`
 
                   - `type: "code_execution_output"`
 
@@ -4706,6 +4732,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `CacheMissModelChanged object`
 
+              A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "model_changed"`
 
                 default: model_changed
@@ -4715,6 +4745,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `CacheMissSystemChanged object`
+
+              A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "system_changed"`
 
@@ -4726,6 +4760,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `CacheMissToolsChanged object`
 
+              A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "tools_changed"`
 
                 default: tools_changed
@@ -4735,6 +4773,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `CacheMissMessagesChanged object`
+
+              A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "messages_changed"`
 
@@ -4746,11 +4788,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `CacheMissPreviousMessageNotFound object`
 
+              A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+              This doesn't mean that this request changed.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "previous_message_not_found"`
 
                 default: previous_message_not_found
 
             - `CacheMissUnavailable object`
+
+              A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+              This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "unavailable"`
 
@@ -4761,6 +4815,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           The model that will complete your prompt.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+          - `"claude-mythos-5-2"`
+
+            Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
           - `"claude-haiku-5-5"`
 
@@ -5003,8 +5065,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               the thinking-block delimiter tokens.
 
               Reflects the raw reasoning the model produced, not the (possibly shorter)
-              summarized thinking text returned in the response body. Computed by
-              re-tokenizing the raw reasoning text, so it may differ from the model's exact
+              summarized thinking text returned in the response body. It may differ from the model's exact
               generation count by a small number of tokens. Always ≤ `output_tokens`;
               `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -5036,6 +5097,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `"batch"`
 
+          - `speed: "standard" or "fast" or null`
+
+            The inference speed mode used for this request.
+
+            - `"standard"`
+
+            - `"fast"`
+
     - `MessageBatchErroredResult object`
 
       - `type: "errored"`
@@ -5054,9 +5123,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "invalid_request_error"`
 
+              The broad category of the error.
+
               default: invalid_request_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Invalid request
 
@@ -5064,9 +5137,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "authentication_error"`
 
+              The broad category of the error.
+
               default: authentication_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Authentication error
 
@@ -5074,9 +5151,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "billing_error"`
 
+              The broad category of the error.
+
               default: billing_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Billing error
 
@@ -5084,9 +5165,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "permission_error"`
 
+              The broad category of the error.
+
               default: permission_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Permission denied
 
@@ -5094,9 +5179,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "not_found_error"`
 
+              The broad category of the error.
+
               default: not_found_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Not found
 
@@ -5104,9 +5193,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "rate_limit_error"`
 
+              The broad category of the error.
+
               default: rate_limit_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Rate limited
 
@@ -5114,9 +5207,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "timeout_error"`
 
+              The broad category of the error.
+
               default: timeout_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Request timeout
 
@@ -5124,9 +5221,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "api_error"`
 
+              The broad category of the error.
+
               default: api_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Internal server error
 
@@ -5134,9 +5235,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "overloaded_error"`
 
+              The broad category of the error.
+
               default: overloaded_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Overloaded
 
@@ -5158,8 +5263,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
 ```bash
 curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ## Domain types
@@ -5318,9 +5423,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
         - `type: "invalid_request_error"`
 
+          The broad category of the error.
+
           default: invalid_request_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Invalid request
 
@@ -5328,9 +5437,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
         - `type: "authentication_error"`
 
+          The broad category of the error.
+
           default: authentication_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Authentication error
 
@@ -5338,9 +5451,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
         - `type: "billing_error"`
 
+          The broad category of the error.
+
           default: billing_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Billing error
 
@@ -5348,9 +5465,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
         - `type: "permission_error"`
 
+          The broad category of the error.
+
           default: permission_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Permission denied
 
@@ -5358,9 +5479,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
         - `type: "not_found_error"`
 
+          The broad category of the error.
+
           default: not_found_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Not found
 
@@ -5368,9 +5493,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
         - `type: "rate_limit_error"`
 
+          The broad category of the error.
+
           default: rate_limit_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Rate limited
 
@@ -5378,9 +5507,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
         - `type: "timeout_error"`
 
+          The broad category of the error.
+
           default: timeout_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Request timeout
 
@@ -5388,9 +5521,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
         - `type: "api_error"`
 
+          The broad category of the error.
+
           default: api_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Internal server error
 
@@ -5398,9 +5535,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
         - `type: "overloaded_error"`
 
+          The broad category of the error.
+
           default: overloaded_error
 
         - `message: string`
+
+          A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           default: Overloaded
 
@@ -6001,13 +6142,17 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
               - `EncryptedCodeExecutionResultBlock object`
 
-                Code execution result with encrypted stdout for PFC + web_search results.
+                The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+                The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+                See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=http) to learn more about programmatic tool calling.
 
                 - `type: "encrypted_code_execution_result"`
 
                   default: encrypted_code_execution_result
 
-                - `content: array of CodeExecutionOutputBlock`
+                - `type: "encrypted_code_execution_result"`
 
                   - `type: "code_execution_output"`
 
@@ -6219,6 +6364,10 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `CacheMissModelChanged object`
 
+              A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "model_changed"`
 
                 default: model_changed
@@ -6228,6 +6377,10 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `CacheMissSystemChanged object`
+
+              A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "system_changed"`
 
@@ -6239,6 +6392,10 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `CacheMissToolsChanged object`
 
+              A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "tools_changed"`
 
                 default: tools_changed
@@ -6248,6 +6405,10 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `CacheMissMessagesChanged object`
+
+              A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "messages_changed"`
 
@@ -6259,11 +6420,23 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `CacheMissPreviousMessageNotFound object`
 
+              A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+              This doesn't mean that this request changed.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "previous_message_not_found"`
 
                 default: previous_message_not_found
 
             - `CacheMissUnavailable object`
+
+              A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+              This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "unavailable"`
 
@@ -6274,6 +6447,14 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
           The model that will complete your prompt.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+          - `"claude-mythos-5-2"`
+
+            Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
           - `"claude-haiku-5-5"`
 
@@ -6516,8 +6697,7 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
               the thinking-block delimiter tokens.
 
               Reflects the raw reasoning the model produced, not the (possibly shorter)
-              summarized thinking text returned in the response body. Computed by
-              re-tokenizing the raw reasoning text, so it may differ from the model's exact
+              summarized thinking text returned in the response body. It may differ from the model's exact
               generation count by a small number of tokens. Always ≤ `output_tokens`;
               `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -6549,6 +6729,14 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `"batch"`
 
+          - `speed: "standard" or "fast" or null`
+
+            The inference speed mode used for this request.
+
+            - `"standard"`
+
+            - `"fast"`
+
     - `MessageBatchErroredResult object`
 
       - `type: "errored"`
@@ -6567,9 +6755,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `type: "invalid_request_error"`
 
+              The broad category of the error.
+
               default: invalid_request_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Invalid request
 
@@ -6577,9 +6769,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `type: "authentication_error"`
 
+              The broad category of the error.
+
               default: authentication_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Authentication error
 
@@ -6587,9 +6783,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `type: "billing_error"`
 
+              The broad category of the error.
+
               default: billing_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Billing error
 
@@ -6597,9 +6797,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `type: "permission_error"`
 
+              The broad category of the error.
+
               default: permission_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Permission denied
 
@@ -6607,9 +6811,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `type: "not_found_error"`
 
+              The broad category of the error.
+
               default: not_found_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Not found
 
@@ -6617,9 +6825,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `type: "rate_limit_error"`
 
+              The broad category of the error.
+
               default: rate_limit_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Rate limited
 
@@ -6627,9 +6839,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `type: "timeout_error"`
 
+              The broad category of the error.
+
               default: timeout_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Request timeout
 
@@ -6637,9 +6853,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `type: "api_error"`
 
+              The broad category of the error.
+
               default: api_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Internal server error
 
@@ -6647,9 +6867,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `type: "overloaded_error"`
 
+              The broad category of the error.
+
               default: overloaded_error
 
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Overloaded
 
@@ -7286,13 +7510,17 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
             - `EncryptedCodeExecutionResultBlock object`
 
-              Code execution result with encrypted stdout for PFC + web_search results.
+              The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+              The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+              See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=http) to learn more about programmatic tool calling.
 
               - `type: "encrypted_code_execution_result"`
 
                 default: encrypted_code_execution_result
 
-              - `content: array of CodeExecutionOutputBlock`
+              - `type: "encrypted_code_execution_result"`
 
                 - `type: "code_execution_output"`
 
@@ -7504,6 +7732,10 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `CacheMissModelChanged object`
 
+            A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+            See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
+
             - `type: "model_changed"`
 
               default: model_changed
@@ -7513,6 +7745,10 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
               Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
           - `CacheMissSystemChanged object`
+
+            A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+            See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
 
             - `type: "system_changed"`
 
@@ -7524,6 +7760,10 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `CacheMissToolsChanged object`
 
+            A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+            See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
+
             - `type: "tools_changed"`
 
               default: tools_changed
@@ -7533,6 +7773,10 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
               Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
           - `CacheMissMessagesChanged object`
+
+            A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+            See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
 
             - `type: "messages_changed"`
 
@@ -7544,11 +7788,23 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `CacheMissPreviousMessageNotFound object`
 
+            A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+            This doesn't mean that this request changed.
+
+            See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
+
             - `type: "previous_message_not_found"`
 
               default: previous_message_not_found
 
           - `CacheMissUnavailable object`
+
+            A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+            This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+            See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
 
             - `type: "unavailable"`
 
@@ -7559,6 +7815,14 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
         The model that will complete your prompt.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+        - `"claude-mythos-5-2"`
+
+          Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
         - `"claude-haiku-5-5"`
 
@@ -7801,8 +8065,7 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
             the thinking-block delimiter tokens.
 
             Reflects the raw reasoning the model produced, not the (possibly shorter)
-            summarized thinking text returned in the response body. Computed by
-            re-tokenizing the raw reasoning text, so it may differ from the model's exact
+            summarized thinking text returned in the response body. It may differ from the model's exact
             generation count by a small number of tokens. Always ≤ `output_tokens`;
             `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -7834,6 +8097,14 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `"batch"`
 
+        - `speed: "standard" or "fast" or null`
+
+          The inference speed mode used for this request.
+
+          - `"standard"`
+
+          - `"fast"`
+
   - `MessageBatchErroredResult object`
 
     - `type: "errored"`
@@ -7852,9 +8123,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `type: "invalid_request_error"`
 
+            The broad category of the error.
+
             default: invalid_request_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Invalid request
 
@@ -7862,9 +8137,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `type: "authentication_error"`
 
+            The broad category of the error.
+
             default: authentication_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Authentication error
 
@@ -7872,9 +8151,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `type: "billing_error"`
 
+            The broad category of the error.
+
             default: billing_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Billing error
 
@@ -7882,9 +8165,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `type: "permission_error"`
 
+            The broad category of the error.
+
             default: permission_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Permission denied
 
@@ -7892,9 +8179,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `type: "not_found_error"`
 
+            The broad category of the error.
+
             default: not_found_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Not found
 
@@ -7902,9 +8193,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `type: "rate_limit_error"`
 
+            The broad category of the error.
+
             default: rate_limit_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Rate limited
 
@@ -7912,9 +8207,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `type: "timeout_error"`
 
+            The broad category of the error.
+
             default: timeout_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Request timeout
 
@@ -7922,9 +8221,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `type: "api_error"`
 
+            The broad category of the error.
+
             default: api_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Internal server error
 
@@ -7932,9 +8235,13 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `type: "overloaded_error"`
 
+            The broad category of the error.
+
             default: overloaded_error
 
           - `message: string`
+
+            A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             default: Overloaded
 
@@ -8523,13 +8830,17 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
           - `EncryptedCodeExecutionResultBlock object`
 
-            Code execution result with encrypted stdout for PFC + web_search results.
+            The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+            The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+            See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=http) to learn more about programmatic tool calling.
 
             - `type: "encrypted_code_execution_result"`
 
               default: encrypted_code_execution_result
 
-            - `content: array of CodeExecutionOutputBlock`
+            - `type: "encrypted_code_execution_result"`
 
               - `type: "code_execution_output"`
 
@@ -8741,6 +9052,10 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
         - `CacheMissModelChanged object`
 
+          A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+          See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
+
           - `type: "model_changed"`
 
             default: model_changed
@@ -8750,6 +9065,10 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
             Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
         - `CacheMissSystemChanged object`
+
+          A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+          See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
 
           - `type: "system_changed"`
 
@@ -8761,6 +9080,10 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
         - `CacheMissToolsChanged object`
 
+          A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+          See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
+
           - `type: "tools_changed"`
 
             default: tools_changed
@@ -8770,6 +9093,10 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
             Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
         - `CacheMissMessagesChanged object`
+
+          A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+          See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
 
           - `type: "messages_changed"`
 
@@ -8781,11 +9108,23 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
 
         - `CacheMissPreviousMessageNotFound object`
 
+          A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+          This doesn't mean that this request changed.
+
+          See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
+
           - `type: "previous_message_not_found"`
 
             default: previous_message_not_found
 
         - `CacheMissUnavailable object`
+
+          A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+          This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+          See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=http#cache-miss-reason-types) to learn what to change for each reason.
 
           - `type: "unavailable"`
 
@@ -8796,6 +9135,14 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
       The model that will complete your prompt.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+      - `"claude-mythos-5-2"`
+
+        Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
       - `"claude-haiku-5-5"`
 
@@ -9038,8 +9385,7 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
           the thinking-block delimiter tokens.
 
           Reflects the raw reasoning the model produced, not the (possibly shorter)
-          summarized thinking text returned in the response body. Computed by
-          re-tokenizing the raw reasoning text, so it may differ from the model's exact
+          summarized thinking text returned in the response body. It may differ from the model's exact
           generation count by a small number of tokens. Always ≤ `output_tokens`;
           `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -9070,3 +9416,11 @@ curl https://api.anthropic.com/v1/messages/batches/$MESSAGE_BATCH_ID/results \
         - `"priority"`
 
         - `"batch"`
+
+      - `speed: "standard" or "fast" or null`
+
+        The inference speed mode used for this request.
+
+        - `"standard"`
+
+        - `"fast"`

@@ -1,16 +1,16 @@
 ---
 title: Embeddings
 url: https://platform.claude.com/docs/en/build-with-claude/embeddings
-description: Text embeddings are numerical representations of text that enable measuring semantic similarity. This guide introduces embeddings, their applications, and how to use embedding models for tasks like search, recommendations, and anomaly detection.
+description: Text embeddings are numerical representations of text that let you measure semantic similarity. This guide introduces embeddings, their applications, and how to use embedding models for tasks such as search, recommendations, and anomaly detection.
 ---
 
 ## Before implementing embeddings
 
 When selecting an embeddings provider, there are several factors you can consider depending on your needs and preferences:
 
-* Dataset size & domain specificity: size of the model training dataset and its relevance to the domain you want to embed. Larger or more domain-specific data generally produces better in-domain embeddings
-* Inference performance: embedding lookup speed and end-to-end latency. This is a particularly important consideration for large scale production deployments
-* Customization: options for continued training on private data, or specialization of models for very specific domains. This can improve performance on unique vocabularies
+* Dataset size and domain specificity: size of the model training dataset and its relevance to the domain you want to embed. Larger or more domain-specific data generally produces better in-domain embeddings.
+* Inference performance: embedding lookup speed and end-to-end latency. This is a particularly important consideration for large-scale production deployments.
+* Customization: options for continued training on private data, or specialization of models for very specific domains. This can improve performance on unique vocabularies.
 
 ## How to get embeddings with Anthropic
 
@@ -36,7 +36,7 @@ Voyage AI offers the following text embedding models:
 
 **Previous generation**
 
-For each model's lifecycle status and recommended replacement, see [Model deprecations, lifecycle states, and support](https://www.mongodb.com/docs/voyageai/models/lifecycle/) in the MongoDB documentation.
+For each model’s lifecycle status and recommended replacement, see [Model deprecations, lifecycle states, and support](https://www.mongodb.com/docs/voyageai/models/lifecycle/) in the MongoDB documentation.
 
 | Model              | Context length | Embedding dimension            | Description                                                                                                                                                                                         |
 | ------------------ | -------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -61,7 +61,7 @@ The following contextualized chunk embedding models produce chunk-level vectors 
 | `voyage-context-4` | 120,000        | 1024 (default), 256, 512, 2048 | Contextualized chunk embeddings optimized for general-purpose and multilingual retrieval quality. See the [voyage-context-4 blog post](https://blog.voyageai.com/2026/06/29/voyage-context-4/) for details. |
 | `voyage-context-3` | 120,000        | 1024 (default), 256, 512, 2048 | Previous generation of `voyage-context-4`. See the [voyage-context-3 blog post](https://blog.voyageai.com/2025/07/23/voyage-context-3/) for details.                                                        |
 
-The 120,000-token limit applies when you set `enable_auto_chunking` to `true`. Otherwise, the total number of tokens across all inputs can't exceed 32,000.
+The 120,000-token limit applies when you set `enable_auto_chunking` to `true`. Otherwise, the total number of tokens across all inputs can’t exceed 32,000.
 
 Voyage AI also offers rerankers, which take a query and a list of documents and return them ranked by relevance to the query. Call these models with `rerank()`:
 
@@ -88,7 +88,7 @@ export VOYAGE_API_KEY="<your model API key>"
 
 For more detail, see [Voyage AI quick start](https://www.mongodb.com/docs/voyageai/quickstart/) in the MongoDB documentation.
 
-You can obtain the embeddings by either using the official [`voyageai` Python package](https://github.com/voyage-ai/voyageai-python) or HTTP requests, as described in the following sections. Voyage AI also has an official TypeScript client. To use it with a model API key from Atlas, set its `environment` option to `https://ai.mongodb.com/v1`, as described in [TypeScript client](https://www.mongodb.com/docs/voyageai/api-and-clients/#typescript-client) in the MongoDB documentation.
+You can obtain the embeddings by using either the official [`voyageai` Python package](https://github.com/voyage-ai/voyageai-python) or HTTP requests, as described in the following sections. Voyage AI also has an official TypeScript client. To use it with a model API key from Atlas, set its `environment` option to `https://ai.mongodb.com/v1`, as described in [TypeScript client](https://www.mongodb.com/docs/voyageai/api-and-clients/#typescript-client) in the MongoDB documentation.
 
 ### Voyage AI Python library
 
@@ -140,7 +140,7 @@ curl https://ai.mongodb.com/v1/embeddings \
   }'
 ```
 
-The response you would get is a JSON object containing the embeddings and the token usage:
+The response is a JSON object containing the embeddings and the token usage:
 
 ```json
 {
@@ -164,19 +164,19 @@ The response you would get is a JSON object containing the embeddings and the to
 }
 ```
 
-Model API keys from Atlas work with `ai.mongodb.com`, except keys scoped to a geography, which use that geography's endpoint. If you have an API key from the Voyage AI platform instead, see [Migrate your applications to use the Atlas Embedding and Reranking API](https://www.mongodb.com/docs/voyageai/tutorials/migrate-to-atlas/) in the MongoDB documentation.
+Model API keys from Atlas work with `ai.mongodb.com`, except keys scoped to a geography, which use that geography’s endpoint. If you have an API key from the Voyage AI platform instead, see [Migrate your applications to use the Atlas Embedding and Reranking API](https://www.mongodb.com/docs/voyageai/tutorials/migrate-to-atlas/) in the MongoDB documentation.
 
 For the full request and response reference, see [Create text embeddings](https://www.mongodb.com/docs/api/doc/atlas-embedding-and-reranking-api/operation/operation-createembedding) in the Atlas Embedding and Reranking API documentation.
 
 ### AWS Marketplace
 
-Voyage AI models are also available on AWS Marketplace through [MongoDB's seller profile](https://aws.amazon.com/marketplace/seller-profile?id=c9032c7b-70dd-459f-834f-c1e23cf3d092). For instructions, see [Deploy Voyage AI models using AWS Marketplace](https://www.mongodb.com/docs/voyageai/management/aws-marketplace/) in the MongoDB documentation.
+Voyage AI models are also available on AWS Marketplace through [MongoDB’s seller profile](https://aws.amazon.com/marketplace/seller-profile?id=c9032c7b-70dd-459f-834f-c1e23cf3d092). For instructions, see [Deploy Voyage AI models using AWS Marketplace](https://www.mongodb.com/docs/voyageai/management/aws-marketplace/) in the MongoDB documentation.
 
 ## Quickstart example
 
 The following brief example shows how to use embeddings.
 
-Suppose you have a small corpus of six documents to retrieve from
+Suppose you have a small corpus of six documents to retrieve from:
 
 ```python
 documents = [
@@ -200,7 +200,7 @@ vo = voyageai.Client()
 doc_embds = vo.embed(documents, model="voyage-4", input_type="document").embeddings
 ```
 
-The embeddings allow you to do semantic search / retrieval in the vector space. Given an example query,
+The embeddings allow you to do semantic search / retrieval in the vector space. Consider the following example query:
 
 ```python
 query = "When is Apple's conference call scheduled?"
@@ -231,20 +231,20 @@ The output is the fifth document, which is indeed the most relevant to the query
 Apple's conference call to discuss fourth fiscal quarter results and business updates is scheduled for Thursday, November 2, 2023 at 2:00 p.m. PT / 5:00 p.m. ET.
 ```
 
-If you are looking for a detailed set of recipes on how to do RAG with embeddings, including vector databases, check out the [RAG recipe](https://platform.claude.com/cookbook/third-party-pinecone-rag-using-pinecone).
+If you are looking for a detailed set of recipes on how to do RAG with embeddings, including vector databases, see the [RAG recipe](https://platform.claude.com/cookbook/third-party-pinecone-rag-using-pinecone).
 
 ## FAQ
 
 <AccordionGroup>
   <Accordion title="Why do Voyage AI embeddings have superior quality?">
-    Embedding models rely on powerful neural networks to capture and compress semantic context, similar to generative models. Voyage AI's team of experienced AI researchers optimizes every component of the embedding process, including:
+    Embedding models rely on powerful neural networks to capture and compress semantic context, similar to generative models. Voyage AI’s team of experienced AI researchers optimizes every component of the embedding process, including:
 
     * Model architecture
     * Data collection
     * Loss functions
     * Optimizer selection
 
-    Learn more about Voyage AI's technical approach on the [Voyage AI blog](https://blog.voyageai.com/).
+    Learn more about Voyage AI’s technical approach on the [Voyage AI blog](https://blog.voyageai.com/).
   </Accordion>
 
   <Accordion title="What embedding models are available and which should I use?">
@@ -272,7 +272,7 @@ If you are looking for a detailed set of recipes on how to do RAG with embedding
 
     Voyage AI embeddings are normalized to length 1, which means that:
 
-    * Cosine similarity is equivalent to dot-product similarity, while the latter can be computed more quickly.
+    * Cosine similarity is equivalent to dot-product similarity, although the latter can be computed more quickly.
     * Cosine similarity and Euclidean distance result in identical rankings.
   </Accordion>
 
@@ -293,8 +293,8 @@ If you are looking for a detailed set of recipes on how to do RAG with embedding
     >
     > * Example
     >
-    >   * When `input_type="query"`, a query such as "When is Apple's conference call scheduled?" will become "**Represent the query for retrieving supporting documents:** When is Apple's conference call scheduled?"
-    >   * When `input_type="document"`, a document such as "Apple's conference call to discuss fourth fiscal quarter results and business updates is scheduled for Thursday, November 2, 2023 at 2:00 p.m. PT / 5:00 p.m. ET." will become "**Represent the document for retrieval:** Apple's conference call to discuss fourth fiscal quarter results and business updates is scheduled for Thursday, November 2, 2023 at 2:00 p.m. PT / 5:00 p.m. ET."
+    >   * When `input_type="query"`, a query such as “When is Apple’s conference call scheduled?” will become “**Represent the query for retrieving supporting documents:** When is Apple’s conference call scheduled?”
+    >   * When `input_type="document"`, a document such as “Apple’s conference call to discuss fourth fiscal quarter results and business updates is scheduled for Thursday, November 2, 2023 at 2:00 p.m. PT / 5:00 p.m. ET.” will become “**Represent the document for retrieval:** Apple’s conference call to discuss fourth fiscal quarter results and business updates is scheduled for Thursday, November 2, 2023 at 2:00 p.m. PT / 5:00 p.m. ET.”
   </Accordion>
 
   <Accordion title="What quantization options are available?">

@@ -5,13 +5,13 @@ url: https://platform.claude.com/docs/en/api/java/beta/memory_stores/memory_vers
 
 # Memory Versions
 
-## List memory versions
+## List Memory Versions
 
 `MemoryVersionListPage beta().memoryStores().memoryVersions().list(params = MemoryVersionListParams.none(), requestOptions = RequestOptions.none())`
 
 **GET** `/v1/memory_stores/{memory_store_id}/memory_versions`
 
-List memory versions
+List Memory Versions
 
 ### Parameters
 
@@ -25,21 +25,23 @@ List memory versions
 
     Return only versions written with the API key that has this ID.
 
-  - `Optional<LocalDateTime> createdAtGte` (query parameter)
+  - `Optional<OffsetDateTime> createdAtGte` (query parameter)
 
     Return versions created at or after this time (inclusive).
 
     format: date-time
 
-  - `Optional<LocalDateTime> createdAtLte` (query parameter)
+  - `Optional<OffsetDateTime> createdAtLte` (query parameter)
 
     Return versions created at or before this time (inclusive).
 
     format: date-time
 
-  - `Optional<Long> limit` (query parameter)
+  - `Optional<Integer> limit` (query parameter)
 
-    The maximum number of versions to return per page. Defaults to 20.
+    The maximum number of versions to return per page, from 1 to 100. Defaults to 20.
+
+    With `view=full`, a page holds at most 20 versions.
 
     format: int32
 
@@ -47,7 +49,7 @@ List memory versions
 
     Return only versions of the memory with this ID (`mem_...`).
 
-    The filter still works after the memory is deleted. The results then include the version whose `operation` is `deleted`.
+    The filter still works after the memory is deleted. While that memory's versions are retained, the results include the version whose `operation` is `deleted`.
 
   - `Optional<BetaManagedAgentsMemoryVersionOperation> operation` (query parameter)
 
@@ -67,11 +69,13 @@ List memory versions
 
   - `Optional<BetaManagedAgentsMemoryView> view` (query parameter)
 
-    Selects which projection of a `memory` or `memory_version` the server returns. `basic` returns the object with `content` set to `null`; `full` populates `content`. When omitted, the default is endpoint-specific: retrieve operations default to `full`; list, create, and update operations default to `basic`. Listing with `view=full` caps `limit` at 20.
+    Whether a `memory` or `memory_version` in the response includes its `content`. Defaults to `full` on retrieve operations and to `basic` on list, create, and update operations.
+
+    With `full`, list operations return at most 20 items per page.
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -173,6 +177,18 @@ List memory versions
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -183,7 +199,15 @@ List memory versions
 
 - `class BetaManagedAgentsMemoryVersion`
 
-  A `memory_version` object: one immutable, attributed row in a memory's append-only history. Every non-no-op mutation to a memory produces a new version. Versions belong to the store (not the individual memory) and are not deleted with the memory; each version is retained for at least the version retention period after it was written, unless the store itself is deleted. Retrieving a redacted version returns 200 with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`; branch on `redacted_at`, not HTTP status.
+  One entry in a memory's history, recording a single change and who made it.
+
+  Every change to a memory adds one version. Only redaction can change a version after that. Versions belong to the memory store and stay after the memory is deleted. Each version is retained for at least the version retention period after it was written, unless the store itself is deleted.
+
+  Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
+
+  See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#audit-memory-changes) to learn more about memory versions.
+
+  - `JsonValue type = "memory_version"`
 
   - `Type type`
 
@@ -191,7 +215,7 @@ List memory versions
 
     Unique identifier for this version (a `memver_...` value).
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     When this version was written, in RFC 3339 format.
 
@@ -199,7 +223,9 @@ List memory versions
 
   - `String memoryId`
 
-    ID of the memory this version snapshots (a `mem_...` value). Remains valid after the memory is deleted; pass it as `memory_id` to [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=java) to retrieve the memory's retained versions, including the `deleted` row while the lineage is retained.
+    The ID of the memory that this version belongs to (`mem_...`).
+
+    The ID stays valid after the memory is deleted. Pass it as `memory_id` to [List Memory Versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=java) to get the memory's retained versions, including its `deleted` version while the lineage is retained.
 
   - `String memoryStoreId`
 
@@ -229,7 +255,7 @@ List memory versions
 
     Lowercase hex SHA-256 digest of `content` as of this version (64 characters). `null` when `redacted_at` is set or `operation` is `deleted`. Populated regardless of `view` otherwise.
 
-  - `Optional<Long> contentSizeBytes`
+  - `Optional<Integer> contentSizeBytes`
 
     Size of `content` in bytes as of this version. `null` when `redacted_at` is set or `operation` is `deleted`. Populated regardless of `view` otherwise.
 
@@ -237,13 +263,17 @@ List memory versions
 
   - `Optional<BetaManagedAgentsActor> createdBy`
 
-    Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or `service_account_actor`; `null` when no writer is recorded. Captured at write time and preserved through redaction. A `session_actor` is an agent writing through the store's mounted filesystem at `/mnt/memory/`. The API key that created that session is not recorded on agent writes, so attribution names who made the write, not who is ultimately responsible; look up session provenance via the [Sessions API](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=java).
+    Who made this change to the memory, or `null` if the author wasn't recorded.
+
+    Redacting the version doesn't change this field. A `session_actor` here is an agent that wrote through the store's mounted filesystem at `/mnt/memory/`. The version doesn't record the API key that created that session. So the author in `created_by` is who made the change, not who is ultimately responsible for it.
+
+    You can [retrieve the session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=java) to learn more about where the change came from.
 
     - `class BetaManagedAgentsSessionActor`
 
       An agent acting during a session, for example through the session's mounted filesystem. It names the session itself, not the user or API key that started the session.
 
-      - `Type type`
+      - `JsonValue type = "session_actor"`
 
       - `String sessionId`
 
@@ -255,7 +285,7 @@ List memory versions
 
       A direct caller of the public API, identified by the API key that authenticated the request.
 
-      - `Type type`
+      - `JsonValue type = "api_actor"`
 
       - `String apiKeyId`
 
@@ -267,7 +297,7 @@ List memory versions
 
       A human user, for example acting through the Anthropic Console.
 
-      - `Type type`
+      - `JsonValue type = "user_actor"`
 
       - `String userId`
 
@@ -291,9 +321,13 @@ List memory versions
 
     The memory's path at the time of this write. `null` if and only if `redacted_at` is set.
 
-  - `Optional<LocalDateTime> redactedAt`
+  - `Optional<OffsetDateTime> redactedAt`
 
-    When this version was redacted, in RFC 3339 format, or `null` if it has not been redacted. When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are all `null`. See [Redact a memory version](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/redact?sdk_languages=java).
+    When the version was redacted, in RFC 3339, or `null` if it hasn't been.
+
+    When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are `null`.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#redact-a-version) to learn more about redaction.
 
     format: date-time
 
@@ -353,13 +387,13 @@ public final class Main {
 }
 ```
 
-## Retrieve a memory version
+## Retrieve a Memory Version
 
 `BetaManagedAgentsMemoryVersion beta().memoryStores().memoryVersions().retrieve(params, requestOptions = RequestOptions.none())`
 
 **GET** `/v1/memory_stores/{memory_store_id}/memory_versions/{memory_version_id}`
 
-Retrieve a memory version
+Retrieve a Memory Version
 
 ### Parameters
 
@@ -375,11 +409,13 @@ Retrieve a memory version
 
   - `Optional<BetaManagedAgentsMemoryView> view` (query parameter)
 
-    Selects which projection of a `memory` or `memory_version` the server returns. `basic` returns the object with `content` set to `null`; `full` populates `content`. When omitted, the default is endpoint-specific: retrieve operations default to `full`; list, create, and update operations default to `basic`. Listing with `view=full` caps `limit` at 20.
+    Whether a `memory` or `memory_version` in the response includes its `content`. Defaults to `full` on retrieve operations and to `basic` on list, create, and update operations.
+
+    With `full`, list operations return at most 20 items per page.
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -481,6 +517,18 @@ Retrieve a memory version
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -491,7 +539,15 @@ Retrieve a memory version
 
 - `class BetaManagedAgentsMemoryVersion`
 
-  A `memory_version` object: one immutable, attributed row in a memory's append-only history. Every non-no-op mutation to a memory produces a new version. Versions belong to the store (not the individual memory) and are not deleted with the memory; each version is retained for at least the version retention period after it was written, unless the store itself is deleted. Retrieving a redacted version returns 200 with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`; branch on `redacted_at`, not HTTP status.
+  One entry in a memory's history, recording a single change and who made it.
+
+  Every change to a memory adds one version. Only redaction can change a version after that. Versions belong to the memory store and stay after the memory is deleted. Each version is retained for at least the version retention period after it was written, unless the store itself is deleted.
+
+  Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
+
+  See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#audit-memory-changes) to learn more about memory versions.
+
+  - `JsonValue type = "memory_version"`
 
   - `Type type`
 
@@ -499,7 +555,7 @@ Retrieve a memory version
 
     Unique identifier for this version (a `memver_...` value).
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     When this version was written, in RFC 3339 format.
 
@@ -507,7 +563,9 @@ Retrieve a memory version
 
   - `String memoryId`
 
-    ID of the memory this version snapshots (a `mem_...` value). Remains valid after the memory is deleted; pass it as `memory_id` to [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=java) to retrieve the memory's retained versions, including the `deleted` row while the lineage is retained.
+    The ID of the memory that this version belongs to (`mem_...`).
+
+    The ID stays valid after the memory is deleted. Pass it as `memory_id` to [List Memory Versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=java) to get the memory's retained versions, including its `deleted` version while the lineage is retained.
 
   - `String memoryStoreId`
 
@@ -537,7 +595,7 @@ Retrieve a memory version
 
     Lowercase hex SHA-256 digest of `content` as of this version (64 characters). `null` when `redacted_at` is set or `operation` is `deleted`. Populated regardless of `view` otherwise.
 
-  - `Optional<Long> contentSizeBytes`
+  - `Optional<Integer> contentSizeBytes`
 
     Size of `content` in bytes as of this version. `null` when `redacted_at` is set or `operation` is `deleted`. Populated regardless of `view` otherwise.
 
@@ -545,13 +603,17 @@ Retrieve a memory version
 
   - `Optional<BetaManagedAgentsActor> createdBy`
 
-    Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or `service_account_actor`; `null` when no writer is recorded. Captured at write time and preserved through redaction. A `session_actor` is an agent writing through the store's mounted filesystem at `/mnt/memory/`. The API key that created that session is not recorded on agent writes, so attribution names who made the write, not who is ultimately responsible; look up session provenance via the [Sessions API](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=java).
+    Who made this change to the memory, or `null` if the author wasn't recorded.
+
+    Redacting the version doesn't change this field. A `session_actor` here is an agent that wrote through the store's mounted filesystem at `/mnt/memory/`. The version doesn't record the API key that created that session. So the author in `created_by` is who made the change, not who is ultimately responsible for it.
+
+    You can [retrieve the session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=java) to learn more about where the change came from.
 
     - `class BetaManagedAgentsSessionActor`
 
       An agent acting during a session, for example through the session's mounted filesystem. It names the session itself, not the user or API key that started the session.
 
-      - `Type type`
+      - `JsonValue type = "session_actor"`
 
       - `String sessionId`
 
@@ -563,7 +625,7 @@ Retrieve a memory version
 
       A direct caller of the public API, identified by the API key that authenticated the request.
 
-      - `Type type`
+      - `JsonValue type = "api_actor"`
 
       - `String apiKeyId`
 
@@ -575,7 +637,7 @@ Retrieve a memory version
 
       A human user, for example acting through the Anthropic Console.
 
-      - `Type type`
+      - `JsonValue type = "user_actor"`
 
       - `String userId`
 
@@ -599,9 +661,13 @@ Retrieve a memory version
 
     The memory's path at the time of this write. `null` if and only if `redacted_at` is set.
 
-  - `Optional<LocalDateTime> redactedAt`
+  - `Optional<OffsetDateTime> redactedAt`
 
-    When this version was redacted, in RFC 3339 format, or `null` if it has not been redacted. When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are all `null`. See [Redact a memory version](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/redact?sdk_languages=java).
+    When the version was redacted, in RFC 3339, or `null` if it hasn't been.
+
+    When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are `null`.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#redact-a-version) to learn more about redaction.
 
     format: date-time
 
@@ -660,13 +726,13 @@ public final class Main {
 }
 ```
 
-## Redact a memory version
+## Redact a Memory Version
 
 `BetaManagedAgentsMemoryVersion beta().memoryStores().memoryVersions().redact(params, requestOptions = RequestOptions.none())`
 
 **POST** `/v1/memory_stores/{memory_store_id}/memory_versions/{memory_version_id}/redact`
 
-Redact a memory version
+Redact a Memory Version
 
 ### Parameters
 
@@ -682,7 +748,7 @@ Redact a memory version
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -784,6 +850,18 @@ Redact a memory version
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -794,7 +872,15 @@ Redact a memory version
 
 - `class BetaManagedAgentsMemoryVersion`
 
-  A `memory_version` object: one immutable, attributed row in a memory's append-only history. Every non-no-op mutation to a memory produces a new version. Versions belong to the store (not the individual memory) and are not deleted with the memory; each version is retained for at least the version retention period after it was written, unless the store itself is deleted. Retrieving a redacted version returns 200 with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`; branch on `redacted_at`, not HTTP status.
+  One entry in a memory's history, recording a single change and who made it.
+
+  Every change to a memory adds one version. Only redaction can change a version after that. Versions belong to the memory store and stay after the memory is deleted. Each version is retained for at least the version retention period after it was written, unless the store itself is deleted.
+
+  Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
+
+  See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#audit-memory-changes) to learn more about memory versions.
+
+  - `JsonValue type = "memory_version"`
 
   - `Type type`
 
@@ -802,7 +888,7 @@ Redact a memory version
 
     Unique identifier for this version (a `memver_...` value).
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     When this version was written, in RFC 3339 format.
 
@@ -810,7 +896,9 @@ Redact a memory version
 
   - `String memoryId`
 
-    ID of the memory this version snapshots (a `mem_...` value). Remains valid after the memory is deleted; pass it as `memory_id` to [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=java) to retrieve the memory's retained versions, including the `deleted` row while the lineage is retained.
+    The ID of the memory that this version belongs to (`mem_...`).
+
+    The ID stays valid after the memory is deleted. Pass it as `memory_id` to [List Memory Versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=java) to get the memory's retained versions, including its `deleted` version while the lineage is retained.
 
   - `String memoryStoreId`
 
@@ -840,7 +928,7 @@ Redact a memory version
 
     Lowercase hex SHA-256 digest of `content` as of this version (64 characters). `null` when `redacted_at` is set or `operation` is `deleted`. Populated regardless of `view` otherwise.
 
-  - `Optional<Long> contentSizeBytes`
+  - `Optional<Integer> contentSizeBytes`
 
     Size of `content` in bytes as of this version. `null` when `redacted_at` is set or `operation` is `deleted`. Populated regardless of `view` otherwise.
 
@@ -848,13 +936,17 @@ Redact a memory version
 
   - `Optional<BetaManagedAgentsActor> createdBy`
 
-    Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or `service_account_actor`; `null` when no writer is recorded. Captured at write time and preserved through redaction. A `session_actor` is an agent writing through the store's mounted filesystem at `/mnt/memory/`. The API key that created that session is not recorded on agent writes, so attribution names who made the write, not who is ultimately responsible; look up session provenance via the [Sessions API](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=java).
+    Who made this change to the memory, or `null` if the author wasn't recorded.
+
+    Redacting the version doesn't change this field. A `session_actor` here is an agent that wrote through the store's mounted filesystem at `/mnt/memory/`. The version doesn't record the API key that created that session. So the author in `created_by` is who made the change, not who is ultimately responsible for it.
+
+    You can [retrieve the session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=java) to learn more about where the change came from.
 
     - `class BetaManagedAgentsSessionActor`
 
       An agent acting during a session, for example through the session's mounted filesystem. It names the session itself, not the user or API key that started the session.
 
-      - `Type type`
+      - `JsonValue type = "session_actor"`
 
       - `String sessionId`
 
@@ -866,7 +958,7 @@ Redact a memory version
 
       A direct caller of the public API, identified by the API key that authenticated the request.
 
-      - `Type type`
+      - `JsonValue type = "api_actor"`
 
       - `String apiKeyId`
 
@@ -878,7 +970,7 @@ Redact a memory version
 
       A human user, for example acting through the Anthropic Console.
 
-      - `Type type`
+      - `JsonValue type = "user_actor"`
 
       - `String userId`
 
@@ -902,9 +994,13 @@ Redact a memory version
 
     The memory's path at the time of this write. `null` if and only if `redacted_at` is set.
 
-  - `Optional<LocalDateTime> redactedAt`
+  - `Optional<OffsetDateTime> redactedAt`
 
-    When this version was redacted, in RFC 3339 format, or `null` if it has not been redacted. When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are all `null`. See [Redact a memory version](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/redact?sdk_languages=java).
+    When the version was redacted, in RFC 3339, or `null` if it hasn't been.
+
+    When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are `null`.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#redact-a-version) to learn more about redaction.
 
     format: date-time
 
@@ -975,7 +1071,7 @@ public final class Main {
 
     An agent acting during a session, for example through the session's mounted filesystem. It names the session itself, not the user or API key that started the session.
 
-    - `Type type`
+    - `JsonValue type = "session_actor"`
 
     - `String sessionId`
 
@@ -987,7 +1083,7 @@ public final class Main {
 
     A direct caller of the public API, identified by the API key that authenticated the request.
 
-    - `Type type`
+    - `JsonValue type = "api_actor"`
 
     - `String apiKeyId`
 
@@ -999,7 +1095,7 @@ public final class Main {
 
     A human user, for example acting through the Anthropic Console.
 
-    - `Type type`
+    - `JsonValue type = "user_actor"`
 
     - `String userId`
 
@@ -1025,7 +1121,7 @@ public final class Main {
 
   A direct caller of the public API, identified by the API key that authenticated the request.
 
-  - `Type type`
+  - `JsonValue type = "api_actor"`
 
   - `String apiKeyId`
 
@@ -1037,7 +1133,15 @@ public final class Main {
 
 - `class BetaManagedAgentsMemoryVersion`
 
-  A `memory_version` object: one immutable, attributed row in a memory's append-only history. Every non-no-op mutation to a memory produces a new version. Versions belong to the store (not the individual memory) and are not deleted with the memory; each version is retained for at least the version retention period after it was written, unless the store itself is deleted. Retrieving a redacted version returns 200 with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`; branch on `redacted_at`, not HTTP status.
+  One entry in a memory's history, recording a single change and who made it.
+
+  Every change to a memory adds one version. Only redaction can change a version after that. Versions belong to the memory store and stay after the memory is deleted. Each version is retained for at least the version retention period after it was written, unless the store itself is deleted.
+
+  Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
+
+  See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#audit-memory-changes) to learn more about memory versions.
+
+  - `JsonValue type = "memory_version"`
 
   - `Type type`
 
@@ -1045,7 +1149,7 @@ public final class Main {
 
     Unique identifier for this version (a `memver_...` value).
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     When this version was written, in RFC 3339 format.
 
@@ -1053,7 +1157,9 @@ public final class Main {
 
   - `String memoryId`
 
-    ID of the memory this version snapshots (a `mem_...` value). Remains valid after the memory is deleted; pass it as `memory_id` to [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=java) to retrieve the memory's retained versions, including the `deleted` row while the lineage is retained.
+    The ID of the memory that this version belongs to (`mem_...`).
+
+    The ID stays valid after the memory is deleted. Pass it as `memory_id` to [List Memory Versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=java) to get the memory's retained versions, including its `deleted` version while the lineage is retained.
 
   - `String memoryStoreId`
 
@@ -1083,7 +1189,7 @@ public final class Main {
 
     Lowercase hex SHA-256 digest of `content` as of this version (64 characters). `null` when `redacted_at` is set or `operation` is `deleted`. Populated regardless of `view` otherwise.
 
-  - `Optional<Long> contentSizeBytes`
+  - `Optional<Integer> contentSizeBytes`
 
     Size of `content` in bytes as of this version. `null` when `redacted_at` is set or `operation` is `deleted`. Populated regardless of `view` otherwise.
 
@@ -1091,13 +1197,17 @@ public final class Main {
 
   - `Optional<BetaManagedAgentsActor> createdBy`
 
-    Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or `service_account_actor`; `null` when no writer is recorded. Captured at write time and preserved through redaction. A `session_actor` is an agent writing through the store's mounted filesystem at `/mnt/memory/`. The API key that created that session is not recorded on agent writes, so attribution names who made the write, not who is ultimately responsible; look up session provenance via the [Sessions API](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=java).
+    Who made this change to the memory, or `null` if the author wasn't recorded.
+
+    Redacting the version doesn't change this field. A `session_actor` here is an agent that wrote through the store's mounted filesystem at `/mnt/memory/`. The version doesn't record the API key that created that session. So the author in `created_by` is who made the change, not who is ultimately responsible for it.
+
+    You can [retrieve the session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=java) to learn more about where the change came from.
 
     - `class BetaManagedAgentsSessionActor`
 
       An agent acting during a session, for example through the session's mounted filesystem. It names the session itself, not the user or API key that started the session.
 
-      - `Type type`
+      - `JsonValue type = "session_actor"`
 
       - `String sessionId`
 
@@ -1109,7 +1219,7 @@ public final class Main {
 
       A direct caller of the public API, identified by the API key that authenticated the request.
 
-      - `Type type`
+      - `JsonValue type = "api_actor"`
 
       - `String apiKeyId`
 
@@ -1121,7 +1231,7 @@ public final class Main {
 
       A human user, for example acting through the Anthropic Console.
 
-      - `Type type`
+      - `JsonValue type = "user_actor"`
 
       - `String userId`
 
@@ -1145,9 +1255,13 @@ public final class Main {
 
     The memory's path at the time of this write. `null` if and only if `redacted_at` is set.
 
-  - `Optional<LocalDateTime> redactedAt`
+  - `Optional<OffsetDateTime> redactedAt`
 
-    When this version was redacted, in RFC 3339 format, or `null` if it has not been redacted. When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are all `null`. See [Redact a memory version](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/redact?sdk_languages=java).
+    When the version was redacted, in RFC 3339, or `null` if it hasn't been.
+
+    When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are `null`.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#redact-a-version) to learn more about redaction.
 
     format: date-time
 
@@ -1159,7 +1273,9 @@ public final class Main {
 
 - `enum BetaManagedAgentsMemoryVersionOperation`
 
-  The kind of mutation a `memory_version` records. Every non-no-op mutation to a memory appends exactly one version row with one of these values.
+  The kind of change that a memory version records.
+
+  Every change to a memory adds one version. If you update a memory and nothing changes, the memory doesn't get a new version.
 
   - `CREATED("created")`
 
@@ -1193,7 +1309,7 @@ public final class Main {
 
   An agent acting during a session, for example through the session's mounted filesystem. It names the session itself, not the user or API key that started the session.
 
-  - `Type type`
+  - `JsonValue type = "session_actor"`
 
   - `String sessionId`
 
@@ -1207,7 +1323,7 @@ public final class Main {
 
   A human user, for example acting through the Anthropic Console.
 
-  - `Type type`
+  - `JsonValue type = "user_actor"`
 
   - `String userId`
 

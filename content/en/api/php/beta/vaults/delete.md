@@ -1,15 +1,15 @@
 ---
-title: Delete Vault
+title: Delete a Vault
 url: https://platform.claude.com/docs/en/api/php/beta/vaults/delete
 ---
 
-# Delete Vault
+# Delete a Vault
 
 `$client->beta->vaults->delete(string vaultID, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsDeletedVault`
 
 **DELETE** `/v1/vaults/{vault_id}`
 
-Delete Vault
+Delete a Vault
 
 ## Parameters
 
@@ -17,9 +17,15 @@ Delete Vault
 
   Unique identifier of the vault to delete.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -31,11 +37,11 @@ Delete Vault
 
 - `class BetaManagedAgentsDeletedVault`
 
-  - `Type type`
+  - `"vault_deleted" type`
 
   - `string id`
 
-    Unique identifier of the deleted vault.
+    The unique ID of the deleted vault (`vlt_...`).
 
 ## Example
 
@@ -43,6 +49,9 @@ Delete Vault
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

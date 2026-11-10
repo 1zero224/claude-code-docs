@@ -2,20 +2,53 @@
 title: Web fetch tool
 url: https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool
 description: Fetch and read content from specific URLs to augment Claude's context with live web content.
+featureMetadata:
+  status: stable
+  zdr:
+    eligibility: eligible
+    note: Excludes [Covered Models](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#model-specific-data-retention-requirements). Fetched web content returned in the API response. Dynamic filtering for web fetch is not eligible for ZDR or HIPAA. Website publishers might retain request data (such as fetched URLs and request metadata) according to their own policies.
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: stable
+    Claude Platform on AWS: stable
+    Claude Models on Google Cloud (Anthropic managed): stable
+    Microsoft Foundry:
+      availability: stable
+      note: "Deployments hosted on Azure support only `web_fetch_20250910`: no dynamic filtering, response inclusion or cache bypass."
 ---
 
+**API support**: Usage differs by product.
+
+* **Messages API**: Add a `web_fetch` tool to the request’s `tools`.
+* **Managed Agents**: On by default in the agent toolset, without `max_uses`, `citations` or `cache_control`.
+
+The web fetch tool allows Claude to retrieve full content from specified webpages and PDF documents.
+
+The latest web fetch tool version (`web_fetch_20260318`) supports **dynamic filtering**: Claude can write and run code to filter fetched content before it reaches the context window, keeping only relevant information and discarding the rest. This reduces token consumption while maintaining response quality. Dynamic filtering is available with Claude 4.6 and later models and [Claude Mythos Preview](https://anthropic.com/glasswing). `web_fetch_20260318` also adds [response inclusion](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#response-inclusion) control for agentic workflows. The other versions (`web_fetch_20260309` for dynamic filtering and [cache bypass](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#cache-bypass), `web_fetch_20260209` for dynamic filtering only, `web_fetch_20250910` for basic fetch) are available.
+
+Web fetch (with and without dynamic filtering) is available on the Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed), and [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry). On Microsoft Foundry, deployments [hosted on Azure](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry#additional-features-not-supported-when-hosted-on-azure) support only the basic web fetch tool (`web_fetch_20250910`, without dynamic filtering). Deployments hosted on Anthropic support all versions.
+
 <Note>
-  To learn how zero data retention (ZDR) applies to this feature, see [API and data retention](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention).
-</Note>
-
-The web fetch tool allows Claude to retrieve full content from specified web pages and PDF documents.
-
-The latest web fetch tool version (`web_fetch_20260318`) supports **dynamic filtering**: Claude can write and execute code to filter fetched content before it reaches the context window, keeping only relevant information and discarding the rest. This reduces token consumption while maintaining response quality. Dynamic filtering is available with Claude 4.6 and later models and [Claude Mythos Preview](https://anthropic.com/glasswing). `web_fetch_20260318` also adds [response inclusion](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#response-inclusion) control for agentic workflows. The previous versions (`web_fetch_20260309` for dynamic filtering and [cache bypass](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#cache-bypass), `web_fetch_20260209` for dynamic filtering only, `web_fetch_20250910` for basic fetch) remain available.
-
-Web fetch (with and without dynamic filtering) is available on the Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), and [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry). On Microsoft Foundry, deployments [hosted on Azure](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry#additional-features-not-supported-when-hosted-on-azure) support only the basic web fetch tool (`web_fetch_20250910`, without dynamic filtering). Deployments hosted on Anthropic support all versions. Web fetch is not currently available on Amazon Bedrock or Google Cloud.
-
-<Note>
-  For [Claude Mythos Preview](https://anthropic.com/glasswing), web fetch is available on the Claude API and Microsoft Foundry. It is not currently available for Mythos Preview on Amazon Bedrock or Google Cloud.
+  For [Claude Mythos Preview](https://anthropic.com/glasswing), web fetch is available on the Claude API and Microsoft Foundry.
 </Note>
 
 <Note>
@@ -27,22 +60,23 @@ For Zero Data Retention eligibility and the `allowed_callers` workaround, see [S
 <Warning>
   Enabling the web fetch tool in environments where Claude processes untrusted input alongside sensitive data poses data exfiltration risks. Only use this tool in trusted environments or when handling non-sensitive data.
 
-  To minimize exfiltration risks, Claude cannot fetch URLs that appear only in its own output. Claude can only fetch URLs that have previously appeared in the conversation: URLs in user messages, URLs in client-side tool results (even when a result echoes text that Claude generated), and URLs from previous web search or web fetch results (see [URL validation](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#url-validation)). Claude also cannot fetch a URL that appears to contain a credential, such as an API key or a password, unless that credential appears in the system prompt or in the text of a user message.
+  To minimize exfiltration risks, Claude cannot fetch URLs that appear only in its own output. Claude can only fetch URLs that have previously appeared in the conversation: URLs in user messages, URLs in client-side tool results, and URLs from previous web search or web fetch results (see [URL validation](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#url-validation)). Claude also cannot fetch a URL that appears to contain a credential, such as an API key or a password, unless that credential appears in the system prompt or in the text of a user message.
 
   However, there is still residual risk that you should carefully consider when using this tool.
 
   If data exfiltration is a concern, consider:
 
   * Disabling the web fetch tool entirely
-  * Using the `max_uses` parameter to limit the number of requests
+  * Using the [`max_uses`](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#max-uses) parameter to limit the number of fetches in a turn
   * Using the `allowed_domains` parameter to restrict to known safe domains
+  * Using the `url_sources` parameter to stop client-side tool results from counting as a source (see [URL sources](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#url-sources))
 </Warning>
 
 For model support, see the [Tool reference](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-reference).
 
 ## How web fetch works
 
-Web fetch is a [server tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools): the API fetches the content during the request and inserts the results into the conversation. You don't run anything or return a `tool_result`. The exception is when Claude calls web fetch and one of your client tools in the same group of parallel tool calls: the API returns the response with `stop_reason: "tool_use"` before that fetch has run, then runs the fetch when you send back the client `tool_result` blocks. See [Mixing server tools and client tools in one turn](https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools#mixing-server-tools-and-client-tools-in-one-turn).
+Web fetch is a [server tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools): the API fetches the content during the request and inserts the results into the conversation. You don’t run anything or return a `tool_result`. The exception is when Claude calls web fetch and one of your client tools in the same group of parallel tool calls: the API returns the response with `stop_reason: "tool_use"` before that fetch has run, then runs the fetch when you send back the client `tool_result` blocks. See [Mixing server tools and client tools in one turn](https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools#mixing-server-tools-and-client-tools-in-one-turn).
 
 When you add the web fetch tool to your API request:
 
@@ -62,21 +96,21 @@ Claude fetches when the request points at a specific page or document:
 * A URL is provided in the conversation (or a previous tool result)
 * The user names a specific resource (a particular article, README, pricing page, or documentation section) without a URL, and the [web search tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-search-tool) is also enabled so Claude can locate it first (see [Combined search and fetch](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#combined-search-and-fetch))
 
-Claude does **not** fetch for general-knowledge or open-ended questions that don't reference a specific page. "Summarize this article: `<url>`" triggers a fetch. "What are best practices for REST API design?" is answered directly.
+Claude does **not** fetch for general-knowledge or open-ended questions that don’t reference a specific page. “Summarize this article: `<url>`” triggers a fetch. “What are best practices for REST API design?” is answered directly.
 
 ### Dynamic filtering
 
-Fetching full web pages and PDFs can quickly consume tokens, especially when only specific information is needed from large documents. With `web_fetch_20260209` or later, Claude can write and execute code to filter the fetched content before loading it into context.
+Fetching full webpages and PDFs can quickly consume tokens, especially when only specific information is needed from large documents. With `web_fetch_20260209` or later, Claude can write and run code to filter the fetched content before loading it into context.
 
 This dynamic filtering is particularly useful for:
 
 * Extracting specific sections from long documents
-* Processing structured data from web pages
+* Processing structured data from webpages
 * Filtering relevant information from PDFs
 * Reducing token costs when working with large documents
 
 <Note>
-  Dynamic filtering runs on the [code execution tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool), which the API enables automatically for the request. You don't need to add the code execution tool to the `tools` array.
+  Dynamic filtering runs on the [code execution tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool), which the API enables automatically for the request. You don’t need to add the code execution tool to the `tools` array.
 </Note>
 
 To enable dynamic filtering, use `web_fetch_20260209` or any later version. The following examples use `web_fetch_20260318`:
@@ -85,7 +119,7 @@ To enable dynamic filtering, use `web_fetch_20260209` or any later version. The 
   ```bash cURL
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -104,18 +138,11 @@ To enable dynamic filtering, use `web_fetch_20260209` or any later version. The 
   ```
 
   ```bash CLI
-  ant messages create <<'YAML'
-  model: claude-opus-5-5
-  max_tokens: 4096
-  messages:
-    - role: user
-      content: >-
-        Fetch the content at https://example.com/research-paper
-        and extract the key findings.
-  tools:
-    - type: web_fetch_20260318
-      name: web_fetch
-  YAML
+  ant messages create \
+    --model claude-opus-5-5 \
+    --max-tokens 4096 \
+    --message '{role: user, content: "Fetch the content at https://example.com/research-paper and extract the key findings."}' \
+    --tool '{type: web_fetch_20260318, name: web_fetch}'
   ```
 
   ```python Python
@@ -161,7 +188,7 @@ To enable dynamic filtering, use `web_fetch_20260209` or any later version. The 
   {
       Model = Model.ClaudeOpus5_5,
       MaxTokens = 4096,
-      Messages = [new() { Role = Role.User, Content = "Fetch the content at https://example.com/research-paper and extract the key findings." }],
+      Messages = [new UserMessageParam { Content = "Fetch the content at https://example.com/research-paper and extract the key findings." }],
       Tools = [new ToolUnion(new WebFetchTool20260318())]
   };
 
@@ -214,7 +241,7 @@ To enable dynamic filtering, use `web_fetch_20260209` or any later version. The 
       messages: [
           ['role' => 'user', 'content' => 'Fetch the content at https://example.com/research-paper and extract the key findings.']
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
       tools: [[
           'type' => 'web_fetch_20260318',
           'name' => 'web_fetch',
@@ -227,7 +254,7 @@ To enable dynamic filtering, use `web_fetch_20260209` or any later version. The 
   client = Anthropic::Client.new
 
   message = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 4096,
     messages: [
       { role: "user", content: "Fetch the content at https://example.com/research-paper and extract the key findings." }
@@ -243,17 +270,23 @@ To enable dynamic filtering, use `web_fetch_20260209` or any later version. The 
 
 ## How to use web fetch
 
+<Note>
+  An organization admin can turn off web fetch for your organization on the [**Capabilities**](https://platform.claude.com/settings/capabilities) page of the Claude Console. With web fetch off, a Messages API request that includes the tool fails with a 400 `invalid_request_error` that says web fetch is not enabled. With web fetch on, the admin can also set allowed or blocked domains for web fetch on the same page. For how those lists apply to a request, see [Domain filtering](https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools#domain-filtering).
+</Note>
+
+For how your organization’s web fetch settings apply in Claude Managed Agents sessions, see [Restrict web search and web fetch domains](https://platform.claude.com/docs/en/managed-agents/tools-web-restrictions).
+
 Provide the web fetch tool in your API request:
 
 <CodeGroup>
   ```bash cURL
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
-      "max_tokens": 1024,
+      "max_tokens": 4096,
       "messages": [
         {
           "role": "user",
@@ -271,7 +304,7 @@ Provide the web fetch tool in your API request:
   ```bash CLI
   ant messages create \
     --model claude-opus-5-5 \
-    --max-tokens 1024 \
+    --max-tokens 4096 \
     --message '{role: user, content: "Please analyze the content at https://example.com/article"}' \
     --tool '{type: web_fetch_20250910, name: web_fetch, max_uses: 5}'
   ```
@@ -281,7 +314,7 @@ Provide the web fetch tool in your API request:
 
   response = client.messages.create(
       model="claude-opus-5-5",
-      max_tokens=1024,
+      max_tokens=4096,
       messages=[
           {
               "role": "user",
@@ -298,7 +331,7 @@ Provide the web fetch tool in your API request:
 
   const response = await client.messages.create({
     model: "claude-opus-5-5",
-    max_tokens: 1024,
+    max_tokens: 4096,
     messages: [
       {
         role: "user",
@@ -323,8 +356,8 @@ Provide the web fetch tool in your API request:
   var parameters = new MessageCreateParams
   {
       Model = Model.ClaudeOpus5_5,
-      MaxTokens = 1024,
-      Messages = [new() { Role = Role.User, Content = "Please analyze the content at https://example.com/article" }],
+      MaxTokens = 4096,
+      Messages = [new UserMessageParam { Content = "Please analyze the content at https://example.com/article" }],
       Tools = [new ToolUnion(new WebFetchTool20250910() { MaxUses = 5 })]
   };
 
@@ -337,7 +370,7 @@ Provide the web fetch tool in your API request:
 
   response, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
   	Model:     anthropic.ModelClaudeOpus5_5,
-  	MaxTokens: 1024,
+  	MaxTokens: 4096,
   	Messages: []anthropic.MessageParam{
   		anthropic.NewUserMessage(anthropic.NewTextBlock("Please analyze the content at https://example.com/article")),
   	},
@@ -361,7 +394,7 @@ Provide the web fetch tool in your API request:
 
       MessageCreateParams params = MessageCreateParams.builder()
           .model(Model.CLAUDE_OPUS_5_5)
-          .maxTokens(1024L)
+          .maxTokens(4096L)
           .addUserMessage("Please analyze the content at https://example.com/article")
           .addTool(WebFetchTool20250910.builder()
               .maxUses(5L)
@@ -377,11 +410,11 @@ Provide the web fetch tool in your API request:
   $client = new Client();
 
   $message = $client->messages->create(
-      maxTokens: 1024,
+      maxTokens: 4096,
       messages: [
           ['role' => 'user', 'content' => 'Please analyze the content at https://example.com/article']
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
       tools: [[
           'type' => 'web_fetch_20250910',
           'name' => 'web_fetch',
@@ -395,8 +428,8 @@ Provide the web fetch tool in your API request:
   client = Anthropic::Client.new
 
   message = client.messages.create(
-    model: "claude-opus-5-5",
-    max_tokens: 1024,
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
+    max_tokens: 4096,
     messages: [
       { role: "user", content: "Please analyze the content at https://example.com/article" }
     ],
@@ -419,7 +452,7 @@ The web fetch tool supports the following parameters:
   "type": "web_fetch_20250910",
   "name": "web_fetch",
 
-  // Optional: Limit the number of fetches per request
+  // Optional: Limit the number of fetches
   "max_uses": 10,
 
   // Optional: Only fetch from these domains
@@ -427,6 +460,11 @@ The web fetch tool supports the following parameters:
 
   // Optional: Never fetch from these domains (cannot be combined with allowed_domains)
   "blocked_domains": ["private.example.com"],
+
+  // Optional: Don't fetch URLs that appear only in client-side tool results
+  "url_sources": {
+    "client_tool_results": { "type": "none" }
+  },
 
   // Optional: Enable citations for fetched content
   "citations": {
@@ -442,21 +480,21 @@ Later tool versions add two more optional parameters: `use_cache` requires `web_
 
 ### Max uses
 
-The `max_uses` parameter limits the number of web fetches performed. Failed fetches count against the limit. If Claude attempts more fetches than allowed, the `web_fetch_tool_result` is an error with the `max_uses_exceeded` error code. There is currently no default limit.
+The `max_uses` parameter limits the number of web fetches in a single turn. Failed fetches count against the limit. If Claude calls web fetch directly more times than allowed, the `web_fetch_tool_result` is an error with the `max_uses_exceeded` error code. If Claude calls web fetch from code execution more times than allowed, the code execution run ends with an error. There is no default limit.
+
+A turn can span several requests. A request continues a turn when it resumes after [`pause_turn`](https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools#the-server-side-loop-and-pause-turn) or when its last message contains only `tool_result` blocks. Fetches from earlier requests in that turn count against the limit, unless Claude ran them from code execution through [dynamic filtering](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#dynamic-filtering).
 
 ### Domain filtering
 
 For domain filtering with `allowed_domains` and `blocked_domains`, see [Server tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools#domain-filtering).
 
-On [Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview), set these fields on the `web_fetch` entry of the agent toolset, where each listed domain must be a plain hostname with no path; see [Restrict web search and web fetch domains](https://platform.claude.com/docs/en/managed-agents/tools-web-restrictions).
+On [Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview), set these fields on the `web_fetch` entry of the agent toolset; see [Restrict web search and web fetch domains](https://platform.claude.com/docs/en/managed-agents/tools-web-restrictions).
 
 ### Content limits
 
-The `max_content_tokens` parameter limits the amount of content included in the context. If the fetched content exceeds this limit, the tool truncates it. This helps control token usage when fetching large documents. The limit applies to text content, not to binary content such as PDFs.
+The `max_content_tokens` parameter limits the amount of content included in the context. If the fetched content exceeds this limit, the tool truncates it. This helps control token usage when fetching large documents. The limit is approximate: the actual number of input tokens used can vary by a small amount. The limit applies to text content, not to binary content such as PDFs.
 
-<Note>
-  The `max_content_tokens` parameter limit is approximate. The actual number of input tokens used can vary by a small amount.
-</Note>
+If a fetched PDF would make the request exceed the [PDF page or size limits](https://platform.claude.com/docs/en/build-with-claude/pdf-support#check-pdf-requirements), the `web_fetch_tool_result` is an error with the `content_too_large` error code. PDFs and images already in the conversation count toward those limits, so removing them can let the fetch succeed.
 
 On Claude Managed Agents, the `web_fetch` entry of the agent toolset also accepts `max_content_tokens`; see the [web tool settings](https://platform.claude.com/docs/en/managed-agents/tools-web-restrictions#settings).
 
@@ -486,7 +524,7 @@ The `use_cache` parameter controls whether cached content may be returned. Set `
   Requires `web_fetch_20260318` or later.
 </Note>
 
-The `response_inclusion` parameter controls how fetch result blocks appear in the API response when the result was consumed by a completed [code execution](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool) call in the same turn. Set `"response_inclusion": "excluded"` to drop those nested `server_tool_use` and result block pairs entirely from the response, reducing output token costs for agentic workflows that don't need to echo raw page content back to the client. The default is `"full"`. Results from direct calls, or from code execution calls that paused before completing, are always returned in full so they can be sent back on the next turn.
+The `response_inclusion` parameter controls how fetch result blocks appear in the API response when a completed [code execution](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool) call in the same response consumed the result. Set `"response_inclusion": "excluded"` to drop those nested `server_tool_use` and result block pairs entirely from the response, for agentic workflows that don’t need the raw page content. Token usage is unaffected, because Claude reads the code’s output rather than these blocks. The default is `"full"`. The API always returns results from direct calls, or from code execution calls that paused before completing, in full so that you can send them back in the next request.
 
 ```json
 {
@@ -502,7 +540,7 @@ The `response_inclusion` parameter controls how fetch result blocks appear in th
 
 ### Citations
 
-Unlike web search where citations are always enabled, citations are optional for web fetch and disabled by default. Set `"citations": {"enabled": true}` to enable Claude to cite specific passages from fetched documents.
+Unlike web search, where citations are always enabled, citations are optional for web fetch and disabled by default. Set `"citations": {"enabled": true}` to allow Claude to cite specific passages from fetched documents.
 
 <Note>
   When displaying API outputs directly to end users, include citations to the original source. If you are making modifications to API outputs, including by reprocessing or combining them with your own material before displaying them to end users, display citations as appropriate based on consultation with your legal team.
@@ -510,7 +548,7 @@ Unlike web search where citations are always enabled, citations are optional for
 
 ## Response
 
-Here's an example response structure:
+Here’s an example response structure:
 
 ```json Output
 {
@@ -591,7 +629,7 @@ Fetch results include:
 * `retrieved_at`: Timestamp when the content was retrieved
 
 <Note>
-  The web fetch tool caches results to improve performance and reduce redundant requests. The content returned may not always reflect the latest version available at the URL. The cache behavior is managed automatically and may change over time to optimize for different content types and usage patterns. To fetch fresh content, set `"use_cache": false` (see [Cache bypass](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#cache-bypass)).
+  The web fetch tool caches results to improve performance and reduce redundant requests. The content returned might not always reflect the latest version available at the URL. The cache behavior is managed automatically and may change over time to optimize for different content types and usage patterns. To fetch fresh content, set `"use_cache": false` (see [Cache bypass](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#cache-bypass)).
 </Note>
 
 For PDF documents, content is returned as base64-encoded data:
@@ -619,7 +657,7 @@ For PDF documents, content is returned as base64-encoded data:
 
 ### Errors
 
-When the web fetch tool encounters an error, the Claude API returns a 200 (success) response with the error represented in the response body. Claude sees the error result and continues the turn. For example:
+When the web fetch tool encounters an error, the Claude API returns a 200 (success) response with the error represented in the response body. Claude receives the error result and continues the turn. For example:
 
 ```json Output
 {
@@ -636,11 +674,12 @@ These are the possible error codes:
 
 * `invalid_tool_input`: Invalid tool input, such as a malformed URL or a non-HTTP(S) scheme
 * `url_too_long`: URL exceeds maximum length (250 characters)
-* `url_not_allowed`: URL blocked by domain filtering rules (including your organization's settings) or by Anthropic-side restrictions, such as private addresses, `robots.txt`, and URLs that appear to contain a credential you did not provide
-* `url_not_in_prior_context`: URL did not appear earlier in the conversation (see [URL validation](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#url-validation))
+* `url_not_allowed`: URL blocked by domain filtering rules (including your organization’s settings) or by Anthropic-side restrictions, such as private addresses, `robots.txt`, and URLs that appear to contain a credential you did not provide
+* `url_not_in_prior_context`: URL did not appear earlier in the conversation, or appeared only in sources that `url_sources` excludes (see [URL validation](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#url-validation))
 * `url_not_accessible`: Failed to fetch content (HTTP error)
 * `too_many_requests`: Rate limit exceeded
 * `unsupported_content_type`: Content type not supported (only text, HTML, and PDF)
+* `content_too_large`: Fetched PDF would make the request exceed the PDF page or size limits (see [Content limits](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool#content-limits))
 * `max_uses_exceeded`: Maximum web fetch tool uses exceeded
 * `unavailable`: An internal error occurred
 
@@ -652,19 +691,65 @@ For security reasons, the web fetch tool can only fetch URLs that have previousl
 * URLs in client-side tool results
 * URLs from previous web search or web fetch results
 
-The tool cannot fetch URLs that appear only in Claude's own output or only in the system prompt. To make a URL from the system prompt fetchable, also include it in a user message. Results of other server-side tools, such as [code execution](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool), the [MCP connector](https://platform.claude.com/docs/en/agents-and-tools/mcp-connector), or [tool search](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool), are not an allowed source either. Client-side tool results are an allowed source even when they echo text that Claude produced (for example, a command that prints its input, or an error message that quotes it).
+The tool cannot fetch URLs that appear only in Claude’s own output or only in the system prompt. To make a URL from the system prompt fetchable, also include it in a user message. Results of other server-side tools, such as [code execution](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool), the [MCP connector](https://platform.claude.com/docs/en/agents-and-tools/mcp-connector), or [tool search](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool), are not an allowed source either. By default, client-side tool results are an allowed source even when they echo text that Claude produced (for example, a command that prints its input, or an error message that quotes it).
 
 The tool also refuses a URL that appears to contain a credential, such as an API key or a password, unless that credential appears in the system prompt or in the text of a user message. A credential that appears only in a tool result does not count. The result is a `url_not_allowed` error. To fetch such a URL, include it in a user message.
 
+### URL sources
+
+<Note>
+  Works with `web_fetch_20250910`, `web_fetch_20260209`, `web_fetch_20260309`, and `web_fetch_20260318`.
+</Note>
+
+The optional `url_sources` parameter lets you turn off any of the three allowed sources, or limit tool results to certain tools. It has one key for each source, and every key defaults to `{"type": "all"}`:
+
+* `user_input`: URLs in user messages. Its `type` is `"all"` or `"none"`.
+* `client_tool_results`: URLs in client-side tool results. Its `type` is `"all"`, `"none"`, or an `"only"` or `"except"` filter that names tools, as in the following example.
+* `server_tool_results`: URLs from previous web search or web fetch results. It takes the same values, and its filters name `web_search` or `web_fetch`.
+
+For example, a tool that runs code Claude wrote returns whatever that code prints, including any URL Claude put in it. To stop that tool’s results from counting as a source, name it in an `"except"` filter:
+
+```json
+{
+  "tools": [
+    {
+      "type": "web_fetch_20260318",
+      "name": "web_fetch",
+      "url_sources": {
+        "client_tool_results": {
+          "type": "except",
+          "tools": [{ "type": "tool_reference", "name": "run_code" }]
+        }
+      }
+    },
+    {
+      "name": "run_code",
+      "description": "Run Python code and return its output",
+      "input_schema": {
+        "type": "object",
+        "properties": { "code": { "type": "string" } },
+        "required": ["code"]
+      }
+    }
+  ]
+}
+```
+
+A filter lists tools as `tool_reference` objects. Each name must match a tool in the request’s `tools` array: a client tool for `client_tool_results`, or a server tool for `server_tool_results`. Otherwise, the request fails with an error. Under `"except"`, a tool you add to `tools` later counts as a source. Under `"only"`, it doesn’t.
+
+Client-side tools other than `run_code` can also return text Claude wrote, for example in an error message that quotes it. To exclude all client-side tool results, set `client_tool_results` to `{"type": "none"}`.
+
+If a URL appeared only in sources that `url_sources` excludes, fetching it returns the `url_not_in_prior_context` error.
+
 ## Combined search and fetch
 
-When both the web search and web fetch tools are enabled, and the user names a specific page or document without providing a URL (for example, "read the README from the anthropics/anthropic-sdk-python repository"), Claude uses web search to locate it, then fetches the result. The following example asks for a search and an analysis in one request:
+When both the web search and web fetch tools are enabled, and the user names a specific page or document without providing a URL (for example, “read the README from the anthropics/anthropic-sdk-python repository”), Claude uses web search to locate it, then fetches the result. The following example asks for a search and an analysis in one request:
 
 <CodeGroup>
   ```bash cURL
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -771,7 +856,7 @@ When both the web search and web fetch tools are enabled, and the user names a s
   {
       Model = Model.ClaudeOpus5_5,
       MaxTokens = 4096,
-      Messages = [new() { Role = Role.User, Content = "Find recent articles about quantum computing and analyze the most relevant one in detail" }],
+      Messages = [new UserMessageParam { Content = "Find recent articles about quantum computing and analyze the most relevant one in detail" }],
       Tools = [
           new ToolUnion(new WebSearchTool20250305() { MaxUses = 3 }),
           new ToolUnion(new WebFetchTool20250910() { MaxUses = 5, Citations = new() { Enabled = true } })
@@ -825,7 +910,9 @@ When both the web search and web fetch tools are enabled, and the user names a s
               .build())
           .addTool(WebFetchTool20250910.builder()
               .maxUses(5L)
-              .citations(CitationsConfigParam.builder().enabled(true).build())
+              .citations(CitationsConfigParam.builder()
+                  .enabled(true)
+                  .build())
               .build())
           .build();
 
@@ -842,7 +929,7 @@ When both the web search and web fetch tools are enabled, and the user names a s
       messages: [
           ['role' => 'user', 'content' => 'Find recent articles about quantum computing and analyze the most relevant one in detail']
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
       tools: [
           [
               'type' => 'web_search_20250305',
@@ -864,7 +951,7 @@ When both the web search and web fetch tools are enabled, and the user names a s
   client = Anthropic::Client.new
 
   message = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 4096,
     messages: [
       { role: "user", content: "Find recent articles about quantum computing and analyze the most relevant one in detail" }
@@ -918,7 +1005,7 @@ data: {"type": "content_block_start", "index": 1, "content_block": {"type": "ser
 event: content_block_delta
 data: {"type": "content_block_delta", "index": 1, "delta": {"type": "input_json_delta", "partial_json": "{\"url\":\"https://example.com/article\"}"}}
 
-// Pause while fetch executes
+// Pause while fetch runs
 
 // Fetch results streamed
 event: content_block_start
@@ -929,7 +1016,7 @@ data: {"type": "content_block_start", "index": 2, "content_block": {"type": "web
 
 ## Batch requests
 
-You can include the web fetch tool in the [Messages Batches API](https://platform.claude.com/docs/en/build-with-claude/batch-processing). Web fetch tool calls through the Messages Batches API are priced the same as those in regular Messages API requests.
+You can include the web fetch tool in the [Message Batches API](https://platform.claude.com/docs/en/build-with-claude/batch-processing). Web fetch tool calls through the Message Batches API are priced the same as those in regular Messages API requests.
 
 ## Usage and pricing
 
@@ -955,7 +1042,7 @@ To protect against inadvertently fetching large content that would consume exces
 
 Example token usage for typical content:
 
-* Average web page (10 kB): \~2,500 tokens
+* Average webpage (10 kB): \~2,500 tokens
 * Large documentation page (100 kB): \~25,000 tokens
 * Research paper PDF (500 kB): \~125,000 tokens
 
@@ -963,14 +1050,54 @@ Example token usage for typical content:
 
 <CardGroup>
   <Card href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool" title="Code execution tool" icon="code">
-    Run Python and bash code in a sandboxed container to analyze data, generate files, and iterate on solutions.
+    Run Python and Bash code in a sandboxed container to analyze data, generate files, and iterate on solutions.
   </Card>
 
   <Card href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools" title="Server tools" icon="cloud">
-    Work with Anthropic-executed tools: server\_tool\_use blocks, pause\_turn continuation, and domain filtering.
+    Work with tools that Anthropic runs: `server_tool_use` blocks, `pause_turn` continuation, and domain filtering.
   </Card>
 
   <Card href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-reference" title="Tool reference" icon="book">
     Directory of Anthropic-provided tools and reference for optional tool definition properties.
   </Card>
 </CardGroup>
+
+## Availability
+
+Web fetch tool is available on every model and eligible for zero data retention.
+
+### API support
+
+#### [Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)
+
+* Availability: Available
+* Usage: Add a `web_fetch` tool to the request’s `tools`. Settings such as `max_uses`, domain lists, `citations` and `max_content_tokens` go on that tool.
+
+| Status                | Cloud platforms                                                                                                                                                                                                                                                                                                                                                                                              |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Available             | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Microsoft Foundry (hosted on Anthropic)](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry) |
+| Available<sup>1</sup> | [Microsoft Foundry (hosted on Azure)](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry)                                                                                                                                                                                                                                                                                     |
+
+1. Deployments hosted on Azure support only `web_fetch_20250910`: no dynamic filtering, response inclusion or cache bypass.
+
+#### [Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview)
+
+* Availability: Available
+* Usage: Part of the agent toolset, and on by default once the toolset is added. Domain lists (with no paths) and `max_content_tokens` go on the toolset’s `web_fetch` entry; `max_uses`, `citations` and `cache_control` are not available.
+
+| Status    | Cloud platforms                                                                                                    |
+| --------- | ------------------------------------------------------------------------------------------------------------------ |
+| Available | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws) |
+
+### Data handling
+
+[Data handling overview](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#feature-eligibility)
+
+| Item    | Zero data retention                                                                                                                                                                                                                           | HIPAA        |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| Status  | Eligible (excludes [Covered Models](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#model-specific-data-retention-requirements))                                                                                     | Not eligible |
+| Details | Fetched web content returned in the API response. Dynamic filtering for web fetch is not eligible for ZDR or HIPAA. Website publishers might retain request data (such as fetched URLs and request metadata) according to their own policies. | —            |
+
+Applicable endpoints:
+
+* `/v1/messages` with `web_fetch` tool

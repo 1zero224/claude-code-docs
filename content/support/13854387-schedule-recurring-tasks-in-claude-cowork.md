@@ -2,11 +2,13 @@
 
 Scheduled tasks allow you to delegate work to Claude Cowork by creating tasks that run automatically on a recurring basis, or on demand. Instead of starting each task from scratch, you describe it once and Claude handles it on your schedule—delivering finished outputs like reports, briefings, and summaries every time.
 
-Scheduled tasks are available on all paid plans (Pro, Max, Team, Enterprise), in Claude Cowork and in the new Claude experience that's rolling out gradually to Pro and Max plans.
+## Availability
 
-Claude Cowork is available for paid plans (Pro, Max, Team, Enterprise) on desktop, and on web and mobile for Pro and Max plans. It’s in beta on web and mobile for Team plans, and Enterprise plans when enabled by an owner.
+Scheduled tasks are available on all paid plans (Pro, Max, Ultra, Team, and Enterprise), in Claude Cowork and in the new Claude experience.
 
-**Note:** Claude Cowork is now just Claude. Ask for what you need, and Claude decides whether that's a quick answer or a task. This is rolling out gradually to Pro and Max plans, with more plans to follow. If you're on a Pro or Max plan and your message box no longer shows "Chat" and "Cowork" options, you have the new experience, and some steps in this article may look different. Learn more in **[Claude Cowork and chat are one Claude](https://support.claude.com/en/articles/16761823)**, or read our **[blog post](https://claude.com/blog/cowork-is-now-claude)**.
+Claude Cowork is available on desktop on all paid plans (Pro, Max, Ultra, Team, and Enterprise). On web and mobile, it's available on Pro, Max, Ultra, and Team plans (in beta on Team), and on Enterprise plans when an owner enables it.
+
+The new Claude experience, which combines chat and Cowork, is rolling out to Pro, Max, and Ultra plans. On Team plans (in beta) and Enterprise plans, it's available where **Chat and Cowork unified** is turned on. If your message box no longer shows "Chat" and "Cowork" options, you have the new experience, and some steps in this article may look different. Learn more in **[Claude Cowork and chat are one Claude](https://support.claude.com/en/articles/16761823)**.
 
 ---
 
@@ -28,11 +30,13 @@ Scheduled tasks have access to the same capabilities as regular Cowork tasks, in
 
 When you create a scheduled task, Claude saves your prompt as the task's instructions and runs them at the cadence you choose. Tasks can search Slack, query files, run web research, generate reports, and more—using any connectors and plugins you've set up in Cowork.
 
+Scheduled tasks can’t use your linked accounts in Personal Finance. Learn more in **[Use Personal Finance in Claude](https://support.claude.com/en/articles/18185620-use-personal-finance-with-claude)**.
+
 Each scheduled task runs as its own Cowork session. You can review the results when they're ready, just like any other task.
 
 Scheduled tasks run remotely, so they run on their cadence even when your computer is asleep or the Claude Desktop app is closed. Review upcoming and past runs by clicking "Scheduled" in the left sidebar on any surface.
 
-**Note:** Scheduled tasks use the built-in schedule options and work with your connectors and the files saved to your Claude account. On Pro and Max plans, scheduled tasks you created before October 6 that run on your computer keep running there.
+**Note:** Scheduled tasks use the built-in schedule options and work with your connectors and the files saved to your Claude account. On Pro, Max, and Ultra plans, scheduled tasks you created before October 6 that run on your computer keep running there.
 
 For Team and Enterprise organizations, admins control Cowork access through the admin toggle. For more details, see **[Use Claude Cowork on Team and Enterprise plans](https://support.claude.com/en/articles/13455879)**.
 
@@ -42,7 +46,7 @@ For Team and Enterprise organizations, admins control Cowork access through the 
 
 ### In the new Claude experience
 
-If you're on a Pro or Max plan and your message box doesn't show "Chat" and "Cowork" options, create a scheduled task from any conversation:
+If your message box doesn’t show “Chat” and “Cowork” options, you have the new Claude experience. Create a scheduled task from any conversation:
 
 1. Describe the task and how often it should run, for example, "Every Monday at 9 AM, summarize last week's messages in my team's Slack channels."
 

@@ -1,15 +1,15 @@
 ---
-title: Redact a memory version
+title: Redact a Memory Version
 url: https://platform.claude.com/docs/en/api/csharp/beta/memory_stores/memory_versions/redact
 ---
 
-# Redact a memory version
+# Redact a Memory Version
 
 `BetaManagedAgentsMemoryVersion Beta.MemoryStores.MemoryVersions.Redact(parameters, cancellationToken = default)`
 
 **POST** `/v1/memory_stores/{memory_store_id}/memory_versions/{memory_version_id}/redact`
 
-Redact a memory version
+Redact a Memory Version
 
 ## Parameters
 
@@ -25,7 +25,7 @@ Redact a memory version
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
@@ -127,6 +127,18 @@ Redact a memory version
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -137,7 +149,15 @@ Redact a memory version
 
 - `class BetaManagedAgentsMemoryVersion`
 
-  A `memory_version` object: one immutable, attributed row in a memory's append-only history. Every non-no-op mutation to a memory produces a new version. Versions belong to the store (not the individual memory) and are not deleted with the memory; each version is retained for at least the version retention period after it was written, unless the store itself is deleted. Retrieving a redacted version returns 200 with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`; branch on `redacted_at`, not HTTP status.
+  One entry in a memory's history, recording a single change and who made it.
+
+  Every change to a memory adds one version. Only redaction can change a version after that. Versions belong to the memory store and stay after the memory is deleted. Each version is retained for at least the version retention period after it was written, unless the store itself is deleted.
+
+  Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
+
+  See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=csharp#audit-memory-changes) to learn more about memory versions.
+
+  - `JsonElement Type = "memory_version"`
 
   - `required Type Type`
 
@@ -153,7 +173,9 @@ Redact a memory version
 
   - `required string MemoryID`
 
-    ID of the memory this version snapshots (a `mem_...` value). Remains valid after the memory is deleted; pass it as `memory_id` to [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=csharp) to retrieve the memory's retained versions, including the `deleted` row while the lineage is retained.
+    The ID of the memory that this version belongs to (`mem_...`).
+
+    The ID stays valid after the memory is deleted. Pass it as `memory_id` to [List Memory Versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=csharp) to get the memory's retained versions, including its `deleted` version while the lineage is retained.
 
   - `required string MemoryStoreID`
 
@@ -191,13 +213,17 @@ Redact a memory version
 
   - `BetaManagedAgentsActor CreatedBy`
 
-    Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or `service_account_actor`; `null` when no writer is recorded. Captured at write time and preserved through redaction. A `session_actor` is an agent writing through the store's mounted filesystem at `/mnt/memory/`. The API key that created that session is not recorded on agent writes, so attribution names who made the write, not who is ultimately responsible; look up session provenance via the [Sessions API](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=csharp).
+    Who made this change to the memory, or `null` if the author wasn't recorded.
+
+    Redacting the version doesn't change this field. A `session_actor` here is an agent that wrote through the store's mounted filesystem at `/mnt/memory/`. The version doesn't record the API key that created that session. So the author in `created_by` is who made the change, not who is ultimately responsible for it.
+
+    You can [retrieve the session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=csharp) to learn more about where the change came from.
 
     - `class BetaManagedAgentsSessionActor`
 
       An agent acting during a session, for example through the session's mounted filesystem. It names the session itself, not the user or API key that started the session.
 
-      - `required Type Type`
+      - `JsonElement Type = "session_actor"`
 
       - `required string SessionID`
 
@@ -209,7 +235,7 @@ Redact a memory version
 
       A direct caller of the public API, identified by the API key that authenticated the request.
 
-      - `required Type Type`
+      - `JsonElement Type = "api_actor"`
 
       - `required string ApiKeyID`
 
@@ -221,7 +247,7 @@ Redact a memory version
 
       A human user, for example acting through the Anthropic Console.
 
-      - `required Type Type`
+      - `JsonElement Type = "user_actor"`
 
       - `required string UserID`
 
@@ -247,7 +273,11 @@ Redact a memory version
 
   - `DateTimeOffset? RedactedAt`
 
-    When this version was redacted, in RFC 3339 format, or `null` if it has not been redacted. When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are all `null`. See [Redact a memory version](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/redact?sdk_languages=csharp).
+    When the version was redacted, in RFC 3339, or `null` if it hasn't been.
+
+    When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are `null`.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=csharp#redact-a-version) to learn more about redaction.
 
     format: date-time
 
@@ -258,6 +288,9 @@ Redact a memory version
 ## Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.MemoryStores.MemoryVersions;
+
 MemoryVersionRedactParams parameters = new()
 {
     MemoryStoreID = "memory_store_id",

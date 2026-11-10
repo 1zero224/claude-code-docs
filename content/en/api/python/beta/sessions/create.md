@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/python/beta/sessions/create
 
 # Create Session
 
-`beta.sessions.create(**kwargs)  -> BetaManagedAgentsSession`
+`beta.sessions.create(**kwargs) -> BetaManagedAgentsSession`
 
 **POST** `/v1/sessions`
 
@@ -71,7 +71,15 @@ Create Session
 
       Replacement model. Accepts the model string, e.g. `claude-opus-5-5`, or a `model_config` object. Omit to use the agent's model.
 
-      - `Union[Literal["claude-haiku-5-5", "claude-sonnet-5-5", "claude-opus-5-5", 14 more], str]`
+      - `type BetaManagedAgentsModel = Union[Literal["claude-fable-5-2", "claude-haiku-5-5", "claude-sonnet-5-5", 15 more], str]`
+
+        The model that will power your agent.
+
+        See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -153,76 +161,6 @@ Create Session
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-          - `"claude-haiku-5-5"`
-
-            Fastest model for high-volume, real-time tasks
-
-          - `"claude-sonnet-5-5"`
-
-            Efficient model for coding and agents
-
-          - `"claude-opus-5-5"`
-
-            Powerful intelligence for coding, knowledge work, and long-running agents
-
-          - `"claude-fable-5-1"`
-
-            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
-
-          - `"claude-sonnet-5"`
-
-            Efficient model for coding and agents
-
-          - `"claude-fable-5"`
-
-            Next generation of intelligence for the hardest knowledge work and coding problems
-
-          - `"claude-opus-5"`
-
-            Powerful intelligence for long-running agents and coding
-
-          - `"claude-opus-4-8"`
-
-            Powerful intelligence for long-running agents and coding
-
-          - `"claude-opus-4-7"`
-
-            Powerful intelligence for long-running agents and coding
-
-          - `"claude-opus-4-6"`
-
-            Powerful intelligence for long-running agents and coding
-
-          - `"claude-sonnet-4-6"`
-
-            Best combination of speed and intelligence
-
-          - `"claude-haiku-4-5"`
-
-          - `"claude-haiku-4-5-20251001"`
-
-          - `"claude-opus-4-5"`
-
-            Powerful intelligence for long-running agents and coding
-
-          - `"claude-opus-4-5-20251101"`
-
-            Powerful intelligence for long-running agents and coding
-
-          - `"claude-sonnet-4-5"`
-
-            **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
-
-            High-performance model for agents and coding
-
-          - `"claude-sonnet-4-5-20250929"`
-
-            **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
-
-            High-performance model for agents and coding
-
-          - `str`
-
         - `effort: Optional[Effort]`
 
           How hard Claude works on each inference call. Accepts a bare level string (`"high"`) or `{"type": "high"}`. On create, omitting it resolves the per-model default; on update, omitting it leaves the stored value unchanged.
@@ -283,7 +221,7 @@ Create Session
 
         - `speed: Optional[Literal["standard", "fast"]]`
 
-          Inference speed mode. Defaults to `standard`.
+          Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
           - `"standard"`
 
@@ -587,7 +525,9 @@ Create Session
 
                 Which custom tools' results contribute URLs that may be fetched: "all" (the default), "none", or an only or except list. Each name in a list must be a custom tool in the same tools array.
 
-                - `Literal["all", "none"]`
+                - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
+
+                  String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
                   - `"all"`
 
@@ -657,11 +597,9 @@ Create Session
 
                 Whether URLs in the text of user messages may be fetched: "all" (the default) or "none".
 
-                - `Literal["all", "none"]`
+                - `type BetaManagedAgentsWebFetchURLSourceShorthand = Literal["all", "none"]`
 
-                  - `"all"`
-
-                  - `"none"`
+                  String form of a url_sources value that has no field other than its type: "all" means {"type": "all"} and "none" means {"type": "none"}.
 
                 - `type BetaManagedAgentsWebFetchURLSourceUserInput = ...`
 
@@ -730,6 +668,8 @@ Create Session
               - `country: Optional[str]`
 
                 Two-letter ISO 3166-1 country code, uppercase.
+
+                pattern: ^[A-Z]{2}$
 
               - `region: Optional[str]`
 
@@ -859,7 +799,7 @@ Create Session
 
           Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-          minLength: 1, maxLength: 128
+          minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
     - `version: Optional[int]`
 
@@ -886,6 +826,8 @@ Create Session
     - `amount: str`
 
       Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+      pattern: ^(0|[1-9]\d*)$
 
     - `currency: BetaCurrency`
 
@@ -1141,7 +1083,7 @@ Create Session
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `mount_path: Optional[str]`
 
@@ -1177,6 +1119,8 @@ Create Session
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
 
+      pattern: ^memstore_[a-zA-Z0-9_]+$
+
     - `access: Optional[Literal["read_write", "read_only"]]`
 
       Access mode for the mounted store. Defaults to read_write. read_only mounts the store as a read-only filesystem.
@@ -1203,7 +1147,7 @@ Create Session
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `str`
 
@@ -1307,6 +1251,18 @@ Create Session
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1333,6 +1289,26 @@ Create Session
 
     - `description: Optional[str]`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: Literal["aws_role"]`
+
+        - `role_arn: str`
+
+          The IAM role's ARN.
+
+      - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: Literal["service_account"]`
+
     - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
 
       - `type: Literal["url"]`
@@ -1350,6 +1326,10 @@ Create Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -1490,6 +1470,10 @@ Create Session
             - `id: str`
 
             - `description: Optional[str]`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
 
@@ -1857,6 +1841,8 @@ Create Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region: Optional[str]`
 
                         Region or state name.
@@ -2037,6 +2023,10 @@ Create Session
 
               - `description: Optional[str]`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -2084,6 +2074,10 @@ Create Session
               - `id: str`
 
               - `description: Optional[str]`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
 
@@ -2156,6 +2150,8 @@ Create Session
       - `amount: str`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -2249,7 +2245,7 @@ Create Session
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `class BetaManagedAgentsFileResource`
 
@@ -2282,6 +2278,8 @@ Create Session
       - `memory_store_id: str`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `access: Optional[Literal["read_write", "read_only"]]`
 
@@ -2460,6 +2458,9 @@ print(beta_managed_agents_session.id)
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -2480,6 +2481,9 @@ print(beta_managed_agents_session.id)
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",

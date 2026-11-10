@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/ruby/beta/environments/work/poll
 
 # Poll for Work
 
-`beta.environments.work.poll(environment_id, **kwargs) -> BetaSelfHostedWork`
+`beta.environments.work.poll(environment_id, **kwargs) -> BetaSelfHostedWork | nil`
 
 **GET** `/v1/environments/{environment_id}/work/poll`
 
@@ -17,19 +17,19 @@ Long poll for work items in the queue.
 
 - `environment_id: String` (path parameter)
 
-- `block_ms: Integer` (query parameter)
+- `block_ms: optional Integer | nil` (query parameter)
 
   How long to wait for work to arrive before returning. Must be 1-999 in milliseconds. Defaults to non-blocking (returns immediately if no work is available).
 
   minimum: 1
 
-- `reclaim_older_than_ms: Integer` (query parameter)
+- `reclaim_older_than_ms: optional Integer | nil` (query parameter)
 
   Reclaim unacknowledged work items older than this many milliseconds. If omitted, uses the default (5000ms).
 
   minimum: 1
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -135,7 +135,19 @@ Long poll for work items in the queue.
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `anthropic_worker_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `anthropic_worker_id: optional String` (header parameter)
 
   Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
 
@@ -157,7 +169,7 @@ Long poll for work items in the queue.
 
     Work identifier (e.g., 'work_...')
 
-  - `acknowledged_at: String`
+  - `acknowledged_at: String | nil`
 
     RFC 3339 timestamp when the work item was acknowledged and assigned to a self-hosted sandbox
 
@@ -181,7 +193,7 @@ Long poll for work items in the queue.
 
     Environment identifier this work belongs to (e.g., `env_...`)
 
-  - `latest_heartbeat_at: String`
+  - `latest_heartbeat_at: String | nil`
 
     RFC 3339 timestamp of the most recent heartbeat
 
@@ -189,11 +201,11 @@ Long poll for work items in the queue.
 
     User-provided metadata key-value pairs associated with this work item
 
-  - `secret: String`
+  - `secret: String | nil`
 
     Credential payload used by the environment worker to execute this work item. May be populated when polling for work; null on all other retrieval paths.
 
-  - `started_at: String`
+  - `started_at: String | nil`
 
     RFC 3339 timestamp when work execution started
 
@@ -211,11 +223,11 @@ Long poll for work items in the queue.
 
     - `:stopped`
 
-  - `stop_requested_at: String`
+  - `stop_requested_at: String | nil`
 
     RFC 3339 timestamp when stop was requested
 
-  - `stopped_at: String`
+  - `stopped_at: String | nil`
 
     RFC 3339 timestamp when work execution stopped
 

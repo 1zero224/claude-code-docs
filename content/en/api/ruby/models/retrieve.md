@@ -19,119 +19,11 @@ The Models API response can be used to determine information about a specific mo
 
   Model identifier or alias.
 
-- `workspace_id: String` (header parameter)
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `betas: Array[AnthropicBeta]` (header parameter)
-
-  **Deprecated**: Deprecated. This parameter will be removed from this method in a future release. To use beta features, call the beta models methods (`client.beta.models`) instead.
-
-  Optional header to specify the beta version(s) you want to use.
-
-  - `String = String`
-
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
-  - `:"computer-use-2024-10-22"`
-
-  - `:"computer-use-2025-01-24"`
-
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
-  - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
-
-  - `:"mcp-client-2025-04-04"`
-
-  - `:"mcp-client-2025-11-20"`
-
-  - `:"dev-full-thinking-2025-05-14"`
-
-  - `:"interleaved-thinking-2025-05-14"`
-
-  - `:"code-execution-2025-05-22"`
-
-  - `:"extended-cache-ttl-2025-04-11"`
-
-  - `:"context-1m-2025-08-07"`
-
-  - `:"context-management-2025-06-27"`
-
-  - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
-
-  - `:"fast-mode-2026-02-01"`
-
-  - `:"output-300k-2026-03-24"`
-
-  - `:"user-profiles-2026-03-24"`
-
-  - `:"user-profiles-2026-08-18"`
-
-  - `:"user-profiles-2026-09-04"`
-
-  - `:"advisor-tool-2026-03-01"`
-
-  - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
-
-  - `:"dreaming-2026-04-21"`
-
-  - `:"thinking-token-count-2026-05-13"`
-
-  - `:"server-side-fallback-2026-06-01"`
-
-  - `:"server-side-fallback-2026-07-01"`
-
-  - `:"fallback-credit-2026-06-01"`
-
-  - `:"fallback-credit-2026-07-01"`
-
-  - `:"agent-memory-2026-07-22"`
-
-  - `:"mid-conversation-tool-changes-2026-07-01"`
-
-  - `:"compact-2026-01-12"`
-
-  - `:"computer-use-2025-11-24"`
-
-  - `:"mcp-tunnels-2026-06-22"`
-
-  - `:"structured-outputs-2025-11-13"`
-
-  - `:"task-budgets-2026-03-13"`
-
-  - `:"thinking-display-updates-2026-08-18"`
-
-  - `:"ce-user-management-2026-07-13"`
-
-  - `:"mid-conversation-output-config-2026-07-01"`
-
-  - `:"thinking-binding-controls-2026-08-01"`
-
-  - `:"mid-conversation-system-clear-at-2026-08-21"`
-
-  - `:"compact-2026-09-04"`
-
-  - `:"inline-tools-2026-09-15"`
-
-  - `:"mcp-client-2026-09-15"`
-
-  - `:"ce-plugins-2026-09-01"`
-
-  - `:"spend-limit-reads-2026-09-26"`
 
 ## Returns
 
@@ -147,7 +39,7 @@ The Models API response can be used to determine information about a specific mo
 
     Unique model identifier.
 
-  - `capabilities: ModelCapabilities`
+  - `capabilities: ModelCapabilities | nil`
 
     Object mapping capability names to their support details. Keys are always present for all known capabilities.
 
@@ -171,15 +63,15 @@ The Models API response can be used to determine information about a specific mo
 
       Context management support and available strategies.
 
-      - `clear_thinking_20251015: CapabilitySupport`
+      - `clear_thinking_20251015: CapabilitySupport | nil`
 
         Whether the clear_thinking_20251015 strategy is supported.
 
-      - `clear_tool_uses_20250919: CapabilitySupport`
+      - `clear_tool_uses_20250919: CapabilitySupport | nil`
 
         Whether the clear_tool_uses_20250919 strategy is supported.
 
-      - `compact_20260112: CapabilitySupport`
+      - `compact_20260112: CapabilitySupport | nil`
 
         Whether the compact_20260112 strategy is supported.
 
@@ -211,7 +103,7 @@ The Models API response can be used to determine information about a specific mo
 
         Whether this capability is supported by the model.
 
-      - `xhigh: CapabilitySupport`
+      - `xhigh: CapabilitySupport | nil`
 
         Whether the model supports xhigh effort level.
 
@@ -259,9 +151,13 @@ The Models API response can be used to determine information about a specific mo
 
           Whether the model accepts thinking with type 'adaptive' (the model decides whether and how much to think).
 
+        - `between_tools: CapabilitySupport`
+
+          Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
         - `disabled: CapabilitySupport`
 
-          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
         - `enabled: CapabilitySupport`
 
@@ -273,7 +169,7 @@ The Models API response can be used to determine information about a specific mo
 
     format: date-time
 
-  - `deprecated_at: Time`
+  - `deprecated_at: Time | nil`
 
     RFC 3339 datetime string representing the time of the model's most recent deprecation. Populated for `deprecated` and `retired` models; `null` while the model is `active`.
 
@@ -297,7 +193,7 @@ The Models API response can be used to determine information about a specific mo
 
     - `:retired`
 
-  - `line: ModelLine`
+  - `line: ModelLine | nil`
 
     The model line this model belongs to, such as `opus` for both Claude Opus 4.5 and Claude Opus 4.6. More lines may be added. `null` when the model belongs to no line; do not infer a line from the `id`.
 
@@ -311,15 +207,15 @@ The Models API response can be used to determine information about a specific mo
 
     - `:mythos`
 
-  - `max_input_tokens: Integer`
+  - `max_input_tokens: Integer | nil`
 
     Maximum input context window size in tokens for this model.
 
-  - `max_tokens: Integer`
+  - `max_tokens: Integer | nil`
 
     Maximum value for the `max_tokens` parameter when using this model.
 
-  - `retires_at: Time`
+  - `retires_at: Time | nil`
 
     RFC 3339 datetime string representing the model's currently scheduled retirement date. The schedule can be revised until retirement occurs; `null` while the model is `active` or while no retirement is scheduled. A past date on a `deprecated` model means retirement is overdue, not that it has occurred: `lifecycle` is the retirement signal.
 
@@ -406,6 +302,9 @@ puts(model_info)
         "adaptive": {
           "supported": true
         },
+        "between_tools": {
+          "supported": true
+        },
         "disabled": {
           "supported": true
         },
@@ -419,7 +318,7 @@ puts(model_info)
   "deprecated_at": "2019-12-27T18:11:19.117Z",
   "display_name": "Claude Opus 5.5",
   "lifecycle": "active",
-  "line": "haiku",
+  "line": "opus",
   "max_input_tokens": 0,
   "max_tokens": 0,
   "retires_at": "2019-12-27T18:11:19.117Z",

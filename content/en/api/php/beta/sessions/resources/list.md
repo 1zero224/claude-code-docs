@@ -15,17 +15,23 @@ List Session Resources
 
 - `sessionID: string` (path parameter)
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of resources to return per page (max 1000). If omitted, returns all resources.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -39,7 +45,7 @@ List Session Resources
 
   - `class ManagedAgentsGitHubRepositoryResource`
 
-    - `Type type`
+    - `"github_repository" type`
 
     - `string id`
 
@@ -59,7 +65,7 @@ List Session Resources
 
   - `class ManagedAgentsFileResource`
 
-    - `Type type`
+    - `"file" type`
 
     - `string id`
 
@@ -77,7 +83,7 @@ List Session Resources
 
   - `class ManagedAgentsMemoryStoreResource`
 
-    - `Type type`
+    - `"memory_store" type`
 
     - `string memoryStoreID`
 
@@ -109,6 +115,9 @@ List Session Resources
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

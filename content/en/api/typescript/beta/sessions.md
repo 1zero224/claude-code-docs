@@ -75,11 +75,15 @@ Create Session
 
         Replacement model. Accepts the model string, e.g. `claude-opus-5-5`, or a `model_config` object. Omit to use the agent's model.
 
-        - `type BetaManagedAgentsModel = "claude-haiku-5-5" | "claude-sonnet-5-5" | "claude-opus-5-5" | 14 more | (string & {})`
+        - `type BetaManagedAgentsModel = "claude-fable-5-2" | "claude-haiku-5-5" | "claude-sonnet-5-5" | 15 more | (string & {})`
 
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -97,53 +101,53 @@ Create Session
 
             Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-          - `"claude-sonnet-5"`
+          Fastest model for high-volume, real-time tasks
 
             Efficient model for coding and agents
 
-          - `"claude-fable-5"`
+          Efficient model for coding and agents
 
-            Next generation of intelligence for the hardest knowledge work and coding problems
+        - `"claude-opus-5-5"`
 
-          - `"claude-opus-5"`
+          Powerful intelligence for coding, knowledge work, and long-running agents
 
-            Powerful intelligence for long-running agents and coding
+        - `"claude-fable-5-1"`
 
-          - `"claude-opus-4-8"`
+          Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-            Powerful intelligence for long-running agents and coding
+        - `"claude-sonnet-5"`
 
-          - `"claude-opus-4-7"`
+          Efficient model for coding and agents
 
-            Powerful intelligence for long-running agents and coding
+        - `"claude-fable-5"`
 
-          - `"claude-opus-4-6"`
+          Next generation of intelligence for the hardest knowledge work and coding problems
 
-            Powerful intelligence for long-running agents and coding
+        - `"claude-opus-5"`
 
-          - `"claude-sonnet-4-6"`
+          Powerful intelligence for long-running agents and coding
 
-            Best combination of speed and intelligence
+        - `"claude-opus-4-8"`
 
-          - `"claude-haiku-4-5"`
+          Powerful intelligence for long-running agents and coding
 
           - `"claude-haiku-4-5-20251001"`
 
           - `"claude-opus-4-5"`
 
-            Powerful intelligence for long-running agents and coding
+        - `"claude-sonnet-4-6"`
 
-          - `"claude-opus-4-5-20251101"`
+          Best combination of speed and intelligence
 
-            Powerful intelligence for long-running agents and coding
+        - `"claude-haiku-4-5"`
 
-          - `"claude-sonnet-4-5"`
+        - `"claude-haiku-4-5-20251001"`
 
             **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             High-performance model for agents and coding
 
-          - `"claude-sonnet-4-5-20250929"`
+          Powerful intelligence for long-running agents and coding
 
             **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -221,7 +225,7 @@ Create Session
 
           - `speed?: "standard" | "fast" | null`
 
-            Inference speed mode. Defaults to `standard`.
+            Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
             - `"standard"`
 
@@ -669,6 +673,8 @@ Create Session
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `region?: string | null`
 
                   Region or state name.
@@ -797,7 +803,7 @@ Create Session
 
             Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-            minLength: 1, maxLength: 128
+            minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
       - `version?: number`
 
@@ -824,6 +830,8 @@ Create Session
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -1079,7 +1087,7 @@ Create Session
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
       - `mount_path?: string | null`
 
@@ -1115,6 +1123,8 @@ Create Session
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
 
+        pattern: ^memstore_[a-zA-Z0-9_]+$
+
       - `access?: "read_write" | "read_only" | null`
 
         Access mode for the mounted store. Defaults to read_write. read_only mounts the store as a read-only filesystem.
@@ -1141,7 +1151,7 @@ Create Session
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -1245,6 +1255,18 @@ Create Session
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1271,6 +1293,26 @@ Create Session
 
     - `description: string | null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
       - `type: "url"`
@@ -1288,6 +1330,10 @@ Create Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -1428,6 +1474,10 @@ Create Session
             - `id: string`
 
             - `description: string | null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -1795,6 +1845,8 @@ Create Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region?: string | null`
 
                         Region or state name.
@@ -1975,6 +2027,10 @@ Create Session
 
               - `description: string | null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -2022,6 +2078,10 @@ Create Session
               - `id: string`
 
               - `description: string | null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -2094,6 +2154,8 @@ Create Session
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -2187,7 +2249,7 @@ Create Session
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `interface BetaManagedAgentsFileResource`
 
@@ -2220,6 +2282,8 @@ Create Session
       - `memory_store_id: string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `access?: "read_write" | "read_only" | null`
 
@@ -2389,6 +2453,9 @@ console.log(betaManagedAgentsSession.id);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -2409,6 +2476,9 @@ console.log(betaManagedAgentsSession.id);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -2673,7 +2743,7 @@ List Sessions
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -2777,6 +2847,18 @@ List Sessions
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -2803,6 +2885,26 @@ List Sessions
 
     - `description: string | null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
       - `type: "url"`
@@ -2820,6 +2922,10 @@ List Sessions
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -2960,6 +3066,10 @@ List Sessions
             - `id: string`
 
             - `description: string | null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -3327,6 +3437,8 @@ List Sessions
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region?: string | null`
 
                         Region or state name.
@@ -3507,6 +3619,10 @@ List Sessions
 
               - `description: string | null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -3554,6 +3670,10 @@ List Sessions
               - `id: string`
 
               - `description: string | null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -3626,6 +3746,8 @@ List Sessions
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -3719,7 +3841,7 @@ List Sessions
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `interface BetaManagedAgentsFileResource`
 
@@ -3752,6 +3874,8 @@ List Sessions
       - `memory_store_id: string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `access?: "read_write" | "read_only" | null`
 
@@ -3918,6 +4042,9 @@ for await (const betaManagedAgentsSession of client.beta.sessions.list()) {
       "agent": {
         "id": "agent_011CZkYpogX7uDKUyvBTophP",
         "description": "A general-purpose starter agent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",
@@ -3938,6 +4065,9 @@ for await (const betaManagedAgentsSession of client.beta.sessions.list()) {
             {
               "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
               "description": "A focused research subagent.",
+              "execution_identity": {
+                "type": "service_account"
+              },
               "mcp_servers": [
                 {
                   "name": "example-mcp",
@@ -4124,7 +4254,7 @@ Get Session
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -4228,6 +4358,18 @@ Get Session
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -4254,6 +4396,26 @@ Get Session
 
     - `description: string | null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
       - `type: "url"`
@@ -4271,6 +4433,10 @@ Get Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -4411,6 +4577,10 @@ Get Session
             - `id: string`
 
             - `description: string | null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -4778,6 +4948,8 @@ Get Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region?: string | null`
 
                         Region or state name.
@@ -4958,6 +5130,10 @@ Get Session
 
               - `description: string | null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -5005,6 +5181,10 @@ Get Session
               - `id: string`
 
               - `description: string | null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -5077,6 +5257,8 @@ Get Session
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -5170,7 +5352,7 @@ Get Session
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `interface BetaManagedAgentsFileResource`
 
@@ -5203,6 +5385,8 @@ Get Session
       - `memory_store_id: string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `access?: "read_write" | "read_only" | null`
 
@@ -5368,6 +5552,9 @@ console.log(betaManagedAgentsSession.id);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -5388,6 +5575,9 @@ console.log(betaManagedAgentsSession.id);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -5986,6 +6176,8 @@ Update Session
 
                 Two-letter ISO 3166-1 country code, uppercase.
 
+                pattern: ^[A-Z]{2}$
+
               - `region?: string | null`
 
                 Region or state name.
@@ -6114,7 +6306,7 @@ Update Session
 
           Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-          minLength: 1, maxLength: 128
+          minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
   - `budget?: BetaManagedAgentsBudgetLimit | null`
 
@@ -6129,6 +6321,8 @@ Update Session
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -6150,7 +6344,7 @@ Update Session
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -6254,6 +6448,18 @@ Update Session
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -6280,6 +6486,26 @@ Update Session
 
     - `description: string | null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
       - `type: "url"`
@@ -6297,6 +6523,10 @@ Update Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -6437,6 +6667,10 @@ Update Session
             - `id: string`
 
             - `description: string | null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -6804,6 +7038,8 @@ Update Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region?: string | null`
 
                         Region or state name.
@@ -6984,6 +7220,10 @@ Update Session
 
               - `description: string | null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -7031,6 +7271,10 @@ Update Session
               - `id: string`
 
               - `description: string | null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -7103,6 +7347,8 @@ Update Session
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -7196,7 +7442,7 @@ Update Session
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `interface BetaManagedAgentsFileResource`
 
@@ -7229,6 +7475,8 @@ Update Session
       - `memory_store_id: string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `access?: "read_write" | "read_only" | null`
 
@@ -7380,7 +7628,8 @@ const client = new Anthropic({
 });
 
 const betaManagedAgentsSession = await client.beta.sessions.update(
-  "sesn_011CZkZAtmR3yMPDzynEDxu7"
+  "sesn_011CZkZAtmR3yMPDzynEDxu7",
+  {}
 );
 
 console.log(betaManagedAgentsSession.id);
@@ -7394,6 +7643,9 @@ console.log(betaManagedAgentsSession.id);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -7414,6 +7666,9 @@ console.log(betaManagedAgentsSession.id);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -7596,7 +7851,7 @@ Delete Session
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -7699,6 +7954,18 @@ Delete Session
     - `"ce-plugins-2026-09-01"`
 
     - `"spend-limit-reads-2026-09-26"`
+
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
 
   - `workspace_id?: string` (header parameter)
 
@@ -7757,7 +8024,7 @@ Archive Session
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -7861,6 +8128,18 @@ Archive Session
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -7887,6 +8166,26 @@ Archive Session
 
     - `description: string | null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
       - `type: "url"`
@@ -7904,6 +8203,10 @@ Archive Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -8044,6 +8347,10 @@ Archive Session
             - `id: string`
 
             - `description: string | null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -8411,6 +8718,8 @@ Archive Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region?: string | null`
 
                         Region or state name.
@@ -8591,6 +8900,10 @@ Archive Session
 
               - `description: string | null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -8638,6 +8951,10 @@ Archive Session
               - `id: string`
 
               - `description: string | null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -8710,6 +9027,8 @@ Archive Session
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -8803,7 +9122,7 @@ Archive Session
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `interface BetaManagedAgentsFileResource`
 
@@ -8836,6 +9155,8 @@ Archive Session
       - `memory_store_id: string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `access?: "read_write" | "read_only" | null`
 
@@ -9001,6 +9322,9 @@ console.log(betaManagedAgentsSession.id);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -9021,6 +9345,9 @@ console.log(betaManagedAgentsSession.id);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -9279,11 +9606,15 @@ console.log(betaManagedAgentsSession.id);
 
     Replacement model. Accepts the model string, e.g. `claude-opus-5-5`, or a `model_config` object. Omit to use the agent's model.
 
-    - `type BetaManagedAgentsModel = "claude-haiku-5-5" | "claude-sonnet-5-5" | "claude-opus-5-5" | 14 more | (string & {})`
+    - `type BetaManagedAgentsModel = "claude-fable-5-2" | "claude-haiku-5-5" | "claude-sonnet-5-5" | 15 more | (string & {})`
 
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -9425,7 +9756,7 @@ console.log(betaManagedAgentsSession.id);
 
       - `speed?: "standard" | "fast" | null`
 
-        Inference speed mode. Defaults to `standard`.
+        Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
         - `"standard"`
 
@@ -9873,6 +10204,8 @@ console.log(betaManagedAgentsSession.id);
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `region?: string | null`
 
               Region or state name.
@@ -10001,7 +10334,7 @@ console.log(betaManagedAgentsSession.id);
 
         Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-        minLength: 1, maxLength: 128
+        minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
   - `version?: number`
 
@@ -10037,6 +10370,8 @@ console.log(betaManagedAgentsSession.id);
 
       Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+      pattern: ^(0|[1-9]\d*)$
+
     - `currency: BetaCurrency`
 
       Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -10069,7 +10404,7 @@ console.log(betaManagedAgentsSession.id);
 
     Full commit SHA to check out.
 
-    minLength: 7, maxLength: 64
+    minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
 ### Beta Managed Agents Deleted Session
 
@@ -10207,7 +10542,7 @@ console.log(betaManagedAgentsSession.id);
 
         Full commit SHA to check out.
 
-        minLength: 7, maxLength: 64
+        minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `mount_path?: string | null`
 
@@ -10226,6 +10561,8 @@ console.log(betaManagedAgentsSession.id);
   - `memory_store_id: string`
 
     The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+    pattern: ^memstore_[a-zA-Z0-9_]+$
 
   - `access?: "read_write" | "read_only" | null`
 
@@ -10661,6 +10998,26 @@ console.log(betaManagedAgentsSession.id);
 
     - `description: string | null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
       - `type: "url"`
@@ -10679,6 +11036,10 @@ console.log(betaManagedAgentsSession.id);
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
         - `"claude-haiku-5-5"`
 
           Fastest model for high-volume, real-time tasks
@@ -10695,53 +11056,53 @@ console.log(betaManagedAgentsSession.id);
 
           Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-        - `"claude-sonnet-5"`
+        Fastest model for high-volume, real-time tasks
 
           Efficient model for coding and agents
 
-        - `"claude-fable-5"`
+        Efficient model for coding and agents
 
-          Next generation of intelligence for the hardest knowledge work and coding problems
+      - `"claude-opus-5-5"`
 
-        - `"claude-opus-5"`
+        Powerful intelligence for coding, knowledge work, and long-running agents
 
-          Powerful intelligence for long-running agents and coding
+      - `"claude-fable-5-1"`
 
-        - `"claude-opus-4-8"`
+        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-          Powerful intelligence for long-running agents and coding
+      - `"claude-sonnet-5"`
 
-        - `"claude-opus-4-7"`
+        Efficient model for coding and agents
 
-          Powerful intelligence for long-running agents and coding
+      - `"claude-fable-5"`
 
-        - `"claude-opus-4-6"`
+        Next generation of intelligence for the hardest knowledge work and coding problems
 
-          Powerful intelligence for long-running agents and coding
+      - `"claude-opus-5"`
 
-        - `"claude-sonnet-4-6"`
+        Powerful intelligence for long-running agents and coding
 
-          Best combination of speed and intelligence
+      - `"claude-opus-4-8"`
 
-        - `"claude-haiku-4-5"`
+        Powerful intelligence for long-running agents and coding
 
         - `"claude-haiku-4-5-20251001"`
 
         - `"claude-opus-4-5"`
 
-          Powerful intelligence for long-running agents and coding
+      - `"claude-sonnet-4-6"`
 
-        - `"claude-opus-4-5-20251101"`
+        Best combination of speed and intelligence
 
-          Powerful intelligence for long-running agents and coding
+      - `"claude-haiku-4-5"`
 
-        - `"claude-sonnet-4-5"`
+      - `"claude-haiku-4-5-20251001"`
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           High-performance model for agents and coding
 
-        - `"claude-sonnet-4-5-20250929"`
+        Powerful intelligence for long-running agents and coding
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -10818,6 +11179,10 @@ console.log(betaManagedAgentsSession.id);
             - `id: string`
 
             - `description: string | null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -11185,6 +11550,8 @@ console.log(betaManagedAgentsSession.id);
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region?: string | null`
 
                         Region or state name.
@@ -11365,6 +11732,10 @@ console.log(betaManagedAgentsSession.id);
 
               - `description: string | null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -11413,6 +11784,10 @@ console.log(betaManagedAgentsSession.id);
 
               - `description: string | null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -11437,21 +11812,21 @@ console.log(betaManagedAgentsSession.id);
 
             - `type: "disabled"`
 
-    - `name: string`
+      - `type: "multiagent_20261001"`
 
-    - `skills: Array<BetaManagedAgentsAnthropicSkill | BetaManagedAgentsCustomSkill>`
+      - `advisor: BetaManagedAgentsMultiagentAdvisor`
 
       - `interface BetaManagedAgentsAnthropicSkill`
 
-        A resolved Anthropic-managed skill.
+        - `interface BetaManagedAgentsMultiagentAdvisorEnabled`
 
       - `interface BetaManagedAgentsCustomSkill`
 
-        A resolved user-created custom skill.
+          - `type: "enabled"`
 
-    - `system: string | null`
+          - `model: string`
 
-    - `tools: Array<BetaManagedAgentsAgentToolset20260401 | BetaManagedAgentsMCPToolset | BetaManagedAgentsCustomTool>`
+            The advisor model id.
 
       - `interface BetaManagedAgentsAgentToolset20260401`
 
@@ -11459,79 +11834,81 @@ console.log(betaManagedAgentsSession.id);
 
       - `interface BetaManagedAgentsCustomTool`
 
-        A custom tool as returned in API responses.
+      - `subagents: BetaManagedAgentsSessionMultiagentSubagents`
 
     - `version: number`
 
-      format: int32
+          The agent can spawn session threads.
 
-  - `archived_at: string | null`
+          - `type: "enabled"`
 
     When the session was archived. Null if not archived.
 
-    format: date-time
+            Whether the agent can define inline agents, which are not saved, when it spawns session threads.
 
-  - `budget: BetaManagedAgentsBudgetLimit | null`
+            - `interface BetaManagedAgentsMultiagentInlineAgentsEnabled`
 
     The session's enforced spend ceiling, or null when no budget is set.
 
     - `type: "limit"`
 
-    - `max_list_cost: BetaMonetaryAmount`
+              - `type: "enabled"`
 
       Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
 
-      - `amount: string`
+              The agent cannot define inline agents.
 
-        Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+              - `type: "disabled"`
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
-        Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
+            Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
   - `created_at: string`
 
-    A timestamp in RFC 3339 format
+            - `description: string | null`
 
-    format: date-time
+            - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
-  - `environment_id: string`
+            - `model: BetaManagedAgentsModelConfig`
 
-  - `metadata: Record<string, string>`
+              Model identifier and configuration.
 
-  - `outcome_evaluations: Array<BetaManagedAgentsOutcomeEvaluationResource>`
+            - `name: string`
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
     - `type: "outcome_evaluation"`
 
-    - `completed_at: string | null`
+            - `system: string | null`
 
       When the outcome reached a terminal result. Null while `pending`/`running`/`evaluating`.
 
-      format: date-time
+            - `version: number`
 
-    - `description: string`
+              format: int32
 
-      What the agent should produce.
+        - `interface BetaManagedAgentsMultiagentSubagentsDisabled`
 
-    - `explanation: string | null`
+          The agent cannot spawn session threads.
 
       Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
-    - `iteration: number`
+      - `workflows: BetaManagedAgentsSessionMultiagentWorkflows`
 
-      0-indexed revision cycle the outcome is currently on.
+        Whether the agent can start workflow runs.
 
-      format: int32
+        - `interface BetaManagedAgentsSessionMultiagentWorkflowsEnabled`
 
-    - `outcome_id: string`
+          The agent can start workflow runs.
 
-      Server-generated outc_ ID for this outcome.
+          - `type: "enabled"`
 
-    - `result: string`
+          - `inline_agents: BetaManagedAgentsMultiagentInlineAgents`
 
-      Current evaluation state. `pending` before the agent begins work; `running` while producing or revising; `evaluating` while the grader scores; `satisfied`/`max_iterations_reached`/`failed`/`interrupted` are terminal.
+            Whether a run's plan can define inline agents, which are not saved.
 
   - `resources: Array<BetaManagedAgentsSessionResource>`
 
@@ -11539,67 +11916,67 @@ console.log(betaManagedAgentsSession.id);
 
       - `type: "github_repository"`
 
-      - `id: string`
+            - `id: string`
 
-      - `created_at: string`
+            - `description: string | null`
 
-        A timestamp in RFC 3339 format
+            - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
-        format: date-time
+            - `model: BetaManagedAgentsModelConfig`
 
-      - `mount_path: string`
+              Model identifier and configuration.
 
       - `updated_at: string`
 
-        A timestamp in RFC 3339 format
+            - `system: string | null`
 
-        format: date-time
+            - `tools: Array<BetaManagedAgentsAgentToolset20260401 | BetaManagedAgentsMCPToolset | BetaManagedAgentsCustomTool>`
 
-      - `url: string`
+            - `version: number`
 
-      - `checkout?: BetaManagedAgentsBranchCheckout | BetaManagedAgentsCommitCheckout | null`
+              format: int32
 
         - `interface BetaManagedAgentsBranchCheckout`
 
           - `type: "branch"`
 
-          - `name: string`
+          The agent cannot start workflow runs.
 
-            Branch name to check out.
+          - `type: "disabled"`
 
-            minLength: 1, maxLength: 255
+  - `name: string`
 
         - `interface BetaManagedAgentsCommitCheckout`
 
           - `type: "commit"`
 
-          - `sha: string`
+      A resolved Anthropic-managed skill.
 
-            Full commit SHA to check out.
+    - `interface BetaManagedAgentsCustomSkill`
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `interface BetaManagedAgentsFileResource`
 
       - `type: "file"`
 
-      - `id: string`
+    - `interface BetaManagedAgentsAgentToolset20260401`
 
-      - `created_at: string`
+    - `interface BetaManagedAgentsMCPToolset`
 
-        A timestamp in RFC 3339 format
+    - `interface BetaManagedAgentsCustomTool`
 
-        format: date-time
+      A custom tool as returned in API responses.
 
-      - `file_id: string`
+  - `version: number`
 
-      - `mount_path: string`
+    format: int32
 
       - `updated_at: string`
 
-        A timestamp in RFC 3339 format
+  Mid-session agent configuration update. Only `tools` and `mcp_servers` are updatable. Full replacement: the provided array becomes the new value. To preserve existing entries, GET the session, modify the array, and POST it back.
 
-        format: date-time
+  - `mcp_servers?: Array<BetaManagedAgentsURLMCPServerParams>`
 
     - `interface BetaManagedAgentsMemoryStoreResource`
 
@@ -11610,6 +11987,8 @@ console.log(betaManagedAgentsSession.id);
       - `memory_store_id: string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `access?: "read_write" | "read_only" | null`
 
@@ -11763,6 +12142,26 @@ console.log(betaManagedAgentsSession.id);
 
   - `description: string | null`
 
+  - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+    Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `type: "aws_role"`
+
+      - `role_arn: string`
+
+        The IAM role's ARN.
+
+    - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `type: "service_account"`
+
   - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
     - `type: "url"`
@@ -11771,15 +12170,19 @@ console.log(betaManagedAgentsSession.id);
 
     - `url: string`
 
-  - `model: BetaManagedAgentsModelConfig`
+      Endpoint URL for the MCP server.
 
-    Model identifier and configuration.
+      maxLength: 2048
 
-    - `id: BetaManagedAgentsModel`
+  - `tools?: Array<BetaManagedAgentsAgentToolset20260401Params | BetaManagedAgentsMCPToolsetParams | BetaManagedAgentsCustomToolParams>`
 
-      The model that will power your agent.
+    Replacement tool list. Full replacement: the provided array becomes the new value. Send an empty array to clear; omit to preserve.
 
-      See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+    - `interface BetaManagedAgentsAgentToolset20260401Params`
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -11849,53 +12252,53 @@ console.log(betaManagedAgentsSession.id);
 
         High-performance model for agents and coding
 
-      - `(string & {})`
+          - `enabled?: boolean | null`
 
-    - `effort?: BetaManagedAgentsEffortLow | BetaManagedAgentsEffortMedium | BetaManagedAgentsEffortHigh | 2 more`
+            Whether this tool is enabled and available to Claude. Overrides the default_config setting.
 
       How hard Claude works on each inference call. One of `low`, `medium`, `high`, `xhigh`, `max`. Always present; resolved to the per-model default at save time when not supplied.
 
       - `interface BetaManagedAgentsEffortLow`
 
-        Low effort. Favors latency over reasoning depth.
+            - `interface BetaManagedAgentsAlwaysAllowPolicy`
 
-        - `type: "low"`
+              Tool calls are automatically approved without user confirmation.
 
       - `interface BetaManagedAgentsEffortMedium`
 
-        Medium effort. Balances latency and reasoning depth.
+              Tool calls require user confirmation before execution.
 
-        - `type: "medium"`
+            - `interface BetaManagedAgentsAutoPolicy`
 
       - `interface BetaManagedAgentsEffortHigh`
 
-        High effort. Favors reasoning depth.
+        - `interface BetaManagedAgentsReadToolConfigParams`
 
-        - `type: "high"`
+          Configuration override for the read tool.
 
       - `interface BetaManagedAgentsEffortXhigh`
 
-        Extra-high effort. Not all models accept this level.
+          - `name: "read"`
 
-        - `type: "xhigh"`
+            Must be "read".
 
       - `interface BetaManagedAgentsEffortMax`
 
-        Maximum effort. Favors reasoning depth over latency.
+            Whether this tool is enabled and available to Claude. Overrides the default_config setting.
 
-        - `type: "max"`
+          - `permission_policy?: BetaManagedAgentsAlwaysAllowPolicy | BetaManagedAgentsAlwaysAskPolicy | BetaManagedAgentsAutoPolicy | null`
 
-    - `inference_geo?: string`
+            Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
-      Geographic region for model inference. When unset, requests fall through to the workspace's default_inference_geo.
+            - `interface BetaManagedAgentsAlwaysAllowPolicy`
 
-    - `speed?: "standard" | "fast"`
+              Tool calls are automatically approved without user confirmation.
 
       Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
-      - `"standard"`
+              Tool calls require user confirmation before execution.
 
-      - `"fast"`
+            - `interface BetaManagedAgentsAutoPolicy`
 
   - `multiagent: BetaManagedAgentsSessionMultiagent | null`
 
@@ -11920,6 +12323,10 @@ console.log(betaManagedAgentsSession.id);
           - `id: string`
 
           - `description: string | null`
+
+          - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+            Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
           - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -12287,6 +12694,8 @@ console.log(betaManagedAgentsSession.id);
 
                       Two-letter ISO 3166-1 country code, uppercase.
 
+                      pattern: ^[A-Z]{2}$
+
                     - `region?: string | null`
 
                       Region or state name.
@@ -12467,6 +12876,10 @@ console.log(betaManagedAgentsSession.id);
 
             - `description: string | null`
 
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
             - `model: BetaManagedAgentsModelConfig`
@@ -12515,6 +12928,10 @@ console.log(betaManagedAgentsSession.id);
 
             - `description: string | null`
 
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
             - `model: BetaManagedAgentsModelConfig`
@@ -12539,21 +12956,21 @@ console.log(betaManagedAgentsSession.id);
 
           - `type: "disabled"`
 
-  - `name: string`
+    - `type: "multiagent_20261001"`
 
-  - `skills: Array<BetaManagedAgentsAnthropicSkill | BetaManagedAgentsCustomSkill>`
+    - `advisor: BetaManagedAgentsMultiagentAdvisor`
 
     - `interface BetaManagedAgentsAnthropicSkill`
 
-      A resolved Anthropic-managed skill.
+      - `interface BetaManagedAgentsMultiagentAdvisorEnabled`
 
     - `interface BetaManagedAgentsCustomSkill`
 
-      A resolved user-created custom skill.
+        - `type: "enabled"`
 
-  - `system: string | null`
+        - `model: string`
 
-  - `tools: Array<BetaManagedAgentsAgentToolset20260401 | BetaManagedAgentsMCPToolset | BetaManagedAgentsCustomTool>`
+          The advisor model id.
 
     - `interface BetaManagedAgentsAgentToolset20260401`
 
@@ -12561,53 +12978,53 @@ console.log(betaManagedAgentsSession.id);
 
     - `interface BetaManagedAgentsCustomTool`
 
-      A custom tool as returned in API responses.
+    - `subagents: BetaManagedAgentsSessionMultiagentSubagents`
 
   - `version: number`
 
-    format: int32
+        The agent can spawn session threads.
 
-### Beta Managed Agents Session Agent Update
+        - `type: "enabled"`
 
 - `interface BetaManagedAgentsSessionAgentUpdate`
 
-  Mid-session agent configuration update. Only `tools` and `mcp_servers` are updatable. Full replacement: the provided array becomes the new value. To preserve existing entries, GET the session, modify the array, and POST it back.
+          Whether the agent can define inline agents, which are not saved, when it spawns session threads.
 
-  - `mcp_servers?: Array<BetaManagedAgentsURLMCPServerParams>`
+          - `interface BetaManagedAgentsMultiagentInlineAgentsEnabled`
 
-    Replacement MCP server list. Full replacement: the provided array becomes the new value. Send an empty array to clear; omit to preserve.
+            The agent can define inline agents.
 
     - `type: "url"`
 
     - `name: string`
 
-      Unique name for this server, referenced by mcp_toolset configurations. 1-255 characters.
+          - `interface BetaManagedAgentsMultiagentInlineAgentsDisabled`
 
-      minLength: 1, maxLength: 255
+            The agent cannot define inline agents.
 
     - `url: string`
 
-      Endpoint URL for the MCP server.
+          Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-      maxLength: 2048
+          - `type: "agent"`
 
-  - `tools?: Array<BetaManagedAgentsAgentToolset20260401Params | BetaManagedAgentsMCPToolsetParams | BetaManagedAgentsCustomToolParams>`
+          - `id: string`
 
-    Replacement tool list. Full replacement: the provided array becomes the new value. Send an empty array to clear; omit to preserve.
+          - `description: string | null`
 
     - `interface BetaManagedAgentsAgentToolset20260401Params`
 
-      Configuration for built-in agent tools. Use this to enable or disable groups of tools available to the agent.
+          - `model: BetaManagedAgentsModelConfig`
 
-      - `type: "agent_toolset_20260401"`
+            Model identifier and configuration.
 
-      - `configs?: Array<BetaManagedAgentsAgentToolConfigParams>`
+          - `name: string`
 
-        Per-tool configuration overrides.
+          - `skills: Array<BetaManagedAgentsAnthropicSkill | BetaManagedAgentsCustomSkill>`
 
         - `interface BetaManagedAgentsBashToolConfigParams`
 
-          Configuration override for the bash tool.
+          - `tools: Array<BetaManagedAgentsAgentToolset20260401 | BetaManagedAgentsMCPToolset | BetaManagedAgentsCustomTool>`
 
           - `type?: "bash"`
 
@@ -12825,11 +13242,11 @@ console.log(betaManagedAgentsSession.id);
 
             - `interface BetaManagedAgentsAlwaysAllowPolicy`
 
-              Tool calls are automatically approved without user confirmation.
+    - `workflows: BetaManagedAgentsSessionMultiagentWorkflows`
 
             - `interface BetaManagedAgentsAlwaysAskPolicy`
 
-              Tool calls require user confirmation before execution.
+      - `interface BetaManagedAgentsSessionMultiagentWorkflowsEnabled`
 
             - `interface BetaManagedAgentsAutoPolicy`
 
@@ -12933,25 +13350,25 @@ console.log(betaManagedAgentsSession.id);
 
         - `interface BetaManagedAgentsWebSearchToolConfigParams`
 
-          Configuration override for the web_search tool.
+        - `inline_agents: BetaManagedAgentsMultiagentInlineAgents`
 
           - `type?: "web_search"`
 
           - `name: "web_search"`
 
-            Must be "web_search".
+        - `predefined_agents: Array<BetaManagedAgentsSessionThreadAgent>`
 
-          - `allowed_domains?: Array<string>`
+          Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-            Only return search results whose host is one of these domains or a subdomain of one. Each entry is a plain hostname like "docs.example.com" (no scheme or port; an optional path suffix is accepted). At most 64 entries; an empty list is rejected (omit the field instead). Cannot be combined with blocked_domains.
+          - `type: "agent"`
 
-          - `blocked_domains?: Array<string>`
+          - `id: string`
 
-            Never return search results whose host is one of these domains or a subdomain of one. Each entry is a plain hostname like "ads.example.com" (no scheme or port; an optional path suffix is accepted). At most 64 entries; an empty list is rejected (omit the field instead). Cannot be combined with allowed_domains.
+          - `description: string | null`
 
-          - `enabled?: boolean | null`
+          - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
-            Whether this tool is enabled and available to Claude. Overrides the default_config setting.
+          - `model: BetaManagedAgentsModelConfig`
 
           - `permission_policy?: BetaManagedAgentsAlwaysAllowPolicy | BetaManagedAgentsAlwaysAskPolicy | BetaManagedAgentsAutoPolicy | null`
 
@@ -12959,19 +13376,19 @@ console.log(betaManagedAgentsSession.id);
 
             - `interface BetaManagedAgentsAlwaysAllowPolicy`
 
-              Tool calls are automatically approved without user confirmation.
+          - `system: string | null`
 
             - `interface BetaManagedAgentsAlwaysAskPolicy`
 
-              Tool calls require user confirmation before execution.
+          - `version: number`
 
             - `interface BetaManagedAgentsAutoPolicy`
 
               The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
 
-          - `user_location?: BetaManagedAgentsUserLocation | null`
+      - `interface BetaManagedAgentsMultiagentWorkflowsDisabled`
 
-            Approximate user location for search result localization.
+        The agent cannot start workflow runs.
 
             - `type: "approximate"`
 
@@ -12986,6 +13403,8 @@ console.log(betaManagedAgentsSession.id);
             - `country?: string | null`
 
               Two-letter ISO 3166-1 country code, uppercase.
+
+              pattern: ^[A-Z]{2}$
 
             - `region?: string | null`
 
@@ -13115,7 +13534,7 @@ console.log(betaManagedAgentsSession.id);
 
         Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-        minLength: 1, maxLength: 128
+        minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
 ### Beta Managed Agents Session Multiagent
 
@@ -13143,6 +13562,26 @@ console.log(betaManagedAgentsSession.id);
 
         - `description: string | null`
 
+        - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+          Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+          - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+            An AWS IAM role principal as returned in API responses.
+
+            - `type: "aws_role"`
+
+            - `role_arn: string`
+
+              The IAM role's ARN.
+
+          - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+            The Anthropic-managed service account as returned in API responses.
+
+            - `type: "service_account"`
+
         - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
           - `type: "url"`
@@ -13161,6 +13600,10 @@ console.log(betaManagedAgentsSession.id);
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+            - `"claude-fable-5-2"`
+
+              Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
             - `"claude-haiku-5-5"`
 
               Fastest model for high-volume, real-time tasks
@@ -13177,53 +13620,53 @@ console.log(betaManagedAgentsSession.id);
 
               Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-            - `"claude-sonnet-5"`
+            Fastest model for high-volume, real-time tasks
 
               Efficient model for coding and agents
 
-            - `"claude-fable-5"`
+            Efficient model for coding and agents
 
-              Next generation of intelligence for the hardest knowledge work and coding problems
+          - `"claude-opus-5-5"`
 
-            - `"claude-opus-5"`
+            Powerful intelligence for coding, knowledge work, and long-running agents
 
-              Powerful intelligence for long-running agents and coding
+          - `"claude-fable-5-1"`
 
-            - `"claude-opus-4-8"`
+            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-              Powerful intelligence for long-running agents and coding
+          - `"claude-sonnet-5"`
 
-            - `"claude-opus-4-7"`
+            Efficient model for coding and agents
 
-              Powerful intelligence for long-running agents and coding
+          - `"claude-fable-5"`
 
-            - `"claude-opus-4-6"`
+            Next generation of intelligence for the hardest knowledge work and coding problems
 
-              Powerful intelligence for long-running agents and coding
+          - `"claude-opus-5"`
 
-            - `"claude-sonnet-4-6"`
+            Powerful intelligence for long-running agents and coding
 
-              Best combination of speed and intelligence
+          - `"claude-opus-4-8"`
 
-            - `"claude-haiku-4-5"`
+            Powerful intelligence for long-running agents and coding
 
             - `"claude-haiku-4-5-20251001"`
 
             - `"claude-opus-4-5"`
 
-              Powerful intelligence for long-running agents and coding
+          - `"claude-sonnet-4-6"`
 
-            - `"claude-opus-4-5-20251101"`
+            Best combination of speed and intelligence
 
-              Powerful intelligence for long-running agents and coding
+          - `"claude-haiku-4-5"`
 
-            - `"claude-sonnet-4-5"`
+          - `"claude-haiku-4-5-20251001"`
 
               **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
               High-performance model for agents and coding
 
-            - `"claude-sonnet-4-5-20250929"`
+            Powerful intelligence for long-running agents and coding
 
               **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -13631,6 +14074,8 @@ console.log(betaManagedAgentsSession.id);
 
                     Two-letter ISO 3166-1 country code, uppercase.
 
+                    pattern: ^[A-Z]{2}$
+
                   - `region?: string | null`
 
                     Region or state name.
@@ -13646,6 +14091,8 @@ console.log(betaManagedAgentsSession.id);
             - `default_config: BetaManagedAgentsAgentToolsetDefaultConfig`
 
               Resolved default configuration for agent tools.
+
+              - `type: "bash"`
 
               - `enabled: boolean`
 
@@ -13671,6 +14118,8 @@ console.log(betaManagedAgentsSession.id);
 
             - `configs: Array<BetaManagedAgentsMCPToolConfig>`
 
+              - `type: "edit"`
+
               - `enabled: boolean`
 
               - `name: string`
@@ -13694,6 +14143,8 @@ console.log(betaManagedAgentsSession.id);
             - `default_config: BetaManagedAgentsMCPToolsetDefaultConfig`
 
               Resolved default configuration for all tools from an MCP server.
+
+              - `type: "read"`
 
               - `enabled: boolean`
 
@@ -13811,6 +14262,10 @@ console.log(betaManagedAgentsSession.id);
 
           - `description: string | null`
 
+          - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+            Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
           - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
           - `model: BetaManagedAgentsModelConfig`
@@ -13859,6 +14314,10 @@ console.log(betaManagedAgentsSession.id);
 
           - `description: string | null`
 
+          - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+            Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
           - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
           - `model: BetaManagedAgentsModelConfig`
@@ -13889,7 +14348,7 @@ console.log(betaManagedAgentsSession.id);
 
   Resolved coordinator topology with full agent definitions for each roster member.
 
-  - `type: "coordinator"`
+- `type BetaManagedAgentsSessionMultiagentSubagents = BetaManagedAgentsSessionMultiagentSubagentsEnabled | BetaManagedAgentsMultiagentSubagentsDisabled`
 
   - `agents: Array<BetaManagedAgentsSessionThreadAgent | BetaManagedAgentsAdvisor>`
 
@@ -13904,6 +14363,26 @@ console.log(betaManagedAgentsSession.id);
       - `id: string`
 
       - `description: string | null`
+
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
 
       - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -13922,6 +14401,10 @@ console.log(betaManagedAgentsSession.id);
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -14392,6 +14875,8 @@ console.log(betaManagedAgentsSession.id);
                 - `country?: string | null`
 
                   Two-letter ISO 3166-1 country code, uppercase.
+
+                  pattern: ^[A-Z]{2}$
 
                 - `region?: string | null`
 
@@ -14549,6 +15034,26 @@ console.log(betaManagedAgentsSession.id);
 
       - `description: string | null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
         - `type: "url"`
@@ -14566,6 +15071,10 @@ console.log(betaManagedAgentsSession.id);
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -15036,6 +15545,8 @@ console.log(betaManagedAgentsSession.id);
                 - `country?: string | null`
 
                   Two-letter ISO 3166-1 country code, uppercase.
+
+                  pattern: ^[A-Z]{2}$
 
                 - `region?: string | null`
 
@@ -15185,6 +15696,26 @@ console.log(betaManagedAgentsSession.id);
 
     - `description: string | null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
       - `type: "url"`
@@ -15202,6 +15733,10 @@ console.log(betaManagedAgentsSession.id);
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -15673,6 +16208,8 @@ console.log(betaManagedAgentsSession.id);
 
                 Two-letter ISO 3166-1 country code, uppercase.
 
+                pattern: ^[A-Z]{2}$
+
               - `region?: string | null`
 
                 Region or state name.
@@ -15819,6 +16356,26 @@ console.log(betaManagedAgentsSession.id);
 
       - `description: string | null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
         - `type: "url"`
@@ -15836,6 +16393,10 @@ console.log(betaManagedAgentsSession.id);
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -16307,6 +16868,8 @@ console.log(betaManagedAgentsSession.id);
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `region?: string | null`
 
                   Region or state name.
@@ -16455,6 +17018,26 @@ console.log(betaManagedAgentsSession.id);
 
     - `description: string | null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
       - `type: "url"`
@@ -16472,6 +17055,10 @@ console.log(betaManagedAgentsSession.id);
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -16942,6 +17529,8 @@ console.log(betaManagedAgentsSession.id);
               - `country?: string | null`
 
                 Two-letter ISO 3166-1 country code, uppercase.
+
+                pattern: ^[A-Z]{2}$
 
               - `region?: string | null`
 
@@ -17115,6 +17704,26 @@ console.log(betaManagedAgentsSession.id);
 
         - `description: string | null`
 
+        - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+          Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+          - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+            An AWS IAM role principal as returned in API responses.
+
+            - `type: "aws_role"`
+
+            - `role_arn: string`
+
+              The IAM role's ARN.
+
+          - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+            The Anthropic-managed service account as returned in API responses.
+
+            - `type: "service_account"`
+
         - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
           - `type: "url"`
@@ -17132,6 +17741,10 @@ console.log(betaManagedAgentsSession.id);
             The model that will power your agent.
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+            - `"claude-fable-5-2"`
+
+              Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
             - `"claude-haiku-5-5"`
 
@@ -17603,6 +18216,8 @@ console.log(betaManagedAgentsSession.id);
 
                     Two-letter ISO 3166-1 country code, uppercase.
 
+                    pattern: ^[A-Z]{2}$
+
                   - `region?: string | null`
 
                     Region or state name.
@@ -17741,6 +18356,10 @@ console.log(betaManagedAgentsSession.id);
 
         - `description: string | null`
 
+        - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+          Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
         - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
         - `model: BetaManagedAgentsModelConfig`
@@ -17811,6 +18430,26 @@ console.log(betaManagedAgentsSession.id);
 
     - `description: string | null`
 
+    - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `type: "aws_role"`
+
+        - `role_arn: string`
+
+          The IAM role's ARN.
+
+      - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `type: "service_account"`
+
     - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
       - `type: "url"`
@@ -17828,6 +18467,10 @@ console.log(betaManagedAgentsSession.id);
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `"claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `"claude-haiku-5-5"`
 
@@ -17968,6 +18611,10 @@ console.log(betaManagedAgentsSession.id);
             - `id: string`
 
             - `description: string | null`
+
+            - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
             - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -18335,6 +18982,8 @@ console.log(betaManagedAgentsSession.id);
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `region?: string | null`
 
                         Region or state name.
@@ -18515,6 +19164,10 @@ console.log(betaManagedAgentsSession.id);
 
               - `description: string | null`
 
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
               - `model: BetaManagedAgentsModelConfig`
@@ -18562,6 +19215,10 @@ console.log(betaManagedAgentsSession.id);
               - `id: string`
 
               - `description: string | null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -18629,6 +19286,8 @@ console.log(betaManagedAgentsSession.id);
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `currency: BetaCurrency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -18688,6 +19347,8 @@ console.log(betaManagedAgentsSession.id);
     - `amount: string`
 
       Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+      pattern: ^(0|[1-9]\d*)$
 
     - `currency: BetaCurrency`
 
@@ -18778,6 +19439,8 @@ console.log(betaManagedAgentsSession.id);
       - `amount: string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
@@ -19263,7 +19926,7 @@ List Events
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -19366,6 +20029,18 @@ List Events
     - `"ce-plugins-2026-09-01"`
 
     - `"spend-limit-reads-2026-09-26"`
+
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
 
   - `workspace_id?: string` (header parameter)
 
@@ -20093,7 +20768,7 @@ List Events
 
       Unique identifier for this event.
 
-    - `error: BetaManagedAgentsUnknownError | BetaManagedAgentsModelOverloadedError | BetaManagedAgentsModelRateLimitedError | 10 more`
+    - `error: BetaManagedAgentsUnknownError | BetaManagedAgentsModelOverloadedError | BetaManagedAgentsModelRateLimitedError | 12 more`
 
       - `interface BetaManagedAgentsUnknownError`
 
@@ -20324,6 +20999,58 @@ List Events
         - `vault_id: string`
 
           ID of the vault containing the affected credential.
+
+      - `interface BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "tool_use_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying | BetaManagedAgentsRetryStatusExhausted | BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `interface BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `interface BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `interface BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `interface BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "compaction_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying | BetaManagedAgentsRetryStatusExhausted | BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `interface BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `interface BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `interface BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `interface BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -21069,6 +21796,26 @@ List Events
 
       - `description: string | null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
         - `type: "url"`
@@ -21086,6 +21833,10 @@ List Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -21226,6 +21977,10 @@ List Events
               - `id: string`
 
               - `description: string | null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -21593,6 +22348,8 @@ List Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `region?: string | null`
 
                           Region or state name.
@@ -21773,6 +22530,10 @@ List Events
 
                 - `description: string | null`
 
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
                 - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
                 - `model: BetaManagedAgentsModelConfig`
@@ -21820,6 +22581,10 @@ List Events
                 - `id: string`
 
                 - `description: string | null`
+
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -21886,6 +22651,8 @@ List Events
         - `amount: string`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `currency: BetaCurrency`
 
@@ -22694,7 +23461,7 @@ Send Events
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -22797,6 +23564,18 @@ Send Events
     - `"ce-plugins-2026-09-01"`
 
     - `"spend-limit-reads-2026-09-26"`
+
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
 
   - `workspace_id?: string` (header parameter)
 
@@ -23315,7 +24094,7 @@ Stream Events
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -23418,6 +24197,18 @@ Stream Events
     - `"ce-plugins-2026-09-01"`
 
     - `"spend-limit-reads-2026-09-26"`
+
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
 
   - `workspace_id?: string` (header parameter)
 
@@ -24145,7 +24936,7 @@ Stream Events
 
       Unique identifier for this event.
 
-    - `error: BetaManagedAgentsUnknownError | BetaManagedAgentsModelOverloadedError | BetaManagedAgentsModelRateLimitedError | 10 more`
+    - `error: BetaManagedAgentsUnknownError | BetaManagedAgentsModelOverloadedError | BetaManagedAgentsModelRateLimitedError | 12 more`
 
       - `interface BetaManagedAgentsUnknownError`
 
@@ -24376,6 +25167,58 @@ Stream Events
         - `vault_id: string`
 
           ID of the vault containing the affected credential.
+
+      - `interface BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "tool_use_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying | BetaManagedAgentsRetryStatusExhausted | BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `interface BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `interface BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `interface BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `interface BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "compaction_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying | BetaManagedAgentsRetryStatusExhausted | BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `interface BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `interface BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `interface BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `interface BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -25121,6 +25964,26 @@ Stream Events
 
       - `description: string | null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
         - `type: "url"`
@@ -25138,6 +26001,10 @@ Stream Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -25278,6 +26145,10 @@ Stream Events
               - `id: string`
 
               - `description: string | null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -25645,6 +26516,8 @@ Stream Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `region?: string | null`
 
                           Region or state name.
@@ -25825,6 +26698,10 @@ Stream Events
 
                 - `description: string | null`
 
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
                 - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
                 - `model: BetaManagedAgentsModelConfig`
@@ -25872,6 +26749,10 @@ Stream Events
                 - `id: string`
 
                 - `description: string | null`
+
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -25938,6 +26819,8 @@ Stream Events
         - `amount: string`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `currency: BetaCurrency`
 
@@ -26432,7 +27315,7 @@ Add Session Resource
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -26535,6 +27418,18 @@ Add Session Resource
     - `"ce-plugins-2026-09-01"`
 
     - `"spend-limit-reads-2026-09-26"`
+
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
 
   - `workspace_id?: string` (header parameter)
 
@@ -26622,7 +27517,7 @@ List Session Resources
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -26726,6 +27621,18 @@ List Session Resources
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -26778,7 +27685,7 @@ List Session Resources
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `interface BetaManagedAgentsFileResource`
 
@@ -26811,6 +27718,8 @@ List Session Resources
     - `memory_store_id: string`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `access?: "read_write" | "read_only" | null`
 
@@ -26903,7 +27812,7 @@ Get Session Resource
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -27007,6 +27916,18 @@ Get Session Resource
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -27061,7 +27982,7 @@ Get Session Resource
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `interface BetaManagedAgentsFileResource`
 
@@ -27094,6 +28015,8 @@ Get Session Resource
     - `memory_store_id: string`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `access?: "read_write" | "read_only" | null`
 
@@ -27179,7 +28102,7 @@ Update Session Resource
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -27283,6 +28206,18 @@ Update Session Resource
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -27337,7 +28272,7 @@ Update Session Resource
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
   - `interface BetaManagedAgentsFileResource`
 
@@ -27370,6 +28305,8 @@ Update Session Resource
     - `memory_store_id: string`
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+      pattern: ^memstore_[a-zA-Z0-9_]+$
 
     - `access?: "read_write" | "read_only" | null`
 
@@ -27449,7 +28386,7 @@ Delete Session Resource
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -27552,6 +28489,18 @@ Delete Session Resource
     - `"ce-plugins-2026-09-01"`
 
     - `"spend-limit-reads-2026-09-26"`
+
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
 
   - `workspace_id?: string` (header parameter)
 
@@ -27637,7 +28586,7 @@ List Session Threads
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -27741,6 +28690,18 @@ List Session Threads
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -27773,6 +28734,26 @@ List Session Threads
 
       - `description: string | null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
         - `type: "url"`
@@ -27790,6 +28771,10 @@ List Session Threads
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -28261,6 +29246,8 @@ List Session Threads
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `region?: string | null`
 
                   Region or state name.
@@ -28386,6 +29373,10 @@ List Session Threads
       - `type: "inline"`
 
       - `description: string | null`
+
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        The session's execution principal.
 
       - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -28531,6 +29522,8 @@ List Session Threads
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `currency: BetaCurrency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -28588,6 +29581,9 @@ for await (const betaManagedAgentsSessionThread of client.beta.sessions.threads.
       "agent": {
         "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
         "description": "A focused research subagent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",
@@ -28691,7 +29687,7 @@ Get Session Thread
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -28795,6 +29791,18 @@ Get Session Thread
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -28827,6 +29835,26 @@ Get Session Thread
 
       - `description: string | null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
         - `type: "url"`
@@ -28844,6 +29872,10 @@ Get Session Thread
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -29315,6 +30347,8 @@ Get Session Thread
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `region?: string | null`
 
                   Region or state name.
@@ -29440,6 +30474,10 @@ Get Session Thread
       - `type: "inline"`
 
       - `description: string | null`
+
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        The session's execution principal.
 
       - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -29585,6 +30623,8 @@ Get Session Thread
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `currency: BetaCurrency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -29640,6 +30680,9 @@ console.log(betaManagedAgentsSessionThread.id);
   "agent": {
     "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
     "description": "A focused research subagent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -29740,7 +30783,7 @@ Archive Session Thread
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -29844,6 +30887,18 @@ Archive Session Thread
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `workspace_id?: string` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -29876,6 +30931,26 @@ Archive Session Thread
 
       - `description: string | null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
         - `type: "url"`
@@ -29893,6 +30968,10 @@ Archive Session Thread
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -30364,6 +31443,8 @@ Archive Session Thread
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `region?: string | null`
 
                   Region or state name.
@@ -30489,6 +31570,10 @@ Archive Session Thread
       - `type: "inline"`
 
       - `description: string | null`
+
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        The session's execution principal.
 
       - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -30634,6 +31719,8 @@ Archive Session Thread
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `currency: BetaCurrency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -30689,6 +31776,9 @@ console.log(betaManagedAgentsSessionThread.id);
   "agent": {
     "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
     "description": "A focused research subagent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -30797,7 +31887,7 @@ List Session Thread Events
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -30900,6 +31990,18 @@ List Session Thread Events
     - `"ce-plugins-2026-09-01"`
 
     - `"spend-limit-reads-2026-09-26"`
+
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
 
   - `workspace_id?: string` (header parameter)
 
@@ -31627,7 +32729,7 @@ List Session Thread Events
 
       Unique identifier for this event.
 
-    - `error: BetaManagedAgentsUnknownError | BetaManagedAgentsModelOverloadedError | BetaManagedAgentsModelRateLimitedError | 10 more`
+    - `error: BetaManagedAgentsUnknownError | BetaManagedAgentsModelOverloadedError | BetaManagedAgentsModelRateLimitedError | 12 more`
 
       - `interface BetaManagedAgentsUnknownError`
 
@@ -31858,6 +32960,58 @@ List Session Thread Events
         - `vault_id: string`
 
           ID of the vault containing the affected credential.
+
+      - `interface BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "tool_use_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying | BetaManagedAgentsRetryStatusExhausted | BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `interface BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `interface BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `interface BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `interface BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "compaction_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying | BetaManagedAgentsRetryStatusExhausted | BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `interface BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `interface BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `interface BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `interface BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -32603,6 +33757,26 @@ List Session Thread Events
 
       - `description: string | null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
         - `type: "url"`
@@ -32620,6 +33794,10 @@ List Session Thread Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -32760,6 +33938,10 @@ List Session Thread Events
               - `id: string`
 
               - `description: string | null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -33127,6 +34309,8 @@ List Session Thread Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `region?: string | null`
 
                           Region or state name.
@@ -33307,6 +34491,10 @@ List Session Thread Events
 
                 - `description: string | null`
 
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
                 - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
                 - `model: BetaManagedAgentsModelConfig`
@@ -33354,6 +34542,10 @@ List Session Thread Events
                 - `id: string`
 
                 - `description: string | null`
+
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -33420,6 +34612,8 @@ List Session Thread Events
         - `amount: string`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `currency: BetaCurrency`
 
@@ -33877,7 +35071,7 @@ Stream Session Thread Events
 
   - `betas?: Array<AnthropicBeta>` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `(string & {})`
 
@@ -33980,6 +35174,18 @@ Stream Session Thread Events
     - `"ce-plugins-2026-09-01"`
 
     - `"spend-limit-reads-2026-09-26"`
+
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
 
   - `workspace_id?: string` (header parameter)
 
@@ -34707,7 +35913,7 @@ Stream Session Thread Events
 
       Unique identifier for this event.
 
-    - `error: BetaManagedAgentsUnknownError | BetaManagedAgentsModelOverloadedError | BetaManagedAgentsModelRateLimitedError | 10 more`
+    - `error: BetaManagedAgentsUnknownError | BetaManagedAgentsModelOverloadedError | BetaManagedAgentsModelRateLimitedError | 12 more`
 
       - `interface BetaManagedAgentsUnknownError`
 
@@ -34938,6 +36144,58 @@ Stream Session Thread Events
         - `vault_id: string`
 
           ID of the vault containing the affected credential.
+
+      - `interface BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "tool_use_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying | BetaManagedAgentsRetryStatusExhausted | BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `interface BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `interface BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `interface BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `interface BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "compaction_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying | BetaManagedAgentsRetryStatusExhausted | BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `interface BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `interface BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `interface BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `interface BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -35683,6 +36941,26 @@ Stream Session Thread Events
 
       - `description: string | null`
 
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `interface BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `interface BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
         - `type: "url"`
@@ -35700,6 +36978,10 @@ Stream Session Thread Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -35840,6 +37122,10 @@ Stream Session Thread Events
               - `id: string`
 
               - `description: string | null`
+
+              - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -36207,6 +37493,8 @@ Stream Session Thread Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `region?: string | null`
 
                           Region or state name.
@@ -36387,6 +37675,10 @@ Stream Session Thread Events
 
                 - `description: string | null`
 
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
                 - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
                 - `model: BetaManagedAgentsModelConfig`
@@ -36434,6 +37726,10 @@ Stream Session Thread Events
                 - `id: string`
 
                 - `description: string | null`
+
+                - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `mcp_servers: Array<BetaManagedAgentsMCPServerURLDefinition>`
 
@@ -36500,6 +37796,8 @@ Stream Session Thread Events
         - `amount: string`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `currency: BetaCurrency`
 

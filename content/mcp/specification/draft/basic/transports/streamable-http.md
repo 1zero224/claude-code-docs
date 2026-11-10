@@ -4,23 +4,21 @@
 
 # Streamable HTTP
 
-<div id="enable-section-numbers" />
+> [!NOTE]
+>
+> Streamable HTTP was introduced in protocol version 2025-03-26 as a replacement
+> for the \[HTTP+SSE transport]\[http-sse] from protocol version 2024-11-05.
 
-<Info>
-  Streamable HTTP was introduced in protocol version 2025-03-26 as a replacement
-  for the [HTTP+SSE transport][http-sse] from protocol version 2024-11-05.
-</Info>
-
-<Info>
-  Revision 2026-07-28 changed the behavior of Streamable HTTP. Clients must
-  ensure they handle backwards compatibility correctly. Changes included:
-
-  * Removal of the GET stream endpoint.
-  * Removal of protocol-level sessions.
-
-  See the [changelog](/specification/draft/changelog) and
-  [Backward Compatibility](#backward-compatibility) below.
-</Info>
+> [!NOTE]
+>
+> Revision 2026-07-28 changed the behavior of Streamable HTTP. Clients must
+> ensure they handle backwards compatibility correctly. Changes included:
+>
+> * Removal of the GET stream endpoint.
+> * Removal of protocol-level sessions.
+>
+> See the [changelog](https://modelcontextprotocol.io/specification/draft/changelog.md) and
+> [Backward Compatibility](#backward-compatibility) below.
 
 In the **Streamable HTTP** transport, the server operates as an independent
 process that can handle multiple client connections. At a glance:
@@ -46,7 +44,7 @@ The server **MUST** provide a single HTTP endpoint path (hereafter referred to
 as the **MCP endpoint**) that supports POST. For example, this could be a URL
 like `https://example.com/mcp`.
 
-[http-sse]: /specification/2024-11-05/basic/transports#http-with-sse
+[http-sse]: https://modelcontextprotocol.io/specification/2024-11-05/basic/transports.md#http-with-sse
 
 [sse]: https://en.wikipedia.org/wiki/Server-sent_events
 
@@ -89,17 +87,17 @@ request to the MCP endpoint.
    `Content-Type: text/event-stream` (an SSE response stream). The client
    **MUST** support both.
 
-<Note>
-  This revision of the core protocol defines no client-to-server
-  *notifications* over Streamable HTTP. The only client-sent notification in
-  the core protocol, `notifications/cancelled`, is used only on the
-  [stdio](/specification/draft/basic/transports/stdio) transport; on
-  Streamable HTTP, closing the SSE response stream is itself the cancellation
-  signal and no `notifications/cancelled` message is expected (see
-  [Cancellation][cancellation]). The notification rules above describe the
-  transport mechanics for a notification POST; header requirements for
-  notification POSTs are not defined by this revision.
-</Note>
+> [!NOTE]
+>
+> This revision of the core protocol defines no client-to-server
+> *notifications* over Streamable HTTP. The only client-sent notification in
+> the core protocol, `notifications/cancelled`, is used only on the
+> [stdio](https://modelcontextprotocol.io/specification/draft/basic/transports/stdio.md) transport; on
+> Streamable HTTP, closing the SSE response stream is itself the cancellation
+> signal and no `notifications/cancelled` message is expected (see
+> \[Cancellation]\[cancellation]). The notification rules above describe the
+> transport mechanics for a notification POST; header requirements for
+> notification POSTs are not defined by this revision.
 
 ## Receiving Messages
 
@@ -138,30 +136,30 @@ buffer. Without this header, proxies may accumulate messages before sending
 them to the client, introducing unwanted latency and potentially breaking the
 real-time nature of SSE communication.
 
-<Note>
-  For long-lived streams — in particular the
-  [`subscriptions/listen`][subscriptions-listen] response stream — servers are
-  encouraged to periodically emit an SSE comment line (a line beginning with a
-  colon, e.g. `:\r\n`) as a keep-alive. This keeps the connection from being
-  closed by intermediaries or client idle timeouts during quiet periods when no
-  notifications are flowing. Per the [SSE specification][sse], any line beginning
-  with a colon is a comment that carries no event data; clients must ignore such
-  lines and must not treat them as malformed input.
-</Note>
+> [!NOTE]
+>
+> For long-lived streams — in particular the
+> \[`subscriptions/listen`]\[subscriptions-listen] response stream — servers are
+> encouraged to periodically emit an SSE comment line (a line beginning with a
+> colon, e.g. `:\r\n`) as a keep-alive. This keeps the connection from being
+> closed by intermediaries or client idle timeouts during quiet periods when no
+> notifications are flowing. Per the \[SSE specification]\[sse], any line beginning
+> with a colon is a comment that carries no event data; clients must ignore such
+> lines and must not treat them as malformed input.
 
 Resumable SSE streams via `Last-Event-ID` are not supported.
 
-[notifications-progress]: /specification/draft/basic/patterns/progress
+[notifications-progress]: https://modelcontextprotocol.io/specification/draft/basic/patterns/progress.md
 
-[notifications-message]: /specification/draft/server/utilities/logging
+[notifications-message]: https://modelcontextprotocol.io/specification/draft/server/utilities/logging.md
 
-[input-required-result]: /specification/draft/schema#inputrequiredresult
+[input-required-result]: https://modelcontextprotocol.io/specification/draft/schema.md#inputrequiredresult
 
-[mrtr]: /specification/draft/basic/patterns/mrtr
+[mrtr]: https://modelcontextprotocol.io/specification/draft/basic/patterns/mrtr.md
 
-[sep-2322]: /seps/2322-MRTR
+[sep-2322]: https://modelcontextprotocol.io/seps/2322-MRTR.md
 
-[subscriptions-listen]: /specification/draft/basic/patterns/subscriptions
+[subscriptions-listen]: https://modelcontextprotocol.io/specification/draft/basic/patterns/subscriptions.md
 
 ## Message Flow
 
@@ -239,7 +237,7 @@ stop work on the cancelled request as soon as practical and **MUST NOT** send
 any further messages for it. See
 [Cancellation][cancellation] for the full rules.
 
-[cancellation]: /specification/draft/basic/patterns/cancellation
+[cancellation]: https://modelcontextprotocol.io/specification/draft/basic/patterns/cancellation.md
 
 ## Request Metadata
 
@@ -280,9 +278,9 @@ treat a request that omits the header as protocol version `2025-03-26`. A
 server that does not support such clients **MUST** reject a request without
 the header per [Server Validation](#server-validation).
 
-[unsupported-version]: /specification/draft/schema#unsupportedprotocolversionerror
+[unsupported-version]: https://modelcontextprotocol.io/specification/draft/schema.md#unsupportedprotocolversionerror
 
-[lifecycle-version]: /specification/draft/basic/versioning#protocol-version-negotiation
+[lifecycle-version]: https://modelcontextprotocol.io/specification/draft/basic/versioning.md#protocol-version-negotiation
 
 ### Standard Request Headers
 
@@ -367,7 +365,7 @@ support this feature. When a server's tool definition includes
 `x-mcp-header` annotations, conforming clients **MUST** mirror the
 designated parameter values into HTTP headers.
 
-[tool-definitions]: /specification/draft/server/tools#x-mcp-header
+[tool-definitions]: https://modelcontextprotocol.io/specification/draft/server/tools.md#x-mcp-header
 
 #### Schema Extension
 
@@ -588,11 +586,11 @@ different components in the network rely on different sources of truth
 (e.g., a load balancer routing on the header value while the MCP server
 executes based on the body value).
 
-<Note>
-  When validating integer parameter values, servers **SHOULD** compare the
-  header value and the body value numerically rather than as strings (e.g.,
-  `42.0` and `42` are considered equal).
-</Note>
+> [!NOTE]
+>
+> When validating integer parameter values, servers **SHOULD** compare the
+> header value and the body value numerically rather than as strings (e.g.,
+> `42.0` and `42` are considered equal).
 
 When rejecting a request due to header validation failure, servers **MUST**
 return HTTP status `400 Bad Request` and **MUST** include a JSON-RPC error
@@ -600,11 +598,11 @@ response using the following error code:
 
 | Code | Name | Description |
 | - | - | - |
-| `-32020` | [`HeaderMismatch`](/specification/draft/schema#headermismatcherror) | The HTTP headers do not match the corresponding values in the request body, or required headers are missing/malformed. |
+| `-32020` | [`HeaderMismatch`](https://modelcontextprotocol.io/specification/draft/schema#headermismatcherror) | The HTTP headers do not match the corresponding values in the request body, or required headers are missing/malformed. |
 
 This error code is allocated from the sub-range the MCP specification
 reserves for protocol-defined errors. See
-[Error Codes](/specification/draft/basic/index#error-codes).
+[Error Codes](https://modelcontextprotocol.io/specification/draft/basic/index.md#error-codes).
 
 **Example error response:**
 
@@ -629,19 +627,19 @@ Validation failure conditions include:
   [Value Encoding](#value-encoding)) before comparing them to the body value.
 * A header value contains invalid characters.
 
-<Note>
-  Intermediaries **MUST** return an appropriate HTTP error status (e.g.,
-  `400 Bad Request`) for validation failures but are not required to return
-  a JSON-RPC error response.
-</Note>
+> [!NOTE]
+>
+> Intermediaries **MUST** return an appropriate HTTP error status (e.g.,
+> `400 Bad Request`) for validation failures but are not required to return
+> a JSON-RPC error response.
 
-<Note>
-  Intermediaries that enforce policy based on mirrored headers (e.g., routing
-  or rate-limiting by tenant) **SHOULD** verify that the `MCP-Protocol-Version`
-  header indicates a version that requires header–body validation. If the
-  version is older or the header is absent, the intermediary **SHOULD** reject
-  the request rather than trusting unvalidated header values.
-</Note>
+> [!NOTE]
+>
+> Intermediaries that enforce policy based on mirrored headers (e.g., routing
+> or rate-limiting by tenant) **SHOULD** verify that the `MCP-Protocol-Version`
+> header indicates a version that requires header–body validation. If the
+> version is older or the header is absent, the intermediary **SHOULD** reject
+> the request rather than trusting unvalidated header values.
 
 ## Backward Compatibility
 
@@ -665,7 +663,7 @@ and a compatibility matrix for implementors.
 
 ### Earlier Streamable HTTP Revisions
 
-Protocol versions `2025-03-26` through [`2025-11-25`](/specification/2025-11-25/basic/transports)
+Protocol versions `2025-03-26` through [`2025-11-25`](https://modelcontextprotocol.io/specification/2025-11-25/basic/transports)
 also used the Streamable HTTP transport, but in a different shape: servers could assign a session via
 the `Mcp-Session-Id` header (terminated with HTTP DELETE), clients could open
 a standalone SSE stream with HTTP GET to receive server-initiated messages,
@@ -685,23 +683,23 @@ older client **SHOULD** respond as follows:
 Servers and clients that need to interoperate with counterparts speaking
 those protocol versions implement the behavior described in the corresponding
 revision (for example,
-[2025-11-25: Streamable HTTP](/specification/2025-11-25/basic/transports#streamable-http)),
+[2025-11-25: Streamable HTTP](https://modelcontextprotocol.io/specification/2025-11-25/basic/transports.md#streamable-http)),
 in addition to the version-negotiation fallback described above.
 
 ### HTTP+SSE Transport (2024-11-05)
 
-<Warning>
-  **Deprecated**: The [HTTP+SSE transport][http-sse] from protocol version
-  2024-11-05 has been deprecated since protocol version `2025-03-26` and is
-  classified as Deprecated under the [feature lifecycle
-  policy](/community/feature-lifecycle#deprecating-a-feature)
-  ([SEP-2596](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2596)).
-  New implementations **SHOULD NOT** adopt it; existing implementations
-  **SHOULD** migrate to [Streamable
-  HTTP](/specification/draft/basic/transports/streamable-http). It is eligible
-  for removal in a future revision; see the [deprecated features
-  registry](/specification/draft/deprecated).
-</Warning>
+> [!WARNING]
+>
+> **Deprecated**: The \[HTTP+SSE transport]\[http-sse] from protocol version
+> 2024-11-05 has been deprecated since protocol version `2025-03-26` and is
+> classified as Deprecated under the [feature lifecycle
+> policy](https://modelcontextprotocol.io/community/feature-lifecycle.md#deprecating-a-feature)
+> ([SEP-2596](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2596)).
+> New implementations **SHOULD NOT** adopt it; existing implementations
+> **SHOULD** migrate to [Streamable
+> HTTP](https://modelcontextprotocol.io/specification/draft/basic/transports/streamable-http.md). It is eligible
+> for removal in a future revision; see the [deprecated features
+> registry](https://modelcontextprotocol.io/specification/draft/deprecated.md).
 
 Clients and servers can maintain backward compatibility with the
 deprecated [HTTP+SSE transport][http-sse] (from
@@ -732,4 +730,4 @@ protocol version 2024-11-05) as follows:
        server running the old HTTP+SSE transport, and should use that
        transport for all subsequent communication.
 
-[lifecycle-compat]: /specification/draft/basic/versioning#backward-compatibility-with-initialization-based-versions
+[lifecycle-compat]: https://modelcontextprotocol.io/specification/draft/basic/versioning.md#backward-compatibility-with-initialization-based-versions

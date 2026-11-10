@@ -1,6 +1,30 @@
 # Release notes
 
+## November 2026
+
+### November 6, 2026
+
+**Track spend by cost code with project tags (beta)**
+
+Eligible Enterprise organizations can now tag projects with the codes they already use, like a charge code or client-matter number, and see most spend in those projects by tag. This feature is available in beta. For more information, see **[Track spend by cost code with project tags](https://support.claude.com/en/articles/18251257-track-spend-by-project-with-tags)**.
+
+### November 5, 2026
+
+**New security and admin controls for Enterprise plans**
+
+Claude Enterprise has new security and admin features, including a security center, inference hooks, centralized management, and additional access controls, several in beta. For more information, see our blog post: **[More visibility and control over Claude Enterprise for security teams](https://claude.com/resources/articles/claude-enterprise-security-updates).**
+
+**Personal Finance in Claude**
+
+We’re rolling out Personal Finance, a beta that lets you link your bank, credit card, loan, and investment accounts to Claude, so you can see your balances and spending on one page and ask Claude questions about your own money. It's available on Pro, Max, and Ultra plans, and is available in the US only. For more information, see our blog post: **[Introducing Personal Finance in Claude](https://claude.com/resources/articles/introducing-personal-finance-in-claude)**.
+
 ## October 2026
+
+### October 21, 2026
+
+**Claude Duet research preview for Pro and Max plans**
+
+We just opened a research preview for users on Pro and Max plans: Claude Duet, a new app where Claude works as a proactive agent. For more information, see our blog post: **[Introducing Claude Duet](https://claude.com/resources/articles/claude-duet)**.
 
 ### October 7, 2026
 
@@ -40,13 +64,13 @@ We're rolling out a new Claude experience that makes everything Claude Cowork do
 
 **Create designs, decks, and docs in any conversation**
 
-You can now ask for a design, deck, or document in any conversation with Claude, including in Claude Code and the **Artifacts** tab, and edit it with Claude or directly as you work. Claude Design works inside your conversations with all of its features, including on-canvas editing and importing your design system. Claude Slides gives presentations their own starting point, and Claude Docs is a new way to write living documents with Claude and your team. Artifacts, including Claude Design, Claude Slides, and Claude Docs, are available on every plan, including Free. On Enterprise plans, Claude Design, Claude Slides, and Claude Docs are in beta and off by default until an owner turns them on. Learn more in **[What are artifacts and how do I use them?](https://support.claude.com/en/articles/17153992)** and **[Get started with Claude Docs](https://support.claude.com/en/articles/16923645)**.
+You can now ask for a design, deck, or document in any conversation with Claude, including in Claude Code and the **Artifacts** tab, and edit it with Claude or directly as you work. Claude Design works inside your conversations with all of its features, including on-canvas editing and importing your design system. Claude Slides gives presentations their own starting point, and Claude Docs is a new way to write living documents with Claude and your team. Artifacts, including Claude Design, Claude Slides, and Claude Docs, are available on every plan, including Free. On Enterprise plans, Claude Design, Claude Slides, and Claude Docs are in beta. Learn more in **[What are artifacts and how do I use them?](https://support.claude.com/en/articles/17153992)** and **[Get started with Claude Docs](https://support.claude.com/en/articles/16923645)**.
 
 ### September 15, 2026
 
 **Launching Salesforce in Claude (beta)**
 
-We've launched Salesforce in Claude, a plugin that brings a seller’s accounts, opportunities, and pipeline into Claude with 37 pre-built sales skills. Prep a call, review a deal, create a pipeline dashboard, and send your forecast all from Claude. It’s now available in beta on all paid plans for organizations Salesforce approves through its beta sign-up. For more information, see our blog post: **[Bringing Salesforce into Claude](http://claude.com/blog/salesforce-in-claude)**.
+We've launched Salesforce in Claude, a plugin that brings a seller’s accounts, opportunities, and pipeline into Claude with 37 pre-built sales skills. Prep a call, review a deal, create a pipeline dashboard, and send your forecast all from Claude. It’s now available in beta on all paid plans for organizations Salesforce approves through its beta sign-up. For more information, see our blog post: **[Bringing Salesforce into Claude](https://claude.com/blog/salesforce-in-claude)**.
 
 ### September 10, 2026
 
@@ -66,7 +90,7 @@ We just launched Claude Fable 5.1 and Claude Mythos 5.1, the world’s most adva
 
 **Memory in Claude Cowork, editable topics, and a sensitive topics setting**
 
-Memory now works across chat and Cowork in the cloud. Everything Claude remembers is listed under **Topics** in **[Settings > Memory](https://claude.ai/settings/memory)**, where you can edit or delete any item. Topics such as health or beliefs stay out of memory unless you turn on **Include sensitive topics in memory**. Memory is on by default for Free, Pro, and Max plans and off by default for Team and Enterprise organizations. See **[Use Claude's chat search and memory to build on previous context](https://support.claude.com/en/articles/11817273)**.
+Memory now works across chat and Cowork in the cloud. Everything Claude remembers is listed under **Topics** in **[Settings > Memory](https://claude.ai/settings/memory)**, where you can edit or delete any item. Topics such as health or beliefs stay out of memory unless you turn on **Include sensitive topics in memory**. See **[Use Claude's chat search and memory to build on previous context](https://support.claude.com/en/articles/11817273)**.
 
 ### August 6, 2026
 
@@ -315,7 +339,7 @@ Previously, Enterprise plans were only available to customers working with our S
 
 **Claude Opus 4.6 launch**
 
-We’ve upgraded our smartest model and improved its coding skills. Read our blog post for more information: **[Introducing Claude Opus 4.6](http://anthropic.com/news/claude-opus-4-6)**.
+We’ve upgraded our smartest model and improved its coding skills. Read our blog post for more information: **[Introducing Claude Opus 4.6](https://anthropic.com/news/claude-opus-4-6)**.
 
 **Introducing Claude for PowerPoint**
 

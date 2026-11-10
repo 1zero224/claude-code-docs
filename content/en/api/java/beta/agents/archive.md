@@ -21,7 +21,7 @@ Archive Agent
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -123,6 +123,18 @@ Archive Agent
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -135,17 +147,17 @@ Archive Agent
 
   A Managed Agents `agent`.
 
-  - `Type type`
+  - `JsonValue type = "agent"`
 
   - `String id`
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the agent was archived. Null if not archived.
 
     format: date-time
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -153,9 +165,31 @@ Archive Agent
 
   - `Optional<String> description`
 
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `JsonValue type = "aws_role"`
+
+      - `String roleArn`
+
+        The IAM role's ARN.
+
+    - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `JsonValue type = "service_account"`
+
   - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-    - `Type type`
+    - `JsonValue type = "url"`
+
+    - `String name`
 
     - `String name`
 
@@ -172,6 +206,10 @@ Archive Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -249,31 +287,31 @@ Archive Agent
 
         Low effort. Favors latency over reasoning depth.
 
-        - `Type type`
+        - `JsonValue type = "low"`
 
       - `class BetaManagedAgentsEffortMedium`
 
         Medium effort. Balances latency and reasoning depth.
 
-        - `Type type`
+        - `JsonValue type = "medium"`
 
       - `class BetaManagedAgentsEffortHigh`
 
         High effort. Favors reasoning depth.
 
-        - `Type type`
+        - `JsonValue type = "high"`
 
       - `class BetaManagedAgentsEffortXhigh`
 
         Extra-high effort. Not all models accept this level.
 
-        - `Type type`
+        - `JsonValue type = "xhigh"`
 
       - `class BetaManagedAgentsEffortMax`
 
         Maximum effort. Favors reasoning depth over latency.
 
-        - `Type type`
+        - `JsonValue type = "max"`
 
     - `Optional<String> inferenceGeo`
 
@@ -295,7 +333,7 @@ Archive Agent
 
       Resolved coordinator topology with a concrete agent roster.
 
-      - `Type type`
+      - `JsonValue type = "coordinator"`
 
       - `List<Agent> agents`
 
@@ -305,11 +343,11 @@ Archive Agent
 
           A resolved agent reference with a concrete version.
 
-          - `Type type`
+          - `JsonValue type = "agent"`
 
           - `String id`
 
-          - `long version`
+          - `int version`
 
             format: int32
 
@@ -317,7 +355,7 @@ Archive Agent
 
           Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-          - `Type type`
+          - `JsonValue type = "advisor"`
 
           - `String model`
 
@@ -379,11 +417,11 @@ Archive Agent
 
             Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-            - `Type type`
+            - `JsonValue type = "agent"`
 
             - `String id`
 
-            - `long version`
+            - `int version`
 
               format: int32
 
@@ -411,11 +449,11 @@ Archive Agent
 
             Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-            - `Type type`
+            - `JsonValue type = "agent"`
 
             - `String id`
 
-            - `long version`
+            - `int version`
 
               format: int32
 
@@ -433,7 +471,9 @@ Archive Agent
 
       A resolved Anthropic-managed skill.
 
-      - `Type type`
+      - `JsonValue type = "anthropic"`
+
+      - `String skillId`
 
       - `String skillId`
 
@@ -443,7 +483,9 @@ Archive Agent
 
       A resolved user-created custom skill.
 
-      - `Type type`
+      - `JsonValue type = "custom"`
+
+      - `String skillId`
 
       - `String skillId`
 
@@ -455,7 +497,7 @@ Archive Agent
 
     - `class BetaManagedAgentsAgentToolset20260401`
 
-      - `Type type`
+      - `JsonValue type = "agent_toolset_20260401"`
 
       - `List<BetaManagedAgentsAgentToolConfig> configs`
 
@@ -477,13 +519,13 @@ Archive Agent
 
               Tool calls are automatically approved without user confirmation.
 
-              - `Type type`
+              - `JsonValue type = "always_allow"`
 
             - `class BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `Type type`
+              - `JsonValue type = "always_ask"`
 
             - `class BetaManagedAgentsAutoPolicy`
 
@@ -727,7 +769,7 @@ Archive Agent
 
           - `Optional<List<String>> blockedDomains`
 
-          - `Optional<Long> maxContentTokens`
+          - `Optional<Integer> maxContentTokens`
 
             format: int32
 
@@ -779,6 +821,8 @@ Archive Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `Optional<String> region`
 
               Region or state name.
@@ -815,7 +859,7 @@ Archive Agent
 
     - `class BetaManagedAgentsMcpToolset`
 
-      - `Type type`
+      - `JsonValue type = "mcp_toolset"`
 
       - `List<BetaManagedAgentsMcpToolConfig> configs`
 
@@ -867,7 +911,7 @@ Archive Agent
 
       A custom tool as returned in API responses.
 
-      - `Type type`
+      - `JsonValue type = "custom"`
 
       - `String description`
 
@@ -883,13 +927,13 @@ Archive Agent
 
       - `String name`
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
     format: date-time
 
-  - `long version`
+  - `int version`
 
     The agent's current version. Starts at 1 and increments when the agent is modified.
 
@@ -924,6 +968,9 @@ public final class Main {
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",

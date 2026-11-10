@@ -13,21 +13,21 @@ List environments with pagination support.
 
 ## Parameters
 
-- `include_archived: bool` (query parameter)
+- `include_archived: optional bool` (query parameter)
 
   Include archived environments in the response
 
-- `limit: Integer` (query parameter)
+- `limit: optional Integer` (query parameter)
 
   Maximum number of environments to return
 
   minimum: 1, maximum: 1000
 
-- `page: String` (query parameter)
+- `page: optional String | nil` (query parameter)
 
   Opaque cursor from previous response for pagination. Pass the `next_page` value from the previous response.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -133,7 +133,19 @@ List environments with pagination support.
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -153,7 +165,7 @@ List environments with pagination support.
 
     Environment identifier (e.g., 'env_...')
 
-  - `archived_at: String`
+  - `archived_at: String | nil`
 
     RFC 3339 timestamp when environment was archived, or null if not archived
 
@@ -205,7 +217,7 @@ List environments with pagination support.
 
         Package manager configuration.
 
-        - `type: :packages`
+        - `type: optional :packages`
 
           Package configuration type
 
@@ -245,7 +257,7 @@ List environments with pagination support.
 
     RFC 3339 timestamp when environment was created
 
-  - `description: String`
+  - `description: String | nil`
 
     User-provided description for the environment; null when unset
 
@@ -261,7 +273,7 @@ List environments with pagination support.
 
     RFC 3339 timestamp when environment was last updated
 
-  - `scope: :organization | :account`
+  - `scope: optional :organization | :account`
 
     The visibility scope for this environment. 'organization' means visible to all accounts. 'account' means visible only to the owning account.
 

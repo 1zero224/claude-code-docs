@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/python/beta/environments/list
 
 # List Environments
 
-`beta.environments.list(**kwargs)  -> SyncPageCursor[BetaEnvironment]`
+`beta.environments.list(**kwargs) -> SyncPageCursor[BetaEnvironment]`
 
 **GET** `/v1/environments`
 
@@ -134,6 +134,18 @@ List environments with pagination support.
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 

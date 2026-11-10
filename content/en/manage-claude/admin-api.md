@@ -4,48 +4,47 @@ url: https://platform.claude.com/docs/en/manage-claude/admin-api
 description: Manage organization members, workspaces, invites, and API keys programmatically with the Admin API, using an Admin API key, an `org:admin` OAuth token, or a personal or service account key.
 ---
 
-<Tip>
-  **The Admin API is unavailable for individual accounts.** To collaborate with teammates and add members, set up your organization in **Console → Settings → Organization**.
-</Tip>
+The [Admin API](https://platform.claude.com/docs/en/api/organization) lets you manage your organization’s members, workspaces, invites, and API keys programmatically instead of by hand in the [Claude Console](https://platform.claude.com/).
 
-The [Admin API](https://platform.claude.com/docs/en/api/organization) lets you manage your organization's members, workspaces, invites, and API keys programmatically instead of by hand in the [Claude Console](https://platform.claude.com/).
+## Availability
 
-<Check>
-  **The Admin API requires special access**
+The Admin API is unavailable for individual accounts. To collaborate with teammates and add members, set up your organization on the [Organization](https://platform.claude.com/settings/organization) page (`platform.claude.com/settings/organization`) in the Claude Console.
 
-  The Admin API accepts three credentials:
+Claude Enterprise (claude.ai) organizations call the Admin API with a scoped API key created in claude.ai. From this page, only the members and invites endpoints apply to them. They can also call the [Usage and Cost Analytics API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api), which is in beta and takes a key with the `read:analytics` scope. They also get Enterprise-only endpoints: group and custom-role reads, and [spend limits](https://platform.claude.com/docs/en/manage-claude/spend-limits-api). The [Plugins API](https://platform.claude.com/docs/en/manage-claude/plugins-api), also Enterprise-only, is in beta. So is the [Claude Tag API](https://platform.claude.com/docs/en/manage-claude/claude-tag-api). See [User management](https://platform.claude.com/docs/en/manage-claude/user-management).
 
-  * An **Admin API key** (starting with `sk-ant-admin...`) sent in the `x-api-key` header. Only organization members with the admin role can provision one. See [Create an Admin API key](https://platform.claude.com/docs/en/manage-claude/admin-api-keys).
-  * An **OAuth bearer token** with the `org:admin` scope sent in the `authorization: Bearer` header. Only members with the admin, owner, or primary owner role can obtain one. See [Obtain an OAuth bearer token](https://platform.claude.com/docs/en/manage-claude/admin-api#oauth-bearer-token).
-  * A **personal key** or **service account key** that isn't scoped to a specific workspace, sent in the `x-api-key` header. The key has the same permissions as the linked account. See [Key types](https://platform.claude.com/docs/en/manage-claude/authentication#key-types).
-</Check>
+On [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), only these Admin API endpoints are available:
 
-<Note>
-  **Claude Enterprise:** Claude Enterprise (claude.ai) organizations call the Admin API with a scoped API key created in claude.ai. From this page, only the members and invites endpoints apply to them. They also get Enterprise-only endpoints: group and custom-role reads, and [spend limits](https://platform.claude.com/docs/en/manage-claude/spend-limits-api). See [User management](https://platform.claude.com/docs/en/manage-claude/user-management).
-</Note>
+* The workspace endpoints: create, get, list, update, and archive on `/v1/organizations/workspaces`.
+* The external key endpoints, for [CMEK](https://platform.claude.com/docs/en/manage-claude/cmek-claude-platform-on-aws): register, get, list, update, and delete on `/v1/organizations/external_keys`. There is no validate endpoint, because keys are validated when attached to a workspace.
+* The [telemetry destination endpoints](https://platform.claude.com/docs/en/api/claude-platform-on-aws-iam-actions#telemetry-destinations).
+* The [Usage and Cost Analytics API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api) endpoints: `/v1/organizations/analytics/usage` and `/v1/organizations/analytics/cost`.
 
-<Note>
-  **Claude Platform on AWS:** Only the workspace endpoints (create, get, list, update, and archive on `/v1/organizations/workspaces`), the external key endpoints (register, get, list, update, and delete on `/v1/organizations/external_keys`, for [CMEK](https://platform.claude.com/docs/en/manage-claude/cmek-aws-kms#claude-platform-on-aws); there is no validate endpoint, because keys are validated when attached to a workspace), and the [telemetry destination endpoints](https://platform.claude.com/docs/en/api/claude-platform-on-aws-iam-actions#telemetry-destinations) are available on Claude Platform on AWS. Organization members, workspace members, invites, API keys, and the usage, cost, and rate limit reports aren't. See [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws).
-</Note>
+Organization members, workspace members, invites, API keys, the legacy [Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-api), and the rate limit reports aren’t available on Claude Platform on AWS.
 
 ## Authentication
 
-Authenticate with any of the three credentials. An Admin API key covers most endpoints. The service-account, federation-issuer, and federation-rule endpoints accept only an `org:admin` OAuth token. Send a personal key or service account key in the `x-api-key` header, as you would an Admin API key. The following examples call the [organization info endpoint](https://platform.claude.com/docs/en/manage-claude/admin-api#accessing-organization-info) with an OAuth token and with an Admin API key.
+The Admin API accepts any of these three credentials:
 
-The Python, TypeScript, C#, Go, Java, PHP, and Ruby SDKs expose the endpoints on this page under `client.organization` (csharp, go: `client.Organization`; java: `client.organization()`; php: `$client->organization`), and the `ant` CLI under `ant organization`. The examples on this page use the default client, which reads an Admin API key from `ANTHROPIC_API_KEY` or an OAuth bearer token from `ANTHROPIC_AUTH_TOKEN`. SDK list methods in Python, TypeScript, C#, Go, and Java return an iterator that fetches more pages on demand, so `limit` sets the page size, not the total. The PHP, Ruby, and curl examples return one page. In the CLI, `--limit` caps the results on the member, invite, workspace, workspace-member, and API-key lists. For each endpoint's parameters and responses, see the [Admin API reference](https://platform.claude.com/docs/en/api/organization).
+* An **Admin API key** (starting with `sk-ant-admin...`) sent in the `x-api-key` header. Only organization members with the admin role can provision one. See [Create an Admin API key](https://platform.claude.com/docs/en/manage-claude/admin-api-keys).
+* An **OAuth bearer token** with the `org:admin` scope sent in the `authorization: Bearer` header. Only members with the admin, owner, or primary owner role can obtain one. See [Obtain an OAuth bearer token](https://platform.claude.com/docs/en/manage-claude/admin-api#oauth-bearer-token).
+* A **personal key** or **service account key** that isn’t scoped to a specific workspace, sent in the `x-api-key` header. The key has the same permissions as the linked account. See [Key types](https://platform.claude.com/docs/en/manage-claude/authentication#key-types).
+
+An Admin API key covers most endpoints. The service-account, federation-issuer, and federation-rule endpoints accept only an `org:admin` OAuth token. Send a personal key or service account key in the `x-api-key` header, as you would an Admin API key. The following examples call the [organization info endpoint](https://platform.claude.com/docs/en/manage-claude/admin-api#accessing-organization-info) with an OAuth token and with an Admin API key.
+
+The SDK exposes the endpoints on this page under `client.organization` (csharp, go: `client.Organization`; java: `client.organization()`; php: `$client->organization`), and the `ant` CLI under `ant organization`. The examples on this page use the default client, which reads an Admin API key from `ANTHROPIC_API_KEY` or an OAuth bearer token from `ANTHROPIC_AUTH_TOKEN`. The comments in each list example say whether it fetches more pages or reads only the first. For each endpoint’s parameters and responses, see the [Admin API reference](https://platform.claude.com/docs/en/api/organization).
 
 ### OAuth bearer token
 
-Log in with the [`ant` CLI](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/quickstart) under a dedicated profile with the `org:admin` scope (see [Admin access](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/authentication#admin-access)), then export the bearer token. `--profile admin` stores the `org:admin` credential under its own profile and makes it the CLI's active profile. The exported variable applies to every SDK and CLI call in that shell. Use a shell you reserve for administration, unset the variable when you're done, and switch the CLI back with `ant profile activate default`:
+Log in with the [`ant` CLI](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/quickstart) under a dedicated profile with the `org:admin` scope (see [Admin access](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/authentication#admin-access)), then export the bearer token. `--profile admin` stores the `org:admin` credential under its own profile and makes it the CLI’s active profile. The exported variable applies to every SDK and CLI call in that shell. Use a shell you reserve for administration, unset the variable when you’re done, and switch the CLI back with `ant profile activate default`:
 
 ```bash CLI
 ant auth login --profile admin --scope "org:admin"
 export ANTHROPIC_AUTH_TOKEN=$(ant auth print-credentials --profile admin --access-token)
 ```
 
-Interactive tokens are short-lived. If requests start returning 401, re-run the `export` command to refresh the token.
+Interactive tokens are short-lived. If requests start returning 401, rerun the `export` command to refresh the token.
 
-The SDKs and the `ant` CLI read `ANTHROPIC_AUTH_TOKEN` automatically. Leave `ANTHROPIC_API_KEY` unset in the same shell so they send the bearer token. Automated workloads skip the login: they authenticate through workload identity federation, and the SDKs and CLI perform the token exchange from the federation environment variables. See [Bootstrap a workload to manage WIF](https://platform.claude.com/docs/en/manage-claude/wif-admin-api#bootstrap-a-workload-to-manage-wif).
+The SDK and the `ant` CLI read `ANTHROPIC_AUTH_TOKEN` automatically. Leave `ANTHROPIC_API_KEY` unset in the same shell so they send the bearer token. Automated workloads skip the login: they authenticate through Workload Identity Federation, and the SDK and CLI perform the token exchange from the federation environment variables. See [Bootstrap a workload to manage WIF](https://platform.claude.com/docs/en/manage-claude/wif-admin-api#bootstrap-a-workload-to-manage-wif).
 
 Call the Admin API with the exported token:
 
@@ -53,7 +52,7 @@ Call the Admin API with the exported token:
   ```bash cURL
   curl --fail-with-body -sS "https://api.anthropic.com/v1/organizations/me" \
     -H "authorization: Bearer $ANTHROPIC_AUTH_TOKEN" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
@@ -139,7 +138,7 @@ To create an Admin API key for your organization type, see [Create an Admin API 
   ```bash cURL
   curl --fail-with-body -sS "https://api.anthropic.com/v1/organizations/me" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
@@ -249,12 +248,14 @@ List the members of your organization:
 
 <CodeGroup>
   ```bash cURL
+  # Returns one page.
   curl "https://api.anthropic.com/v1/organizations/users?limit=10" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
+  # At a terminal, the view fetches more pages as you scroll. When piped or with `--format json`, `--limit` caps the results.
   ant organization:users list --limit 10
   ```
 
@@ -263,7 +264,7 @@ List the members of your organization:
 
   users = client.organization.users.list(limit=10)
 
-  # Automatically fetches more pages as needed.
+  # Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   for user in users:
       print(f"{user.id}: {user.email} ({user.role})")
   ```
@@ -273,6 +274,7 @@ List the members of your organization:
 
   const users = await client.organization.users.list({ limit: 10 });
 
+  // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   for await (const user of users) {
     console.log(`${user.id}: ${user.email} (${user.role})`);
   }
@@ -283,6 +285,7 @@ List the members of your organization:
 
   var page = await client.Organization.Users.List(new() { Limit = 10 });
 
+  // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   await foreach (var user in page.Paginate())
   {
       Console.WriteLine($"{user.ID}: {user.Email} ({user.Role.Raw()})");
@@ -296,6 +299,7 @@ List the members of your organization:
   	Limit: anthropic.Int(10),
   })
 
+  // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   for users.Next() {
   	user := users.Current()
   	fmt.Printf("%s: %s (%s)\n", user.ID, user.Email, user.Role)
@@ -316,6 +320,7 @@ List the members of your organization:
           .build();
       var users = client.organization().users().list(params);
 
+      // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
       for (var user : users.autoPager()) {
           IO.println(user.id() + ": " + user.email() + " (" + user.role().asString() + ")");
       }
@@ -327,6 +332,7 @@ List the members of your organization:
 
   $users = $client->organization->users->list(limit: 10);
 
+  // Reads only the first page.
   foreach ($users->getItems() as $user) {
       echo "{$user->id}: {$user->email} ({$user->role})\n";
   }
@@ -337,26 +343,27 @@ List the members of your organization:
 
   users = client.organization.users.list(limit: 10)
 
+  # Reads only the first page.
   users.data.each do |user|
     puts "#{user.id}: #{user.email} (#{user.role})"
   end
   ```
 </CodeGroup>
 
-Update a member's role:
+Update a member’s role:
 
 <CodeGroup>
   ```bash cURL
-  curl "https://api.anthropic.com/v1/organizations/users/user_01XyDMpzjS89pFZXqSFUBDr6" \
+  curl "https://api.anthropic.com/v1/organizations/users/user_01WxYzAbCdEfGhJkMnPqRsTu" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{"role": "developer"}'
   ```
 
   ```bash CLI
   ant organization:users update \
-    --user-id user_01XyDMpzjS89pFZXqSFUBDr6 \
+    --user-id user_01WxYzAbCdEfGhJkMnPqRsTu \
     --role developer
   ```
 
@@ -364,7 +371,7 @@ Update a member's role:
   client = anthropic.Anthropic()
 
   user = client.organization.users.update(
-      "user_01XyDMpzjS89pFZXqSFUBDr6", role="developer"
+      "user_01WxYzAbCdEfGhJkMnPqRsTu", role="developer"
   )
 
   print(f"id: {user.id}")
@@ -374,7 +381,7 @@ Update a member's role:
   ```typescript TypeScript
   const client = new Anthropic();
 
-  const user = await client.organization.users.update("user_01XyDMpzjS89pFZXqSFUBDr6", {
+  const user = await client.organization.users.update("user_01WxYzAbCdEfGhJkMnPqRsTu", {
     role: "developer"
   });
 
@@ -389,7 +396,7 @@ Update a member's role:
   AnthropicClient client = new();
 
   var user = await client.Organization.Users.Update(
-      "user_01XyDMpzjS89pFZXqSFUBDr6",
+      "user_01WxYzAbCdEfGhJkMnPqRsTu",
       new() { Role = Role.Developer }
   );
 
@@ -402,7 +409,7 @@ Update a member's role:
 
   user, err := client.Organization.Users.Update(
   	context.Background(),
-  	"user_01XyDMpzjS89pFZXqSFUBDr6",
+  	"user_01WxYzAbCdEfGhJkMnPqRsTu",
   	anthropic.OrganizationUserUpdateParams{
   		Role: anthropic.OrganizationUserUpdateParamsRoleDeveloper,
   	},
@@ -425,7 +432,7 @@ Update a member's role:
           .role(UserUpdateParams.Role.DEVELOPER)
           .build();
       var user = client.organization().users()
-          .update("user_01XyDMpzjS89pFZXqSFUBDr6", params);
+          .update("user_01WxYzAbCdEfGhJkMnPqRsTu", params);
 
       IO.println("id: " + user.id());
       IO.println("role: " + user.role().asString());
@@ -439,7 +446,7 @@ Update a member's role:
   $client = new Client();
 
   $user = $client->organization->users->update(
-      userID: 'user_01XyDMpzjS89pFZXqSFUBDr6',
+      userID: 'user_01WxYzAbCdEfGhJkMnPqRsTu',
       role: Role::DEVELOPER,
   );
 
@@ -450,7 +457,7 @@ Update a member's role:
   ```ruby Ruby
   client = Anthropic::Client.new
 
-  user_id = "user_01XyDMpzjS89pFZXqSFUBDr6"
+  user_id = "user_01WxYzAbCdEfGhJkMnPqRsTu"
   user = client.organization.users.update(user_id, role: :developer)
 
   puts "id: #{user.id}"
@@ -462,19 +469,19 @@ Remove a member from the organization:
 
 <CodeGroup>
   ```bash cURL
-  curl -X DELETE "https://api.anthropic.com/v1/organizations/users/user_01XyDMpzjS89pFZXqSFUBDr6" \
+  curl -X DELETE "https://api.anthropic.com/v1/organizations/users/user_01WxYzAbCdEfGhJkMnPqRsTu" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
-  ant organization:users remove --user-id user_01XyDMpzjS89pFZXqSFUBDr6
+  ant organization:users remove --user-id user_01WxYzAbCdEfGhJkMnPqRsTu
   ```
 
   ```python Python
   client = anthropic.Anthropic()
 
-  removed_user = client.organization.users.remove("user_01XyDMpzjS89pFZXqSFUBDr6")
+  removed_user = client.organization.users.remove("user_01WxYzAbCdEfGhJkMnPqRsTu")
 
   print(f"id: {removed_user.id}")
   ```
@@ -482,7 +489,7 @@ Remove a member from the organization:
   ```typescript TypeScript
   const client = new Anthropic();
 
-  const removedUser = await client.organization.users.remove("user_01XyDMpzjS89pFZXqSFUBDr6");
+  const removedUser = await client.organization.users.remove("user_01WxYzAbCdEfGhJkMnPqRsTu");
 
   console.log(`id: ${removedUser.id}`);
   ```
@@ -490,7 +497,7 @@ Remove a member from the organization:
   ```csharp C#
   AnthropicClient client = new();
 
-  var removedUser = await client.Organization.Users.Remove("user_01XyDMpzjS89pFZXqSFUBDr6");
+  var removedUser = await client.Organization.Users.Remove("user_01WxYzAbCdEfGhJkMnPqRsTu");
 
   Console.WriteLine($"id: {removedUser.ID}");
   ```
@@ -498,7 +505,7 @@ Remove a member from the organization:
   ```go Go
   client := anthropic.NewClient()
 
-  removedUser, err := client.Organization.Users.Remove(context.Background(), "user_01XyDMpzjS89pFZXqSFUBDr6")
+  removedUser, err := client.Organization.Users.Remove(context.Background(), "user_01WxYzAbCdEfGhJkMnPqRsTu")
   if err != nil {
   	log.Fatal(err)
   }
@@ -510,7 +517,7 @@ Remove a member from the organization:
   AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
   var removedUser = client.organization().users()
-      .remove("user_01XyDMpzjS89pFZXqSFUBDr6");
+      .remove("user_01WxYzAbCdEfGhJkMnPqRsTu");
 
   IO.println("id: " + removedUser.id());
   ```
@@ -519,7 +526,7 @@ Remove a member from the organization:
   $client = new Client();
 
   $removedUser = $client->organization->users->remove(
-      userID: 'user_01XyDMpzjS89pFZXqSFUBDr6',
+      userID: 'user_01WxYzAbCdEfGhJkMnPqRsTu',
   );
 
   echo "id: {$removedUser->id}\n";
@@ -528,7 +535,7 @@ Remove a member from the organization:
   ```ruby Ruby
   client = Anthropic::Client.new
 
-  user_id = "user_01XyDMpzjS89pFZXqSFUBDr6"
+  user_id = "user_01WxYzAbCdEfGhJkMnPqRsTu"
   removed_user = client.organization.users.remove(user_id)
 
   puts "id: #{removed_user.id}"
@@ -545,7 +552,7 @@ Invite a user to your organization:
   ```bash cURL
   curl "https://api.anthropic.com/v1/organizations/invites" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "email": "user@example.com",
@@ -665,16 +672,18 @@ Invite a user to your organization:
   ```
 </CodeGroup>
 
-List pending invites:
+List pending, accepted, and expired invites:
 
 <CodeGroup>
   ```bash cURL
+  # Returns one page.
   curl "https://api.anthropic.com/v1/organizations/invites?limit=10" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
+  # At a terminal, the view fetches more pages as you scroll. When piped or with `--format json`, `--limit` caps the results.
   ant organization:invites list --limit 10
   ```
 
@@ -683,7 +692,7 @@ List pending invites:
 
   invites = client.organization.invites.list(limit=10)
 
-  # Automatically fetches more pages as needed.
+  # Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   for invite in invites:
       print(f"{invite.id}: {invite.email} ({invite.status})")
   ```
@@ -693,6 +702,7 @@ List pending invites:
 
   const invites = await client.organization.invites.list({ limit: 10 });
 
+  // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   for await (const invite of invites) {
     console.log(`${invite.id}: ${invite.email} (${invite.status})`);
   }
@@ -703,6 +713,7 @@ List pending invites:
 
   var page = await client.Organization.Invites.List(new() { Limit = 10 });
 
+  // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   await foreach (var invite in page.Paginate())
   {
       Console.WriteLine($"{invite.ID}: {invite.Email} ({invite.Status.Raw()})");
@@ -716,6 +727,7 @@ List pending invites:
   	Limit: anthropic.Int(10),
   })
 
+  // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   for invites.Next() {
   	invite := invites.Current()
   	fmt.Printf("%s: %s (%s)\n", invite.ID, invite.Email, invite.Status)
@@ -736,6 +748,7 @@ List pending invites:
           .build();
       var invites = client.organization().invites().list(params);
 
+      // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
       for (var invite : invites.autoPager()) {
           IO.println(invite.id() + ": " + invite.email() + " (" + invite.status().asString() + ")");
       }
@@ -747,6 +760,7 @@ List pending invites:
 
   $invites = $client->organization->invites->list(limit: 10);
 
+  // Reads only the first page.
   foreach ($invites->getItems() as $invite) {
       echo "{$invite->id}: {$invite->email} ({$invite->status})\n";
   }
@@ -757,6 +771,7 @@ List pending invites:
 
   invites = client.organization.invites.list(limit: 10)
 
+  # Reads only the first page.
   invites.data.each do |invite|
     puts "#{invite.id}: #{invite.email} (#{invite.status})"
   end
@@ -769,7 +784,7 @@ Delete an invite:
   ```bash cURL
   curl -X DELETE "https://api.anthropic.com/v1/organizations/invites/invite_015gWxHNr6h6TdRPZTmuCGnn" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
@@ -850,7 +865,7 @@ See [Workspaces](https://platform.claude.com/docs/en/manage-claude/workspaces) f
 
 ### Workspace members
 
-Manage [user access to specific workspaces](https://platform.claude.com/docs/en/api/organization/workspaces/members/retrieve):
+Manage [user access to specific workspaces](https://platform.claude.com/docs/en/api/organization/workspaces/members/retrieve).
 
 Add a member to a workspace:
 
@@ -858,10 +873,10 @@ Add a member to a workspace:
   ```bash cURL
   curl "https://api.anthropic.com/v1/organizations/workspaces/wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ/members" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
-      "user_id": "user_01XyDMpzjS89pFZXqSFUBDr6",
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
       "workspace_role": "workspace_developer"
     }'
   ```
@@ -869,7 +884,7 @@ Add a member to a workspace:
   ```bash CLI
   ant organization:workspaces:members add \
     --workspace-id wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ \
-    --user-id user_01XyDMpzjS89pFZXqSFUBDr6 \
+    --user-id user_01WxYzAbCdEfGhJkMnPqRsTu \
     --workspace-role workspace_developer
   ```
 
@@ -878,7 +893,7 @@ Add a member to a workspace:
 
   member = client.organization.workspaces.members.add(
       "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
-      user_id="user_01XyDMpzjS89pFZXqSFUBDr6",
+      user_id="user_01WxYzAbCdEfGhJkMnPqRsTu",
       workspace_role="workspace_developer",
   )
 
@@ -892,7 +907,7 @@ Add a member to a workspace:
   const member = await client.organization.workspaces.members.add(
     "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
     {
-      user_id: "user_01XyDMpzjS89pFZXqSFUBDr6",
+      user_id: "user_01WxYzAbCdEfGhJkMnPqRsTu",
       workspace_role: "workspace_developer"
     }
   );
@@ -910,7 +925,7 @@ Add a member to a workspace:
       "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
       new()
       {
-          UserID = "user_01XyDMpzjS89pFZXqSFUBDr6",
+          UserID = "user_01WxYzAbCdEfGhJkMnPqRsTu",
           WorkspaceRole = NoBillingWorkspaceRole.WorkspaceDeveloper
       }
   );
@@ -926,7 +941,7 @@ Add a member to a workspace:
   	context.Background(),
   	"wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
   	anthropic.OrganizationWorkspaceMemberAddParams{
-  		UserID:        "user_01XyDMpzjS89pFZXqSFUBDr6",
+  		UserID:        "user_01WxYzAbCdEfGhJkMnPqRsTu",
   		WorkspaceRole: anthropic.NoBillingWorkspaceRoleWorkspaceDeveloper,
   	},
   )
@@ -946,7 +961,7 @@ Add a member to a workspace:
       AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
       var params = MemberAddParams.builder()
-          .userId("user_01XyDMpzjS89pFZXqSFUBDr6")
+          .userId("user_01WxYzAbCdEfGhJkMnPqRsTu")
           .workspaceRole(NoBillingWorkspaceRole.WORKSPACE_DEVELOPER)
           .build();
       var member = client.organization().workspaces().members()
@@ -965,7 +980,7 @@ Add a member to a workspace:
 
   $member = $client->organization->workspaces->members->add(
       workspaceID: 'wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ',
-      userID: 'user_01XyDMpzjS89pFZXqSFUBDr6',
+      userID: 'user_01WxYzAbCdEfGhJkMnPqRsTu',
       workspaceRole: NoBillingWorkspaceRole::WORKSPACE_DEVELOPER,
   );
 
@@ -979,7 +994,7 @@ Add a member to a workspace:
   workspace_id = "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
   member = client.organization.workspaces.members.add(
     workspace_id,
-    user_id: "user_01XyDMpzjS89pFZXqSFUBDr6",
+    user_id: "user_01WxYzAbCdEfGhJkMnPqRsTu",
     workspace_role: :workspace_developer
   )
 
@@ -992,12 +1007,14 @@ List the members of a workspace:
 
 <CodeGroup>
   ```bash cURL
+  # Returns one page.
   curl "https://api.anthropic.com/v1/organizations/workspaces/wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ/members?limit=10" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
+  # At a terminal, the view fetches more pages as you scroll. When piped or with `--format json`, `--limit` caps the results.
   ant organization:workspaces:members list \
     --workspace-id wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ \
     --limit 10
@@ -1010,7 +1027,7 @@ List the members of a workspace:
       "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ", limit=10
   )
 
-  # Automatically fetches more pages as needed.
+  # Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   for member in members:
       print(f"{member.user_id}: {member.workspace_role}")
   ```
@@ -1023,6 +1040,7 @@ List the members of a workspace:
     { limit: 10 }
   );
 
+  // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   for await (const member of members) {
     console.log(`${member.user_id}: ${member.workspace_role}`);
   }
@@ -1036,6 +1054,7 @@ List the members of a workspace:
       new() { Limit = 10 }
   );
 
+  // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   await foreach (var member in page.Paginate())
   {
       Console.WriteLine($"{member.UserID}: {member.WorkspaceRole.Raw()}");
@@ -1053,6 +1072,7 @@ List the members of a workspace:
   	},
   )
 
+  // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   for members.Next() {
   	member := members.Current()
   	fmt.Printf("%s: %s\n", member.UserID, member.WorkspaceRole)
@@ -1074,6 +1094,7 @@ List the members of a workspace:
       var members = client.organization().workspaces().members()
           .list("wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ", params);
 
+      // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
       for (var member : members.autoPager()) {
           IO.println(member.userId() + ": " + member.workspaceRole().asString());
       }
@@ -1088,6 +1109,7 @@ List the members of a workspace:
       limit: 10,
   );
 
+  // Reads only the first page.
   foreach ($members->getItems() as $member) {
       echo "{$member->userID}: {$member->workspaceRole}\n";
   }
@@ -1099,26 +1121,27 @@ List the members of a workspace:
   workspace_id = "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
   members = client.organization.workspaces.members.list(workspace_id, limit: 10)
 
+  # Reads only the first page.
   members.data.each do |member|
     puts "#{member.user_id}: #{member.workspace_role}"
   end
   ```
 </CodeGroup>
 
-Update a workspace member's role:
+Update a workspace member’s role:
 
 <CodeGroup>
   ```bash cURL
-  curl "https://api.anthropic.com/v1/organizations/workspaces/wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ/members/user_01XyDMpzjS89pFZXqSFUBDr6" \
+  curl "https://api.anthropic.com/v1/organizations/workspaces/wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ/members/user_01WxYzAbCdEfGhJkMnPqRsTu" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{"workspace_role": "workspace_admin"}'
   ```
 
   ```bash CLI
   ant organization:workspaces:members update \
-    --user-id user_01XyDMpzjS89pFZXqSFUBDr6 \
+    --user-id user_01WxYzAbCdEfGhJkMnPqRsTu \
     --workspace-id wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ \
     --workspace-role workspace_admin
   ```
@@ -1127,7 +1150,7 @@ Update a workspace member's role:
   client = anthropic.Anthropic()
 
   member = client.organization.workspaces.members.update(
-      "user_01XyDMpzjS89pFZXqSFUBDr6",
+      "user_01WxYzAbCdEfGhJkMnPqRsTu",
       workspace_id="wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
       workspace_role="workspace_admin",
   )
@@ -1140,7 +1163,7 @@ Update a workspace member's role:
   const client = new Anthropic();
 
   const member = await client.organization.workspaces.members.update(
-    "user_01XyDMpzjS89pFZXqSFUBDr6",
+    "user_01WxYzAbCdEfGhJkMnPqRsTu",
     {
       workspace_id: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
       workspace_role: "workspace_admin"
@@ -1157,7 +1180,7 @@ Update a workspace member's role:
   AnthropicClient client = new();
 
   var member = await client.Organization.Workspaces.Members.Update(
-      "user_01XyDMpzjS89pFZXqSFUBDr6",
+      "user_01WxYzAbCdEfGhJkMnPqRsTu",
       new()
       {
           WorkspaceID = "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
@@ -1174,7 +1197,7 @@ Update a workspace member's role:
 
   member, err := client.Organization.Workspaces.Members.Update(
   	context.Background(),
-  	"user_01XyDMpzjS89pFZXqSFUBDr6",
+  	"user_01WxYzAbCdEfGhJkMnPqRsTu",
   	anthropic.OrganizationWorkspaceMemberUpdateParams{
   		WorkspaceID:   "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
   		WorkspaceRole: anthropic.WorkspaceRoleWorkspaceAdmin,
@@ -1200,7 +1223,7 @@ Update a workspace member's role:
           .workspaceRole(WorkspaceRole.WORKSPACE_ADMIN)
           .build();
       var member = client.organization().workspaces().members()
-          .update("user_01XyDMpzjS89pFZXqSFUBDr6", params);
+          .update("user_01WxYzAbCdEfGhJkMnPqRsTu", params);
 
       IO.println("user_id: " + member.userId());
       IO.println("workspace_role: " + member.workspaceRole().asString());
@@ -1214,7 +1237,7 @@ Update a workspace member's role:
   $client = new Client();
 
   $member = $client->organization->workspaces->members->update(
-      userID: 'user_01XyDMpzjS89pFZXqSFUBDr6',
+      userID: 'user_01WxYzAbCdEfGhJkMnPqRsTu',
       workspaceID: 'wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ',
       workspaceRole: WorkspaceRole::WORKSPACE_ADMIN,
   );
@@ -1226,7 +1249,7 @@ Update a workspace member's role:
   ```ruby Ruby
   client = Anthropic::Client.new
 
-  user_id = "user_01XyDMpzjS89pFZXqSFUBDr6"
+  user_id = "user_01WxYzAbCdEfGhJkMnPqRsTu"
   member = client.organization.workspaces.members.update(
     user_id,
     workspace_id: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
@@ -1242,14 +1265,14 @@ Remove a member from a workspace:
 
 <CodeGroup>
   ```bash cURL
-  curl -X DELETE "https://api.anthropic.com/v1/organizations/workspaces/wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ/members/user_01XyDMpzjS89pFZXqSFUBDr6" \
+  curl -X DELETE "https://api.anthropic.com/v1/organizations/workspaces/wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ/members/user_01WxYzAbCdEfGhJkMnPqRsTu" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
   ant organization:workspaces:members remove \
-    --user-id user_01XyDMpzjS89pFZXqSFUBDr6 \
+    --user-id user_01WxYzAbCdEfGhJkMnPqRsTu \
     --workspace-id wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ
   ```
 
@@ -1257,7 +1280,7 @@ Remove a member from a workspace:
   client = anthropic.Anthropic()
 
   removed_member = client.organization.workspaces.members.remove(
-      "user_01XyDMpzjS89pFZXqSFUBDr6", workspace_id="wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
+      "user_01WxYzAbCdEfGhJkMnPqRsTu", workspace_id="wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
   )
 
   print(f"user_id: {removed_member.user_id}")
@@ -1267,7 +1290,7 @@ Remove a member from a workspace:
   const client = new Anthropic();
 
   const removedMember = await client.organization.workspaces.members.remove(
-    "user_01XyDMpzjS89pFZXqSFUBDr6",
+    "user_01WxYzAbCdEfGhJkMnPqRsTu",
     { workspace_id: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ" }
   );
 
@@ -1278,7 +1301,7 @@ Remove a member from a workspace:
   AnthropicClient client = new();
 
   var removedMember = await client.Organization.Workspaces.Members.Remove(
-      "user_01XyDMpzjS89pFZXqSFUBDr6",
+      "user_01WxYzAbCdEfGhJkMnPqRsTu",
       new() { WorkspaceID = "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ" }
   );
 
@@ -1290,7 +1313,7 @@ Remove a member from a workspace:
 
   removedMember, err := client.Organization.Workspaces.Members.Remove(
   	context.Background(),
-  	"user_01XyDMpzjS89pFZXqSFUBDr6",
+  	"user_01WxYzAbCdEfGhJkMnPqRsTu",
   	anthropic.OrganizationWorkspaceMemberRemoveParams{
   		WorkspaceID: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
   	},
@@ -1312,7 +1335,7 @@ Remove a member from a workspace:
           .workspaceId("wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ")
           .build();
       var removedMember = client.organization().workspaces().members()
-          .remove("user_01XyDMpzjS89pFZXqSFUBDr6", params);
+          .remove("user_01WxYzAbCdEfGhJkMnPqRsTu", params);
 
       IO.println("user_id: " + removedMember.userId());
   }
@@ -1322,7 +1345,7 @@ Remove a member from a workspace:
   $client = new Client();
 
   $removedMember = $client->organization->workspaces->members->remove(
-      userID: 'user_01XyDMpzjS89pFZXqSFUBDr6',
+      userID: 'user_01WxYzAbCdEfGhJkMnPqRsTu',
       workspaceID: 'wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ',
   );
 
@@ -1332,7 +1355,7 @@ Remove a member from a workspace:
   ```ruby Ruby
   client = Anthropic::Client.new
 
-  user_id = "user_01XyDMpzjS89pFZXqSFUBDr6"
+  user_id = "user_01WxYzAbCdEfGhJkMnPqRsTu"
   removed_member = client.organization.workspaces.members.remove(
     user_id,
     workspace_id: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
@@ -1344,18 +1367,20 @@ Remove a member from a workspace:
 
 ### API keys
 
-Monitor and manage [API keys](https://platform.claude.com/docs/en/api/organization/api_keys/list). Each key in the response includes its `expires_at` timestamp (`null` for keys without an [expiration](https://platform.claude.com/docs/en/manage-claude/authentication#key-expiration)) and `principal`, the identity it acts as (see [Key types](https://platform.claude.com/docs/en/manage-claude/authentication#key-types)). For a personal key, `principal` is `{"type": "user_actor", "user_id": "user_..."}`; for a service account key, `{"type": "service_account_actor", "service_account_id": "svac_..."}`; and for a workspace key, `null`. Each key also has a `scope` object: `{"type": "workspace", "workspace_id": "wrkspc_..."}` for a key bound to one workspace, or `{"type": "organization"}` for a key that can work across any workspace the account has access to. The top-level `workspace_id` field is deprecated and is `null` both for keys bound to the Default Workspace and for keys without a workspace scope; use `scope` to tell them apart. Filtering the list by `workspace_id` with the Default Workspace's ID returns only keys bound to the Default Workspace; keys without a workspace scope aren't returned under any `workspace_id` filter.
+Monitor and manage [API keys](https://platform.claude.com/docs/en/api/organization/api_keys/list). Each key in the response includes its `expires_at` timestamp (`null` for keys without an [expiration](https://platform.claude.com/docs/en/manage-claude/authentication#key-expiration)) and `principal`, the identity it acts as (see [Key types](https://platform.claude.com/docs/en/manage-claude/authentication#key-types)). For a personal key, `principal` is `{"type": "user_actor", "user_id": "user_..."}`. For a service account key, it is `{"type": "service_account_actor", "service_account_id": "svac_..."}`. For a workspace key, it is `null`. Each key also has a `scope` object: `{"type": "workspace", "workspace_id": "wrkspc_..."}` for a key bound to one workspace, or `{"type": "organization"}` for a key that can work across any workspace the account has access to. Filtering the list by `workspace_id` with the Default Workspace’s ID returns only keys bound to the Default Workspace; keys without a workspace scope aren’t returned under any `workspace_id` filter.
 
 List the active API keys in a workspace:
 
 <CodeGroup>
   ```bash cURL
+  # Returns one page.
   curl "https://api.anthropic.com/v1/organizations/api_keys?limit=10&status=active&workspace_id=wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
+  # At a terminal, the view fetches more pages as you scroll. When piped or with `--format json`, `--limit` caps the results.
   ant organization:api-keys list \
     --limit 10 \
     --status active \
@@ -1369,7 +1394,7 @@ List the active API keys in a workspace:
       limit=10, status="active", workspace_id="wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
   )
 
-  # Automatically fetches more pages as needed.
+  # Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   for api_key in api_keys:
       print(f"{api_key.id}: {api_key.name} ({api_key.status})")
   ```
@@ -1383,6 +1408,7 @@ List the active API keys in a workspace:
     workspace_id: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
   });
 
+  // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   for await (const apiKey of apiKeys) {
     console.log(`${apiKey.id}: ${apiKey.name} (${apiKey.status})`);
   }
@@ -1400,6 +1426,7 @@ List the active API keys in a workspace:
       WorkspaceID = "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
   });
 
+  // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   await foreach (var apiKey in page.Paginate())
   {
       Console.WriteLine($"{apiKey.ID}: {apiKey.Name} ({apiKey.Status.Raw()})");
@@ -1415,6 +1442,7 @@ List the active API keys in a workspace:
   	WorkspaceID: anthropic.String("wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"),
   })
 
+  // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
   for apiKeys.Next() {
   	apiKey := apiKeys.Current()
   	fmt.Printf("%s: %s (%s)\n", apiKey.ID, apiKey.Name, apiKey.Status)
@@ -1437,6 +1465,7 @@ List the active API keys in a workspace:
           .build();
       var apiKeys = client.organization().apiKeys().list(params);
 
+      // Automatically fetches more pages as needed, so `limit` sets the page size, not the total.
       for (var apiKey : apiKeys.autoPager()) {
           IO.println(apiKey.id() + ": " + apiKey.name() + " (" + apiKey.status().asString() + ")");
       }
@@ -1455,6 +1484,7 @@ List the active API keys in a workspace:
       workspaceID: 'wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ',
   );
 
+  // Reads only the first page.
   foreach ($apiKeys->getItems() as $apiKey) {
       echo "{$apiKey->id}: {$apiKey->name} ({$apiKey->status})\n";
   }
@@ -1469,6 +1499,7 @@ List the active API keys in a workspace:
     workspace_id: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
   )
 
+  # Reads only the first page.
   api_keys.data.each do |api_key|
     puts "#{api_key.id}: #{api_key.name} (#{api_key.status})"
   end
@@ -1481,7 +1512,7 @@ Rename or deactivate an API key:
   ```bash cURL
   curl "https://api.anthropic.com/v1/organizations/api_keys/apikey_01Rj2N8SVvo6BePZj99NhmiT" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "status": "inactive",
@@ -1614,15 +1645,15 @@ Rename or deactivate an API key:
 
 ### Service accounts
 
-Create and manage service accounts (`svac_...`), the non-human identities that [service account keys](https://platform.claude.com/docs/en/manage-claude/authentication#key-types) and [Workload Identity Federation](https://platform.claude.com/docs/en/manage-claude/workload-identity-federation) tokens act as. These endpoints, like the federation-issuer and federation-rule endpoints, require an `org:admin` OAuth token. See [Manage WIF with the Admin API](https://platform.claude.com/docs/en/manage-claude/wif-admin-api#service-accounts).
+Create and manage service accounts (`svac_...`), the non-human identities that [service account keys](https://platform.claude.com/docs/en/manage-claude/authentication#key-types) and [Workload Identity Federation](https://platform.claude.com/docs/en/manage-claude/workload-identity-federation) tokens act as. These endpoints, like the federation-issuer and federation-rule endpoints, require an `org:admin` OAuth token. See [Service accounts in Manage WIF with the Admin API](https://platform.claude.com/docs/en/manage-claude/wif-admin-api#service-accounts).
 
 ### Federation issuers
 
-Register the OIDC identity providers (`fdis_...`) whose tokens may assert workload identity for your organization. See [Manage WIF with the Admin API](https://platform.claude.com/docs/en/manage-claude/wif-admin-api#federation-issuers).
+Register the OIDC identity providers (`fdis_...`) whose tokens may assert workload identity for your organization. See [Federation issuers in Manage WIF with the Admin API](https://platform.claude.com/docs/en/manage-claude/wif-admin-api#federation-issuers).
 
 ### Federation rules
 
-Manage the rules (`fdrl_...`) that map issuer tokens to service accounts and scopes. See [Manage WIF with the Admin API](https://platform.claude.com/docs/en/manage-claude/wif-admin-api#federation-rules).
+Manage the rules (`fdrl_...`) that map issuer tokens to service accounts and scopes. See [Federation rules in Manage WIF with the Admin API](https://platform.claude.com/docs/en/manage-claude/wif-admin-api#federation-rules).
 
 ## Accessing organization info
 
@@ -1632,7 +1663,7 @@ The `/v1/organizations/me` endpoint returns the organization that your credentia
   ```bash cURL
   curl "https://api.anthropic.com/v1/organizations/me" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
@@ -1718,7 +1749,7 @@ For parameter details and response schemas, see the [Organization Info API refer
 
 ## Usage and cost reports
 
-Track your organization's usage and costs with the [Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-api).
+Track your organization’s usage and costs with the [Usage and Cost Analytics API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api). The [Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-api) is the legacy API for this data.
 
 ## Claude Code analytics
 
@@ -1726,28 +1757,32 @@ Monitor developer productivity and Claude Code adoption with the [Claude Code An
 
 ## Rate limits
 
-Read the rate limits configured for your organization and its workspaces with the [Rate Limits API](https://platform.claude.com/docs/en/manage-claude/rate-limits-api).
+Read the rate limits configured for your organization and its workspaces, and set workspace rate limits, with the [Rate Limits API](https://platform.claude.com/docs/en/manage-claude/rate-limits-api).
 
 ## Compliance API
 
 Retrieve audit and activity data for your organization with the [Compliance API](https://platform.claude.com/docs/en/manage-claude/compliance-api). Admin API keys can read only the Activity Feed. For full access, see [Set up the Compliance API](https://platform.claude.com/docs/en/manage-claude/compliance-api-access).
+
+## Organization webhooks
+
+Register webhook endpoints for events about enforcement actions on your organization’s user profiles with [organization webhooks](https://platform.claude.com/docs/en/manage-claude/organization-webhooks).
 
 ## Best practices
 
 * Use meaningful names and descriptions for workspaces and API keys
 * Handle errors from failed operations
 * Regularly audit member roles and permissions
-* Clean up unused workspaces and expired invites
-* Monitor API key usage, audit each key's [`expires_at`](https://platform.claude.com/docs/en/manage-claude/authentication#key-expiration), and rotate keys periodically
+* Archive unused workspaces and delete pending invites you no longer need
+* Monitor API key usage, audit each key’s [`expires_at`](https://platform.claude.com/docs/en/manage-claude/authentication#key-expiration), and rotate keys periodically
 
 ## FAQ
 
 <AccordionGroup>
   <Accordion title="What permissions are needed to use the Admin API?">
-    The Admin API accepts an Admin API key (starting with `sk-ant-admin`), an OAuth bearer token with the `org:admin` scope, or a personal key or service account key that isn't scoped to a specific workspace. Only organization members with the admin role can provision Admin API keys, and only members with the admin, owner, or primary owner role can obtain `org:admin` tokens. A personal key or service account key has the same permissions as the linked account. See [Authentication](https://platform.claude.com/docs/en/manage-claude/admin-api#authentication).
+    The Admin API accepts an Admin API key (starting with `sk-ant-admin`), an OAuth bearer token with the `org:admin` scope, or a personal key or service account key that isn’t scoped to a specific workspace. Only organization members with the admin role can provision Admin API keys, and only members with the admin, owner, or primary owner role can obtain `org:admin` tokens. A personal key or service account key has the same permissions as the linked account. See [Authentication](https://platform.claude.com/docs/en/manage-claude/admin-api#authentication).
   </Accordion>
 
-  <Accordion title="Can I create new API keys through the Admin API?">
+  <Accordion title="Can the Admin API create API keys?">
     No. You create API keys in the Claude Console. The Admin API can only read, rename, and change the status of existing keys.
   </Accordion>
 
@@ -1758,11 +1793,11 @@ Retrieve audit and activity data for your organization with the [Compliance API]
   </Accordion>
 
   <Accordion title="Can organization admins be removed through the API?">
-    No. The API can't remove members with the admin role.
+    No. The API can’t remove members with the admin role.
   </Accordion>
 
   <Accordion title="How long do organization invites last?">
-    Invites expire after 21 days. The expiration period isn't configurable.
+    Invites expire after 21 days. The expiration period isn’t configurable.
   </Accordion>
 </AccordionGroup>
 

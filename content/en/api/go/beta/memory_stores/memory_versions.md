@@ -5,13 +5,13 @@ url: https://platform.claude.com/docs/en/api/go/beta/memory_stores/memory_versio
 
 # Memory Versions
 
-## List memory versions
+## List Memory Versions
 
 `client.Beta.MemoryStores.MemoryVersions.List(ctx, memoryStoreID, params) (*PageCursor[BetaManagedAgentsMemoryVersion], error)`
 
 **GET** `/v1/memory_stores/{memory_store_id}/memory_versions`
 
-List memory versions
+List Memory Versions
 
 ### Parameters
 
@@ -39,7 +39,9 @@ List memory versions
 
   - `Limit param.Opt[int64] Optional` (query parameter)
 
-    The maximum number of versions to return per page. Defaults to 20.
+    The maximum number of versions to return per page, from 1 to 100. Defaults to 20.
+
+    With `view=full`, a page holds at most 20 versions.
 
     format: int32
 
@@ -47,7 +49,7 @@ List memory versions
 
     Return only versions of the memory with this ID (`mem_...`).
 
-    The filter still works after the memory is deleted. The results then include the version whose `operation` is `deleted`.
+    The filter still works after the memory is deleted. While that memory's versions are retained, the results include the version whose `operation` is `deleted`.
 
   - `Operation BetaManagedAgentsMemoryVersionOperation Optional` (query parameter)
 
@@ -67,11 +69,13 @@ List memory versions
 
   - `View BetaManagedAgentsMemoryView Optional` (query parameter)
 
-    Selects which projection of a `memory` or `memory_version` the server returns. `basic` returns the object with `content` set to `null`; `full` populates `content`. When omitted, the default is endpoint-specific: retrieve operations default to `full`; list, create, and update operations default to `basic`. Listing with `view=full` caps `limit` at 20.
+    Whether a `memory` or `memory_version` in the response includes its `content`. Defaults to `full` on retrieve operations and to `basic` on list, create, and update operations.
+
+    With `full`, list operations return at most 20 items per page.
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -173,6 +177,18 @@ List memory versions
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -183,7 +199,15 @@ List memory versions
 
 - `type BetaManagedAgentsMemoryVersion`
 
-  A `memory_version` object: one immutable, attributed row in a memory's append-only history. Every non-no-op mutation to a memory produces a new version. Versions belong to the store (not the individual memory) and are not deleted with the memory; each version is retained for at least the version retention period after it was written, unless the store itself is deleted. Retrieving a redacted version returns 200 with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`; branch on `redacted_at`, not HTTP status.
+  One entry in a memory's history, recording a single change and who made it.
+
+  Every change to a memory adds one version. Only redaction can change a version after that. Versions belong to the memory store and stay after the memory is deleted. Each version is retained for at least the version retention period after it was written, unless the store itself is deleted.
+
+  Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
+
+  See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#audit-memory-changes) to learn more about memory versions.
+
+  - `Type MemoryVersion`
 
   - `Type BetaManagedAgentsMemoryVersionType`
 
@@ -199,7 +223,9 @@ List memory versions
 
   - `MemoryID string`
 
-    ID of the memory this version snapshots (a `mem_...` value). Remains valid after the memory is deleted; pass it as `memory_id` to [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=go) to retrieve the memory's retained versions, including the `deleted` row while the lineage is retained.
+    The ID of the memory that this version belongs to (`mem_...`).
+
+    The ID stays valid after the memory is deleted. Pass it as `memory_id` to [List Memory Versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=go) to get the memory's retained versions, including its `deleted` version while the lineage is retained.
 
   - `MemoryStoreID string`
 
@@ -237,13 +263,17 @@ List memory versions
 
   - `CreatedBy BetaManagedAgentsActorUnion Optional`
 
-    Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or `service_account_actor`; `null` when no writer is recorded. Captured at write time and preserved through redaction. A `session_actor` is an agent writing through the store's mounted filesystem at `/mnt/memory/`. The API key that created that session is not recorded on agent writes, so attribution names who made the write, not who is ultimately responsible; look up session provenance via the [Sessions API](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=go).
+    Who made this change to the memory, or `null` if the author wasn't recorded.
+
+    Redacting the version doesn't change this field. A `session_actor` here is an agent that wrote through the store's mounted filesystem at `/mnt/memory/`. The version doesn't record the API key that created that session. So the author in `created_by` is who made the change, not who is ultimately responsible for it.
+
+    You can [retrieve the session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=go) to learn more about where the change came from.
 
     - `type BetaManagedAgentsSessionActor`
 
       An agent acting during a session, for example through the session's mounted filesystem. It names the session itself, not the user or API key that started the session.
 
-      - `Type BetaManagedAgentsSessionActorType`
+      - `Type SessionActor`
 
       - `SessionID string`
 
@@ -255,7 +285,7 @@ List memory versions
 
       A direct caller of the public API, identified by the API key that authenticated the request.
 
-      - `Type BetaManagedAgentsAPIActorType`
+      - `Type APIActor`
 
       - `APIKeyID string`
 
@@ -267,7 +297,7 @@ List memory versions
 
       A human user, for example acting through the Anthropic Console.
 
-      - `Type BetaManagedAgentsUserActorType`
+      - `Type UserActor`
 
       - `UserID string`
 
@@ -293,7 +323,11 @@ List memory versions
 
   - `RedactedAt Time Optional`
 
-    When this version was redacted, in RFC 3339 format, or `null` if it has not been redacted. When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are all `null`. See [Redact a memory version](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/redact?sdk_languages=go).
+    When the version was redacted, in RFC 3339, or `null` if it hasn't been.
+
+    When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are `null`.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#redact-a-version) to learn more about redaction.
 
     format: date-time
 
@@ -310,8 +344,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -361,13 +395,13 @@ func main() {
 }
 ```
 
-## Retrieve a memory version
+## Retrieve a Memory Version
 
 `client.Beta.MemoryStores.MemoryVersions.Get(ctx, memoryVersionID, params) (*BetaManagedAgentsMemoryVersion, error)`
 
 **GET** `/v1/memory_stores/{memory_store_id}/memory_versions/{memory_version_id}`
 
-Retrieve a memory version
+Retrieve a Memory Version
 
 ### Parameters
 
@@ -383,11 +417,13 @@ Retrieve a memory version
 
   - `View BetaManagedAgentsMemoryView Optional` (query parameter)
 
-    Selects which projection of a `memory` or `memory_version` the server returns. `basic` returns the object with `content` set to `null`; `full` populates `content`. When omitted, the default is endpoint-specific: retrieve operations default to `full`; list, create, and update operations default to `basic`. Listing with `view=full` caps `limit` at 20.
+    Whether a `memory` or `memory_version` in the response includes its `content`. Defaults to `full` on retrieve operations and to `basic` on list, create, and update operations.
+
+    With `full`, list operations return at most 20 items per page.
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -489,6 +525,18 @@ Retrieve a memory version
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -499,7 +547,15 @@ Retrieve a memory version
 
 - `type BetaManagedAgentsMemoryVersion`
 
-  A `memory_version` object: one immutable, attributed row in a memory's append-only history. Every non-no-op mutation to a memory produces a new version. Versions belong to the store (not the individual memory) and are not deleted with the memory; each version is retained for at least the version retention period after it was written, unless the store itself is deleted. Retrieving a redacted version returns 200 with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`; branch on `redacted_at`, not HTTP status.
+  One entry in a memory's history, recording a single change and who made it.
+
+  Every change to a memory adds one version. Only redaction can change a version after that. Versions belong to the memory store and stay after the memory is deleted. Each version is retained for at least the version retention period after it was written, unless the store itself is deleted.
+
+  Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
+
+  See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#audit-memory-changes) to learn more about memory versions.
+
+  - `Type MemoryVersion`
 
   - `Type BetaManagedAgentsMemoryVersionType`
 
@@ -515,7 +571,9 @@ Retrieve a memory version
 
   - `MemoryID string`
 
-    ID of the memory this version snapshots (a `mem_...` value). Remains valid after the memory is deleted; pass it as `memory_id` to [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=go) to retrieve the memory's retained versions, including the `deleted` row while the lineage is retained.
+    The ID of the memory that this version belongs to (`mem_...`).
+
+    The ID stays valid after the memory is deleted. Pass it as `memory_id` to [List Memory Versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=go) to get the memory's retained versions, including its `deleted` version while the lineage is retained.
 
   - `MemoryStoreID string`
 
@@ -553,13 +611,17 @@ Retrieve a memory version
 
   - `CreatedBy BetaManagedAgentsActorUnion Optional`
 
-    Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or `service_account_actor`; `null` when no writer is recorded. Captured at write time and preserved through redaction. A `session_actor` is an agent writing through the store's mounted filesystem at `/mnt/memory/`. The API key that created that session is not recorded on agent writes, so attribution names who made the write, not who is ultimately responsible; look up session provenance via the [Sessions API](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=go).
+    Who made this change to the memory, or `null` if the author wasn't recorded.
+
+    Redacting the version doesn't change this field. A `session_actor` here is an agent that wrote through the store's mounted filesystem at `/mnt/memory/`. The version doesn't record the API key that created that session. So the author in `created_by` is who made the change, not who is ultimately responsible for it.
+
+    You can [retrieve the session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=go) to learn more about where the change came from.
 
     - `type BetaManagedAgentsSessionActor`
 
       An agent acting during a session, for example through the session's mounted filesystem. It names the session itself, not the user or API key that started the session.
 
-      - `Type BetaManagedAgentsSessionActorType`
+      - `Type SessionActor`
 
       - `SessionID string`
 
@@ -571,7 +633,7 @@ Retrieve a memory version
 
       A direct caller of the public API, identified by the API key that authenticated the request.
 
-      - `Type BetaManagedAgentsAPIActorType`
+      - `Type APIActor`
 
       - `APIKeyID string`
 
@@ -583,7 +645,7 @@ Retrieve a memory version
 
       A human user, for example acting through the Anthropic Console.
 
-      - `Type BetaManagedAgentsUserActorType`
+      - `Type UserActor`
 
       - `UserID string`
 
@@ -609,7 +671,11 @@ Retrieve a memory version
 
   - `RedactedAt Time Optional`
 
-    When this version was redacted, in RFC 3339 format, or `null` if it has not been redacted. When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are all `null`. See [Redact a memory version](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/redact?sdk_languages=go).
+    When the version was redacted, in RFC 3339, or `null` if it hasn't been.
+
+    When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are `null`.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#redact-a-version) to learn more about redaction.
 
     format: date-time
 
@@ -626,8 +692,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -674,13 +740,13 @@ func main() {
 }
 ```
 
-## Redact a memory version
+## Redact a Memory Version
 
 `client.Beta.MemoryStores.MemoryVersions.Redact(ctx, memoryVersionID, params) (*BetaManagedAgentsMemoryVersion, error)`
 
 **POST** `/v1/memory_stores/{memory_store_id}/memory_versions/{memory_version_id}/redact`
 
-Redact a memory version
+Redact a Memory Version
 
 ### Parameters
 
@@ -696,7 +762,7 @@ Redact a memory version
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -798,6 +864,18 @@ Redact a memory version
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -808,7 +886,15 @@ Redact a memory version
 
 - `type BetaManagedAgentsMemoryVersion`
 
-  A `memory_version` object: one immutable, attributed row in a memory's append-only history. Every non-no-op mutation to a memory produces a new version. Versions belong to the store (not the individual memory) and are not deleted with the memory; each version is retained for at least the version retention period after it was written, unless the store itself is deleted. Retrieving a redacted version returns 200 with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`; branch on `redacted_at`, not HTTP status.
+  One entry in a memory's history, recording a single change and who made it.
+
+  Every change to a memory adds one version. Only redaction can change a version after that. Versions belong to the memory store and stay after the memory is deleted. Each version is retained for at least the version retention period after it was written, unless the store itself is deleted.
+
+  Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
+
+  See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#audit-memory-changes) to learn more about memory versions.
+
+  - `Type MemoryVersion`
 
   - `Type BetaManagedAgentsMemoryVersionType`
 
@@ -824,7 +910,9 @@ Redact a memory version
 
   - `MemoryID string`
 
-    ID of the memory this version snapshots (a `mem_...` value). Remains valid after the memory is deleted; pass it as `memory_id` to [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=go) to retrieve the memory's retained versions, including the `deleted` row while the lineage is retained.
+    The ID of the memory that this version belongs to (`mem_...`).
+
+    The ID stays valid after the memory is deleted. Pass it as `memory_id` to [List Memory Versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=go) to get the memory's retained versions, including its `deleted` version while the lineage is retained.
 
   - `MemoryStoreID string`
 
@@ -862,13 +950,17 @@ Redact a memory version
 
   - `CreatedBy BetaManagedAgentsActorUnion Optional`
 
-    Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or `service_account_actor`; `null` when no writer is recorded. Captured at write time and preserved through redaction. A `session_actor` is an agent writing through the store's mounted filesystem at `/mnt/memory/`. The API key that created that session is not recorded on agent writes, so attribution names who made the write, not who is ultimately responsible; look up session provenance via the [Sessions API](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=go).
+    Who made this change to the memory, or `null` if the author wasn't recorded.
+
+    Redacting the version doesn't change this field. A `session_actor` here is an agent that wrote through the store's mounted filesystem at `/mnt/memory/`. The version doesn't record the API key that created that session. So the author in `created_by` is who made the change, not who is ultimately responsible for it.
+
+    You can [retrieve the session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=go) to learn more about where the change came from.
 
     - `type BetaManagedAgentsSessionActor`
 
       An agent acting during a session, for example through the session's mounted filesystem. It names the session itself, not the user or API key that started the session.
 
-      - `Type BetaManagedAgentsSessionActorType`
+      - `Type SessionActor`
 
       - `SessionID string`
 
@@ -880,7 +972,7 @@ Redact a memory version
 
       A direct caller of the public API, identified by the API key that authenticated the request.
 
-      - `Type BetaManagedAgentsAPIActorType`
+      - `Type APIActor`
 
       - `APIKeyID string`
 
@@ -892,7 +984,7 @@ Redact a memory version
 
       A human user, for example acting through the Anthropic Console.
 
-      - `Type BetaManagedAgentsUserActorType`
+      - `Type UserActor`
 
       - `UserID string`
 
@@ -918,7 +1010,11 @@ Redact a memory version
 
   - `RedactedAt Time Optional`
 
-    When this version was redacted, in RFC 3339 format, or `null` if it has not been redacted. When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are all `null`. See [Redact a memory version](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/redact?sdk_languages=go).
+    When the version was redacted, in RFC 3339, or `null` if it hasn't been.
+
+    When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are `null`.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#redact-a-version) to learn more about redaction.
 
     format: date-time
 
@@ -935,8 +1031,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -995,7 +1091,7 @@ func main() {
 
     An agent acting during a session, for example through the session's mounted filesystem. It names the session itself, not the user or API key that started the session.
 
-    - `Type BetaManagedAgentsSessionActorType`
+    - `Type SessionActor`
 
     - `SessionID string`
 
@@ -1007,7 +1103,7 @@ func main() {
 
     A direct caller of the public API, identified by the API key that authenticated the request.
 
-    - `Type BetaManagedAgentsAPIActorType`
+    - `Type APIActor`
 
     - `APIKeyID string`
 
@@ -1019,7 +1115,7 @@ func main() {
 
     A human user, for example acting through the Anthropic Console.
 
-    - `Type BetaManagedAgentsUserActorType`
+    - `Type UserActor`
 
     - `UserID string`
 
@@ -1045,7 +1141,7 @@ func main() {
 
   A direct caller of the public API, identified by the API key that authenticated the request.
 
-  - `Type BetaManagedAgentsAPIActorType`
+  - `Type APIActor`
 
   - `APIKeyID string`
 
@@ -1057,7 +1153,15 @@ func main() {
 
 - `type BetaManagedAgentsMemoryVersion`
 
-  A `memory_version` object: one immutable, attributed row in a memory's append-only history. Every non-no-op mutation to a memory produces a new version. Versions belong to the store (not the individual memory) and are not deleted with the memory; each version is retained for at least the version retention period after it was written, unless the store itself is deleted. Retrieving a redacted version returns 200 with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`; branch on `redacted_at`, not HTTP status.
+  One entry in a memory's history, recording a single change and who made it.
+
+  Every change to a memory adds one version. Only redaction can change a version after that. Versions belong to the memory store and stay after the memory is deleted. Each version is retained for at least the version retention period after it was written, unless the store itself is deleted.
+
+  Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
+
+  See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#audit-memory-changes) to learn more about memory versions.
+
+  - `Type MemoryVersion`
 
   - `Type BetaManagedAgentsMemoryVersionType`
 
@@ -1073,7 +1177,9 @@ func main() {
 
   - `MemoryID string`
 
-    ID of the memory this version snapshots (a `mem_...` value). Remains valid after the memory is deleted; pass it as `memory_id` to [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=go) to retrieve the memory's retained versions, including the `deleted` row while the lineage is retained.
+    The ID of the memory that this version belongs to (`mem_...`).
+
+    The ID stays valid after the memory is deleted. Pass it as `memory_id` to [List Memory Versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=go) to get the memory's retained versions, including its `deleted` version while the lineage is retained.
 
   - `MemoryStoreID string`
 
@@ -1111,13 +1217,17 @@ func main() {
 
   - `CreatedBy BetaManagedAgentsActorUnion Optional`
 
-    Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or `service_account_actor`; `null` when no writer is recorded. Captured at write time and preserved through redaction. A `session_actor` is an agent writing through the store's mounted filesystem at `/mnt/memory/`. The API key that created that session is not recorded on agent writes, so attribution names who made the write, not who is ultimately responsible; look up session provenance via the [Sessions API](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=go).
+    Who made this change to the memory, or `null` if the author wasn't recorded.
+
+    Redacting the version doesn't change this field. A `session_actor` here is an agent that wrote through the store's mounted filesystem at `/mnt/memory/`. The version doesn't record the API key that created that session. So the author in `created_by` is who made the change, not who is ultimately responsible for it.
+
+    You can [retrieve the session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=go) to learn more about where the change came from.
 
     - `type BetaManagedAgentsSessionActor`
 
       An agent acting during a session, for example through the session's mounted filesystem. It names the session itself, not the user or API key that started the session.
 
-      - `Type BetaManagedAgentsSessionActorType`
+      - `Type SessionActor`
 
       - `SessionID string`
 
@@ -1129,7 +1239,7 @@ func main() {
 
       A direct caller of the public API, identified by the API key that authenticated the request.
 
-      - `Type BetaManagedAgentsAPIActorType`
+      - `Type APIActor`
 
       - `APIKeyID string`
 
@@ -1141,7 +1251,7 @@ func main() {
 
       A human user, for example acting through the Anthropic Console.
 
-      - `Type BetaManagedAgentsUserActorType`
+      - `Type UserActor`
 
       - `UserID string`
 
@@ -1167,7 +1277,11 @@ func main() {
 
   - `RedactedAt Time Optional`
 
-    When this version was redacted, in RFC 3339 format, or `null` if it has not been redacted. When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are all `null`. See [Redact a memory version](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/redact?sdk_languages=go).
+    When the version was redacted, in RFC 3339, or `null` if it hasn't been.
+
+    When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are `null`.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#redact-a-version) to learn more about redaction.
 
     format: date-time
 
@@ -1179,7 +1293,9 @@ func main() {
 
 - `type BetaManagedAgentsMemoryVersionOperation string`
 
-  The kind of mutation a `memory_version` records. Every non-no-op mutation to a memory appends exactly one version row with one of these values.
+  The kind of change that a memory version records.
+
+  Every change to a memory adds one version. If you update a memory and nothing changes, the memory doesn't get a new version.
 
   - `const BetaManagedAgentsMemoryVersionOperationCreated BetaManagedAgentsMemoryVersionOperation = "created"`
 
@@ -1213,7 +1329,7 @@ func main() {
 
   An agent acting during a session, for example through the session's mounted filesystem. It names the session itself, not the user or API key that started the session.
 
-  - `Type BetaManagedAgentsSessionActorType`
+  - `Type SessionActor`
 
   - `SessionID string`
 
@@ -1227,7 +1343,7 @@ func main() {
 
   A human user, for example acting through the Anthropic Console.
 
-  - `Type BetaManagedAgentsUserActorType`
+  - `Type UserActor`
 
   - `UserID string`
 

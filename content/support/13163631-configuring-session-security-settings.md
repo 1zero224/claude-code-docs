@@ -18,13 +18,13 @@ Session duration controls allow Enterprise and Console Admins to set a maximum s
 
 5. Confirm your selection by clicking “Enable.”
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1888469436/1725e63ea1a2615948faecf4ec73/9bd276a1-7329-414d-87a1-d04dac93fff7?expires=1792008900&amp;signature=01478ae638c63b5ab6f97619e0c5fede31fb2f4106b8670edcced9c630cdbb72&amp;req=dSgvHs14lIVcX%2FMW1HO4zQNx6uAnQ1JZg%2F6XaftFnjxMm2%2BaNrHYA5n7%2F6c4%0AdSeeM5RrS4kXu2CN8mk%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1888469436/1725e63ea1a2615948faecf4ec73/9bd276a1-7329-414d-87a1-d04dac93fff7?expires=1794298500&amp;signature=3ae453aabec64953540b4d0ce04bcb6dcba88a2c53c3a8a53978370bbdb0901f&amp;req=dSgvHs14lIVcX%2FMW1HO4zQNx6uYlSlJVg%2F6XaftFnjwcROhQbugdMRfzYM55%0AWsZtNFF5p04xSa4TjAw%3D%0A)
 
 ### For Console Admins
 
 1. Log in to your Console account as an Admin.
 
-2. Navigate to **[Settings > Organization and access](http://platform.claude.com/settings/organization)**.
+2. Navigate to **[Settings > Organization and access](https://platform.claude.com/settings/organization)**.
 
 3. Locate the **Session security** section.
 
@@ -32,7 +32,7 @@ Session duration controls allow Enterprise and Console Admins to set a maximum s
 
 5. Confirm your selection by clicking “Enable.”
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1888469435/7a766bbe02e61c7d8f05deb5b8f0/b0bda400-47c6-43dd-9907-131ebe180b36?expires=1792008900&amp;signature=11c8c3f4aee256b977b9384498f5291d6c4336a331a14cf70b36bc656f937d27&amp;req=dSgvHs14lIVcXPMW1HO4zWzx2bs2J3coXZ5D7eVpMtcKZkr6VdaaIwsO%2Bor1%0ABKhg25bxtzp2KU3k5%2F4%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1888469435/7a766bbe02e61c7d8f05deb5b8f0/b0bda400-47c6-43dd-9907-131ebe180b36?expires=1794298500&amp;signature=ddda0b34cfca906f771bdeb43ea39c03c76c54e4099febcb726708568c5c0ed1&amp;req=dSgvHs14lIVcXPMW1HO4zWzx2b00LnckXZ5D7eVpMtdK16p3KieoyICa6SlX%0AqC13tTQHeWx8g993Nfg%3D%0A)
 
 ### What happens after enabling shortened session length?
 
@@ -50,7 +50,7 @@ You can change the session duration at any time by selecting a new value from th
 
 - Sessions scheduled to expire beyond the new duration will have their expiration shortened accordingly.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1888469437/46ac5bc55484ca01556d87a5ade7/b01a7651-ad65-4b32-93ff-16dbc9ca97c0?expires=1792008900&amp;signature=e1f8ee7899cc425b8ee4bbcfc1f4b0e7dab500cf42627e34bffe2854492ac0c2&amp;req=dSgvHs14lIVcXvMW1HO4zZ7mW8qb5zGqA00cbyPOLDVrEQ5TpbgODJswaFRK%0A3CC%2Fd%2FpllwCVn5hzOtU%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1888469437/46ac5bc55484ca01556d87a5ade7/b01a7651-ad65-4b32-93ff-16dbc9ca97c0?expires=1794298500&amp;signature=ee7c6941742fec0bd4a4f736c947b44d241be74848f4e10197628814f6c52ab1&amp;req=dSgvHs14lIVcXvMW1HO4zZ7mW8yZ7jGmA00cbyPOLDVasiwP81Hc4O4lrZTw%0AXpUgbb9F0JwYH0xUMW8%3D%0A)
 
 ## Disabling session length settings
 

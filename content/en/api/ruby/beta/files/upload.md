@@ -13,19 +13,19 @@ Upload File
 
 ## Parameters
 
-- `file: String`
+- `file: FileInput`
 
   The file to upload. Only the final path component of the part's `filename` is kept; an absent or empty `filename` is replaced with `unnamed` plus the extension for the file's stored `mime_type`, when known.
 
   format: binary
 
-- `expires_in_seconds: Integer`
+- `expires_in_seconds: optional Integer`
 
   Seconds from upload until the file expires and its bytes become permanently unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
 
   minimum: 3600, maximum: 7776000
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -131,7 +131,19 @@ Upload File
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -177,17 +189,17 @@ Upload File
 
     minimum: 0
 
-  - `downloadable: bool`
+  - `downloadable: optional bool`
 
     Whether the file can be downloaded.
 
-  - `expires_at: Time`
+  - `expires_at: optional Time | nil`
 
     RFC 3339 datetime string representing when the file will expire and become unavailable for download. Null if the file does not expire. For files uploaded with `expires_in_seconds`, this is the upload time plus that value.
 
     format: date-time
 
-  - `scope: BetaFileScope`
+  - `scope: optional BetaFileScope | nil`
 
     The scope of this file, indicating the context in which it was created (e.g., a session).
 

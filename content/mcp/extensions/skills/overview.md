@@ -8,17 +8,17 @@
 
 The [ext-skills repository](https://github.com/modelcontextprotocol/ext-skills)
 contains the published specification for the official Skills extension
-(`io.modelcontextprotocol/skills`). [SEP-2640](/seps/2640-skills-extension) is Final.
+(`io.modelcontextprotocol/skills`). [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension.md) is Final.
 
-The [Skills Over MCP Working Group](/community/working-groups/skills-over-mcp)
+The [Skills Over MCP Working Group](https://modelcontextprotocol.io/community/working-groups/skills-over-mcp.md)
 maintains the extension. SDK and host support is still being implemented;
-see the [client support matrix](/extensions/client-matrix) and
+see the [client support matrix](https://modelcontextprotocol.io/extensions/client-matrix.md) and
 [implementations list](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/implementations.md)
 for current coverage.
 
-<Card title="modelcontextprotocol/ext-skills" icon="github" href="https://github.com/modelcontextprotocol/ext-skills">
-  Specification and documentation for Skills over MCP.
-</Card>
+> [card] [modelcontextprotocol/ext-skills](https://github.com/modelcontextprotocol/ext-skills)
+>
+> Specification and documentation for Skills over MCP.
 
 The Skills extension allows MCP servers to expose workflow instructions and
 supporting files to clients. Clients can discover available skills, retrieve
@@ -49,7 +49,7 @@ into model context.
 
 Servers that support Skills **MUST** declare both the `resources` capability and
 the `io.modelcontextprotocol/skills` extension in
-[`server/discover`](/specification/draft/server/discover):
+[`server/discover`](https://modelcontextprotocol.io/specification/draft/server/discover):
 
 ```json theme={null}
 {
@@ -72,19 +72,19 @@ The optional `directoryRead` setting indicates support for
 indicates support without directory reading. Clients issue `skills/list` and
 `skills/get` only after observing the server's declaration.
 
-<Note>
-  These examples use protocol revision `2026-07-28` or later. For brevity, the
-  request examples omit `_meta`. Every request **MUST** include the required
-  [request metadata](/specification/draft/basic/index#_meta).
-</Note>
+> [!NOTE]
+>
+> These examples use protocol revision `2026-07-28` or later. For brevity, the
+> request examples omit `_meta`. Every request **MUST** include the required
+> [request metadata](https://modelcontextprotocol.io/specification/draft/basic/index.md#_meta).
 
 ## Protocol Messages
 
 ### Listing Skills
 
 To discover available skills, clients send a `skills/list` request. This
-operation supports [pagination](/specification/draft/server/utilities/pagination)
-and [caching](/specification/draft/server/utilities/caching).
+operation supports [pagination](https://modelcontextprotocol.io/specification/draft/server/utilities/pagination.md)
+and [caching](https://modelcontextprotocol.io/specification/draft/server/utilities/caching.md).
 
 **Request:**
 
@@ -184,7 +184,7 @@ including skills that do not appear in a listing.
 ### Reading Skill Content
 
 To retrieve skill instructions or supporting files, clients send a
-[`resources/read`](/specification/draft/server/resources#reading-resources)
+[`resources/read`](https://modelcontextprotocol.io/specification/draft/server/resources#reading-resources)
 request. This example retrieves the `SKILL.md` from the listing above.
 
 **Request:**
@@ -273,7 +273,9 @@ declares `directoryRead: true`.
         "name": "checklist.md",
         "mimeType": "text/markdown"
       }
-    ]
+    ],
+    "ttlMs": 300000,
+    "cacheScope": "public"
   }
 }
 ```
@@ -376,13 +378,13 @@ immutable, or verify cached bytes on every access. Hosts **MUST** exclude cached
 files from filesystem-skill discovery paths and preserve their MCP origin,
 including after a restart.
 
-<Note>
-  Digests establish consistency with the server's manifest, not trust in its
-  content. For generated content without stable digests, an entry uses
-  `"resources": "dynamic"`. Hosts **MAY** decline these skills. If accepted,
-  hosts **MUST** still verify frontmatter and **MUST NOT** treat persisted
-  approval as covering arbitrary future content.
-</Note>
+> [!NOTE]
+>
+> Digests establish consistency with the server's manifest, not trust in its
+> content. For generated content without stable digests, an entry uses
+> `"resources": "dynamic"`. Hosts **MAY** decline these skills. If accepted,
+> hosts **MUST** still verify frontmatter and **MUST NOT** treat persisted
+> approval as covering arbitrary future content.
 
 ## Implementation Requirements
 
@@ -416,7 +418,7 @@ Hosts **MUST**:
 * Obtain fresh user consent before activating a nested skill. Reading its
   `SKILL.md` as supporting content does not activate it or its frontmatter.
 
-See the [security requirements](https://github.com/modelcontextprotocol/ext-skills/blob/main/specification/stable/skills.mdx#security-considerations)
+See the [security requirements](https://github.com/modelcontextprotocol/ext-skills/blob/main/specification/beta/skills.mdx#security-considerations)
 for the full approval, origin, and cache rules.
 
 ## Error Handling
@@ -432,10 +434,10 @@ They are handled as described in [Integrity and Verification](#integrity-and-ver
 
 ## Client Support
 
-See the [client matrix](/extensions/client-matrix) for Skills support and links
+See the [client matrix](https://modelcontextprotocol.io/extensions/client-matrix.md) for Skills support and links
 to implementation documentation.
 
 ## Specification
 
-The full specification is in the [ext-skills repository](https://github.com/modelcontextprotocol/ext-skills/blob/main/specification/stable/skills.mdx).
-Development is coordinated by the [Skills Over MCP Working Group](/community/working-groups/skills-over-mcp).
+The full specification is in the [ext-skills repository](https://github.com/modelcontextprotocol/ext-skills/blob/main/specification/beta/skills.mdx).
+Development is coordinated by the [Skills Over MCP Working Group](https://modelcontextprotocol.io/community/working-groups/skills-over-mcp.md).

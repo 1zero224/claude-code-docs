@@ -6,23 +6,17 @@
 
 > Shared Communication Practices/Guidelines
 
-<div className="flex items-center gap-2 mb-4">
-  <Badge color="green" shape="pill">
-    Final
-  </Badge>
+Final
 
-  <Badge color="gray" shape="pill">
-    Process
-  </Badge>
-</div>
+Process
 
-<Note>
-  This SEP has reached Final status and is preserved as a historical record of
-  the design as accepted. Changes made to the protocol after finalization are
-  not reflected here. Refer to the [current
-  specification](/specification/latest) and its changelog for authoritative
-  requirements.
-</Note>
+> [!NOTE]
+>
+> This SEP has reached Final status and is preserved as a historical record of
+> the design as accepted. Changes made to the protocol after finalization are
+> not reflected here. Refer to the [current
+> specification](https://modelcontextprotocol.io/specification/latest.md) and its changelog for authoritative
+> requirements.
 
 | Field | Value |
 | - | - |
@@ -134,4 +128,4 @@ This SEP establishes new processes and does not affect existing protocol functio
 
 ## Reference Implementation
 
-The communication guidelines are published at: [https://modelcontextprotocol.io/community/communication](https://modelcontextprotocol.io/community/communication)
+The communication guidelines are published at: [https://modelcontextprotocol.io/community/communication](https://modelcontextprotocol.io/community/communication.md)

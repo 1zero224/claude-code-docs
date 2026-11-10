@@ -4,8 +4,6 @@
 
 # Client Registration
 
-<div id="enable-section-numbers" />
-
 MCP supports three client registration mechanisms. Choose based on your scenario:
 
 * **[Client ID Metadata Documents](#client-id-metadata-documents)**: When client and server have no prior relationship (most common)
@@ -50,7 +48,7 @@ Key requirements include:
 * **SHOULD** cache metadata respecting HTTP cache headers
 * **MUST** validate redirect URIs presented in an authorization request against those in the metadata document
 * **MUST** validate the document structure is valid JSON and contains required fields
-* **SHOULD** follow the security considerations in [Section 6 of Client ID Metadata Document](https://www.ietf.org/archive/id/draft-ietf-oauth-client-id-metadata-document-00.html#section-6) and in [Client ID Metadata Document Security](/specification/2026-07-28/basic/authorization/security-considerations#client-id-metadata-document-security)
+* **SHOULD** follow the security considerations in [Section 6 of Client ID Metadata Document](https://www.ietf.org/archive/id/draft-ietf-oauth-client-id-metadata-document-00.html#section-6) and in [Client ID Metadata Document Security](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations.md#client-id-metadata-document-security)
 
 ### Example Metadata Document
 
@@ -139,12 +137,12 @@ MCP clients **SHOULD** support an option for static client credentials such as t
 
 ## Dynamic Client Registration
 
-<Warning>
-  Dynamic Client Registration is deprecated. New implementations should use
-  [Client ID Metadata Documents](#client-id-metadata-documents) instead. This
-  option remains available for backwards compatibility with authorization
-  servers that do not support Client ID Metadata Documents.
-</Warning>
+> [!WARNING]
+>
+> Dynamic Client Registration is deprecated. New implementations should use
+> [Client ID Metadata Documents](#client-id-metadata-documents) instead. This
+> option remains available for backwards compatibility with authorization
+> servers that do not support Client ID Metadata Documents.
 
 MCP clients and authorization servers **MAY** support the
 OAuth 2.0 Dynamic Client Registration Protocol [RFC7591](https://datatracker.ietf.org/doc/html/rfc7591)
@@ -187,7 +185,7 @@ Registration, **MUST** associate those
 credentials with the specific authorization server that issued them,
 keyed by the authorization server's `issuer` identifier. When the
 authorization server changes (detected via updated
-[protected resource metadata](/specification/2026-07-28/basic/authorization/authorization-server-discovery#authorization-server-location)),
+[protected resource metadata](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/authorization-server-discovery.md#authorization-server-location)),
 clients **MUST NOT** reuse client credentials
 from a different authorization server and **MUST** re-register
 with the new authorization server.

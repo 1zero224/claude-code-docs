@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/python/beta/skills/retrieve
 
 # Get Skill
 
-`beta.skills.retrieve(skill_id, **kwargs)  -> BetaSkill`
+`beta.skills.retrieve(skill_id, **kwargs) -> BetaSkill`
 
 **GET** `/v1/skills/{skill_id}`
 
@@ -124,6 +124,18 @@ Get Skill
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 

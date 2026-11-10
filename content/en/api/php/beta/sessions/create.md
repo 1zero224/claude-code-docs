@@ -21,33 +21,39 @@ Create Session
 
   ID of the `environment` defining the container configuration for this session.
 
-- `budget?:optional BetaManagedAgentsBudgetLimit`
+- `budget?: optional BetaManagedAgentsBudgetLimit`
 
   Enforced spend ceiling for the session. Omit to create an uncapped session. Every model the session can run — the agent's model and each callable agent's model — must have a public list price, or the request is rejected with reason `model_not_budgetable`.
 
-- `initialEvents?:optional list<InitialEvent>`
+- `initialEvents?: optional list<InitialEvent>`
 
   Initial events to send to the `session` at creation, processed in order. Supports `user.message` and `user.define_outcome` events. Maximum 50 events.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Arbitrary key-value metadata attached to the session. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `resources?:optional list<Resource>`
+- `resources?: optional list<Resource>`
 
   Resources (e.g. repositories, files) to mount into the session's container.
 
-- `title?:optional string`
+- `title?: optional string`
 
   Human-readable session title.
 
-- `vaultIDs?:optional list<string>`
+- `vaultIDs?: optional list<string>`
 
   Vault IDs for stored credentials the agent can use during the session.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -59,7 +65,7 @@ Create Session
 
 - `class BetaManagedAgentsSession`
 
-  - `Type type`
+  - `"session" type`
 
   - `string id`
 
@@ -120,6 +126,10 @@ Create Session
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\BetaCurrency;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsSession = $client->beta->sessions->create(
@@ -160,6 +170,9 @@ var_dump($betaManagedAgentsSession);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -180,6 +193,9 @@ var_dump($betaManagedAgentsSession);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",

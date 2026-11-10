@@ -137,6 +137,18 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -159,25 +171,25 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     The format and length of IDs may change over time.
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     RFC 3339 datetime string representing the time at which the Message Batch was archived and its results became unavailable.
 
     format: date-time
 
-  - `Optional<LocalDateTime> cancelInitiatedAt`
+  - `Optional<OffsetDateTime> cancelInitiatedAt`
 
     RFC 3339 datetime string representing the time at which cancellation was initiated for the Message Batch. Specified only if cancellation was initiated.
 
     format: date-time
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     RFC 3339 datetime string representing the time at which the Message Batch was created.
 
     format: date-time
 
-  - `Optional<LocalDateTime> endedAt`
+  - `Optional<OffsetDateTime> endedAt`
 
     RFC 3339 datetime string representing the time at which processing for the Message Batch ended. Specified only once processing ends.
 
@@ -185,7 +197,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     format: date-time
 
-  - `LocalDateTime expiresAt`
+  - `OffsetDateTime expiresAt`
 
     RFC 3339 datetime string representing the time at which the Message Batch will expire and end processing, which is 24 hours after creation.
 

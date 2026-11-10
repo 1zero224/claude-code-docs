@@ -7,7 +7,7 @@ url: https://platform.claude.com/docs/en/api/python/beta/files
 
 ## Upload File
 
-`beta.files.upload(**kwargs)  -> BetaFileMetadata`
+`beta.files.upload(**kwargs) -> BetaFileMetadata`
 
 **POST** `/v1/files`
 
@@ -133,6 +133,18 @@ Upload File
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -241,7 +253,7 @@ print(beta_file_metadata.id)
 
 ## List Files
 
-`beta.files.list(**kwargs)  -> SyncPageCursor[BetaFileMetadata]`
+`beta.files.list(**kwargs) -> SyncPageCursor[BetaFileMetadata]`
 
 **GET** `/v1/files`
 
@@ -375,6 +387,18 @@ List Files
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -487,7 +511,7 @@ print(page.id)
 
 ## Download File
 
-`beta.files.download(file_id, **kwargs)  -> BinaryResponseContent`
+`beta.files.download(file_id, **kwargs) -> BinaryResponseContent`
 
 **GET** `/v1/files/{file_id}/content`
 
@@ -605,6 +629,18 @@ Download File
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -636,7 +672,7 @@ print(content)
 
 ## Get File Metadata
 
-`beta.files.retrieve_metadata(file_id, **kwargs)  -> BetaFileMetadata`
+`beta.files.retrieve_metadata(file_id, **kwargs) -> BetaFileMetadata`
 
 **GET** `/v1/files/{file_id}`
 
@@ -754,6 +790,18 @@ Get File Metadata
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -862,7 +910,7 @@ print(beta_file_metadata.id)
 
 ## Delete File
 
-`beta.files.delete(file_id, **kwargs)  -> BetaDeletedFile`
+`beta.files.delete(file_id, **kwargs) -> BetaDeletedFile`
 
 **DELETE** `/v1/files/{file_id}`
 
@@ -979,6 +1027,18 @@ Delete File
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 

@@ -12,9 +12,9 @@ The TUI is the Inspector's terminal interface, with the same interactive explora
 npx @modelcontextprotocol/inspector --tui node build/index.js   # with an ad-hoc stdio server
 ```
 
-<Frame caption="The TUI connected to a server, on the Tools tab, showing a tool's input schema.">
-  <img src="https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/tui-tools.png?fit=max&auto=format&n=gk28X8wi_tbRYzej&q=85&s=5d11d64f4b98df8c26e7ac048f38576f" width="2986" height="1832" data-path="images/inspector/tui-tools.png" />
-</Frame>
+![](https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/tui-tools.png?fit=max\&auto=format\&n=gk28X8wi_tbRYzej\&q=85\&s=5d11d64f4b98df8c26e7ac048f38576f)
+
+The TUI connected to a server, on the Tools tab, showing a tool's input schema.
 
 ## Choosing servers
 
@@ -25,7 +25,9 @@ mcp-inspector --tui --catalog mcp.json   # writable catalog, seeded empty if mis
 mcp-inspector --tui --config mcp.json    # read-only session, errors if absent
 ```
 
-With neither `--catalog` nor `--config`, and no [ad-hoc target](/docs/2026-07-28/tools/inspector/configuration#ad-hoc-targets), it uses the default writable catalog `~/.mcp-inspector/mcp.json`. See [Configuration and flags](/docs/2026-07-28/tools/inspector/configuration).
+With neither `--catalog` nor `--config`, and no [ad-hoc target](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/configuration.md#ad-hoc-targets), it uses the default writable catalog `~/.mcp-inspector/mcp.json`. See [Configuration and flags](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/configuration.md).
+
+The TUI also takes the [shared server-selection flags](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/configuration.md#shared-server-selection-flags) (`--server-url`, `--transport`, `--header`, `-e`, `--cwd`) plus `--protocol-era` for an ad-hoc server, and the [OAuth client flags](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/configuration.md#cli-and-tui-oauth-client-flags) (`--client-id`, `--client-secret`, `--client-metadata-url`, `--client-config`, `--callback-url`).
 
 The TUI also takes the [shared server-selection flags](/docs/2026-07-28/tools/inspector/configuration#shared-server-selection-flags) (`--server-url`, `--transport`, `--header`, `-e`, `--cwd`) plus `--protocol-era` for an ad-hoc server, and the [OAuth client flags](/docs/2026-07-28/tools/inspector/configuration#cli-and-tui-oauth-client-flags) (`--client-id`, `--client-secret`, `--client-metadata-url`, `--client-config`, `--callback-url`).
 
@@ -42,7 +44,7 @@ The TUI also takes the [shared server-selection flags](/docs/2026-07-28/tools/in
 | **Tools** | `t` | View tools and execute them with form-like inputs. |
 | **Tasks** | `s` | List tasks, fetch their results, cancel them, and clear finished ones (servers that support Tasks). |
 | **Protocol** | `p` | JSON-RPC request/response/notification history. |
-| **Network** | `n` | HTTP traffic for SSE and [Streamable HTTP](/specification/latest/basic/transports) servers. |
+| **Network** | `n` | HTTP traffic for SSE and [Streamable HTTP](https://modelcontextprotocol.io/specification/latest/basic/transports.md) servers. |
 | **Console** | `o` | `stderr` from a connected stdio server process. |
 
 The accelerators avoid collisions rather than always taking the first letter: **P**rotocol takes `p` so Pro**m**pts takes `m`, and **C**onsole takes `o` because `c` is the global Connect action. Ta**s**ks takes `s`, its only free letter, so Subscriptions takes `u` and Skills takes `k`.
@@ -74,23 +76,23 @@ Press **`?`** whenever no dialog is open for the full keybinding reference, incl
 3. When the browser redirect lands on the TUI's loopback listener, the connection finishes on its own, with no second **`c`**.
 4. Use the **Auth** tab to inspect the resulting OAuth state, or to clear it.
 
-The TUI's callback listener defaults to `http://127.0.0.1:6276/oauth/callback`. The port is fixed on purpose: a pre-registered (static) OAuth client, a [Client ID Metadata Document (CIMD)](/specification/latest/basic/authorization/client-registration#client-id-metadata-documents), or an enterprise-managed IdP all need a redirect URI known in advance. Register that URI once and it works across sessions. On a remote host where your browser is on another machine, forward the callback port so the redirect reaches this listener; see [Callback URLs](/docs/2026-07-28/tools/inspector/authorization#callback-urls).
+The TUI's callback listener defaults to `http://127.0.0.1:6276/oauth/callback`. The port is fixed on purpose: a pre-registered (static) OAuth client, a [Client ID Metadata Document (CIMD)](https://modelcontextprotocol.io/specification/latest/basic/authorization/client-registration.md#client-id-metadata-documents), or an enterprise-managed IdP all need a redirect URI known in advance. Register that URI once and it works across sessions. On a remote host where your browser is on another machine, forward the callback port so the redirect reaches this listener; see [Callback URLs](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/authorization.md#callback-urls).
 
 The trade-off is that only one TUI OAuth flow can hold the port at a time; a second concurrent flow fails with `EADDRINUSE`. To override it, pass `--callback-url` or set `MCP_OAUTH_CALLBACK_URL`: use a different fixed port per instance, or `http://127.0.0.1:0/oauth/callback` for an OS-assigned ephemeral port when your authorization server registers redirect URIs dynamically.
 
-<Warning>
-  Redirect URIs must match **exactly** what you registered. `localhost` and
-  `127.0.0.1` are different URIs as far as an authorization server is concerned.
-</Warning>
+> [!WARNING]
+>
+> Redirect URIs must match **exactly** what you registered. `localhost` and
+> `127.0.0.1` are different URIs as far as an authorization server is concerned.
 
 Per-server OAuth fields in the catalog (static client id/secret, scopes, the enterprise-managed flag) are applied automatically. Install-wide settings (CIMD, enterprise IdP) come from `~/.mcp-inspector/storage/client.json`, the same file the web client's **Client Settings** dialog writes. Point at a different one with `--client-config` or `MCP_CLIENT_CONFIG_PATH`.
 
-See [Authorization](/docs/2026-07-28/tools/inspector/authorization) for the full picture.
+See [Authorization](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/authorization.md) for the full picture.
 
-<Frame caption="The Auth tab. It shows the same OAuth fields as the web client's Connection Info or, before any authorization has happened, says there is no OAuth information yet.">
-  <img src="https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/tui-auth.png?fit=max&auto=format&n=gk28X8wi_tbRYzej&q=85&s=2e5ef574e80e81c4b49fa2ef0eac0528" width="2986" height="1832" data-path="images/inspector/tui-auth.png" />
-</Frame>
+![](https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/tui-auth.png?fit=max\&auto=format\&n=gk28X8wi_tbRYzej\&q=85\&s=2e5ef574e80e81c4b49fa2ef0eac0528)
+
+The Auth tab. It shows the same OAuth fields as the web client's Connection Info or, before any authorization has happened, says there is no OAuth information yet.
 
 ## Requirements
 
-The TUI needs a real TTY with raw-mode support. It will not run usefully in a headless CI job; use the [CLI](/docs/2026-07-28/tools/inspector/cli) there.
+The TUI needs a real TTY with raw-mode support. It will not run usefully in a headless CI job; use the [CLI](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/cli.md) there.

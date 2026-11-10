@@ -15,23 +15,29 @@ List Session Threads
 
 - `sessionID: string` (path parameter)
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum results per page. Defaults to 1000.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor from a previous response's `next_page`. Forward-only.
 
-- `statuses?:optional list<ManagedAgentsSessionThreadStatus>` (query parameter)
+- `statuses?: optional list<ManagedAgentsSessionThreadStatus>` (query parameter)
 
   Return only threads that have one of these statuses.
 
   Repeat the parameter to give more than one status. Leave it out to return threads of every status.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -43,7 +49,7 @@ List Session Threads
 
 - `class ManagedAgentsSessionThread`
 
-  - `Type type`
+  - `"session_thread" type`
 
   - `string id`
 
@@ -96,6 +102,10 @@ List Session Threads
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Sessions\Threads\ManagedAgentsSessionThreadStatus;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->sessions->threads->list(
@@ -120,6 +130,9 @@ var_dump($page);
       "agent": {
         "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
         "description": "A focused research subagent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",

@@ -1,7 +1,7 @@
 ---
 title: IP addresses
 url: https://platform.claude.com/docs/en/api/ip-addresses
-description: Anthropic services use fixed IP addresses for both inbound and outbound connections. You can use these addresses to configure your firewall rules for secure access to the Claude API and Console. These addresses will not change without notice.
+description: Anthropic services use fixed IP addresses for both inbound and outbound connections. You can use these addresses to configure your firewall rules for secure access to the Claude API and Claude Console. These addresses will not change without notice.
 ---
 
 <Note>
@@ -16,6 +16,8 @@ These are the IP addresses where Anthropic services receive incoming connections
 
 `160.79.104.0/23`
 
+`153.61.224.0/22`
+
 ### IPv6
 
 `2607:6bc0::/48`
@@ -28,9 +30,11 @@ These are the stable IP addresses that Anthropic uses for outbound requests (for
 
 `160.79.104.0/21`
 
+`153.61.208.0/20`
+
 ### Phased out IP addresses
 
-The following IP addresses are no longer in use by Anthropic. If you have previously allowlisted these addresses, you should remove them from your firewall rules.
+The following IP addresses are no longer in use by Anthropic. If you have previously allowlisted these addresses, remove them from your firewall rules.
 
 ```text wrap
 34.162.46.92/32

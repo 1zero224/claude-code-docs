@@ -1,15 +1,15 @@
 ---
-title: List memory versions
+title: List Memory Versions
 url: https://platform.claude.com/docs/en/api/ruby/beta/memory_stores/memory_versions/list
 ---
 
-# List memory versions
+# List Memory Versions
 
 `beta.memory_stores.memory_versions.list(memory_store_id, **kwargs) -> PageCursor<BetaManagedAgentsMemoryVersion>`
 
 **GET** `/v1/memory_stores/{memory_store_id}/memory_versions`
 
-List memory versions
+List Memory Versions
 
 ## Parameters
 
@@ -17,35 +17,37 @@ List memory versions
 
   The ID of the memory store whose version history to list (`memstore_...`).
 
-- `api_key_id: String` (query parameter)
+- `api_key_id: optional String` (query parameter)
 
   Return only versions written with the API key that has this ID.
 
-- `created_at_gte: Time` (query parameter)
+- `created_at_gte: optional Time` (query parameter)
 
   Return versions created at or after this time (inclusive).
 
   format: date-time
 
-- `created_at_lte: Time` (query parameter)
+- `created_at_lte: optional Time` (query parameter)
 
   Return versions created at or before this time (inclusive).
 
   format: date-time
 
-- `limit: Integer` (query parameter)
+- `limit: optional Integer` (query parameter)
 
-  The maximum number of versions to return per page. Defaults to 20.
+  The maximum number of versions to return per page, from 1 to 100. Defaults to 20.
+
+  With `view=full`, a page holds at most 20 versions.
 
   format: int32
 
-- `memory_id: String` (query parameter)
+- `memory_id: optional String` (query parameter)
 
   Return only versions of the memory with this ID (`mem_...`).
 
-  The filter still works after the memory is deleted. The results then include the version whose `operation` is `deleted`.
+  The filter still works after the memory is deleted. While that memory's versions are retained, the results include the version whose `operation` is `deleted`.
 
-- `operation: BetaManagedAgentsMemoryVersionOperation` (query parameter)
+- `operation: optional BetaManagedAgentsMemoryVersionOperation` (query parameter)
 
   Return only versions that record this kind of change.
 
@@ -61,21 +63,23 @@ List memory versions
 
     The memory was deleted. The `content`, `content_size_bytes`, and `content_sha256` fields are `null` on this version. The preceding version, while it is retained, records the deleted content's size and hash.
 
-- `page: String` (query parameter)
+- `page: optional String` (query parameter)
 
   The `next_page` value from a previous response, to get the next page. Omit it to get the first page.
 
-- `service_account_id: String` (query parameter)
+- `service_account_id: optional String` (query parameter)
 
   Return only versions written by the service account with this ID (`svac_...`).
 
-- `session_id: String` (query parameter)
+- `session_id: optional String` (query parameter)
 
   Return only versions written by the session with this ID.
 
-- `view: BetaManagedAgentsMemoryView` (query parameter)
+- `view: optional BetaManagedAgentsMemoryView` (query parameter)
 
-  Selects which projection of a `memory` or `memory_version` the server returns. `basic` returns the object with `content` set to `null`; `full` populates `content`. When omitted, the default is endpoint-specific: retrieve operations default to `full`; list, create, and update operations default to `basic`. Listing with `view=full` caps `limit` at 20.
+  Whether a `memory` or `memory_version` in the response includes its `content`. Defaults to `full` on retrieve operations and to `basic` on list, create, and update operations.
+
+  With `full`, list operations return at most 20 items per page.
 
   - `:basic`
 
@@ -85,9 +89,9 @@ List memory versions
 
     Return the object with `content` populated. On list endpoints, `view=full` caps `limit` at 20.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -191,7 +195,19 @@ List memory versions
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -201,7 +217,15 @@ List memory versions
 
 - `class BetaManagedAgentsMemoryVersion`
 
-  A `memory_version` object: one immutable, attributed row in a memory's append-only history. Every non-no-op mutation to a memory produces a new version. Versions belong to the store (not the individual memory) and are not deleted with the memory; each version is retained for at least the version retention period after it was written, unless the store itself is deleted. Retrieving a redacted version returns 200 with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`; branch on `redacted_at`, not HTTP status.
+  One entry in a memory's history, recording a single change and who made it.
+
+  Every change to a memory adds one version. Only redaction can change a version after that. Versions belong to the memory store and stay after the memory is deleted. Each version is retained for at least the version retention period after it was written, unless the store itself is deleted.
+
+  Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
+
+  See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=ruby#audit-memory-changes) to learn more about memory versions.
+
+  - `type: :memory_version`
 
   - `type: :memory_version`
 
@@ -217,7 +241,9 @@ List memory versions
 
   - `memory_id: String`
 
-    ID of the memory this version snapshots (a `mem_...` value). Remains valid after the memory is deleted; pass it as `memory_id` to [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=ruby) to retrieve the memory's retained versions, including the `deleted` row while the lineage is retained.
+    The ID of the memory that this version belongs to (`mem_...`).
+
+    The ID stays valid after the memory is deleted. Pass it as `memory_id` to [List Memory Versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=ruby) to get the memory's retained versions, including its `deleted` version while the lineage is retained.
 
   - `memory_store_id: String`
 
@@ -239,23 +265,27 @@ List memory versions
 
       The memory was deleted. The `content`, `content_size_bytes`, and `content_sha256` fields are `null` on this version. The preceding version, while it is retained, records the deleted content's size and hash.
 
-  - `content: String`
+  - `content: optional String | nil`
 
     The memory's UTF-8 text content as of this version. `null` when `view=basic`, when `operation` is `deleted`, or when `redacted_at` is set.
 
-  - `content_sha256: String`
+  - `content_sha256: optional String | nil`
 
     Lowercase hex SHA-256 digest of `content` as of this version (64 characters). `null` when `redacted_at` is set or `operation` is `deleted`. Populated regardless of `view` otherwise.
 
-  - `content_size_bytes: Integer`
+  - `content_size_bytes: optional Integer | nil`
 
     Size of `content` in bytes as of this version. `null` when `redacted_at` is set or `operation` is `deleted`. Populated regardless of `view` otherwise.
 
     format: int32
 
-  - `created_by: BetaManagedAgentsActor`
+  - `created_by: optional BetaManagedAgentsActor`
 
-    Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or `service_account_actor`; `null` when no writer is recorded. Captured at write time and preserved through redaction. A `session_actor` is an agent writing through the store's mounted filesystem at `/mnt/memory/`. The API key that created that session is not recorded on agent writes, so attribution names who made the write, not who is ultimately responsible; look up session provenance via the [Sessions API](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=ruby).
+    Who made this change to the memory, or `null` if the author wasn't recorded.
+
+    Redacting the version doesn't change this field. A `session_actor` here is an agent that wrote through the store's mounted filesystem at `/mnt/memory/`. The version doesn't record the API key that created that session. So the author in `created_by` is who made the change, not who is ultimately responsible for it.
+
+    You can [retrieve the session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=ruby) to learn more about where the change came from.
 
     - `class BetaManagedAgentsSessionActor`
 
@@ -305,17 +335,21 @@ List memory versions
 
         minLength: 1
 
-  - `path: String`
+  - `path: optional String | nil`
 
     The memory's path at the time of this write. `null` if and only if `redacted_at` is set.
 
-  - `redacted_at: Time`
+  - `redacted_at: optional Time | nil`
 
-    When this version was redacted, in RFC 3339 format, or `null` if it has not been redacted. When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are all `null`. See [Redact a memory version](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/redact?sdk_languages=ruby).
+    When the version was redacted, in RFC 3339, or `null` if it hasn't been.
+
+    When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are `null`.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=ruby#redact-a-version) to learn more about redaction.
 
     format: date-time
 
-  - `redacted_by: BetaManagedAgentsActor`
+  - `redacted_by: optional BetaManagedAgentsActor`
 
     Who redacted this version, or `null` if it has not been redacted. In practice always an `api_actor`, `user_actor`, or `service_account_actor` (agents do not have a redact capability).
 

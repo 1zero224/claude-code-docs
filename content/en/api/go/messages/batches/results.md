@@ -350,7 +350,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
-            - `Input map[string, any]`
+            - `Input map[string]any`
 
             - `Name string`
 
@@ -386,7 +386,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `type ServerToolCaller20260120`
 
-            - `Input map[string, any]`
+            - `Input map[string]any`
 
             - `Name ServerToolUseBlockName`
 
@@ -616,13 +616,17 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `type EncryptedCodeExecutionResultBlock`
 
-                Code execution result with encrypted stdout for PFC + web_search results.
+                The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+                The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+                See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=go) to learn more about programmatic tool calling.
 
                 - `Type EncryptedCodeExecutionResult`
 
                   default: encrypted_code_execution_result
 
-                - `Content []CodeExecutionOutputBlock`
+                - `Type EncryptedCodeExecutionResult`
 
                   - `Type CodeExecutionOutput`
 
@@ -834,6 +838,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type CacheMissModelChanged`
 
+              A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=go#cache-miss-reason-types) to learn what to change for each reason.
+
               - `Type ModelChanged`
 
                 default: model_changed
@@ -843,6 +851,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `type CacheMissSystemChanged`
+
+              A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=go#cache-miss-reason-types) to learn what to change for each reason.
 
               - `Type SystemChanged`
 
@@ -854,6 +866,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type CacheMissToolsChanged`
 
+              A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=go#cache-miss-reason-types) to learn what to change for each reason.
+
               - `Type ToolsChanged`
 
                 default: tools_changed
@@ -863,6 +879,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `type CacheMissMessagesChanged`
+
+              A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=go#cache-miss-reason-types) to learn what to change for each reason.
 
               - `Type MessagesChanged`
 
@@ -874,11 +894,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type CacheMissPreviousMessageNotFound`
 
+              A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+              This doesn't mean that this request changed.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=go#cache-miss-reason-types) to learn what to change for each reason.
+
               - `Type PreviousMessageNotFound`
 
                 default: previous_message_not_found
 
             - `type CacheMissUnavailable`
+
+              A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+              This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=go#cache-miss-reason-types) to learn what to change for each reason.
 
               - `Type Unavailable`
 
@@ -889,6 +921,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           The model that will complete your prompt.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `const ModelClaudeFable5_2 Model = "claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+          - `const ModelClaudeMythos5_2 Model = "claude-mythos-5-2"`
+
+            Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
           - `const ModelClaudeHaiku5_5 Model = "claude-haiku-5-5"`
 
@@ -1129,8 +1169,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               the thinking-block delimiter tokens.
 
               Reflects the raw reasoning the model produced, not the (possibly shorter)
-              summarized thinking text returned in the response body. Computed by
-              re-tokenizing the raw reasoning text, so it may differ from the model's exact
+              summarized thinking text returned in the response body. It may differ from the model's exact
               generation count by a small number of tokens. Always ≤ `output_tokens`;
               `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -1162,6 +1201,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `const UsageServiceTierBatch UsageServiceTier = "batch"`
 
+          - `Speed UsageSpeed`
+
+            The inference speed mode used for this request.
+
+            - `const UsageSpeedStandard UsageSpeed = "standard"`
+
+            - `const UsageSpeedFast UsageSpeed = "fast"`
+
     - `type MessageBatchErroredResult`
 
       - `Type Errored`
@@ -1180,9 +1227,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `Type InvalidRequestError`
 
+              The broad category of the error.
+
               default: invalid_request_error
 
             - `Message string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Invalid request
 
@@ -1190,9 +1241,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `Type AuthenticationError`
 
+              The broad category of the error.
+
               default: authentication_error
 
             - `Message string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Authentication error
 
@@ -1200,9 +1255,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `Type BillingError`
 
+              The broad category of the error.
+
               default: billing_error
 
             - `Message string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Billing error
 
@@ -1210,9 +1269,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `Type PermissionError`
 
+              The broad category of the error.
+
               default: permission_error
 
             - `Message string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Permission denied
 
@@ -1220,9 +1283,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `Type NotFoundError`
 
+              The broad category of the error.
+
               default: not_found_error
 
             - `Message string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Not found
 
@@ -1230,9 +1297,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `Type RateLimitError`
 
+              The broad category of the error.
+
               default: rate_limit_error
 
             - `Message string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Rate limited
 
@@ -1240,9 +1311,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `Type TimeoutError`
 
+              The broad category of the error.
+
               default: timeout_error
 
             - `Message string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Request timeout
 
@@ -1250,9 +1325,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `Type APIError`
 
+              The broad category of the error.
+
               default: api_error
 
             - `Message string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Internal server error
 
@@ -1260,9 +1339,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `Type OverloadedError`
 
+              The broad category of the error.
+
               default: overloaded_error
 
             - `Message string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
               default: Overloaded
 
@@ -1289,8 +1372,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {

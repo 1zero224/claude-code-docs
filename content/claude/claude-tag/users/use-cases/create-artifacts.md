@@ -6,9 +6,9 @@
 
 > Claude Tag turns a Slack discussion into the artifact you name. See replies you can send, decision docs, status memos, filed tickets, hosted web pages, page comments that reach Claude, and a capture-channel pattern.
 
-export const BetaNote = () => <Info>Claude Tag is in public beta. Features and behavior described here may change before general availability.</Info>;
-
-<BetaNote />
+> [!NOTE]
+>
+> Claude Tag is in public beta. Features and behavior described here may change before general availability.
 
 ## How artifact prompts work
 
@@ -18,7 +18,7 @@ Each prompt below is a Slack message. You paste it in the thread or channel you 
 
 ## Check the channel's connections
 
-Check that the channel has the connections below. Ask `@Claude what can you access from this channel?` to check; an admin can [add a connection](/docs/claude-tag/admins/add-connections) the channel is missing.
+Check that the channel has the connections below. Ask `@Claude what can you access from this channel?` to check; an admin can [add a connection](https://claude.com/docs/claude-tag/admins/add-connections.md) the channel is missing.
 
 | Connection | Examples | Why it matters here |
 | :- | :- | :- |
@@ -53,7 +53,19 @@ When the deliverable is a page people open, like a dashboard or a status page, a
 @Claude build a status page from the open items in this channel and post the link here.
 ```
 
-Anyone with access to this channel can open the page; [artifact visibility](/docs/claude-tag/concepts/security-and-data#artifact-visibility) covers the access model.
+Anyone with access to this channel can open the page; [artifact visibility](https://claude.com/docs/claude-tag/concepts/security-and-data.md#artifact-visibility) covers the access model.
+
+### Comment on the page to ask for changes
+
+After Claude publishes a page from a channel or a thread, it keeps watching that page for comments. Open the page, start a comment on the part you want changed, and send the comment with **Send to Claude** or mention `@claude` in it. The comment reaches the Claude session behind the Slack thread that published the page, even if that thread has been quiet for a while. Claude answers in the comment thread on the page, in the Slack thread, or both, and when the comment asks for a change, it edits the page and publishes the update to the same link, so everyone with the page open sees it.
+
+```text wrap theme={null}
+@claude the churn figure in the summary table is from July. Pull the August number and update the chart to match.
+```
+
+Anyone who can open the page can comment on it, and anyone who can post in the source Slack channel can send a comment to Claude. To stop comments on a page from reaching Claude, ask Claude in the Slack thread to stop watching that page.
+
+Comments reach Claude on pages it published from a channel or from a thread in a channel. For a page Claude published in a direct message, or an artifact you published from your own Claude Code session and linked in Slack, ask for changes in the conversation where the page was made. If a comment you sent goes unanswered, ask in the Slack thread. A message there reaches Claude whether or not it is still watching the page, and Claude can pick the page back up from the link it posted.
 
 ### Comment on the page to ask for changes
 
@@ -77,12 +89,10 @@ Planning inputs arrive over a month, not in one sitting. Forward messages and id
 
 ## Related resources
 
-<CardGroup cols={2}>
-  <Card title="Catch up" href="/docs/claude-tag/users/use-cases/catch-up" horizontal arrow>
-    When you need the summary, not the artifact
-  </Card>
+> [card] [Catch up](https://claude.com/docs/claude-tag/users/use-cases/catch-up.md)
+>
+> When you need the summary, not the artifact
 
-  <Card title="Good habits" href="/docs/claude-tag/users/good-habits" horizontal arrow>
-    How to specify outputs that come back right
-  </Card>
-</CardGroup>
+> [card] [Good habits](https://claude.com/docs/claude-tag/users/good-habits.md)
+>
+> How to specify outputs that come back right

@@ -4,8 +4,6 @@
 
 # Sampling
 
-<div id="enable-section-numbers" />
-
 The Model Context Protocol (MCP) provides a standardized way for servers to request LLM
 sampling ("completions" or "generations") from language models via clients. This flow
 allows clients to maintain control over model access, selection, and permissions while
@@ -22,21 +20,21 @@ Implementations are free to expose sampling through any interface pattern that s
 their needs—the protocol itself does not mandate any specific user interaction
 model.
 
-<Warning>
-  For trust & safety and security, there **SHOULD** always
-  be a human in the loop with the ability to deny sampling requests.
-
-  Applications **SHOULD**:
-
-  * Provide UI that makes it easy and intuitive to review sampling requests
-  * Allow users to view and edit prompts before sending
-  * Present generated responses for review before delivery
-</Warning>
+> [!WARNING]
+>
+> For trust & safety and security, there **SHOULD** always
+> be a human in the loop with the ability to deny sampling requests.
+>
+> Applications **SHOULD**:
+>
+> * Provide UI that makes it easy and intuitive to review sampling requests
+> * Allow users to view and edit prompts before sending
+> * Present generated responses for review before delivery
 
 ## Capabilities
 
 Clients that support sampling **MUST** declare the `sampling` capability during
-[initialization](/specification/2025-06-18/basic/lifecycle#initialization):
+[initialization](https://modelcontextprotocol.io/specification/2025-06-18/basic/lifecycle.md#initialization):
 
 ```json theme={null}
 {

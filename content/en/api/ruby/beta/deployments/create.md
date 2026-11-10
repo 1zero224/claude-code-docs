@@ -31,7 +31,7 @@ Create Deployment
 
       minLength: 1, maxLength: 128
 
-    - `version: Integer`
+    - `version: optional Integer`
 
       The specific `agent` version to use. Omit to use the latest version. Must be at least 1 if specified.
 
@@ -189,11 +189,11 @@ Create Deployment
 
               minLength: 1
 
-        - `context: String`
+        - `context: optional String | nil`
 
           Additional context about the document for the model.
 
-        - `title: String`
+        - `title: optional String | nil`
 
           The title of the document.
 
@@ -239,7 +239,7 @@ Create Deployment
 
           maxLength: 262144
 
-    - `max_iterations: Integer`
+    - `max_iterations: optional Integer | nil`
 
       Eval→revision cycles before giving up. Default 3, max 20.
 
@@ -269,7 +269,7 @@ Create Deployment
 
   minLength: 1, maxLength: 256
 
-- `budget: BetaManagedAgentsBudgetLimit`
+- `budget: optional BetaManagedAgentsBudgetLimit | nil`
 
   Enforced spend ceiling stamped onto each session created from this deployment, copied at session-creation time. Omit to leave sessions uncapped. The deployment agent's model must have a public list price, or the request is rejected; a multiagent roster is re-validated in full when each fire copies the cap, which fails closed the same way.
 
@@ -283,21 +283,23 @@ Create Deployment
 
       Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+      pattern: ^(0|[1-9]\d*)$
+
     - `currency: BetaCurrency`
 
       Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-- `description: String`
+- `description: optional String | nil`
 
   Description of what the deployment does.
 
   maxLength: 2048
 
-- `metadata: Hash[Symbol, String]`
+- `metadata: optional Hash[Symbol, String]`
 
   Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `resources: Array[BetaManagedAgentsGitHubRepositoryResourceParams | BetaManagedAgentsFileResourceParams | BetaManagedAgentsMemoryStoreResourceParam]`
+- `resources: optional Array[BetaManagedAgentsGitHubRepositoryResourceParams | BetaManagedAgentsFileResourceParams | BetaManagedAgentsMemoryStoreResourceParam]`
 
   Resources (e.g. repositories, files) to mount into each session's container. Maximum 500.
 
@@ -313,13 +315,13 @@ Create Deployment
 
       minLength: 1, maxLength: 2048
 
-    - `authorization_token: String`
+    - `authorization_token: optional String`
 
       GitHub authorization token used to clone the repository. Required for private repositories; optional for public ones.
 
       minLength: 1, maxLength: 4096
 
-    - `checkout: BetaManagedAgentsBranchCheckout | BetaManagedAgentsCommitCheckout`
+    - `checkout: optional BetaManagedAgentsBranchCheckout | BetaManagedAgentsCommitCheckout | nil`
 
       Branch or commit to check out. Defaults to the repository's default branch.
 
@@ -341,9 +343,9 @@ Create Deployment
 
           Full commit SHA to check out.
 
-          minLength: 7, maxLength: 64
+          minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
-    - `mount_path: String`
+    - `mount_path: optional String | nil`
 
       Mount path in the container. Defaults to `/workspace/<repo-name>`.
 
@@ -361,7 +363,7 @@ Create Deployment
 
       minLength: 1, maxLength: 128
 
-    - `mount_path: String`
+    - `mount_path: optional String | nil`
 
       Mount path in the container. Defaults to `/mnt/session/uploads/<file_id>`.
 
@@ -377,7 +379,9 @@ Create Deployment
 
       The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
 
-    - `access: :read_write | :read_only`
+      pattern: ^memstore_[a-zA-Z0-9_]+$
+
+    - `access: optional :read_write | :read_only | nil`
 
       Access mode for the mounted store. Defaults to read_write. read_only mounts the store as a read-only filesystem.
 
@@ -385,13 +389,13 @@ Create Deployment
 
       - `:read_only`
 
-    - `instructions: String`
+    - `instructions: optional String | nil`
 
       Per-attachment guidance for the agent on how to use this store. Rendered into the memory section of the system prompt. Max 4096 chars.
 
       maxLength: 4096
 
-- `schedule: BetaManagedAgentsScheduleParams`
+- `schedule: optional BetaManagedAgentsScheduleParams | nil`
 
   Optional recurring cron schedule. When present, the deployment fires automatically. Both expression and timezone are required when schedule is set.
 
@@ -409,13 +413,13 @@ Create Deployment
 
     minLength: 1
 
-- `vault_ids: Array[String]`
+- `vault_ids: optional Array[String]`
 
   Vault IDs for stored credentials the agent can use during sessions created from this deployment. Maximum 50.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -519,7 +523,19 @@ Create Deployment
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -549,7 +565,7 @@ Create Deployment
 
       format: int32
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     Time the deployment was archived. Null if not archived.
 
@@ -561,7 +577,7 @@ Create Deployment
 
     format: date-time
 
-  - `description: String`
+  - `description: String | nil`
 
     Description of what the deployment does.
 
@@ -715,11 +731,11 @@ Create Deployment
 
                 minLength: 1
 
-          - `context: String`
+          - `context: optional String | nil`
 
             Additional context about the document for the model.
 
-          - `title: String`
+          - `title: optional String | nil`
 
             The title of the document.
 
@@ -763,7 +779,7 @@ Create Deployment
 
             Rubric content. Plain text or markdown — the grader treats it as freeform text.
 
-      - `max_iterations: Integer`
+      - `max_iterations: optional Integer | nil`
 
         Eval→revision cycles before giving up. Default 3, max 20.
 
@@ -795,7 +811,7 @@ Create Deployment
 
     Human-readable name.
 
-  - `paused_reason: BetaManagedAgentsDeploymentPausedReason`
+  - `paused_reason: BetaManagedAgentsDeploymentPausedReason | nil`
 
     Why the deployment is `paused`. Non-null exactly when `status` is `paused`; null otherwise.
 
@@ -913,7 +929,7 @@ Create Deployment
 
         Github URL of the repository
 
-      - `checkout: BetaManagedAgentsBranchCheckout | BetaManagedAgentsCommitCheckout`
+      - `checkout: optional BetaManagedAgentsBranchCheckout | BetaManagedAgentsCommitCheckout | nil`
 
         Branch or commit to check out. Defaults to the repository's default branch.
 
@@ -935,9 +951,9 @@ Create Deployment
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
-      - `mount_path: String`
+      - `mount_path: optional String | nil`
 
         Mount path in the container. Defaults to `/workspace/<repo-name>`.
 
@@ -951,7 +967,7 @@ Create Deployment
 
         ID of a previously uploaded file.
 
-      - `mount_path: String`
+      - `mount_path: optional String | nil`
 
         Mount path in the container. Defaults to `/mnt/session/uploads/<file_id>`.
 
@@ -965,7 +981,7 @@ Create Deployment
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
 
-      - `access: :read_write | :read_only`
+      - `access: optional :read_write | :read_only | nil`
 
         Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts the store as a read-only filesystem.
 
@@ -973,11 +989,11 @@ Create Deployment
 
         - `:read_only`
 
-      - `instructions: String`
+      - `instructions: optional String | nil`
 
         Per-attachment guidance for the agent on how to use this store. Rendered into the memory section of the system prompt. Max 4096 chars.
 
-  - `schedule: BetaManagedAgentsSchedule`
+  - `schedule: BetaManagedAgentsSchedule | nil`
 
     Recurring cron schedule. Presence enables scheduled execution; null means manual-only. Includes computed timestamps (next fire times, last run) on the cron variant.
 
@@ -995,13 +1011,13 @@ Create Deployment
 
       minLength: 1
 
-    - `last_run_at: Time`
+    - `last_run_at: optional Time | nil`
 
       Time the most recent scheduled run actually started. Null until one completes; preserved after the deployment is archived. Manual runs do not update this.
 
       format: date-time
 
-    - `upcoming_runs_at: Array[Time]`
+    - `upcoming_runs_at: optional Array[Time]`
 
       Up to 5 timestamps of upcoming cron occurrences. Non-empty for active and paused deployments (reflects what the schedule would do if unpaused); empty once the deployment is archived (`archived_at` set). Each fire is offset by a small per-schedule jitter, so a run will actually start at or shortly after its listed time.
 
@@ -1027,7 +1043,7 @@ Create Deployment
 
     Vault IDs supplying stored credentials for sessions created from this deployment.
 
-  - `budget: BetaManagedAgentsBudgetLimit`
+  - `budget: optional BetaManagedAgentsBudgetLimit | nil`
 
     Spend ceiling stamped onto each session created from this deployment. Absent when no budget is set.
 
@@ -1040,6 +1056,8 @@ Create Deployment
       - `amount: String`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 

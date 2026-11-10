@@ -17,19 +17,19 @@ The Models API response can be used to determine which models are available for 
 
 ### Parameters
 
-- `afterID?:optional string` (query parameter)
+- `afterID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
 
-- `beforeID?:optional string` (query parameter)
+- `beforeID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
 
-- `lifecycle?:optional list<Lifecycle>` (query parameter)
+- `lifecycle?: optional list<Lifecycle>` (query parameter)
 
   Filter the list to models in any of the given lifecycle stages (`active`, `deprecated`, or `retired`). Up to 3 values. When omitted, the list contains the `active` and `deprecated` models; `retired` models appear only when `retired` is requested explicitly.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -37,11 +37,11 @@ The Models API response can be used to determine which models are available for 
 
   default: 20
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -111,6 +111,9 @@ The Models API response can be used to determine which models are available for 
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -206,6 +209,9 @@ var_dump($page);
             "adaptive": {
               "supported": true
             },
+            "between_tools": {
+              "supported": true
+            },
             "disabled": {
               "supported": true
             },
@@ -219,7 +225,7 @@ var_dump($page);
       "deprecated_at": "2019-12-27T18:11:19.117Z",
       "display_name": "Claude Opus 5.5",
       "lifecycle": "active",
-      "line": "haiku",
+      "line": "opus",
       "max_input_tokens": 0,
       "max_tokens": 0,
       "retires_at": "2019-12-27T18:11:19.117Z",
@@ -248,11 +254,11 @@ The Models API response can be used to determine information about a specific mo
 
   Model identifier or alias.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -322,6 +328,9 @@ The Models API response can be used to determine information about a specific mo
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -412,6 +421,9 @@ var_dump($betaModelInfo);
         "adaptive": {
           "supported": true
         },
+        "between_tools": {
+          "supported": true
+        },
         "disabled": {
           "supported": true
         },
@@ -425,7 +437,7 @@ var_dump($betaModelInfo);
   "deprecated_at": "2019-12-27T18:11:19.117Z",
   "display_name": "Claude Opus 5.5",
   "lifecycle": "active",
-  "line": "haiku",
+  "line": "opus",
   "max_input_tokens": 0,
   "max_tokens": 0,
   "retires_at": "2019-12-27T18:11:19.117Z",
@@ -659,9 +671,13 @@ var_dump($betaModelInfo);
 
     Whether the model accepts thinking with type 'adaptive' (the model decides whether and how much to think).
 
+  - `BetaCapabilitySupport betweenTools`
+
+    Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
   - `BetaCapabilitySupport disabled`
 
-    Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+    Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
   - `BetaCapabilitySupport enabled`
 

@@ -4,8 +4,6 @@
 
 # Cancellation
 
-<div id="enable-section-numbers" />
-
 The Model Context Protocol (MCP) supports optional cancellation of in-progress requests
 through notification messages. A client **SHOULD** send a cancellation notification
 to indicate that a request it previously issued should be terminated.
@@ -60,7 +58,7 @@ SDKs and other middleware **SHOULD** allow these timeouts to be configured on a
 per-request basis.
 
 Implementations **MAY** choose to reset the timeout clock when receiving a
-[progress notification](/specification/draft/basic/patterns/progress) corresponding to
+[progress notification](https://modelcontextprotocol.io/specification/draft/basic/patterns/progress.md) corresponding to
 the request, as this implies that work is actually happening. However, implementations
 **SHOULD** always enforce a maximum timeout, regardless of progress notifications, to
 limit the impact of a misbehaving client or server.
@@ -121,4 +119,4 @@ Invalid cancellation notifications **SHOULD** be ignored:
 This maintains the "fire and forget" nature of notifications while allowing for race
 conditions in asynchronous communication.
 
-[subscriptions]: /specification/draft/basic/patterns/subscriptions
+[subscriptions]: https://modelcontextprotocol.io/specification/draft/basic/patterns/subscriptions.md

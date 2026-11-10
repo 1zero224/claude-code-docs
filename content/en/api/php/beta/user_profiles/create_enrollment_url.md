@@ -17,11 +17,11 @@ Create Enrollment URL
 
   The ID of the user profile to create an enrollment URL for (`uprof_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -31,9 +31,13 @@ Create Enrollment URL
 
 - `class BetaUserProfileEnrollmentURL`
 
-  - `Type type`
+  - `"enrollment_url" type`
 
     Object type. Always `enrollment_url`.
+
+  - `\Datetime expiresAt`
+
+    When this enrollment URL expires, in RFC 3339 format.
 
   - `\Datetime expiresAt`
 
@@ -49,6 +53,9 @@ Create Enrollment URL
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

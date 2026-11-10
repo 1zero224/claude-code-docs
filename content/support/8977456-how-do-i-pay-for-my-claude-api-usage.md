@@ -12,17 +12,17 @@ You're billed only for successful API calls and completed tasks. Failed requests
 
 If you run out of credits, you can no longer call the API or use the playground until you add more.
 
-## Monthly API credits for Max and Team plans
+## Monthly API credits for Max, Ultra, and Team plans
 
-Claude Max and Team plans include monthly credits for the Claude API. To claim your credits, you link a Claude Console organization to your plan. Your monthly credits are spent before any credits you’ve purchased, and unused credits expire at the end of each billing cycle. Monthly API credits can’t be used in Claude Code or the Claude apps, including for extra usage.
+Claude Max, Ultra, and Team plans include monthly credits for the Claude API. To claim your credits, you link a Claude Console organization to your plan. Your monthly credits are spent before any credits you’ve purchased, and unused credits expire at the end of each billing cycle. Monthly API credits can’t be used in Claude Code or the Claude apps, including for extra usage.
 
-If your organization is invoiced through Anthropic sales, usage beyond the credits is billed as usual. Learn more about **[monthly API credits for Max and Team plans](https://support.claude.com/en/articles/17154008)**.
+If your organization is invoiced through Anthropic sales, usage beyond the credits is billed as usual. Learn more about **[monthly API credits for Max, Ultra, and Team plans](https://support.claude.com/en/articles/17154008)**.
 
 ## Buy credits
 
 1. Log in to the Console with an Admin or Billing role.
 
-2. Navigate to **[Settings > Billing](https://platform.claude.com/settings/billing)**.
+2. Go to the **Billing** page (platform.claude.com/settings/billing).
 
 3. Click "Buy credits."
 
@@ -34,11 +34,19 @@ Purchased credits are available immediately. Your organization's available credi
 
 Auto-reload purchases additional credits automatically when your balance falls below a threshold you set.
 
-1. On the **Billing** page, click "Edit" in the **Auto-reload** section.
+1. Go to the **[Billing page](https://platform.claude.com/settings/billing)**.
 
-2. Toggle auto-reload on or off.
+2. In the **Credit balance** section, click “Set up auto-reload.” If auto-reload is already on, the button reads “Manage auto-reload.”
 
-3. If auto-reload is on, set the minimum balance that triggers a purchase and the amount to reload to.
+3. In **When credit balance reaches**, enter the balance that triggers a purchase.
+
+4. In **Bring credit balance back up to**, enter the balance to reload to.
+
+5. Click “Turn on,” or “Update” if you’re changing existing settings.
+
+**Note:** If your balance is already at or below the minimum you set, the button reads “Turn on and purchase” or “Update and purchase,” and you’re charged right away to bring your balance up to the target, plus applicable taxes.
+
+To turn off auto-reload, click “Manage auto-reload,” then “Turn off,” and confirm by clicking “Turn off” again.
 
 ## Credit expiration and refunds
 
@@ -52,7 +60,7 @@ Some organizations are billed monthly in arrears instead of buying credits upfro
 
 On monthly invoicing, we aggregate your usage across API calls, Console usage, and any other services associated with your account, and bill it at our standard **[pay-as-you-go pricing](https://claude.com/pricing#api)**. At the end of each calendar month, you'll receive an invoice from Stripe. Enter your payment details in Stripe to pay it.
 
-You can view charges for the current billing period on the **[Billing](https://platform.claude.com/settings/billing)** page in your Console settings.
+You can view charges for the current billing period on the **Billing** page (platform.claude.com/settings/billing) in the Claude Console.
 
 If you need custom rate limits, monthly invoicing, or hands-on support, **[contact our Sales team](https://claude.com/contact-sales)**.
 
@@ -60,7 +68,7 @@ If you need custom rate limits, monthly invoicing, or hands-on support, **[conta
 
 1. Log in to the Console with an Admin or Billing role.
 
-2. Navigate to **[Settings > Billing](https://platform.claude.com/settings/billing)**.
+2. Go to the Billing page (platform.claude.com/settings/billing).
 
 3. Click the pencil icon next to your current payment method.
 

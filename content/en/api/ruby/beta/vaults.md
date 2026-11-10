@@ -5,13 +5,13 @@ url: https://platform.claude.com/docs/en/api/ruby/beta/vaults
 
 # Vaults
 
-## Create Vault
+## Create a Vault
 
 `beta.vaults.create(**kwargs) -> BetaManagedAgentsVault`
 
 **POST** `/v1/vaults`
 
-Create Vault
+Create a Vault
 
 ### Parameters
 
@@ -21,13 +21,13 @@ Create Vault
 
   minLength: 1, maxLength: 255
 
-- `metadata: Hash[Symbol, String]`
+- `metadata: optional Hash[Symbol, String]`
 
   Arbitrary key-value metadata to attach to the vault. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -131,7 +131,19 @@ Create Vault
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -147,9 +159,9 @@ Create Vault
 
   - `id: String`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the vault was archived. Null if not archived.
 
@@ -213,23 +225,23 @@ List Vaults
 
 ### Parameters
 
-- `include_archived: bool` (query parameter)
+- `include_archived: optional bool` (query parameter)
 
-  Whether to include archived vaults in the results.
+  Whether to include archived vaults in the results. Defaults to `false`.
 
-- `limit: Integer` (query parameter)
+- `limit: optional Integer` (query parameter)
 
   Maximum number of vaults to return per page. Defaults to 20, maximum 100.
 
   format: int32
 
-- `page: String` (query parameter)
+- `page: optional String` (query parameter)
 
-  Opaque pagination token from a previous `list_vaults` response.
+  The `next_page` value from a previous [List Vaults](https://platform.claude.com/docs/en/api/beta/vaults/list?sdk_languages=ruby) response, to get the next page. Leave it out to get the first page.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -333,7 +345,19 @@ List Vaults
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -349,9 +373,9 @@ List Vaults
 
   - `id: String`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the vault was archived. Null if not archived.
 
@@ -410,13 +434,13 @@ puts(page)
 }
 ```
 
-## Get Vault
+## Retrieve a Vault
 
 `beta.vaults.retrieve(vault_id, **kwargs) -> BetaManagedAgentsVault`
 
 **GET** `/v1/vaults/{vault_id}`
 
-Get Vault
+Retrieve a Vault
 
 ### Parameters
 
@@ -424,9 +448,9 @@ Get Vault
 
   Unique identifier of the vault to retrieve.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -530,7 +554,19 @@ Get Vault
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -546,9 +582,9 @@ Get Vault
 
   - `id: String`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the vault was archived. Null if not archived.
 
@@ -602,13 +638,13 @@ puts(beta_managed_agents_vault)
 }
 ```
 
-## Update Vault
+## Update a Vault
 
 `beta.vaults.update(vault_id, **kwargs) -> BetaManagedAgentsVault`
 
 **POST** `/v1/vaults/{vault_id}`
 
-Update Vault
+Update a Vault
 
 ### Parameters
 
@@ -616,19 +652,19 @@ Update Vault
 
   Unique identifier of the vault to update.
 
-- `display_name: String`
+- `display_name: optional String | nil`
 
   Updated human-readable name for the vault. 1-255 characters.
 
   minLength: 1, maxLength: 255
 
-- `metadata: Hash[Symbol, String]`
+- `metadata: optional Hash[Symbol, String | nil] | nil`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omitted keys are preserved.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -732,7 +768,19 @@ Update Vault
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -748,9 +796,9 @@ Update Vault
 
   - `id: String`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the vault was archived. Null if not archived.
 
@@ -804,13 +852,13 @@ puts(beta_managed_agents_vault)
 }
 ```
 
-## Delete Vault
+## Delete a Vault
 
 `beta.vaults.delete(vault_id, **kwargs) -> BetaManagedAgentsDeletedVault`
 
 **DELETE** `/v1/vaults/{vault_id}`
 
-Delete Vault
+Delete a Vault
 
 ### Parameters
 
@@ -818,9 +866,9 @@ Delete Vault
 
   Unique identifier of the vault to delete.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -924,7 +972,19 @@ Delete Vault
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -940,7 +1000,7 @@ Delete Vault
 
   - `id: String`
 
-    Unique identifier of the deleted vault.
+    The unique ID of the deleted vault (`vlt_...`).
 
 ### Example
 
@@ -963,13 +1023,13 @@ puts(beta_managed_agents_deleted_vault)
 }
 ```
 
-## Archive Vault
+## Archive a Vault
 
 `beta.vaults.archive(vault_id, **kwargs) -> BetaManagedAgentsVault`
 
 **POST** `/v1/vaults/{vault_id}/archive`
 
-Archive Vault
+Archive a Vault
 
 ### Parameters
 
@@ -977,9 +1037,9 @@ Archive Vault
 
   Unique identifier of the vault to archive.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -1083,7 +1143,19 @@ Archive Vault
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1099,9 +1171,9 @@ Archive Vault
 
   - `id: String`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the vault was archived. Null if not archived.
 
@@ -1167,7 +1239,7 @@ puts(beta_managed_agents_vault)
 
   - `id: String`
 
-    Unique identifier of the deleted vault.
+    The unique ID of the deleted vault (`vlt_...`).
 
 ### Beta Managed Agents Vault
 
@@ -1179,9 +1251,9 @@ puts(beta_managed_agents_vault)
 
   - `id: String`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the vault was archived. Null if not archived.
 
@@ -1209,13 +1281,13 @@ puts(beta_managed_agents_vault)
 
 ## Vaults › Credentials
 
-### Create Credential
+### Create a Credential
 
 `beta.vaults.credentials.create(vault_id, **kwargs) -> BetaManagedAgentsCredential`
 
 **POST** `/v1/vaults/{vault_id}/credentials`
 
-Create Credential
+Create a Credential
 
 #### Parameters
 
@@ -1235,9 +1307,9 @@ Create Credential
 
     - `access_token: String`
 
-      OAuth access token.
+      The OAuth access token to send to the MCP server.
 
-      minLength: 1, maxLength: 8192
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
     - `mcp_server_url: String`
 
@@ -1245,25 +1317,27 @@ Create Credential
 
       minLength: 1, maxLength: 2047
 
-    - `expires_at: Time`
+    - `expires_at: optional Time | nil`
 
-      A timestamp in RFC 3339 format
+      When `access_token` expires, in RFC 3339.
+
+      Must be in the future.
 
       format: date-time
 
-    - `refresh: BetaManagedAgentsMCPOAuthRefreshParams`
+    - `refresh: optional BetaManagedAgentsMCPOAuthRefreshParams | nil`
 
       Refresh token configuration, if the credential supports token refresh.
 
       - `client_id: String`
 
-        OAuth client ID.
+        The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
 
         minLength: 1, maxLength: 1024
 
       - `refresh_token: String`
 
-        OAuth refresh token.
+        The OAuth refresh token that the API uses to get a new access token when the current one expires.
 
         minLength: 1, maxLength: 8192
 
@@ -1289,7 +1363,7 @@ Create Credential
 
           - `client_secret: String`
 
-            OAuth client secret.
+            The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
             minLength: 1, maxLength: 512
 
@@ -1301,17 +1375,17 @@ Create Credential
 
           - `client_secret: String`
 
-            OAuth client secret.
+            The OAuth client secret, sent to `token_endpoint` in the POST body.
 
             minLength: 1, maxLength: 512
 
-      - `resource: String`
+      - `resource: optional String | nil`
 
         OAuth resource indicator.
 
         minLength: 1, maxLength: 2047
 
-      - `scope: String`
+      - `scope: optional String | nil`
 
         OAuth scope for the refresh request.
 
@@ -1325,9 +1399,9 @@ Create Credential
 
     - `token: String`
 
-      Static bearer token value.
+      The static bearer token to send to the MCP server, such as an API key or personal access token.
 
-      minLength: 1, maxLength: 8192
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
     - `mcp_server_url: String`
 
@@ -1359,45 +1433,47 @@ Create Credential
 
         - `allowed_hosts: Array[String]`
 
-          Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+          The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+          Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
     - `secret_name: String`
 
       Name of the environment variable. Immutable after create.
 
-      minLength: 1, maxLength: 255
+      minLength: 1, maxLength: 255, pattern: ^[A-Z_][A-Z0-9_]*$
 
     - `secret_value: String`
 
-      Secret value. Write-only; never returned in responses.
+      The secret to substitute into the agent's outbound requests. It's write-only and never returned in responses.
 
-      minLength: 1, maxLength: 4096
+      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
-    - `injection_location: BetaManagedAgentsInjectionLocationParams`
+    - `injection_location: optional BetaManagedAgentsInjectionLocationParams`
 
       Where in the outbound request the secret value may be substituted.
 
-      - `body: bool`
+      - `body: optional bool`
 
         Substitute when the placeholder appears in the request body.
 
-      - `header: bool`
+      - `header: optional bool`
 
         Substitute when the placeholder appears in a request header value.
 
-- `display_name: String`
+- `display_name: optional String | nil`
 
   Human-readable name for the credential. Up to 255 characters.
 
   maxLength: 255
 
-- `metadata: Hash[Symbol, String]`
+- `metadata: optional Hash[Symbol, String]`
 
   Arbitrary key-value metadata to attach to the credential. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -1501,7 +1577,19 @@ Create Credential
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1517,9 +1605,9 @@ Create Credential
 
   - `id: String`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the credential was archived. Null if not archived.
 
@@ -1539,19 +1627,19 @@ Create Credential
 
         URL of the MCP server this credential authenticates against.
 
-      - `expires_at: Time`
+      - `expires_at: optional Time | nil`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
-      - `refresh: BetaManagedAgentsMCPOAuthRefreshResponse`
+      - `refresh: optional BetaManagedAgentsMCPOAuthRefreshResponse | nil`
 
         Refresh token configuration, if the credential supports token refresh.
 
         - `client_id: String`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: String`
 
@@ -1577,11 +1665,11 @@ Create Credential
 
             - `type: :client_secret_post`
 
-        - `resource: String`
+        - `resource: optional String | nil`
 
           OAuth resource indicator.
 
-        - `scope: String`
+        - `scope: optional String | nil`
 
           OAuth scope for the refresh request.
 
@@ -1631,7 +1719,9 @@ Create Credential
 
           - `allowed_hosts: Array[String]`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: String`
 
@@ -1657,7 +1747,7 @@ Create Credential
 
     Identifier of the vault this credential belongs to.
 
-  - `display_name: String`
+  - `display_name: optional String | nil`
 
     Human-readable name for the credential.
 
@@ -1715,23 +1805,23 @@ List Credentials
 
   Identifier of the vault to list credentials for.
 
-- `include_archived: bool` (query parameter)
+- `include_archived: optional bool` (query parameter)
 
-  Whether to include archived credentials in the results.
+  Whether to include archived credentials in the results. Defaults to `false`.
 
-- `limit: Integer` (query parameter)
+- `limit: optional Integer` (query parameter)
 
   Maximum number of credentials to return per page. Defaults to 20, maximum 100.
 
   format: int32
 
-- `page: String` (query parameter)
+- `page: optional String` (query parameter)
 
-  Opaque pagination token from a previous `list_credentials` response.
+  The `next_page` value from a previous [List Credentials](https://platform.claude.com/docs/en/api/beta/vaults/credentials/list?sdk_languages=ruby) response, to get the next page. Leave it out to get the first page.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -1835,7 +1925,19 @@ List Credentials
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1851,9 +1953,9 @@ List Credentials
 
   - `id: String`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the credential was archived. Null if not archived.
 
@@ -1873,19 +1975,19 @@ List Credentials
 
         URL of the MCP server this credential authenticates against.
 
-      - `expires_at: Time`
+      - `expires_at: optional Time | nil`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
-      - `refresh: BetaManagedAgentsMCPOAuthRefreshResponse`
+      - `refresh: optional BetaManagedAgentsMCPOAuthRefreshResponse | nil`
 
         Refresh token configuration, if the credential supports token refresh.
 
         - `client_id: String`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: String`
 
@@ -1911,11 +2013,11 @@ List Credentials
 
             - `type: :client_secret_post`
 
-        - `resource: String`
+        - `resource: optional String | nil`
 
           OAuth resource indicator.
 
-        - `scope: String`
+        - `scope: optional String | nil`
 
           OAuth scope for the refresh request.
 
@@ -1965,7 +2067,9 @@ List Credentials
 
           - `allowed_hosts: Array[String]`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: String`
 
@@ -1991,7 +2095,7 @@ List Credentials
 
     Identifier of the vault this credential belongs to.
 
-  - `display_name: String`
+  - `display_name: optional String | nil`
 
     Human-readable name for the credential.
 
@@ -2033,13 +2137,13 @@ puts(page)
 }
 ```
 
-### Get Credential
+### Retrieve a Credential
 
 `beta.vaults.credentials.retrieve(credential_id, **kwargs) -> BetaManagedAgentsCredential`
 
 **GET** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Get Credential
+Retrieve a Credential
 
 #### Parameters
 
@@ -2051,9 +2155,9 @@ Get Credential
 
   Unique identifier of the credential to retrieve.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -2157,7 +2261,19 @@ Get Credential
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -2173,9 +2289,9 @@ Get Credential
 
   - `id: String`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the credential was archived. Null if not archived.
 
@@ -2195,19 +2311,19 @@ Get Credential
 
         URL of the MCP server this credential authenticates against.
 
-      - `expires_at: Time`
+      - `expires_at: optional Time | nil`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
-      - `refresh: BetaManagedAgentsMCPOAuthRefreshResponse`
+      - `refresh: optional BetaManagedAgentsMCPOAuthRefreshResponse | nil`
 
         Refresh token configuration, if the credential supports token refresh.
 
         - `client_id: String`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: String`
 
@@ -2233,11 +2349,11 @@ Get Credential
 
             - `type: :client_secret_post`
 
-        - `resource: String`
+        - `resource: optional String | nil`
 
           OAuth resource indicator.
 
-        - `scope: String`
+        - `scope: optional String | nil`
 
           OAuth scope for the refresh request.
 
@@ -2287,7 +2403,9 @@ Get Credential
 
           - `allowed_hosts: Array[String]`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: String`
 
@@ -2313,7 +2431,7 @@ Get Credential
 
     Identifier of the vault this credential belongs to.
 
-  - `display_name: String`
+  - `display_name: optional String | nil`
 
     Human-readable name for the credential.
 
@@ -2353,13 +2471,13 @@ puts(beta_managed_agents_credential)
 }
 ```
 
-### Update Credential
+### Update a Credential
 
 `beta.vaults.credentials.update(credential_id, **kwargs) -> BetaManagedAgentsCredential`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Update Credential
+Update a Credential
 
 #### Parameters
 
@@ -2371,9 +2489,9 @@ Update Credential
 
   Unique identifier of the credential to update.
 
-- `auth: BetaManagedAgentsMCPOAuthUpdateParams | BetaManagedAgentsStaticBearerUpdateParams | BetaManagedAgentsEnvironmentVariableUpdateParams`
+- `auth: optional BetaManagedAgentsMCPOAuthUpdateParams | BetaManagedAgentsStaticBearerUpdateParams | BetaManagedAgentsEnvironmentVariableUpdateParams`
 
-  Updated authentication configuration. The `type` is immutable; the variant sent must match the stored credential's type.
+  New authentication settings for the credential. The `type` must match the credential's current type, which can't be changed.
 
   - `class BetaManagedAgentsMCPOAuthUpdateParams`
 
@@ -2381,35 +2499,39 @@ Update Credential
 
     - `type: :mcp_oauth`
 
-    - `access_token: String`
+    - `access_token: optional String | nil`
 
-      Updated OAuth access token.
+      The new OAuth access token to replace the stored one.
 
-      minLength: 1, maxLength: 8192
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
-    - `expires_at: Time`
+    - `expires_at: optional Time | nil`
 
-      A timestamp in RFC 3339 format
+      When the credential's access token expires, in RFC 3339. Leave it out to keep the stored expiry.
+
+      If you send a new `access_token`, send its `expires_at` too, or the new token keeps the old expiry.
+
+      Must be in the future.
 
       format: date-time
 
-    - `refresh: BetaManagedAgentsMCPOAuthRefreshUpdateParams`
+    - `refresh: optional BetaManagedAgentsMCPOAuthRefreshUpdateParams | nil`
 
       Updated refresh token configuration.
 
-      - `refresh_token: String`
+      - `refresh_token: optional String | nil`
 
-        Updated OAuth refresh token.
+        The new OAuth refresh token to replace the stored one.
 
         minLength: 1, maxLength: 8192
 
-      - `scope: String`
+      - `scope: optional String | nil`
 
-        Updated OAuth scope for the refresh request.
+        The new OAuth scope for refresh requests. Send an empty string to clear the stored scope.
 
         maxLength: 8192
 
-      - `token_endpoint_auth: BetaManagedAgentsTokenEndpointAuthBasicUpdateParam | BetaManagedAgentsTokenEndpointAuthPostUpdateParam`
+      - `token_endpoint_auth: optional BetaManagedAgentsTokenEndpointAuthBasicUpdateParam | BetaManagedAgentsTokenEndpointAuthPostUpdateParam`
 
         - `class BetaManagedAgentsTokenEndpointAuthBasicUpdateParam`
 
@@ -2417,9 +2539,11 @@ Update Credential
 
           - `type: :client_secret_basic`
 
-          - `client_secret: String`
+          - `client_secret: optional String | nil`
 
-            Updated OAuth client secret.
+            A new OAuth client secret to replace the stored one.
+
+            The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
             minLength: 1, maxLength: 512
 
@@ -2429,9 +2553,11 @@ Update Credential
 
           - `type: :client_secret_post`
 
-          - `client_secret: String`
+          - `client_secret: optional String | nil`
 
-            Updated OAuth client secret.
+            A new OAuth client secret to replace the stored one.
+
+            The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
             minLength: 1, maxLength: 512
 
@@ -2441,11 +2567,11 @@ Update Credential
 
     - `type: :static_bearer`
 
-    - `token: String`
+    - `token: optional String | nil`
 
-      Updated static bearer token value.
+      The new static bearer token to replace the stored one.
 
-      minLength: 1, maxLength: 8192
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `class BetaManagedAgentsEnvironmentVariableUpdateParams`
 
@@ -2453,21 +2579,21 @@ Update Credential
 
     - `type: :environment_variable`
 
-    - `injection_location: BetaManagedAgentsInjectionLocationUpdateParams`
+    - `injection_location: optional BetaManagedAgentsInjectionLocationUpdateParams`
 
       Updated injection location.
 
-      - `body: bool`
+      - `body: optional bool`
 
         Substitute when the placeholder appears in the request body.
 
-      - `header: bool`
+      - `header: optional bool`
 
         Substitute when the placeholder appears in a request header value.
 
-    - `networking: BetaManagedAgentsCredentialNetworkingParams`
+    - `networking: optional BetaManagedAgentsCredentialNetworkingParams | nil`
 
-      Updated networking scope. Full replacement.
+      The new networking scope, which replaces the stored one as a whole.
 
       - `class BetaManagedAgentsUnrestrictedCredentialNetworkingParams`
 
@@ -2483,27 +2609,29 @@ Update Credential
 
         - `allowed_hosts: Array[String]`
 
-          Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+          The destination hosts of the outbound requests that the credential's secret is substituted into.
 
-    - `secret_value: String`
+          Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
-      Updated secret value.
+    - `secret_value: optional String | nil`
 
-      minLength: 1, maxLength: 4096
+      The new secret value to replace the stored one.
 
-- `display_name: String`
+      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
+
+- `display_name: optional String | nil`
 
   Updated human-readable name for the credential. 1-255 characters.
 
   minLength: 1, maxLength: 255
 
-- `metadata: Hash[Symbol, String]`
+- `metadata: optional Hash[Symbol, String | nil] | nil`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omitted keys are preserved.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -2607,7 +2735,19 @@ Update Credential
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -2623,9 +2763,9 @@ Update Credential
 
   - `id: String`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the credential was archived. Null if not archived.
 
@@ -2645,19 +2785,19 @@ Update Credential
 
         URL of the MCP server this credential authenticates against.
 
-      - `expires_at: Time`
+      - `expires_at: optional Time | nil`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
-      - `refresh: BetaManagedAgentsMCPOAuthRefreshResponse`
+      - `refresh: optional BetaManagedAgentsMCPOAuthRefreshResponse | nil`
 
         Refresh token configuration, if the credential supports token refresh.
 
         - `client_id: String`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: String`
 
@@ -2683,11 +2823,11 @@ Update Credential
 
             - `type: :client_secret_post`
 
-        - `resource: String`
+        - `resource: optional String | nil`
 
           OAuth resource indicator.
 
-        - `scope: String`
+        - `scope: optional String | nil`
 
           OAuth scope for the refresh request.
 
@@ -2737,7 +2877,9 @@ Update Credential
 
           - `allowed_hosts: Array[String]`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: String`
 
@@ -2763,7 +2905,7 @@ Update Credential
 
     Identifier of the vault this credential belongs to.
 
-  - `display_name: String`
+  - `display_name: optional String | nil`
 
     Human-readable name for the credential.
 
@@ -2803,13 +2945,13 @@ puts(beta_managed_agents_credential)
 }
 ```
 
-### Delete Credential
+### Delete a Credential
 
 `beta.vaults.credentials.delete(credential_id, **kwargs) -> BetaManagedAgentsDeletedCredential`
 
 **DELETE** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Delete Credential
+Delete a Credential
 
 #### Parameters
 
@@ -2821,9 +2963,9 @@ Delete Credential
 
   Unique identifier of the credential to delete.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -2927,7 +3069,19 @@ Delete Credential
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -2943,7 +3097,7 @@ Delete Credential
 
   - `id: String`
 
-    Unique identifier of the deleted credential.
+    The unique ID of the deleted credential (`vcrd_...`).
 
 #### Example
 
@@ -2969,13 +3123,13 @@ puts(beta_managed_agents_deleted_credential)
 }
 ```
 
-### Archive Credential
+### Archive a Credential
 
 `beta.vaults.credentials.archive(credential_id, **kwargs) -> BetaManagedAgentsCredential`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/archive`
 
-Archive Credential
+Archive a Credential
 
 #### Parameters
 
@@ -2987,9 +3141,9 @@ Archive Credential
 
   Unique identifier of the credential to archive.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -3093,7 +3247,19 @@ Archive Credential
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -3109,9 +3275,9 @@ Archive Credential
 
   - `id: String`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the credential was archived. Null if not archived.
 
@@ -3131,19 +3297,19 @@ Archive Credential
 
         URL of the MCP server this credential authenticates against.
 
-      - `expires_at: Time`
+      - `expires_at: optional Time | nil`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
-      - `refresh: BetaManagedAgentsMCPOAuthRefreshResponse`
+      - `refresh: optional BetaManagedAgentsMCPOAuthRefreshResponse | nil`
 
         Refresh token configuration, if the credential supports token refresh.
 
         - `client_id: String`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: String`
 
@@ -3169,11 +3335,11 @@ Archive Credential
 
             - `type: :client_secret_post`
 
-        - `resource: String`
+        - `resource: optional String | nil`
 
           OAuth resource indicator.
 
-        - `scope: String`
+        - `scope: optional String | nil`
 
           OAuth scope for the refresh request.
 
@@ -3223,7 +3389,9 @@ Archive Credential
 
           - `allowed_hosts: Array[String]`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: String`
 
@@ -3249,7 +3417,7 @@ Archive Credential
 
     Identifier of the vault this credential belongs to.
 
-  - `display_name: String`
+  - `display_name: optional String | nil`
 
     Human-readable name for the credential.
 
@@ -3289,13 +3457,13 @@ puts(beta_managed_agents_credential)
 }
 ```
 
-### Validate Credential
+### Validate an MCP OAuth Credential
 
 `beta.vaults.credentials.mcp_oauth_validate(credential_id, **kwargs) -> BetaManagedAgentsCredentialValidation`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/mcp_oauth_validate`
 
-Validate Credential
+Validate an MCP OAuth Credential
 
 #### Parameters
 
@@ -3307,9 +3475,9 @@ Validate Credential
 
   Unique identifier of the credential to validate.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -3413,7 +3581,19 @@ Validate Credential
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -3435,13 +3615,13 @@ Validate Credential
 
     Whether the credential has a refresh token configured.
 
-  - `mcp_probe: BetaManagedAgentsMCPProbe`
+  - `mcp_probe: BetaManagedAgentsMCPProbe | nil`
 
-    Details of the failing MCP probe step. Null when the probe succeeded.
+    Details of the MCP probe step that failed, or `null` if the probe succeeded or there was no access token to test.
 
-    - `http_response: BetaManagedAgentsRefreshHTTPResponse`
+    - `http_response: BetaManagedAgentsRefreshHTTPResponse | nil`
 
-      The captured HTTP error response. Null when no HTTP response was received (timeout, DNS, TLS).
+      The HTTP error response from the MCP server, or `null` if the MCP server didn't return one for the failing step, for example after a timeout or a DNS or TLS failure.
 
       - `body: String`
 
@@ -3465,11 +3645,11 @@ Validate Credential
 
       The MCP method that failed (for example `initialize` or `tools/list`).
 
-  - `refresh: BetaManagedAgentsRefreshObject`
+  - `refresh: BetaManagedAgentsRefreshObject | nil`
 
     Details of the refresh-token exchange attempted on a 401. Null when no refresh was attempted.
 
-    - `http_response: BetaManagedAgentsRefreshHTTPResponse`
+    - `http_response: BetaManagedAgentsRefreshHTTPResponse | nil`
 
       The captured HTTP error response from the token endpoint. Populated only when `status` is `failed`.
 
@@ -3503,11 +3683,11 @@ Validate Credential
 
     - `:invalid`
 
-      The probe reached the MCP server and was rejected, and a refresh (if attempted) did not recover it.
+      The probe reached the MCP server and the server rejected the credential, or no access token is stored. A refresh, if one was tried, didn't recover it. Usually the end user needs to authorize again.
 
     - `:unknown`
 
-      The probe could not determine validity — for example, a transport error or a successful refresh that was not re-probed.
+      The probe couldn't tell whether the credential works, for example because of a network error or because a refresh succeeded but the new access token wasn't tested. Validate the credential again to find out.
 
   - `validated_at: Time`
 

@@ -2,13 +2,41 @@
 title: Parallel tool use
 url: https://platform.claude.com/docs/en/agents-and-tools/tool-use/parallel-tool-use
 description: Enable, format, and disable parallel tool calls, with message-history guidance and troubleshooting.
+featureMetadata:
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: stable
+    Claude Platform on AWS: stable
+    Amazon Bedrock: stable
+    Amazon Bedrock (InvokeModel): stable
+    Claude Models on Google Cloud (Google managed): stable
+    Microsoft Foundry: stable
 ---
 
 By default, Claude may call multiple tools in a single response. This page covers how to run those calls, how to format the message history so parallelism keeps working, and how to disable parallel tool use when you need to. For the single-call flow, see [Handle tool calls](https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls).
 
 ## Execution semantics
 
-When Claude calls tools, the response has a `stop_reason` of `tool_use` and can contain several `tool_use` blocks in a single assistant turn. How you run those calls is your decision. The API doesn't prescribe an execution order: you can run the calls concurrently (`Promise.all`, `asyncio.gather`), sequentially in the order they appear, or in any combination that suits your tools.
+When Claude calls tools, the response has a `stop_reason` of `tool_use` and can contain several `tool_use` blocks in a single assistant turn. How you run those calls is your decision. The API doesn’t prescribe an execution order: you can run the calls concurrently (`Promise.all`, `asyncio.gather`), sequentially in the order they appear, or in any combination that suits your tools.
 
 Choose the strategy based on what your tools do. Independent, read-only operations are usually safe to run in parallel for lower latency. Tools with side effects, shared state, or ordering requirements might be better run sequentially.
 
@@ -28,22 +56,19 @@ The [computer use tool](https://platform.claude.com/docs/en/agents-and-tools/too
 ## Test parallel tool calls
 
 <Note>
-  **Use the Tool Runner for most applications:** the SDK [Tool Runner](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-runner) handles responses with multiple tool calls and formats the results for you, so you don't write this handling yourself. Use the manual pattern on this page when you need direct control over how the calls run, such as custom batching, ordering, or error handling.
+  **Use the Tool Runner for most applications:** the SDK [Tool Runner](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-runner) handles responses with multiple tool calls and formats the results for you, so you don’t write this handling yourself. Use the manual pattern on this page when you need direct control over how the calls run, such as custom batching, ordering, or error handling.
 </Note>
 
 The following script sends a request that should trigger parallel tool calls, verifies the response contains them, and formats the tool results so parallelism keeps working. Run it with `ANTHROPIC_API_KEY` set in your environment:
 
-<CodeGroup>
-  ```bash cURL
-  # This end-to-end test flow doesn't translate well to a one-off shell command.
-  # See the SDK tabs for the full flow. The underlying HTTP request is a standard
-  # tool use request with multiple tools defined.
-  ```
+<CodeGroup exclude="shell">
+  <CodeGroupItem language="cURL">
+    This end-to-end test needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it. The request it sends is a standard tool use request with two tools defined.
+  </CodeGroupItem>
 
-  ```bash CLI
-  # This end-to-end test flow doesn't translate well to a one-off shell command.
-  # See the SDK tabs for the full flow.
-  ```
+  <CodeGroupItem language="CLI">
+    This end-to-end test needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
 
   ```python Python
   client = Anthropic()
@@ -215,7 +240,7 @@ The following script sends a request that should trigger parallel tool calls, ve
 
   // Simulate tool execution and format results correctly
   const toolResults: Anthropic.ToolResultBlockParam[] = toolUses
-    .filter((block): block is Anthropic.ToolUseBlock => block.type === "tool_use")
+    .filter((block) => block.type === "tool_use")
     .map((toolUse) => {
       const input = toolUse.input as Record<string, string>;
       let result: string;
@@ -301,7 +326,7 @@ The following script sends a request that should trigger parallel tool calls, ve
   {
       Model = Model.ClaudeOpus5_5,
       MaxTokens = 1024,
-      Messages = [new() { Role = Role.User, Content = "What's the weather in SF and NYC, and what time is it there?" }],
+      Messages = [new UserMessageParam { Content = "What's the weather in SF and NYC, and what time is it there?" }],
       Tools = tools
   };
 
@@ -360,15 +385,15 @@ The following script sends a request that should trigger parallel tool calls, ve
       Model = Model.ClaudeOpus5_5,
       MaxTokens = 1024,
       Messages = [
-          new() { Role = Role.User, Content = "What's the weather in SF and NYC, and what time is it there?" },
-          new() { Role = Role.Assistant, Content = response.Content.Select(block => new ContentBlockParam(block.Json)).ToList() },
-          new() { Role = Role.User, Content = new MessageParamContent(toolResults) }
+          new UserMessageParam { Content = "What's the weather in SF and NYC, and what time is it there?" },
+          new AssistantMessageParam { Content = response.Content.Select(block => new ContentBlockParam(block.Json)).ToList() },
+          new UserMessageParam { Content = toolResults }
       ],
       Tools = tools
   };
 
   var finalResponse = await client.Messages.Create(finalParameters);
-  var text = finalResponse.Content.Select(b => b.Value).OfType<TextBlock>().FirstOrDefault();
+  var text = finalResponse.Content.Select(block => block.Value).OfType<TextBlock>().FirstOrDefault();
   Console.WriteLine($"\nClaude's response:\n{text?.Text}");
 
   Console.WriteLine("\n--- Verification ---");
@@ -595,7 +620,7 @@ The following script sends a request that should trigger parallel tool calls, ve
       .addTool(timeTool)
       .addUserMessage("What's the weather in SF and NYC, and what time is it there?")
       .addMessage(response)
-      .addUserMessageOfBlockParams(toolResults)
+      .addUserMessageOfContentBlockParams(toolResults)
       .build();
 
   Message finalResponse = client.messages().create(finalParams);
@@ -700,7 +725,7 @@ The following script sends a request that should trigger parallel tool calls, ve
   echo "\nClaude's response:\n{$textBlock->text}\n";
 
   echo "\n--- Verification ---\n";
-  echo "✓ Tool results sent in single user message: " . count($toolResults) . " results\n";
+  echo '✓ Tool results sent in single user message: ' . count($toolResults) . " results\n";
   echo "✓ No text before tool results in content array\n";
   echo "✓ Conversation formatted correctly for future parallel tool use\n";
   ```
@@ -741,7 +766,7 @@ The following script sends a request that should trigger parallel tool calls, ve
 
   puts "Requesting parallel tool calls..."
   response = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     messages: [
       { role: "user", content: "What's the weather in SF and NYC, and what time is it there?" }
@@ -779,7 +804,7 @@ The following script sends a request that should trigger parallel tool calls, ve
 
   puts "\nGetting final response..."
   final_response = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     messages: [
       { role: "user", content: "What's the weather in SF and NYC, and what time is it there?" },
@@ -813,7 +838,7 @@ Claude 4 and later models make parallel tool calls by default when a request ben
     For maximum efficiency, whenever you need to perform multiple independent operations, invoke all relevant tools simultaneously rather than sequentially.
     ```
 
-    For even stronger parallel tool use (recommended if the default isn't sufficient), use:
+    For even stronger parallel tool use (recommended if the default isn’t sufficient), use:
 
     ```text wrap
     <use_parallel_tool_calls>
@@ -850,14 +875,14 @@ Parallel tool use is on by default. To turn it off, set `disable_parallel_tool_u
 
 ### At most one tool call
 
-When `tool_choice` type is `auto` (the default), setting `disable_parallel_tool_use: true` means Claude calls at most one tool per response. Claude can still answer in plain text without calling any tool. The highlighted lines are the only change from a standard tool use request:
+When the `tool_choice` type is `auto` (the default), setting `disable_parallel_tool_use: true` means Claude calls at most one tool in each response. Claude can still answer in plain text without calling any tool. The highlighted lines are the only change from a standard tool use request:
 
 <CodeGroup>
   ```bash cURL
   curl https://api.anthropic.com/v1/messages \
     -H "content-type: application/json" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -d '{
       "model": "claude-opus-5-5",
       "max_tokens": 1024,
@@ -989,7 +1014,7 @@ When `tool_choice` type is `auto` (the default), setting `disable_parallel_tool_
           }),
       ],
       ToolChoice = new ToolChoiceAuto { DisableParallelToolUse = true },
-      Messages = [new() { Role = Role.User, Content = "What is the weather in San Francisco and New York?" }]
+      Messages = [new UserMessageParam { Content = "What is the weather in San Francisco and New York?" }]
   };
 
   var response = await client.Messages.Create(parameters);
@@ -1059,7 +1084,9 @@ When `tool_choice` type is `auto` (the default), setting `disable_parallel_tool_
               .inputSchema(schema)
               .build()
       )
-      .toolChoice(ToolChoiceAuto.builder().disableParallelToolUse(true).build())
+      .toolChoice(ToolChoiceAuto.builder()
+          .disableParallelToolUse(true)
+          .build())
       .addUserMessage("What is the weather in San Francisco and New York?")
       .build();
 
@@ -1075,7 +1102,7 @@ When `tool_choice` type is `auto` (the default), setting `disable_parallel_tool_
       messages: [
           ['role' => 'user', 'content' => 'What is the weather in San Francisco and New York?']
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
       toolChoice: ['type' => 'auto', 'disableParallelToolUse' => true],
       tools: [
           [
@@ -1102,7 +1129,7 @@ When `tool_choice` type is `auto` (the default), setting `disable_parallel_tool_
   client = Anthropic::Client.new
 
   response = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     tools: [
       {
@@ -1131,14 +1158,14 @@ When `tool_choice` type is `auto` (the default), setting `disable_parallel_tool_
 
 ### Exactly one tool call
 
-When `tool_choice` type is `any` or `tool`, setting `disable_parallel_tool_use: true` means Claude calls exactly one tool. Claude Opus 5.5, Claude Sonnet 5.5, Claude Fable 5.1, and Claude Mythos 5.1 don't support these `tool_choice` types (see [Forcing tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools#forcing-tool-use)). The following example uses `any`. The same field works with `tool`:
+When the `tool_choice` type is `any` or `tool`, setting `disable_parallel_tool_use: true` means Claude calls exactly one tool. Claude Fable 5.2, Claude Mythos 5.2, Claude Opus 5.5, Claude Sonnet 5.5, Claude Fable 5.1, and Claude Mythos 5.1 don’t support these `tool_choice` types (see [Forcing tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools#forcing-tool-use)). The following example uses `any`. The same field works with `tool`:
 
 <CodeGroup>
   ```bash cURL
   curl https://api.anthropic.com/v1/messages \
     -H "content-type: application/json" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -d '{
       "model": "claude-opus-5",
       "max_tokens": 1024,
@@ -1270,7 +1297,7 @@ When `tool_choice` type is `any` or `tool`, setting `disable_parallel_tool_use: 
           }),
       ],
       ToolChoice = new ToolChoiceAny { DisableParallelToolUse = true },
-      Messages = [new() { Role = Role.User, Content = "What is the weather in San Francisco and New York?" }]
+      Messages = [new UserMessageParam { Content = "What is the weather in San Francisco and New York?" }]
   };
 
   var response = await client.Messages.Create(parameters);
@@ -1340,7 +1367,9 @@ When `tool_choice` type is `any` or `tool`, setting `disable_parallel_tool_use: 
               .inputSchema(schema)
               .build()
       )
-      .toolChoice(ToolChoiceAny.builder().disableParallelToolUse(true).build())
+      .toolChoice(ToolChoiceAny.builder()
+          .disableParallelToolUse(true)
+          .build())
       .addUserMessage("What is the weather in San Francisco and New York?")
       .build();
 
@@ -1356,7 +1385,7 @@ When `tool_choice` type is `any` or `tool`, setting `disable_parallel_tool_use: 
       messages: [
           ['role' => 'user', 'content' => 'What is the weather in San Francisco and New York?']
       ],
-      model: 'claude-opus-5',
+      model: Model::CLAUDE_OPUS_5,
       toolChoice: ['type' => 'any', 'disableParallelToolUse' => true],
       tools: [
           [
@@ -1383,7 +1412,7 @@ When `tool_choice` type is `any` or `tool`, setting `disable_parallel_tool_use: 
   client = Anthropic::Client.new
 
   response = client.messages.create(
-    model: "claude-opus-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5,
     max_tokens: 1024,
     tools: [
       {
@@ -1412,11 +1441,11 @@ When `tool_choice` type is `any` or `tool`, setting `disable_parallel_tool_use: 
 
 ## Troubleshooting
 
-If Claude isn't making parallel tool calls when expected, check these common issues:
+If Claude isn’t making parallel tool calls when expected, check these common issues:
 
 **1. Incorrect tool result formatting**
 
-The most common issue is formatting tool results incorrectly in the conversation history. This "teaches" Claude to avoid parallel calls.
+The most common issue is formatting tool results incorrectly in the conversation history. This “teaches” Claude to avoid parallel calls.
 
 Specifically for parallel tool use:
 
@@ -1448,16 +1477,14 @@ Default prompting might not be sufficient. Use the stronger system prompt from [
 
 To verify parallel tool calls are working:
 
-<CodeGroup>
-  ```bash cURL
-  # Measuring parallel tool use is client-side analysis of responses you've already
-  # collected, so it doesn't translate to a one-off shell command. See the SDK tabs.
-  ```
+<CodeGroup exclude="shell">
+  <CodeGroupItem language="cURL">
+    To measure parallel tool use, your code analyzes the responses that it already collected. This needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) for this.
+  </CodeGroupItem>
 
-  ```bash CLI
-  # Measuring parallel tool use is client-side analysis of responses you've already
-  # collected, so it doesn't translate to a one-off shell command. See the SDK tabs.
-  ```
+  <CodeGroupItem language="CLI">
+    To measure parallel tool use, your code analyzes the responses that it already collected. This needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) for this.
+  </CodeGroupItem>
 
   ```python Python
   messages = []  # Message objects returned by client.messages.create across your run
@@ -1575,20 +1602,43 @@ To verify parallel tool calls are working:
 
 **4. Calls in a batch appear to depend on each other**
 
-Execution order is your choice. If your tools have ordering dependencies, running the batch sequentially and stopping on the first failure is a valid strategy (and the required one for the [computer use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool#batch-actions) and [browser use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/browser-use-tool#batch-actions) tools): return `is_error: true` for any call you didn't run. If you run in parallel and a call fails because its prerequisite hadn't completed, return `is_error: true` with the natural error message. Claude will reissue the call on the next turn. To reduce dependent calls appearing together, add this to your system prompt: "Only batch tool calls that are independent of each other."
+Execution order is your choice. If your tools have ordering dependencies, running the batch sequentially and stopping on the first failure is a valid strategy (and the required one for the [computer use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool#batch-actions) and [browser use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/browser-use-tool#batch-actions) tools): return `is_error: true` for any call you didn’t run. If you run in parallel and a call fails because its prerequisite hadn’t completed, return `is_error: true` with the natural error message. Claude will reissue the call on the next turn. To reduce dependent calls appearing together, add this to your system prompt: “Only batch tool calls that are independent of each other.”
 
 ## Next steps
 
 <CardGroup cols={3}>
-  <Card title="Tool Runner (SDK)" icon="wrench" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-runner">
-    Use the SDK's Tool Runner abstraction to handle the agentic loop, error wrapping, and type safety automatically.
+  <Card title="Tool runner (SDK)" icon="wrench" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-runner">
+    Use the SDK’s tool runner abstraction to handle the agentic loop, error wrapping, and type safety automatically.
   </Card>
 
   <Card title="Handle tool calls" icon="arrows-left-right" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls">
-    Parse tool\_use blocks, format tool\_result responses, and handle errors with is\_error.
+    Parse `tool_use` blocks, format `tool_result` responses, and handle errors with `is_error`.
   </Card>
 
   <Card title="Define tools" icon="hammer" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools">
     Specify tool schemas, write effective descriptions, and control when Claude calls your tools.
   </Card>
 </CardGroup>
+
+## Availability
+
+Parallel tool use is available or in beta, depending on the API.
+
+### API support
+
+#### [Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)
+
+* Availability: On by default
+* Usage: To turn it off, set `disable_parallel_tool_use: true` inside `tool_choice`.
+
+| Status    | Cloud platforms                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Available | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), [Amazon Bedrock](https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (InvokeModel)](https://platform.claude.com/docs/en/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry) |
+
+#### [Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview)
+
+* Availability: Always on
+
+| Status | Cloud platforms                                                                                                    |
+| ------ | ------------------------------------------------------------------------------------------------------------------ |
+| Beta   | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws) |

@@ -137,6 +137,18 @@ Long poll for work items in the queue.
 
     - `"spend-limit-reads-2026-09-26"`
 
+    - `"telemetry-destinations-2026-08-11"`
+
+    - `"webhooks-2026-10-07"`
+
+    - `"admin-user-sign-out-2026-10-08"`
+
+    - `"message-threads-2026-08-12"`
+
+    - `"analytics-usage-cost-2026-08-24"`
+
+    - `"experimental-claude-tag-2026-10-21"`
+
   - `"Anthropic-Worker-ID"?: string` (header parameter)
 
     Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
@@ -230,7 +242,7 @@ const betaSelfHostedWork = await client.beta.environments.work.poll(
   "env_011CZkZ9X2dpNyB7HsEFoRfW"
 );
 
-console.log(betaSelfHostedWork.id);
+console.log(betaSelfHostedWork);
 ```
 
 ### Response (200)

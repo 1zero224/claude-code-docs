@@ -32,13 +32,21 @@ This action will immediately sign you out of your account across all devices whe
 
 - Desktop applications
 
+- Claude Code, including tokens created with `setup-token` for continuous integration (CI)
+
+- Claude in your tools, such as Claude in Chrome, Claude in Slack, and [placeholder: public names for what the thread calls “Claude for Sheets” and “Claude for Teams”]
+
 To regain access to your account on any device, you'll need to authenticate again using either Google login or a login link sent to your email address.
 
-## How to log out from Claude Code
+**Note:** Logging out of all active sessions doesn’t affect your API keys.
 
-If you used your Claude account to authenticate into Claude Code, you can manage your authorization tokens by navigating to **[Settings > Claude Code](https://claude.ai/settings/claude-code)**. To remove a token and log out of Claude Code, click the trash can icon.
+## How to log out from Claude Code only
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1608263923/b4fa7d6f6f08f2adffb4ea63bc58/image+%287%29.png?expires=1792008900&amp;signature=c56843d79ff5ec8f84ffbca6db26f0469ce1994279600f2cfbba5dd2d4eca788&amp;req=dSYnHst4nohdWvMW1HO4zVuHix791m%2ByAQofdwM8qVcb9v3cEc%2B4yJLzURD%2B%0AHD97iBoIHTOgTw%2B9p2s%3D%0A)
+Logging out of all active sessions also logs you out of Claude Code. To log out of Claude Code and stay signed in everywhere else, remove its authorization token instead.
+
+If you used your Claude account to authenticate into Claude Code, you can see and log out of those sign-ins in **Settings > Account**, where they're listed with your other sessions. If they aren't listed there, manage your authorization tokens in **Settings > Claude Code**. To remove a token and log out of Claude Code, click the trash can icon.
+
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1608263923/b4fa7d6f6f08f2adffb4ea63bc58/image+%287%29.png?expires=1794298500&amp;signature=ac2de8d0e6c293db519d698c64dda47d0843b3d80ea72419aabba10e18953009&amp;req=dSYnHst4nohdWvMW1HO4zVuHixj%2F32%2B%2BAQofdwM8qVd%2BQfRAoZI%2B2Tf147JW%0AG%2BRzI%2B2AEhWc1yC8YBI%3D%0A)
 
 ## Unable to access your account?
 

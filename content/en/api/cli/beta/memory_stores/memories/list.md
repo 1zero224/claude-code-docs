@@ -1,15 +1,15 @@
 ---
-title: List memories
+title: List Memories
 url: https://platform.claude.com/docs/en/api/cli/beta/memory_stores/memories/list
 ---
 
-# List memories
+# List Memories
 
 `$ ant beta:memory-stores:memories list`
 
 **GET** `/v1/memory_stores/{memory_store_id}/memories`
 
-List memories
+List Memories
 
 ## Parameters
 
@@ -19,31 +19,159 @@ List memories
 
 - `--depth: optional number` (query parameter)
 
-  `0` (or omitted) returns all descendants below `path_prefix` (recursive). `1` returns immediate children only; deeper entries roll up as `memory_prefix` items. `depth=1` behaves like `ls`; omitting `depth` behaves like `find`.
+  How far below `path_prefix` to list. Defaults to `0`, which lists every memory below the prefix.
+
+  Pass `1` to list only the direct children. Deeper memories are then grouped into `memory_prefix` items.
 
   format: int32
 
 - `--limit: optional number` (query parameter)
 
-  Maximum number of items to return per page. Must be between 1 and 100. Defaults to 20 when omitted. Capped at 20 when `view=full`. Both `memory` and `memory_prefix` items count toward the limit.
+  The maximum number of items to return per page, from 1 to 100. Defaults to 20.
+
+  With `view=full`, a page holds at most 20 items. `memory` and `memory_prefix` items both count toward the limit.
 
   format: int32
 
 - `--page: optional string` (query parameter)
 
-  Opaque pagination cursor (a `page_...` value). Pass the `next_page` value from a previous response to fetch the next page; omit for the first page.
+  The `next_page` value from a previous response, to get the next page. Omit it to get the first page.
 
 - `--path-prefix: optional string` (query parameter)
 
-  Optional path prefix filter. Must end with `/` (segment-aligned), e.g., `/notes/`. This value appears in request URLs. Do not include secrets or personally identifiable information.
+  Return only memories whose path starts with this prefix, such as `/notes/`. This value appears in request URLs. Do not include secrets or personally identifiable information.
 
-- `--view: optional "basic" or "full"` (query parameter)
+  Omit it to list the whole store. The prefix must end with `/` and matches whole segments, so `/notes/` matches `/notes/todo.md` but not `/notes-archive/todo.md`.
 
-  Which projection of each `memory` to return. Defaults to `basic` (content omitted). `full` populates `content` on each item and caps `limit` at 20; use this as the bulk-read path for export and sync.
+- `--view: optional BetaManagedAgentsMemoryView` (query parameter)
+
+  Whether each memory in the response includes `content`. Defaults to `basic`, which sets it to `null`.
+
+  With `full`, a page holds at most 20 items.
+
+  - `"basic"`
+
+    Return the object with `content` set to `null`. The `content_size_bytes` and `content_sha256` fields remain populated, so sync clients can diff without fetching content.
+
+  - `"full"`
+
+    Return the object with `content` populated. On list endpoints, `view=full` caps `limit` at 20.
 
 - `--beta: optional array of AnthropicBeta` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+  - `"message-batches-2024-09-24"`
+
+  - `"prompt-caching-2024-07-31"`
+
+  - `"computer-use-2024-10-22"`
+
+  - `"computer-use-2025-01-24"`
+
+  - `"pdfs-2024-09-25"`
+
+  - `"token-counting-2024-11-01"`
+
+  - `"token-efficient-tools-2025-02-19"`
+
+  - `"output-128k-2025-02-19"`
+
+  - `"files-api-2025-04-14"`
+
+  - `"mcp-client-2025-04-04"`
+
+  - `"mcp-client-2025-11-20"`
+
+  - `"dev-full-thinking-2025-05-14"`
+
+  - `"interleaved-thinking-2025-05-14"`
+
+  - `"code-execution-2025-05-22"`
+
+  - `"extended-cache-ttl-2025-04-11"`
+
+  - `"context-1m-2025-08-07"`
+
+  - `"context-management-2025-06-27"`
+
+  - `"model-context-window-exceeded-2025-08-26"`
+
+  - `"skills-2025-10-02"`
+
+  - `"fast-mode-2026-02-01"`
+
+  - `"output-300k-2026-03-24"`
+
+  - `"user-profiles-2026-03-24"`
+
+  - `"user-profiles-2026-08-18"`
+
+  - `"user-profiles-2026-09-04"`
+
+  - `"advisor-tool-2026-03-01"`
+
+  - `"managed-agents-2026-04-01"`
+
+  - `"cache-diagnosis-2026-04-07"`
+
+  - `"dreaming-2026-04-21"`
+
+  - `"thinking-token-count-2026-05-13"`
+
+  - `"server-side-fallback-2026-06-01"`
+
+  - `"server-side-fallback-2026-07-01"`
+
+  - `"fallback-credit-2026-06-01"`
+
+  - `"fallback-credit-2026-07-01"`
+
+  - `"agent-memory-2026-07-22"`
+
+  - `"mid-conversation-tool-changes-2026-07-01"`
+
+  - `"compact-2026-01-12"`
+
+  - `"computer-use-2025-11-24"`
+
+  - `"mcp-tunnels-2026-06-22"`
+
+  - `"structured-outputs-2025-11-13"`
+
+  - `"task-budgets-2026-03-13"`
+
+  - `"thinking-display-updates-2026-08-18"`
+
+  - `"ce-user-management-2026-07-13"`
+
+  - `"mid-conversation-output-config-2026-07-01"`
+
+  - `"thinking-binding-controls-2026-08-01"`
+
+  - `"mid-conversation-system-clear-at-2026-08-21"`
+
+  - `"compact-2026-09-04"`
+
+  - `"inline-tools-2026-09-15"`
+
+  - `"mcp-client-2026-09-15"`
+
+  - `"ce-plugins-2026-09-01"`
+
+  - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -55,7 +183,7 @@ List memories
 
 - `BetaManagedAgentsListMemoriesResult: object`
 
-  Response payload for [List memories](https://platform.claude.com/docs/en/api/beta/memory_stores/memories/list?sdk_languages=cli).
+  A page of results from [List Memories](https://platform.claude.com/docs/en/api/beta/memory_stores/memories/list?sdk_languages=cli).
 
   - `data: optional array of BetaManagedAgentsMemoryListItem`
 
@@ -63,13 +191,21 @@ List memories
 
     - `beta_managed_agents_memory: object`
 
-      A `memory` object: a single text document at a hierarchical path inside a memory store. The `content` field is populated when `view=full` and `null` when `view=basic`; the `content_size_bytes` and `content_sha256` fields are always populated so sync clients can diff without fetching content. Memories are addressed by their `mem_...` ID; the path is the create key and can be changed via update.
+      A text document at a path inside a memory store.
+
+      `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
+
+      See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=cli#view-and-edit-memories) to learn more about working with memories.
+
+      - `type: "memory"`
 
       - `type: "memory"`
 
       - `id: string`
 
-        Unique identifier for this memory (a `mem_...` value). Stable across renames; use this ID, not the path, to read, update, or delete the memory.
+        The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
+
+        To retrieve, update, or delete the memory, pass this ID.
 
       - `content_sha256: string`
 
@@ -77,7 +213,7 @@ List memories
 
       - `content_size_bytes: number`
 
-        Size of `content` in bytes (the UTF-8 plaintext length). Always populated, regardless of `view`.
+        The size of the memory's `content` in UTF-8 bytes. It is set regardless of `view`.
 
         format: int32
 
@@ -93,7 +229,11 @@ List memories
 
       - `memory_version_id: string`
 
-        ID of the `memory_version` representing this memory's current content (a `memver_...` value). This is the authoritative head pointer; `memory_version` objects do not carry an `is_latest` flag, so compare against this field instead. Enumerate the history via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=cli).
+        The ID of the memory version that holds the memory's current content (`memver_...`).
+
+        Memory versions don't have a flag that marks the latest one. Compare their IDs with this field instead.
+
+        See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=cli#audit-memory-changes) to learn more about memory versions.
 
       - `path: string`
 
@@ -101,17 +241,23 @@ List memories
 
       - `updated_at: string`
 
-        When this memory was last modified, in RFC 3339 format. Use this as a cheap freshness signal; for who made the change, look up the head version's `created_by` via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=cli).
+        When the memory was last changed, in RFC 3339.
+
+        To find out who made the change, look at `created_by` on the memory version that `memory_version_id` references.
 
         format: date-time
 
       - `content: optional string`
 
-        The memory's UTF-8 text content. Populated when `view=full`; `null` when `view=basic`. Maximum 100 kB (102,400 bytes).
+        The memory's UTF-8 text content, or `null` when the response uses `view=basic`.
+
+        The maximum size is 100 kB (102,400 bytes).
 
     - `beta_managed_agents_memory_prefix: object`
 
-      A rolled-up directory marker returned by [List memories](https://platform.claude.com/docs/en/api/beta/memory_stores/memories/list?sdk_languages=cli) when `depth` is set. Indicates that one or more memories exist deeper than the requested depth under this prefix. This is a list-time rollup, not a stored resource; it has no ID and no lifecycle. Each prefix counts toward the page `limit` and interleaves with `memory` items in path order.
+      A directory marker that [List Memories](https://platform.claude.com/docs/en/api/beta/memory_stores/memories/list?sdk_languages=cli) returns instead of the memories below the requested `depth`.
+
+      It stands for one or more memories whose paths start with `path`. It isn't a stored object and doesn't have an ID. Each marker counts toward the page `limit`.
 
       - `type: "memory_prefix"`
 
@@ -121,13 +267,12 @@ List memories
 
   - `next_page: optional string`
 
-    Opaque cursor for the next page (a `page_...` value), or `null` if there are no more results. Pass as `page` on the next request.
+    The value to pass as `page` to get the next page, or `null` if there are no more results.
 
 ## Example
 
 ```bash
 ant beta:memory-stores:memories list \
-  --api-key my-anthropic-api-key \
   --memory-store-id memory_store_id
 ```
 

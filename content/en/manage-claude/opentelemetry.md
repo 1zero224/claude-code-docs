@@ -1,5 +1,5 @@
 ---
-title: OpenTelemetry for the Claude API
+title: OpenTelemetry tracing for the Claude API
 url: https://platform.claude.com/docs/en/manage-claude/opentelemetry
 description: Trace your Messages API requests, tool uses, and Managed Agents sessions with OpenTelemetry spans from the Claude SDK and the Claude API.
 featureMetadata:
@@ -7,19 +7,59 @@ featureMetadata:
     title: OpenTelemetry
     url: https://platform.claude.com/docs/en/manage-claude/opentelemetry
   status: beta
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: beta
+    Claude Platform on AWS: beta
+    Claude Models on Google Cloud (Anthropic managed): beta
+    Amazon Bedrock: beta
+    Amazon Bedrock (InvokeModel): beta
+    Claude Models on Google Cloud (Google managed): beta
+    Microsoft Foundry: beta
 ---
 
 <Note>
-  OpenTelemetry export is in beta. It's provided under your agreement with Anthropic, including the Beta Services section of the [Service Specific Terms](https://www.anthropic.com/legal/service-specific-terms).
+  OpenTelemetry export is in beta. It’s provided under your agreement with Anthropic, including the Beta Services section of the [Service Specific Terms](https://www.anthropic.com/legal/service-specific-terms).
 </Note>
 
-The Claude API and the SDK can trace your Messages API requests, tool uses, and Managed Agents sessions with [OpenTelemetry](https://opentelemetry.io/). You can view these traces in the observability platform you already have. Use them to debug failed or slow requests, track token spend and latency, and build evals from real traffic. You can also see each request inside your application's own traces, linked to the user or feature that sent it.
+<video aria-label="Trace agents with OpenTelemetry on the Claude Platform">
+  <source src="https://media.platform.claude.com/docs/opentelemetry/tracing/overview-1080p.mp4" type="video/mp4" media="(min-width: 1280px)" />
+  <source src="https://media.platform.claude.com/docs/opentelemetry/tracing/overview-720p.mp4" type="video/mp4" media="(min-width: 640px)" />
+  <source src="https://media.platform.claude.com/docs/opentelemetry/tracing/overview-480p.mp4" type="video/mp4" />
+</video>
+
+The Claude API and the SDK can trace your Messages API requests, tool uses, and Managed Agents sessions with [OpenTelemetry](https://opentelemetry.io/) (OTel). You can view these traces in the observability platform you already have. Use them to debug failed or slow requests, track token spend and latency, and build evals from real traffic. You can also see each request inside your application’s own traces, linked to the user or feature that sent it.
 
 OpenTelemetry is a vendor-neutral standard that most observability platforms support. A *trace* is the full record of one request through your system. A *span* is one step in a trace, such as a model request or a tool use. The API and the SDK use attributes from the [GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai), so platforms that support the conventions can recognize the spans without extra setup.
 
 ## Get started
 
-You can set up SDK tracing, API tracing, or both. Set up both to see a request's SDK and API spans in one trace, as in the [example traces](https://platform.claude.com/docs/en/manage-claude/opentelemetry#example-traces-and-how-to-read-them). For requests to Claude Platform on AWS, the API spans are in their own traces instead.
+You can set up SDK tracing, API tracing, or both. Set up both to see a request’s SDK and API spans in one trace, as in the [example traces](https://platform.claude.com/docs/en/manage-claude/opentelemetry#example-traces-and-how-to-read-them).
+
+Let Claude Code set up this feature for you
+
+```text
+Set up OpenTelemetry tracing with the Claude API and Claude SDK
+```
 
 <CardGroup cols={3}>
   <Card title="Set up SDK tracing" icon="code-brackets" href="https://platform.claude.com/docs/en/manage-claude/opentelemetry/sdk" layout="horizontal">
@@ -39,7 +79,7 @@ You can set up SDK tracing, API tracing, or both. Set up both to see a request's
 | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
 | [Messages API](https://platform.claude.com/docs/en/api/messages/create) requests                                                  | ✅                                                                           | ✅                                                                                          | ✅                                                                                          |
 | [Sessions API](https://platform.claude.com/docs/en/managed-agents/sessions) requests                                              | ✅                                                                           | ✅                                                                                          | ✅                                                                                          |
-| [Token usage](https://platform.claude.com/docs/en/manage-claude/opentelemetry#count-tokens)                                       | ✅                                                                           | ✅                                                                                          | ✅                                                                                          |
+| Token usage (see [Counting tokens](https://platform.claude.com/docs/en/manage-claude/opentelemetry#count-tokens))                 | ✅                                                                           | ✅                                                                                          | ✅                                                                                          |
 | Each model run within a request                                                                                                   | —                                                                           | ✅                                                                                          | ✅                                                                                          |
 | [Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview) turns                                               | —                                                                           | ✅                                                                                          | ✅                                                                                          |
 | [Server tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools), run by the API                        | —                                                                           | ✅                                                                                          | ✅                                                                                          |
@@ -74,6 +114,14 @@ Send traces to any observability platform that accepts OTLP, including these par
     AI-powered observability and security.
   </Card>
 
+  <Card title="Dynatrace" image="https://platform.claude.com/docs/images/partner-logos/dynatrace.svg" imageDark="https://platform.claude.com/docs/images/partner-logos/dynatrace-dark.svg" imageHeight={22} href="https://docs.dynatrace.com/docs/observe/dynatrace-for-ai-observability/integrations/claude-platform">
+    Observability built for the age of AI.
+  </Card>
+
+  <Card title="Elastic" image="https://platform.claude.com/docs/images/partner-logos/elastic.svg" imageDark="https://platform.claude.com/docs/images/partner-logos/elastic-dark.svg" imageHeight={32} href="https://www.elastic.co/docs/reference/opentelemetry/motlp">
+    Observability built on open source.
+  </Card>
+
   <Card title="Grafana Cloud" image="https://platform.claude.com/docs/images/partner-logos/grafana.svg" imageDark="https://platform.claude.com/docs/images/partner-logos/grafana-dark.svg" imageHeight={34} imageOffsetLeft={2} href="https://grafana.com/docs/grafana-cloud/observe-and-act/agent-observability/guides/send-claude-platform-traces/">
     Fully managed open observability platform.
   </Card>
@@ -98,8 +146,16 @@ Send traces to any observability platform that accepts OTLP, including these par
     All-in-one platform for building successful products.
   </Card>
 
+  <Card title="Pydantic Logfire" image="https://platform.claude.com/docs/images/partner-logos/pydantic.svg" imageDark="https://platform.claude.com/docs/images/partner-logos/pydantic-dark.svg" imageHeight={24} href="https://pydantic.dev/docs/logfire/integrations/llms/claude-platform/">
+    Production-grade AI & general observability.
+  </Card>
+
   <Card title="Sentry" image="https://platform.claude.com/docs/images/partner-logos/sentry.svg" imageDark="https://platform.claude.com/docs/images/partner-logos/sentry-dark.svg" imageHeight={25} href="https://sentry.io/cookbook/trace-claude-platform-with-opentelemetry/">
     Debug your broken code and misbehaving agents.
+  </Card>
+
+  <Card title="Snowflake" image="https://platform.claude.com/docs/images/partner-logos/snowflake.svg" imageHeight={30} imageOffsetLeft={2} href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-ai-gateway/observability#trace-claude-requests">
+    Agentic control plane with built-in observability and governance.
   </Card>
 
   <Card title="Splunk" image="https://platform.claude.com/docs/images/partner-logos/splunk.svg" imageDark="https://platform.claude.com/docs/images/partner-logos/splunk-dark.svg" imageHeight={27} imageOffsetLeft={1} href="https://agent-observability-docs.splunk.com/sdk-api/third-party-integrations/claude">
@@ -117,16 +173,16 @@ Each destination and each SDK client has a content mode, which sets whether span
 With Full content, you can also see why a run failed or was slow, read full conversations, and build evals from real traces. In the [OpenTelemetry span reference](https://platform.claude.com/docs/en/api/opentelemetry/spans), attributes that hold prompts and responses are tagged <Badge>Content</Badge>.
 
 <Info>
-  Your observability platform stores this content under its own access and retention settings, so check that they meet your organization's requirements.
+  Your observability platform stores this content under its own access and retention settings, so check that they meet your organization’s requirements.
 </Info>
 
-If your organization has a HIPAA, FERPA, or K-12 data-handling restriction with Anthropic, destinations export only metadata regardless of their content mode. SDK spans aren't affected.
+If your organization has a HIPAA, FERPA, or K-12 data-handling restriction with Anthropic, destinations export only metadata regardless of their content mode. SDK spans aren’t affected.
 
-With [zero data retention](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention), you can still use Full content. For Messages API requests, the API holds the exported content only in memory until it delivers it to the destination. [Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview) isn't eligible for zero data retention, and its data retention stays the same when you use OpenTelemetry.
+With [zero data retention](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention), you can still use Full content. For Messages API requests, the API holds the exported content only in memory until it delivers it to the destination. [Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview) isn’t eligible for zero data retention, and its data retention stays the same when you use OpenTelemetry.
 
 ### Content limits
 
-With Full content, each span holds up to 0.75 MB of content by default. That fits a 200k-token context window of English text and stays below the 1 MB request limit of many observability platforms and proxies. If you choose a partner platform as the **Provider**, the Console sets a limit that the platform accepts.
+With Full content, each span holds up to 0.75 MB of content by default. That fits a 200k-token context window of English text and stays below the 1 MB request limit of many observability platforms and proxies. If you select a partner platform as the **Provider**, the Console sets a limit that the platform accepts.
 
 When content is over the limit, the SDK or the API shortens it and sets `anthropic.content.truncated` to `true`. Request spans drop the system prompt and the earliest messages first, and tool spans drop blocks from the end of the result. Images and documents appear only as their type.
 
@@ -154,40 +210,40 @@ In this example, your application calls the [tool runner](https://platform.claud
 
 ![Example Messages tool runner trace: two requests with client and server spans, model requests, web\_search, and get\_weather](https://platform.claude.com/docs/images/opentelemetry-sdk-trace-shape.svg)
 
-The SDK in your application emits the [`anthropic.messages.tool_runner`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-messages-tool-runner) span, the [`anthropic.custom_tool_use`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-tool-use-anthropic-mcp-tool-use-and-anthropic-custom-tool-use) span, and each request's client span. To get these spans, [set up SDK tracing](https://platform.claude.com/docs/en/manage-claude/opentelemetry/sdk).
+The SDK in your application emits the [`anthropic.messages.tool_runner`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-messages-tool-runner) span, the [`anthropic.custom_tool_use`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-tool-use-anthropic-mcp-tool-use-and-anthropic-custom-tool-use) span, and each request’s client span. To get these spans, [set up SDK tracing](https://platform.claude.com/docs/en/manage-claude/opentelemetry/sdk).
 
 Each request has its token usage on several of its spans. To count each token once, see [Counting tokens](https://platform.claude.com/docs/en/manage-claude/opentelemetry#count-tokens).
 
-With [Full content](https://platform.claude.com/docs/en/manage-claude/opentelemetry#choose-a-content-mode), the `anthropic.messages.create` server span has the prompt and the response. The system prompt is in `gen_ai.system_instructions`, the request's messages in `gen_ai.input.messages`, and the response in `gen_ai.output.messages`.
+With [Full content](https://platform.claude.com/docs/en/manage-claude/opentelemetry#choose-a-content-mode), the `anthropic.messages.create` server span has the prompt and the response. The system prompt is in `gen_ai.system_instructions`, the request’s messages in `gen_ai.input.messages`, and the response in `gen_ai.output.messages`.
 
 For each span and its attributes, see the [OpenTelemetry span reference](https://platform.claude.com/docs/en/api/opentelemetry/spans).
 
 ### A Managed Agents session
 
-A session has a span for each Sessions API request and a turn span for each agent turn. A turn that a request starts is a child of that request's span. A turn contains a span for each model request and each tool that the API runs, except in the [cases listed in the tool span reference](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-tool-use-anthropic-mcp-tool-use-and-anthropic-custom-tool-use). It also contains a span for each outcome evaluation.
+A session has a span for each Sessions API request and a turn span for each agent turn. A turn that a request starts is a child of that request’s span. A turn contains a span for each model request and each tool that the API runs, except in the [cases listed in the tool span reference](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-tool-use-anthropic-mcp-tool-use-and-anthropic-custom-tool-use). It also contains a span for each outcome evaluation.
 
 This example follows one chat request, in which your application sends a message to a session and runs a custom tool. The trace has spans from both your application and the API, in the following order:
 
 1. Your application receives a `POST /chat` request from a user.
-2. Your application starts the SDK's session tool runner, which lists and streams the session's events (shown as the `anthropic.sessions.events.stream` and `anthropic.sessions.events.list` spans).
-3. Your application sends the user's message to the session by calling `sessions.events.send`.
+2. Your application starts the SDK’s session tool runner, which lists and streams the session’s events (shown as the `anthropic.sessions.events.stream` and `anthropic.sessions.events.list` spans).
+3. Your application sends the user’s message to the session by calling `sessions.events.send`.
 4. A turn starts and includes model requests, a `bash` tool use, and a turn on another thread (shown as the first `anthropic.session.turn` span and the spans under it).
 5. The model asks to use the [custom tool](https://platform.claude.com/docs/en/managed-agents/tools) `list_issues`, so the turn ends with the stop reason `requires_action`.
 6. The session tool runner runs `list_issues` (shown as the `anthropic.custom_tool_use list_issues` span) and sends its result by calling `sessions.events.send`.
 7. A second turn starts with the tool result (shown as the last `anthropic.session.turn` span).
 
-![Example trace of a Managed Agents session: your POST /chat span, the event stream and event list requests of the session tool runner, the client and server spans for the request that sends the user message, a turn with model requests, a bash tool use and a turn on another thread, the runner running list\_issues, the client and server spans for the request that sends the tool result, and a second turn.](https://platform.claude.com/docs/images/opentelemetry-trace-shape.svg)
+![Example Managed Agents session trace: POST /chat, four session event requests, three turns, a bash tool use, and list\_issues](https://platform.claude.com/docs/images/opentelemetry-trace-shape.svg)
 
-The SDK in your application emits the [`anthropic.custom_tool_use`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-tool-use-anthropic-mcp-tool-use-and-anthropic-custom-tool-use) span and each request's client span. To get these spans, [set up SDK tracing](https://platform.claude.com/docs/en/manage-claude/opentelemetry/sdk).
+The SDK in your application emits the [`anthropic.custom_tool_use`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-tool-use-anthropic-mcp-tool-use-and-anthropic-custom-tool-use) span and each request’s client span. To get these spans, [set up SDK tracing](https://platform.claude.com/docs/en/manage-claude/opentelemetry/sdk).
 
-A session's spans can be in several traces, for example when you send a later request from a new root trace. With [multiagent](https://platform.claude.com/docs/en/managed-agents/multiagent-orchestration) on, a session can also have several threads. To find the spans you need, group them by an ID.
+A session’s spans can be in several traces, for example when you send a later request from a new root trace. With [multiagent](https://platform.claude.com/docs/en/managed-agents/multiagent-orchestration) on, a session can also have several threads. To find the spans you need, group them by an ID.
 
 * **One thread:** Group spans by `gen_ai.conversation.id`, which holds the session thread ID. Sort them by start time to read the thread as a transcript.
 * **A whole session, with all its threads:** Group spans by `anthropic.session.id`, across traces.
 
-With [Full content](https://platform.claude.com/docs/en/manage-claude/opentelemetry#choose-a-content-mode), you can read a session's content from its spans.
+With [Full content](https://platform.claude.com/docs/en/manage-claude/opentelemetry#choose-a-content-mode), you can read a session’s content from its spans.
 
-* To read a turn's content, use its [turn span](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-session-turn). The system prompt is in `gen_ai.system_instructions` on a thread's first turn span, the input in `gen_ai.input.messages` (your messages and tool results, `system.message` events, and messages from other threads), and the output in `gen_ai.output.messages` (the agent's messages, tool uses, and tool results).
+* To read a turn’s content, use its [turn span](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-session-turn). The system prompt is in `gen_ai.system_instructions` on a thread’s first turn span, the input in `gen_ai.input.messages` (your messages and tool results, `system.message` events, and messages from other threads), and the output in `gen_ai.output.messages` (the agent’s messages, tool uses, and tool results).
 * To see the arguments and result of a tool use, read its [tool span](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-tool-use-anthropic-mcp-tool-use-and-anthropic-custom-tool-use). The arguments are in `gen_ai.tool.call.arguments`, and the result is in `anthropic.tool_result.content`.
 
 For each span and its attributes, see the [OpenTelemetry span reference](https://platform.claude.com/docs/en/api/opentelemetry/spans).
@@ -198,14 +254,36 @@ To count each token once, sum the spans of only one source for each request. Whe
 
 For each source, sum only the following spans, because some usage attributes repeat on more than one level of the API spans:
 
-* **SDK spans:** Sum the [`anthropic.messages.create`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-messages-create) spans. If a request has [compactions](https://platform.claude.com/docs/en/build-with-claude/compaction), also add the span's `anthropic.usage.compaction.input_tokens` and `anthropic.usage.compaction.output_tokens`, because the `gen_ai.usage.*` attributes don't include compaction tokens. If a [fallback model](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback) served a request, its span has the usage of only the model that served the response.
-* **API spans for a Messages API request:** Sum either the [`anthropic.messages.create`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-messages-create) spans or their [`anthropic.model_request`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-model-request) spans, not both. If a request has compactions, also add its [`anthropic.compaction`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-compaction) spans. Don't add the `anthropic.usage.compaction.*` attributes of the `anthropic.messages.create` span as well, because they hold the same tokens.
+* **SDK spans:** Sum the [`anthropic.messages.create`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-messages-create) spans. If a request has [compactions](https://platform.claude.com/docs/en/build-with-claude/compaction), also add the span’s `anthropic.usage.compaction.input_tokens` and `anthropic.usage.compaction.output_tokens`, because the `gen_ai.usage.*` attributes don’t include compaction tokens. If a [fallback model](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback) served a request, its span has the usage of only the model that served the response.
+* **API spans for a Messages API request:** Sum either the [`anthropic.messages.create`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-messages-create) spans or their [`anthropic.model_request`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-model-request) spans, not both. If a request has compactions, also add its [`anthropic.compaction`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-compaction) spans. Don’t add the `anthropic.usage.compaction.*` attributes of the `anthropic.messages.create` span as well, because they hold the same tokens.
 * **API spans for a Managed Agents session:** Sum the `anthropic.model_request` and [`anthropic.session.outcome_evaluation`](https://platform.claude.com/docs/en/api/opentelemetry/spans#anthropic-session-outcome-evaluation) spans.
 
-Spans can arrive more than once, for example when a delivery is retried. If your observability platform doesn't remove duplicates, count each span once by its trace ID and span ID.
+Spans can arrive more than once, for example when a delivery is retried. If your observability platform doesn’t remove duplicates, count each span once by its trace ID and span ID.
 
-`gen_ai.usage.input_tokens` already includes the tokens read from and written to the prompt cache, so don't add the cache attributes to it. For all usage attributes, see [Token usage](https://platform.claude.com/docs/en/api/opentelemetry/spans#token-usage).
+`gen_ai.usage.input_tokens` already includes the tokens read from and written to the prompt cache, so don’t add the cache attributes to it. For all usage attributes, see [Token usage](https://platform.claude.com/docs/en/api/opentelemetry/spans#token-usage).
 
 <Note>
-  Exported spans aren't guaranteed to be a complete record of your API usage. Their delivery is [best effort](https://platform.claude.com/docs/en/manage-claude/opentelemetry/api#delivery-and-health), so a span can be lost. A caller can also leave out a request's spans by turning off the sampled flag in the request's [`traceparent` header](https://platform.claude.com/docs/en/manage-claude/opentelemetry/api#connect-api-spans-to-your-own-traces). To track each API key's usage, for example to spot a leaked key, use the [Usage API](https://platform.claude.com/docs/en/manage-claude/usage-cost-api#usage-api), which also counts the usage of requests without spans.
+  Exported spans aren’t guaranteed to be a complete record of your API usage. Their delivery is [best effort](https://platform.claude.com/docs/en/manage-claude/opentelemetry/api#delivery-and-health), so a span can be lost. A caller can also leave out a request’s spans by turning off the sampled flag in the request’s [`traceparent` header](https://platform.claude.com/docs/en/manage-claude/opentelemetry/api#connect-api-spans-to-your-own-traces). To track each API key’s usage, for example to spot a leaked key, use the [Usage and Cost Analytics API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api) and group by `api_key_id`. It also counts the usage of requests without spans. Usage typically appears there within 4 hours (see [Data freshness](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api#data-freshness)).
 </Note>
+
+## Availability
+
+OpenTelemetry is in beta on every model.
+
+### API support
+
+#### [Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)
+
+* Availability: Available
+
+| Status | Cloud platforms         | Models                                                            |
+| ------ | ----------------------- | ----------------------------------------------------------------- |
+| Beta   | All supported platforms | [All models](https://platform.claude.com/docs/en/models/overview) |
+
+#### [Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview)
+
+* Availability: Available
+
+| Status | Cloud platforms         | Models                                                            |
+| ------ | ----------------------- | ----------------------------------------------------------------- |
+| Beta   | All supported platforms | [All models](https://platform.claude.com/docs/en/models/overview) |

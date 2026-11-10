@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/php/beta/skills/versions/create
 
 # Create Skill Version
 
-`$client->beta->skills->versions->create(string skillID, list<string> files, ?list<AnthropicBeta> betas, ?string workspaceID): SkillVersion`
+`$client->beta->skills->versions->create(string skillID, list<FileParam | string> files, ?list<AnthropicBeta> betas, ?string workspaceID): SkillVersion`
 
 **POST** `/v1/skills/{skill_id}/versions`
 
@@ -19,17 +19,17 @@ Create Skill Version
 
   The format and length of IDs may change over time.
 
-- `files: list<string>`
+- `files: list<FileParam | string>`
 
   Files to upload for the skill.
 
   All files must be in the same top-level directory and must include a SKILL.md file at the root of that directory.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -79,6 +79,10 @@ Create Skill Version
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Core\FileParam;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

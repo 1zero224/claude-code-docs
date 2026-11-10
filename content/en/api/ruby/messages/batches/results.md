@@ -21,7 +21,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   ID of the Message Batch.
 
-- `workspace_id: String` (header parameter)
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -63,7 +63,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           The format and length of IDs may change over time.
 
-        - `container: Container`
+        - `container: Container | nil`
 
           Information about the container used in this request.
 
@@ -79,7 +79,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             format: date-time
 
-          - `skills: Array[ContainerSkill]`
+          - `skills: Array[ContainerSkill] | nil`
 
             Skills loaded in the container
 
@@ -136,7 +136,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: :text`
 
-            - `citations: Array[TextCitation]`
+            - `citations: Array[TextCitation] | nil`
 
               Citations supporting the text block.
 
@@ -152,11 +152,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   minimum: 0
 
-                - `document_title: String`
+                - `document_title: String | nil`
 
                 - `end_char_index: Integer`
 
-                - `file_id: String`
+                - `file_id: String | nil`
 
                 - `start_char_index: Integer`
 
@@ -172,11 +172,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   minimum: 0
 
-                - `document_title: String`
+                - `document_title: String | nil`
 
                 - `end_page_number: Integer`
 
-                - `file_id: String`
+                - `file_id: String | nil`
 
                 - `start_page_number: Integer`
 
@@ -196,7 +196,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   minimum: 0
 
-                - `document_title: String`
+                - `document_title: String | nil`
 
                 - `end_block_index: Integer`
 
@@ -204,7 +204,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
 
-                - `file_id: String`
+                - `file_id: String | nil`
 
                 - `start_block_index: Integer`
 
@@ -220,7 +220,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `encrypted_index: String`
 
-                - `title: String`
+                - `title: String | nil`
 
                   maxLength: 512
 
@@ -258,7 +258,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   minimum: 0
 
-                - `title: String`
+                - `title: String | nil`
 
             - `text: String`
 
@@ -330,7 +330,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               minLength: 1
 
-            - `toolset_name: String`
+            - `toolset_name: optional String | nil`
 
               For a toolset member tool_use, the toolset family.
 
@@ -416,7 +416,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `encrypted_content: String`
 
-                - `page_age: String`
+                - `page_age: String | nil`
 
                 - `title: String`
 
@@ -478,7 +478,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `type: :document`
 
-                  - `citations: CitationsConfig`
+                  - `citations: CitationsConfig | nil`
 
                     Citation configuration for the document
 
@@ -504,11 +504,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                       - `media_type: :"text/plain"`
 
-                  - `title: String`
+                  - `title: String | nil`
 
                     The title of the document
 
-                - `retrieved_at: String`
+                - `retrieved_at: String | nil`
 
                   ISO 8601 timestamp when the content was retrieved
 
@@ -558,7 +558,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `class EncryptedCodeExecutionResultBlock`
 
-                Code execution result with encrypted stdout for PFC + web_search results.
+                The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+                The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+                See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=ruby) to learn more about programmatic tool calling.
+
+                - `type: :encrypted_code_execution_result`
 
                 - `type: :encrypted_code_execution_result`
 
@@ -642,7 +648,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `:file_not_found`
 
-                - `error_message: String`
+                - `error_message: String | nil`
 
               - `class TextEditorCodeExecutionViewResultBlock`
 
@@ -658,11 +664,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `:pdf`
 
-                - `num_lines: Integer`
+                - `num_lines: Integer | nil`
 
-                - `start_line: Integer`
+                - `start_line: Integer | nil`
 
-                - `total_lines: Integer`
+                - `total_lines: Integer | nil`
 
               - `class TextEditorCodeExecutionCreateResultBlock`
 
@@ -674,15 +680,15 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `type: :text_editor_code_execution_str_replace_result`
 
-                - `lines: Array[String]`
+                - `lines: Array[String] | nil`
 
-                - `new_lines: Integer`
+                - `new_lines: Integer | nil`
 
-                - `new_start: Integer`
+                - `new_start: Integer | nil`
 
-                - `old_lines: Integer`
+                - `old_lines: Integer | nil`
 
-                - `old_start: Integer`
+                - `old_start: Integer | nil`
 
             - `tool_use_id: String`
 
@@ -708,7 +714,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `:execution_time_exceeded`
 
-                - `error_message: String`
+                - `error_message: String | nil`
 
               - `class ToolSearchToolSearchResultBlock`
 
@@ -734,15 +740,19 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `file_id: String`
 
-        - `diagnostics: Diagnostics`
+        - `diagnostics: Diagnostics | nil`
 
           Request-level diagnostics. `null` when the request did not supply `diagnostics`, or when it did and no prompt-cache divergence was detected.
 
-          - `cache_miss_reason: CacheMissReason`
+          - `cache_miss_reason: CacheMissReason | nil`
 
             Explains why the prompt cache could not fully reuse the prefix from the request identified by `diagnostics.previous_message_id`. `null` means diagnosis is still pending — the response was serialized before the background comparison completed.
 
             - `class CacheMissModelChanged`
+
+              A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=ruby#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: :model_changed`
 
@@ -752,6 +762,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `class CacheMissSystemChanged`
 
+              A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=ruby#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: :system_changed`
 
               - `cache_missed_input_tokens: Integer`
@@ -759,6 +773,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `class CacheMissToolsChanged`
+
+              A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=ruby#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: :tools_changed`
 
@@ -768,6 +786,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `class CacheMissMessagesChanged`
 
+              A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=ruby#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: :messages_changed`
 
               - `cache_missed_input_tokens: Integer`
@@ -776,9 +798,21 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `class CacheMissPreviousMessageNotFound`
 
+              A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+              This doesn't mean that this request changed.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=ruby#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: :previous_message_not_found`
 
             - `class CacheMissUnavailable`
+
+              A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+              This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=ruby#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: :unavailable`
 
@@ -787,6 +821,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           The model that will complete your prompt.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `:"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+          - `:"claude-mythos-5-2"`
+
+            Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
           - `:"claude-haiku-5-5"`
 
@@ -878,7 +920,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           This will always be `"assistant"`.
 
-        - `stop_details: RefusalStopDetails`
+        - `stop_details: RefusalStopDetails | nil`
 
           Structured information about why model output stopped.
 
@@ -886,7 +928,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           - `type: :refusal`
 
-          - `category: :cyber | :bio | :frontier_llm | 2 more`
+          - `category: :cyber | :bio | :frontier_llm | 2 more | nil`
 
             The policy category that triggered the refusal.
 
@@ -912,13 +954,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               The request could be related to an area that was determined as harmful. Benign work might sometimes trigger this category.
 
-          - `explanation: String`
+          - `explanation: String | nil`
 
             Human-readable explanation of the refusal.
 
             This text is not guaranteed to be stable. `null` when no explanation is available for the category.
 
-        - `stop_reason: StopReason`
+        - `stop_reason: StopReason | nil`
 
           The reason that we stopped.
 
@@ -948,7 +990,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           - `:model_context_window_exceeded`
 
-        - `stop_sequence: String`
+        - `stop_sequence: String | nil`
 
           Which custom stop sequence was generated, if any.
 
@@ -966,7 +1008,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
           Total input tokens in a request is the summation of `input_tokens`, `cache_creation_input_tokens`, and `cache_read_input_tokens`.
 
-          - `cache_creation: CacheCreation`
+          - `cache_creation: CacheCreation | nil`
 
             Breakdown of cached tokens by TTL
 
@@ -982,19 +1024,19 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               minimum: 0
 
-          - `cache_creation_input_tokens: Integer`
+          - `cache_creation_input_tokens: Integer | nil`
 
             The number of input tokens used to create the cache entry.
 
             minimum: 0
 
-          - `cache_read_input_tokens: Integer`
+          - `cache_read_input_tokens: Integer | nil`
 
             The number of input tokens read from the cache.
 
             minimum: 0
 
-          - `inference_geo: String`
+          - `inference_geo: String | nil`
 
             The geographic region where inference was performed for this request.
 
@@ -1010,7 +1052,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             minimum: 0
 
-          - `output_tokens_details: OutputTokensDetails`
+          - `output_tokens_details: OutputTokensDetails | nil`
 
             Breakdown of output tokens by category.
 
@@ -1025,14 +1067,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               the thinking-block delimiter tokens.
 
               Reflects the raw reasoning the model produced, not the (possibly shorter)
-              summarized thinking text returned in the response body. Computed by
-              re-tokenizing the raw reasoning text, so it may differ from the model's exact
+              summarized thinking text returned in the response body. It may differ from the model's exact
               generation count by a small number of tokens. Always ≤ `output_tokens`;
               `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
               minimum: 0
 
-          - `server_tool_use: ServerToolUsage`
+          - `server_tool_use: ServerToolUsage | nil`
 
             The number of server tool requests.
 
@@ -1048,7 +1089,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               minimum: 0
 
-          - `service_tier: :standard | :priority | :batch`
+          - `service_tier: :standard | :priority | :batch | nil`
 
             If the request used the priority, standard, or batch tier.
 
@@ -1057,6 +1098,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `:priority`
 
             - `:batch`
+
+          - `speed: :standard | :fast | nil`
+
+            The inference speed mode used for this request.
+
+            - `:standard`
+
+            - `:fast`
 
     - `class MessageBatchErroredResult`
 
@@ -1072,11 +1121,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: :invalid_request_error`
 
+              The broad category of the error.
+
+            - `message: String`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
+
             - `message: String`
 
           - `class AuthenticationError`
 
             - `type: :authentication_error`
+
+              The broad category of the error.
+
+            - `message: String`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             - `message: String`
 
@@ -1084,11 +1145,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: :billing_error`
 
+              The broad category of the error.
+
+            - `message: String`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
+
             - `message: String`
 
           - `class PermissionError`
 
             - `type: :permission_error`
+
+              The broad category of the error.
+
+            - `message: String`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             - `message: String`
 
@@ -1096,11 +1169,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: :not_found_error`
 
+              The broad category of the error.
+
+            - `message: String`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
+
             - `message: String`
 
           - `class RateLimitError`
 
             - `type: :rate_limit_error`
+
+              The broad category of the error.
+
+            - `message: String`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             - `message: String`
 
@@ -1108,11 +1193,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: :timeout_error`
 
+              The broad category of the error.
+
+            - `message: String`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
+
             - `message: String`
 
           - `class APIErrorObject`
 
             - `type: :api_error`
+
+              The broad category of the error.
+
+            - `message: String`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             - `message: String`
 
@@ -1120,9 +1217,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: :overloaded_error`
 
+              The broad category of the error.
+
             - `message: String`
 
-        - `request_id: String`
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
+
+        - `request_id: String | nil`
 
     - `class MessageBatchCanceledResult`
 

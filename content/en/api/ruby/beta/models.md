@@ -17,15 +17,15 @@ The Models API response can be used to determine which models are available for 
 
 ### Parameters
 
-- `after_id: String` (query parameter)
+- `after_id: optional String` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
 
-- `before_id: String` (query parameter)
+- `before_id: optional String` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
 
-- `lifecycle: Array[:active | :deprecated | :retired]` (query parameter)
+- `lifecycle: optional Array[:active | :deprecated | :retired]` (query parameter)
 
   Filter the list to models in any of the given lifecycle stages (`active`, `deprecated`, or `retired`). Up to 3 values. When omitted, the list contains the `active` and `deprecated` models; `retired` models appear only when `retired` is requested explicitly.
 
@@ -37,7 +37,7 @@ The Models API response can be used to determine which models are available for 
 
   - `:retired`
 
-- `limit: Integer` (query parameter)
+- `limit: optional Integer` (query parameter)
 
   Number of items to return per page.
 
@@ -45,7 +45,7 @@ The Models API response can be used to determine which models are available for 
 
   minimum: 1, maximum: 1000
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -151,7 +151,19 @@ The Models API response can be used to determine which models are available for 
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -171,11 +183,11 @@ The Models API response can be used to determine which models are available for 
 
     Unique model identifier.
 
-  - `allowed_fallback_models: Array[String]`
+  - `allowed_fallback_models: Array[String] | nil`
 
     Model IDs this model accepts as `fallbacks[i].model` on the Messages API. An empty list means the `fallbacks` parameter is not supported for this model as primary.
 
-  - `capabilities: BetaModelCapabilities`
+  - `capabilities: BetaModelCapabilities | nil`
 
     Object mapping capability names to their support details. Keys are always present for all known capabilities.
 
@@ -195,7 +207,7 @@ The Models API response can be used to determine which models are available for 
 
       Whether code that the model runs in the code execution tool can call the request's other tools, as in programmatic tool calling and dynamic filtering for web search and web fetch. Support for the code execution tool itself is in `server_tools.code_execution`.
 
-    - `compaction: BetaCompactionCapability`
+    - `compaction: BetaCompactionCapability | nil`
 
       Server-side compaction support (the top-level `compaction` parameter) and the accepted `compaction.type` values.
 
@@ -211,15 +223,15 @@ The Models API response can be used to determine which models are available for 
 
       Context management support and available strategies.
 
-      - `clear_thinking_20251015: BetaCapabilitySupport`
+      - `clear_thinking_20251015: BetaCapabilitySupport | nil`
 
         Whether the clear_thinking_20251015 strategy is supported.
 
-      - `clear_tool_uses_20250919: BetaCapabilitySupport`
+      - `clear_tool_uses_20250919: BetaCapabilitySupport | nil`
 
         Whether the clear_tool_uses_20250919 strategy is supported.
 
-      - `compact_20260112: BetaCapabilitySupport`
+      - `compact_20260112: BetaCapabilitySupport | nil`
 
         Whether the compact_20260112 strategy is supported.
 
@@ -251,7 +263,7 @@ The Models API response can be used to determine which models are available for 
 
         Whether this capability is supported by the model.
 
-      - `xhigh: BetaCapabilitySupport`
+      - `xhigh: BetaCapabilitySupport | nil`
 
         Whether the model supports xhigh effort level.
 
@@ -299,9 +311,13 @@ The Models API response can be used to determine which models are available for 
 
           Whether the model accepts thinking with type 'adaptive' (the model decides whether and how much to think).
 
+        - `between_tools: BetaCapabilitySupport`
+
+          Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
         - `disabled: BetaCapabilitySupport`
 
-          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
         - `enabled: BetaCapabilitySupport`
 
@@ -313,7 +329,7 @@ The Models API response can be used to determine which models are available for 
 
     format: date-time
 
-  - `deprecated_at: Time`
+  - `deprecated_at: Time | nil`
 
     RFC 3339 datetime string representing the time of the model's most recent deprecation. Populated for `deprecated` and `retired` models; `null` while the model is `active`.
 
@@ -337,7 +353,7 @@ The Models API response can be used to determine which models are available for 
 
     - `:retired`
 
-  - `line: BetaModelLine`
+  - `line: BetaModelLine | nil`
 
     The model line this model belongs to, such as `opus` for both Claude Opus 4.5 and Claude Opus 4.6. More lines may be added. `null` when the model belongs to no line; do not infer a line from the `id`.
 
@@ -351,15 +367,15 @@ The Models API response can be used to determine which models are available for 
 
     - `:mythos`
 
-  - `max_input_tokens: Integer`
+  - `max_input_tokens: Integer | nil`
 
     Maximum input context window size in tokens for this model.
 
-  - `max_tokens: Integer`
+  - `max_tokens: Integer | nil`
 
     Maximum value for the `max_tokens` parameter when using this model.
 
-  - `retires_at: Time`
+  - `retires_at: Time | nil`
 
     RFC 3339 datetime string representing the model's currently scheduled retirement date. The schedule can be revised until retirement occurs; `null` while the model is `active` or while no retirement is scheduled. A past date on a `deprecated` model means retirement is overdue, not that it has occurred: `lifecycle` is the retirement signal.
 
@@ -457,6 +473,9 @@ puts(page)
             "adaptive": {
               "supported": true
             },
+            "between_tools": {
+              "supported": true
+            },
             "disabled": {
               "supported": true
             },
@@ -470,7 +489,7 @@ puts(page)
       "deprecated_at": "2019-12-27T18:11:19.117Z",
       "display_name": "Claude Opus 5.5",
       "lifecycle": "active",
-      "line": "haiku",
+      "line": "opus",
       "max_input_tokens": 0,
       "max_tokens": 0,
       "retires_at": "2019-12-27T18:11:19.117Z",
@@ -499,7 +518,7 @@ The Models API response can be used to determine information about a specific mo
 
   Model identifier or alias.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -605,7 +624,19 @@ The Models API response can be used to determine information about a specific mo
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -625,11 +656,11 @@ The Models API response can be used to determine information about a specific mo
 
     Unique model identifier.
 
-  - `allowed_fallback_models: Array[String]`
+  - `allowed_fallback_models: Array[String] | nil`
 
     Model IDs this model accepts as `fallbacks[i].model` on the Messages API. An empty list means the `fallbacks` parameter is not supported for this model as primary.
 
-  - `capabilities: BetaModelCapabilities`
+  - `capabilities: BetaModelCapabilities | nil`
 
     Object mapping capability names to their support details. Keys are always present for all known capabilities.
 
@@ -649,7 +680,7 @@ The Models API response can be used to determine information about a specific mo
 
       Whether code that the model runs in the code execution tool can call the request's other tools, as in programmatic tool calling and dynamic filtering for web search and web fetch. Support for the code execution tool itself is in `server_tools.code_execution`.
 
-    - `compaction: BetaCompactionCapability`
+    - `compaction: BetaCompactionCapability | nil`
 
       Server-side compaction support (the top-level `compaction` parameter) and the accepted `compaction.type` values.
 
@@ -665,15 +696,15 @@ The Models API response can be used to determine information about a specific mo
 
       Context management support and available strategies.
 
-      - `clear_thinking_20251015: BetaCapabilitySupport`
+      - `clear_thinking_20251015: BetaCapabilitySupport | nil`
 
         Whether the clear_thinking_20251015 strategy is supported.
 
-      - `clear_tool_uses_20250919: BetaCapabilitySupport`
+      - `clear_tool_uses_20250919: BetaCapabilitySupport | nil`
 
         Whether the clear_tool_uses_20250919 strategy is supported.
 
-      - `compact_20260112: BetaCapabilitySupport`
+      - `compact_20260112: BetaCapabilitySupport | nil`
 
         Whether the compact_20260112 strategy is supported.
 
@@ -705,7 +736,7 @@ The Models API response can be used to determine information about a specific mo
 
         Whether this capability is supported by the model.
 
-      - `xhigh: BetaCapabilitySupport`
+      - `xhigh: BetaCapabilitySupport | nil`
 
         Whether the model supports xhigh effort level.
 
@@ -753,9 +784,13 @@ The Models API response can be used to determine information about a specific mo
 
           Whether the model accepts thinking with type 'adaptive' (the model decides whether and how much to think).
 
+        - `between_tools: BetaCapabilitySupport`
+
+          Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
         - `disabled: BetaCapabilitySupport`
 
-          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
         - `enabled: BetaCapabilitySupport`
 
@@ -767,7 +802,7 @@ The Models API response can be used to determine information about a specific mo
 
     format: date-time
 
-  - `deprecated_at: Time`
+  - `deprecated_at: Time | nil`
 
     RFC 3339 datetime string representing the time of the model's most recent deprecation. Populated for `deprecated` and `retired` models; `null` while the model is `active`.
 
@@ -791,7 +826,7 @@ The Models API response can be used to determine information about a specific mo
 
     - `:retired`
 
-  - `line: BetaModelLine`
+  - `line: BetaModelLine | nil`
 
     The model line this model belongs to, such as `opus` for both Claude Opus 4.5 and Claude Opus 4.6. More lines may be added. `null` when the model belongs to no line; do not infer a line from the `id`.
 
@@ -805,15 +840,15 @@ The Models API response can be used to determine information about a specific mo
 
     - `:mythos`
 
-  - `max_input_tokens: Integer`
+  - `max_input_tokens: Integer | nil`
 
     Maximum input context window size in tokens for this model.
 
-  - `max_tokens: Integer`
+  - `max_tokens: Integer | nil`
 
     Maximum value for the `max_tokens` parameter when using this model.
 
-  - `retires_at: Time`
+  - `retires_at: Time | nil`
 
     RFC 3339 datetime string representing the model's currently scheduled retirement date. The schedule can be revised until retirement occurs; `null` while the model is `active` or while no retirement is scheduled. A past date on a `deprecated` model means retirement is overdue, not that it has occurred: `lifecycle` is the retirement signal.
 
@@ -909,6 +944,9 @@ puts(beta_model_info)
         "adaptive": {
           "supported": true
         },
+        "between_tools": {
+          "supported": true
+        },
         "disabled": {
           "supported": true
         },
@@ -922,7 +960,7 @@ puts(beta_model_info)
   "deprecated_at": "2019-12-27T18:11:19.117Z",
   "display_name": "Claude Opus 5.5",
   "lifecycle": "active",
-  "line": "haiku",
+  "line": "opus",
   "max_input_tokens": 0,
   "max_tokens": 0,
   "retires_at": "2019-12-27T18:11:19.117Z",
@@ -968,7 +1006,7 @@ puts(beta_model_info)
 
   Context management capability details.
 
-  - `clear_thinking_20251015: BetaCapabilitySupport`
+  - `clear_thinking_20251015: BetaCapabilitySupport | nil`
 
     Whether the clear_thinking_20251015 strategy is supported.
 
@@ -976,11 +1014,11 @@ puts(beta_model_info)
 
       Whether this capability is supported by the model.
 
-  - `clear_tool_uses_20250919: BetaCapabilitySupport`
+  - `clear_tool_uses_20250919: BetaCapabilitySupport | nil`
 
     Whether the clear_tool_uses_20250919 strategy is supported.
 
-  - `compact_20260112: BetaCapabilitySupport`
+  - `compact_20260112: BetaCapabilitySupport | nil`
 
     Whether the compact_20260112 strategy is supported.
 
@@ -1018,7 +1056,7 @@ puts(beta_model_info)
 
     Whether this capability is supported by the model.
 
-  - `xhigh: BetaCapabilitySupport`
+  - `xhigh: BetaCapabilitySupport | nil`
 
     Whether the model supports xhigh effort level.
 
@@ -1044,7 +1082,7 @@ puts(beta_model_info)
 
     Whether code that the model runs in the code execution tool can call the request's other tools, as in programmatic tool calling and dynamic filtering for web search and web fetch. Support for the code execution tool itself is in `server_tools.code_execution`.
 
-  - `compaction: BetaCompactionCapability`
+  - `compaction: BetaCompactionCapability | nil`
 
     Server-side compaction support (the top-level `compaction` parameter) and the accepted `compaction.type` values.
 
@@ -1060,15 +1098,15 @@ puts(beta_model_info)
 
     Context management support and available strategies.
 
-    - `clear_thinking_20251015: BetaCapabilitySupport`
+    - `clear_thinking_20251015: BetaCapabilitySupport | nil`
 
       Whether the clear_thinking_20251015 strategy is supported.
 
-    - `clear_tool_uses_20250919: BetaCapabilitySupport`
+    - `clear_tool_uses_20250919: BetaCapabilitySupport | nil`
 
       Whether the clear_tool_uses_20250919 strategy is supported.
 
-    - `compact_20260112: BetaCapabilitySupport`
+    - `compact_20260112: BetaCapabilitySupport | nil`
 
       Whether the compact_20260112 strategy is supported.
 
@@ -1100,7 +1138,7 @@ puts(beta_model_info)
 
       Whether this capability is supported by the model.
 
-    - `xhigh: BetaCapabilitySupport`
+    - `xhigh: BetaCapabilitySupport | nil`
 
       Whether the model supports xhigh effort level.
 
@@ -1148,9 +1186,13 @@ puts(beta_model_info)
 
         Whether the model accepts thinking with type 'adaptive' (the model decides whether and how much to think).
 
+      - `between_tools: BetaCapabilitySupport`
+
+        Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
       - `disabled: BetaCapabilitySupport`
 
-        Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+        Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
       - `enabled: BetaCapabilitySupport`
 
@@ -1170,11 +1212,11 @@ puts(beta_model_info)
 
     Unique model identifier.
 
-  - `allowed_fallback_models: Array[String]`
+  - `allowed_fallback_models: Array[String] | nil`
 
     Model IDs this model accepts as `fallbacks[i].model` on the Messages API. An empty list means the `fallbacks` parameter is not supported for this model as primary.
 
-  - `capabilities: BetaModelCapabilities`
+  - `capabilities: BetaModelCapabilities | nil`
 
     Object mapping capability names to their support details. Keys are always present for all known capabilities.
 
@@ -1194,7 +1236,7 @@ puts(beta_model_info)
 
       Whether code that the model runs in the code execution tool can call the request's other tools, as in programmatic tool calling and dynamic filtering for web search and web fetch. Support for the code execution tool itself is in `server_tools.code_execution`.
 
-    - `compaction: BetaCompactionCapability`
+    - `compaction: BetaCompactionCapability | nil`
 
       Server-side compaction support (the top-level `compaction` parameter) and the accepted `compaction.type` values.
 
@@ -1210,15 +1252,15 @@ puts(beta_model_info)
 
       Context management support and available strategies.
 
-      - `clear_thinking_20251015: BetaCapabilitySupport`
+      - `clear_thinking_20251015: BetaCapabilitySupport | nil`
 
         Whether the clear_thinking_20251015 strategy is supported.
 
-      - `clear_tool_uses_20250919: BetaCapabilitySupport`
+      - `clear_tool_uses_20250919: BetaCapabilitySupport | nil`
 
         Whether the clear_tool_uses_20250919 strategy is supported.
 
-      - `compact_20260112: BetaCapabilitySupport`
+      - `compact_20260112: BetaCapabilitySupport | nil`
 
         Whether the compact_20260112 strategy is supported.
 
@@ -1250,7 +1292,7 @@ puts(beta_model_info)
 
         Whether this capability is supported by the model.
 
-      - `xhigh: BetaCapabilitySupport`
+      - `xhigh: BetaCapabilitySupport | nil`
 
         Whether the model supports xhigh effort level.
 
@@ -1298,9 +1340,13 @@ puts(beta_model_info)
 
           Whether the model accepts thinking with type 'adaptive' (the model decides whether and how much to think).
 
+        - `between_tools: BetaCapabilitySupport`
+
+          Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
         - `disabled: BetaCapabilitySupport`
 
-          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+          Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
         - `enabled: BetaCapabilitySupport`
 
@@ -1312,7 +1358,7 @@ puts(beta_model_info)
 
     format: date-time
 
-  - `deprecated_at: Time`
+  - `deprecated_at: Time | nil`
 
     RFC 3339 datetime string representing the time of the model's most recent deprecation. Populated for `deprecated` and `retired` models; `null` while the model is `active`.
 
@@ -1336,7 +1382,7 @@ puts(beta_model_info)
 
     - `:retired`
 
-  - `line: BetaModelLine`
+  - `line: BetaModelLine | nil`
 
     The model line this model belongs to, such as `opus` for both Claude Opus 4.5 and Claude Opus 4.6. More lines may be added. `null` when the model belongs to no line; do not infer a line from the `id`.
 
@@ -1350,15 +1396,15 @@ puts(beta_model_info)
 
     - `:mythos`
 
-  - `max_input_tokens: Integer`
+  - `max_input_tokens: Integer | nil`
 
     Maximum input context window size in tokens for this model.
 
-  - `max_tokens: Integer`
+  - `max_tokens: Integer | nil`
 
     Maximum value for the `max_tokens` parameter when using this model.
 
-  - `retires_at: Time`
+  - `retires_at: Time | nil`
 
     RFC 3339 datetime string representing the model's currently scheduled retirement date. The schedule can be revised until retirement occurs; `null` while the model is `active` or while no retirement is scheduled. A past date on a `deprecated` model means retirement is overdue, not that it has occurred: `lifecycle` is the retirement signal.
 
@@ -1424,9 +1470,13 @@ puts(beta_model_info)
 
         Whether this capability is supported by the model.
 
+    - `between_tools: BetaCapabilitySupport`
+
+      Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
     - `disabled: BetaCapabilitySupport`
 
-      Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+      Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
     - `enabled: BetaCapabilitySupport`
 
@@ -1446,9 +1496,13 @@ puts(beta_model_info)
 
       Whether this capability is supported by the model.
 
+  - `between_tools: BetaCapabilitySupport`
+
+    Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
+
   - `disabled: BetaCapabilitySupport`
 
-    Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
+    Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
   - `enabled: BetaCapabilitySupport`
 

@@ -4,9 +4,9 @@
 
 # MCP Registry Aggregators
 
-<Note>
-  The MCP Registry is currently in preview. Breaking changes or data resets may occur before general availability. If you encounter any issues, please report them on [GitHub](https://github.com/modelcontextprotocol/registry/issues).
-</Note>
+> [!NOTE]
+>
+> The MCP Registry is currently in preview. Breaking changes or data resets may occur before general availability. If you encounter any issues, please report them on [GitHub](https://github.com/modelcontextprotocol/registry/issues).
 
 Aggregators are downstream consumers of the MCP Registry that provide additional value. For example, a server marketplace that provides user ratings and security scanning.
 
@@ -20,9 +20,9 @@ The base URL for the MCP Registry REST API is `https://registry.modelcontextprot
 * [`GET /v0.1/servers/{serverName}/versions`](https://registry.modelcontextprotocol.io/docs#/operations/get-server-versions-v0.1) — List all versions of a server.
 * [`GET /v0.1/servers/{serverName}/versions/{version}`](https://registry.modelcontextprotocol.io/docs#/operations/get-server-version-v0.1) — Get a specific version of a server. Use the special version `latest` to get the latest version of the server.
 
-<Warning>
-  URL path parameters such as `serverName` and `version` **must** be URL-encoded. For example, `io.modelcontextprotocol/everything` must be encoded as `io.modelcontextprotocol%2Feverything`.
-</Warning>
+> [!WARNING]
+>
+> URL path parameters such as `serverName` and `version` **must** be URL-encoded. For example, `io.modelcontextprotocol/everything` must be encoded as `io.modelcontextprotocol%2Feverything`.
 
 Aggregators will most likely scrape the `GET /v0.1/servers` endpoint.
 
@@ -68,7 +68,7 @@ curl "https://registry.modelcontextprotocol.io/v0.1/servers?updated_since=2025-1
 
 Server metadata is generally immutable, except for the `status` field which may be updated to, e.g., `"deprecated"` or `"deleted"`. We recommend that aggregators keep their copy of each server's `status` up to date.
 
-The `"deleted"` status typically indicates that a server has violated our permissive [moderation policy](./moderation-policy), suggesting the server might be spam, malware, or illegal. Aggregators may prefer to remove these servers from their index.
+The `"deleted"` status typically indicates that a server has violated our permissive [moderation policy](https://modelcontextprotocol.io/registry/moderation-policy.md), suggesting the server might be spam, malware, or illegal. Aggregators may prefer to remove these servers from their index.
 
 ## Acting as a Subregistry
 

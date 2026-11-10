@@ -23,33 +23,39 @@ Create Session
 
   ID of the `environment` defining the container configuration for this session.
 
-- `budget?:optional BetaManagedAgentsBudgetLimit`
+- `budget?: optional BetaManagedAgentsBudgetLimit`
 
   Enforced spend ceiling for the session. Omit to create an uncapped session. Every model the session can run — the agent's model and each callable agent's model — must have a public list price, or the request is rejected with reason `model_not_budgetable`.
 
-- `initialEvents?:optional list<InitialEvent>`
+- `initialEvents?: optional list<InitialEvent>`
 
   Initial events to send to the `session` at creation, processed in order. Supports `user.message` and `user.define_outcome` events. Maximum 50 events.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Arbitrary key-value metadata attached to the session. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `resources?:optional list<Resource>`
+- `resources?: optional list<Resource>`
 
   Resources (e.g. repositories, files) to mount into the session's container.
 
-- `title?:optional string`
+- `title?: optional string`
 
   Human-readable session title.
 
-- `vaultIDs?:optional list<string>`
+- `vaultIDs?: optional list<string>`
 
   Vault IDs for stored credentials the agent can use during the session.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -61,7 +67,7 @@ Create Session
 
 - `class BetaManagedAgentsSession`
 
-  - `Type type`
+  - `"session" type`
 
   - `string id`
 
@@ -122,6 +128,10 @@ Create Session
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\BetaCurrency;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsSession = $client->beta->sessions->create(
@@ -162,6 +172,9 @@ var_dump($betaManagedAgentsSession);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -182,6 +195,9 @@ var_dump($betaManagedAgentsSession);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -358,61 +374,67 @@ List Sessions
 
 ### Parameters
 
-- `agentID?:optional string` (query parameter)
+- `agentID?: optional string` (query parameter)
 
   Filter sessions created with this agent ID.
 
-- `agentVersion?:optional int` (query parameter)
+- `agentVersion?: optional int` (query parameter)
 
   Filter by agent version. Only applies when `agent_id` is also set.
 
-- `createdAtGt?:optional \Datetime` (query parameter)
+- `createdAtGt?: optional \Datetime` (query parameter)
 
   Return sessions created after this time (exclusive).
 
-- `createdAtGte?:optional \Datetime` (query parameter)
+- `createdAtGte?: optional \Datetime` (query parameter)
 
   Return sessions created at or after this time (inclusive).
 
-- `createdAtLt?:optional \Datetime` (query parameter)
+- `createdAtLt?: optional \Datetime` (query parameter)
 
   Return sessions created before this time (exclusive).
 
-- `createdAtLte?:optional \Datetime` (query parameter)
+- `createdAtLte?: optional \Datetime` (query parameter)
 
   Return sessions created at or before this time (inclusive).
 
-- `deploymentID?:optional string` (query parameter)
+- `deploymentID?: optional string` (query parameter)
 
   Filter sessions created by this deployment ID.
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   When true, includes archived sessions. Default: false (exclude archived).
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of results to return.
 
-- `memoryStoreID?:optional string` (query parameter)
+- `memoryStoreID?: optional string` (query parameter)
 
   Filter sessions whose resources contain a `memory_store` with this memory store ID.
 
-- `order?:optional Order` (query parameter)
+- `order?: optional Order` (query parameter)
 
   Sort direction for results, ordered by `created_at`. Defaults to `desc` (newest first).
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor from a previous response.
 
-- `statuses?:optional list<Status>` (query parameter)
+- `statuses?: optional list<Status>` (query parameter)
 
   Filter by session status. Repeat the parameter to match any of multiple statuses.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -424,7 +446,7 @@ List Sessions
 
 - `class BetaManagedAgentsSession`
 
-  - `Type type`
+  - `"session" type`
 
   - `string id`
 
@@ -485,6 +507,9 @@ List Sessions
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->sessions->list(
@@ -518,6 +543,9 @@ var_dump($page);
       "agent": {
         "id": "agent_011CZkYpogX7uDKUyvBTophP",
         "description": "A general-purpose starter agent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",
@@ -538,6 +566,9 @@ var_dump($page);
             {
               "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
               "description": "A focused research subagent.",
+              "execution_identity": {
+                "type": "service_account"
+              },
               "mcp_servers": [
                 {
                   "name": "example-mcp",
@@ -720,9 +751,15 @@ Get Session
 
 - `sessionID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -734,7 +771,7 @@ Get Session
 
 - `class BetaManagedAgentsSession`
 
-  - `Type type`
+  - `"session" type`
 
   - `string id`
 
@@ -795,6 +832,9 @@ Get Session
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsSession = $client->beta->sessions->retrieve(
@@ -814,6 +854,9 @@ var_dump($betaManagedAgentsSession);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -834,6 +877,9 @@ var_dump($betaManagedAgentsSession);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -1012,29 +1058,35 @@ Update Session
 
 - `sessionID: string` (path parameter)
 
-- `agent?:optional BetaManagedAgentsSessionAgentUpdate`
+- `agent?: optional BetaManagedAgentsSessionAgentUpdate`
 
   Agent configuration update. Only `tools` and `mcp_servers` are updatable mid-session. Only valid for sessions created from an agent or deployment reference. The session must not be running.
 
-- `budget?:optional BetaManagedAgentsBudgetLimit`
+- `budget?: optional BetaManagedAgentsBudgetLimit`
 
   Enforced spend ceiling for the session. Set an object to replace the budget of a session that was created with one, or `null` to remove it; omit to preserve. A budget cannot be added to a session created without one (rejected with reason `budget_create_only`), and a removed budget cannot be re-added. Allowed in any non-terminated status. Lowering `max_list_cost` to at or below the session's consumed list cost is rejected with reason `budget_not_raised`, and every model the session can run must have a public list price or the request is rejected with reason `model_not_budgetable`.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve.
 
-- `title?:optional string`
+- `title?: optional string`
 
   Human-readable session title.
 
-- `vaultIDs?:optional list<string>`
+- `vaultIDs?: optional list<string>`
 
   Vault IDs (`vlt_*`) to attach to the session. Not yet supported; requests setting this field are rejected. Reserved for future use.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -1046,7 +1098,7 @@ Update Session
 
 - `class BetaManagedAgentsSession`
 
-  - `Type type`
+  - `"session" type`
 
   - `string id`
 
@@ -1107,6 +1159,10 @@ Update Session
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\BetaCurrency;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsSession = $client->beta->sessions->update(
@@ -1158,6 +1214,9 @@ var_dump($betaManagedAgentsSession);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -1178,6 +1237,9 @@ var_dump($betaManagedAgentsSession);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -1356,9 +1418,15 @@ Delete Session
 
 - `sessionID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -1370,7 +1438,7 @@ Delete Session
 
 - `class BetaManagedAgentsDeletedSession`
 
-  - `Type type`
+  - `"session_deleted" type`
 
   - `string id`
 
@@ -1380,6 +1448,9 @@ Delete Session
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -1413,9 +1484,15 @@ Archive Session
 
 - `sessionID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -1427,7 +1504,7 @@ Archive Session
 
 - `class BetaManagedAgentsSession`
 
-  - `Type type`
+  - `"session" type`
 
   - `string id`
 
@@ -1488,6 +1565,9 @@ Archive Session
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsSession = $client->beta->sessions->archive(
@@ -1507,6 +1587,9 @@ var_dump($betaManagedAgentsSession);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -1527,6 +1610,9 @@ var_dump($betaManagedAgentsSession);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -1699,7 +1785,11 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsAdvisorParams`
 
-  - `Type type`
+  - `"advisor" type`
+
+  - `string model`
+
+    A Claude model id. The model must be permitted as an advisor for this agent's model.
 
   - `string model`
 
@@ -1709,7 +1799,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsAgentMessagePreview`
 
-  - `Type type`
+  - `"agent.message" type`
 
   - `string id`
 
@@ -1719,7 +1809,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsAgentParams`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -1733,7 +1823,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsAgentThinkingPreview`
 
-  - `Type type`
+  - `"agent.thinking" type`
 
   - `string id`
 
@@ -1743,7 +1833,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsAgentWithOverridesParams`
 
-  - `Type type`
+  - `"agent_with_overrides" type`
 
   - `string id`
 
@@ -1777,7 +1867,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsBranchCheckout`
 
-  - `Type type`
+  - `"branch" type`
 
   - `string name`
 
@@ -1787,7 +1877,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsBudgetLimit`
 
-  - `Type type`
+  - `"limit" type`
 
   - `BetaMonetaryAmount maxListCost`
 
@@ -1809,7 +1899,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsCommitCheckout`
 
-  - `Type type`
+  - `"commit" type`
 
   - `string sha`
 
@@ -1819,7 +1909,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsDeletedSession`
 
-  - `Type type`
+  - `"session_deleted" type`
 
   - `string id`
 
@@ -1827,7 +1917,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsDeltaContent`
 
-  - `Type type`
+  - `"content_delta" type`
 
   - `ManagedAgentsTextBlock content`
 
@@ -1841,7 +1931,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsDeltaEvent`
 
-  - `Type type`
+  - `"event_delta" type`
 
   - `BetaManagedAgentsDeltaContent delta`
 
@@ -1863,7 +1953,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsFileResourceParams`
 
-  - `Type type`
+  - `"file" type`
 
   - `string fileID`
 
@@ -1877,7 +1967,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsGitHubRepositoryResourceParams`
 
-  - `Type type`
+  - `"github_repository" type`
 
   - `string url`
 
@@ -1899,7 +1989,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsMemoryStoreResourceParam`
 
-  - `Type type`
+  - `"memory_store" type`
 
   - `string memoryStoreID`
 
@@ -1919,7 +2009,7 @@ var_dump($betaManagedAgentsSession);
 
   - `class BetaManagedAgentsMultiagentCoordinator`
 
-    - `Type type`
+    - `"coordinator" type`
 
     - `list<Agent> agents`
 
@@ -1947,7 +2037,7 @@ var_dump($betaManagedAgentsSession);
 
   - `class BetaManagedAgentsMultiagentCoordinatorParams`
 
-    - `Type type`
+    - `"coordinator" type`
 
     - `list<BetaManagedAgentsMultiagentRosterEntryParams> agents`
 
@@ -1977,7 +2067,7 @@ var_dump($betaManagedAgentsSession);
 
   - `class BetaManagedAgentsAgentParams`
 
-    - `Type type`
+    - `"agent" type`
 
     - `string id`
 
@@ -1989,11 +2079,11 @@ var_dump($betaManagedAgentsSession);
 
   - `class BetaManagedAgentsMultiagentSelfParams`
 
-    - `Type type`
+    - `"self" type`
 
   - `class BetaManagedAgentsAdvisorParams`
 
-    - `Type type`
+    - `"advisor" type`
 
     - `string model`
 
@@ -2003,7 +2093,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsOutcomeEvaluationResource`
 
-  - `Type type`
+  - `"outcome_evaluation" type`
 
   - `?\Datetime completedAt`
 
@@ -2045,7 +2135,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsSession`
 
-  - `Type type`
+  - `"session" type`
 
   - `string id`
 
@@ -2103,11 +2193,15 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsSessionAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -2147,7 +2241,7 @@ var_dump($betaManagedAgentsSession);
 
   - `class BetaManagedAgentsSessionMultiagentCoordinator`
 
-    - `Type type`
+    - `"coordinator" type`
 
     - `list<Agent> agents`
 
@@ -2173,7 +2267,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsSessionMultiagentCoordinator`
 
-  - `Type type`
+  - `"coordinator" type`
 
   - `list<Agent> agents`
 
@@ -2281,7 +2375,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsSessionUpdatedEvent`
 
-  - `Type type`
+  - `"session.updated" type`
 
   - `string id`
 
@@ -2343,7 +2437,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsSessionUsageEvent`
 
-  - `Type type`
+  - `"session.usage" type`
 
   - `string id`
 
@@ -2365,7 +2459,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsStartEvent`
 
-  - `Type type`
+  - `"event_start" type`
 
   - `BetaManagedAgentsStartEventPreview event`
 
@@ -2377,7 +2471,7 @@ var_dump($betaManagedAgentsSession);
 
   - `class BetaManagedAgentsAgentMessagePreview`
 
-    - `Type type`
+    - `"agent.message" type`
 
     - `string id`
 
@@ -2385,7 +2479,7 @@ var_dump($betaManagedAgentsSession);
 
   - `class BetaManagedAgentsAgentThinkingPreview`
 
-    - `Type type`
+    - `"agent.thinking" type`
 
     - `string id`
 
@@ -2395,7 +2489,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsSystemContentBlock`
 
-  - `Type type`
+  - `"text" type`
 
   - `string text`
 
@@ -2405,7 +2499,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsSystemMessageEvent`
 
-  - `Type type`
+  - `"system.message" type`
 
   - `string id`
 
@@ -2423,7 +2517,7 @@ var_dump($betaManagedAgentsSession);
 
 - `class BetaManagedAgentsUserToolResultEvent`
 
-  - `Type type`
+  - `"user.tool_result" type`
 
   - `string id`
 
@@ -2463,39 +2557,45 @@ List Events
 
 - `sessionID: string` (path parameter)
 
-- `createdAtGt?:optional \Datetime` (query parameter)
+- `createdAtGt?: optional \Datetime` (query parameter)
 
   Return events created after this time (exclusive). Compared against the event's `processed_at` value.
 
-- `createdAtGte?:optional \Datetime` (query parameter)
+- `createdAtGte?: optional \Datetime` (query parameter)
 
   Return events created at or after this time (inclusive). Compared against the event's `processed_at` value.
 
-- `createdAtLt?:optional \Datetime` (query parameter)
+- `createdAtLt?: optional \Datetime` (query parameter)
 
   Return events created before this time (exclusive). Compared against the event's `processed_at` value.
 
-- `createdAtLte?:optional \Datetime` (query parameter)
+- `createdAtLte?: optional \Datetime` (query parameter)
 
   Return events created at or before this time (inclusive). Compared against the event's `processed_at` value.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
-- `order?:optional Order` (query parameter)
+- `order?: optional Order` (query parameter)
 
   Sort direction for results, ordered by the event's `processed_at`. Defaults to `asc` (chronological).
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor from a previous response's `next_page`.
 
-- `types?:optional list<ManagedAgentsSessionEventType>` (query parameter)
+- `types?: optional list<ManagedAgentsSessionEventType>` (query parameter)
 
   Filter by event type. Values match the `type` field on returned events (for example, `user.message` or `agent.tool_use`). Omit to return all event types.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -2509,7 +2609,7 @@ List Events
 
   - `class ManagedAgentsUserMessageEvent`
 
-    - `Type type`
+    - `"user.message" type`
 
     - `string id`
 
@@ -2525,7 +2625,7 @@ List Events
 
   - `class ManagedAgentsUserInterruptEvent`
 
-    - `Type type`
+    - `"user.interrupt" type`
 
     - `string id`
 
@@ -2541,7 +2641,7 @@ List Events
 
   - `class ManagedAgentsUserToolConfirmationEvent`
 
-    - `Type type`
+    - `"user.tool_confirmation" type`
 
     - `string id`
 
@@ -2569,7 +2669,7 @@ List Events
 
   - `class ManagedAgentsUserCustomToolResultEvent`
 
-    - `Type type`
+    - `"user.custom_tool_result" type`
 
     - `string id`
 
@@ -2597,7 +2697,7 @@ List Events
 
   - `class ManagedAgentsAgentCustomToolUseEvent`
 
-    - `Type type`
+    - `"agent.custom_tool_use" type`
 
     - `string id`
 
@@ -2621,7 +2721,7 @@ List Events
 
   - `class ManagedAgentsAgentMessageEvent`
 
-    - `Type type`
+    - `"agent.message" type`
 
     - `string id`
 
@@ -2637,7 +2737,7 @@ List Events
 
   - `class ManagedAgentsAgentThinkingEvent`
 
-    - `Type type`
+    - `"agent.thinking" type`
 
     - `string id`
 
@@ -2649,7 +2749,7 @@ List Events
 
   - `class ManagedAgentsAgentMCPToolUseEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_use" type`
 
     - `string id`
 
@@ -2685,7 +2785,7 @@ List Events
 
   - `class ManagedAgentsAgentMCPToolResultEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_result" type`
 
     - `string id`
 
@@ -2709,7 +2809,7 @@ List Events
 
   - `class ManagedAgentsAgentToolUseEvent`
 
-    - `Type type`
+    - `"agent.tool_use" type`
 
     - `string id`
 
@@ -2741,7 +2841,7 @@ List Events
 
   - `class ManagedAgentsAgentToolResultEvent`
 
-    - `Type type`
+    - `"agent.tool_result" type`
 
     - `string id`
 
@@ -2765,7 +2865,7 @@ List Events
 
   - `class ManagedAgentsAgentThreadMessageReceivedEvent`
 
-    - `Type type`
+    - `"agent.thread_message_received" type`
 
     - `string id`
 
@@ -2789,7 +2889,7 @@ List Events
 
   - `class ManagedAgentsAgentThreadMessageSentEvent`
 
-    - `Type type`
+    - `"agent.thread_message_sent" type`
 
     - `string id`
 
@@ -2813,7 +2913,7 @@ List Events
 
   - `class ManagedAgentsAgentThreadContextCompactedEvent`
 
-    - `Type type`
+    - `"agent.thread_context_compacted" type`
 
     - `string id`
 
@@ -2825,7 +2925,7 @@ List Events
 
   - `class ManagedAgentsSessionErrorEvent`
 
-    - `Type type`
+    - `"session.error" type`
 
     - `string id`
 
@@ -2839,7 +2939,7 @@ List Events
 
   - `class ManagedAgentsSessionStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.status_rescheduled" type`
 
     - `string id`
 
@@ -2851,7 +2951,7 @@ List Events
 
   - `class ManagedAgentsSessionStatusRunningEvent`
 
-    - `Type type`
+    - `"session.status_running" type`
 
     - `string id`
 
@@ -2863,7 +2963,7 @@ List Events
 
   - `class ManagedAgentsSessionStatusIdleEvent`
 
-    - `Type type`
+    - `"session.status_idle" type`
 
     - `string id`
 
@@ -2881,7 +2981,7 @@ List Events
 
   - `class ManagedAgentsSessionStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.status_terminated" type`
 
     - `string id`
 
@@ -2893,7 +2993,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadCreatedEvent`
 
-    - `Type type`
+    - `"session.thread_created" type`
 
     - `string id`
 
@@ -2917,7 +3017,7 @@ List Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationStartEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_start" type`
 
     - `string id`
 
@@ -2937,7 +3037,7 @@ List Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationEndEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_end" type`
 
     - `string id`
 
@@ -2973,7 +3073,7 @@ List Events
 
   - `class ManagedAgentsSpanModelRequestStartEvent`
 
-    - `Type type`
+    - `"span.model_request_start" type`
 
     - `string id`
 
@@ -2985,7 +3085,7 @@ List Events
 
   - `class ManagedAgentsSpanModelRequestEndEvent`
 
-    - `Type type`
+    - `"span.model_request_end" type`
 
     - `string id`
 
@@ -3009,7 +3109,7 @@ List Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationOngoingEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_ongoing" type`
 
     - `string id`
 
@@ -3029,7 +3129,7 @@ List Events
 
   - `class ManagedAgentsUserDefineOutcomeEvent`
 
-    - `Type type`
+    - `"user.define_outcome" type`
 
     - `string id`
 
@@ -3057,7 +3157,7 @@ List Events
 
   - `class ManagedAgentsSessionDeletedEvent`
 
-    - `Type type`
+    - `"session.deleted" type`
 
     - `string id`
 
@@ -3069,7 +3169,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadStatusRunningEvent`
 
-    - `Type type`
+    - `"session.thread_status_running" type`
 
     - `string id`
 
@@ -3089,7 +3189,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadStatusIdleEvent`
 
-    - `Type type`
+    - `"session.thread_status_idle" type`
 
     - `string id`
 
@@ -3115,7 +3215,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.thread_status_terminated" type`
 
     - `string id`
 
@@ -3135,7 +3235,7 @@ List Events
 
   - `class BetaManagedAgentsUserToolResultEvent`
 
-    - `Type type`
+    - `"user.tool_result" type`
 
     - `string id`
 
@@ -3163,7 +3263,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.thread_status_rescheduled" type`
 
     - `string id`
 
@@ -3183,7 +3283,7 @@ List Events
 
   - `class BetaManagedAgentsSessionUpdatedEvent`
 
-    - `Type type`
+    - `"session.updated" type`
 
     - `string id`
 
@@ -3211,7 +3311,7 @@ List Events
 
   - `class BetaManagedAgentsSystemMessageEvent`
 
-    - `Type type`
+    - `"system.message" type`
 
     - `string id`
 
@@ -3227,7 +3327,7 @@ List Events
 
   - `class BetaManagedAgentsSessionUsageEvent`
 
-    - `Type type`
+    - `"session.usage" type`
 
     - `string id`
 
@@ -3395,6 +3495,10 @@ List Events
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Sessions\Events\ManagedAgentsSessionEventType;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -3463,9 +3567,15 @@ Send Events
 
   Events to send to the `session`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -3487,6 +3597,9 @@ Send Events
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -3537,13 +3650,19 @@ Stream Events
 
 - `sessionID: string` (path parameter)
 
-- `eventDeltas?:optional list<BetaManagedAgentsDeltaType>` (query parameter)
+- `eventDeltas?: optional list<BetaManagedAgentsDeltaType>` (query parameter)
 
   When set, this connection also receives streaming deltas (`event_start`, `event_delta`) while an event is being produced, before the event itself arrives. Deltas are best-effort; when the final event is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no final event — its terminal `span.model_request_end` closes the preview. Accepts one or more event types to preview and may be repeated: `agent.message` streams `content_delta` fragments; `agent.thinking` is start-only — a signal that the agent has begun extended thinking, concluded by the `agent.thinking` event itself. Only previews of the requested event types are sent.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -3557,7 +3676,7 @@ Stream Events
 
   - `class ManagedAgentsUserMessageEvent`
 
-    - `Type type`
+    - `"user.message" type`
 
     - `string id`
 
@@ -3573,7 +3692,7 @@ Stream Events
 
   - `class ManagedAgentsUserInterruptEvent`
 
-    - `Type type`
+    - `"user.interrupt" type`
 
     - `string id`
 
@@ -3589,7 +3708,7 @@ Stream Events
 
   - `class ManagedAgentsUserToolConfirmationEvent`
 
-    - `Type type`
+    - `"user.tool_confirmation" type`
 
     - `string id`
 
@@ -3617,7 +3736,7 @@ Stream Events
 
   - `class ManagedAgentsUserCustomToolResultEvent`
 
-    - `Type type`
+    - `"user.custom_tool_result" type`
 
     - `string id`
 
@@ -3645,7 +3764,7 @@ Stream Events
 
   - `class ManagedAgentsAgentCustomToolUseEvent`
 
-    - `Type type`
+    - `"agent.custom_tool_use" type`
 
     - `string id`
 
@@ -3669,7 +3788,7 @@ Stream Events
 
   - `class ManagedAgentsAgentMessageEvent`
 
-    - `Type type`
+    - `"agent.message" type`
 
     - `string id`
 
@@ -3685,7 +3804,7 @@ Stream Events
 
   - `class ManagedAgentsAgentThinkingEvent`
 
-    - `Type type`
+    - `"agent.thinking" type`
 
     - `string id`
 
@@ -3697,7 +3816,7 @@ Stream Events
 
   - `class ManagedAgentsAgentMCPToolUseEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_use" type`
 
     - `string id`
 
@@ -3733,7 +3852,7 @@ Stream Events
 
   - `class ManagedAgentsAgentMCPToolResultEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_result" type`
 
     - `string id`
 
@@ -3757,7 +3876,7 @@ Stream Events
 
   - `class ManagedAgentsAgentToolUseEvent`
 
-    - `Type type`
+    - `"agent.tool_use" type`
 
     - `string id`
 
@@ -3789,7 +3908,7 @@ Stream Events
 
   - `class ManagedAgentsAgentToolResultEvent`
 
-    - `Type type`
+    - `"agent.tool_result" type`
 
     - `string id`
 
@@ -3813,7 +3932,7 @@ Stream Events
 
   - `class ManagedAgentsAgentThreadMessageReceivedEvent`
 
-    - `Type type`
+    - `"agent.thread_message_received" type`
 
     - `string id`
 
@@ -3837,7 +3956,7 @@ Stream Events
 
   - `class ManagedAgentsAgentThreadMessageSentEvent`
 
-    - `Type type`
+    - `"agent.thread_message_sent" type`
 
     - `string id`
 
@@ -3861,7 +3980,7 @@ Stream Events
 
   - `class ManagedAgentsAgentThreadContextCompactedEvent`
 
-    - `Type type`
+    - `"agent.thread_context_compacted" type`
 
     - `string id`
 
@@ -3873,7 +3992,7 @@ Stream Events
 
   - `class ManagedAgentsSessionErrorEvent`
 
-    - `Type type`
+    - `"session.error" type`
 
     - `string id`
 
@@ -3887,7 +4006,7 @@ Stream Events
 
   - `class ManagedAgentsSessionStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.status_rescheduled" type`
 
     - `string id`
 
@@ -3899,7 +4018,7 @@ Stream Events
 
   - `class ManagedAgentsSessionStatusRunningEvent`
 
-    - `Type type`
+    - `"session.status_running" type`
 
     - `string id`
 
@@ -3911,7 +4030,7 @@ Stream Events
 
   - `class ManagedAgentsSessionStatusIdleEvent`
 
-    - `Type type`
+    - `"session.status_idle" type`
 
     - `string id`
 
@@ -3929,7 +4048,7 @@ Stream Events
 
   - `class ManagedAgentsSessionStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.status_terminated" type`
 
     - `string id`
 
@@ -3941,7 +4060,7 @@ Stream Events
 
   - `class ManagedAgentsSessionThreadCreatedEvent`
 
-    - `Type type`
+    - `"session.thread_created" type`
 
     - `string id`
 
@@ -3965,7 +4084,7 @@ Stream Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationStartEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_start" type`
 
     - `string id`
 
@@ -3985,7 +4104,7 @@ Stream Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationEndEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_end" type`
 
     - `string id`
 
@@ -4021,7 +4140,7 @@ Stream Events
 
   - `class ManagedAgentsSpanModelRequestStartEvent`
 
-    - `Type type`
+    - `"span.model_request_start" type`
 
     - `string id`
 
@@ -4033,7 +4152,7 @@ Stream Events
 
   - `class ManagedAgentsSpanModelRequestEndEvent`
 
-    - `Type type`
+    - `"span.model_request_end" type`
 
     - `string id`
 
@@ -4057,7 +4176,7 @@ Stream Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationOngoingEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_ongoing" type`
 
     - `string id`
 
@@ -4077,7 +4196,7 @@ Stream Events
 
   - `class ManagedAgentsUserDefineOutcomeEvent`
 
-    - `Type type`
+    - `"user.define_outcome" type`
 
     - `string id`
 
@@ -4105,7 +4224,7 @@ Stream Events
 
   - `class ManagedAgentsSessionDeletedEvent`
 
-    - `Type type`
+    - `"session.deleted" type`
 
     - `string id`
 
@@ -4117,7 +4236,7 @@ Stream Events
 
   - `class ManagedAgentsSessionThreadStatusRunningEvent`
 
-    - `Type type`
+    - `"session.thread_status_running" type`
 
     - `string id`
 
@@ -4137,7 +4256,7 @@ Stream Events
 
   - `class ManagedAgentsSessionThreadStatusIdleEvent`
 
-    - `Type type`
+    - `"session.thread_status_idle" type`
 
     - `string id`
 
@@ -4163,7 +4282,7 @@ Stream Events
 
   - `class ManagedAgentsSessionThreadStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.thread_status_terminated" type`
 
     - `string id`
 
@@ -4183,7 +4302,7 @@ Stream Events
 
   - `class BetaManagedAgentsUserToolResultEvent`
 
-    - `Type type`
+    - `"user.tool_result" type`
 
     - `string id`
 
@@ -4211,7 +4330,7 @@ Stream Events
 
   - `class ManagedAgentsSessionThreadStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.thread_status_rescheduled" type`
 
     - `string id`
 
@@ -4231,7 +4350,7 @@ Stream Events
 
   - `class BetaManagedAgentsSessionUpdatedEvent`
 
-    - `Type type`
+    - `"session.updated" type`
 
     - `string id`
 
@@ -4259,7 +4378,7 @@ Stream Events
 
   - `class BetaManagedAgentsStartEvent`
 
-    - `Type type`
+    - `"event_start" type`
 
     - `BetaManagedAgentsStartEventPreview event`
 
@@ -4267,7 +4386,7 @@ Stream Events
 
   - `class BetaManagedAgentsDeltaEvent`
 
-    - `Type type`
+    - `"event_delta" type`
 
     - `BetaManagedAgentsDeltaContent delta`
 
@@ -4279,7 +4398,7 @@ Stream Events
 
   - `class BetaManagedAgentsSystemMessageEvent`
 
-    - `Type type`
+    - `"system.message" type`
 
     - `string id`
 
@@ -4295,7 +4414,7 @@ Stream Events
 
   - `class BetaManagedAgentsSessionUsageEvent`
 
-    - `Type type`
+    - `"session.usage" type`
 
     - `string id`
 
@@ -4464,6 +4583,10 @@ Stream Events
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Sessions\BetaManagedAgentsDeltaType;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsStreamSessionEvents = $client
@@ -4500,7 +4623,7 @@ var_dump($betaManagedAgentsStreamSessionEvents);
 
 ### Add Session Resource
 
-`$client->beta->sessions->resources->add(string sessionID, string fileID, Type type, ?string mountPath, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsFileResource`
+`$client->beta->sessions->resources->add(string sessionID, string fileID, "file" type, ?string mountPath, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsFileResource`
 
 **POST** `/v1/sessions/{session_id}/resources`
 
@@ -4514,15 +4637,21 @@ Add Session Resource
 
   ID of a previously uploaded file.
 
-- `type: Type`
+- `type: "file"`
 
-- `mountPath?:optional string`
+- `mountPath?: optional string`
 
   Mount path in the container. Defaults to `/mnt/session/uploads/<file_id>`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -4534,7 +4663,7 @@ Add Session Resource
 
 - `class ManagedAgentsFileResource`
 
-  - `Type type`
+  - `"file" type`
 
   - `string id`
 
@@ -4556,6 +4685,9 @@ Add Session Resource
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -4596,17 +4728,23 @@ List Session Resources
 
 - `sessionID: string` (path parameter)
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of resources to return per page (max 1000). If omitted, returns all resources.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -4620,7 +4758,7 @@ List Session Resources
 
   - `class ManagedAgentsGitHubRepositoryResource`
 
-    - `Type type`
+    - `"github_repository" type`
 
     - `string id`
 
@@ -4640,7 +4778,7 @@ List Session Resources
 
   - `class ManagedAgentsFileResource`
 
-    - `Type type`
+    - `"file" type`
 
     - `string id`
 
@@ -4658,7 +4796,7 @@ List Session Resources
 
   - `class ManagedAgentsMemoryStoreResource`
 
-    - `Type type`
+    - `"memory_store" type`
 
     - `string memoryStoreID`
 
@@ -4690,6 +4828,9 @@ List Session Resources
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -4748,9 +4889,15 @@ Get Session Resource
 
 - `resourceID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -4764,7 +4911,7 @@ Get Session Resource
 
   - `class ManagedAgentsGitHubRepositoryResource`
 
-    - `Type type`
+    - `"github_repository" type`
 
     - `string id`
 
@@ -4784,7 +4931,7 @@ Get Session Resource
 
   - `class ManagedAgentsFileResource`
 
-    - `Type type`
+    - `"file" type`
 
     - `string id`
 
@@ -4802,7 +4949,7 @@ Get Session Resource
 
   - `class ManagedAgentsMemoryStoreResource`
 
-    - `Type type`
+    - `"memory_store" type`
 
     - `string memoryStoreID`
 
@@ -4834,6 +4981,9 @@ Get Session Resource
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -4882,9 +5032,15 @@ Update Session Resource
 
   New authorization token for the resource. Currently only `github_repository` resources support token rotation.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -4898,7 +5054,7 @@ Update Session Resource
 
   - `class ManagedAgentsGitHubRepositoryResource`
 
-    - `Type type`
+    - `"github_repository" type`
 
     - `string id`
 
@@ -4918,7 +5074,7 @@ Update Session Resource
 
   - `class ManagedAgentsFileResource`
 
-    - `Type type`
+    - `"file" type`
 
     - `string id`
 
@@ -4936,7 +5092,7 @@ Update Session Resource
 
   - `class ManagedAgentsMemoryStoreResource`
 
-    - `Type type`
+    - `"memory_store" type`
 
     - `string memoryStoreID`
 
@@ -4968,6 +5124,9 @@ Update Session Resource
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -5013,9 +5172,15 @@ Delete Session Resource
 
 - `resourceID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -5027,7 +5192,7 @@ Delete Session Resource
 
 - `class ManagedAgentsDeleteSessionResource`
 
-  - `Type type`
+  - `"session_resource_deleted" type`
 
   - `string id`
 
@@ -5037,6 +5202,9 @@ Delete Session Resource
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -5077,23 +5245,29 @@ List Session Threads
 
 - `sessionID: string` (path parameter)
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum results per page. Defaults to 1000.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor from a previous response's `next_page`. Forward-only.
 
-- `statuses?:optional list<ManagedAgentsSessionThreadStatus>` (query parameter)
+- `statuses?: optional list<ManagedAgentsSessionThreadStatus>` (query parameter)
 
   Return only threads that have one of these statuses.
 
   Repeat the parameter to give more than one status. Leave it out to return threads of every status.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -5105,7 +5279,7 @@ List Session Threads
 
 - `class ManagedAgentsSessionThread`
 
-  - `Type type`
+  - `"session_thread" type`
 
   - `string id`
 
@@ -5158,6 +5332,10 @@ List Session Threads
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Sessions\Threads\ManagedAgentsSessionThreadStatus;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->sessions->threads->list(
@@ -5182,6 +5360,9 @@ var_dump($page);
       "agent": {
         "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
         "description": "A focused research subagent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",
@@ -5281,9 +5462,15 @@ Get Session Thread
 
 - `threadID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -5295,7 +5482,7 @@ Get Session Thread
 
 - `class ManagedAgentsSessionThread`
 
-  - `Type type`
+  - `"session_thread" type`
 
   - `string id`
 
@@ -5348,6 +5535,9 @@ Get Session Thread
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsSessionThread = $client->beta->sessions->threads->retrieve(
@@ -5368,6 +5558,9 @@ var_dump($betaManagedAgentsSessionThread);
   "agent": {
     "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
     "description": "A focused research subagent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -5464,9 +5657,15 @@ Archive Session Thread
 
 - `threadID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -5478,7 +5677,7 @@ Archive Session Thread
 
 - `class ManagedAgentsSessionThread`
 
-  - `Type type`
+  - `"session_thread" type`
 
   - `string id`
 
@@ -5531,6 +5730,9 @@ Archive Session Thread
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsSessionThread = $client->beta->sessions->threads->archive(
@@ -5551,6 +5753,9 @@ var_dump($betaManagedAgentsSessionThread);
   "agent": {
     "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
     "description": "A focused research subagent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -5649,13 +5854,19 @@ List Session Thread Events
 
 - `threadID: string` (path parameter)
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -5669,7 +5880,7 @@ List Session Thread Events
 
   - `class ManagedAgentsUserMessageEvent`
 
-    - `Type type`
+    - `"user.message" type`
 
     - `string id`
 
@@ -5685,7 +5896,7 @@ List Session Thread Events
 
   - `class ManagedAgentsUserInterruptEvent`
 
-    - `Type type`
+    - `"user.interrupt" type`
 
     - `string id`
 
@@ -5701,7 +5912,7 @@ List Session Thread Events
 
   - `class ManagedAgentsUserToolConfirmationEvent`
 
-    - `Type type`
+    - `"user.tool_confirmation" type`
 
     - `string id`
 
@@ -5729,7 +5940,7 @@ List Session Thread Events
 
   - `class ManagedAgentsUserCustomToolResultEvent`
 
-    - `Type type`
+    - `"user.custom_tool_result" type`
 
     - `string id`
 
@@ -5757,7 +5968,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentCustomToolUseEvent`
 
-    - `Type type`
+    - `"agent.custom_tool_use" type`
 
     - `string id`
 
@@ -5781,7 +5992,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentMessageEvent`
 
-    - `Type type`
+    - `"agent.message" type`
 
     - `string id`
 
@@ -5797,7 +6008,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentThinkingEvent`
 
-    - `Type type`
+    - `"agent.thinking" type`
 
     - `string id`
 
@@ -5809,7 +6020,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentMCPToolUseEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_use" type`
 
     - `string id`
 
@@ -5845,7 +6056,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentMCPToolResultEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_result" type`
 
     - `string id`
 
@@ -5869,7 +6080,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentToolUseEvent`
 
-    - `Type type`
+    - `"agent.tool_use" type`
 
     - `string id`
 
@@ -5901,7 +6112,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentToolResultEvent`
 
-    - `Type type`
+    - `"agent.tool_result" type`
 
     - `string id`
 
@@ -5925,7 +6136,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentThreadMessageReceivedEvent`
 
-    - `Type type`
+    - `"agent.thread_message_received" type`
 
     - `string id`
 
@@ -5949,7 +6160,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentThreadMessageSentEvent`
 
-    - `Type type`
+    - `"agent.thread_message_sent" type`
 
     - `string id`
 
@@ -5973,7 +6184,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentThreadContextCompactedEvent`
 
-    - `Type type`
+    - `"agent.thread_context_compacted" type`
 
     - `string id`
 
@@ -5985,7 +6196,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionErrorEvent`
 
-    - `Type type`
+    - `"session.error" type`
 
     - `string id`
 
@@ -5999,7 +6210,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.status_rescheduled" type`
 
     - `string id`
 
@@ -6011,7 +6222,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionStatusRunningEvent`
 
-    - `Type type`
+    - `"session.status_running" type`
 
     - `string id`
 
@@ -6023,7 +6234,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionStatusIdleEvent`
 
-    - `Type type`
+    - `"session.status_idle" type`
 
     - `string id`
 
@@ -6041,7 +6252,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.status_terminated" type`
 
     - `string id`
 
@@ -6053,7 +6264,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionThreadCreatedEvent`
 
-    - `Type type`
+    - `"session.thread_created" type`
 
     - `string id`
 
@@ -6077,7 +6288,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationStartEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_start" type`
 
     - `string id`
 
@@ -6097,7 +6308,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationEndEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_end" type`
 
     - `string id`
 
@@ -6133,7 +6344,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSpanModelRequestStartEvent`
 
-    - `Type type`
+    - `"span.model_request_start" type`
 
     - `string id`
 
@@ -6145,7 +6356,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSpanModelRequestEndEvent`
 
-    - `Type type`
+    - `"span.model_request_end" type`
 
     - `string id`
 
@@ -6169,7 +6380,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationOngoingEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_ongoing" type`
 
     - `string id`
 
@@ -6189,7 +6400,7 @@ List Session Thread Events
 
   - `class ManagedAgentsUserDefineOutcomeEvent`
 
-    - `Type type`
+    - `"user.define_outcome" type`
 
     - `string id`
 
@@ -6217,7 +6428,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionDeletedEvent`
 
-    - `Type type`
+    - `"session.deleted" type`
 
     - `string id`
 
@@ -6229,7 +6440,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusRunningEvent`
 
-    - `Type type`
+    - `"session.thread_status_running" type`
 
     - `string id`
 
@@ -6249,7 +6460,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusIdleEvent`
 
-    - `Type type`
+    - `"session.thread_status_idle" type`
 
     - `string id`
 
@@ -6275,7 +6486,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.thread_status_terminated" type`
 
     - `string id`
 
@@ -6295,7 +6506,7 @@ List Session Thread Events
 
   - `class BetaManagedAgentsUserToolResultEvent`
 
-    - `Type type`
+    - `"user.tool_result" type`
 
     - `string id`
 
@@ -6323,7 +6534,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.thread_status_rescheduled" type`
 
     - `string id`
 
@@ -6343,7 +6554,7 @@ List Session Thread Events
 
   - `class BetaManagedAgentsSessionUpdatedEvent`
 
-    - `Type type`
+    - `"session.updated" type`
 
     - `string id`
 
@@ -6371,7 +6582,7 @@ List Session Thread Events
 
   - `class BetaManagedAgentsSystemMessageEvent`
 
-    - `Type type`
+    - `"system.message" type`
 
     - `string id`
 
@@ -6387,7 +6598,7 @@ List Session Thread Events
 
   - `class BetaManagedAgentsSessionUsageEvent`
 
-    - `Type type`
+    - `"session.usage" type`
 
     - `string id`
 
@@ -6555,6 +6766,9 @@ List Session Thread Events
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -6616,13 +6830,19 @@ Stream Session Thread Events
 
 - `threadID: string` (path parameter)
 
-- `eventDeltas?:optional list<BetaManagedAgentsDeltaType>` (query parameter)
+- `eventDeltas?: optional list<BetaManagedAgentsDeltaType>` (query parameter)
 
   When set, this connection also receives streaming deltas (`event_start`, `event_delta`) while an event is being produced, before the event itself arrives. Deltas are best-effort; when the final event is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no final event — its terminal `span.model_request_end` closes the preview. Accepts one or more event types to preview and may be repeated: `agent.message` streams `content_delta` fragments; `agent.thinking` is start-only — a signal that the agent has begun extended thinking, concluded by the `agent.thinking` event itself. Only previews of the requested event types are sent.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -6636,7 +6856,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserMessageEvent`
 
-    - `Type type`
+    - `"user.message" type`
 
     - `string id`
 
@@ -6652,7 +6872,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserInterruptEvent`
 
-    - `Type type`
+    - `"user.interrupt" type`
 
     - `string id`
 
@@ -6668,7 +6888,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserToolConfirmationEvent`
 
-    - `Type type`
+    - `"user.tool_confirmation" type`
 
     - `string id`
 
@@ -6696,7 +6916,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserCustomToolResultEvent`
 
-    - `Type type`
+    - `"user.custom_tool_result" type`
 
     - `string id`
 
@@ -6724,7 +6944,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentCustomToolUseEvent`
 
-    - `Type type`
+    - `"agent.custom_tool_use" type`
 
     - `string id`
 
@@ -6748,7 +6968,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentMessageEvent`
 
-    - `Type type`
+    - `"agent.message" type`
 
     - `string id`
 
@@ -6764,7 +6984,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentThinkingEvent`
 
-    - `Type type`
+    - `"agent.thinking" type`
 
     - `string id`
 
@@ -6776,7 +6996,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentMCPToolUseEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_use" type`
 
     - `string id`
 
@@ -6812,7 +7032,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentMCPToolResultEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_result" type`
 
     - `string id`
 
@@ -6836,7 +7056,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentToolUseEvent`
 
-    - `Type type`
+    - `"agent.tool_use" type`
 
     - `string id`
 
@@ -6868,7 +7088,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentToolResultEvent`
 
-    - `Type type`
+    - `"agent.tool_result" type`
 
     - `string id`
 
@@ -6892,7 +7112,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentThreadMessageReceivedEvent`
 
-    - `Type type`
+    - `"agent.thread_message_received" type`
 
     - `string id`
 
@@ -6916,7 +7136,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentThreadMessageSentEvent`
 
-    - `Type type`
+    - `"agent.thread_message_sent" type`
 
     - `string id`
 
@@ -6940,7 +7160,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentThreadContextCompactedEvent`
 
-    - `Type type`
+    - `"agent.thread_context_compacted" type`
 
     - `string id`
 
@@ -6952,7 +7172,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionErrorEvent`
 
-    - `Type type`
+    - `"session.error" type`
 
     - `string id`
 
@@ -6966,7 +7186,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.status_rescheduled" type`
 
     - `string id`
 
@@ -6978,7 +7198,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionStatusRunningEvent`
 
-    - `Type type`
+    - `"session.status_running" type`
 
     - `string id`
 
@@ -6990,7 +7210,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionStatusIdleEvent`
 
-    - `Type type`
+    - `"session.status_idle" type`
 
     - `string id`
 
@@ -7008,7 +7228,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.status_terminated" type`
 
     - `string id`
 
@@ -7020,7 +7240,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadCreatedEvent`
 
-    - `Type type`
+    - `"session.thread_created" type`
 
     - `string id`
 
@@ -7044,7 +7264,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationStartEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_start" type`
 
     - `string id`
 
@@ -7064,7 +7284,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationEndEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_end" type`
 
     - `string id`
 
@@ -7100,7 +7320,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanModelRequestStartEvent`
 
-    - `Type type`
+    - `"span.model_request_start" type`
 
     - `string id`
 
@@ -7112,7 +7332,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanModelRequestEndEvent`
 
-    - `Type type`
+    - `"span.model_request_end" type`
 
     - `string id`
 
@@ -7136,7 +7356,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationOngoingEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_ongoing" type`
 
     - `string id`
 
@@ -7156,7 +7376,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserDefineOutcomeEvent`
 
-    - `Type type`
+    - `"user.define_outcome" type`
 
     - `string id`
 
@@ -7184,7 +7404,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionDeletedEvent`
 
-    - `Type type`
+    - `"session.deleted" type`
 
     - `string id`
 
@@ -7196,7 +7416,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusRunningEvent`
 
-    - `Type type`
+    - `"session.thread_status_running" type`
 
     - `string id`
 
@@ -7216,7 +7436,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusIdleEvent`
 
-    - `Type type`
+    - `"session.thread_status_idle" type`
 
     - `string id`
 
@@ -7242,7 +7462,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.thread_status_terminated" type`
 
     - `string id`
 
@@ -7262,7 +7482,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsUserToolResultEvent`
 
-    - `Type type`
+    - `"user.tool_result" type`
 
     - `string id`
 
@@ -7290,7 +7510,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.thread_status_rescheduled" type`
 
     - `string id`
 
@@ -7310,7 +7530,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsSessionUpdatedEvent`
 
-    - `Type type`
+    - `"session.updated" type`
 
     - `string id`
 
@@ -7338,7 +7558,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsStartEvent`
 
-    - `Type type`
+    - `"event_start" type`
 
     - `BetaManagedAgentsStartEventPreview event`
 
@@ -7346,7 +7566,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsDeltaEvent`
 
-    - `Type type`
+    - `"event_delta" type`
 
     - `BetaManagedAgentsDeltaContent delta`
 
@@ -7358,7 +7578,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsSystemMessageEvent`
 
-    - `Type type`
+    - `"system.message" type`
 
     - `string id`
 
@@ -7374,7 +7594,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsSessionUsageEvent`
 
-    - `Type type`
+    - `"session.usage" type`
 
     - `string id`
 
@@ -7542,6 +7762,10 @@ Stream Session Thread Events
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Sessions\BetaManagedAgentsDeltaType;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

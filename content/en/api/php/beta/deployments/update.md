@@ -17,49 +17,55 @@ Update Deployment
 
   Unique identifier of the deployment to update.
 
-- `agent?:optional Agent`
+- `agent?: optional Agent`
 
   Agent to deploy. Accepts the `agent` ID string, which re-pins to the latest version, or an `agent` object with both id and version specified. Omit to preserve. Cannot be cleared.
 
-- `budget?:optional BetaManagedAgentsBudgetLimit`
+- `budget?: optional BetaManagedAgentsBudgetLimit`
 
   Spend ceiling for future sessions. Full replacement. Omit to preserve; send null to clear (sessions created afterwards are uncapped). The deployment agent's model must have a public list price, or the request is rejected; a multiagent roster is re-validated in full when each fire copies the cap, which fails closed the same way.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Description. Omit to preserve; send empty string or null to clear.
 
-- `environmentID?:optional string`
+- `environmentID?: optional string`
 
   ID of the `environment` where sessions run. Omit to preserve. Cannot be cleared.
 
-- `initialEvents?:optional list<BetaManagedAgentsDeploymentInitialEventParams>`
+- `initialEvents?: optional list<BetaManagedAgentsDeploymentInitialEventParams>`
 
   Initial events. Full replacement. Omit to preserve. Cannot be cleared. At least 1, maximum 50.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve. The stored bag is limited to 16 keys (up to 64 chars each) with values up to 512 chars.
 
-- `name?:optional string`
+- `name?: optional string`
 
   Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
 
-- `resources?:optional list<Resource>`
+- `resources?: optional list<Resource>`
 
   Session resources. Full replacement. Omit to preserve; send empty array or null to clear. Maximum 500.
 
-- `schedule?:optional BetaManagedAgentsScheduleParams`
+- `schedule?: optional BetaManagedAgentsScheduleParams`
 
   Cron schedule. Full replacement. Omit to preserve; send null to clear (revert to manual-only).
 
-- `vaultIDs?:optional list<string>`
+- `vaultIDs?: optional list<string>`
 
   Vault IDs. Full replacement. Omit to preserve; send empty array or null to clear. Maximum 50.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -71,7 +77,7 @@ Update Deployment
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -143,6 +149,10 @@ Update Deployment
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\BetaCurrency;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

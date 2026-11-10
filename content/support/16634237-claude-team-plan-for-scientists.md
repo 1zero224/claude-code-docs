@@ -16,9 +16,11 @@ Every seat includes everything in Claude Team:
 
 - Single sign-on (SSO)
 
+This plan has Claude Science on by default. An Owner or Primary Owner can turn it off at any time in **[Organization settings > Claude Science](https://claude.ai/admin-settings/claude-science)**.
+
 Premium seats add five times more usage and higher limits for long-running analyses.
 
-Claude Max and Team plans include monthly credits for the Claude API. On the Team plan for scientists, you’ll receive $20 USD per Standard seat and $100 USD per Premium seat. Credits for all seats are pooled into one monthly balance, capped at $500. Learn more about **[monthly API credits for Max and Team plans](https://support.claude.com/en/articles/17154008)**.
+Claude Max, Ultra, and Team plans include monthly credits for the Claude API. On the Team plan for scientists, you’ll receive $20 USD per Standard seat and $100 USD per Premium seat. Credits for all seats are pooled into one monthly balance, capped at $500. Learn more about **[monthly API credits for Max, Ultra, and Team plans](https://support.claude.com/en/articles/17154008)**.
 
 ## What does it cost?
 
@@ -36,7 +38,7 @@ If you’re at a for-profit company, contract research organization, or industry
 
 ## How do I sign up?
 
-1. Go to **[the program page](http://claude.com/programs/team-plan-for-scientists)** and start an application as the PI or lab lead.
+1. Go to **[the program page](https://claude.com/programs/team-plan-for-scientists)** and start an application as the PI or lab lead.
 
 2. Verify your eligibility. You’ll confirm your institutional affiliation. Most applications are reviewed within seven business days.
 

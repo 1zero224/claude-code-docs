@@ -2,7 +2,7 @@
 
 A design system captures your colors, typography, components, and layout patterns, so Claude applies them to every new design and deck. Claude extracts them from the assets you provide, like codebases, slide decks, or other design references.
 
-Design systems are available in beta on Pro, Max, Team, and Enterprise plans. They're on by default on Pro, Max, and Team plans. On Enterprise plans, they're off until an owner turns on **Design systems** in **[Organization settings > Artifacts](https://claude.ai/admin-settings/artifacts)**. Standalone Claude Design at claude.ai/design has its own separate setting.
+Design systems are available in beta on Pro, Max, Ultra, Team, and Enterprise plans. They're on by default on Pro, Max, Ultra, and Team plans. On Enterprise plans, they're off until an owner turns on **Design systems** in **[Organization settings > Artifacts](https://claude.ai/admin-settings/artifacts)**. Standalone Claude Design at claude.ai/design has its own separate setting.
 
 This guide is for the designer or brand owner who will set up the design system. On Team and Enterprise plans, you only need to do this once, and everyone's work picks it up after that.
 
@@ -34,13 +34,13 @@ If your design system already exists as React components, run /design-sync in Cl
 
 1. Open the "Design" tab at the bottom of the sidebar.
 
-2. Click "Migrate team design systems" in the banner.
+2. Click "Move team design systems" in the banner.
 
-Each design system becomes an artifact Claude can use in any chat, including in Claude Code. Migrated design systems may need some cleanup, so each one shows a banner where you can click "Let Claude clean it up," and Claude tidies its guide, tokens, and components.
+Each design system becomes an artifact Claude can use in any chat, including in Claude Code. Design systems may need some cleanup after you move them, so each one shows a banner where you can click "Let Claude clean it up," and Claude tidies its guide, tokens, and components. If your organization has a retention period that covers artifacts, a design system you moved can be permanently deleted if nobody opens it for that period. Opening a design or deck that uses the design system doesn't count as opening it.
 
 ## Manage your design systems
 
-Manage your design systems in **[Settings > Design systems](https://claude.ai/settings/design-systems)**. On Enterprise plans, admins can reserve publishing, setting the organization default, and deleting design systems for specific users. Learn more in the **[Artifacts admin guide for Team and Enterprise plans](https://support.claude.com/en/articles/16994751)**.
+Manage your design systems in Settings > Capabilities by selecting Manage next to Design systems. If Design systems isn't there, go to Settings > Design systems. On Enterprise plans, admins can reserve publishing, setting the organization default, and deleting design systems for specific users. Learn more in the **[Artifacts admin guide for Team and Enterprise plans](https://support.claude.com/en/articles/16994751)**.
 
 ---
 

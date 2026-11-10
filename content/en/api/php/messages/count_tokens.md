@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/php/messages/count_tokens
 
 # Count tokens in a Message
 
-`$client->messages->countTokens(list<MessageParam> messages, Model model, ?CacheControlEphemeral cacheControl, ?OutputConfig outputConfig, ?System system, ?ThinkingConfigParam thinking, ?ToolChoice toolChoice, ?list<MessageCountTokensTool> tools, ?string userProfileID, ?string workspaceID): MessageTokensCount`
+`$client->messages->countTokens(list<MessageParam> messages, Model model, ?CacheControlEphemeral cacheControl, ?OutputConfig outputConfig, ?Speed speed, ?System system, ?ThinkingConfigParam thinking, ?ToolChoice toolChoice, ?list<MessageCountTokensTool> tools, ?string userProfileID, ?string workspaceID): MessageTokensCount`
 
 **POST** `/v1/messages/count_tokens`
 
@@ -64,7 +64,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   See [input examples](https://platform.claude.com/docs/en/build-with-claude/working-with-messages?sdk_languages=php).
 
-  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
+  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role), you can use the top-level `system` parameter.
 
   There is a limit of 100,000 messages in a single request.
 
@@ -74,21 +74,27 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-- `cacheControl?:optional CacheControlEphemeral`
+- `cacheControl?: optional CacheControlEphemeral`
 
   Top-level cache control automatically applies a cache_control marker to the last cacheable block in the request.
 
-- `outputConfig?:optional OutputConfig`
+- `outputConfig?: optional OutputConfig`
 
   Configuration options for the model's output, such as the output format.
 
-- `system?:optional System`
+- `speed?: optional Speed`
+
+  The inference speed mode for this request. `"fast"` enables high output-tokens-per-second inference.
+
+  Some models require the `fast-mode-2026-02-01` beta header for any `speed` value. See [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode?sdk_languages=php) for which models.
+
+- `system?: optional System`
 
   System prompt.
 
   A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role. See our [guide to system prompts](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role).
 
-- `thinking?:optional ThinkingConfigParam`
+- `thinking?: optional ThinkingConfigParam`
 
   Configuration for Claude's thinking.
 
@@ -96,11 +102,11 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   Which `type` values are accepted, and what happens when you omit `thinking`, depend on the model. See [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking?sdk_languages=php#configuring-thinking) for each model's behavior.
 
-- `toolChoice?:optional ToolChoice`
+- `toolChoice?: optional ToolChoice`
 
   How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
 
-- `tools?:optional list<MessageCountTokensTool>`
+- `tools?: optional list<MessageCountTokensTool>`
 
   Definitions of tools that the model may use.
 
@@ -164,9 +170,15 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   See our [guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview?sdk_languages=php) for more details.
 
-- `userProfileID?:optional string` (header parameter)
+- `userProfileID?: optional string` (header parameter)
 
-  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header.
+  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -189,6 +201,9 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Messages\Model;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $messageTokensCount = $client->messages->countTokens(
@@ -199,6 +214,7 @@ $messageTokensCount = $client->messages->countTokens(
     'effort' => 'low',
     'format' => ['schema' => ['foo' => 'bar'], 'type' => 'json_schema'],
   ],
+  speed: 'standard',
   system: [
     [
       'text' => 'Today\'s date is 2024-06-01.',

@@ -25,7 +25,7 @@ Create Session
 
       Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
-      - `Type BetaManagedAgentsAgentParamsType`
+      - `Type Agent`
 
       - `ID string`
 
@@ -43,7 +43,7 @@ Create Session
 
       Reference to an `agent` plus optional configuration overrides. Each provided field replaces the agent's value for the caller's use; the agent resource is unchanged.
 
-      - `Type BetaManagedAgentsAgentWithOverridesParamsType`
+      - `Type AgentWithOverrides`
 
       - `ID string`
 
@@ -55,7 +55,7 @@ Create Session
 
         Replacement MCP server list. Full replacement: the provided array becomes the MCP servers. Send an empty array to clear; omit to preserve the agent's servers.
 
-        - `Type BetaManagedAgentsURLMCPServerParamsType`
+        - `Type URL`
 
         - `Name string`
 
@@ -82,6 +82,10 @@ Create Session
             The model that will power your agent.
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+            - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+              Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
             - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -183,31 +187,31 @@ Create Session
 
               Low effort. Favors latency over reasoning depth.
 
-              - `Type BetaManagedAgentsEffortLowType`
+              - `Type Low`
 
             - `type BetaManagedAgentsEffortMedium`
 
               Medium effort. Balances latency and reasoning depth.
 
-              - `Type BetaManagedAgentsEffortMediumType`
+              - `Type Medium`
 
             - `type BetaManagedAgentsEffortHigh`
 
               High effort. Favors reasoning depth.
 
-              - `Type BetaManagedAgentsEffortHighType`
+              - `Type High`
 
             - `type BetaManagedAgentsEffortXhigh`
 
               Extra-high effort. Not all models accept this level.
 
-              - `Type BetaManagedAgentsEffortXhighType`
+              - `Type Xhigh`
 
             - `type BetaManagedAgentsEffortMax`
 
               Maximum effort. Favors reasoning depth over latency.
 
-              - `Type BetaManagedAgentsEffortMaxType`
+              - `Type Max`
 
           - `InferenceGeo string Optional`
 
@@ -215,7 +219,7 @@ Create Session
 
           - `Speed BetaManagedAgentsModelConfigParamsSpeed Optional`
 
-            Inference speed mode. Defaults to `standard`.
+            Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
             - `const BetaManagedAgentsModelConfigParamsSpeedStandard BetaManagedAgentsModelConfigParamsSpeed = "standard"`
 
@@ -229,7 +233,7 @@ Create Session
 
           An Anthropic-managed skill.
 
-          - `Type BetaManagedAgentsAnthropicSkillParamsType`
+          - `Type Anthropic`
 
           - `SkillID string`
 
@@ -247,7 +251,7 @@ Create Session
 
           A user-created custom skill.
 
-          - `Type BetaManagedAgentsCustomSkillParamsType`
+          - `Type Custom`
 
           - `SkillID string`
 
@@ -275,7 +279,7 @@ Create Session
 
           Configuration for built-in agent tools. Use this to enable or disable groups of tools available to the agent.
 
-          - `Type BetaManagedAgentsAgentToolset20260401ParamsType`
+          - `Type AgentToolset20260401`
 
           - `Configs []BetaManagedAgentsAgentToolConfigParamsUnion Optional`
 
@@ -303,13 +307,13 @@ Create Session
 
                   Tool calls are automatically approved without user confirmation.
 
-                  - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                  - `Type AlwaysAllow`
 
                 - `type BetaManagedAgentsAlwaysAskPolicy`
 
                   Tool calls require user confirmation before execution.
 
-                  - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                  - `Type AlwaysAsk`
 
                 - `type BetaManagedAgentsAutoPolicy`
 
@@ -663,6 +667,8 @@ Create Session
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `Region string Optional`
 
                   Region or state name.
@@ -703,7 +709,7 @@ Create Session
 
           Configuration for tools from an MCP server defined in `mcp_servers`.
 
-          - `Type BetaManagedAgentsMCPToolsetParamsType`
+          - `Type MCPToolset`
 
           - `MCPServerName string`
 
@@ -769,7 +775,7 @@ Create Session
 
           A custom tool that is executed by the API client rather than the agent. When the agent calls this tool, an `agent.custom_tool_use` event is emitted and the session goes idle, waiting for the client to provide the result via a `user.custom_tool_result` event.
 
-          - `Type BetaManagedAgentsCustomToolParamsType`
+          - `Type Custom`
 
           - `Description string`
 
@@ -783,7 +789,7 @@ Create Session
 
             - `Type Object`
 
-            - `Properties map[string, any] Optional`
+            - `Properties map[string]any Optional`
 
             - `Required []string Optional`
 
@@ -791,7 +797,7 @@ Create Session
 
             Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-            minLength: 1, maxLength: 128
+            minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
       - `Version int64 Optional`
 
@@ -817,7 +823,7 @@ Create Session
 
       Parameters for sending a user message to the session.
 
-      - `Type BetaManagedAgentsUserMessageEventParamsType`
+      - `Type UserMessage`
 
       - `Content []BetaManagedAgentsUserMessageEventParamsContentUnion`
 
@@ -827,7 +833,7 @@ Create Session
 
           Regular text content.
 
-          - `Type BetaManagedAgentsTextBlockType`
+          - `Type Text`
 
           - `Text string`
 
@@ -839,7 +845,7 @@ Create Session
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `Type BetaManagedAgentsImageBlockType`
+          - `Type Image`
 
           - `Source BetaManagedAgentsImageBlockSourceUnion`
 
@@ -849,7 +855,7 @@ Create Session
 
               Base64-encoded image data.
 
-              - `Type BetaManagedAgentsBase64ImageSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -867,7 +873,7 @@ Create Session
 
               Image referenced by URL.
 
-              - `Type BetaManagedAgentsURLImageSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -879,7 +885,7 @@ Create Session
 
               Image referenced by file ID.
 
-              - `Type BetaManagedAgentsFileImageSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -891,7 +897,7 @@ Create Session
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `Type BetaManagedAgentsDocumentBlockType`
+          - `Type Document`
 
           - `Source BetaManagedAgentsDocumentBlockSourceUnion`
 
@@ -901,7 +907,7 @@ Create Session
 
               Base64-encoded document data.
 
-              - `Type BetaManagedAgentsBase64DocumentSourceType`
+              - `Type Base64`
 
               - `Data string`
 
@@ -919,7 +925,7 @@ Create Session
 
               Plain text document content.
 
-              - `Type BetaManagedAgentsPlainTextDocumentSourceType`
+              - `Type Text`
 
               - `Data string`
 
@@ -927,7 +933,7 @@ Create Session
 
                 minLength: 1
 
-              - `MediaType BetaManagedAgentsPlainTextDocumentSourceMediaType`
+              - `MediaType TextPlain`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -935,7 +941,7 @@ Create Session
 
               Document referenced by URL.
 
-              - `Type BetaManagedAgentsURLDocumentSourceType`
+              - `Type URL`
 
               - `URL string`
 
@@ -947,7 +953,7 @@ Create Session
 
               Document referenced by file ID.
 
-              - `Type BetaManagedAgentsFileDocumentSourceType`
+              - `Type File`
 
               - `FileID string`
 
@@ -967,13 +973,13 @@ Create Session
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `Type BetaManagedAgentsRedactedBlockType`
+          - `Type Redacted`
 
     - `type BetaManagedAgentsUserDefineOutcomeEventParams`
 
       Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-      - `Type BetaManagedAgentsUserDefineOutcomeEventParamsType`
+      - `Type UserDefineOutcome`
 
       - `Description string`
 
@@ -987,7 +993,7 @@ Create Session
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `Type BetaManagedAgentsFileRubricParamsType`
+          - `Type File`
 
           - `FileID string`
 
@@ -997,7 +1003,7 @@ Create Session
 
           Rubric content provided inline as text.
 
-          - `Type BetaManagedAgentsTextRubricParamsType`
+          - `Type Text`
 
           - `Content string`
 
@@ -1011,7 +1017,7 @@ Create Session
 
         format: int32
 
-  - `Metadata map[string, string] Optional`
+  - `Metadata map[string]string Optional`
 
     Arbitrary key-value metadata attached to the session. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
@@ -1023,7 +1029,7 @@ Create Session
 
       Mount a GitHub repository into the session's container.
 
-      - `Type BetaManagedAgentsGitHubRepositoryResourceParamsType`
+      - `Type GitHubRepository`
 
       - `URL string`
 
@@ -1043,7 +1049,7 @@ Create Session
 
         - `type BetaManagedAgentsBranchCheckout`
 
-          - `Type BetaManagedAgentsBranchCheckoutType`
+          - `Type Branch`
 
           - `Name string`
 
@@ -1053,13 +1059,13 @@ Create Session
 
         - `type BetaManagedAgentsCommitCheckout`
 
-          - `Type BetaManagedAgentsCommitCheckoutType`
+          - `Type Commit`
 
           - `Sha string`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
       - `MountPath string Optional`
 
@@ -1071,7 +1077,7 @@ Create Session
 
       Mount a file uploaded via the Files API into the session.
 
-      - `Type BetaManagedAgentsFileResourceParamsType`
+      - `Type File`
 
       - `FileID string`
 
@@ -1089,11 +1095,13 @@ Create Session
 
       Parameters for attaching a memory store to an agent session.
 
-      - `Type BetaManagedAgentsMemoryStoreResourceParamType`
+      - `Type MemoryStore`
 
       - `MemoryStoreID string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Access BetaManagedAgentsMemoryStoreResourceParamAccess Optional`
 
@@ -1121,7 +1129,7 @@ Create Session
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -1223,6 +1231,18 @@ Create Session
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1235,7 +1255,7 @@ Create Session
 
   A Managed Agents `session`.
 
-  - `Type BetaManagedAgentsSessionType`
+  - `Type Session`
 
   - `ID string`
 
@@ -1243,15 +1263,37 @@ Create Session
 
     Resolved `agent` definition for a `session`. Snapshot of the `agent` at `session` creation time.
 
-    - `Type BetaManagedAgentsSessionAgentType`
+    - `Type Agent`
 
     - `ID string`
 
     - `Description string`
 
+    - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `type BetaManagedAgentsAWSRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `Type AWSRole`
+
+        - `RoleARN string`
+
+          The IAM role's ARN.
+
+      - `type BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `Type ServiceAccount`
+
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-      - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+      - `Type URL`
+
+      - `Name string`
 
       - `Name string`
 
@@ -1266,6 +1308,10 @@ Create Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `const BetaManagedAgentsModelClaudeFable5_2 BetaManagedAgentsModel = "claude-fable-5-2"`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `const BetaManagedAgentsModelClaudeHaiku5_5 BetaManagedAgentsModel = "claude-haiku-5-5"`
 
@@ -1343,31 +1389,31 @@ Create Session
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type BetaManagedAgentsEffortLowType`
+          - `Type Low`
 
         - `type BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type BetaManagedAgentsEffortMediumType`
+          - `Type Medium`
 
         - `type BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type BetaManagedAgentsEffortHighType`
+          - `Type High`
 
         - `type BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type BetaManagedAgentsEffortXhighType`
+          - `Type Xhigh`
 
         - `type BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type BetaManagedAgentsEffortMaxType`
+          - `Type Max`
 
       - `InferenceGeo string Optional`
 
@@ -1389,7 +1435,7 @@ Create Session
 
         Resolved coordinator topology with full agent definitions for each roster member.
 
-        - `Type BetaManagedAgentsSessionMultiagentCoordinatorType`
+        - `Type Coordinator`
 
         - `Agents []BetaManagedAgentsSessionMultiagentCoordinatorAgentUnion`
 
@@ -1399,15 +1445,19 @@ Create Session
 
             Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-            - `Type BetaManagedAgentsSessionThreadAgentType`
+            - `Type Agent`
 
             - `ID string`
 
             - `Description string`
 
+            - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
-              - `Type BetaManagedAgentsMCPServerURLDefinitionType`
+              - `Type URL`
 
               - `Name string`
 
@@ -1425,7 +1475,7 @@ Create Session
 
                 A resolved Anthropic-managed skill.
 
-                - `Type BetaManagedAgentsAnthropicSkillType`
+                - `Type Anthropic`
 
                 - `SkillID string`
 
@@ -1435,7 +1485,7 @@ Create Session
 
                 A resolved user-created custom skill.
 
-                - `Type BetaManagedAgentsCustomSkillType`
+                - `Type Custom`
 
                 - `SkillID string`
 
@@ -1447,7 +1497,7 @@ Create Session
 
               - `type BetaManagedAgentsAgentToolset20260401`
 
-                - `Type BetaManagedAgentsAgentToolset20260401Type`
+                - `Type AgentToolset20260401`
 
                 - `Configs []BetaManagedAgentsAgentToolConfigUnion`
 
@@ -1469,13 +1519,13 @@ Create Session
 
                         Tool calls are automatically approved without user confirmation.
 
-                        - `Type BetaManagedAgentsAlwaysAllowPolicyType`
+                        - `Type AlwaysAllow`
 
                       - `type BetaManagedAgentsAlwaysAskPolicy`
 
                         Tool calls require user confirmation before execution.
 
-                        - `Type BetaManagedAgentsAlwaysAskPolicyType`
+                        - `Type AlwaysAsk`
 
                       - `type BetaManagedAgentsAutoPolicy`
 
@@ -1771,6 +1821,8 @@ Create Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `Region string Optional`
 
                         Region or state name.
@@ -1807,7 +1859,7 @@ Create Session
 
               - `type BetaManagedAgentsMCPToolset`
 
-                - `Type BetaManagedAgentsMCPToolsetType`
+                - `Type MCPToolset`
 
                 - `Configs []BetaManagedAgentsMCPToolConfig`
 
@@ -1859,7 +1911,7 @@ Create Session
 
                 A custom tool as returned in API responses.
 
-                - `Type BetaManagedAgentsCustomToolType`
+                - `Type Custom`
 
                 - `Description string`
 
@@ -1869,7 +1921,7 @@ Create Session
 
                   - `Type Object`
 
-                  - `Properties map[string, any] Optional`
+                  - `Properties map[string]any Optional`
 
                   - `Required []string Optional`
 
@@ -1883,7 +1935,7 @@ Create Session
 
             Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-            - `Type BetaManagedAgentsAdvisorType`
+            - `Type Advisor`
 
             - `Model string`
 
@@ -1945,11 +1997,15 @@ Create Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -1993,11 +2049,15 @@ Create Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-              - `Type BetaManagedAgentsSessionThreadAgentType`
+              - `Type Agent`
 
               - `ID string`
 
               - `Description string`
+
+              - `ExecutionIdentity BetaManagedAgentsExecutionIdentityUnion`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
@@ -2061,7 +2121,7 @@ Create Session
 
     The session's enforced spend ceiling, or null when no budget is set.
 
-    - `Type BetaManagedAgentsBudgetLimitType`
+    - `Type Limit`
 
     - `MaxListCost BetaMonetaryAmount`
 
@@ -2070,6 +2130,8 @@ Create Session
       - `Amount string`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `Currency BetaCurrency`
 
@@ -2083,13 +2145,13 @@ Create Session
 
   - `EnvironmentID string`
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
   - `OutcomeEvaluations []BetaManagedAgentsOutcomeEvaluationResource`
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
-    - `Type BetaManagedAgentsOutcomeEvaluationResourceType`
+    - `Type OutcomeEvaluation`
 
     - `CompletedAt Time`
 
@@ -2123,7 +2185,7 @@ Create Session
 
     - `type BetaManagedAgentsGitHubRepositoryResource`
 
-      - `Type BetaManagedAgentsGitHubRepositoryResourceType`
+      - `Type GitHubRepository`
 
       - `ID string`
 
@@ -2147,7 +2209,7 @@ Create Session
 
         - `type BetaManagedAgentsBranchCheckout`
 
-          - `Type BetaManagedAgentsBranchCheckoutType`
+          - `Type Branch`
 
           - `Name string`
 
@@ -2157,17 +2219,17 @@ Create Session
 
         - `type BetaManagedAgentsCommitCheckout`
 
-          - `Type BetaManagedAgentsCommitCheckoutType`
+          - `Type Commit`
 
           - `Sha string`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `type BetaManagedAgentsFileResource`
 
-      - `Type BetaManagedAgentsFileResourceType`
+      - `Type File`
 
       - `ID string`
 
@@ -2191,11 +2253,13 @@ Create Session
 
       A memory store attached to an agent session.
 
-      - `Type BetaManagedAgentsMemoryStoreResourceType`
+      - `Type MemoryStore`
 
       - `MemoryStoreID string`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Access BetaManagedAgentsMemoryStoreResourceAccess Optional`
 
@@ -2346,8 +2410,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -2359,12 +2423,10 @@ func main() {
 			OfString: anthropic.String("agent_011CZkYpogX7uDKUyvBTophP"),
 		},
 		EnvironmentID: "env_011CZkZ9X2dpNyB7HsEFoRfW",
-		InitialEvents: []anthropic.BetaSessionNewParamsInitialEventUnion{anthropic.BetaSessionNewParamsInitialEventUnion{
+		InitialEvents: []anthropic.BetaSessionNewParamsInitialEventUnion{{
 			OfUserMessage: &anthropic.BetaManagedAgentsUserMessageEventParams{
-				Type: anthropic.BetaManagedAgentsUserMessageEventParamsTypeUserMessage,
-				Content: []anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{
+				Content: []anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{{
 					OfText: &anthropic.BetaManagedAgentsTextBlockParam{
-						Type: anthropic.BetaManagedAgentsTextBlockTypeText,
 						Text: "Where is my order #1234?",
 					},
 				}},
@@ -2386,6 +2448,9 @@ func main() {
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -2406,6 +2471,9 @@ func main() {
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",

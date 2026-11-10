@@ -2,11 +2,13 @@
 
 This article explains where Claude Cowork runs, how each execution mode is isolated, and the admin controls available for restricting its scope.
 
-This article is for Enterprise admins. The architecture described here is the same across all plans. The device-level admin controls at the end apply to Team and Enterprise plans.
+## Availability
 
-Claude Cowork runs in the cloud on Pro and Max plans. It’s in beta on web and mobile for Team plans, and Enterprise plans when enabled by an owner.
+This article is for Enterprise admins, but the architecture described here is the same across all plans. The device-level admin controls at the end apply to Team and Enterprise plans.
 
-**Note:** Claude Cowork and chat are now one Claude, rolling out gradually to Pro and Max plans. Ask for what you need, and Claude decides whether that's a quick answer or a task. Team and Enterprise organizations keep chat and Claude Cowork as they are today, so everything in this article still applies. Learn more in our **[blog post](https://claude.com/blog/cowork-is-now-claude)**.
+Claude Cowork runs in the cloud on Pro, Max, and Ultra plans, on Team plans (in beta), and on Enterprise plans when an owner enables it.
+
+The new Claude experience, which combines chat and Cowork, is rolling out to Pro, Max, and Ultra plans. On Team plans (in beta) and Enterprise plans, it's available where **Chat and Cowork unified** is turned on. Organizations that haven't turned it on keep chat and Cowork as separate options, so this article still applies. Enterprise owners can learn more in **[Set up and manage the new unified Claude experience for your Enterprise organization](https://support.claude.com/en/articles/17444462)**.
 
 ---
 
@@ -38,7 +40,7 @@ Because a session in the cloud runs on Anthropic's servers, the agent's work, in
 
 ### Local session architecture
 
-Local sessions apply to existing desktop deployments (on Pro and Max plans, only **[tasks and scheduled tasks started on the device before October 6, 2026](https://support.claude.com/en/articles/15520349-use-claude-cowork-on-web-desktop-and-mobile#h_f951c27c48)**) and use two execution environments on the member's device:
+Local sessions apply to existing desktop deployments (on Pro, Max, and Ultra plans, only **[tasks and scheduled tasks started on the device before October 6, 2026](https://support.claude.com/en/articles/15520349-use-claude-cowork-on-web-desktop-and-mobile#h_f951c27c48)**) and use two execution environments on the member's device:
 
 - **The agent loop runs natively on the device.** This includes Claude's conversation handling, file reads and writes in connected folders, web fetches, and local plugin MCP servers. Access is gated by an application-layer permission system that enforces the member's connected-folder rules and your organization's network egress settings.
 
@@ -98,4 +100,6 @@ If you're a Team or Enterprise plan admin, you can **[use OpenTelemetry (OTel) t
 
 ### Can endpoint detection (EDR) tools inspect activity inside the VM?
 
-No. The VM is isolated from host-based security tools by design, and sessions in the cloud run entirely outside your endpoints, so EDR tools can't observe them either. If your compliance posture depends on endpoint visibility, account for this before rolling out Cowork.
+For local sessions, yes, if you set it up. The VM is isolated from host-based security tools by design, so an EDR sensor on the host can't see inside it. Admins can run a sensor from an approved vendor inside the VM instead. This is in beta on macOS and Windows. Learn more about **[running your EDR sensor in Claude Cowork](https://support.claude.com/en/articles/17828685-run-your-endpoint-detection-and-response-edr-sensor-in-claude-cowork)**.
+
+Sessions in the cloud run entirely outside your endpoints, so EDR tools can't observe them. If your compliance posture depends on endpoint visibility, account for this before rolling out Cowork.

@@ -21,8 +21,8 @@ conventions to standardize. The WG produces specification extensions, reference
 implementations, and coordination artifacts because solutions touch the protocol spec,
 registry schema, SDK implementations, and client behavior.
 
-[SEP-2640 — Skills Extension](/seps/2640-skills-extension) is Final. The WG maintains
-the official [Skills extension](/extensions/skills/overview)
+[SEP-2640 — Skills Extension](https://modelcontextprotocol.io/seps/2640-skills-extension.md) is Final. The WG maintains
+the official [Skills extension](https://modelcontextprotocol.io/extensions/skills/overview.md)
 (`io.modelcontextprotocol/skills`) in
 [modelcontextprotocol/ext-skills](https://github.com/modelcontextprotocol/ext-skills).
 Current work focuses on implementation support, interoperability, and evolution
@@ -38,8 +38,8 @@ of the published extension.
 * **Reference Implementations**: SDK components and reference servers demonstrating
   skill discovery and consumption patterns
 * **Cross-Cutting Concerns**: Coordination with Registry WG (skills discovery/distribution,
-  registry schema changes), Agents WG (skill activation, server metadata consumption),
-  [Progressive Disclosure WG](/community/working-groups/progressive-disclosure) (progressive disclosure patterns), and external projects including
+  registry schema changes), Agents IG (skill activation, server metadata consumption),
+  [Progressive Disclosure WG](https://modelcontextprotocol.io/community/working-groups/progressive-disclosure.md) (progressive disclosure patterns), and external projects including
   the [Agent Skills](https://agentskills.io/) spec (content format and well-known URI
   discovery), FastMCP, and PydanticAI
 * **Documentation**: Specification sections and guidance covering skill authoring,
@@ -57,16 +57,16 @@ of the published extension.
 
 ### Related Groups
 
-* **Agents WG** — How agents consume server metadata, skill activation
+* **Agents IG** — How agents consume server metadata, skill activation
 * **Registry WG** — Skills discovery/distribution, registry schema changes
-* **[Progressive Disclosure WG](/community/working-groups/progressive-disclosure)** — Progressive disclosure patterns
+* **[Progressive Disclosure WG](https://modelcontextprotocol.io/community/working-groups/progressive-disclosure.md)** — Progressive disclosure patterns
 
 ## Leadership
 
 | Role | Name | Organization | GitHub | Term |
 | - | - | - | - | - |
 | Lead | Ola Hungerford | Nordstrom / MCP Maintainer | [@olaservo](https://github.com/olaservo) | Initial |
-| Lead | Peter Alexander | Anthropic / Core Maintainer | [@pja-ant](https://github.com/pja-ant) | Initial |
+| Lead | Peter Alexander | Core Maintainer | [@poita](https://github.com/poita) | Initial |
 | Lead | Sambhav Kothari | Bloomberg / MCP Maintainer | [@sambhav](https://github.com/sambhav) | Initial |
 
 ## Authority & Decision Rights
@@ -87,7 +87,7 @@ of the published extension.
 | Name | Organization | GitHub | Discord | Level |
 | - | - | - | - | - |
 | Ola Hungerford | Nordstrom / MCP Maintainer | [@olaservo](https://github.com/olaservo) | | Lead |
-| Peter Alexander | Anthropic / Core Maintainer | [@pja-ant](https://github.com/pja-ant) | | Lead |
+| Peter Alexander | Core Maintainer | [@poita](https://github.com/poita) | | Lead |
 | Sambhav Kothari | Bloomberg / MCP Maintainer | [@sambhav](https://github.com/sambhav) | | Lead |
 | Yu Yi | Google | [@erain](https://github.com/erain) | | Participant |
 | Sunish Sheth | Databricks | [@sunishsheth2009](https://github.com/sunishsheth2009) | | Participant |
@@ -119,17 +119,17 @@ Discord: [#skills-over-mcp-wg](https://discord.com/channels/1358869848138059966/
 
 ## Resources
 
-* [Skills extension overview](/extensions/skills/overview) and [Final SEP-2640](/seps/2640-skills-extension)
+* [Skills extension overview](https://modelcontextprotocol.io/extensions/skills/overview.md) and [Final SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension.md)
 * Specification and WG documents: [modelcontextprotocol/ext-skills](https://github.com/modelcontextprotocol/ext-skills)
-* [Implementations](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/implementations.md) and [client support](/extensions/client-matrix)
+* [Implementations](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/implementations.md) and [client support](https://modelcontextprotocol.io/extensions/client-matrix.md)
 * [Decision log](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/decisions.md) and [archived design work](https://github.com/modelcontextprotocol/ext-skills/tree/main/docs/archive)
 
 ## Deliverables & Success Metrics
 
 ### Completed Milestones
 
-* [SEP-2640](/seps/2640-skills-extension) is **Final**, merged on September 13, 2026.
-* The official specification is published in [ext-skills](https://github.com/modelcontextprotocol/ext-skills/blob/main/specification/stable/skills.mdx), with a [website overview](/extensions/skills/overview).
+* [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension.md) is **Final**, merged on September 13, 2026.
+* The official specification is published in [ext-skills](https://github.com/modelcontextprotocol/ext-skills/blob/main/specification/beta/skills.mdx), with a [website overview](https://modelcontextprotocol.io/extensions/skills/overview.md).
 * [Skills conformance scenarios](https://github.com/modelcontextprotocol/conformance/pull/330) were merged on September 11, 2026.
 
 ### Current Work

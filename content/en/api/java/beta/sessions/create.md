@@ -17,7 +17,7 @@ Create Session
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -119,6 +119,18 @@ Create Session
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -135,7 +147,7 @@ Create Session
 
       Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
-      - `Type type`
+      - `JsonValue type = "agent"`
 
       - `String id`
 
@@ -143,7 +155,7 @@ Create Session
 
         minLength: 1, maxLength: 128
 
-      - `Optional<Long> version`
+      - `Optional<Integer> version`
 
         The specific `agent` version to use. Omit to use the latest version. Must be at least 1 if specified.
 
@@ -153,7 +165,7 @@ Create Session
 
       Reference to an `agent` plus optional configuration overrides. Each provided field replaces the agent's value for the caller's use; the agent resource is unchanged.
 
-      - `Type type`
+      - `JsonValue type = "agent_with_overrides"`
 
       - `String id`
 
@@ -165,7 +177,7 @@ Create Session
 
         Replacement MCP server list. Full replacement: the provided array becomes the MCP servers. Send an empty array to clear; omit to preserve the agent's servers.
 
-        - `Type type`
+        - `JsonValue type = "url"`
 
         - `String name`
 
@@ -188,6 +200,10 @@ Create Session
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -299,31 +315,31 @@ Create Session
 
               Low effort. Favors latency over reasoning depth.
 
-              - `Type type`
+              - `JsonValue type = "low"`
 
             - `class BetaManagedAgentsEffortMedium`
 
               Medium effort. Balances latency and reasoning depth.
 
-              - `Type type`
+              - `JsonValue type = "medium"`
 
             - `class BetaManagedAgentsEffortHigh`
 
               High effort. Favors reasoning depth.
 
-              - `Type type`
+              - `JsonValue type = "high"`
 
             - `class BetaManagedAgentsEffortXhigh`
 
               Extra-high effort. Not all models accept this level.
 
-              - `Type type`
+              - `JsonValue type = "xhigh"`
 
             - `class BetaManagedAgentsEffortMax`
 
               Maximum effort. Favors reasoning depth over latency.
 
-              - `Type type`
+              - `JsonValue type = "max"`
 
           - `Optional<String> inferenceGeo`
 
@@ -331,7 +347,7 @@ Create Session
 
           - `Optional<Speed> speed`
 
-            Inference speed mode. Defaults to `standard`.
+            Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
             - `STANDARD("standard")`
 
@@ -345,7 +361,7 @@ Create Session
 
           An Anthropic-managed skill.
 
-          - `Type type`
+          - `JsonValue type = "anthropic"`
 
           - `String skillId`
 
@@ -363,7 +379,7 @@ Create Session
 
           A user-created custom skill.
 
-          - `Type type`
+          - `JsonValue type = "custom"`
 
           - `String skillId`
 
@@ -391,7 +407,7 @@ Create Session
 
           Configuration for built-in agent tools. Use this to enable or disable groups of tools available to the agent.
 
-          - `Type type`
+          - `JsonValue type = "agent_toolset_20260401"`
 
           - `Optional<List<BetaManagedAgentsAgentToolConfigParams>> configs`
 
@@ -419,13 +435,13 @@ Create Session
 
                   Tool calls are automatically approved without user confirmation.
 
-                  - `Type type`
+                  - `JsonValue type = "always_allow"`
 
                 - `class BetaManagedAgentsAlwaysAskPolicy`
 
                   Tool calls require user confirmation before execution.
 
-                  - `Type type`
+                  - `JsonValue type = "always_ask"`
 
                 - `class BetaManagedAgentsAutoPolicy`
 
@@ -605,7 +621,7 @@ Create Session
 
                 Whether this tool is enabled and available to Claude. Overrides the default_config setting.
 
-              - `Optional<Long> maxContentTokens`
+              - `Optional<Integer> maxContentTokens`
 
                 Maximum number of tokens of fetched text content to include in context per call. Does not apply to binary content such as PDFs.
 
@@ -779,6 +795,8 @@ Create Session
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `Optional<String> region`
 
                   Region or state name.
@@ -819,7 +837,7 @@ Create Session
 
           Configuration for tools from an MCP server defined in `mcp_servers`.
 
-          - `Type type`
+          - `JsonValue type = "mcp_toolset"`
 
           - `String mcpServerName`
 
@@ -885,7 +903,7 @@ Create Session
 
           A custom tool that is executed by the API client rather than the agent. When the agent calls this tool, an `agent.custom_tool_use` event is emitted and the session goes idle, waiting for the client to provide the result via a `user.custom_tool_result` event.
 
-          - `Type type`
+          - `JsonValue type = "custom"`
 
           - `String description`
 
@@ -907,9 +925,9 @@ Create Session
 
             Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-            minLength: 1, maxLength: 128
+            minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
-      - `Optional<Long> version`
+      - `Optional<Integer> version`
 
         The specific `agent` version to use. Omit to use the latest version.
 
@@ -933,7 +951,7 @@ Create Session
 
       Parameters for sending a user message to the session.
 
-      - `Type type`
+      - `JsonValue type = "user.message"`
 
       - `List<Content> content`
 
@@ -943,7 +961,7 @@ Create Session
 
           Regular text content.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String text`
 
@@ -955,7 +973,7 @@ Create Session
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `Type type`
+          - `JsonValue type = "image"`
 
           - `Source source`
 
@@ -965,7 +983,7 @@ Create Session
 
               Base64-encoded image data.
 
-              - `Type type`
+              - `JsonValue type = "base64"`
 
               - `String data`
 
@@ -983,7 +1001,7 @@ Create Session
 
               Image referenced by URL.
 
-              - `Type type`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -995,7 +1013,7 @@ Create Session
 
               Image referenced by file ID.
 
-              - `Type type`
+              - `JsonValue type = "file"`
 
               - `String fileId`
 
@@ -1007,7 +1025,7 @@ Create Session
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `Type type`
+          - `JsonValue type = "document"`
 
           - `Source source`
 
@@ -1017,7 +1035,7 @@ Create Session
 
               Base64-encoded document data.
 
-              - `Type type`
+              - `JsonValue type = "base64"`
 
               - `String data`
 
@@ -1035,7 +1053,7 @@ Create Session
 
               Plain text document content.
 
-              - `Type type`
+              - `JsonValue type = "text"`
 
               - `String data`
 
@@ -1043,7 +1061,7 @@ Create Session
 
                 minLength: 1
 
-              - `MediaType mediaType`
+              - `JsonValue mediaType = "text/plain"`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -1051,7 +1069,7 @@ Create Session
 
               Document referenced by URL.
 
-              - `Type type`
+              - `JsonValue type = "url"`
 
               - `String url`
 
@@ -1063,7 +1081,7 @@ Create Session
 
               Document referenced by file ID.
 
-              - `Type type`
+              - `JsonValue type = "file"`
 
               - `String fileId`
 
@@ -1083,13 +1101,13 @@ Create Session
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `Type type`
+          - `JsonValue type = "redacted"`
 
     - `class BetaManagedAgentsUserDefineOutcomeEventParams`
 
       Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-      - `Type type`
+      - `JsonValue type = "user.define_outcome"`
 
       - `String description`
 
@@ -1103,7 +1121,7 @@ Create Session
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `Type type`
+          - `JsonValue type = "file"`
 
           - `String fileId`
 
@@ -1113,7 +1131,7 @@ Create Session
 
           Rubric content provided inline as text.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String content`
 
@@ -1121,7 +1139,7 @@ Create Session
 
             maxLength: 262144
 
-      - `Optional<Long> maxIterations`
+      - `Optional<Integer> maxIterations`
 
         Eval→revision cycles before giving up. Default 3, max 20.
 
@@ -1139,7 +1157,7 @@ Create Session
 
       Mount a GitHub repository into the session's container.
 
-      - `Type type`
+      - `JsonValue type = "github_repository"`
 
       - `String url`
 
@@ -1159,7 +1177,7 @@ Create Session
 
         - `class BetaManagedAgentsBranchCheckout`
 
-          - `Type type`
+          - `JsonValue type = "branch"`
 
           - `String name`
 
@@ -1169,13 +1187,13 @@ Create Session
 
         - `class BetaManagedAgentsCommitCheckout`
 
-          - `Type type`
+          - `JsonValue type = "commit"`
 
           - `String sha`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
       - `Optional<String> mountPath`
 
@@ -1187,7 +1205,7 @@ Create Session
 
       Mount a file uploaded via the Files API into the session.
 
-      - `Type type`
+      - `JsonValue type = "file"`
 
       - `String fileId`
 
@@ -1205,11 +1223,13 @@ Create Session
 
       Parameters for attaching a memory store to an agent session.
 
-      - `Type type`
+      - `JsonValue type = "memory_store"`
 
       - `String memoryStoreId`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Optional<Access> access`
 
@@ -1241,7 +1261,7 @@ Create Session
 
   A Managed Agents `session`.
 
-  - `Type type`
+  - `JsonValue type = "session"`
 
   - `String id`
 
@@ -1249,15 +1269,37 @@ Create Session
 
     Resolved `agent` definition for a `session`. Snapshot of the `agent` at `session` creation time.
 
-    - `Type type`
+    - `JsonValue type = "agent"`
 
     - `String id`
 
     - `Optional<String> description`
 
+    - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `JsonValue type = "aws_role"`
+
+        - `String roleArn`
+
+          The IAM role's ARN.
+
+      - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `JsonValue type = "service_account"`
+
     - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-      - `Type type`
+      - `JsonValue type = "url"`
+
+      - `String name`
 
       - `String name`
 
@@ -1272,6 +1314,10 @@ Create Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -1349,31 +1395,31 @@ Create Session
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type type`
+          - `JsonValue type = "low"`
 
         - `class BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type type`
+          - `JsonValue type = "medium"`
 
         - `class BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type type`
+          - `JsonValue type = "high"`
 
         - `class BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type type`
+          - `JsonValue type = "xhigh"`
 
         - `class BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type type`
+          - `JsonValue type = "max"`
 
       - `Optional<String> inferenceGeo`
 
@@ -1395,7 +1441,7 @@ Create Session
 
         Resolved coordinator topology with full agent definitions for each roster member.
 
-        - `Type type`
+        - `JsonValue type = "coordinator"`
 
         - `List<Agent> agents`
 
@@ -1405,15 +1451,19 @@ Create Session
 
             Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-            - `Type type`
+            - `JsonValue type = "agent"`
 
             - `String id`
 
             - `Optional<String> description`
 
+            - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-              - `Type type`
+              - `JsonValue type = "url"`
 
               - `String name`
 
@@ -1431,7 +1481,7 @@ Create Session
 
                 A resolved Anthropic-managed skill.
 
-                - `Type type`
+                - `JsonValue type = "anthropic"`
 
                 - `String skillId`
 
@@ -1441,7 +1491,7 @@ Create Session
 
                 A resolved user-created custom skill.
 
-                - `Type type`
+                - `JsonValue type = "custom"`
 
                 - `String skillId`
 
@@ -1453,7 +1503,7 @@ Create Session
 
               - `class BetaManagedAgentsAgentToolset20260401`
 
-                - `Type type`
+                - `JsonValue type = "agent_toolset_20260401"`
 
                 - `List<BetaManagedAgentsAgentToolConfig> configs`
 
@@ -1475,13 +1525,13 @@ Create Session
 
                         Tool calls are automatically approved without user confirmation.
 
-                        - `Type type`
+                        - `JsonValue type = "always_allow"`
 
                       - `class BetaManagedAgentsAlwaysAskPolicy`
 
                         Tool calls require user confirmation before execution.
 
-                        - `Type type`
+                        - `JsonValue type = "always_ask"`
 
                       - `class BetaManagedAgentsAutoPolicy`
 
@@ -1725,7 +1775,7 @@ Create Session
 
                     - `Optional<List<String>> blockedDomains`
 
-                    - `Optional<Long> maxContentTokens`
+                    - `Optional<Integer> maxContentTokens`
 
                       format: int32
 
@@ -1777,6 +1827,8 @@ Create Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `Optional<String> region`
 
                         Region or state name.
@@ -1813,7 +1865,7 @@ Create Session
 
               - `class BetaManagedAgentsMcpToolset`
 
-                - `Type type`
+                - `JsonValue type = "mcp_toolset"`
 
                 - `List<BetaManagedAgentsMcpToolConfig> configs`
 
@@ -1865,7 +1917,7 @@ Create Session
 
                 A custom tool as returned in API responses.
 
-                - `Type type`
+                - `JsonValue type = "custom"`
 
                 - `String description`
 
@@ -1881,7 +1933,7 @@ Create Session
 
                 - `String name`
 
-            - `long version`
+            - `int version`
 
               format: int32
 
@@ -1889,7 +1941,7 @@ Create Session
 
             Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-            - `Type type`
+            - `JsonValue type = "advisor"`
 
             - `String model`
 
@@ -1951,11 +2003,15 @@ Create Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-              - `Type type`
+              - `JsonValue type = "agent"`
 
               - `String id`
 
               - `Optional<String> description`
+
+              - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -1971,7 +2027,7 @@ Create Session
 
               - `List<Tool> tools`
 
-              - `long version`
+              - `int version`
 
                 format: int32
 
@@ -1999,11 +2055,15 @@ Create Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-              - `Type type`
+              - `JsonValue type = "agent"`
 
               - `String id`
 
               - `Optional<String> description`
+
+              - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -2019,7 +2079,7 @@ Create Session
 
               - `List<Tool> tools`
 
-              - `long version`
+              - `int version`
 
                 format: int32
 
@@ -2053,11 +2113,11 @@ Create Session
 
         A custom tool as returned in API responses.
 
-    - `long version`
+    - `int version`
 
       format: int32
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the session was archived. Null if not archived.
 
@@ -2067,7 +2127,7 @@ Create Session
 
     The session's enforced spend ceiling, or null when no budget is set.
 
-    - `Type type`
+    - `JsonValue type = "limit"`
 
     - `BetaMonetaryAmount maxListCost`
 
@@ -2077,11 +2137,13 @@ Create Session
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `BetaCurrency currency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -2095,9 +2157,9 @@ Create Session
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
-    - `Type type`
+    - `JsonValue type = "outcome_evaluation"`
 
-    - `Optional<LocalDateTime> completedAt`
+    - `Optional<OffsetDateTime> completedAt`
 
       When the outcome reached a terminal result. Null while `pending`/`running`/`evaluating`.
 
@@ -2111,7 +2173,7 @@ Create Session
 
       Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle the outcome is currently on.
 
@@ -2129,11 +2191,11 @@ Create Session
 
     - `class BetaManagedAgentsGitHubRepositoryResource`
 
-      - `Type type`
+      - `JsonValue type = "github_repository"`
 
       - `String id`
 
-      - `LocalDateTime createdAt`
+      - `OffsetDateTime createdAt`
 
         A timestamp in RFC 3339 format
 
@@ -2141,7 +2203,7 @@ Create Session
 
       - `String mountPath`
 
-      - `LocalDateTime updatedAt`
+      - `OffsetDateTime updatedAt`
 
         A timestamp in RFC 3339 format
 
@@ -2153,7 +2215,7 @@ Create Session
 
         - `class BetaManagedAgentsBranchCheckout`
 
-          - `Type type`
+          - `JsonValue type = "branch"`
 
           - `String name`
 
@@ -2163,21 +2225,21 @@ Create Session
 
         - `class BetaManagedAgentsCommitCheckout`
 
-          - `Type type`
+          - `JsonValue type = "commit"`
 
           - `String sha`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `class BetaManagedAgentsFileResource`
 
-      - `Type type`
+      - `JsonValue type = "file"`
 
       - `String id`
 
-      - `LocalDateTime createdAt`
+      - `OffsetDateTime createdAt`
 
         A timestamp in RFC 3339 format
 
@@ -2187,7 +2249,7 @@ Create Session
 
       - `String mountPath`
 
-      - `LocalDateTime updatedAt`
+      - `OffsetDateTime updatedAt`
 
         A timestamp in RFC 3339 format
 
@@ -2197,11 +2259,13 @@ Create Session
 
       A memory store attached to an agent session.
 
-      - `Type type`
+      - `JsonValue type = "memory_store"`
 
       - `String memoryStoreId`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Optional<Access> access`
 
@@ -2265,7 +2329,7 @@ Create Session
 
   - `Optional<String> title`
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -2285,25 +2349,25 @@ Create Session
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `Optional<Long> ephemeral1hInputTokens`
+      - `Optional<Integer> ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
         format: int32
 
-      - `Optional<Long> ephemeral5mInputTokens`
+      - `Optional<Integer> ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
         format: int32
 
-    - `Optional<Long> cacheReadInputTokens`
+    - `Optional<Integer> cacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
       format: int32
 
-    - `Optional<Long> inputTokens`
+    - `Optional<Integer> inputTokens`
 
       Total input tokens consumed across all turns.
 
@@ -2313,7 +2377,7 @@ Create Session
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `Optional<Long> outputTokens`
+    - `Optional<Integer> outputTokens`
 
       Total output tokens generated across all turns.
 
@@ -2323,13 +2387,13 @@ Create Session
 
       Cumulative server-executed tool usage across all turns. Absent until server-tool tracking is available for the session.
 
-      - `Optional<Long> webFetchRequests`
+      - `Optional<Integer> webFetchRequests`
 
         Number of server-executed web fetch requests.
 
         format: int32
 
-      - `Optional<Long> webSearchRequests`
+      - `Optional<Integer> webSearchRequests`
 
         Number of server-executed web search requests.
 
@@ -2376,6 +2440,9 @@ public final class Main {
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -2396,6 +2463,9 @@ public final class Main {
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",

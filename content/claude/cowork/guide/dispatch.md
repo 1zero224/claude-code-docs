@@ -12,29 +12,27 @@ Unlike a normal Cowork chat, you don't watch each step. Dispatch is for work you
 
 ## Prerequisites
 
-Dispatch requires a Pro or Max plan and the latest Claude Desktop app on macOS or Windows.
+Dispatch requires a Pro, Max, or Ultra plan and the latest Claude Desktop app on macOS or Windows.
 
 ## Start a Dispatch task
 
 The Dispatch agent appears as **Dispatch** in the left sidebar. Selecting it opens a single conversation with the agent.
 
-<Steps>
-  <Step title="Open Dispatch from the sidebar">
-    Select **Dispatch** in the left side panel.
-  </Step>
+**1. Open Dispatch from the sidebar**
 
-  <Step title="Describe the outcome">
-    Tell the agent what you want done, the same way you'd brief a colleague. For
-    example: "Summarize the open Linear issues tagged reliability and draft a
-    status update for the team channel."
-  </Step>
+Select **Dispatch** in the left side panel.
 
-  <Step title="Let Dispatch plan and run">
-    The agent decides how to split the work and starts one or more child tasks.
-    Each child task appears under the Dispatch group in the sidebar with its own
-    status.
-  </Step>
-</Steps>
+**2. Describe the outcome**
+
+Tell the agent what you want done, the same way you'd brief a colleague. For
+example: "Summarize the open Linear issues tagged reliability and draft a
+status update for the team channel."
+
+**3. Let Dispatch plan and run**
+
+The agent decides how to split the work and starts one or more child tasks.
+Each child task appears under the Dispatch group in the sidebar with its own
+status.
 
 You converse with one Dispatch agent, but it can run many child tasks beneath that conversation. Child tasks don't spawn further children of their own.
 
@@ -45,7 +43,7 @@ The Dispatch agent routes each child task to the surface that fits it.
 | Task type | Runs in | Examples |
 | - | - | - |
 | Coding work | Code, against a workspace you've already set up | Fix a bug, open a pull request, run tests |
-| Knowledge work | Cowork, in the [project](/docs/cowork/guide/projects) you specify (or your default project) | Research, write a document, organize files |
+| Knowledge work | Cowork, in the [project](https://claude.com/docs/cowork/guide/projects.md) you specify (or your default project) | Research, write a document, organize files |
 
 When starting a task, you can tell the agent which Code workspace or Cowork project to use. If you don't, it lists what's available and chooses.
 
@@ -66,7 +64,7 @@ Each child task shows its current state in the sidebar. Select any task to open 
 
 When a child task needs permission to take an action (such as running a command or writing a file outside its workspace), the prompt is forwarded to you. If you don't respond within ten minutes, the request is automatically denied and the task continues without that action.
 
-Permission prompts behave the same as in a normal Cowork session.
+Permission prompts behave the same as in a normal Cowork session. A tool that is marked as needing a person's approval can ask on every call, even if you chose to always allow it. If nobody can be asked, the call can be refused.
 
 ## Continue from a finished task
 
@@ -76,23 +74,21 @@ Select any child task in the sidebar to open its session. You can read the trans
 
 When Claude Desktop is running, your computer registers as a Dispatch host. From the Claude mobile app, you can start a Dispatch conversation that runs on your desktop, then check results from either device.
 
-<Steps>
-  <Step title="Keep your desktop ready">
-    Leave Claude Desktop open with your computer awake and online.
-  </Step>
+**1. Keep your desktop ready**
 
-  <Step title="Open Dispatch on mobile">
-    In the Claude mobile app, open Dispatch and describe the task. The work runs
-    on your desktop.
-  </Step>
+Leave Claude Desktop open with your computer awake and online.
 
-  <Step title="Review on either device">
-    Progress and results appear in the Dispatch sidebar on desktop and in the
-    mobile app.
-  </Step>
-</Steps>
+**2. Open Dispatch on mobile**
+
+In the Claude mobile app, open Dispatch and describe the task. The work runs
+on your desktop.
+
+**3. Review on either device**
+
+Progress and results appear in the Dispatch sidebar on desktop and in the
+mobile app.
 
 ## Related
 
-* [Organize work with projects](/docs/cowork/guide/projects) for the project context Dispatch routes knowledge work into
-* [Cowork overview](/docs/cowork/overview) for how Dispatch fits alongside sessions and projects
+* [Organize work with projects](https://claude.com/docs/cowork/guide/projects.md) for the project context Dispatch routes knowledge work into
+* [Cowork overview](https://claude.com/docs/cowork/overview.md) for how Dispatch fits alongside sessions and projects

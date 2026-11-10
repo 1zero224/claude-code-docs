@@ -19,7 +19,7 @@ Archive Session
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
@@ -121,6 +121,18 @@ Archive Session
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -133,7 +145,7 @@ Archive Session
 
   A Managed Agents `session`.
 
-  - `required Type Type`
+  - `JsonElement Type = "session"`
 
   - `required string ID`
 
@@ -141,15 +153,37 @@ Archive Session
 
     Resolved `agent` definition for a `session`. Snapshot of the `agent` at `session` creation time.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent"`
 
     - `required string ID`
 
     - `required string? Description`
 
+    - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `JsonElement Type = "aws_role"`
+
+        - `required string RoleArn`
+
+          The IAM role's ARN.
+
+      - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `JsonElement Type = "service_account"`
+
     - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
-      - `required Type Type`
+      - `JsonElement Type = "url"`
+
+      - `required string Name`
 
       - `required string Name`
 
@@ -164,6 +198,10 @@ Archive Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `ClaudeFable5_2("claude-fable-5-2")`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `ClaudeHaiku5_5("claude-haiku-5-5")`
 
@@ -241,31 +279,31 @@ Archive Session
 
           Low effort. Favors latency over reasoning depth.
 
-          - `required Type Type`
+          - `JsonElement Type = "low"`
 
         - `class BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `required Type Type`
+          - `JsonElement Type = "medium"`
 
         - `class BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `required Type Type`
+          - `JsonElement Type = "high"`
 
         - `class BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `required Type Type`
+          - `JsonElement Type = "xhigh"`
 
         - `class BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `required Type Type`
+          - `JsonElement Type = "max"`
 
       - `string InferenceGeo`
 
@@ -287,7 +325,7 @@ Archive Session
 
         Resolved coordinator topology with full agent definitions for each roster member.
 
-        - `required Type Type`
+        - `JsonElement Type = "coordinator"`
 
         - `required IReadOnlyList<Agent> Agents`
 
@@ -297,15 +335,19 @@ Archive Session
 
             Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-            - `required Type Type`
+            - `JsonElement Type = "agent"`
 
             - `required string ID`
 
             - `required string? Description`
 
+            - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
-              - `required Type Type`
+              - `JsonElement Type = "url"`
 
               - `required string Name`
 
@@ -323,7 +365,7 @@ Archive Session
 
                 A resolved Anthropic-managed skill.
 
-                - `required Type Type`
+                - `JsonElement Type = "anthropic"`
 
                 - `required string SkillID`
 
@@ -333,7 +375,7 @@ Archive Session
 
                 A resolved user-created custom skill.
 
-                - `required Type Type`
+                - `JsonElement Type = "custom"`
 
                 - `required string SkillID`
 
@@ -345,7 +387,7 @@ Archive Session
 
               - `class BetaManagedAgentsAgentToolset20260401`
 
-                - `required Type Type`
+                - `JsonElement Type = "agent_toolset_20260401"`
 
                 - `required IReadOnlyList<BetaManagedAgentsAgentToolConfig> Configs`
 
@@ -367,13 +409,13 @@ Archive Session
 
                         Tool calls are automatically approved without user confirmation.
 
-                        - `required Type Type`
+                        - `JsonElement Type = "always_allow"`
 
                       - `class BetaManagedAgentsAlwaysAskPolicy`
 
                         Tool calls require user confirmation before execution.
 
-                        - `required Type Type`
+                        - `JsonElement Type = "always_ask"`
 
                       - `class BetaManagedAgentsAutoPolicy`
 
@@ -669,6 +711,8 @@ Archive Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `string? Region`
 
                         Region or state name.
@@ -705,7 +749,7 @@ Archive Session
 
               - `class BetaManagedAgentsMcpToolset`
 
-                - `required Type Type`
+                - `JsonElement Type = "mcp_toolset"`
 
                 - `required IReadOnlyList<BetaManagedAgentsMcpToolConfig> Configs`
 
@@ -757,7 +801,7 @@ Archive Session
 
                 A custom tool as returned in API responses.
 
-                - `required Type Type`
+                - `JsonElement Type = "custom"`
 
                 - `required string Description`
 
@@ -781,7 +825,7 @@ Archive Session
 
             Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-            - `required Type Type`
+            - `JsonElement Type = "advisor"`
 
             - `required string Model`
 
@@ -843,11 +887,15 @@ Archive Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-              - `required Type Type`
+              - `JsonElement Type = "agent"`
 
               - `required string ID`
 
               - `required string? Description`
+
+              - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
@@ -891,11 +939,15 @@ Archive Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-              - `required Type Type`
+              - `JsonElement Type = "agent"`
 
               - `required string ID`
 
               - `required string? Description`
+
+              - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
@@ -959,7 +1011,7 @@ Archive Session
 
     The session's enforced spend ceiling, or null when no budget is set.
 
-    - `required Type Type`
+    - `JsonElement Type = "limit"`
 
     - `required BetaMonetaryAmount MaxListCost`
 
@@ -968,6 +1020,8 @@ Archive Session
       - `required string Amount`
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+        pattern: ^(0|[1-9]\d*)$
 
       - `required BetaCurrency Currency`
 
@@ -987,7 +1041,7 @@ Archive Session
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
-    - `required Type Type`
+    - `JsonElement Type = "outcome_evaluation"`
 
     - `required DateTimeOffset? CompletedAt`
 
@@ -1021,7 +1075,7 @@ Archive Session
 
     - `class BetaManagedAgentsGitHubRepositoryResource`
 
-      - `required BetaManagedAgentsGitHubRepositoryResourceType Type`
+      - `JsonElement Type = "github_repository"`
 
       - `required string ID`
 
@@ -1045,7 +1099,7 @@ Archive Session
 
         - `class BetaManagedAgentsBranchCheckout`
 
-          - `required Type Type`
+          - `JsonElement Type = "branch"`
 
           - `required string Name`
 
@@ -1055,17 +1109,17 @@ Archive Session
 
         - `class BetaManagedAgentsCommitCheckout`
 
-          - `required Type Type`
+          - `JsonElement Type = "commit"`
 
           - `required string Sha`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `class BetaManagedAgentsFileResource`
 
-      - `required BetaManagedAgentsFileResourceType Type`
+      - `JsonElement Type = "file"`
 
       - `required string ID`
 
@@ -1089,11 +1143,13 @@ Archive Session
 
       A memory store attached to an agent session.
 
-      - `required BetaManagedAgentsMemoryStoreResourceType Type`
+      - `JsonElement Type = "memory_store"`
 
       - `required string MemoryStoreID`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Access? Access`
 
@@ -1238,6 +1294,9 @@ Archive Session
 ## Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Sessions;
+
 SessionArchiveParams parameters = new()
 {
     SessionID = "sesn_011CZkZAtmR3yMPDzynEDxu7"
@@ -1256,6 +1315,9 @@ Console.WriteLine(betaManagedAgentsSession);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -1276,6 +1338,9 @@ Console.WriteLine(betaManagedAgentsSession);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",

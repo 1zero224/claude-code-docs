@@ -4,9 +4,9 @@ This guide shows you three ways to change which Claude model you're using with C
 
 ## Easiest method: Use /model command
 
-The simplest way to change models is to use the /model command directly within Claude Code. This works immediately without restarting your terminal.
+The simplest way to change models is to use the `/model` command directly within Claude Code. It works in Claude Desktop and in the terminal, and takes effect immediately.
 
-1. Start Claude Code: `claude`
+1. Start a Claude Code session: open the “Code” tab in Claude Desktop, or run `claude` in your terminal.
 
 2. Type `/model` and choose your desired model from the interactive menu.
 
@@ -15,6 +15,8 @@ The simplest way to change models is to use the /model command directly within C
 **Note:** You can check your current model anytime by running `/status` in Claude Code.
 
 ## Supported models
+
+- Fable 5.2, `claude-fable-5-2`
 
 - Haiku 5.5, `claude-haiku-5-5`
 
@@ -46,11 +48,13 @@ The simplest way to change models is to use the /model command directly within C
 
 ## Change model for current session only
 
-Use the `--model` flag when starting Claude Code.
+Use the `--model` flag when starting Claude Code. The `--model` flag and the environment variables in the next section apply to terminal sessions.
 
 1. Start a fresh Terminal session.
 
 2. Enter the following commands (depending on the model you’d like to use for that session):
+
+  - **For Fable 5.2:** `claude --model claude-fable-5-2`
 
   - **For Haiku 5.5**: `claude --model claude-haiku-5-5`
 
@@ -92,6 +96,8 @@ Use the `--model` flag when starting Claude Code.
 
 ### For ZSH users (macOS)
 
+- Fable 5.2: `echo 'export ANTHROPIC_MODEL="claude-fable-5-2"' >> ~/.zshrc`
+
 - Haiku 5.5: `echo 'export ANTHROPIC_MODEL="claude-haiku-5-5"' >> ~/.zshrc`
 
 - Sonnet 5.5: `echo 'export ANTHROPIC_MODEL="claude-sonnet-5-5"' >> ~/.zshrc`
@@ -121,6 +127,8 @@ Use the `--model` flag when starting Claude Code.
 - Sonnet 4.5: `echo 'export ANTHROPIC_MODEL="claude-sonnet-4-5-20250929"' >> ~/.zshrc`
 
 ### For BASH users (Linux)
+
+- Fable 5.2: `echo 'export ANTHROPIC_MODEL="claude-fable-5-2"' >> ~/.bashrc`
 
 - Haiku 5.5: `echo 'export ANTHROPIC_MODEL="claude-haiku-5-5"' >> ~/.bashrc`
 

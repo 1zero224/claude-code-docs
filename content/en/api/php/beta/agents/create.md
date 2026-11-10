@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/php/beta/agents/create
 
 # Create Agent
 
-`$client->beta->agents->create(Model model, string name, ?string description, ?list<BetaManagedAgentsURLMCPServerParams> mcpServers, ?array<string,string> metadata, ?BetaManagedAgentsMultiagentParams multiagent, ?list<BetaManagedAgentsSkillParams> skills, ?string system, ?list<Tool> tools, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsAgent`
+`$client->beta->agents->create(Model model, string name, ?string description, ?BetaManagedAgentsExecutionIdentityParams executionIdentity, ?list<BetaManagedAgentsURLMCPServerParams> mcpServers, ?array<string,string> metadata, ?BetaManagedAgentsMultiagentParams multiagent, ?list<BetaManagedAgentsSkillParams> skills, ?string system, ?list<Tool> tools, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsAgent`
 
 **POST** `/v1/agents`
 
@@ -21,37 +21,47 @@ Create Agent
 
   Human-readable name for the agent.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Description of what the agent does.
 
-- `mcpServers?:optional list<BetaManagedAgentsURLMCPServerParams>`
+- `executionIdentity?: optional BetaManagedAgentsExecutionIdentityParams`
+
+  Execution principal for runs of this agent. Omitting it, sending null, or sending `{"type": "service_account"}` stores the default.
+
+- `mcpServers?: optional list<BetaManagedAgentsURLMCPServerParams>`
 
   MCP servers this agent connects to. Maximum 20. Names must be unique within the array. Every server must be referenced by an `mcp_toolset` in `tools`; unreferenced servers are rejected. See the [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector?sdk_languages=php).
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `multiagent?:optional BetaManagedAgentsMultiagentParams`
+- `multiagent?: optional BetaManagedAgentsMultiagentParams`
 
   Multiagent orchestration configuration.
 
-- `skills?:optional list<BetaManagedAgentsSkillParams>`
+- `skills?: optional list<BetaManagedAgentsSkillParams>`
 
   Skills available to the agent.
 
-- `system?:optional string`
+- `system?: optional string`
 
   System prompt for the agent.
 
-- `tools?:optional list<Tool>`
+- `tools?: optional list<Tool>`
 
   Tool configurations available to the agent. Maximum of 256 tools across all toolsets allowed.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -63,7 +73,7 @@ Create Agent
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -76,6 +86,10 @@ Create Agent
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -112,12 +126,19 @@ Create Agent
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Agents\BetaManagedAgentsModel;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsAgent = $client->beta->agents->create(
   model: BetaManagedAgentsModel::CLAUDE_OPUS_5_5,
   name: 'My First Agent',
   description: 'A general-purpose starter agent.',
+  executionIdentity: [
+    'roleARN' => 'arn:aws:iam::228601553692:role/T', 'type' => 'aws_role'
+  ],
   mcpServers: [
     [
       'name' => 'example-mcp',
@@ -127,8 +148,24 @@ $betaManagedAgentsAgent = $client->beta->agents->create(
   ],
   metadata: ['foo' => 'bar'],
   multiagent: [
-    'agents' => ['agent_011CZkYqphY8vELVzwCUpqiQ', ['type' => 'self']],
-    'type' => 'coordinator',
+    'type' => 'multiagent_20261001',
+    'advisor' => ['type' => 'disabled'],
+    'subagents' => [
+      'type' => 'enabled',
+      'inlineAgents' => ['type' => 'disabled'],
+      'predefinedAgents' => ['agent_011CZkYqphY8vELVzwCUpqiQ'],
+    ],
+    'workflows' => [
+      'type' => 'enabled',
+      'inlineAgents' => ['type' => 'disabled'],
+      'predefinedAgents' => [
+        [
+          'id' => 'agent_011CZkYqphY8vELVzwCUpqiQ',
+          'type' => 'agent',
+          'version' => 1,
+        ],
+      ],
+    ],
   ],
   skills: [['skillID' => 'xlsx', 'type' => 'anthropic', 'version' => '1']],
   system: 'You are a general-purpose agent that can research, write code, run commands, and use connected tools to complete the user\'s task end to end.',
@@ -163,6 +200,9 @@ var_dump($betaManagedAgentsAgent);
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",

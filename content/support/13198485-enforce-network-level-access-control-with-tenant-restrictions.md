@@ -2,7 +2,7 @@
 
 Tenant Restrictions are available for members of Enterprise plans and Console organizations.
 
-Tenant Restrictions enable IT administrators on Enterprise plans to enforce network-level access control for Claude. This feature ensures that users on corporate networks can only access approved organizational accounts, preventing unauthorized use of personal accounts.
+Tenant Restrictions enable IT administrators on Enterprise plans to enforce network-level access control for Claude. Tenant Restrictions also apply to artifacts, including Claude Docs. This feature ensures that users on corporate networks can only access approved organizational accounts, preventing unauthorized use of personal accounts.
 
 ## How it works
 
@@ -10,7 +10,7 @@ When enabled, your network proxy injects an HTTP header into requests to Claude.
 
 **Supported authentication methods:**
 
-- Web access ([claude.ai](http://claude.ai))
+- Web access ([claude.ai](https://claude.ai))
 
 - Desktop / App Access
 

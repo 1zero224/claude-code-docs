@@ -50,7 +50,7 @@ The organization default applies to every member. To set it:
 
 4. Click “Save changes.”
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2514722139/d05c94072a41ea9090ecf386c53e/c32ee31d-954a-4551-a2da-91677fbd0b6f?expires=1792044000&amp;signature=62ad220ea1dfa6e648c3dad661855b4f4913b1ccf6bd52b6b46a4feb8f5f1757&amp;req=diUmEs58n4BcUPMW3nq%2Bga5jDn%2BZEshHfwKMkc502AU1aml8%2Fs49i1N0xTyF%0AH%2FhUZN3%2BJYWmVxhK8IyMGFbY5hY%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2514722139/d05c94072a41ea9090ecf386c53e/c32ee31d-954a-4551-a2da-91677fbd0b6f?expires=1794298500&amp;signature=9b8cbebcc2245657dcd52dc1a236ca30c0fb81c0bd18d06bc4acf53bd0e60031&amp;req=diUmEs58n4BcUPMW1HO4zelOdjZCJEBCfdGVZ664dGH1q5VsWJd4vIBDWLFc%0AMBE8TEybNgr5G%2BVUkUs%3D%0A)
 
 ---
 
@@ -72,7 +72,7 @@ The default effort level can't be higher than the organization's effort cap for 
 
 ---
 
-## Always start new chats on the default model (beta)
+## Always start new chats on the default model
 
 By default, each user's next conversation starts on the model they last used. Turn on this setting to have every new conversation start on your organization's default model and default effort level instead.
 
@@ -170,4 +170,4 @@ If your organization also configures Claude Code through `managed-settings.json`
 
 If `managed-settings.json` specifies `availableModels` that doesn't contain the default model, Claude CLI bypasses `availableModels` and starts on the selected default model unless `enforceAvailableModels` is set.
 
-Managed settings for models apply only to Claude Code CLI and IDE, not to Claude Code on web or desktop. For consistent behavior across all Claude Code surfaces, we recommend setting the default here alone. For more on managed settings, see **[Claude Code settings](https://code.claude.com/docs/en/settings#settings-files)**.
+Managed settings for models apply only to local Claude Code sessions in your terminal or IDE, not to cloud sessions or to Claude Code in Claude Desktop. For consistent behavior across all Claude Code surfaces, we recommend setting the default here alone. For more on managed settings, see **[Claude Code settings](https://code.claude.com/docs/en/settings#settings-files)**.

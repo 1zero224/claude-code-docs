@@ -6,19 +6,27 @@ featureMetadata:
   status: beta
   betaHeader: task-budgets-2026-03-13
   supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
     - claude-fable-5-1
     - claude-mythos-5-1
     - claude-fable-5
     - claude-mythos-5
+    - claude-mythos-preview
     - claude-opus-5-5
     - claude-opus-5
-    - claude-opus-4-8
-    - claude-opus-4-7
     - claude-sonnet-5-5
     - claude-haiku-5-5
+    - claude-opus-4-8
+    - claude-opus-4-7
+  supportedPlatforms:
+    Claude API: beta
+    Claude Platform on AWS: beta
+    Claude Models on Google Cloud (Google managed): beta
+    Microsoft Foundry: beta
 ---
 
-Task budgets let you tell Claude how many tokens it has for a full agentic loop, including thinking, tool calls, tool results, and output. The model sees a running countdown and uses it to prioritize work and finish gracefully as the budget is consumed.
+Task budgets let you tell Claude how many tokens it has for a full agentic loop, including thinking, tool calls, tool results, and output. The model receives a running countdown and uses it to prioritize work and finish gracefully as the budget is consumed.
 
 ## When to use task budgets
 
@@ -28,7 +36,7 @@ Task budgets work best for agentic workflows where Claude makes multiple tool ca
 * You have a predictable per-task cost or latency ceiling to enforce.
 * You want the model to finish gracefully (summarize findings, report progress) as it approaches the budget rather than cutting off mid-action.
 
-Task budgets complement the [effort parameter](https://platform.claude.com/docs/en/build-with-claude/effort): effort controls how thoroughly Claude reasons about each step, while task budgets cap the total work Claude can do across an agentic loop.
+Task budgets complement the [effort parameter](https://platform.claude.com/docs/en/build-with-claude/effort): effort controls how thoroughly Claude reasons about each step, whereas task budgets cap the total work Claude can do across an agentic loop.
 
 ## Setting a task budget
 
@@ -39,7 +47,7 @@ Add `task_budget` to `output_config` and include the beta header:
   curl https://api.anthropic.com/v1/messages \
     -N \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: task-budgets-2026-03-13" \
     -H "content-type: application/json" \
     -d '{
@@ -58,8 +66,7 @@ Add `task_budget` to `output_config` and include the beta header:
   ```
 
   ```bash CLI
-  ant beta:messages create --beta task-budgets-2026-03-13 \
-    --stream --format jsonl <<'YAML' | jq 'select(.type == "message_delta").usage'
+  ant beta:messages create --beta task-budgets-2026-03-13 --stream <<'YAML'
   model: claude-opus-5-5
   max_tokens: 128000
   messages:
@@ -119,7 +126,7 @@ Add `task_budget` to `output_config` and include the beta header:
   {
       Model = Messages::Model.ClaudeOpus5_5,
       MaxTokens = 128000,
-      Messages = [new() { Role = Role.User, Content = "Review the codebase and propose a refactor plan." }],
+      Messages = [new BetaUserMessageParam { Content = "Review the codebase and propose a refactor plan." }],
       OutputConfig = new BetaOutputConfig
       {
           Effort = Effort.High,
@@ -139,12 +146,9 @@ Add `task_budget` to `output_config` and include the beta header:
   	Model:     anthropic.ModelClaudeOpus5_5,
   	MaxTokens: 128000,
   	Betas:     []anthropic.AnthropicBeta{"task-budgets-2026-03-13"},
-  	Messages: []anthropic.BetaMessageParam{{
-  		Role: anthropic.BetaMessageParamRoleUser,
-  		Content: []anthropic.BetaContentBlockParamUnion{{
-  			OfText: &anthropic.BetaTextBlockParam{Text: "Review the codebase and propose a refactor plan."},
-  		}},
-  	}},
+  	Messages: []anthropic.BetaMessageParam{
+  		anthropic.NewBetaUserMessage(anthropic.NewBetaTextBlock("Review the codebase and propose a refactor plan.")),
+  	},
   	OutputConfig: anthropic.BetaOutputConfigParam{
   		Effort: anthropic.BetaOutputConfigEffortHigh,
   		TaskBudget: anthropic.BetaTokenTaskBudgetParam{
@@ -176,7 +180,9 @@ Add `task_budget` to `output_config` and include the beta header:
       .addUserMessage("Review the codebase and propose a refactor plan.")
       .outputConfig(BetaOutputConfig.builder()
           .effort(BetaOutputConfig.Effort.HIGH)
-          .taskBudget(BetaTokenTaskBudget.builder().total(64000L).build())
+          .taskBudget(BetaTokenTaskBudget.builder()
+              .total(64000L)
+              .build())
           .build())
       .addBeta("task-budgets-2026-03-13")
       .build();
@@ -193,11 +199,12 @@ Add `task_budget` to `output_config` and include the beta header:
 
   ```php PHP
   use Anthropic\Beta\Messages\BetaRawMessageDeltaEvent;
+  use Anthropic\Messages\Model;
 
   $client = new Client();
 
   $stream = $client->beta->messages->createStream(
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
       maxTokens: 128000,
       messages: [
           ['role' => 'user', 'content' => 'Review the codebase and propose a refactor plan.'],
@@ -224,7 +231,7 @@ Add `task_budget` to `output_config` and include the beta header:
   client = Anthropic::Client.new
 
   stream = client.beta.messages.stream(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 128_000,
     messages: [
       { role: "user", content: "Review the codebase and propose a refactor plan." }
@@ -250,21 +257,21 @@ The `task_budget` object has three fields:
 
 ## How the budget countdown works
 
-Claude sees a budget-countdown marker injected server-side throughout the conversation. The marker shows how many tokens remain in the current agentic loop and updates as the model generates thinking, tool calls, and output, and as it processes tool results. Claude uses this signal to pace itself and finish gracefully as the budget is consumed.
+Claude receives a budget-countdown marker injected server-side throughout the conversation. The marker shows how many tokens remain in the current agentic loop and updates as the model generates thinking, tool calls, and output, and as it processes tool results. Claude uses this signal to pace itself and finish gracefully as the budget is consumed.
 
 <Note>
   **The countdown is visible only to the model.** API responses do not include a remaining-budget field: there is no `task_budget` information in the response `usage` object, and the SDK has no accessor for it. To track spend client-side, sum token usage across the requests in your loop as shown in [Measure your current usage](https://platform.claude.com/docs/en/build-with-claude/task-budgets#measure-your-current-usage), or pass your own figure forward with `remaining` when [carrying a budget across compaction](https://platform.claude.com/docs/en/build-with-claude/task-budgets#carrying-a-budget-across-compaction-with-remaining).
 </Note>
 
 <Warning>
-  **The countdown reflects tokens Claude has processed in the current agentic loop, not tokens you resend between requests.** If your client sends the full conversation history on every follow-up request, your client-side token count might differ from the budget Claude is tracking. If you also decrement `remaining` while resending full history, the model sees an under-reported budget and the countdown drops faster than it should, causing Claude to wrap up earlier than the budget actually allows. Set a generous budget and let the model self-regulate against the countdown rather than trying to mirror it client-side.
+  **The countdown reflects tokens Claude has processed in the current agentic loop, not tokens you resend between requests.** If your client sends the full conversation history on every follow-up request, your client-side token count might differ from the budget Claude is tracking. If you also decrement `remaining` while resending full history, the model receives an under-reported budget and the countdown drops faster than it should, causing Claude to finish earlier than the budget actually allows. Set a generous budget and let the model self-regulate against the countdown rather than trying to mirror it client-side.
 </Warning>
 
 ### What counts as a turn
 
 The budget covers one agentic turn, also called an agentic loop: everything Claude does in response to one user message that carries no tool results. A turn can span several requests.
 
-A user message that carries no tool results starts a new turn with a fresh budget. Today, the countdown still counts earlier turns' history while it remains in the context. A common case is a follow-up after Claude has ended its turn, for example because the budget ran out:
+A user message that carries no tool results starts a new turn with a fresh budget. Today, the countdown still counts earlier turns’ history while it remains in the context. A common case is a follow-up after Claude has ended its turn, for example because the budget ran out:
 
 ```json
 { "role": "user", "content": "Continue." }
@@ -293,11 +300,11 @@ That holds even when the message adds new content alongside the tool results:
 }
 ```
 
-Server-side [compaction](https://platform.claude.com/docs/en/build-with-claude/compaction-threshold) during a turn does not reset the budget: tokens the turn consumed before the compaction still count against it. Tokens from before the turn began do not count, even when a compaction at the start of a turn summarizes them. Today, that exclusion applies only to the budget carried across a server-side compaction; earlier turns' history still counts while it remains in the context.
+Server-side [compaction](https://platform.claude.com/docs/en/build-with-claude/compaction-threshold) during a turn does not reset the budget: tokens the turn consumed before the compaction still count against it. Tokens from before the turn do not count, even when a compaction at the start of a turn summarizes them. Today, that exclusion applies only to the budget carried across a server-side compaction; earlier turns’ history still counts while it remains in the context.
 
 ### Worked example: budget counting across requests
 
-The task budget counts what Claude **sees** (thinking, tool calls and results, and text), not what's in your request payload. In an agentic loop your client resends the full conversation on every request, so the payload keeps growing, but the budget only decrements by what is new: the tokens Claude generates and the content it has not seen before. The following example is one [agentic turn](https://platform.claude.com/docs/en/build-with-claude/task-budgets#what-counts-as-a-turn) made of three requests: the first carries the user message, and the next two each resend the history with a tool result appended.
+The task budget counts what Claude **sees** (thinking, tool calls and results, and text), not what’s in your request payload. In an agentic loop your client resends the full conversation on every request, so the payload keeps growing, but the budget only decrements by what is new: the tokens Claude generates and the content it has not seen before. The following example is one [agentic turn](https://platform.claude.com/docs/en/build-with-claude/task-budgets#what-counts-as-a-turn) made of three requests: the first carries the user message, and the next two each resend the history with a tool result appended.
 
 Consider a loop with `task_budget: {type: "tokens", total: 100000}` and a single `bash` tool.
 
@@ -331,7 +338,7 @@ Claude thinks, then emits a tool call and stops with `stop_reason: "tool_use"`:
 }
 ```
 
-Suppose this assistant message (thinking plus the tool call) totals 5,000 generated tokens. The countdown Claude saw during generation ended near `remaining` ≈ 95,000.
+Suppose this assistant message (thinking plus the tool call) totals 5,000 generated tokens. The countdown Claude received during generation ended near `remaining` ≈ 95,000.
 
 **Request 2.** Your client runs the tool, then resends the full history with the tool result appended:
 
@@ -483,27 +490,27 @@ If your own code compacts or rewrites the message history between requests (for 
   ```
 </CodeGroup>
 
-In this example, the tokens spent before compaction are the usage of all the messages you have removed from the history so far, measured as in [Measure your current usage](https://platform.claude.com/docs/en/build-with-claude/task-budgets#measure-your-current-usage). Leave out anything still present in the messages you send, including any summary you added, because the server counts those tokens itself. Update this figure only when you replace the history this way; don't decrement it per request. Pass the resulting `remaining` on every request, not only the one that compacts.
+In this example, the tokens spent before compaction are the usage of all the messages you have removed from the history so far, measured as in [Measure your current usage](https://platform.claude.com/docs/en/build-with-claude/task-budgets#measure-your-current-usage). Leave out anything still present in the messages you send, including any summary you added, because the server counts those tokens itself. Update this figure only when you replace the history this way; don’t decrement it on each request. Pass the resulting `remaining` on every request, not only the one that compacts.
 
 For loops that resend the full uncompacted history on every request, omit `remaining` and let the server track the countdown.
 
 ## Changing the budget mid-conversation
 
-`task_budget` is a request-level setting. To change the budget partway through a task, for example to extend it when the user broadens the request, set a new `task_budget` in `output_config` on the next request. Keep the caching consequence in mind: the budget value participates in the rendered prompt, so a changed value does not match cache entries created under the old one (see [Feature support](https://platform.claude.com/docs/en/build-with-claude/task-budgets#feature-support) below).
+`task_budget` is a request-level setting. To change the budget partway through a task, for example to extend it when the user broadens the request, set a new `task_budget` in `output_config` on the next request. Keep the caching consequence in mind: the budget value participates in the rendered prompt, so a changed value does not match cache entries created under the old one (see [Feature support](https://platform.claude.com/docs/en/build-with-claude/task-budgets#feature-support)).
 
 ## Task budgets are advisory, not enforced
 
-Task budgets are a **soft hint, not a hard cap**. Claude may occasionally exceed the budget if it is in the middle of an action that would be more disruptive to interrupt than to finish. The enforced limit on total output tokens is still `max_tokens`, which truncates the response with `stop_reason: "max_tokens"` when reached.
+Task budgets are a **soft hint, not a hard cap**. Claude might occasionally exceed the budget if it is in the middle of an action that would be more disruptive to interrupt than to complete. The enforced limit on total output tokens is still `max_tokens`, which truncates the response with `stop_reason: "max_tokens"` when reached.
 
 For a hard cap on cost or latency, combine task budgets with a reasonable `max_tokens` value:
 
 * Use `task_budget` to give Claude a target to pace against.
 * Use `max_tokens` as the absolute ceiling that prevents runaway generation.
 
-Because `task_budget` spans the full agentic loop (potentially many requests) while `max_tokens` caps each individual request, the two values are independent; one is not required to be at or below the other.
+Because `task_budget` spans the full agentic loop (potentially many requests) whereas `max_tokens` caps each individual request, the two values are independent; one is not required to be at or below the other.
 
 <Warning>
-  **A budget that is too small for the task can cause refusal-like behavior.** When Claude sees a budget that is clearly insufficient for the work being asked (for example, a 20,000-token budget for a multihour agentic coding task), it may decline to attempt the task at all, scope it down aggressively, or stop early with a partial result rather than start work it cannot finish. If you observe unexpected refusals or premature stops after setting a budget, raise the budget before debugging other parameters. Size budgets against your actual task-length distribution rather than a fixed default; see [Choosing a budget](https://platform.claude.com/docs/en/build-with-claude/task-budgets#choosing-a-budget).
+  **A budget that is too small for the task can cause refusal-like behavior.** When Claude receives a budget that is clearly insufficient for the work being asked (for example, a 20,000-token budget for a multihour agentic coding task), it might decline to attempt the task at all, scope it down aggressively, or stop early with a partial result rather than start work it cannot complete. If you observe unexpected refusals or premature stops after setting a budget, raise the budget before debugging other parameters. Size budgets against your actual task-length distribution rather than a fixed default; see [Choosing a budget](https://platform.claude.com/docs/en/build-with-claude/task-budgets#choosing-a-budget).
 </Warning>
 
 ## Choosing a budget
@@ -512,11 +519,26 @@ The right budget depends on how much work your agentic loop currently does. Rath
 
 ### Measure your current usage
 
-Run a representative sample of tasks **without** `task_budget` set and record the total tokens Claude spends per task. For an agentic loop, sum `usage.output_tokens` across every request in the loop, plus the tokens of the tool results you append between requests:
+Run a representative sample of tasks **without** `task_budget` set and record the total tokens Claude spends for each task. For an agentic loop, sum `usage.output_tokens` across every request in the loop, plus the tokens of the tool results you append between requests:
 
-<CodeGroup exclude="shell:cURL">
+<CodeGroup>
+  ```bash cURL
+  curl https://api.anthropic.com/v1/messages \
+    -H "x-api-key: $ANTHROPIC_API_KEY" \
+    -H "anthropic-version: 2026-10-21" \
+    -H "content-type: application/json" \
+    -d '{
+      "model": "claude-opus-5-5",
+      "max_tokens": 4096,
+      "messages": [{
+        "role": "user",
+        "content": "Review the codebase and propose a refactor plan."
+      }]
+    }'
+  ```
+
   ```bash CLI
-  ant messages create --transform 'usage.output_tokens' <<'YAML'
+  ant messages create <<'YAML'
   model: claude-opus-5-5
   max_tokens: 4096
   messages:
@@ -561,7 +583,7 @@ Run a representative sample of tasks **without** `task_budget` set and record th
   {
       Model = Model.ClaudeOpus5_5,
       MaxTokens = 4096,
-      Messages = [new() { Role = Role.User, Content = "Review the codebase and propose a refactor plan." }],
+      Messages = [new UserMessageParam { Content = "Review the codebase and propose a refactor plan." }],
   });
 
   // Sum OutputTokens (text + thinking + tool calls) across every request in your loop.
@@ -604,7 +626,7 @@ Run a representative sample of tasks **without** `task_budget` set and record th
   $client = new Client();
 
   $response = $client->messages->create(
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
       maxTokens: 4096,
       messages: [
           ['role' => 'user', 'content' => 'Review the codebase and propose a refactor plan.'],
@@ -619,7 +641,7 @@ Run a representative sample of tasks **without** `task_budget` set and record th
   client = Anthropic::Client.new
 
   response = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 4096,
     messages: [
       { role: "user", content: "Review the codebase and propose a refactor plan." }
@@ -631,14 +653,14 @@ Run a representative sample of tasks **without** `task_budget` set and record th
   ```
 </CodeGroup>
 
-Run this across a representative set of tasks and record the distribution. Start with the p99 of your per-task token spend to understand how providing the model with a task budget might modify the model's behavior, then test up or down as needed.
+Run this across a representative set of tasks and record the distribution. Start with the p99 of your per-task token spend to understand how providing the model with a task budget might modify the model’s behavior, then test up or down as needed.
 
 The minimum accepted `task_budget.total` is **20,000 tokens** on every model that supports task budgets (see [Feature support](https://platform.claude.com/docs/en/build-with-claude/task-budgets#feature-support)). Smaller values return a 400 error.
 
 ## Interaction with other parameters
 
-* **`max_tokens`:** Orthogonal to task budgets. `max_tokens` is a hard per-request cap on generated tokens, while `task_budget` is an advisory cap across the full agentic loop (potentially spanning many requests). At `xhigh` or `max` effort, set `max_tokens` to at least 64k to give Claude room to think and act on each request.
-* **[Effort](https://platform.claude.com/docs/en/build-with-claude/effort):** Effort controls how deeply Claude reasons per step. Task budgets control how much total work Claude does across an agentic loop. The two are complementary: effort tunes depth, task budgets tune breadth.
+* **`max_tokens`:** Orthogonal to task budgets. `max_tokens` is a hard per-request cap on generated tokens, whereas `task_budget` is an advisory cap across the full agentic loop (potentially spanning many requests). At `xhigh` or `max` effort, set `max_tokens` to at least 64k to give Claude room to think and act on each request.
+* **[Effort](https://platform.claude.com/docs/en/build-with-claude/effort):** Effort controls how deeply Claude reasons about each step. Task budgets control how much total work Claude does across an agentic loop. The two are complementary: effort tunes depth, and task budgets tune breadth.
 * **[Adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/thinking):** Task budgets include thinking tokens in the count, so adaptive thinking scales down as the budget depletes.
 * **[Prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching):** The budget-countdown marker is injected server-side on each request, so it does not match across requests. If your client decrements `task_budget.remaining` on each follow-up request, the changed value invalidates any cache prefix that contains it. To preserve caching, set the budget once on the initial request and let the model self-regulate against the server-side countdown rather than mutating the budget client-side.
 
@@ -646,6 +668,8 @@ The minimum accepted `task_budget.total` is **20,000 tokens** on every model tha
 
 | Model             | Support                                     |
 | ----------------- | ------------------------------------------- |
+| Claude Fable 5.2  | Beta (set `task-budgets-2026-03-13` header) |
+| Claude Mythos 5.2 | Beta (set `task-budgets-2026-03-13` header) |
 | Claude Fable 5.1  | Beta (set `task-budgets-2026-03-13` header) |
 | Claude Mythos 5.1 | Beta (set `task-budgets-2026-03-13` header) |
 | Claude Opus 5.5   | Beta (set `task-budgets-2026-03-13` header) |
@@ -674,7 +698,7 @@ Task budgets are not supported on [Claude Code](https://code.claude.com/docs/en/
     Let Claude determine when and how much to use extended thinking.
   </Card>
 
-  <Card title="Compaction" icon="arrows-clockwise" href="https://platform.claude.com/docs/en/build-with-claude/compaction">
+  <Card title="Compaction overview" icon="arrows-clockwise" href="https://platform.claude.com/docs/en/build-with-claude/compaction">
     Manage context in long-running conversations with server-side compaction.
   </Card>
 
@@ -682,3 +706,31 @@ Task budgets are not supported on [Claude Code](https://code.claude.com/docs/en/
     Reduce cost and latency on repeated prompts by caching prompt prefixes.
   </Card>
 </CardGroup>
+
+## Availability
+
+Task budgets are in beta on select models.
+
+### API support
+
+#### [Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)
+
+* Availability: Available
+* Usage: Advisory: set in `output_config.task_budget`. The API does not stop Claude at the budget.
+
+| Status | Cloud platforms                                                                                                                                                                                                                                                                                                                                                                  | Models                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Beta   | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry) | [Claude Fable 5.2](https://platform.claude.com/docs/en/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/en/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/en/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/en/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/en/models/mythos-5/overview), Claude Mythos Preview, [Claude Opus 5.5](https://platform.claude.com/docs/en/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/en/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/en/models/sonnet-5-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/en/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/en/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/en/models/opus-4-7/overview) |
+
+#### [Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview)
+
+* Availability: Not available
+* Usage: Use [Session budgets](https://platform.claude.com/docs/en/managed-agents/budgets) instead.
+
+### Required beta headers
+
+[Beta headers overview](https://platform.claude.com/docs/en/api/beta-headers)
+
+Beta headers allow you to access experimental features and new model capabilities before they become part of the standard API.
+
+* `task-budgets-2026-03-13`

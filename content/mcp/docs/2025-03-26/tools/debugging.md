@@ -14,14 +14,14 @@ available in the MCP ecosystem.
 
 MCP provides several tools for debugging at different levels:
 
-1. **[MCP Inspector](/docs/2025-03-26/tools/inspector)**: interactive, transport-agnostic
+1. **[MCP Inspector](https://modelcontextprotocol.io/docs/2025-03-26/tools/inspector.md)**: interactive, transport-agnostic
    testing UI. Connect to stdio or Streamable HTTP servers, invoke
-   [tools](/specification/2025-03-26/server/tools),
-   [prompts](/specification/2025-03-26/server/prompts), and
-   [resources](/specification/2025-03-26/server/resources), and watch the
+   [tools](https://modelcontextprotocol.io/specification/2025-03-26/server/tools.md),
+   [prompts](https://modelcontextprotocol.io/specification/2025-03-26/server/prompts.md), and
+   [resources](https://modelcontextprotocol.io/specification/2025-03-26/server/resources.md), and watch the
    notification stream. This should be your first stop.
 2. **Server logging**: structured logs to stderr (stdio transport) or via
-   [`notifications/message`](/specification/2025-03-26/server/utilities/logging#log-message-notifications)
+   [`notifications/message`](https://modelcontextprotocol.io/specification/2025-03-26/server/utilities/logging#log-message-notifications)
    (all transports).
 3. **Client developer tools**: most MCP clients expose logs and connection
    state. See [Debugging in Claude Desktop](#debugging-in-claude-desktop)
@@ -32,50 +32,48 @@ MCP provides several tools for debugging at different levels:
 ### Server-side logging
 
 When building a server that uses the local
-[stdio transport](/specification/2025-03-26/basic/transports#stdio), all messages
+[stdio transport](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports.md#stdio), all messages
 logged to stderr (standard error) will be captured by the host application
 automatically.
 
-<Warning>
-  Local MCP servers should not log messages to stdout (standard out), as this
-  will interfere with protocol operation.
-</Warning>
+> [!WARNING]
+>
+> Local MCP servers should not log messages to stdout (standard out), as this
+> will interfere with protocol operation.
 
 For servers using the
-[Streamable HTTP transport](/specification/2025-03-26/basic/transports#streamable-http),
+[Streamable HTTP transport](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports.md#streamable-http),
 stderr is not captured by the client. Use the log message notifications below,
 your own server-side log aggregation, or standard HTTP tooling (curl, browser
 DevTools Network panel) to inspect requests,
-[`Mcp-Session-Id` headers](/specification/2025-03-26/basic/transports#session-management),
+[`Mcp-Session-Id` headers](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports#session-management),
 and SSE streams.
 
-For all [transports](/specification/2025-03-26/basic/transports), you can also
+For all [transports](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports.md), you can also
 provide logging to the client by sending a log message notification:
 
-<CodeGroup>
-  ```python Python theme={null}
-  @server.tool()
-  async def my_tool(ctx: Context) -> str:
-      await ctx.session.send_log_message(
-          level="info",
-          data="Server started successfully",
-      )
-      return "done"
-  ```
+```python Python theme={null}
+@server.tool()
+async def my_tool(ctx: Context) -> str:
+    await ctx.session.send_log_message(
+        level="info",
+        data="Server started successfully",
+    )
+    return "done"
+```
 
-  ```typescript TypeScript theme={null}
-  await server.sendLoggingMessage({
-    level: "info",
-    data: "Server started successfully",
-  });
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+await server.sendLoggingMessage({
+  level: "info",
+  data: "Server started successfully",
+});
+```
 
 MCP defines eight
-[RFC 5424 severity levels](/specification/2025-03-26/server/utilities/logging#log-levels)
+[RFC 5424 severity levels](https://modelcontextprotocol.io/specification/2025-03-26/server/utilities/logging.md#log-levels)
 (`debug` through `emergency`). Clients can adjust the minimum level at runtime
 via the
-[`logging/setLevel`](/specification/2025-03-26/server/utilities/logging#setting-log-level)
+[`logging/setLevel`](https://modelcontextprotocol.io/specification/2025-03-26/server/utilities/logging#setting-log-level)
 request.
 
 Important events to log:
@@ -89,7 +87,7 @@ Important events to log:
 ## Common issues
 
 The examples below use Claude Desktop's
-[`claude_desktop_config.json`](/docs/2025-03-26/develop/connect-local-servers); the same
+[`claude_desktop_config.json`](https://modelcontextprotocol.io/docs/2025-03-26/develop/connect-local-servers); the same
 principles apply to any stdio-based MCP client.
 
 ### Working directory
@@ -170,17 +168,17 @@ When servers fail to connect:
 
 1. Check client logs
 2. Verify server process is running
-3. Test standalone with [Inspector](/docs/2025-03-26/tools/inspector)
+3. Test standalone with [Inspector](https://modelcontextprotocol.io/docs/2025-03-26/tools/inspector.md)
 4. Verify
-   [protocol compatibility](/specification/2025-03-26/basic/lifecycle#version-negotiation)
+   [protocol compatibility](https://modelcontextprotocol.io/specification/2025-03-26/basic/lifecycle.md#version-negotiation)
 5. Check
-   [capability negotiation](/specification/2025-03-26/basic/lifecycle#capability-negotiation):
-   error [`-32602`](/specification/2025-03-26/basic/lifecycle#error-handling) is
+   [capability negotiation](https://modelcontextprotocol.io/specification/2025-03-26/basic/lifecycle.md#capability-negotiation):
+   error [`-32602`](https://modelcontextprotocol.io/specification/2025-03-26/basic/lifecycle#error-handling) is
    the standard JSON-RPC "Invalid params" code and is returned in many
    contexts. One common cause is a server sending
-   [sampling](/specification/2025-03-26/client/sampling) requests to a
+   [sampling](https://modelcontextprotocol.io/specification/2025-03-26/client/sampling.md) requests to a
    client that hasn't declared that capability. Inspect the
-   [`initialize` exchange](/specification/2025-03-26/basic/lifecycle#initialization)
+   [`initialize` exchange](https://modelcontextprotocol.io/specification/2025-03-26/basic/lifecycle#initialization)
    to verify both sides declared what you expect
 
 ## Debugging in Claude Desktop
@@ -194,7 +192,7 @@ Click the "Add files, connectors, and more" plus icon in the chat input, then
 hover over the **Connectors** menu to see connected servers and available
 tools.
 
-<img src="https://mintcdn.com/mcp/zNouQwo2h8cbxlDS/images/available-mcp-tools.png?fit=max&auto=format&n=zNouQwo2h8cbxlDS&q=85&s=e2ace1ac88895a5fe30ebd8d01456bc3" alt="Available MCP tools" width="437" height="244" data-path="images/available-mcp-tools.png" />
+![Available MCP tools](https://mintcdn.com/mcp/zNouQwo2h8cbxlDS/images/available-mcp-tools.png?fit=max\&auto=format\&n=zNouQwo2h8cbxlDS\&q=85\&s=e2ace1ac88895a5fe30ebd8d01456bc3)
 
 ### Viewing logs
 
@@ -203,15 +201,13 @@ Log files are written to:
 * macOS: `~/Library/Logs/Claude`
 * Windows: `%APPDATA%\Claude\logs`
 
-<CodeGroup>
-  ```bash macOS theme={null}
-  tail -n 20 -F ~/Library/Logs/Claude/mcp*.log
-  ```
+```bash macOS theme={null}
+tail -n 20 -F ~/Library/Logs/Claude/mcp*.log
+```
 
-  ```powershell Windows theme={null}
-  type "$env:AppData\Claude\logs\mcp*.log"
-  ```
-</CodeGroup>
+```powershell Windows theme={null}
+type "$env:AppData\Claude\logs\mcp*.log"
+```
 
 The logs capture:
 
@@ -227,15 +223,13 @@ client-side errors:
 
 1. Create a `developer_settings.json` file with `allowDevTools` set to true:
 
-<CodeGroup>
-  ```bash macOS theme={null}
-  echo '{"allowDevTools": true}' > ~/Library/Application\ Support/Claude/developer_settings.json
-  ```
+```bash macOS theme={null}
+echo '{"allowDevTools": true}' > ~/Library/Application\ Support/Claude/developer_settings.json
+```
 
-  ```powershell Windows theme={null}
-  '{"allowDevTools": true}' | Set-Content "$env:AppData\Claude\developer_settings.json"
-  ```
-</CodeGroup>
+```powershell Windows theme={null}
+'{"allowDevTools": true}' | Set-Content "$env:AppData\Claude\developer_settings.json"
+```
 
 2. Open DevTools: `Command-Option-I` (macOS) or `Ctrl+Alt+I` (Windows)
 
@@ -256,7 +250,7 @@ Use the Network panel to inspect:
 ### Development cycle
 
 1. Initial Development
-   * Use [Inspector](/docs/2025-03-26/tools/inspector) for basic testing
+   * Use [Inspector](https://modelcontextprotocol.io/docs/2025-03-26/tools/inspector.md) for basic testing
    * Implement core functionality
    * Add logging points
 
@@ -272,7 +266,7 @@ To test changes efficiently:
 * **Configuration changes**: Restart the MCP client
 * **Server code changes**: Restart the client (for Claude Desktop, fully quit
   and reopen; closing the window is not enough)
-* **Quick iteration**: Use [Inspector](/docs/2025-03-26/tools/inspector) during
+* **Quick iteration**: Use [Inspector](https://modelcontextprotocol.io/docs/2025-03-26/tools/inspector.md) during
   development
 
 ## Best practices
@@ -312,7 +306,7 @@ When debugging:
    * Monitor access patterns
 
 For a full treatment of MCP attack vectors and mitigations, see
-[Security Best Practices](/docs/2025-03-26/tutorials/security/security_best_practices).
+[Security Best Practices](https://modelcontextprotocol.io/docs/2025-03-26/tutorials/security/security_best_practices.md).
 
 ## Getting help
 
@@ -320,7 +314,7 @@ When encountering issues:
 
 1. **First Steps**
    * Check server logs
-   * Test with [Inspector](/docs/2025-03-26/tools/inspector)
+   * Test with [Inspector](https://modelcontextprotocol.io/docs/2025-03-26/tools/inspector.md)
    * Review configuration
    * Verify environment
 
@@ -336,16 +330,14 @@ When encountering issues:
 
 ## Next steps
 
-<CardGroup cols={2}>
-  <Card title="MCP Inspector" icon="magnifying-glass" href="/docs/2025-03-26/tools/inspector">
-    Learn to use the MCP Inspector
-  </Card>
+> [card] [MCP Inspector](https://modelcontextprotocol.io/docs/2025-03-26/tools/inspector.md)
+>
+> Learn to use the MCP Inspector
 
-  <Card title="Build an MCP server" icon="code" href="/docs/2025-03-26/develop/build-server">
-    Walk through building a server from scratch
-  </Card>
+> [card] [Build an MCP server](https://modelcontextprotocol.io/docs/2025-03-26/develop/build-server.md)
+>
+> Walk through building a server from scratch
 
-  <Card title="Connect local servers" icon="plug" href="/docs/2025-03-26/develop/connect-local-servers">
-    Full claude\_desktop\_config.json reference and troubleshooting
-  </Card>
-</CardGroup>
+> [card] [Connect local servers](https://modelcontextprotocol.io/docs/2025-03-26/develop/connect-local-servers.md)
+>
+> Full claude\_desktop\_config.json reference and troubleshooting

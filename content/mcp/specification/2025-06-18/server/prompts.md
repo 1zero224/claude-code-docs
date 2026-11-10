@@ -4,8 +4,6 @@
 
 # Prompts
 
-<div id="enable-section-numbers" />
-
 The Model Context Protocol (MCP) provides a standardized way for servers to expose prompt
 templates to clients. Prompts allow servers to provide structured messages and
 instructions for interacting with language models. Clients can discover available
@@ -21,7 +19,7 @@ interface, which allows users to naturally discover and invoke available prompts
 
 For example, as slash commands:
 
-<img src="https://mintcdn.com/mcp/4ZXF1PrDkEaJvXpn/specification/2025-06-18/server/slash-command.png?fit=max&auto=format&n=4ZXF1PrDkEaJvXpn&q=85&s=7f003e36d881dd6f3e5b8cbdd85e5ca5" alt="Example of prompt exposed as slash command" width="293" height="106" data-path="specification/2025-06-18/server/slash-command.png" />
+![Example of prompt exposed as slash command](https://mintcdn.com/mcp/4ZXF1PrDkEaJvXpn/specification/2025-06-18/server/slash-command.png?fit=max\&auto=format\&n=4ZXF1PrDkEaJvXpn\&q=85\&s=7f003e36d881dd6f3e5b8cbdd85e5ca5)
 
 However, implementors are free to expose prompts through any interface pattern that suits
 their needs—the protocol itself does not mandate any specific user interaction
@@ -30,7 +28,7 @@ model.
 ## Capabilities
 
 Servers that support prompts **MUST** declare the `prompts` capability during
-[initialization](/specification/2025-06-18/basic/lifecycle#initialization):
+[initialization](https://modelcontextprotocol.io/specification/2025-06-18/basic/lifecycle.md#initialization):
 
 ```json theme={null}
 {
@@ -50,7 +48,7 @@ available prompts changes.
 ### Listing Prompts
 
 To retrieve available prompts, clients send a `prompts/list` request. This operation
-supports [pagination](/specification/2025-06-18/server/utilities/pagination).
+supports [pagination](https://modelcontextprotocol.io/specification/2025-06-18/server/utilities/pagination.md).
 
 **Request:**
 
@@ -94,7 +92,7 @@ supports [pagination](/specification/2025-06-18/server/utilities/pagination).
 ### Getting a Prompt
 
 To retrieve a specific prompt, clients send a `prompts/get` request. Arguments may be
-auto-completed through [the completion API](/specification/2025-06-18/server/utilities/completion).
+auto-completed through [the completion API](https://modelcontextprotocol.io/specification/2025-06-18/server/utilities/completion.md).
 
 **Request:**
 
@@ -186,11 +184,11 @@ Messages in a prompt can contain:
 * `role`: Either "user" or "assistant" to indicate the speaker
 * `content`: One of the following content types:
 
-<Note>
-  All content types in prompt messages support optional
-  [annotations](/specification/2025-06-18/server/resources#annotations) for
-  metadata about audience, priority, and modification times.
-</Note>
+> [!NOTE]
+>
+> All content types in prompt messages support optional
+> [annotations](https://modelcontextprotocol.io/specification/2025-06-18/server/resources.md#annotations) for
+> metadata about audience, priority, and modification times.
 
 #### Text Content
 

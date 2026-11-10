@@ -29,6 +29,12 @@ The Models API response can be used to determine which models are available for 
 
   maxItems: 3
 
+  - `"active"`
+
+  - `"deprecated"`
+
+  - `"retired"`
+
 - `--limit: optional number` (query parameter)
 
   Number of items to return per page.
@@ -40,6 +46,118 @@ The Models API response can be used to determine which models are available for 
 - `--beta: optional array of AnthropicBeta` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
+
+  - `"message-batches-2024-09-24"`
+
+  - `"prompt-caching-2024-07-31"`
+
+  - `"computer-use-2024-10-22"`
+
+  - `"computer-use-2025-01-24"`
+
+  - `"pdfs-2024-09-25"`
+
+  - `"token-counting-2024-11-01"`
+
+  - `"token-efficient-tools-2025-02-19"`
+
+  - `"output-128k-2025-02-19"`
+
+  - `"files-api-2025-04-14"`
+
+  - `"mcp-client-2025-04-04"`
+
+  - `"mcp-client-2025-11-20"`
+
+  - `"dev-full-thinking-2025-05-14"`
+
+  - `"interleaved-thinking-2025-05-14"`
+
+  - `"code-execution-2025-05-22"`
+
+  - `"extended-cache-ttl-2025-04-11"`
+
+  - `"context-1m-2025-08-07"`
+
+  - `"context-management-2025-06-27"`
+
+  - `"model-context-window-exceeded-2025-08-26"`
+
+  - `"skills-2025-10-02"`
+
+  - `"fast-mode-2026-02-01"`
+
+  - `"output-300k-2026-03-24"`
+
+  - `"user-profiles-2026-03-24"`
+
+  - `"user-profiles-2026-08-18"`
+
+  - `"user-profiles-2026-09-04"`
+
+  - `"advisor-tool-2026-03-01"`
+
+  - `"managed-agents-2026-04-01"`
+
+  - `"cache-diagnosis-2026-04-07"`
+
+  - `"dreaming-2026-04-21"`
+
+  - `"thinking-token-count-2026-05-13"`
+
+  - `"server-side-fallback-2026-06-01"`
+
+  - `"server-side-fallback-2026-07-01"`
+
+  - `"fallback-credit-2026-06-01"`
+
+  - `"fallback-credit-2026-07-01"`
+
+  - `"agent-memory-2026-07-22"`
+
+  - `"mid-conversation-tool-changes-2026-07-01"`
+
+  - `"compact-2026-01-12"`
+
+  - `"computer-use-2025-11-24"`
+
+  - `"mcp-tunnels-2026-06-22"`
+
+  - `"structured-outputs-2025-11-13"`
+
+  - `"task-budgets-2026-03-13"`
+
+  - `"thinking-display-updates-2026-08-18"`
+
+  - `"ce-user-management-2026-07-13"`
+
+  - `"mid-conversation-output-config-2026-07-01"`
+
+  - `"thinking-binding-controls-2026-08-01"`
+
+  - `"mid-conversation-system-clear-at-2026-08-21"`
+
+  - `"compact-2026-09-04"`
+
+  - `"inline-tools-2026-09-15"`
+
+  - `"mcp-client-2026-09-15"`
+
+  - `"ce-plugins-2026-09-01"`
+
+  - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -83,17 +201,9 @@ The Models API response can be used to determine which models are available for 
 
         Whether the model supports citation generation.
 
-        - `supported: boolean`
-
-          Whether this capability is supported by the model.
-
       - `code_execution: object`
 
         Whether code that the model runs in the code execution tool can call the request's other tools, as in programmatic tool calling and dynamic filtering for web search and web fetch. Support for the code execution tool itself is in `server_tools.code_execution`.
-
-        - `supported: boolean`
-
-          Whether this capability is supported by the model.
 
       - `compaction: object`
 
@@ -102,10 +212,6 @@ The Models API response can be used to determine which models are available for 
         - `summarize: object`
 
           Whether the summarize compaction type is supported.
-
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
 
         - `supported: boolean`
 
@@ -119,25 +225,13 @@ The Models API response can be used to determine which models are available for 
 
           Whether the clear_thinking_20251015 strategy is supported.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
         - `clear_tool_uses_20250919: object`
 
           Whether the clear_tool_uses_20250919 strategy is supported.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
         - `compact_20260112: object`
 
           Whether the compact_20260112 strategy is supported.
-
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
 
         - `supported: boolean`
 
@@ -151,33 +245,17 @@ The Models API response can be used to determine which models are available for 
 
           Whether the model supports high effort level.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
         - `low: object`
 
           Whether the model supports low effort level.
-
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
 
         - `max: object`
 
           Whether the model supports max effort level.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
         - `medium: object`
 
           Whether the model supports medium effort level.
-
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
 
         - `supported: boolean`
 
@@ -187,25 +265,13 @@ The Models API response can be used to determine which models are available for 
 
           Whether the model supports xhigh effort level.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
       - `image_input: object`
 
         Whether the model accepts image content blocks.
 
-        - `supported: boolean`
-
-          Whether this capability is supported by the model.
-
       - `pdf_input: object`
 
         Whether the model accepts PDF content blocks.
-
-        - `supported: boolean`
-
-          Whether this capability is supported by the model.
 
       - `server_tools: object`
 
@@ -215,10 +281,6 @@ The Models API response can be used to determine which models are available for 
 
           Whether the model supports the code execution tool: true when the model supports at least one version of the tool, not necessarily every version.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
         - `supported: boolean`
 
           Whether this capability is supported by the model.
@@ -227,17 +289,9 @@ The Models API response can be used to determine which models are available for 
 
           Whether the model supports the web search tool: true when the model supports at least one version of the tool, not necessarily every version.
 
-          - `supported: boolean`
-
-            Whether this capability is supported by the model.
-
       - `structured_outputs: object`
 
         Whether the model supports structured output / JSON mode / strict tool schemas.
-
-        - `supported: boolean`
-
-          Whether this capability is supported by the model.
 
       - `thinking: object`
 
@@ -255,25 +309,17 @@ The Models API response can be used to determine which models are available for 
 
             Whether the model accepts thinking with type 'adaptive' (the model decides whether and how much to think).
 
-            - `supported: boolean`
+          - `between_tools: object`
 
-              Whether this capability is supported by the model.
+            Whether the model accepts thinking with type 'between_tools' (thinking turned off, and any short progress updates the model writes between tool calls come back as thinking blocks). False exactly when a request that sends it gets a 400 from this model. A request that sends 'between_tools' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
           - `disabled: object`
 
-            Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking.
-
-            - `supported: boolean`
-
-              Whether this capability is supported by the model.
+            Whether the model accepts thinking with type 'disabled' (thinking turned off). False exactly when a request that sends it gets a 400 from this model. True on a model that does not support thinking. A request that sends 'disabled' can still be rejected for another reason, such as an effort level the model does not allow with thinking off.
 
           - `enabled: object`
 
             Whether the model accepts thinking with type 'enabled' (extended thinking with a caller-set `budget_tokens`).
-
-            - `supported: boolean`
-
-              Whether this capability is supported by the model.
 
     - `created_at: string`
 
@@ -348,8 +394,7 @@ The Models API response can be used to determine which models are available for 
 ## Example
 
 ```bash
-ant beta:models list \
-  --api-key my-anthropic-api-key
+ant beta:models list
 ```
 
 ### Response (200)
@@ -432,6 +477,9 @@ ant beta:models list \
             "adaptive": {
               "supported": true
             },
+            "between_tools": {
+              "supported": true
+            },
             "disabled": {
               "supported": true
             },
@@ -445,7 +493,7 @@ ant beta:models list \
       "deprecated_at": "2019-12-27T18:11:19.117Z",
       "display_name": "Claude Opus 5.5",
       "lifecycle": "active",
-      "line": "haiku",
+      "line": "opus",
       "max_input_tokens": 0,
       "max_tokens": 0,
       "retires_at": "2019-12-27T18:11:19.117Z",

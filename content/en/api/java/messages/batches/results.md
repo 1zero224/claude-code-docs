@@ -75,7 +75,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             Identifier for the container used in this request
 
-          - `LocalDateTime expiresAt`
+          - `OffsetDateTime expiresAt`
 
             The time at which the container will expire.
 
@@ -560,7 +560,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `class EncryptedCodeExecutionResultBlock`
 
-                Code execution result with encrypted stdout for PFC + web_search results.
+                The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+                The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+                See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=java) to learn more about programmatic tool calling.
+
+                - `JsonValue type = "encrypted_code_execution_result"`
 
                 - `JsonValue type = "encrypted_code_execution_result"`
 
@@ -746,6 +752,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `class CacheMissModelChanged`
 
+              A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=java#cache-miss-reason-types) to learn what to change for each reason.
+
               - `JsonValue type = "model_changed"`
 
               - `long cacheMissedInputTokens`
@@ -753,6 +763,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `class CacheMissSystemChanged`
+
+              A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=java#cache-miss-reason-types) to learn what to change for each reason.
 
               - `JsonValue type = "system_changed"`
 
@@ -762,6 +776,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `class CacheMissToolsChanged`
 
+              A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=java#cache-miss-reason-types) to learn what to change for each reason.
+
               - `JsonValue type = "tools_changed"`
 
               - `long cacheMissedInputTokens`
@@ -769,6 +787,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `class CacheMissMessagesChanged`
+
+              A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=java#cache-miss-reason-types) to learn what to change for each reason.
 
               - `JsonValue type = "messages_changed"`
 
@@ -778,9 +800,21 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `class CacheMissPreviousMessageNotFound`
 
+              A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+              This doesn't mean that this request changed.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=java#cache-miss-reason-types) to learn what to change for each reason.
+
               - `JsonValue type = "previous_message_not_found"`
 
             - `class CacheMissUnavailable`
+
+              A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+              This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=java#cache-miss-reason-types) to learn what to change for each reason.
 
               - `JsonValue type = "unavailable"`
 
@@ -789,6 +823,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           The model that will complete your prompt.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+          - `CLAUDE_MYTHOS_5_2("claude-mythos-5-2")`
+
+            Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
           - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -1025,8 +1067,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               the thinking-block delimiter tokens.
 
               Reflects the raw reasoning the model produced, not the (possibly shorter)
-              summarized thinking text returned in the response body. Computed by
-              re-tokenizing the raw reasoning text, so it may differ from the model's exact
+              summarized thinking text returned in the response body. It may differ from the model's exact
               generation count by a small number of tokens. Always ≤ `output_tokens`;
               `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -1058,6 +1099,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `BATCH("batch")`
 
+          - `Optional<Speed> speed`
+
+            The inference speed mode used for this request.
+
+            - `STANDARD("standard")`
+
+            - `FAST("fast")`
+
     - `class MessageBatchErroredResult`
 
       - `JsonValue type = "errored"`
@@ -1072,55 +1121,91 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `JsonValue type = "invalid_request_error"`
 
+              The broad category of the error.
+
             - `String message`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           - `class AuthenticationError`
 
             - `JsonValue type = "authentication_error"`
 
+              The broad category of the error.
+
             - `String message`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           - `class BillingError`
 
             - `JsonValue type = "billing_error"`
 
+              The broad category of the error.
+
             - `String message`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           - `class PermissionError`
 
             - `JsonValue type = "permission_error"`
 
+              The broad category of the error.
+
             - `String message`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           - `class NotFoundError`
 
             - `JsonValue type = "not_found_error"`
 
+              The broad category of the error.
+
             - `String message`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           - `class RateLimitError`
 
             - `JsonValue type = "rate_limit_error"`
 
+              The broad category of the error.
+
             - `String message`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           - `class GatewayTimeoutError`
 
             - `JsonValue type = "timeout_error"`
 
+              The broad category of the error.
+
             - `String message`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           - `class ApiErrorObject`
 
             - `JsonValue type = "api_error"`
 
+              The broad category of the error.
+
             - `String message`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
           - `class OverloadedError`
 
             - `JsonValue type = "overloaded_error"`
 
+              The broad category of the error.
+
             - `String message`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
         - `Optional<String> requestId`
 

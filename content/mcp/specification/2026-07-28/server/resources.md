@@ -4,22 +4,20 @@
 
 # Resources
 
-<div id="enable-section-numbers" />
-
 The Model Context Protocol (MCP) provides a standardized way for servers to expose
 resources to clients. Resources allow servers to share data that provides context to
 language models, such as files, database schemas, or application-specific information.
 Each resource is uniquely identified by a
 [URI](https://datatracker.ietf.org/doc/html/rfc3986).
 
-<Note>
-  For brevity, the request examples on this page omit the `_meta` request
-  metadata (`io.modelcontextprotocol/protocolVersion`,
-  `io.modelcontextprotocol/clientInfo`, and
-  `io.modelcontextprotocol/clientCapabilities`). Every request **MUST** include
-  the required `_meta` fields; see
-  [`_meta`](/specification/2026-07-28/basic/index#meta).
-</Note>
+> [!NOTE]
+>
+> For brevity, the request examples on this page omit the `_meta` request
+> metadata (`io.modelcontextprotocol/protocolVersion`,
+> `io.modelcontextprotocol/clientInfo`, and
+> `io.modelcontextprotocol/clientCapabilities`). Every request **MUST** include
+> the required `_meta` fields; see
+> [`_meta`](https://modelcontextprotocol.io/specification/2026-07-28/basic/index#meta).
 
 ## User Interaction Model
 
@@ -32,7 +30,7 @@ For example, applications could:
 * Allow the user to search through and filter available resources
 * Implement automatic context inclusion, based on heuristics or the AI model's selection
 
-<img src="https://mintcdn.com/mcp/UAHvrCg8SwnAZwI3/specification/2026-07-28/server/resource-picker.png?fit=max&auto=format&n=UAHvrCg8SwnAZwI3&q=85&s=e2aa63c0e97d97eff5da87bdd3c2260e" alt="Example of resource context picker" width="174" height="181" data-path="specification/2026-07-28/server/resource-picker.png" />
+![Example of resource context picker](https://mintcdn.com/mcp/UAHvrCg8SwnAZwI3/specification/2026-07-28/server/resource-picker.png?fit=max\&auto=format\&n=UAHvrCg8SwnAZwI3\&q=85\&s=e2aa63c0e97d97eff5da87bdd3c2260e)
 
 However, implementations are free to expose resources through any interface pattern that
 suits their needs—the protocol itself does not mandate any specific user
@@ -87,7 +85,7 @@ per-request input, not connection state.
 ### Listing Resources
 
 To discover available resources, clients send a `resources/list` request. This operation
-supports [pagination](/specification/2026-07-28/server/utilities/pagination) and [caching](/specification/2026-07-28/server/utilities/caching).
+supports [pagination](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/pagination.md) and [caching](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/caching.md).
 
 **Request:**
 
@@ -136,7 +134,7 @@ supports [pagination](/specification/2026-07-28/server/utilities/pagination) and
 ### Reading Resources
 
 To retrieve resource contents, clients send a `resources/read` request. This operation
-supports [caching](/specification/2026-07-28/server/utilities/caching).
+supports [caching](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/caching.md).
 
 **Request:**
 
@@ -176,7 +174,7 @@ Servers **MAY** return multiple resource contents in response to a single
 `resources/read` request. For example, a server could return the contents of
 several files when a directory resource is read.
 
-Servers **MAY** also respond to `resources/read` with an [`InputRequiredResult`](/specification/2026-07-28/basic/patterns/mrtr#inputrequiredresult) to indicate that additional input is needed before the resource can be read. This follows the [multi round-trip requests](/specification/2026-07-28/basic/patterns/mrtr#multi-round-trip-requests) mechanism. When retrying the request, clients include `inputResponses` and, if provided by the server, `requestState` in the request parameters.
+Servers **MAY** also respond to `resources/read` with an [`InputRequiredResult`](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr#inputrequiredresult) to indicate that additional input is needed before the resource can be read. This follows the [multi round-trip requests](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr.md#multi-round-trip-requests) mechanism. When retrying the request, clients include `inputResponses` and, if provided by the server, `requestState` in the request parameters.
 
 Alternatively, if the scheme of `uri` is `https://`, clients may fetch the resource directly from the web. See the [Common URI Schemes section](#https%3A%2F%2F) for more information.
 
@@ -184,8 +182,8 @@ Alternatively, if the scheme of `uri` is `https://`, clients may fetch the resou
 
 Resource templates allow servers to expose parameterized resources using
 [URI templates](https://datatracker.ietf.org/doc/html/rfc6570). Arguments may be
-auto-completed through [the completion API](/specification/2026-07-28/server/utilities/completion).
-This operation supports [pagination](/specification/2026-07-28/server/utilities/pagination) and [caching](/specification/2026-07-28/server/utilities/caching).
+auto-completed through [the completion API](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/completion.md).
+This operation supports [pagination](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/pagination.md) and [caching](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/caching.md).
 
 **Request:**
 
@@ -265,9 +263,9 @@ changes.
 See [Subscriptions][subscriptions] for the full protocol mechanics (acknowledgment,
 `subscriptionId` correlation, and cancellation).
 
-[subscriptions-listen]: /specification/2026-07-28/schema#subscriptionslistenrequest
+[subscriptions-listen]: https://modelcontextprotocol.io/specification/2026-07-28/schema.md#subscriptionslistenrequest
 
-[subscriptions]: /specification/2026-07-28/basic/patterns/subscriptions
+[subscriptions]: https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/subscriptions.md
 
 ## Message Flow
 

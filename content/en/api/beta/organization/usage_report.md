@@ -9,7 +9,9 @@ url: https://platform.claude.com/docs/en/api/beta/organization/usage_report
 
 **GET** `/v1/organizations/usage_report/messages`
 
-Get Messages Usage Report
+[Legacy] Get a report of your organization's Messages API usage, aggregated into time buckets.
+
+This endpoint is part of the legacy Usage and Cost API. For new integrations, use [`GET /v1/organizations/analytics/usage`](https://platform.claude.com/docs/en/api/beta/organization/analytics/usage/list?sdk_languages=http) in the Usage and Cost Analytics API instead. To move an existing integration, see [Migrate from the Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api?sdk_languages=http#migrate-from-usage-cost-api).
 
 ### Query parameters
 
@@ -42,7 +44,7 @@ Get Messages Usage Report
 
 - `context_window: optional array of BetaAnalyticsContextWindow`
 
-  Restrict usage returned to the specified context window(s).
+  Restrict usage returned to the specified context window(s). See the `context_window` response field for how a request is classified.
 
   - `"0-200k"`
 
@@ -56,7 +58,7 @@ Get Messages Usage Report
 
 - `group_by: optional array of "account_id" or "api_key_id" or "context_window" or 6 more`
 
-  Group by any subset of the available options. Grouping by `speed` requires the `fast-mode-2026-02-01` beta header.
+  Group by any subset of the available options.
 
   - `"account_id"`
 
@@ -107,7 +109,7 @@ Get Messages Usage Report
 
   Restrict usage returned to the specified service account ID(s).
 
-- `service_tiers: optional array of "batch" or "flex" or "flex_discount" or 3 more`
+- `service_tiers: optional array of BetaAnalyticsServiceTier`
 
   Restrict usage returned to the specified service tier(s).
 
@@ -125,8 +127,7 @@ Get Messages Usage Report
 
 - `speeds: optional array of "standard" or "fast"`
 
-  Restrict usage returned to the specified speed(s) (Claude Code research preview).
-  Requires the `fast-mode-2026-02-01` beta header.
+  Restrict usage returned to the specified speed(s).
 
   - `"standard"`
 
@@ -250,6 +251,18 @@ Get Messages Usage Report
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 ### Returns
 
 - `BetaMessagesUsageReport object`
@@ -270,11 +283,11 @@ Get Messages Usage Report
 
       - `account_id: string or null`
 
-        ID of the user account that made the request. `null` if not grouping by account or for non-OAuth requests.
+        ID of the user account that made the request. `null` if not grouping by account or if no user account made the request.
 
       - `api_key_id: string or null`
 
-        ID of the API key used. `null` if not grouping by API key or for usage in the Anthropic Console.
+        ID of the API key used. `null` if not grouping by API key or if the request did not use an API key, as with usage in the Claude Console or from most Claude Managed Agents sessions.
 
       - `cache_creation: BetaCacheCreation`
 
@@ -299,6 +312,8 @@ Get Messages Usage Report
       - `context_window: BetaAnalyticsContextWindow or null`
 
         Context window used. `null` if not grouping by context window.
+
+        A request is classified by comparing its prompt size with its model's own long-context boundary, the same boundary that billing uses. The two values are labels for the two classes, not literal ranges: where a model's boundary is below 200k, a request whose prompt exceeds that boundary is reported under `200k-1M`, and a `0-200k` filter does not return it. Where the report cannot determine a model's boundary, it uses 200k instead. Hourly usage stored before this classification took effect keeps its earlier value until it expires. Billed amounts are not affected.
 
         - `"0-200k"`
 
@@ -333,9 +348,9 @@ Get Messages Usage Report
 
       - `service_account_id: string or null`
 
-        ID of the service account that made the request. `null` if not grouping by service account or for non-OIDC-federation requests.
+        ID of the service account that made the request. `null` if not grouping by service account or if no service account made the request. This can be the ID of an Anthropic-managed service account, such as one that runs Claude Managed Agents sessions, which the Service Accounts endpoints do not return.
 
-      - `service_tier: "batch" or "flex" or "flex_discount" or 3 more or null`
+      - `service_tier: BetaAnalyticsServiceTier or null`
 
         Service tier used. `null` if not grouping by service tier.
 
@@ -350,6 +365,14 @@ Get Messages Usage Report
         - `"priority_on_demand"`
 
         - `"standard"`
+
+      - `speed: "standard" or "fast" or null`
+
+        Speed of the usage. `null` if not grouping by speed.
+
+        - `"standard"`
+
+        - `"fast"`
 
       - `uncached_input_tokens: number`
 
@@ -377,8 +400,8 @@ Get Messages Usage Report
 
 ```bash
 curl https://api.anthropic.com/v1/organizations/usage_report/messages \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -390,7 +413,7 @@ curl https://api.anthropic.com/v1/organizations/usage_report/messages \
       "ending_at": "2025-08-02T00:00:00Z",
       "results": [
         {
-          "account_id": "user_01WCz1FkmYMm4gnmykNKUu3Q",
+          "account_id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
           "api_key_id": "apikey_01Rj2N8SVvo6BePZj99NhmiT",
           "cache_creation": {
             "ephemeral_1h_input_tokens": 0,
@@ -406,6 +429,7 @@ curl https://api.anthropic.com/v1/organizations/usage_report/messages \
           },
           "service_account_id": "svac_01Hk3R9TWxq7CfQak00OiVw4",
           "service_tier": "standard",
+          "speed": "standard",
           "uncached_input_tokens": 1500,
           "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
         }
@@ -611,8 +635,8 @@ Enables organizations to analyze developer productivity and build custom dashboa
 
 ```bash
 curl https://api.anthropic.com/v1/organizations/usage_report/claude_code \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -871,11 +895,11 @@ curl https://api.anthropic.com/v1/organizations/usage_report/claude_code \
 
       - `account_id: string or null`
 
-        ID of the user account that made the request. `null` if not grouping by account or for non-OAuth requests.
+        ID of the user account that made the request. `null` if not grouping by account or if no user account made the request.
 
       - `api_key_id: string or null`
 
-        ID of the API key used. `null` if not grouping by API key or for usage in the Anthropic Console.
+        ID of the API key used. `null` if not grouping by API key or if the request did not use an API key, as with usage in the Claude Console or from most Claude Managed Agents sessions.
 
       - `cache_creation: BetaCacheCreation`
 
@@ -900,6 +924,8 @@ curl https://api.anthropic.com/v1/organizations/usage_report/claude_code \
       - `context_window: BetaAnalyticsContextWindow or null`
 
         Context window used. `null` if not grouping by context window.
+
+        A request is classified by comparing its prompt size with its model's own long-context boundary, the same boundary that billing uses. The two values are labels for the two classes, not literal ranges: where a model's boundary is below 200k, a request whose prompt exceeds that boundary is reported under `200k-1M`, and a `0-200k` filter does not return it. Where the report cannot determine a model's boundary, it uses 200k instead. Hourly usage stored before this classification took effect keeps its earlier value until it expires. Billed amounts are not affected.
 
         - `"0-200k"`
 
@@ -934,9 +960,9 @@ curl https://api.anthropic.com/v1/organizations/usage_report/claude_code \
 
       - `service_account_id: string or null`
 
-        ID of the service account that made the request. `null` if not grouping by service account or for non-OIDC-federation requests.
+        ID of the service account that made the request. `null` if not grouping by service account or if no service account made the request. This can be the ID of an Anthropic-managed service account, such as one that runs Claude Managed Agents sessions, which the Service Accounts endpoints do not return.
 
-      - `service_tier: "batch" or "flex" or "flex_discount" or 3 more or null`
+      - `service_tier: BetaAnalyticsServiceTier or null`
 
         Service tier used. `null` if not grouping by service tier.
 
@@ -951,6 +977,14 @@ curl https://api.anthropic.com/v1/organizations/usage_report/claude_code \
         - `"priority_on_demand"`
 
         - `"standard"`
+
+      - `speed: "standard" or "fast" or null`
+
+        Speed of the usage. `null` if not grouping by speed.
+
+        - `"standard"`
+
+        - `"fast"`
 
       - `uncached_input_tokens: number`
 

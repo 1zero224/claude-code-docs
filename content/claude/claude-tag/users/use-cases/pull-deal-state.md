@@ -6,9 +6,9 @@
 
 > Claude Tag pulls account and deal state into the Slack channel. See in-thread account answers, pre-call briefs, and a scheduled weekly pipeline digest.
 
-export const BetaNote = () => <Info>Claude Tag is in public beta. Features and behavior described here may change before general availability.</Info>;
-
-<BetaNote />
+> [!NOTE]
+>
+> Claude Tag is in public beta. Features and behavior described here may change before general availability.
 
 ## How deal-state prompts work
 
@@ -18,7 +18,7 @@ Each prompt below is a Slack message. You paste it in the account or deal channe
 
 ## Check the channel's connections
 
-Check that the channel has the connections below. Ask `@Claude what can you access from this channel?` to check; an admin can [add a connection](/docs/claude-tag/admins/add-connections) the channel is missing.
+Check that the channel has the connections below. Ask `@Claude what can you access from this channel?` to check; an admin can [add a connection](https://claude.com/docs/claude-tag/admins/add-connections.md) the channel is missing.
 
 | Connection | Examples | Why it matters here |
 | :- | :- | :- |
@@ -60,16 +60,14 @@ One message sets up a standing digest posted to the team channel every Monday.
 @Claude every Monday at 9am, post a pipeline digest: deals that moved stage last week, deals stalled more than two weeks, and renewals due in the next 30 days.
 ```
 
-The three lines cover what moved, what's stuck, and what's coming due, so the digest reads the same way every Monday. To list or cancel scheduled work later, see [Manage standing work](/docs/claude-tag/users/proactivity#manage-standing-work).
+The three lines cover what moved, what's stuck, and what's coming due, so the digest reads the same way every Monday. To list or cancel scheduled work later, see [Manage standing work](https://claude.com/docs/claude-tag/users/proactivity.md#manage-standing-work).
 
 ## Related resources
 
-<CardGroup cols={2}>
-  <Card title="Answer data questions" href="/docs/claude-tag/users/use-cases/answer-data-questions" horizontal arrow>
-    When the question is metrics, not accounts
-  </Card>
+> [card] [Answer data questions](https://claude.com/docs/claude-tag/users/use-cases/answer-data-questions.md)
+>
+> When the question is metrics, not accounts
 
-  <Card title="Set up routines" href="/docs/claude-tag/users/proactivity" horizontal arrow>
-    Scheduled digests
-  </Card>
-</CardGroup>
+> [card] [Set up routines](https://claude.com/docs/claude-tag/users/proactivity.md)
+>
+> Scheduled digests

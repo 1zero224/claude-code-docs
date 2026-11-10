@@ -21,7 +21,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   - `Optional<String> userProfileId` (header parameter)
 
-    The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header.
+    The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization.
+
+  - `Optional<String> workspaceId` (header parameter)
+
+    Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+    Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
   - `Optional<String> workspaceId` (header parameter)
 
@@ -88,290 +94,21 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     See [input examples](https://platform.claude.com/docs/en/build-with-claude/working-with-messages?sdk_languages=java).
 
-    Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=java#give-claude-a-role), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
+    Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=java#give-claude-a-role), you can use the top-level `system` parameter.
 
     There is a limit of 100,000 messages in a single request.
 
-    - `Content content`
+    - `class UserMessageParam`
 
-      - `String`
+      - `MessageContentParam content`
 
-      - `List<ContentBlockParam>`
+        - `String`
 
-        - `class TextBlockParam`
+        - `List<ContentBlockParam>`
 
-          - `JsonValue type = "text"`
+          - `class TextBlockParam`
 
-          - `String text`
-
-            minLength: 1
-
-          - `Optional<CacheControlEphemeral> cacheControl`
-
-            Create a cache control breakpoint at this content block.
-
-            - `JsonValue type = "ephemeral"`
-
-            - `Optional<Ttl> ttl`
-
-              The time-to-live for the cache control breakpoint.
-
-              This may be one the following values:
-
-              - `5m`: 5 minutes
-              - `1h`: 1 hour
-
-              Defaults to `5m`. See [prompt caching pricing](https://platform.claude.com/docs/en/build-with-claude/prompt-caching?sdk_languages=java) for details.
-
-              - `TTL_5M("5m")`
-
-              - `TTL_1H("1h")`
-
-          - `Optional<List<TextCitationParam>> citations`
-
-            - `class CitationCharLocationParam`
-
-              - `JsonValue type = "char_location"`
-
-              - `String citedText`
-
-              - `long documentIndex`
-
-                minimum: 0
-
-              - `Optional<String> documentTitle`
-
-                minLength: 1, maxLength: 500
-
-              - `long endCharIndex`
-
-              - `long startCharIndex`
-
-                minimum: 0
-
-            - `class CitationPageLocationParam`
-
-              - `JsonValue type = "page_location"`
-
-              - `String citedText`
-
-              - `long documentIndex`
-
-                minimum: 0
-
-              - `Optional<String> documentTitle`
-
-                minLength: 1, maxLength: 500
-
-              - `long endPageNumber`
-
-              - `long startPageNumber`
-
-                minimum: 1
-
-            - `class CitationContentBlockLocationParam`
-
-              - `JsonValue type = "content_block_location"`
-
-              - `String citedText`
-
-                The full text of the cited block range, concatenated.
-
-                Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
-
-              - `long documentIndex`
-
-                minimum: 0
-
-              - `Optional<String> documentTitle`
-
-                minLength: 1, maxLength: 500
-
-              - `long endBlockIndex`
-
-                Exclusive 0-based end index of the cited block range in the source's `content` array.
-
-                Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
-
-              - `long startBlockIndex`
-
-                0-based index of the first cited block in the source's `content` array.
-
-                minimum: 0
-
-            - `class CitationWebSearchResultLocationParam`
-
-              - `JsonValue type = "web_search_result_location"`
-
-              - `String citedText`
-
-              - `String encryptedIndex`
-
-              - `Optional<String> title`
-
-                minLength: 1, maxLength: 512
-
-              - `String url`
-
-                minLength: 1
-
-            - `class CitationSearchResultLocationParam`
-
-              - `JsonValue type = "search_result_location"`
-
-              - `String citedText`
-
-                The full text of the cited block range, concatenated.
-
-                Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
-
-              - `long endBlockIndex`
-
-                Exclusive 0-based end index of the cited block range in the source's `content` array.
-
-                Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
-
-              - `long searchResultIndex`
-
-                0-based index of the cited search result among all `search_result` content blocks in the request, in the order they appear across messages and tool results.
-
-                Counted separately from `document_index`; server-side web search results are not included in this count.
-
-                minimum: 0
-
-              - `String source`
-
-              - `long startBlockIndex`
-
-                0-based index of the first cited block in the source's `content` array.
-
-                minimum: 0
-
-              - `Optional<String> title`
-
-        - `class ImageBlockParam`
-
-          - `JsonValue type = "image"`
-
-          - `Source source`
-
-            - `class Base64ImageSource`
-
-              - `JsonValue type = "base64"`
-
-              - `String data`
-
-                format: byte
-
-              - `MediaType mediaType`
-
-                - `IMAGE_JPEG("image/jpeg")`
-
-                - `IMAGE_PNG("image/png")`
-
-                - `IMAGE_GIF("image/gif")`
-
-                - `IMAGE_WEBP("image/webp")`
-
-            - `class UrlImageSource`
-
-              - `JsonValue type = "url"`
-
-              - `String url`
-
-            - `class FileImageSource`
-
-              - `JsonValue type = "file"`
-
-              - `String fileId`
-
-          - `Optional<CacheControlEphemeral> cacheControl`
-
-            Create a cache control breakpoint at this content block.
-
-          - `Optional<ImageTransformationsParam> transformations`
-
-            Configures the transformations the server applies to this image before the model observes it. Each key names a condition the server transforms images for; its value selects the transformation applied. Omitted keys keep their default behavior, and an empty object is equivalent to omitting the field.
-
-            - `Optional<OversizedImage> oversizedImage`
-
-              What the server does when this image exceeds the model's maximum image size. `"downsize"` (the default) scales the image down to fit, which changes the dimensions the model observes without telling you. `"error"` instead rejects the request with a 400 error naming the image's dimensions and the largest dimensions that fit, so you can scale the image deliberately — your image is never silently scaled down.
-
-              - `DOWNSIZE("downsize")`
-
-              - `ERROR("error")`
-
-        - `class DocumentBlockParam`
-
-          - `JsonValue type = "document"`
-
-          - `Source source`
-
-            - `class Base64PdfSource`
-
-              - `JsonValue type = "base64"`
-
-              - `String data`
-
-                format: byte
-
-              - `JsonValue mediaType = "application/pdf"`
-
-            - `class PlainTextSource`
-
-              - `JsonValue type = "text"`
-
-              - `String data`
-
-              - `JsonValue mediaType = "text/plain"`
-
-            - `class ContentBlockSource`
-
-              - `JsonValue type = "content"`
-
-              - `Content content`
-
-                - `String`
-
-                - `List<ContentBlockSourceContent>`
-
-                  - `class TextBlockParam`
-
-                  - `class ImageBlockParam`
-
-            - `class UrlPdfSource`
-
-              - `JsonValue type = "url"`
-
-              - `String url`
-
-            - `class FileDocumentSource`
-
-              - `JsonValue type = "file"`
-
-              - `String fileId`
-
-          - `Optional<CacheControlEphemeral> cacheControl`
-
-            Create a cache control breakpoint at this content block.
-
-          - `Optional<CitationsConfigParam> citations`
-
-            - `Optional<Boolean> enabled`
-
-          - `Optional<String> context`
-
-            minLength: 1
-
-          - `Optional<String> title`
-
-            minLength: 1, maxLength: 500
-
-        - `class SearchResultBlockParam`
-
-          - `JsonValue type = "search_result"`
-
-          - `List<TextBlockParam> content`
+            - `JsonValue type = "text"`
 
             - `JsonValue type = "text"`
 
@@ -383,691 +120,988 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               Create a cache control breakpoint at this content block.
 
+              - `JsonValue type = "ephemeral"`
+
+              - `Optional<Ttl> ttl`
+
+                The time-to-live for the cache control breakpoint.
+
+                This may be one the following values:
+
+                - `5m`: 5 minutes
+                - `1h`: 1 hour
+
+                Defaults to `5m`. See [prompt caching pricing](https://platform.claude.com/docs/en/build-with-claude/prompt-caching?sdk_languages=java) for details.
+
+                - `TTL_5M("5m")`
+
+                - `TTL_1H("1h")`
+
             - `Optional<List<TextCitationParam>> citations`
 
-          - `String source`
+              - `class CitationCharLocationParam`
 
-          - `String title`
+                - `JsonValue type = "char_location"`
 
-          - `Optional<CacheControlEphemeral> cacheControl`
+                - `String citedText`
 
-            Create a cache control breakpoint at this content block.
+                - `long documentIndex`
 
-          - `Optional<CitationsConfigParam> citations`
+                  minimum: 0
 
-        - `class ThinkingBlockParam`
+                - `Optional<String> documentTitle`
 
-          - `JsonValue type = "thinking"`
+                  minLength: 1, maxLength: 500
 
-          - `String signature`
+                - `long endCharIndex`
 
-            The `signature` value of this thinking block, exactly as returned by the API in a previous response. Used to verify that the block was generated by Claude.
+                - `long startCharIndex`
 
-            Thinking blocks must be passed back unmodified and in their original order; a modified block results in a 400 `invalid_request_error`.
+                  minimum: 0
 
-          - `String thinking`
+              - `class CitationPageLocationParam`
 
-            The `thinking` text of this block as returned by the API.
+                - `JsonValue type = "page_location"`
 
-        - `class RedactedThinkingBlockParam`
+                - `String citedText`
 
-          - `JsonValue type = "redacted_thinking"`
+                - `long documentIndex`
 
-          - `String data`
+                  minimum: 0
 
-            The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
+                - `Optional<String> documentTitle`
 
-        - `class ToolUseBlockParam`
+                  minLength: 1, maxLength: 500
 
-          - `JsonValue type = "tool_use"`
+                - `long endPageNumber`
 
-          - `String id`
+                - `long startPageNumber`
 
-            pattern: ^[a-zA-Z0-9_-]+$
+                  minimum: 1
 
-          - `Input input`
+              - `class CitationContentBlockLocationParam`
 
-          - `String name`
+                - `JsonValue type = "content_block_location"`
 
-            minLength: 1, maxLength: 200
+                - `String citedText`
 
-          - `Optional<CacheControlEphemeral> cacheControl`
+                  The full text of the cited block range, concatenated.
 
-            Create a cache control breakpoint at this content block.
+                  Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
 
-          - `Optional<Caller> caller`
+                - `long documentIndex`
 
-            - `class DirectCaller`
+                  minimum: 0
 
-              Tool invocation directly from the model.
+                - `Optional<String> documentTitle`
 
-              - `JsonValue type = "direct"`
+                  minLength: 1, maxLength: 500
 
-            - `class ServerToolCaller`
+                - `long endBlockIndex`
 
-              Tool invocation generated by a server-side tool.
+                  Exclusive 0-based end index of the cited block range in the source's `content` array.
 
-              - `JsonValue type = "code_execution_20250825"`
+                  Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
 
-              - `String toolId`
+                - `long startBlockIndex`
 
-                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+                  0-based index of the first cited block in the source's `content` array.
 
-            - `class ServerToolCaller20260120`
+                  minimum: 0
 
-              - `JsonValue type = "code_execution_20260120"`
+              - `class CitationWebSearchResultLocationParam`
 
-              - `String toolId`
+                - `JsonValue type = "web_search_result_location"`
 
-                pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+                - `String citedText`
 
-          - `Optional<String> toolsetName`
+                - `String encryptedIndex`
 
-            For a toolset member tool_use, the toolset family this member belongs to.
+                - `Optional<String> title`
 
-            minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+                  minLength: 1, maxLength: 512
 
-        - `class ToolResultBlockParam`
+                - `String url`
 
-          - `JsonValue type = "tool_result"`
+                  minLength: 1
 
-          - `String toolUseId`
+              - `class CitationSearchResultLocationParam`
 
-            pattern: ^[a-zA-Z0-9_-]+$
+                - `JsonValue type = "search_result_location"`
 
-          - `Optional<CacheControlEphemeral> cacheControl`
+                - `String citedText`
 
-            Create a cache control breakpoint at this content block.
+                  The full text of the cited block range, concatenated.
 
-          - `Optional<Content> content`
+                  Always equals the contents of `content[start_block_index:end_block_index]` joined together. The text block is the minimal citable unit; this field is never a substring of a single block. Not counted toward output tokens, and not counted toward input tokens when sent back in subsequent turns.
 
-            - `String`
+                - `long endBlockIndex`
 
-            - `List<Block>`
+                  Exclusive 0-based end index of the cited block range in the source's `content` array.
 
-              - `class TextBlockParam`
+                  Always greater than `start_block_index`; a single-block citation has `end_block_index = start_block_index + 1`.
 
-              - `class ImageBlockParam`
+                - `long searchResultIndex`
 
-              - `class SearchResultBlockParam`
+                  0-based index of the cited search result among all `search_result` content blocks in the request, in the order they appear across messages and tool results.
 
-              - `class DocumentBlockParam`
+                  Counted separately from `document_index`; server-side web search results are not included in this count.
 
-              - `class ToolReferenceBlockParam`
+                  minimum: 0
 
-                Tool reference block that can be included in tool_result content.
+                - `String source`
 
-                - `JsonValue type = "tool_reference"`
+                - `long startBlockIndex`
 
-                - `String toolName`
+                  0-based index of the first cited block in the source's `content` array.
 
-                  minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+                  minimum: 0
 
-                - `Optional<CacheControlEphemeral> cacheControl`
+                - `Optional<String> title`
 
-                  Create a cache control breakpoint at this content block.
+          - `class ImageBlockParam`
 
-              - `class BrowserStateBlockParam`
+            - `JsonValue type = "image"`
 
-                The caller's browser state after a browser toolset member call —
-                the full inventory of open tabs, which tab is active, and any side
-                effects (tabs opened, download state changes) the call produced.
+            - `Source source`
 
-                At most one per `tool_result`, only on a non-error result answering a
-                browser toolset member `tool_use`. The server renders the
-                model-visible text from it; the model never sees the raw fields.
+              - `class Base64ImageSource`
 
-                - `JsonValue type = "browser_state"`
+                - `JsonValue type = "base64"`
 
-                - `List<BrowserStateTabEntry> tabs`
+                - `String data`
 
-                  All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
+                  format: byte
 
-                  maxItems: 100
+                - `MediaType mediaType`
 
-                  - `String tabId`
+                  - `IMAGE_JPEG("image/jpeg")`
 
-                    The caller-assigned identifier for this tab, unique within the inventory.
+                  - `IMAGE_PNG("image/png")`
 
-                    minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                  - `IMAGE_GIF("image/gif")`
 
-                  - `String title`
+                  - `IMAGE_WEBP("image/webp")`
 
-                    The title of the page the tab is showing. May be empty.
+              - `class UrlImageSource`
 
-                    maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                - `JsonValue type = "url"`
 
-                  - `String url`
+                - `String url`
 
-                    The URL of the page the tab is showing. May be empty.
+              - `class FileImageSource`
 
-                    maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                - `JsonValue type = "file"`
 
-                  - `Optional<Boolean> active`
+                - `String fileId`
 
-                    Whether this tab is the active tab after this call. Whenever `tabs` is non-empty, exactly one entry is marked `active: true`.
+            - `Optional<CacheControlEphemeral> cacheControl`
 
-                - `Optional<CacheControlEphemeral> cacheControl`
+              Create a cache control breakpoint at this content block.
 
-                  Create a cache control breakpoint at this content block.
+            - `Optional<ImageTransformationsParam> transformations`
 
-                - `Optional<List<BrowserStateChange>> stateChanges`
+              Configures the transformations the server applies to this image before the model observes it. Each key names a condition the server transforms images for; its value selects the transformation applied. Omitted keys keep their default behavior, and an empty object is equivalent to omitting the field.
 
-                  Tabs opened and download state changes during this call. "Nothing to report" is expressed by omitting the field, never by an empty list.
+              - `Optional<OversizedImage> oversizedImage`
 
-                  minItems: 1, maxItems: 200
+                What the server does when this image exceeds the model's maximum image size. `"downsize"` (the default) scales the image down to fit, which changes the dimensions the model observes without telling you. `"error"` instead rejects the request with a 400 error naming the image's dimensions and the largest dimensions that fit, so you can scale the image deliberately — your image is never silently scaled down.
 
-                  - `class BrowserStateChangeTabOpened`
+                - `DOWNSIZE("downsize")`
 
-                    A tab this call's execution opened that remains open at its end —
-                    the creation delta of the `tabs` inventory, not an event log.
+                - `ERROR("error")`
 
-                    Carries only the `tab_id`; the tab's `title` and `url` live on its
-                    `tabs` entry, which must include the same `tab_id`. A tab opened
-                    during a failed call gets no deferred `tab_opened`; it simply appears
-                    in the next result's `tabs` inventory.
+          - `class DocumentBlockParam`
+
+            - `JsonValue type = "document"`
+
+            - `Source source`
+
+              - `class Base64PdfSource`
+
+                - `JsonValue type = "base64"`
+
+                - `String data`
+
+                  format: byte
+
+                - `JsonValue mediaType = "application/pdf"`
+
+              - `class PlainTextSource`
+
+                - `JsonValue type = "text"`
+
+                - `String data`
+
+                - `JsonValue mediaType = "text/plain"`
+
+              - `class ContentBlockSource`
+
+                - `JsonValue type = "content"`
+
+                - `Content content`
+
+                  - `String`
+
+                  - `List<ContentBlockSourceContent>`
+
+                    - `class TextBlockParam`
+
+                    - `class ImageBlockParam`
+
+              - `class UrlPdfSource`
+
+                - `JsonValue type = "url"`
+
+                - `String url`
+
+              - `class FileDocumentSource`
+
+                - `JsonValue type = "file"`
+
+                - `String fileId`
+
+            - `Optional<CacheControlEphemeral> cacheControl`
+
+              Create a cache control breakpoint at this content block.
+
+            - `Optional<CitationsConfigParam> citations`
+
+              - `Optional<Boolean> enabled`
+
+            - `Optional<String> context`
+
+              minLength: 1
+
+            - `Optional<String> title`
+
+              minLength: 1, maxLength: 500
+
+          - `class SearchResultBlockParam`
+
+            - `JsonValue type = "search_result"`
+
+            - `List<TextBlockParam> content`
+
+              - `JsonValue type = "text"`
+
+              - `String text`
+
+                minLength: 1
+
+              - `Optional<CacheControlEphemeral> cacheControl`
+
+                Create a cache control breakpoint at this content block.
+
+              - `Optional<List<TextCitationParam>> citations`
+
+            - `String source`
+
+            - `String title`
+
+            - `Optional<CacheControlEphemeral> cacheControl`
+
+              Create a cache control breakpoint at this content block.
+
+            - `Optional<CitationsConfigParam> citations`
+
+          - `class ThinkingBlockParam`
+
+            - `JsonValue type = "thinking"`
+
+            - `String signature`
+
+              The `signature` value of this thinking block, exactly as returned by the API in a previous response. Used to verify that the block was generated by Claude.
+
+              Thinking blocks must be passed back unmodified and in their original order; a modified block results in a 400 `invalid_request_error`.
+
+            - `String thinking`
+
+              The `thinking` text of this block as returned by the API.
+
+          - `class RedactedThinkingBlockParam`
+
+            - `JsonValue type = "redacted_thinking"`
+
+            - `String data`
+
+              The `data` value of this redacted thinking block, exactly as returned by the API in a previous response. Opaque and encrypted; pass it back unchanged.
+
+          - `class ToolUseBlockParam`
+
+            - `JsonValue type = "tool_use"`
+
+            - `String id`
+
+              pattern: ^[a-zA-Z0-9_-]+$
+
+            - `Input input`
+
+            - `String name`
+
+              minLength: 1, maxLength: 200
+
+            - `Optional<CacheControlEphemeral> cacheControl`
+
+              Create a cache control breakpoint at this content block.
+
+            - `Optional<Caller> caller`
+
+              - `class DirectCaller`
+
+                Tool invocation directly from the model.
+
+                - `JsonValue type = "direct"`
+
+              - `class ServerToolCaller`
+
+                Tool invocation generated by a server-side tool.
+
+                - `JsonValue type = "code_execution_20250825"`
+
+                - `String toolId`
+
+                  pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+              - `class ServerToolCaller20260120`
+
+                - `JsonValue type = "code_execution_20260120"`
+
+                - `String toolId`
+
+                  pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+            - `Optional<String> toolsetName`
+
+              For a toolset member tool_use, the toolset family this member belongs to.
+
+              minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+
+          - `class ToolResultBlockParam`
+
+            - `JsonValue type = "tool_result"`
+
+            - `String toolUseId`
+
+              pattern: ^[a-zA-Z0-9_-]+$
+
+            - `Optional<CacheControlEphemeral> cacheControl`
+
+              Create a cache control breakpoint at this content block.
+
+            - `Optional<Content> content`
+
+              - `String`
+
+              - `List<Block>`
+
+                - `class TextBlockParam`
+
+                - `class ImageBlockParam`
+
+                - `class SearchResultBlockParam`
+
+                - `class DocumentBlockParam`
+
+                - `class ToolReferenceBlockParam`
+
+                  Tool reference block that can be included in tool_result content.
+
+                  - `JsonValue type = "tool_reference"`
+
+                  - `String toolName`
+
+                    minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+
+                  - `Optional<CacheControlEphemeral> cacheControl`
+
+                    Create a cache control breakpoint at this content block.
+
+                - `class BrowserStateBlockParam`
+
+                  The caller's browser state after a browser toolset member call —
+                  the full inventory of open tabs, which tab is active, and any side
+                  effects (tabs opened, download state changes) the call produced.
+
+                  At most one per `tool_result`, only on a non-error result answering a
+                  browser toolset member `tool_use`. The server renders the
+                  model-visible text from it; the model never sees the raw fields.
+
+                  - `JsonValue type = "browser_state"`
+
+                  - `List<BrowserStateTabEntry> tabs`
+
+                    All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
+
+                    maxItems: 100
 
                     - `JsonValue type = "tab_opened"`
 
                     - `String tabId`
 
-                      The `tab_id` of the opened tab, present in `tabs`.
+                      The caller-assigned identifier for this tab, unique within the inventory.
 
                       minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                  - `class BrowserStateChangeDownloadStarted`
+                    - `String title`
 
-                    A file download that started during this call.
+                      The title of the page the tab is showing. May be empty.
 
-                    - `JsonValue type = "download_started"`
-
-                    - `String downloadId`
-
-                      The caller-assigned identifier for this download, stable across the state changes reporting it.
-
-                      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
                     - `String url`
 
-                      The final post-redirect URL the download was served from.
+                      The URL of the page the tab is showing. May be empty.
 
                       maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                  - `class BrowserStateChangeDownloadCompleted`
+                    - `Optional<Boolean> active`
 
-                    A file download that finished during this call, reported with the
-                    same `download_id` as its `download_started` — or without a prior
-                    `download_started`, when the download finished during the call that
-                    started it (at most one state change per `download_id` per result).
+                      Whether this tab is the active tab after this call. Whenever `tabs` is non-empty, exactly one entry is marked `active: true`.
 
-                    - `JsonValue type = "download_completed"`
+                  - `Optional<CacheControlEphemeral> cacheControl`
 
-                    - `String downloadId`
+                    Create a cache control breakpoint at this content block.
 
-                      The caller-assigned identifier for this download, stable across the state changes reporting it.
+                  - `Optional<List<BrowserStateChange>> stateChanges`
 
-                      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                    Tabs opened and download state changes during this call. "Nothing to report" is expressed by omitting the field, never by an empty list.
 
-                    - `String url`
+                    minItems: 1, maxItems: 200
 
-                      The final post-redirect URL the download was served from.
+                    - `class BrowserStateChangeTabOpened`
 
-                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                      A tab this call's execution opened that remains open at its end —
+                      the creation delta of the `tabs` inventory, not an event log.
 
-                    - `Optional<String> path`
+                      Carries only the `tab_id`; the tab's `title` and `url` live on its
+                      `tabs` entry, which must include the same `tab_id`. A tab opened
+                      during a failed call gets no deferred `tab_opened`; it simply appears
+                      in the next result's `tabs` inventory.
 
-                      Where the executor saved the file, on the executor's filesystem. Only included when another tool in the same environment can read the file at that path.
+                      - `JsonValue type = "tab_opened"`
 
-                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                      - `String tabId`
 
-                    - `Optional<Long> sizeBytes`
+                        The `tab_id` of the opened tab, present in `tabs`.
 
-                      The completed download's size.
+                        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                      minimum: 0
+                    - `class BrowserStateChangeDownloadStarted`
 
-                  - `class BrowserStateChangeDownloadFailed`
+                      A file download that started during this call.
 
-                    A file download that failed — or was cancelled — during this call.
+                      - `JsonValue type = "download_started"`
 
-                    - `JsonValue type = "download_failed"`
+                      - `String downloadId`
 
-                    - `String downloadId`
+                        The caller-assigned identifier for this download, stable across the state changes reporting it.
 
-                      The caller-assigned identifier for this download, stable across the state changes reporting it.
+                        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                      - `String url`
 
-                    - `String url`
+                        The final post-redirect URL the download was served from.
 
-                      The final post-redirect URL the download was served from.
+                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                    - `class BrowserStateChangeDownloadCompleted`
 
-                    - `Optional<String> error`
+                      A file download that finished during this call, reported with the
+                      same `download_id` as its `download_started` — or without a prior
+                      `download_started`, when the download finished during the call that
+                      started it (at most one state change per `download_id` per result).
 
-                      The failure or cancellation detail, when known.
+                      - `JsonValue type = "download_completed"`
 
-                      maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+                      - `String downloadId`
 
-          - `Optional<Boolean> isError`
+                        The caller-assigned identifier for this download, stable across the state changes reporting it.
 
-          - `Optional<String> toolsetName`
+                        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-            For a toolset member tool_result, the toolset family of the paired tool_use.
+                      - `String url`
 
-            minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+                        The final post-redirect URL the download was served from.
 
-        - `class ServerToolUseBlockParam`
+                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-          - `JsonValue type = "server_tool_use"`
+                      - `Optional<String> path`
 
-          - `String id`
+                        Where the executor saved the file, on the executor's filesystem. Only included when another tool in the same environment can read the file at that path.
 
-            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
 
-          - `Input input`
+                      - `Optional<Long> sizeBytes`
 
-          - `Name name`
+                        The completed download's size.
 
-            - `WEB_SEARCH("web_search")`
+                        minimum: 0
 
-            - `WEB_FETCH("web_fetch")`
+                    - `class BrowserStateChangeDownloadFailed`
 
-            - `CODE_EXECUTION("code_execution")`
+                      A file download that failed — or was cancelled — during this call.
 
-            - `BASH_CODE_EXECUTION("bash_code_execution")`
+                      - `JsonValue type = "download_failed"`
 
-            - `TEXT_EDITOR_CODE_EXECUTION("text_editor_code_execution")`
+                      - `String downloadId`
 
-            - `TOOL_SEARCH_TOOL_REGEX("tool_search_tool_regex")`
+                        The caller-assigned identifier for this download, stable across the state changes reporting it.
 
-            - `TOOL_SEARCH_TOOL_BM25("tool_search_tool_bm25")`
+                        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+
+                      - `String url`
+
+                        The final post-redirect URL the download was served from.
+
+                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+
+                      - `Optional<String> error`
+
+                        The failure or cancellation detail, when known.
+
+                        maxLength: 4096, pattern: ^[^\x00-\x1f\x7f-\x9f\u2028\u2029]*$
+
+            - `Optional<Boolean> isError`
+
+            - `Optional<String> toolsetName`
+
+              For a toolset member tool_result, the toolset family of the paired tool_use.
+
+              minLength: 1, maxLength: 64, pattern: ^[a-zA-Z0-9_-]+$
+
+          - `class ServerToolUseBlockParam`
+
+            - `JsonValue type = "server_tool_use"`
+
+            - `String id`
+
+              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+            - `Input input`
+
+            - `Name name`
+
+              - `WEB_SEARCH("web_search")`
+
+              - `WEB_FETCH("web_fetch")`
+
+              - `CODE_EXECUTION("code_execution")`
+
+              - `BASH_CODE_EXECUTION("bash_code_execution")`
+
+              - `TEXT_EDITOR_CODE_EXECUTION("text_editor_code_execution")`
+
+              - `TOOL_SEARCH_TOOL_REGEX("tool_search_tool_regex")`
+
+              - `TOOL_SEARCH_TOOL_BM25("tool_search_tool_bm25")`
+
+            - `Optional<CacheControlEphemeral> cacheControl`
+
+              Create a cache control breakpoint at this content block.
+
+            - `Optional<Caller> caller`
+
+              - `class DirectCaller`
+
+                Tool invocation directly from the model.
+
+              - `class ServerToolCaller`
+
+                Tool invocation generated by a server-side tool.
+
+              - `class ServerToolCaller20260120`
+
+          - `class WebSearchToolResultBlockParam`
+
+            - `JsonValue type = "web_search_tool_result"`
+
+            - `WebSearchToolResultBlockParamContent content`
+
+              - `List<WebSearchResultBlockParam>`
+
+                - `JsonValue type = "web_search_result"`
+
+                - `String encryptedContent`
+
+                - `String title`
+
+                - `String url`
+
+                - `Optional<String> pageAge`
+
+              - `class WebSearchToolRequestError`
+
+                - `JsonValue type = "web_search_tool_result_error"`
+
+                - `WebSearchToolResultErrorCode errorCode`
+
+                  - `INVALID_TOOL_INPUT("invalid_tool_input")`
+
+                  - `UNAVAILABLE("unavailable")`
+
+                  - `MAX_USES_EXCEEDED("max_uses_exceeded")`
+
+                  - `TOO_MANY_REQUESTS("too_many_requests")`
+
+                  - `QUERY_TOO_LONG("query_too_long")`
+
+                  - `REQUEST_TOO_LARGE("request_too_large")`
+
+            - `String toolUseId`
+
+              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+            - `Optional<CacheControlEphemeral> cacheControl`
+
+              Create a cache control breakpoint at this content block.
+
+            - `Optional<Caller> caller`
+
+              - `class DirectCaller`
+
+                Tool invocation directly from the model.
+
+              - `class ServerToolCaller`
+
+                Tool invocation generated by a server-side tool.
+
+              - `class ServerToolCaller20260120`
+
+          - `class WebFetchToolResultBlockParam`
+
+            - `JsonValue type = "web_fetch_tool_result"`
+
+            - `Content content`
+
+              - `class WebFetchToolResultErrorBlockParam`
+
+                - `JsonValue type = "web_fetch_tool_result_error"`
+
+                - `WebFetchToolResultErrorCode errorCode`
+
+                  - `INVALID_TOOL_INPUT("invalid_tool_input")`
+
+                  - `URL_TOO_LONG("url_too_long")`
+
+                  - `URL_NOT_ALLOWED("url_not_allowed")`
+
+                  - `URL_NOT_IN_PRIOR_CONTEXT("url_not_in_prior_context")`
+
+                  - `URL_NOT_ACCESSIBLE("url_not_accessible")`
+
+                  - `UNSUPPORTED_CONTENT_TYPE("unsupported_content_type")`
+
+                  - `TOO_MANY_REQUESTS("too_many_requests")`
+
+                  - `MAX_USES_EXCEEDED("max_uses_exceeded")`
+
+                  - `UNAVAILABLE("unavailable")`
+
+                  - `CONTENT_TOO_LARGE("content_too_large")`
+
+              - `class WebFetchBlockParam`
+
+                - `JsonValue type = "web_fetch_result"`
+
+                - `DocumentBlockParam content`
+
+                - `String url`
+
+                  Fetched content URL
+
+                - `Optional<String> retrievedAt`
+
+                  ISO 8601 timestamp when the content was retrieved
+
+            - `String toolUseId`
+
+              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+            - `Optional<CacheControlEphemeral> cacheControl`
+
+              Create a cache control breakpoint at this content block.
+
+            - `Optional<Caller> caller`
+
+              - `class DirectCaller`
+
+                Tool invocation directly from the model.
+
+              - `class ServerToolCaller`
+
+                Tool invocation generated by a server-side tool.
+
+              - `class ServerToolCaller20260120`
+
+          - `class CodeExecutionToolResultBlockParam`
+
+            - `JsonValue type = "code_execution_tool_result"`
+
+            - `CodeExecutionToolResultBlockParamContent content`
+
+              - `class CodeExecutionToolResultErrorParam`
+
+                - `JsonValue type = "code_execution_tool_result_error"`
+
+                - `CodeExecutionToolResultErrorCode errorCode`
+
+                  - `INVALID_TOOL_INPUT("invalid_tool_input")`
+
+                  - `UNAVAILABLE("unavailable")`
+
+                  - `TOO_MANY_REQUESTS("too_many_requests")`
+
+                  - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
+
+              - `class CodeExecutionResultBlockParam`
+
+                - `JsonValue type = "code_execution_result"`
+
+                - `List<CodeExecutionOutputBlockParam> content`
+
+                  - `JsonValue type = "code_execution_output"`
+
+                  - `String fileId`
+
+                - `long returnCode`
+
+                - `String stderr`
+
+                - `String stdout`
+
+              - `class EncryptedCodeExecutionResultBlockParam`
+
+                The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
+
+                - `JsonValue type = "encrypted_code_execution_result"`
+
+                - `List<CodeExecutionOutputBlockParam> content`
+
+                  - `JsonValue type = "code_execution_output"`
+
+                  - `String fileId`
+
+                - `String encryptedStdout`
+
+                - `long returnCode`
+
+                - `String stderr`
+
+            - `String toolUseId`
+
+              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+            - `Optional<CacheControlEphemeral> cacheControl`
+
+              Create a cache control breakpoint at this content block.
+
+          - `class BashCodeExecutionToolResultBlockParam`
+
+            - `JsonValue type = "bash_code_execution_tool_result"`
+
+            - `Content content`
+
+              - `class BashCodeExecutionToolResultErrorParam`
+
+                - `JsonValue type = "bash_code_execution_tool_result_error"`
+
+                - `BashCodeExecutionToolResultErrorCode errorCode`
+
+                  - `INVALID_TOOL_INPUT("invalid_tool_input")`
+
+                  - `UNAVAILABLE("unavailable")`
+
+                  - `TOO_MANY_REQUESTS("too_many_requests")`
+
+                  - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
+
+                  - `OUTPUT_FILE_TOO_LARGE("output_file_too_large")`
+
+              - `class BashCodeExecutionResultBlockParam`
+
+                - `JsonValue type = "bash_code_execution_result"`
+
+                - `List<BashCodeExecutionOutputBlockParam> content`
+
+                  - `JsonValue type = "bash_code_execution_output"`
+
+                  - `String fileId`
+
+                - `long returnCode`
+
+                - `String stderr`
+
+                - `String stdout`
+
+            - `String toolUseId`
+
+              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+            - `Optional<CacheControlEphemeral> cacheControl`
+
+              Create a cache control breakpoint at this content block.
+
+          - `class TextEditorCodeExecutionToolResultBlockParam`
+
+            - `JsonValue type = "text_editor_code_execution_tool_result"`
+
+            - `Content content`
+
+              - `class TextEditorCodeExecutionToolResultErrorParam`
+
+                - `JsonValue type = "text_editor_code_execution_tool_result_error"`
+
+                - `TextEditorCodeExecutionToolResultErrorCode errorCode`
+
+                  - `INVALID_TOOL_INPUT("invalid_tool_input")`
+
+                  - `UNAVAILABLE("unavailable")`
+
+                  - `TOO_MANY_REQUESTS("too_many_requests")`
+
+                  - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
+
+                  - `FILE_NOT_FOUND("file_not_found")`
+
+                - `Optional<String> errorMessage`
+
+              - `class TextEditorCodeExecutionViewResultBlockParam`
+
+                - `JsonValue type = "text_editor_code_execution_view_result"`
+
+                - `String content`
+
+                - `FileType fileType`
+
+                  - `TEXT("text")`
+
+                  - `IMAGE("image")`
+
+                  - `PDF("pdf")`
+
+                - `Optional<Long> numLines`
+
+                - `Optional<Long> startLine`
+
+                - `Optional<Long> totalLines`
+
+              - `class TextEditorCodeExecutionCreateResultBlockParam`
+
+                - `JsonValue type = "text_editor_code_execution_create_result"`
+
+                - `boolean isFileUpdate`
+
+              - `class TextEditorCodeExecutionStrReplaceResultBlockParam`
+
+                - `JsonValue type = "text_editor_code_execution_str_replace_result"`
+
+                - `Optional<List<String>> lines`
+
+                - `Optional<Long> newLines`
+
+                - `Optional<Long> newStart`
+
+                - `Optional<Long> oldLines`
+
+                - `Optional<Long> oldStart`
+
+            - `String toolUseId`
+
+              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+            - `Optional<CacheControlEphemeral> cacheControl`
+
+              Create a cache control breakpoint at this content block.
+
+          - `class ToolSearchToolResultBlockParam`
+
+            - `JsonValue type = "tool_search_tool_result"`
+
+            - `Content content`
+
+              - `class ToolSearchToolResultErrorParam`
+
+                - `JsonValue type = "tool_search_tool_result_error"`
+
+                - `ToolSearchToolResultErrorCode errorCode`
+
+                  - `INVALID_TOOL_INPUT("invalid_tool_input")`
+
+                  - `UNAVAILABLE("unavailable")`
+
+                  - `TOO_MANY_REQUESTS("too_many_requests")`
+
+                  - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
+
+                - `Optional<String> errorMessage`
+
+              - `class ToolSearchToolSearchResultBlockParam`
+
+                - `JsonValue type = "tool_search_tool_search_result"`
+
+                - `List<ToolReferenceBlockParam> toolReferences`
+
+                  - `JsonValue type = "tool_reference"`
+
+                  - `String toolName`
+
+                    minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
+
+                  - `Optional<CacheControlEphemeral> cacheControl`
+
+                    Create a cache control breakpoint at this content block.
+
+            - `String toolUseId`
+
+              pattern: ^srvtoolu_[a-zA-Z0-9_]+$
+
+            - `Optional<CacheControlEphemeral> cacheControl`
+
+              Create a cache control breakpoint at this content block.
+
+          - `class ContainerUploadBlockParam`
+
+            A content block that represents a file to be uploaded to the container
+            Files uploaded via this block will be available in the container's input directory.
+
+            - `JsonValue type = "container_upload"`
+
+            - `String fileId`
+
+            - `Optional<CacheControlEphemeral> cacheControl`
+
+              Create a cache control breakpoint at this content block.
+
+      - `JsonValue role = "user"`
+
+    - `class AssistantMessageParam`
+
+      - `MessageContentParam content`
+
+      - `JsonValue role = "assistant"`
+
+    - `class SystemMessageParam`
+
+      - `Content content`
+
+        - `String`
+
+        - `List<TextBlockParam>`
+
+          - `JsonValue type = "text"`
+
+          - `String text`
+
+            minLength: 1
 
           - `Optional<CacheControlEphemeral> cacheControl`
 
             Create a cache control breakpoint at this content block.
 
-          - `Optional<Caller> caller`
+          - `Optional<List<TextCitationParam>> citations`
 
-            - `class DirectCaller`
-
-              Tool invocation directly from the model.
-
-            - `class ServerToolCaller`
-
-              Tool invocation generated by a server-side tool.
-
-            - `class ServerToolCaller20260120`
-
-        - `class WebSearchToolResultBlockParam`
-
-          - `JsonValue type = "web_search_tool_result"`
-
-          - `WebSearchToolResultBlockParamContent content`
-
-            - `List<WebSearchResultBlockParam>`
-
-              - `JsonValue type = "web_search_result"`
-
-              - `String encryptedContent`
-
-              - `String title`
-
-              - `String url`
-
-              - `Optional<String> pageAge`
-
-            - `class WebSearchToolRequestError`
-
-              - `JsonValue type = "web_search_tool_result_error"`
-
-              - `WebSearchToolResultErrorCode errorCode`
-
-                - `INVALID_TOOL_INPUT("invalid_tool_input")`
-
-                - `UNAVAILABLE("unavailable")`
-
-                - `MAX_USES_EXCEEDED("max_uses_exceeded")`
-
-                - `TOO_MANY_REQUESTS("too_many_requests")`
-
-                - `QUERY_TOO_LONG("query_too_long")`
-
-                - `REQUEST_TOO_LARGE("request_too_large")`
-
-          - `String toolUseId`
-
-            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-          - `Optional<CacheControlEphemeral> cacheControl`
-
-            Create a cache control breakpoint at this content block.
-
-          - `Optional<Caller> caller`
-
-            - `class DirectCaller`
-
-              Tool invocation directly from the model.
-
-            - `class ServerToolCaller`
-
-              Tool invocation generated by a server-side tool.
-
-            - `class ServerToolCaller20260120`
-
-        - `class WebFetchToolResultBlockParam`
-
-          - `JsonValue type = "web_fetch_tool_result"`
-
-          - `Content content`
-
-            - `class WebFetchToolResultErrorBlockParam`
-
-              - `JsonValue type = "web_fetch_tool_result_error"`
-
-              - `WebFetchToolResultErrorCode errorCode`
-
-                - `INVALID_TOOL_INPUT("invalid_tool_input")`
-
-                - `URL_TOO_LONG("url_too_long")`
-
-                - `URL_NOT_ALLOWED("url_not_allowed")`
-
-                - `URL_NOT_IN_PRIOR_CONTEXT("url_not_in_prior_context")`
-
-                - `URL_NOT_ACCESSIBLE("url_not_accessible")`
-
-                - `UNSUPPORTED_CONTENT_TYPE("unsupported_content_type")`
-
-                - `TOO_MANY_REQUESTS("too_many_requests")`
-
-                - `MAX_USES_EXCEEDED("max_uses_exceeded")`
-
-                - `UNAVAILABLE("unavailable")`
-
-                - `CONTENT_TOO_LARGE("content_too_large")`
-
-            - `class WebFetchBlockParam`
-
-              - `JsonValue type = "web_fetch_result"`
-
-              - `DocumentBlockParam content`
-
-              - `String url`
-
-                Fetched content URL
-
-              - `Optional<String> retrievedAt`
-
-                ISO 8601 timestamp when the content was retrieved
-
-          - `String toolUseId`
-
-            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-          - `Optional<CacheControlEphemeral> cacheControl`
-
-            Create a cache control breakpoint at this content block.
-
-          - `Optional<Caller> caller`
-
-            - `class DirectCaller`
-
-              Tool invocation directly from the model.
-
-            - `class ServerToolCaller`
-
-              Tool invocation generated by a server-side tool.
-
-            - `class ServerToolCaller20260120`
-
-        - `class CodeExecutionToolResultBlockParam`
-
-          - `JsonValue type = "code_execution_tool_result"`
-
-          - `CodeExecutionToolResultBlockParamContent content`
-
-            - `class CodeExecutionToolResultErrorParam`
-
-              - `JsonValue type = "code_execution_tool_result_error"`
-
-              - `CodeExecutionToolResultErrorCode errorCode`
-
-                - `INVALID_TOOL_INPUT("invalid_tool_input")`
-
-                - `UNAVAILABLE("unavailable")`
-
-                - `TOO_MANY_REQUESTS("too_many_requests")`
-
-                - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
-
-            - `class CodeExecutionResultBlockParam`
-
-              - `JsonValue type = "code_execution_result"`
-
-              - `List<CodeExecutionOutputBlockParam> content`
-
-                - `JsonValue type = "code_execution_output"`
-
-                - `String fileId`
-
-              - `long returnCode`
-
-              - `String stderr`
-
-              - `String stdout`
-
-            - `class EncryptedCodeExecutionResultBlockParam`
-
-              Code execution result with encrypted stdout for PFC + web_search results.
-
-              - `JsonValue type = "encrypted_code_execution_result"`
-
-              - `List<CodeExecutionOutputBlockParam> content`
-
-                - `JsonValue type = "code_execution_output"`
-
-                - `String fileId`
-
-              - `String encryptedStdout`
-
-              - `long returnCode`
-
-              - `String stderr`
-
-          - `String toolUseId`
-
-            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-          - `Optional<CacheControlEphemeral> cacheControl`
-
-            Create a cache control breakpoint at this content block.
-
-        - `class BashCodeExecutionToolResultBlockParam`
-
-          - `JsonValue type = "bash_code_execution_tool_result"`
-
-          - `Content content`
-
-            - `class BashCodeExecutionToolResultErrorParam`
-
-              - `JsonValue type = "bash_code_execution_tool_result_error"`
-
-              - `BashCodeExecutionToolResultErrorCode errorCode`
-
-                - `INVALID_TOOL_INPUT("invalid_tool_input")`
-
-                - `UNAVAILABLE("unavailable")`
-
-                - `TOO_MANY_REQUESTS("too_many_requests")`
-
-                - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
-
-                - `OUTPUT_FILE_TOO_LARGE("output_file_too_large")`
-
-            - `class BashCodeExecutionResultBlockParam`
-
-              - `JsonValue type = "bash_code_execution_result"`
-
-              - `List<BashCodeExecutionOutputBlockParam> content`
-
-                - `JsonValue type = "bash_code_execution_output"`
-
-                - `String fileId`
-
-              - `long returnCode`
-
-              - `String stderr`
-
-              - `String stdout`
-
-          - `String toolUseId`
-
-            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-          - `Optional<CacheControlEphemeral> cacheControl`
-
-            Create a cache control breakpoint at this content block.
-
-        - `class TextEditorCodeExecutionToolResultBlockParam`
-
-          - `JsonValue type = "text_editor_code_execution_tool_result"`
-
-          - `Content content`
-
-            - `class TextEditorCodeExecutionToolResultErrorParam`
-
-              - `JsonValue type = "text_editor_code_execution_tool_result_error"`
-
-              - `TextEditorCodeExecutionToolResultErrorCode errorCode`
-
-                - `INVALID_TOOL_INPUT("invalid_tool_input")`
-
-                - `UNAVAILABLE("unavailable")`
-
-                - `TOO_MANY_REQUESTS("too_many_requests")`
-
-                - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
-
-                - `FILE_NOT_FOUND("file_not_found")`
-
-              - `Optional<String> errorMessage`
-
-            - `class TextEditorCodeExecutionViewResultBlockParam`
-
-              - `JsonValue type = "text_editor_code_execution_view_result"`
-
-              - `String content`
-
-              - `FileType fileType`
-
-                - `TEXT("text")`
-
-                - `IMAGE("image")`
-
-                - `PDF("pdf")`
-
-              - `Optional<Long> numLines`
-
-              - `Optional<Long> startLine`
-
-              - `Optional<Long> totalLines`
-
-            - `class TextEditorCodeExecutionCreateResultBlockParam`
-
-              - `JsonValue type = "text_editor_code_execution_create_result"`
-
-              - `boolean isFileUpdate`
-
-            - `class TextEditorCodeExecutionStrReplaceResultBlockParam`
-
-              - `JsonValue type = "text_editor_code_execution_str_replace_result"`
-
-              - `Optional<List<String>> lines`
-
-              - `Optional<Long> newLines`
-
-              - `Optional<Long> newStart`
-
-              - `Optional<Long> oldLines`
-
-              - `Optional<Long> oldStart`
-
-          - `String toolUseId`
-
-            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-          - `Optional<CacheControlEphemeral> cacheControl`
-
-            Create a cache control breakpoint at this content block.
-
-        - `class ToolSearchToolResultBlockParam`
-
-          - `JsonValue type = "tool_search_tool_result"`
-
-          - `Content content`
-
-            - `class ToolSearchToolResultErrorParam`
-
-              - `JsonValue type = "tool_search_tool_result_error"`
-
-              - `ToolSearchToolResultErrorCode errorCode`
-
-                - `INVALID_TOOL_INPUT("invalid_tool_input")`
-
-                - `UNAVAILABLE("unavailable")`
-
-                - `TOO_MANY_REQUESTS("too_many_requests")`
-
-                - `EXECUTION_TIME_EXCEEDED("execution_time_exceeded")`
-
-              - `Optional<String> errorMessage`
-
-            - `class ToolSearchToolSearchResultBlockParam`
-
-              - `JsonValue type = "tool_search_tool_search_result"`
-
-              - `List<ToolReferenceBlockParam> toolReferences`
-
-                - `JsonValue type = "tool_reference"`
-
-                - `String toolName`
-
-                  minLength: 1, maxLength: 256, pattern: ^[a-zA-Z0-9_-]{1,256}$
-
-                - `Optional<CacheControlEphemeral> cacheControl`
-
-                  Create a cache control breakpoint at this content block.
-
-          - `String toolUseId`
-
-            pattern: ^srvtoolu_[a-zA-Z0-9_]+$
-
-          - `Optional<CacheControlEphemeral> cacheControl`
-
-            Create a cache control breakpoint at this content block.
-
-        - `class ContainerUploadBlockParam`
-
-          A content block that represents a file to be uploaded to the container
-          Files uploaded via this block will be available in the container's input directory.
-
-          - `JsonValue type = "container_upload"`
-
-          - `String fileId`
-
-          - `Optional<CacheControlEphemeral> cacheControl`
-
-            Create a cache control breakpoint at this content block.
-
-    - `Role role`
-
-      - `USER("user")`
-
-      - `ASSISTANT("assistant")`
-
-      - `SYSTEM("system")`
+      - `JsonValue role = "system"`
 
   - `Model model`
 
@@ -1108,6 +1142,16 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
     - `AUTO("auto")`
 
     - `STANDARD_ONLY("standard_only")`
+
+  - `Optional<Speed> speed`
+
+    The inference speed mode for this request. `"fast"` enables high output-tokens-per-second inference.
+
+    Some models require the `fast-mode-2026-02-01` beta header for any `speed` value. See [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode?sdk_languages=java) for which models.
+
+    - `STANDARD("standard")`
+
+    - `FAST("fast")`
 
   - `Optional<List<String>> stopSequences`
 
@@ -1373,7 +1417,11 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     - `class CodeExecutionTool20260120`
 
-      Code execution tool with REPL state persistence (daemon mode + gVisor checkpoint).
+      A `tools` entry for the code execution tool, version `code_execution_20260120`. It adds REPL state persistence to version `code_execution_20250825`.
+
+      REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
+
+      See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=java#tool-versions) to learn what each tool version adds.
 
       - `JsonValue type = "code_execution_20260120"`
 
@@ -2791,42 +2839,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         When true, guarantees schema validation on tool names and inputs
 
-  - `Optional<Double> temperature`
-
-    **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting temperature. A value of 1.0 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-    Amount of randomness injected into the response.
-
-    Defaults to `1.0`. Ranges from `0.0` to `1.0`. Use `temperature` closer to `0.0` for analytical / multiple choice, and closer to `1.0` for creative and generative tasks.
-
-    Note that even with `temperature` of `0.0`, the results will not be fully deterministic.
-
-    minimum: 0, maximum: 1
-
-  - `Optional<Long> topK`
-
-    **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not accept top_k; any value will be rejected with a 400 error.
-
-    Only sample from the top K options for each subsequent token.
-
-    Used to remove "long tail" low probability responses. [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-
-    Recommended for advanced use cases only.
-
-    minimum: 0
-
-  - `Optional<Double> topP`
-
-    **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting top_p. A value >= 0.99 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-    Use nucleus sampling.
-
-    In nucleus sampling, we compute the cumulative distribution over all the options for each subsequent token in decreasing probability order and cut it off once it reaches a particular probability specified by `top_p`.
-
-    Recommended for advanced use cases only.
-
-    minimum: 0, maximum: 1
-
 ## Returns
 
 - `class Message`
@@ -2853,7 +2865,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       Identifier for the container used in this request
 
-    - `LocalDateTime expiresAt`
+    - `OffsetDateTime expiresAt`
 
       The time at which the container will expire.
 
@@ -3338,7 +3350,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         - `class EncryptedCodeExecutionResultBlock`
 
-          Code execution result with encrypted stdout for PFC + web_search results.
+          The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+          The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+          See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=java) to learn more about programmatic tool calling.
+
+          - `JsonValue type = "encrypted_code_execution_result"`
 
           - `JsonValue type = "encrypted_code_execution_result"`
 
@@ -3524,6 +3542,10 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `class CacheMissModelChanged`
 
+        A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=java#cache-miss-reason-types) to learn what to change for each reason.
+
         - `JsonValue type = "model_changed"`
 
         - `long cacheMissedInputTokens`
@@ -3531,6 +3553,10 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
       - `class CacheMissSystemChanged`
+
+        A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=java#cache-miss-reason-types) to learn what to change for each reason.
 
         - `JsonValue type = "system_changed"`
 
@@ -3540,6 +3566,10 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `class CacheMissToolsChanged`
 
+        A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=java#cache-miss-reason-types) to learn what to change for each reason.
+
         - `JsonValue type = "tools_changed"`
 
         - `long cacheMissedInputTokens`
@@ -3547,6 +3577,10 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
       - `class CacheMissMessagesChanged`
+
+        A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=java#cache-miss-reason-types) to learn what to change for each reason.
 
         - `JsonValue type = "messages_changed"`
 
@@ -3556,9 +3590,21 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
       - `class CacheMissPreviousMessageNotFound`
 
+        A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+        This doesn't mean that this request changed.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=java#cache-miss-reason-types) to learn what to change for each reason.
+
         - `JsonValue type = "previous_message_not_found"`
 
       - `class CacheMissUnavailable`
+
+        A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+        This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+        See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=java#cache-miss-reason-types) to learn what to change for each reason.
 
         - `JsonValue type = "unavailable"`
 
@@ -3567,6 +3613,14 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
     The model that will complete your prompt.
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+    - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+      Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+    - `CLAUDE_MYTHOS_5_2("claude-mythos-5-2")`
+
+      Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
     - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -3803,8 +3857,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
         the thinking-block delimiter tokens.
 
         Reflects the raw reasoning the model produced, not the (possibly shorter)
-        summarized thinking text returned in the response body. Computed by
-        re-tokenizing the raw reasoning text, so it may differ from the model's exact
+        summarized thinking text returned in the response body. It may differ from the model's exact
         generation count by a small number of tokens. Always ≤ `output_tokens`;
         `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -3835,6 +3888,14 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       - `PRIORITY("priority")`
 
       - `BATCH("batch")`
+
+    - `Optional<Speed> speed`
+
+      The inference speed mode used for this request.
+
+      - `STANDARD("standard")`
+
+      - `FAST("fast")`
 
 - `class RawMessageStreamEvent: union`
 
@@ -4102,7 +4163,8 @@ public final class Main {
       "web_fetch_requests": 2,
       "web_search_requests": 0
     },
-    "service_tier": "standard"
+    "service_tier": "standard",
+    "speed": "standard"
   }
 }
 ```

@@ -19,27 +19,27 @@ Create a new environment with the specified configuration.
 
   Human-readable name for the environment
 
-- `config?:optional Config`
+- `config?: optional Config`
 
   Environment configuration
 
-- `description?:optional string`
+- `description?: optional string`
 
   Optional description of the environment
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   User-provided metadata key-value pairs
 
-- `scope?:optional Scope`
+- `scope?: optional Scope`
 
   The visibility scope for this environment. 'organization' makes the environment visible to all accounts. 'account' restricts visibility to the owning account only. API organizations support only 'organization'; 'account' is rejected. If not specified, defaults based on organization type.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -95,6 +95,9 @@ Create a new environment with the specified configuration.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -187,27 +190,27 @@ List environments with pagination support.
 
 ### Parameters
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   Include archived environments in the response
 
   default: false
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of environments to return
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from previous response for pagination. Pass the `next_page` value from the previous response.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -263,6 +266,9 @@ List environments with pagination support.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -343,11 +349,11 @@ Retrieve a specific environment by ID.
 
 - `environmentID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -403,6 +409,9 @@ Retrieve a specific environment by ID.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -476,31 +485,31 @@ Update an existing environment's configuration.
 
 - `environmentID: string` (path parameter)
 
-- `config?:optional Config`
+- `config?: optional Config`
 
   Updated environment configuration
 
-- `description?:optional string`
+- `description?: optional string`
 
   Updated description of the environment. Omit to preserve; null clears to null; an empty string is stored as an empty string.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   User-provided metadata key-value pairs. Set a value to null or empty string to delete the key.
 
-- `name?:optional string`
+- `name?: optional string`
 
   Updated name for the environment
 
-- `scope?:optional Scope`
+- `scope?: optional Scope`
 
   The visibility scope for this environment. 'organization' makes the environment visible to all accounts. 'account' restricts visibility to the owning account only.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -556,6 +565,9 @@ Update an existing environment's configuration.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -651,11 +663,11 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
 - `environmentID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -665,7 +677,7 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
 - `class BetaEnvironmentDeleteResponse`
 
-  - `Type type`
+  - `"environment_deleted" type`
 
     The type of response
 
@@ -679,6 +691,9 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -712,11 +727,11 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
 - `environmentID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -772,6 +787,9 @@ Archive an environment by ID. Archived environments cannot be used to create new
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -911,13 +929,53 @@ var_dump($betaEnvironment);
 
     The visibility scope for this environment. 'organization' means visible to all accounts. 'account' means visible only to the owning account.
 
+### Beta Environment Archived Error Details
+
+- `class BetaEnvironmentArchivedErrorDetails`
+
+  - `"environment_archived" errorCode`
+
+### Beta Environment Create Disabled Error Details
+
+- `class BetaEnvironmentCreateDisabledErrorDetails`
+
+  - `"environment_create_disabled" errorCode`
+
 ### Beta Environment Delete Response
 
 - `class BetaEnvironmentDeleteResponse`
 
-  - `Type type`
+  - `"environment_deleted" type`
 
     The type of response
+
+  - `string id`
+
+    Environment identifier
+
+### Beta Environment Not Found Error Details
+
+- `class BetaEnvironmentNotFoundErrorDetails`
+
+  - `"environment_not_found" errorCode`
+
+### Beta Environment Update Disabled Error Details
+
+- `class BetaEnvironmentUpdateDisabledErrorDetails`
+
+  - `"environment_update_disabled" errorCode`
+
+### Beta Invalid Config Type Change Error Details
+
+- `class BetaInvalidConfigTypeChangeErrorDetails`
+
+  - `"invalid_config_type_change" errorCode`
+
+### Beta Invalid Metadata Error Details
+
+- `class BetaInvalidMetadataErrorDetails`
+
+  - `"invalid_metadata" errorCode`
 
   - `string id`
 
@@ -1069,11 +1127,11 @@ Retrieve detailed information about a specific work item.
 
 - `workID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1142,6 +1200,9 @@ Retrieve detailed information about a specific work item.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSelfHostedWork = $client->beta->environments->work->retrieve(
@@ -1193,19 +1254,19 @@ Long poll for work items in the queue.
 
 - `environmentID: string` (path parameter)
 
-- `blockMs?:optional int` (query parameter)
+- `blockMs?: optional int` (query parameter)
 
   How long to wait for work to arrive before returning. Must be 1-999 in milliseconds. Defaults to non-blocking (returns immediately if no work is available).
 
-- `reclaimOlderThanMs?:optional int` (query parameter)
+- `reclaimOlderThanMs?: optional int` (query parameter)
 
   Reclaim unacknowledged work items older than this many milliseconds. If omitted, uses the default (5000ms).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `anthropicWorkerID?:optional string` (header parameter)
+- `anthropicWorkerID?: optional string` (header parameter)
 
   Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
 
@@ -1272,6 +1333,9 @@ Long poll for work items in the queue.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSelfHostedWork = $client->beta->environments->work->poll(
@@ -1326,7 +1390,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
 - `workID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -1393,6 +1457,9 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSelfHostedWork = $client->beta->environments->work->ack(
@@ -1445,15 +1512,15 @@ Record a heartbeat for a work item to maintain the lease.
 
 - `workID: string` (path parameter)
 
-- `desiredTTLSeconds?:optional int` (query parameter)
+- `desiredTTLSeconds?: optional int` (query parameter)
 
   Desired TTL in seconds
 
-- `expectedLastHeartbeat?:optional string` (query parameter)
+- `expectedLastHeartbeat?: optional string` (query parameter)
 
-  Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match.
+  Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match. The server does not compare the value when the work item is 'stopping' or 'stopped'.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -1467,7 +1534,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `string lastHeartbeat`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `bool leaseExtended`
 
@@ -1487,6 +1554,9 @@ Record a heartbeat for a work item to maintain the lease.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -1533,17 +1603,17 @@ Stop a work item, initiating graceful or forced shutdown.
 
 - `workID: string` (path parameter)
 
-- `force?:optional bool`
+- `force?: optional bool`
 
   If true, immediately stop work without graceful shutdown
 
   default: false
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1612,6 +1682,9 @@ Stop a work item, initiating graceful or forced shutdown.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSelfHostedWork = $client->beta->environments->work->stop(
@@ -1664,17 +1737,17 @@ List work items in an environment.
 
 - `environmentID: string` (path parameter)
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of work items to return
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from previous response for pagination
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -1740,6 +1813,9 @@ List work items in an environment.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -1803,11 +1879,11 @@ Update work item metadata with merge semantics.
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve existing metadata.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1876,6 +1952,9 @@ Update work item metadata with merge semantics.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSelfHostedWork = $client->beta->environments->work->update(
@@ -1926,11 +2005,11 @@ Get statistics about the work queue for an environment.
 
 - `environmentID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1946,7 +2025,7 @@ Get statistics about the work queue for an environment.
 
   - `int depth`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
   - `?string oldestQueuedAt`
 
@@ -1966,6 +2045,9 @@ Get statistics about the work queue for an environment.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

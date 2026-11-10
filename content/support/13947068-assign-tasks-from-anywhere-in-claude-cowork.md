@@ -8,7 +8,11 @@ Claude Cowork gives you one continuous conversation with Claude that you can rea
 
 Dispatch runs your tasks on your desktop, so your computer needs to be awake and the Claude Desktop app open while Claude works. This is different from a cloud session, which runs on Anthropic's servers and keeps working even when your computer is off. For where Cowork runs on each surface, see **[Use Claude Cowork on web, desktop, and mobile](https://support.claude.com/en/articles/15520349)**.
 
-This capability is in limited beta for Pro and Max plans on Claude Cowork, and it requires both the Claude Desktop app and the Claude mobile app. Dispatch is only available for some Pro and Max plans, so if you don't see Dispatch in the Cowork side panel, you should **[use Cowork in the cloud](https://support.claude.com/en/articles/15520349)** instead of the pairing flow described here.
+## Availability
+
+Dispatch is in limited beta on some Pro, Max, and Ultra plans, and it isn't available to new users. If you already use Dispatch, you can keep using it for now, and this article still applies. It requires both the Claude Desktop app and the Claude mobile app. If you don't see Dispatch in the Cowork side panel, use Cowork in the cloud instead of the pairing flow described here.
+
+The new Claude experience, which combines chat and Cowork, is rolling out to Pro, Max, and Ultra plans. On Team plans (in beta) and Enterprise plans, it's available where **Chat and Cowork unified** is turned on. If your message box no longer shows "Chat" and "Cowork" options, you have the new experience, and some steps in this article may look different. Learn more in **[Claude Cowork and chat are one Claude](https://support.claude.com/en/articles/16761823)**.
 
 ---
 
@@ -16,11 +20,11 @@ This capability is in limited beta for Pro and Max plans on Claude Cowork, and i
 
 To use this capability, you need:
 
-- The most recent version of the **Claude Desktop app** installed and running on your computer (macOS, Windows x64, or Linux). Your computer must be awake and the app must be open for Claude to work on tasks. Download or update at **[claude.com/download](http://claude.com/download)**.
+- The most recent version of the **Claude Desktop app** installed and running on your computer (macOS, Windows x64, or Linux). Your computer must be awake and the app must be open for Claude to work on tasks. Download or update at **[claude.com/download](https://claude.com/download)**.
 
 - The most recent version of the **Claude mobile app** installed on your phone. Existing mobile app users will need to update to the latest version before using this capability.
 
-- **A Pro or Max plan**.
+- **A Pro, Max, or Ultra plan**.
 
 - **An active internet connection** on both devices.
 
@@ -52,11 +56,11 @@ Follow these steps to get started:
 
 5. You’ll land on a page describing the functionality. Click “Get started”:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2169954086/419674f781edb2977b93cce062b4/93b1893c-d79a-4eb6-b2f1-2fe3e043bd90?expires=1792008900&amp;signature=d17a4d63b68a82dd511829e97ec9d0e3983d2f9a9e774c1a4299bdf862044684&amp;req=diEhH8B7mYFXX%2FMW1HO4zSZP05CLFQb2B32drIe5EDlOtzF7RprrR52zn8Dw%0ArV65%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2169954086/419674f781edb2977b93cce062b4/93b1893c-d79a-4eb6-b2f1-2fe3e043bd90?expires=1794298500&amp;signature=1a79dffe2df891ce73486cf133530a0fe49fea026455dda4f2cc40df7058442e&amp;req=diEhH8B7mYFXX%2FMW1HO4zSZP05aJHAb6B32drIe5EDmID6BCSChWThcR1oRR%0Ak6VS%0A)
 
 6. On the next screen, you can give Claude access to your files and keep your computer awake by toggling those on:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2169955082/de4053ee0eab8fcb9263584bb171/d39b77da-1a69-4682-9fdb-7ed488f236b0?expires=1792008900&amp;signature=a30dacb93a7cf64af80fb925b0c93dfd7eacf133a9aba7d5c5dd721f0f1bc687&amp;req=diEhH8B7mIFXW%2FMW1HO4zaZWstiYXQkXepuGRb1rD3IbzB16yccG4HXRxPvL%0AO6wq%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2169955082/de4053ee0eab8fcb9263584bb171/d39b77da-1a69-4682-9fdb-7ed488f236b0?expires=1794298500&amp;signature=20e0aa51306a3ca572301b05de398d45908cd2d202fdef631db658190d4fba82&amp;req=diEhH8B7mIFXW%2FMW1HO4zaZWst6aVAkbepuGRb1rD3LFKHG8MCQMM%2FYikXQv%0AZFIR%0A)
 
 7. Click “Finish setup.”
 
@@ -90,7 +94,7 @@ Claude remembers what you've worked on and learns how you work. Context carries 
 
 You control what Claude remembers. You can view, edit, and delete your memory at any time.
 
-### Scheduled tasks and routines
+### Scheduled tasks
 
 You can set up tasks that Claude runs automatically on a schedule. Tell Claude once to check your email every morning, pull your metrics every week, or compile a Friday report, and it handles it from there without being asked again.
 

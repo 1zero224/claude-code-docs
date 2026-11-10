@@ -43,7 +43,7 @@ List Session Threads
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
@@ -145,6 +145,18 @@ List Session Threads
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -157,7 +169,7 @@ List Session Threads
 
   An execution thread within a `session`. Each session has one primary thread plus zero or more child threads.
 
-  - `required Type Type`
+  - `JsonElement Type = "session_thread"`
 
   - `required string ID`
 
@@ -171,15 +183,35 @@ List Session Threads
 
       Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-      - `required Type Type`
+      - `JsonElement Type = "agent"`
 
       - `required string ID`
 
       - `required string? Description`
 
+      - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `JsonElement Type = "aws_role"`
+
+          - `required string RoleArn`
+
+            The IAM role's ARN.
+
+        - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `JsonElement Type = "service_account"`
+
       - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
-        - `required Type Type`
+        - `JsonElement Type = "url"`
 
         - `required string Name`
 
@@ -194,6 +226,10 @@ List Session Threads
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `ClaudeFable5_2("claude-fable-5-2")`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `ClaudeHaiku5_5("claude-haiku-5-5")`
 
@@ -271,31 +307,31 @@ List Session Threads
 
             Low effort. Favors latency over reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "low"`
 
           - `class BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "medium"`
 
           - `class BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "high"`
 
           - `class BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `required Type Type`
+            - `JsonElement Type = "xhigh"`
 
           - `class BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `required Type Type`
+            - `JsonElement Type = "max"`
 
         - `string InferenceGeo`
 
@@ -317,7 +353,7 @@ List Session Threads
 
           A resolved Anthropic-managed skill.
 
-          - `required Type Type`
+          - `JsonElement Type = "anthropic"`
 
           - `required string SkillID`
 
@@ -327,7 +363,7 @@ List Session Threads
 
           A resolved user-created custom skill.
 
-          - `required Type Type`
+          - `JsonElement Type = "custom"`
 
           - `required string SkillID`
 
@@ -339,7 +375,7 @@ List Session Threads
 
         - `class BetaManagedAgentsAgentToolset20260401`
 
-          - `required Type Type`
+          - `JsonElement Type = "agent_toolset_20260401"`
 
           - `required IReadOnlyList<BetaManagedAgentsAgentToolConfig> Configs`
 
@@ -361,13 +397,13 @@ List Session Threads
 
                   Tool calls are automatically approved without user confirmation.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "always_allow"`
 
                 - `class BetaManagedAgentsAlwaysAskPolicy`
 
                   Tool calls require user confirmation before execution.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "always_ask"`
 
                 - `class BetaManagedAgentsAutoPolicy`
 
@@ -663,6 +699,8 @@ List Session Threads
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
+                  pattern: ^[A-Z]{2}$
+
                 - `string? Region`
 
                   Region or state name.
@@ -699,7 +737,7 @@ List Session Threads
 
         - `class BetaManagedAgentsMcpToolset`
 
-          - `required Type Type`
+          - `JsonElement Type = "mcp_toolset"`
 
           - `required IReadOnlyList<BetaManagedAgentsMcpToolConfig> Configs`
 
@@ -751,7 +789,7 @@ List Session Threads
 
           A custom tool as returned in API responses.
 
-          - `required Type Type`
+          - `JsonElement Type = "custom"`
 
           - `required string Description`
 
@@ -775,7 +813,7 @@ List Session Threads
 
       Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-      - `required Type Type`
+      - `JsonElement Type = "advisor"`
 
       - `required string Model`
 
@@ -789,9 +827,13 @@ List Session Threads
 
       - `required string? Description`
 
+      - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+        The session's execution principal.
+
       - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
-        - `required Type Type`
+        - `JsonElement Type = "url"`
 
         - `required string Name`
 
@@ -933,6 +975,8 @@ List Session Threads
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `required BetaCurrency Currency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -966,6 +1010,9 @@ List Session Threads
 ## Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Sessions.Threads;
+
 ThreadListParams parameters = new()
 {
     SessionID = "sesn_011CZkZAtmR3yMPDzynEDxu7"
@@ -988,6 +1035,9 @@ await foreach (var item in page.Paginate())
       "agent": {
         "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
         "description": "A focused research subagent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",

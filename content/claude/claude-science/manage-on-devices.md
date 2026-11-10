@@ -6,33 +6,53 @@
 
 > Claude Science is a desktop application that stores member content locally.
 
-Claude Science is a desktop application that stores member content locally. This page covers what IT and endpoint teams need to know: where the app writes data, how to deploy configuration with device management, what telemetry is sent, and what members see when Anthropic requires an update.
+Claude Science is a desktop application that stores member content locally. This page covers what IT and endpoint teams need to know: where the app writes data, how to deploy configuration with device management, what changes when Claude Science opens in its own window on a Mac, what telemetry is sent, and what members see when Anthropic requires an update.
 
 ## Where the app stores data
 
-The app writes to two locations on each member's computer:
+The app writes to these locations on each member's computer:
 
 Configuration: config.toml in the app's default data folder (`~/.claude-science/config.toml` on macOS and Linux, `%USERPROFILE%\.claude-science\config.toml` on Windows) holds all app settings. Every key is optional; the app starts with no file present. This is the file to deploy through device management.\
 Data: the app's data directory holds conversations, generated artifacts, delegation configurations, and workspace files in a per-organization subfolder (orgs/`<organization-id>`/), stored as a local database plus files.
 
 Authentication tokens and the shared package environment live under the default data folder (`~/.claude-science/`, or `%USERPROFILE%\.claude-science\` on Windows) regardless of the data directory, so endpoint backup or wipe policies that target the data directory don't affect sign-in state.
 
-On Windows, the program itself installs per user to `%LOCALAPPDATA%\Programs\ClaudeScience` and registers under the signed-in user's **Settings** > **Apps** > **Installed apps** rather than machine-wide. The app also writes launch logs and state to `%LOCALAPPDATA%\ClaudeScience` and keeps a sandbox state folder under `%LOCALAPPDATA%`, and it unpacks components it runs, such as the app window engine and the sandbox launcher, under the data folder, so allow-listing by path needs both the program folder and the data folder. Uninstalling removes the program and sandbox state; `claude-science uninstall --purge` also removes the data and state folders.
+On Windows and macOS, the program is in these places:
 
-Your endpoint tooling governs these folders the same way it governs any other local application data. Anthropic doesn't host a copy of these folders, so Custom Data Retention and Org Data Export don't reach them. [How Claude Science works with your data](/docs/claude-science/how-claude-science-works-with-your-data) covers what Anthropic does receive from the app, including the session transcripts available to Enterprise organizations with the Compliance API enabled.
+* **Windows**: the program itself installs per user to `%LOCALAPPDATA%\Programs\ClaudeScience` and registers under the signed-in user's **Settings** > **Apps** > **Installed apps** rather than machine-wide. The app also writes launch logs and state to `%LOCALAPPDATA%\ClaudeScience` and keeps a sandbox state folder under `%LOCALAPPDATA%`, and it unpacks components it runs, such as the app window engine and the sandbox launcher, under the data folder, so allow-listing by path needs both the program folder and the data folder. Uninstalling removes the program and sandbox state; `claude-science uninstall --purge` also removes the data and state folders.
+* **macOS**: the app is **Claude Science** in the **Applications** folder, or in the **Applications** folder inside the member's home folder. When Claude Science opens in a browser tab, it runs its program from a copy at `~/.claude-science/bin/claude-science`. When it opens in its own window, it runs the program from inside the app. In its own window, Claude Science also keeps window settings, logs, and the window's page storage, which includes unsent message drafts, in `~/Library/Application Support/Claude Science` (see [Macs where Claude Science opens in its own window](#macs-where-claude-science-opens-in-its-own-window)).
+
+Your endpoint tooling governs these folders the same way it governs any other local application data. Anthropic doesn't host a copy of these folders, so Custom Data Retention and Org Data Export don't reach them. [How Claude Science works with your data](https://claude.com/docs/claude-science/how-claude-science-works-with-your-data.md) covers what Anthropic does receive from the app, including the session transcripts available to Enterprise organizations with the Compliance API enabled.
 
 ## Deploy configuration with device management
 
-To set configuration keys organization-wide, deploy the per-member config.toml (at the path given under [Where the app stores data](#where-the-app-stores-data)) through your MDM or endpoint tool. Claude Science doesn't read its settings from a system-level managed-preferences file or registry policy keys, so there's no native MDM configuration channel on any operating system. Deploying the per-member config.toml is the supported approach. The sandbox network allowlist and the package mirror can instead be set once for every member under **Organization settings** > **Claude Science** (see [Organization settings](/docs/claude-science/admin-controls#organization-settings)). The keys most relevant to admins are:
+To set configuration keys organization-wide, deploy the per-member config.toml (at the path given under [Where the app stores data](#where-the-app-stores-data)) through your MDM or endpoint tool. Claude Science doesn't read its settings from a system-level managed-preferences file or registry policy keys, so there's no native MDM configuration channel on any operating system. Deploying the per-member config.toml is the supported approach. The sandbox network allowlist and the package mirror can instead be set once for every member under **Organization settings** > **Claude Science** (see [Organization settings](https://claude.com/docs/claude-science/admin-controls.md#organization-settings)). The keys most relevant to admins are:
 
 | Key | Effect |
 | - | - |
-| disable\_telemetry = true | Stops the app from sending product-usage telemetry and error reports to Anthropic. |
-| data\_dir = "`<path>`" | Moves conversations, artifacts, and workspaces to a managed location (for example, a volume your backup tooling covers). |
-| \[update] auto\_update = false | Prevents the app from updating itself; pair with your own distribution channel. |
-| \[sandbox.network] enabled = false | Blocks network access from the app's local code-execution sandbox. The similarly named \[sandbox] network\_isolated key does not control this. |
+| `disable_telemetry = true` | Stops the app from sending product-usage telemetry and error reports to Anthropic. |
+| `data_dir = "<path>"` | Moves conversations, artifacts, and workspaces to a managed location (for example, a volume your backup tooling covers). |
+| `auto_update = false` under `[update]` | Turns off the background check for updates; pair with your own distribution channel. On a Mac where Claude Science opens in its own window, the key requires version 0.1.69 or later. A member can still check for and install an update from inside Claude Science. |
+| `enabled = false` under `[sandbox.network]` | Blocks network access from the app's local code-execution sandbox. The similarly named `network_isolated` key under `[sandbox]` doesn't control this. |
 
-The [configuration file reference](/docs/claude-science/configuration-file-reference) documents the network-related keys and their defaults, and [Use Claude Science on a corporate network](/docs/claude-science/corporate-networks) covers the proxy, TLS-inspection, and mirror settings.
+The [configuration file reference](https://claude.com/docs/claude-science/configuration-file-reference.md) documents the network-related keys and their defaults, and [Use Claude Science on a corporate network](https://claude.com/docs/claude-science/corporate-networks.md) covers the proxy, TLS-inspection, and mirror settings.
+
+## Macs where Claude Science opens in its own window
+
+On a Mac, Claude Science opens either in a browser tab or in its own window. When a member installs an update from inside Claude Science, the update can switch Claude Science to its own window. It switches only if the member's account owns the installed app and can replace it, so a copy that device management installed as root never switches. When the account that owns the app switches it, Claude Science opens in its own window for every account that opens that copy.
+
+Claude Science in its own window has the bundle identifier `com.anthropic.claudescience`, so macOS treats it as a different app from Claude Science in a browser tab. Add an entry for `com.anthropic.claudescience` to any Privacy Preferences Policy Control (PPPC) profile that grants Claude Science access. An allow-list rule on the Apple Team ID `Q6L2SF6YDW` covers both apps, and also the app's helper programs, which are signed with identifiers such as `com.anthropic.claudescience.helper`.
+
+Claude Science in a browser tab and in its own window get updates in different ways:
+
+| What differs | In a browser tab | In its own window |
+| - | - | - |
+| Updates | Checks in the background and shows **Update available** | Downloads updates by itself and installs them when the app quits |
+| Connections for updates | Use the app's proxy settings | Use the proxy in macOS network settings and the certificates that macOS trusts (see [Proxy and certificates for updates in the Mac app window](https://claude.com/docs/claude-science/corporate-networks.md#proxy-and-certificates-for-updates-in-the-mac-app-window)) |
+
+If the member's account can't write to the app or its folder, Claude Science in its own window doesn't check for updates in the background. The member can still choose **Claude Science > Check for App Updates…**, and macOS then asks for an administrator's password to install the update.
+
+Setting `auto_update = false` under `[update]` doesn't stop Claude Science from switching to its own window, because a member can still install an update from inside Claude Science.
 
 ## Telemetry
 
@@ -43,7 +63,7 @@ When the app runs into an error, it also sends an error report to the error-repo
 To turn telemetry and error reports off on managed devices, use either of:
 
 Set disable\_telemetry = true in config.toml (deployable through MDM).\
-Set the DO\_NOT\_TRACK environment variable (for example to 1) where the app reads it at launch. See [How the environment variables reach the app](/docs/claude-science/corporate-networks#how-the-environment-variables-reach-the-app).
+Set the DO\_NOT\_TRACK environment variable (for example to 1) where the app reads it at launch. See [How the environment variables reach the app](https://claude.com/docs/claude-science/corporate-networks.md#how-the-environment-variables-reach-the-app).
 
 Both are device-level settings. There's no per-member or per-organization telemetry toggle in Organization settings.
 
@@ -64,4 +84,4 @@ Windows still treats versions signed with the certificate used through version 0
 
 ## Required updates
 
-Anthropic may set a minimum supported version of the app. When a member's installed version falls below that floor, the app shows a full-page notice that the installed version is no longer supported and blocks further use until the member updates. Admins don't configure this floor; it's set by Anthropic. If your organization distributes the app through its own channel with auto-update disabled, plan to push updates promptly when Anthropic raises the floor.
+Anthropic may set a minimum supported version of the app. When a member's installed version falls below that floor, the app tells the member to [update Claude Science](https://claude.com/docs/claude-science/update-claude-science.md), and Claude doesn't reply until the member updates. Admins don't configure this floor; it's set by Anthropic. If your organization distributes the app through its own channel with auto-update disabled, plan to push updates promptly when Anthropic raises the floor.

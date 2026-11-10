@@ -22,23 +22,62 @@ every user turn. Each turn produces a tree of spans covering the prompt,
 each model call, each tool execution, file uploads, and context
 compaction.
 
-All span attributes are included. They carry user-generated content:
+For the setups described under [Set up the collector](#set-up-the-collector),
+all span attributes are included. They carry user-generated content:
 prompt text, tool inputs and outputs, and document URLs. The allowlist
 filter that strips sensitive attributes on the Anthropic path does not
 run on this path. One normalization still applies: MCP connector tool
 names are recorded as the literal `mcp_tool` rather than the
-connector-specific name. Assistant response text is not included in
-span data. Your organization owns the collected data; treat the
+connector-specific name. For these setups, assistant response text is
+not included. Your organization owns the collected data; treat the
 endpoint as containing prompt and document content when you scope
 access controls and retention.
+
+When the collector is instead delivered by an administrator-managed
+settings document, such as the one Claude for Government delivers, the
+add-in follows that document: it includes only the content categories
+the administrator selected, sends one log record per prompt, model call,
+and tool call to `{your_url}/v1/logs`, and sends the spans only while
+the administrator has turned traces on.
+
+One of those categories is Claude's responses: when selected, the reply
+is recorded as `response` on each model call's span and sent as its own
+log record, `office_agent.assistant_response`. Each turn's spans and log
+records also name the signed-in member as `user.email` and
+`user.account_uuid`, and with a Claude for Government sign-in the
+organization as `organization.id`, except a model call Claude makes while
+running a tool, which is reported with the model and token counts only.
+
+The add-in sends these log records to such a collector:
+
+| Log record | Sent for |
+| - | - |
+| `office_agent.user_prompt` | Each prompt |
+| `office_agent.api_request` | Each model call that completes |
+| `office_agent.api_error` | Each model call that is refused, fails, is cut off, or that the user stops |
+| `office_agent.assistant_response` | Each completed model call whose reply contains text, when the Claude's responses category is selected |
+| `office_agent.tool_result` | Each tool call |
+
+Auxiliary model calls the add-in makes for itself, such as context
+compaction (the `agent.compaction` span), the short progress headline
+shown while Claude works, and connection checks, yield no log record.
+
+Every record except `office_agent.assistant_response` carries
+`event.name`, `duration_ms`, and the attributes of the span it reports,
+as listed in the [span reference](#span-reference), minus tool output
+and the reply text. `office_agent.assistant_response` carries
+`event.name`, the reply as `response` and `response_chars`, `model`,
+`request_id`, and the same surface, session, member, and organization
+attributes as its model call.
 
 Metrics are not sent to custom collectors. The `office_agent.*` counter
 namespace routes to Anthropic only. Every counter increment is also
 recorded as a span event on the active span, so the same signals are
 recoverable from the trace stream.
 
-Telemetry is sent over OTLP/HTTP to `{your_url}/v1/traces`. gRPC is not
-supported because of Office WebView constraints.
+Telemetry is sent over OTLP/HTTP to `{your_url}/v1/traces`, and the log
+records above to `{your_url}/v1/logs`. gRPC is not supported because of
+Office WebView constraints.
 
 ## Endpoint requirements
 
@@ -81,7 +120,7 @@ settings are available:
 Deployments that authenticate against Bedrock, Vertex AI, Foundry, or a
 gateway supply the same two keys through the customer-configuration
 channels described in
-[Use Claude for M365 with third-party platforms](/docs/office-agents/third-party-platforms).
+[Use Claude for M365 with third-party platforms](https://claude.com/docs/office-agents/third-party-platforms.md).
 
 | Key | Format | Description |
 | - | - | - |
@@ -89,22 +128,19 @@ channels described in
 | `otlp_headers` | `key1=value1,key2=value2` | Optional authentication headers |
 
 The `claude-for-msft-365-install` setup plugin writes these for you. To
-set them by hand, use any of the three channels below. Later channels override
-earlier ones: manifest parameters are read first, then Entra claims,
-then the bootstrap response.
+set them by hand, use either channel below. A value in the bootstrap
+response overrides the manifest parameter. If `entra_sso=1` is set and
+the add-in signs in through your own Entra app registration, you can also
+deliver these keys as ID token claims, as
+[Per-user configuration](https://claude.com/docs/office-agents/third-party-platforms.md#per-user-configuration)
+describes.
 
 **Manifest URL parameter.** Append the keys to the taskpane URL in your
-custom manifest, with `otlp_headers` after `#` so the credential stays out of [server request logs](/docs/office-agents/third-party-platforms#keep-credentials-out-of-the-manifest-url-query-string).
+custom manifest, with `otlp_headers` after `#` so the credential stays out of [server request logs](https://claude.com/docs/office-agents/third-party-platforms.md#keep-credentials-out-of-the-manifest-url-query-string).
 
 ```text theme={null}
 https://pivot.claude.ai/taskpane.html?otlp_endpoint=https://otel-collector.example.com#otlp_headers=Authorization=Bearer%20<token>
 ```
-
-**Entra ID directory extension.** Register the keys as directory
-extension attributes and assign them per user through Microsoft Graph.
-The add-in reads them from the user's ID token via Nested App
-Authentication. `extn.otlp_endpoint` maps to `otlp_endpoint` and
-`extn.otlp_headers` maps to `otlp_headers`.
 
 **Bootstrap endpoint response.** Include the keys in the JSON body your
 bootstrap endpoint returns.
@@ -118,9 +154,9 @@ bootstrap endpoint returns.
 
 ### Attribute size cap
 
-Prompt, tool-input, and tool-output attributes are truncated in the
-add-in at 4,000 characters each by default and marked with a trailing
-`…[truncated]`. Set the `otlp_attr_max_chars` configuration key to a
+Prompt, reply, tool-input, and tool-output attributes are truncated in
+the add-in at 4,000 characters each by default and marked with a
+trailing `…[truncated]`. Set the `otlp_attr_max_chars` configuration key to a
 positive integer to change the cap. Values are clamped to between 256
 and 32,000. Before raising the cap, confirm your collector and tracing
 backend accept attribute values of the configured size: many backends
@@ -146,15 +182,19 @@ provider or gateway logs.
 Each user turn produces up to five span types. `agent.query` is the
 root; `agent.stream` and `agent.compaction` are its children;
 `agent.tool_execution` is a child of `agent.stream`; `file.upload`
-arrives as a separate root span. The `agent.query` and
-`agent.compaction` spans carry `agent.surface` (`sheet`, `doc`,
-`slide`, or `mail`) and `agent.vendor` (`m` for Microsoft); the other
-three do not. To filter those by surface, join `agent.stream` and
-`agent.tool_execution` to their parent `agent.query` by trace ID, and
-correlate `file.upload` to a turn by `session.id` and timestamp, since
-it has its own trace ID and no surface attribute. Attributes marked
+arrives as a separate root span. The four `agent.*` spans each carry
+`agent.surface` (`sheet`, `doc`, `slide`, or `mail`), `agent.vendor`
+(`m` for Microsoft), and `session.id`, and with Claude sign-in
+`user.email`, `user.account_uuid`, and `organization.id`, so each
+can be filtered on its own. `file.upload` carries `session.id` and, with
+Claude sign-in, `user.email`; correlate it to a turn by `session.id` and
+timestamp, since it has its own trace ID. Attributes marked
 *content* carry user-generated data. Attributes marked *Claude sign-in
 only* are populated only when users sign in with a Claude account.
+Attributes marked *managed settings document only* are sent only to a
+collector delivered by an administrator-managed settings document, and
+only when the administrator selected the attribute's category, as
+described under [What the collector receives](#what-the-collector-receives).
 
 ### Resource attributes
 
@@ -208,6 +248,9 @@ One span per model API call, child of `agent.query`. SpanKind `CLIENT`.
 | `cache_creation_tokens` | Tokens written to prompt cache |
 | `stop_reason` | `end_turn`, `tool_use`, `max_tokens`, and similar |
 | `request_id` | Provider request ID for support correlation |
+| `response` *content, managed settings document only* | Text of Claude's reply (its text blocks), truncated per the attribute cap |
+| `response_chars` *managed settings document only* | Full reply length in characters, sent with `response` |
+| `error.name` | On failure, the exception class name (`APIUserAbortError` when the user stops the call; `Aborted` when the add-in abandons the call to retry it or because the conversation was reset) |
 
 The add-in requests prompt caching on every call. Cache token attributes
 are set from the provider's response and omitted when the provider does
@@ -239,9 +282,8 @@ This is the primary record of what the model did to the document.
 
 One span per automatic conversation summarization when context nears
 the window limit, child of `agent.query`. SpanKind `CLIENT`. Also
-carries `agent.surface`, `agent.vendor`, `session.id`,
-`office.platform`, `office.version`, and `user.email` (Claude sign-in
-only).
+carries `office.platform` and `office.version` beside the identity
+attributes the other `agent.*` spans carry.
 
 | Attribute | Description |
 | - | - |

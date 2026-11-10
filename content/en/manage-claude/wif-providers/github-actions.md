@@ -4,16 +4,16 @@ url: https://platform.claude.com/docs/en/manage-claude/wif-providers/github-acti
 description: Authenticate GitHub Actions workflows to the Claude API with short-lived identity tokens instead of long-lived API keys.
 ---
 
-Every GitHub Actions workflow run can request a signed identity token from GitHub's hosted issuer at `https://token.actions.githubusercontent.com`. With Workload Identity Federation, your workflow exchanges that token for a short-lived Anthropic access token, so your CI jobs can call the Claude API without an `ANTHROPIC_API_KEY` secret stored in your repository.
+Every GitHub Actions workflow run can request a signed identity token from GitHub’s hosted issuer at `https://token.actions.githubusercontent.com`. With Workload Identity Federation (WIF), your workflow exchanges that token for a short-lived Anthropic access token. Your CI jobs can then call the Claude API without an `ANTHROPIC_API_KEY` secret stored in your repository.
 
-The token's `sub` claim encodes the repository and trigger context. For a push to a branch it has the form `repo:<owner>/<repo>:ref:refs/heads/<branch>`. Pull-request runs use `repo:<owner>/<repo>:pull_request`, and environment-gated deployments use `repo:<owner>/<repo>:environment:<name>`. Your federation rule matches against this claim (and others, such as `repository_owner` and `ref`) to decide which workflow runs are allowed to authenticate.
+The token’s `sub` claim encodes the repository and trigger context. For a push to a branch it has the form `repo:<owner>/<repo>:ref:refs/heads/<branch>`. Pull-request runs use `repo:<owner>/<repo>:pull_request`, and environment-gated deployments use `repo:<owner>/<repo>:environment:<name>`. Your federation rule matches against this claim (and others, such as `repository_owner` and `ref`) to determine which workflow runs can authenticate.
 
 ## Prerequisites
 
 * Familiarity with [WIF concepts](https://platform.claude.com/docs/en/manage-claude/workload-identity-federation#concepts): service accounts, federation issuers, and federation rules.
 * A GitHub repository where you can edit workflow files and grant the `id-token: write` permission.
 * Permission to create service accounts, federation issuers, and federation rules in the Claude Console for your Anthropic organization.
-* Your Anthropic organization ID. You can find it in the Claude Console under **Settings → Organization**.
+* Your Anthropic organization ID. You can find it on the [Organization](https://platform.claude.com/settings/organization) page (`platform.claude.com/settings/organization`) in the Claude Console.
 
 ## Configure your workflow
 
@@ -25,7 +25,7 @@ permissions:
   contents: read
 ```
 
-Inside the job, the runner exposes two environment variables: `ACTIONS_ID_TOKEN_REQUEST_URL` and `ACTIONS_ID_TOKEN_REQUEST_TOKEN`. Call the request URL with the request token as a bearer credential and your chosen audience as a query parameter, then write the returned JSON Web Token (JWT) to a file:
+Inside the job, the runner exposes two environment variables: `ACTIONS_ID_TOKEN_REQUEST_URL` and `ACTIONS_ID_TOKEN_REQUEST_TOKEN`. Call the request URL with the request token as a bearer credential and your chosen audience as a query parameter. Then write the returned JSON Web Token (JWT) to a file:
 
 ```yaml
 - name: Fetch GitHub OIDC token
@@ -64,11 +64,11 @@ The decoded token carries claims that describe the workflow run. Your federation
 }
 ```
 
-See [GitHub's OIDC subject claim reference](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#example-subject-claims) for the full list of `sub` formats.
+See [GitHub’s OIDC subject claim reference](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#example-subject-claims) for the full list of `sub` formats.
 
 ## Configure Anthropic
 
-In the Claude Console, open **Settings → Workload identity**, click **Connect workload**, and select the **GitHub Actions** tile. The wizard walks you through registering the issuer, creating a service account, and creating a federation rule.
+In the Claude Console, go to the [Workload identity](https://platform.claude.com/settings/workload-identity-federation) page (`platform.claude.com/settings/workload-identity-federation`), click **Connect workload**, and select the **GitHub Actions** tile. The wizard walks you through registering the issuer, creating a service account, and creating a federation rule.
 
 The wizard creates these resources for you. Use the following values whether you enter them in the wizard or send them to the [Admin API](https://platform.claude.com/docs/en/manage-claude/wif-admin-api):
 
@@ -105,49 +105,51 @@ The wizard creates these resources for you. Use the following values whether you
 }
 ```
 
-Be as specific as the workload allows. Loosen `subject_prefix` to `repo:your-org/your-repo:*` (paired with a `claims.ref` constraint) only if the rule must match multiple event types from the same repository, because the trailing segment of `sub` varies between `ref:...`, `environment:...`, and `pull_request` events.
+Be as specific as the workload allows. Loosen `subject_prefix` to `repo:your-org/your-repo:*` (paired with a `claims.ref` constraint) only if the rule must match multiple event types from the same repository. The trailing segment of `sub` varies among `ref:...`, `environment:...`, and `pull_request` events.
 
 ## Acquire and use a token
 
-Set the federation environment variables on the job and call the SDK normally. `Anthropic()` (typescript: `new Anthropic()`; csharp: `new AnthropicClient()`; go: `anthropic.NewClient()`; java: `AnthropicOkHttpClient.fromEnv()`; php: `new Client()`; ruby: `Anthropic::Client.new`) reads `ANTHROPIC_IDENTITY_TOKEN_FILE`, exchanges the JWT on the first request, and refreshes the access token automatically before it expires.
+Set the federation environment variables on the job, and write GitHub’s OIDC token to the file that `ANTHROPIC_IDENTITY_TOKEN_FILE` names:
+
+```yaml
+name: Call Claude
+on: push
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  call-claude:
+    runs-on: ubuntu-latest
+    env:
+      ANTHROPIC_FEDERATION_RULE_ID: fdrl_...
+      ANTHROPIC_ORGANIZATION_ID: 00000000-0000-0000-0000-000000000000
+      ANTHROPIC_SERVICE_ACCOUNT_ID: svac_...
+      ANTHROPIC_WORKSPACE_ID: wrkspc_...  # required when the rule covers multiple workspaces
+      ANTHROPIC_IDENTITY_TOKEN_FILE: /tmp/gha-jwt
+    steps:
+      - uses: actions/checkout@v5
+      - name: Fetch GitHub OIDC token
+        run: |
+          curl -sS -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://api.anthropic.com" \
+            | jq -r .value > "$ANTHROPIC_IDENTITY_TOKEN_FILE"
+      - name: Run your script
+        run: |
+          pip install anthropic
+          python your_script.py
+```
+
+Then call the Claude API from your script. An SDK client that you create without credentials reads `ANTHROPIC_IDENTITY_TOKEN_FILE`, exchanges the JWT on the first request, and refreshes the access token automatically before it expires.
 
 <CodeGroup>
-  ```yaml Workflow
-  name: Call Claude
-  on: push
-
-  permissions:
-    id-token: write
-    contents: read
-
-  jobs:
-    call-claude:
-      runs-on: ubuntu-latest
-      env:
-        ANTHROPIC_FEDERATION_RULE_ID: fdrl_...
-        ANTHROPIC_ORGANIZATION_ID: 00000000-0000-0000-0000-000000000000
-        ANTHROPIC_SERVICE_ACCOUNT_ID: svac_...
-        ANTHROPIC_WORKSPACE_ID: wrkspc_...  # required when the rule covers multiple workspaces
-        ANTHROPIC_IDENTITY_TOKEN_FILE: /tmp/gha-jwt
-      steps:
-        - uses: actions/checkout@v5
-        - name: Fetch GitHub OIDC token
-          run: |
-            curl -sS -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-              "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://api.anthropic.com" \
-              | jq -r .value > "$ANTHROPIC_IDENTITY_TOKEN_FILE"
-        - name: Run your script
-          run: |
-            pip install anthropic
-            python your_script.py
-  ```
-
   ```bash cURL
   JWT=$(cat /tmp/gha-jwt)
 
-  RESPONSE=$(curl -sS https://api.anthropic.com/v1/oauth/token \
+  ACCESS_TOKEN=$(curl -sS https://api.anthropic.com/v1/oauth/token \
     -H "content-type: application/json" \
-    --data @- <<JSON
+    -d @- <<JSON | jq -r .access_token
   {
     "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
     "assertion": "$JWT",
@@ -159,17 +161,27 @@ Set the federation environment variables on the job and call the SDK normally. `
   JSON
   )
 
-  ACCESS_TOKEN=$(echo "$RESPONSE" | jq -r .access_token)
-
   curl https://api.anthropic.com/v1/messages \
     -H "authorization: Bearer $ACCESS_TOKEN" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
       "max_tokens": 1024,
       "messages": [{"role": "user", "content": "Hello, Claude"}]
-    }' | jq -r '.content[] | select(.type == "text") | .text'
+    }'
+  ```
+
+  ```bash CLI
+  # Reads ANTHROPIC_FEDERATION_RULE_ID, ANTHROPIC_ORGANIZATION_ID,
+  # ANTHROPIC_SERVICE_ACCOUNT_ID, and ANTHROPIC_IDENTITY_TOKEN_FILE
+  # from the job environment.
+  # For a rule enabled for all workspaces or more than one, set ANTHROPIC_PROFILE
+  # to a federation profile that sets workspace_id.
+  ant messages create \
+    --model claude-opus-5-5 \
+    --max-tokens 1024 \
+    --message '{role: user, content: "Hello, Claude"}'
   ```
 
   ```python Python
@@ -208,6 +220,27 @@ Set the federation environment variables on the job and call the SDK normally. `
   }
   ```
 
+  ```csharp C#
+  // Reads ANTHROPIC_FEDERATION_RULE_ID, ANTHROPIC_ORGANIZATION_ID,
+  // ANTHROPIC_SERVICE_ACCOUNT_ID, ANTHROPIC_WORKSPACE_ID, and ANTHROPIC_IDENTITY_TOKEN_FILE
+  // from the job environment.
+  using var client = new AnthropicClient();
+
+  var message = await client.Messages.Create(new()
+  {
+      Model = Model.ClaudeOpus5_5,
+      MaxTokens = 1024,
+      Messages = [new UserMessageParam { Content = "Hello, Claude" }],
+  });
+  foreach (var block in message.Content)
+  {
+      if (block.Value is TextBlock textBlock)
+      {
+          Console.WriteLine(textBlock.Text);
+      }
+  }
+  ```
+
   ```go Go
   // Reads ANTHROPIC_FEDERATION_RULE_ID, ANTHROPIC_ORGANIZATION_ID,
   // ANTHROPIC_SERVICE_ACCOUNT_ID, ANTHROPIC_WORKSPACE_ID, and ANTHROPIC_IDENTITY_TOKEN_FILE
@@ -236,43 +269,12 @@ Set the federation environment variables on the job and call the SDK normally. `
   AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
   var message = client.messages().create(MessageCreateParams.builder()
-          .model(Model.CLAUDE_OPUS_5_5)
-          .maxTokens(1024)
-          .addUserMessage("Hello, Claude")
-          .build());
+      .model(Model.CLAUDE_OPUS_5_5)
+      .maxTokens(1024)
+      .addUserMessage("Hello, Claude")
+      .build());
 
   IO.println(message.content());
-  ```
-
-  ```csharp C#
-  // Reads ANTHROPIC_FEDERATION_RULE_ID, ANTHROPIC_ORGANIZATION_ID,
-  // ANTHROPIC_SERVICE_ACCOUNT_ID, ANTHROPIC_WORKSPACE_ID, and ANTHROPIC_IDENTITY_TOKEN_FILE
-  // from the job environment.
-  using var client = new AnthropicClient();
-
-  var message = await client.Messages.Create(new()
-  {
-      Model = Model.ClaudeOpus5_5,
-      MaxTokens = 1024,
-      Messages = [new() { Role = Role.User, Content = "Hello, Claude" }],
-  });
-  foreach (var block in message.Content)
-  {
-      if (block.Value is TextBlock textBlock)
-      {
-          Console.WriteLine(textBlock.Text);
-      }
-  }
-  ```
-
-  ```bash CLI
-  # Reads ANTHROPIC_FEDERATION_RULE_ID, ANTHROPIC_ORGANIZATION_ID,
-  # ANTHROPIC_SERVICE_ACCOUNT_ID, ANTHROPIC_WORKSPACE_ID, and ANTHROPIC_IDENTITY_TOKEN_FILE
-  # from the job environment.
-  ant messages create \
-    --model claude-opus-5-5 \
-    --max-tokens 1024 \
-    --message '{role: user, content: "Hello, Claude"}'
   ```
 
   ```php PHP
@@ -309,11 +311,11 @@ Set the federation environment variables on the job and call the SDK normally. `
   ```
 </CodeGroup>
 
-Each GitHub-issued identity token expires roughly five minutes after issuance. The token-request endpoint (`ACTIONS_ID_TOKEN_REQUEST_URL`) stays valid for the entire job, so you can fetch a fresh token at any point. The SDK exchanges the token on first use and caches the resulting Anthropic access token. For jobs that run longer than the Anthropic token's lifetime, the SDK re-reads `ANTHROPIC_IDENTITY_TOKEN_FILE` on each refresh, so re-run the fetch step periodically (or wrap it in a background loop) to keep the file current. Alternatively, pass a token-provider callback to the SDK that calls `ACTIONS_ID_TOKEN_REQUEST_URL` directly instead of using the file path.
+Each GitHub-issued identity token expires roughly 5 minutes after issuance. The token-request endpoint (`ACTIONS_ID_TOKEN_REQUEST_URL`) stays valid for the entire job, so you can fetch a fresh token at any point. The SDK exchanges the token on first use and caches the resulting Anthropic access token. On each refresh, the SDK rereads `ANTHROPIC_IDENTITY_TOKEN_FILE`. For jobs that run longer than the Anthropic token’s lifetime, rerun the fetch step periodically (or wrap it in a background loop) to keep the file current. Alternatively, except in Java, pass the SDK a token provider that calls `ACTIONS_ID_TOKEN_REQUEST_URL` directly instead of using the file path.
 
 ## Verify the setup
 
-A successful exchange returns an `access_token` beginning with `sk-ant-oat01-` and an `expires_in` value in seconds. A denied exchange returns an opaque `401` `authentication_error` with the fixed message `Authentication failed`, whichever check failed; in most cases the deny reason is recorded on the attempt's entry in the [authentication history page](https://platform.claude.com/settings/workload-identity-federation?tab=history), and [Troubleshoot a failed exchange](https://platform.claude.com/docs/en/manage-claude/wif-reference#troubleshoot-a-failed-exchange) walks the checks in order. The most common GitHub Actions-side cause is the `sub` claim format not matching (its trailing segment varies between `ref:...`, `environment:...`, and `pull_request` events); the history entry shows reason `match_subject_prefix`.
+A successful exchange returns an `access_token` starting with `sk-ant-oat01-` and an `expires_in` value in seconds. A denied exchange returns an opaque `401` `authentication_error` with the fixed message `Authentication failed`, whichever check failed. In most cases, the attempt’s entry on the [authentication history page](https://platform.claude.com/settings/workload-identity-federation?tab=history) in the Claude Console shows the deny reason. [Troubleshoot a failed exchange](https://platform.claude.com/docs/en/manage-claude/wif-reference#troubleshoot-a-failed-exchange) walks through the checks in order. The most common GitHub Actions-side cause is a `sub` claim format that doesn’t match, because its trailing segment varies among `ref:...`, `environment:...`, and `pull_request` events. The history entry then shows the reason `match_subject_prefix`.
 
 ## Restrict which workflows can authenticate
 
@@ -321,7 +323,7 @@ A successful exchange returns an `access_token` beginning with `sk-ant-oat01-` a
   A `subject_prefix` of `repo:your-org/*` alone matches every repository in your organization, and without a `ref` constraint it also matches `pull_request` runs triggered from forks. Anyone who can open a pull request against a matching repository could obtain a federated Anthropic token.
 </Warning>
 
-Lock the rule's `match` block to the narrowest scope that fits your use case:
+Lock the rule’s `match` block to the narrowest scope that fits your use case:
 
 * **Pin to a single repository:** Use `subject_prefix: "repo:your-org/your-repo:*"` so other repositories in the organization do not match.
 * **Pin to a protected branch:** Add `"ref": "refs/heads/main"` (or your release branch) under `claims` so pull-request runs and feature branches do not match.

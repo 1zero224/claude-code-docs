@@ -17,17 +17,17 @@ List work items in an environment.
 
 - `environment_id: String` (path parameter)
 
-- `limit: Integer` (query parameter)
+- `limit: optional Integer` (query parameter)
 
   Maximum number of work items to return
 
   minimum: 1, maximum: 1000
 
-- `page: String` (query parameter)
+- `page: optional String | nil` (query parameter)
 
   Opaque cursor from previous response for pagination
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -133,6 +133,18 @@ List work items in an environment.
 
   - `:"spend-limit-reads-2026-09-26"`
 
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
 ## Returns
 
 - `class BetaSelfHostedWork`
@@ -151,7 +163,7 @@ List work items in an environment.
 
     Work identifier (e.g., 'work_...')
 
-  - `acknowledged_at: String`
+  - `acknowledged_at: String | nil`
 
     RFC 3339 timestamp when the work item was acknowledged and assigned to a self-hosted sandbox
 
@@ -175,7 +187,7 @@ List work items in an environment.
 
     Environment identifier this work belongs to (e.g., `env_...`)
 
-  - `latest_heartbeat_at: String`
+  - `latest_heartbeat_at: String | nil`
 
     RFC 3339 timestamp of the most recent heartbeat
 
@@ -183,11 +195,11 @@ List work items in an environment.
 
     User-provided metadata key-value pairs associated with this work item
 
-  - `secret: String`
+  - `secret: String | nil`
 
     Credential payload used by the environment worker to execute this work item. May be populated when polling for work; null on all other retrieval paths.
 
-  - `started_at: String`
+  - `started_at: String | nil`
 
     RFC 3339 timestamp when work execution started
 
@@ -205,11 +217,11 @@ List work items in an environment.
 
     - `:stopped`
 
-  - `stop_requested_at: String`
+  - `stop_requested_at: String | nil`
 
     RFC 3339 timestamp when stop was requested
 
-  - `stopped_at: String`
+  - `stopped_at: String | nil`
 
     RFC 3339 timestamp when work execution stopped
 

@@ -21,7 +21,7 @@ Get Deployment Run
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
@@ -123,6 +123,18 @@ Get Deployment Run
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -135,7 +147,7 @@ Get Deployment Run
 
   A persistent, append-only record of a single deployment execution. Records session creation success or failure — no session lifecycle tracking.
 
-  - `required Type Type`
+  - `JsonElement Type = "deployment_run"`
 
   - `required string ID`
 
@@ -145,7 +157,7 @@ Get Deployment Run
 
     Snapshot of the agent at fire time. Always fully resolved — deployments pin agent + version.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent"`
 
     - `required string ID`
 
@@ -171,7 +183,7 @@ Get Deployment Run
 
       The deployment's environment was archived.
 
-      - `required Type Type`
+      - `JsonElement Type = "environment_archived_error"`
 
       - `required string Message`
 
@@ -181,7 +193,7 @@ Get Deployment Run
 
       The deployment's agent was archived.
 
-      - `required Type Type`
+      - `JsonElement Type = "agent_archived_error"`
 
       - `required string Message`
 
@@ -191,7 +203,7 @@ Get Deployment Run
 
       The deployment's environment no longer exists.
 
-      - `required Type Type`
+      - `JsonElement Type = "environment_not_found_error"`
 
       - `required string Message`
 
@@ -201,7 +213,7 @@ Get Deployment Run
 
       A vault referenced by the deployment no longer exists.
 
-      - `required Type Type`
+      - `JsonElement Type = "vault_not_found_error"`
 
       - `required string Message`
 
@@ -211,7 +223,7 @@ Get Deployment Run
 
       A vault referenced by the deployment is archived.
 
-      - `required Type Type`
+      - `JsonElement Type = "vault_archived_error"`
 
       - `required string Message`
 
@@ -221,7 +233,7 @@ Get Deployment Run
 
       A file resource referenced by the deployment no longer exists.
 
-      - `required Type Type`
+      - `JsonElement Type = "file_not_found_error"`
 
       - `required string Message`
 
@@ -231,7 +243,7 @@ Get Deployment Run
 
       A memory store referenced by the deployment is archived.
 
-      - `required Type Type`
+      - `JsonElement Type = "memory_store_archived_error"`
 
       - `required string Message`
 
@@ -241,7 +253,7 @@ Get Deployment Run
 
       A skill referenced by the deployment's agent no longer exists.
 
-      - `required Type Type`
+      - `JsonElement Type = "skill_not_found_error"`
 
       - `required string Message`
 
@@ -251,7 +263,7 @@ Get Deployment Run
 
       A referenced resource no longer exists and its kind was not reported.
 
-      - `required Type Type`
+      - `JsonElement Type = "session_resource_not_found_error"`
 
       - `required string Message`
 
@@ -261,7 +273,7 @@ Get Deployment Run
 
       The deployment's workspace was archived.
 
-      - `required Type Type`
+      - `JsonElement Type = "workspace_archived_error"`
 
       - `required string Message`
 
@@ -271,7 +283,7 @@ Get Deployment Run
 
       The deployment's organization is disabled.
 
-      - `required Type Type`
+      - `JsonElement Type = "organization_disabled_error"`
 
       - `required string Message`
 
@@ -281,7 +293,7 @@ Get Deployment Run
 
       Session creation was rejected due to rate limiting. The schedule keeps firing; subsequent runs may succeed.
 
-      - `required Type Type`
+      - `JsonElement Type = "session_rate_limited_error"`
 
       - `required string Message`
 
@@ -291,7 +303,7 @@ Get Deployment Run
 
       The session create request was rejected with a non-retryable validation error.
 
-      - `required Type Type`
+      - `JsonElement Type = "session_creation_rejected_error"`
 
       - `required string Message`
 
@@ -301,7 +313,7 @@ Get Deployment Run
 
       An unknown or unexpected error caused the run to fail. A fallback variant; clients that do not recognize a new error type can match on message alone.
 
-      - `required Type Type`
+      - `JsonElement Type = "unknown_error"`
 
       - `required string Message`
 
@@ -311,7 +323,7 @@ Get Deployment Run
 
       The deployment configures resources, but its environment is self-hosted and cannot mount them.
 
-      - `required Type Type`
+      - `JsonElement Type = "self_hosted_resources_unsupported_error"`
 
       - `required string Message`
 
@@ -321,7 +333,7 @@ Get Deployment Run
 
       An MCP server host used by the deployment's agent is blocked by the environment's network policy.
 
-      - `required Type Type`
+      - `JsonElement Type = "mcp_egress_blocked_error"`
 
       - `required string Message`
 
@@ -339,7 +351,7 @@ Get Deployment Run
 
       The run was fired by the deployment's cron schedule.
 
-      - `required Type Type`
+      - `JsonElement Type = "schedule"`
 
       - `required DateTimeOffset ScheduledAt`
 
@@ -351,11 +363,14 @@ Get Deployment Run
 
       The run was started manually by creating a session directly against the deployment.
 
-      - `required Type Type`
+      - `JsonElement Type = "manual"`
 
 ## Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.DeploymentRuns;
+
 DeploymentRunRetrieveParams parameters = new()
 {
     DeploymentRunID = "deployment_run_id"

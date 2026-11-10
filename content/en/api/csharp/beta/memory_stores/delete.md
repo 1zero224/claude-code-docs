@@ -1,15 +1,15 @@
 ---
-title: Delete a memory store
+title: Delete a Memory Store
 url: https://platform.claude.com/docs/en/api/csharp/beta/memory_stores/delete
 ---
 
-# Delete a memory store
+# Delete a Memory Store
 
 `BetaManagedAgentsDeletedMemoryStore Beta.MemoryStores.Delete(parameters, cancellationToken = default)`
 
 **DELETE** `/v1/memory_stores/{memory_store_id}`
 
-Delete a memory store
+Delete a Memory Store
 
 ## Parameters
 
@@ -17,11 +17,13 @@ Delete a memory store
 
   - `required string memoryStoreID` (path parameter)
 
-    ID of the memory store to permanently delete (a `memstore_...` identifier). Required. Deletion cascades to all memories and memory versions in the store and cannot be undone.
+    The ID of the memory store to delete (`memstore_...`).
+
+    Deleting a store also deletes all its memories and memory versions. It can't be undone.
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
@@ -123,6 +125,18 @@ Delete a memory store
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -135,7 +149,7 @@ Delete a memory store
 
   Confirmation that a `memory_store` was deleted.
 
-  - `required Type Type`
+  - `JsonElement Type = "memory_store_deleted"`
 
   - `required string ID`
 
@@ -144,6 +158,9 @@ Delete a memory store
 ## Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.MemoryStores;
+
 MemoryStoreDeleteParams parameters = new()
 {
     MemoryStoreID = "memory_store_id"

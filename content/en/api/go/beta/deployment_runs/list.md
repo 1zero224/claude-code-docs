@@ -63,7 +63,7 @@ List Deployment Runs
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -165,6 +165,18 @@ List Deployment Runs
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -177,7 +189,7 @@ List Deployment Runs
 
   A persistent, append-only record of a single deployment execution. Records session creation success or failure — no session lifecycle tracking.
 
-  - `Type BetaManagedAgentsDeploymentRunType`
+  - `Type DeploymentRun`
 
   - `ID string`
 
@@ -187,7 +199,7 @@ List Deployment Runs
 
     Snapshot of the agent at fire time. Always fully resolved — deployments pin agent + version.
 
-    - `Type BetaManagedAgentsAgentReferenceType`
+    - `Type Agent`
 
     - `ID string`
 
@@ -213,7 +225,7 @@ List Deployment Runs
 
       The deployment's environment was archived.
 
-      - `Type BetaManagedAgentsEnvironmentArchivedRunErrorType`
+      - `Type EnvironmentArchivedError`
 
       - `Message string`
 
@@ -223,7 +235,7 @@ List Deployment Runs
 
       The deployment's agent was archived.
 
-      - `Type BetaManagedAgentsAgentArchivedRunErrorType`
+      - `Type AgentArchivedError`
 
       - `Message string`
 
@@ -233,7 +245,7 @@ List Deployment Runs
 
       The deployment's environment no longer exists.
 
-      - `Type BetaManagedAgentsEnvironmentNotFoundRunErrorType`
+      - `Type EnvironmentNotFoundError`
 
       - `Message string`
 
@@ -243,7 +255,7 @@ List Deployment Runs
 
       A vault referenced by the deployment no longer exists.
 
-      - `Type BetaManagedAgentsVaultNotFoundRunErrorType`
+      - `Type VaultNotFoundError`
 
       - `Message string`
 
@@ -253,7 +265,7 @@ List Deployment Runs
 
       A vault referenced by the deployment is archived.
 
-      - `Type BetaManagedAgentsVaultArchivedRunErrorType`
+      - `Type VaultArchivedError`
 
       - `Message string`
 
@@ -263,7 +275,7 @@ List Deployment Runs
 
       A file resource referenced by the deployment no longer exists.
 
-      - `Type BetaManagedAgentsFileNotFoundRunErrorType`
+      - `Type FileNotFoundError`
 
       - `Message string`
 
@@ -273,7 +285,7 @@ List Deployment Runs
 
       A memory store referenced by the deployment is archived.
 
-      - `Type BetaManagedAgentsMemoryStoreArchivedRunErrorType`
+      - `Type MemoryStoreArchivedError`
 
       - `Message string`
 
@@ -283,7 +295,7 @@ List Deployment Runs
 
       A skill referenced by the deployment's agent no longer exists.
 
-      - `Type BetaManagedAgentsSkillNotFoundRunErrorType`
+      - `Type SkillNotFoundError`
 
       - `Message string`
 
@@ -293,7 +305,7 @@ List Deployment Runs
 
       A referenced resource no longer exists and its kind was not reported.
 
-      - `Type BetaManagedAgentsSessionResourceNotFoundRunErrorType`
+      - `Type SessionResourceNotFoundError`
 
       - `Message string`
 
@@ -303,7 +315,7 @@ List Deployment Runs
 
       The deployment's workspace was archived.
 
-      - `Type BetaManagedAgentsWorkspaceArchivedRunErrorType`
+      - `Type WorkspaceArchivedError`
 
       - `Message string`
 
@@ -313,7 +325,7 @@ List Deployment Runs
 
       The deployment's organization is disabled.
 
-      - `Type BetaManagedAgentsOrganizationDisabledRunErrorType`
+      - `Type OrganizationDisabledError`
 
       - `Message string`
 
@@ -323,7 +335,7 @@ List Deployment Runs
 
       Session creation was rejected due to rate limiting. The schedule keeps firing; subsequent runs may succeed.
 
-      - `Type BetaManagedAgentsSessionRateLimitedRunErrorType`
+      - `Type SessionRateLimitedError`
 
       - `Message string`
 
@@ -333,7 +345,7 @@ List Deployment Runs
 
       The session create request was rejected with a non-retryable validation error.
 
-      - `Type BetaManagedAgentsSessionCreationRejectedRunErrorType`
+      - `Type SessionCreationRejectedError`
 
       - `Message string`
 
@@ -343,7 +355,7 @@ List Deployment Runs
 
       An unknown or unexpected error caused the run to fail. A fallback variant; clients that do not recognize a new error type can match on message alone.
 
-      - `Type BetaManagedAgentsUnknownRunErrorType`
+      - `Type UnknownError`
 
       - `Message string`
 
@@ -353,7 +365,7 @@ List Deployment Runs
 
       The deployment configures resources, but its environment is self-hosted and cannot mount them.
 
-      - `Type BetaManagedAgentsSelfHostedResourcesUnsupportedRunErrorType`
+      - `Type SelfHostedResourcesUnsupportedError`
 
       - `Message string`
 
@@ -363,7 +375,7 @@ List Deployment Runs
 
       An MCP server host used by the deployment's agent is blocked by the environment's network policy.
 
-      - `Type BetaManagedAgentsMCPEgressBlockedRunErrorType`
+      - `Type MCPEgressBlockedError`
 
       - `Message string`
 
@@ -381,7 +393,7 @@ List Deployment Runs
 
       The run was fired by the deployment's cron schedule.
 
-      - `Type BetaManagedAgentsScheduleTriggerContextType`
+      - `Type Schedule`
 
       - `ScheduledAt Time`
 
@@ -393,7 +405,7 @@ List Deployment Runs
 
       The run was started manually by creating a session directly against the deployment.
 
-      - `Type BetaManagedAgentsManualTriggerContextType`
+      - `Type Manual`
 
 ## Example
 
@@ -404,8 +416,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {

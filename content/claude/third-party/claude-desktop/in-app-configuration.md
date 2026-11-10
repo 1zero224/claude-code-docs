@@ -6,23 +6,25 @@
 
 > Build, test, and export a Claude Desktop on 3P configuration from inside the app, with validation and per-provider guidance
 
-The in-app configuration window is the recommended way to configure Claude Desktop for third-party inference. It validates values as you enter them, shows exactly which fields your inference provider requires, tests the connection against your endpoint, and computes the network egress allowlist for your settings, so you don't have to hand-edit JSON, plists, or registry keys.
+The in-app configuration window is the recommended way to configure Claude Desktop for third-party inference. It validates values as you enter them, shows exactly which fields your inference provider requires, tests the connection against your endpoint, and computes the network egress allowlist for your settings.
 
 ## Open the configuration window
 
 From the macOS menu bar (or on Windows, the application menu ☰ in the top-left of the sign-in screen), go to **Help → Troubleshooting → Enable Developer Mode**, then **Developer → Configure Third-Party Inference…**.
 
-Developer mode stays on across restarts. To turn it off again, go to **Developer → Open Developer Config File**, change `"allowDevTools": true` to `false` in the file that opens (or delete the file), save it, then quit and reopen Claude Desktop. The **Developer** menu is gone on the next launch.
+If you turn on Developer mode while the app is running a third-party configuration, it stays on across restarts. If you turned it on before that, the **Developer** menu is gone once the app relaunches into a third-party configuration, for example after **Apply Changes**. Go to **Help → Troubleshooting → Enable Developer Mode** again, and it stays on from then on. If the configuration sets [`developerModeEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#developermodeenabled) to `false`, neither that item nor the **Developer** menu appears.
 
-<Frame caption="The in-app configuration window, showing the Connection section for a gateway provider.">
-  <img src="https://mintcdn.com/claude-ai/kVj7_7KF4fI3bEAn/images/third-party/in-app-configuration-window.png?fit=max&auto=format&n=kVj7_7KF4fI3bEAn&q=85&s=c3f15a85dea85082bc6dbc9459e6a974" alt="Claude Desktop in-app configuration window with the sidebar of setting groups on the left and the Connection form on the right." width="1812" height="1462" data-path="images/third-party/in-app-configuration-window.png" />
-</Frame>
+To turn Developer mode off again, go to **Developer → Open Developer Config File**, change `"allowDevTools": true` to `false` in the file that opens (or delete the file), save it, then quit and reopen Claude Desktop. The **Developer** menu is gone on the next launch.
 
-The sidebar groups settings the same way the [configuration reference](/docs/third-party/claude-desktop/configuration) does. Fill in **Connection** first, then work down through the sections your deployment needs.
+![Claude Desktop in-app configuration window with the sidebar of setting groups on the left and the Connection form on the right.](https://mintcdn.com/claude-ai/kVj7_7KF4fI3bEAn/images/third-party/in-app-configuration-window.png?fit=max\&auto=format\&n=kVj7_7KF4fI3bEAn\&q=85\&s=c3f15a85dea85082bc6dbc9459e6a974)
+
+The in-app configuration window, showing the Connection section for a gateway provider.
+
+The sidebar groups settings the same way the [configuration reference](https://claude.com/docs/third-party/claude-desktop/configuration.md) does. Fill in **Connection** first, then work down through the sections your deployment needs.
 
 ## Apply locally or export for a fleet
 
-Use **Apply Changes** to write the configuration to this device only and relaunch into it. This is the [single-machine setup](/docs/third-party/claude-desktop/installation#single-machine-setup) path for evaluation and pilots.
+Use **Apply Changes** to write the configuration to this device only and relaunch into it. This is the [single-machine setup](https://claude.com/docs/third-party/claude-desktop/installation.md#single-machine-setup) path for evaluation and pilots.
 
 Use the **Export** menu to generate deployment artifacts for a fleet:
 
@@ -32,9 +34,9 @@ Use the **Export** menu to generate deployment artifacts for a fleet:
 | `.reg` policy file | Intune, Group Policy, or any Windows MDM |
 | ADMX template (`.zip`) | Intune or Group Policy; a schema-only template, you enter values in the management console |
 | Profile Manifest (`.plist`) | Jamf, ProfileCreator, or similar macOS tools; a schema-only template, you enter values in your tool |
-| JSON config | The response body for a [bootstrap server](/docs/third-party/claude-desktop/bootstrap), or a configuration file for a device without MDM |
-| Egress allowlist | Your firewall or network team |
+| JSON config | The response body for a [bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md), a file to import into the [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md#start-from-an-existing-configuration-file), or a configuration file for a device without MDM |
+| Firewall allowlist (`.txt`) | Your firewall or network team |
 
-See [Deploy with MDM](/docs/third-party/claude-desktop/mdm) or [Deploy with a bootstrap server](/docs/third-party/claude-desktop/bootstrap) to distribute what you exported.
+See [Deploy with MDM](https://claude.com/docs/third-party/claude-desktop/mdm.md) or [Deploy with a bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md) to distribute what you exported.
 
-When a managed profile is already present on the device, the window opens in read-only mode and shows the deployed values. Author new configurations from a device without a managed profile.
+When a managed profile is already present on the device, the window opens in read-only mode and shows the deployed values. Its **Export** menu offers **JSON config (redacted)**, a file to [import into the Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md#start-from-an-existing-configuration-file). This option requires Claude Desktop 4.23118.0 or later. Author new configurations from a device without a managed profile.

@@ -6,42 +6,40 @@
 
 > Host an HTTPS endpoint that returns each user's configuration, for organizations without MDM or with role-based configuration too complex for per-group profiles
 
-<Note>
-  Requires Claude Desktop **1.10628.0** or later. Earlier builds ignore the `bootstrapUrl` keys.
-</Note>
+> [!NOTE]
+>
+> Requires Claude Desktop **1.10628.0** or later. Earlier builds ignore the `bootstrapUrl` keys.
 
-A **bootstrap server** is an HTTPS endpoint you host that authenticates each user against your identity provider and returns that user's configuration as JSON. Use it when your organization doesn't have MDM, or when configuration varies too widely for per-group profiles: per-user gateway credentials, per-team model allowlists, or per-user OpenTelemetry attribution. When one configuration or a few group-scoped profiles cover your fleet, [deploying with MDM](/docs/third-party/claude-desktop/mdm) is simpler; most MDMs support role-based distribution.
+A **bootstrap server** is an HTTPS endpoint you host that authenticates each user against your identity provider and returns that user's configuration as JSON. Use it when your organization doesn't have MDM, or when configuration varies too widely for per-group profiles: per-user gateway credentials, per-team model allowlists, or per-user OpenTelemetry attribution. When one configuration or a few group-scoped profiles cover your fleet, [deploying with MDM](https://claude.com/docs/third-party/claude-desktop/mdm.md) is simpler; most MDMs support role-based distribution.
 
 When a bootstrap response is available, it **is** the effective configuration. The MDM profile supplies the trust anchor (`bootstrapUrl`, optional `bootstrapOidc` or `bootstrapHeaders`/`bootstrapHeadersHelper`, and the `bootstrapEnabled` opt-out), and Claude Desktop does not consult MDM for any key the bootstrap server is permitted to set. A bootstrap-settable key that your response **omits** is treated as unset, not inherited from MDM, so return every key you want applied.
 
-<Warning>
-  Your bootstrap server is fully trusted. Its response can set inference credentials, the egress allowlist, MCP servers, and every other key in the [published schema](#response-schema). Treat compromise of this endpoint as credential compromise: restrict who can deploy it, log every response, and harden it as you would any secrets-issuing service.
-</Warning>
+> [!WARNING]
+>
+> Your bootstrap server is fully trusted. Its response can set inference credentials, the egress allowlist, MCP servers, and every other key in the [published schema](#response-schema). Treat compromise of this endpoint as credential compromise: restrict who can deploy it, log every response, and harden it as you would any secrets-issuing service.
 
 Before the server can take over, each device needs the bootstrap keys that point at it. There are two ways to get them onto a device:
 
 * **With MDM:** deploy a profile that sets `bootstrapUrl` (and `bootstrapOidc` if you use one).
 * **Without MDM:** give each user a small JSON file containing those keys, which they load from **Developer → Configure Third-Party Inference… → Import configuration**.
 
-Either way, the bootstrap server supplies everything else after the user signs in. See [Installation and setup](/docs/third-party/claude-desktop/installation) for the surrounding workflow.
+Either way, the bootstrap server supplies everything else after the user signs in. See [Installation and setup](https://claude.com/docs/third-party/claude-desktop/installation.md) for the surrounding workflow.
 
-On a device whose MDM profile carries the bootstrap keys, a user who signs in to any organization that uses the [Enterprise Admin Console](/docs/third-party/claude-desktop/admin-console) can move the device to that organization's configuration. The app then stops contacting your server. To prevent that, set [`disableDeploymentModeChooser`](/docs/third-party/claude-desktop/configuration#disabledeploymentmodechooser) to `true` in the profile itself, not only in your server's response, as described under [Keep a device on its managed profile](/docs/third-party/claude-desktop/admin-console#keep-a-device-on-its-managed-profile).
-
-If you set `deploymentOrganizationUuid`, include it in the MDM profile or imported configuration file, and return the same value in your bootstrap response, as a plain UUID without braces in both places. Claude Desktop uses the device-side value at startup to locate sessions, skills, and plugins stored on the device.
+On a device whose MDM profile carries the bootstrap keys, a user who signs in to any organization that uses the [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md) can move the device to that organization's configuration. The app then stops contacting your server. To prevent that, restrict the device to Claude Desktop on 3P in the profile itself, as described under [Restrict a device to one deployment mode](https://claude.com/docs/third-party/claude-desktop/mdm.md#restrict-a-device-to-one-deployment-mode).
 
 ## How it works
 
 1. Your managed configuration (MDM or imported) sets `bootstrapUrl` (and `bootstrapOidc` if you use a separate identity provider).
 2. At launch, the app authenticates via one of the [modes below](#authentication) and sends `GET <bootstrapUrl>` with the resulting `Authorization: Bearer <token>` or the request headers you configured.
-3. Your server validates the token, **authorizes** the caller against your directory or entitlement source, and returns a JSON object whose keys are the same managed-configuration key names documented in the [configuration reference](/docs/third-party/claude-desktop/configuration).
+3. Your server validates the token, **authorizes** the caller against your directory or entitlement source, and returns a JSON object whose keys are the same managed-configuration key names documented in the [configuration reference](https://claude.com/docs/third-party/claude-desktop/configuration.md).
 4. The app validates each key against the [response schema](#response-schema), drops anything it doesn't recognize or that fails validation, and applies the result as the effective configuration.
-5. The response is cached in memory (until your `expiresAt`, or 1 hour by default). The app also re-checks in the background every [`configRecheckIntervalMinutes`](/docs/third-party/claude-desktop/configuration#configrecheckintervalminutes) (10 minutes by default, 2 to 30 allowed) with a conditional request, so an unchanged configuration costs your server a `304` (see [Caching and `expiresAt`](#caching-and-expiresat)). Releases before 1.46388.1 re-check every 30 minutes and ignore `configRecheckIntervalMinutes`.
+5. The response is cached in memory (until your `expiresAt`, or 1 hour by default). The app also re-checks in the background every [`configRecheckIntervalMinutes`](https://claude.com/docs/third-party/claude-desktop/configuration#configrecheckintervalminutes) (10 minutes by default, 2 to 30 allowed) with a conditional request, so an unchanged configuration costs your server a `304` (see [Caching and `expiresAt`](#caching-and-expiresat)). Releases before 1.46388.1 re-check every 30 minutes and ignore `configRecheckIntervalMinutes`.
 
 If the user has not yet signed in, or the fetch fails with no cached response from this session, the app starts in a degraded state with no inference provider configured and prompts the user to sign in.
 
 ### Availability
 
-The full response is held **in memory only**. If your bootstrap server is unreachable when Claude Desktop launches, the user stays in the degraded sign-in state until the server recovers. A failed refetch *during* a running session keeps the in-memory response and retries, so an outage that starts mid-session does not disrupt active users until they relaunch.
+The full response is held **in memory only**. If your bootstrap server is unreachable when Claude Desktop launches, the user stays in the degraded sign-in state until the server recovers. On Claude Desktop 3.6556.1 or later, the Cowork tasks, Code sessions, projects, and scheduled tasks already on the device stay listed during that time. On those versions, scheduled tasks don't run until the app gets its configuration from your server, and then each task that missed a run runs once. A failed refetch *during* a running session keeps the in-memory response and retries, so an outage that starts mid-session does not disrupt active users until they relaunch.
 
 Each device also keeps a small record from the last response it applied, and applies the settings in that record at the next launch until your server answers. Signing out of Claude Desktop deletes the record. It holds only these values, when the response sets them:
 
@@ -53,11 +51,11 @@ The record holds no credentials, inference provider settings, MCP servers, or ot
 
 Run the endpoint across multiple replicas or regions behind a load balancer. Do not rely on response caching for availability: responses are per-user and carry credentials (see the `Cache-Control: no-store` guidance under [Server responsibilities](#server-responsibilities)). If your configuration data lives in a database, a read replica of that store improves availability without caching responses.
 
-When a refetch returns different values, a few settings apply to the running app without a restart, such as the banner, the display name, and the token limit, as do the two lifecycle keys described below. Every other setting, including inference credentials, the egress allowlist, MCP servers, and the model list, stays on the values the app launched with. For those, the app prompts the user to restart and applies the new response when it relaunches.
+When two refetches in a row return the same changed values, a few settings apply to the running app without a restart, such as the banner, the display name, and the token limit, as do the two lifecycle keys described below. Every other setting, including inference credentials, the egress allowlist, MCP servers, and the model list, stays on the values the app launched with. For those, the app prompts the user to restart and applies the new response when it relaunches.
 
-Claude Desktop 1.40609.0 and later enforce that restart. Once a background re-check returns a changed response that needs a restart, the user can keep working for [`relaunchEnforcementHours`](/docs/third-party/claude-desktop/configuration#relaunchenforcementhours) (24 hours by default, at most 336 hours, or `0` to require the restart at once; releases before 1.46388.1 default to 1 hour). After that window the app blocks further use until it restarts, and it relaunches on its own once it has been idle for two minutes (no Claude task running and no keyboard or pointer input).
+Claude Desktop 1.40609.0 and later enforce that restart. Once a background re-check returns a change that needs a restart and a second check about 30 seconds later confirms it, the user can keep working for [`relaunchEnforcementHours`](https://claude.com/docs/third-party/claude-desktop/configuration#relaunchenforcementhours), 24 hours by default (1 hour in releases before 1.46388.1). After that window the app blocks further use until it restarts, and it relaunches on its own after two minutes with no keyboard or pointer input and no Claude task running.
 
-Return `relaunchEnforcementHours` in the bootstrap response to change the window, and `configRecheckIntervalMinutes` to change how often running apps check for a new response. The app reads both keys from the newest response, so changing them does not itself require a restart. In the nested response format ([`bootstrap-config-v2`](#response-schema)) both keys sit under `lifecycle`, as `lifecycle.relaunchEnforcementHours` and `lifecycle.configRecheckIntervalMinutes`. Releases before 1.46388.1 read the window from `bootstrap.relaunchEnforcementHours` and do not read the `lifecycle` path, so move the value when your fleet updates (the flat-format key name is unchanged). On a device where `bootstrapUrl` came from an imported file rather than MDM, a device-management profile that sets only [app-behavior keys](/docs/third-party/claude-desktop/mdm#update-keys-and-managed-precedence), such as the update keys, supplies these two keys as well, so set them in that profile or the defaults apply there.
+Return `relaunchEnforcementHours` in the bootstrap response to change the window, and `configRecheckIntervalMinutes` to change how often running apps check for a new response. The app reads both keys from the newest response, so changing them does not itself require a restart. In the nested response format ([`bootstrap-config-v2`](#response-schema)) both keys sit under `lifecycle`, as `lifecycle.relaunchEnforcementHours` and `lifecycle.configRecheckIntervalMinutes`. Releases before 1.46388.1 read the window from `bootstrap.relaunchEnforcementHours` and do not read the `lifecycle` path, so move the value when your fleet updates (the flat-format key name is unchanged). On a device where `bootstrapUrl` came from an imported file rather than MDM, a device-management profile that sets only [app-behavior keys](https://claude.com/docs/third-party/claude-desktop/mdm.md#update-keys-and-managed-precedence), such as the update keys, supplies these two keys as well, so set them in that profile or the defaults apply there.
 
 When rotating an inference credential, keep the previous credential valid until your fleet has relaunched. For devices that are running, allow at least one re-check interval plus the relaunch window: with the defaults that is `configRecheckIntervalMinutes` (10 minutes) plus `relaunchEnforcementHours` (24 hours), so about a day. For devices that are off, it is their next launch.
 
@@ -149,56 +147,54 @@ The bootstrap request is always authenticated: either each user signs in and the
 
 ### Separate identity provider (PKCE)
 
-<Steps>
-  <Step title="Register a public client in your identity provider">
-    Register a native or public application with a loopback redirect URI and no client secret. The registration is identical to the one used for [gateway single sign-on](/docs/third-party/claude-desktop/gateway#set-up-single-sign-on); if you already have that, reuse it. See the [provider notes](#provider-notes) below for redirect-URI specifics.
+**1. Register a public client in your identity provider**
 
-    For Microsoft Entra ID, also set an **Application ID URI** on the registration (App registration → **Expose an API** → **Set**; accept the default `api://CLIENT_ID`). The `CLIENT_ID/.default` scope in the next step does not resolve without it.
-  </Step>
+Register a native or public application with a loopback redirect URI and no client secret. The registration is identical to the one used for [gateway single sign-on](https://claude.com/docs/third-party/claude-desktop/gateway.md#set-up-single-sign-on); if you already have that, reuse it. See the [provider notes](#provider-notes) below for redirect-URI specifics.
 
-  <Step title="Choose the scope your server will validate">
-    The app sends the OAuth **access token** as the bearer. Your server validates that token's `aud`, so the scope you request must produce a token whose audience your server accepts. This is provider-specific:
+For Microsoft Entra ID, also set an **Application ID URI** on the registration (App registration → **Expose an API** → **Set**; accept the default `api://CLIENT_ID`). The `CLIENT_ID/.default` scope in the next step does not resolve without it.
 
-    | Provider | Scope to request | Resulting `aud` |
-    | - | - | - |
-    | Microsoft Entra ID | `openid offline_access CLIENT_ID/.default` | your client ID |
-    | Okta (custom authorization server) | `openid offline_access YOUR_API_SCOPE` | your authorization server's audience |
-    | Generic OIDC | `openid offline_access` plus your API's resource scope | provider-specific |
+**2. Choose the scope your server will validate**
 
-    Include `offline_access` so the app receives a refresh token and can renew silently between launches.
+The app sends the OAuth **access token** as the bearer. Your server validates that token's `aud`, so the scope you request must produce a token whose audience your server accepts. This is provider-specific:
 
-    <Warning>
-      For Entra, use the bare-GUID form `CLIENT_ID/.default`, **not** `api://CLIENT_ID/.default`. The `api://` form works on the initial authorize but fails on the refresh grant with `AADSTS90009` when the client and resource are the same application.
-    </Warning>
-  </Step>
+| Provider | Scope to request | Resulting `aud` |
+| - | - | - |
+| Microsoft Entra ID | `openid offline_access CLIENT_ID/.default` | your client ID |
+| Okta (custom authorization server) | `openid offline_access YOUR_API_SCOPE` | your authorization server's audience |
+| Generic OIDC | `openid offline_access` plus your API's resource scope | provider-specific |
 
-  <Step title="Validate the token in your server">
-    See [Server responsibilities](#server-responsibilities). What the token's `iss` and `aud` look like depends on your provider:
+Include `offline_access` so the app receives a refresh token and can renew silently between launches.
 
-    | Provider | `iss` to expect | `aud` to expect | JWKS URL |
-    | - | - | - | - |
-    | Microsoft Entra ID (token version `2`) | `https://login.microsoftonline.com/TENANT/v2.0` | your client ID | `https://login.microsoftonline.com/TENANT/discovery/v2.0/keys` |
-    | Okta (custom authorization server) | `https://YOUR_DOMAIN.okta.com/oauth2/AUTH_SERVER_ID` | the audience configured on that authorization server | `<issuer>/v1/keys` |
+> [!WARNING]
+>
+> For Entra, use the bare-GUID form `CLIENT_ID/.default`, **not** `api://CLIENT_ID/.default`. The `api://` form works on the initial authorize but fails on the refresh grant with `AADSTS90009` when the client and resource are the same application.
 
-    **Entra token version.** A new Entra app registration emits v1-format access tokens by default, with `iss` = `https://sts.windows.net/TENANT/` and `aud` = `api://CLIENT_ID`. Set the accepted-token-version field in the registration's **Manifest** to `2` so tokens match the table above. The portal shows this field as either `accessTokenAcceptedVersion` or `api.requestedAccessTokenVersion` depending on the manifest view; set whichever you see. If you cannot change it, your server must accept both the v1 and v2 forms.
+**3. Validate the token in your server**
 
-    **Group and role claims.** Entra does not emit `groups` or `roles` in access tokens by default. Enable the groups claim under App registration → **Token configuration**, or define **App roles** and assign users via **Enterprise applications**. The `oid` claim is always present. For Okta, add a `groups` claim on your custom authorization server with a group filter.
-  </Step>
+See [Server responsibilities](#server-responsibilities). What the token's `iss` and `aud` look like depends on your provider:
 
-  <Step title="Configure and export from Claude Desktop">
-    Install Claude Desktop on an admin workstation (see [Installation](/docs/third-party/claude-desktop/installation)). From the menu bar, open **Developer → Configure Third-Party Inference…**. In the **Source** section, fill in the **Bootstrap config URL** card:
+| Provider | `iss` to expect | `aud` to expect | JWKS URL |
+| - | - | - | - |
+| Microsoft Entra ID (token version `2`) | `https://login.microsoftonline.com/TENANT/v2.0` | your client ID | `https://login.microsoftonline.com/TENANT/discovery/v2.0/keys` |
+| Okta (custom authorization server) | `https://YOUR_DOMAIN.okta.com/oauth2/AUTH_SERVER_ID` | the audience configured on that authorization server | `<issuer>/v1/keys` |
 
-    | Field | Value |
-    | - | - |
-    | Bootstrap config URL | `https://YOUR_BOOTSTRAP_HOST/user/bootstrap` |
-    | Bootstrap OIDC parameters → Client ID | `YOUR_CLIENT_ID` |
-    | Bootstrap OIDC parameters → Issuer URL | `https://login.microsoftonline.com/YOUR_TENANT_ID/v2.0` |
-    | Bootstrap OIDC parameters → Scopes | `openid offline_access YOUR_CLIENT_ID/.default` |
-    | Bootstrap OIDC parameters → Redirect port | leave empty for Entra; set for Okta |
+**Entra token version.** A new Entra app registration emits v1-format access tokens by default, with `iss` = `https://sts.windows.net/TENANT/` and `aud` = `api://CLIENT_ID`. Set the accepted-token-version field in the registration's **Manifest** to `2` so tokens match the table above. The portal shows this field as either `accessTokenAcceptedVersion` or `api.requestedAccessTokenVersion` depending on the manifest view; set whichever you see. If you cannot change it, your server must accept both the v1 and v2 forms.
 
-    Click **Sign in** to test against your typed values. Once authenticated, the card shows the keys your server supplied. Click **Export** and choose the template format your MDM expects (`.mobileconfig`, ADMX, Intune OMA-URI JSON, or `.reg`). See [Deploy the configuration](/docs/third-party/claude-desktop/mdm#4-deploy-the-configuration) for per-platform instructions.
-  </Step>
-</Steps>
+**Group and role claims.** Entra does not emit `groups` or `roles` in access tokens by default. Enable the groups claim under App registration → **Token configuration**, or define **App roles** and assign users via **Enterprise applications**. The `oid` claim is always present. For Okta, add a `groups` claim on your custom authorization server with a group filter.
+
+**4. Configure and export from Claude Desktop**
+
+Install Claude Desktop on an admin workstation (see [Installation](https://claude.com/docs/third-party/claude-desktop/installation.md)). From the menu bar, open **Developer → Configure Third-Party Inference…**. In the **Source** section, fill in the **Bootstrap config URL** card:
+
+| Field | Value |
+| - | - |
+| Bootstrap config URL | `https://YOUR_BOOTSTRAP_HOST/user/bootstrap` |
+| Bootstrap OIDC parameters → Client ID | `YOUR_CLIENT_ID` |
+| Bootstrap OIDC parameters → Issuer URL | `https://login.microsoftonline.com/YOUR_TENANT_ID/v2.0` |
+| Bootstrap OIDC parameters → Scopes | `openid offline_access YOUR_CLIENT_ID/.default` |
+| Bootstrap OIDC parameters → Redirect port | leave empty for Entra; set for Okta |
+
+Click **Sign in** to test against your typed values. Once authenticated, the card shows the keys your server supplied. Click **Export** and choose the template format your MDM expects (such as `.mobileconfig`, ADMX, or `.reg`). See [Deploy the configuration](https://claude.com/docs/third-party/claude-desktop/mdm.md#4-deploy-the-configuration) for per-platform instructions.
 
 #### Provider notes
 
@@ -208,68 +204,80 @@ The bootstrap request is always authenticated: either each user signs in and the
 | Okta | `http://127.0.0.1:53180/callback` (any fixed port) on a **Native** application | Set to the registered port | Create a custom authorization server with an audience your bootstrap server validates. |
 | Other OIDC | `http://127.0.0.1/callback` | Set only if exact-port match is enforced | None |
 
-Register the redirect URI with `127.0.0.1` rather than `localhost`, because the app sends `http://127.0.0.1:<port>/callback` by default. If your identity provider accepts only `localhost` in a registered redirect URI, set the `redirectHost` field of [`bootstrapOidc`](/docs/third-party/claude-desktop/configuration#bootstrapoidc) to `localhost` and register `http://localhost/callback` instead, or `http://localhost:<port>/callback` when you set a redirect port.
+Register the redirect URI with `127.0.0.1` rather than `localhost`, because the app sends `http://127.0.0.1:<port>/callback` by default. If your identity provider accepts only `localhost` in a registered redirect URI, set the `redirectHost` field of [`bootstrapOidc`](https://claude.com/docs/third-party/claude-desktop/configuration#bootstrapoidc) to `localhost` and register `http://localhost/callback` instead, or `http://localhost:<port>/callback` when you set a redirect port.
 
-This page covers only the bootstrap sign-in. Authentication for inference is independent of bootstrap and depends on what your response provisions; see the relevant provider page ([gateway SSO](/docs/third-party/claude-desktop/gateway#single-sign-on-with-your-identity-provider), [Google Cloud's Agent Platform](/docs/third-party/claude-desktop/vertex), [Amazon Bedrock](/docs/third-party/claude-desktop/bedrock), [Microsoft Foundry](/docs/third-party/claude-desktop/foundry)).
+This page covers only the bootstrap sign-in. Authentication for inference is independent of bootstrap and depends on what your response provisions; see the relevant provider page ([gateway SSO](https://claude.com/docs/third-party/claude-desktop/gateway.md#single-sign-on-with-your-identity-provider), [Google Cloud's Agent Platform](https://claude.com/docs/third-party/claude-desktop/vertex.md), [Amazon Bedrock](https://claude.com/docs/third-party/claude-desktop/bedrock.md), [Microsoft Foundry](https://claude.com/docs/third-party/claude-desktop/foundry.md)).
 
 ### Bootstrap server as authorization server (device code)
 
 Set only `bootstrapUrl` in MDM. The app discovers your authorization endpoints via RFC 8414 and runs an RFC 8628 device-code grant. The bearer is reused for inference when `inferenceGatewayBaseUrl` shares the `bootstrapUrl` origin and `inferenceCredentialKind` is `interactive`, so the user signs in once for both.
 
-<Steps>
-  <Step title="Publish RFC 8414 discovery metadata">
-    Serve a metadata document under the `bootstrapUrl` path. If `bootstrapUrl` ends in `/bootstrap` or `/user/bootstrap`, that suffix is stripped to form the issuer base.
+**1. Publish RFC 8414 discovery metadata**
 
-    ```text theme={null}
-    GET https://YOUR_BOOTSTRAP_HOST/.well-known/oauth-authorization-server
-    ```
+Serve a metadata document under the `bootstrapUrl` path. If `bootstrapUrl` ends in `/bootstrap` or `/user/bootstrap`, that suffix is stripped to form the issuer base.
 
-    ```json theme={null}
-    {
-      "issuer": "https://YOUR_BOOTSTRAP_HOST",
-      "token_endpoint": "https://YOUR_BOOTSTRAP_HOST/oauth/token",
-      "device_authorization_endpoint": "https://YOUR_BOOTSTRAP_HOST/oauth/device"
-    }
-    ```
+```text theme={null}
+GET https://YOUR_BOOTSTRAP_HOST/.well-known/oauth-authorization-server
+```
 
-    Every endpoint URL must share the `bootstrapUrl` origin. Metadata that points off-origin is rejected.
-  </Step>
+```json theme={null}
+{
+  "issuer": "https://YOUR_BOOTSTRAP_HOST",
+  "token_endpoint": "https://YOUR_BOOTSTRAP_HOST/oauth/token",
+  "device_authorization_endpoint": "https://YOUR_BOOTSTRAP_HOST/oauth/device"
+}
+```
 
-  <Step title="Implement the device-code grant">
-    `POST` to `device_authorization_endpoint` returns:
+Every endpoint URL must share the `bootstrapUrl` origin. Metadata that points off-origin is rejected.
 
-    ```json theme={null}
-    {
-      "device_code": "EXAMPLE-DEVICE-CODE-OPAQUE-TO-CLIENT",
-      "user_code": "ABCD-EFGH",
-      "verification_uri": "https://YOUR_BOOTSTRAP_HOST/activate",
-      "verification_uri_complete": "https://YOUR_BOOTSTRAP_HOST/activate?user_code=ABCD-EFGH",
-      "interval": 5,
-      "expires_in": 600
-    }
-    ```
+**2. Implement the device-code grant**
 
-    `verification_uri` and `verification_uri_complete` must share the `bootstrapUrl` origin; federate behind your own pages rather than returning an upstream provider's URL directly. The app opens the verification URL in the user's browser and shows the user code.
+`POST` to `device_authorization_endpoint` returns:
 
-    The app polls `token_endpoint` with `grant_type=urn:ietf:params:oauth:grant-type:device_code` and the `device_code`. Return `{"error":"authorization_pending"}` until the user approves, then:
+```json theme={null}
+{
+  "device_code": "EXAMPLE-DEVICE-CODE-OPAQUE-TO-CLIENT",
+  "user_code": "ABCD-EFGH",
+  "verification_uri": "https://YOUR_BOOTSTRAP_HOST/activate",
+  "verification_uri_complete": "https://YOUR_BOOTSTRAP_HOST/activate?user_code=ABCD-EFGH",
+  "interval": 5,
+  "expires_in": 600
+}
+```
 
-    ```json theme={null}
-    { "access_token": "eyJhbGciOiJSUzI1NiIs...", "expires_in": 3600 }
-    ```
+`verification_uri` and `verification_uri_complete` must share the `bootstrapUrl` origin; federate behind your own pages rather than returning an upstream provider's URL directly. The app opens the verification URL in the user's browser and shows the user code.
 
-    The polling interval is clamped between 1 and 30 seconds; the grant times out after 5 minutes; the token lifetime you return is clamped between 5 minutes and 30 days (24 hours before 1.17377.1).
+The app polls `token_endpoint` with `grant_type=urn:ietf:params:oauth:grant-type:device_code` and the `device_code`. Return `{"error":"authorization_pending"}` until the user approves, then:
 
-    When `inferenceGatewayBaseUrl` shares the `bootstrapUrl` origin, so the same sign-in also serves inference, you may also return a `refresh_token` (optionally with `refresh_token_expires_in` in seconds): as the access token nears expiry during use, Claude Desktop 1.34493.0 and later renews it with an RFC 6749 `grant_type=refresh_token` POST to your `token_endpoint` rather than interrupting the user. The configuration fetch at launch still asks the user to sign in if the access token itself has already expired. Answer `400` with `{"error":"invalid_grant"}` to revoke the refresh token and require a fresh sign-in.
-  </Step>
+```json theme={null}
+{ "access_token": "eyJhbGciOiJSUzI1NiIs...", "expires_in": 3600 }
+```
 
-  <Step title="Serve the configuration endpoint">
-    On `GET <bootstrapUrl>` with a valid bearer, look up the user from the token claims and return their configuration (see [the HTTP contract](#the-http-contract)).
-  </Step>
-</Steps>
+The polling interval is clamped between 1 and 30 seconds; the grant times out after 5 minutes; the token lifetime you return is clamped between 5 minutes and 30 days (24 hours before 1.17377.1).
+
+When `inferenceGatewayBaseUrl` shares the `bootstrapUrl` origin, so the same sign-in also serves inference, you may also return a `refresh_token` (optionally with `refresh_token_expires_in` in seconds): as the access token nears expiry during use, Claude Desktop 1.34493.0 and later renews it with an RFC 6749 `grant_type=refresh_token` POST to your `token_endpoint` rather than interrupting the user. The configuration fetch at launch still asks the user to sign in if the access token itself has already expired. Answer `400` with `{"error":"invalid_grant"}` to revoke the refresh token and require a fresh sign-in.
+
+**3. Serve the configuration endpoint**
+
+On `GET <bootstrapUrl>` with a valid bearer, look up the user from the token claims and return their configuration (see [the HTTP contract](#the-http-contract)).
 
 ### Request headers (no per-user sign-in)
 
-Requires Claude Desktop 1.32885.1 or later. Set `bootstrapHeaders` to a JSON object of headers to send on every bootstrap fetch, or `bootstrapHeadersHelper` to the absolute path of an executable that prints such an object on stdout (run with no arguments; its output is cached for a few minutes and merged over the static headers, the helper winning on a conflict). When either key is set and `bootstrapOidc` is not, the app treats the headers as sufficient authentication and fetches the configuration without prompting the user to sign in. If your server answers `401` or `403`, the app discards the cached helper output so the next fetch (the next background check, or a relaunch) re-runs the helper. At launch the app also shows a sign-in prompt; that sign-in succeeds only if your server implements the [device-code grant](#bootstrap-server-as-authorization-server-device-code), so a headers-only server should return `401`/`403` only for a genuinely unusable credential. A `401`/`403` on a background check keeps the running configuration and retries at the next check without prompting. A signed-in user's bearer token replaces any `Authorization` header you configured. Both keys are read from device management or the local configuration file only, never from the bootstrap response, and header values are masked in the diagnostic report. [Origin pinning](#origin-pinning) applies in this mode exactly as in device-code mode. Use this instead of embedding `user:password@` in `bootstrapUrl`, which the app refuses.
+Requires Claude Desktop 1.32885.1 or later. Use this mode instead of embedding `user:password@` in `bootstrapUrl`, which the app refuses.
+
+Set one or both of these keys, described under [MDM configuration keys](#mdm-configuration-keys):
+
+* `bootstrapHeaders`: a JSON object of headers to send on every bootstrap fetch
+* `bootstrapHeadersHelper`: the absolute path of an executable that prints such an object on stdout
+
+When either key is set and `bootstrapOidc` is not, the app treats the headers as sufficient authentication and fetches the configuration without prompting the user to sign in.
+
+If your server answers `401` or `403`, the app discards the cached helper output so the next fetch (the next background check, or a relaunch) re-runs the helper.
+
+* **`401` or `403` at launch**: the app also shows a sign-in prompt. That sign-in succeeds only if your server implements the [device-code grant](#bootstrap-server-as-authorization-server-device-code), so a headers-only server should return `401`/`403` only for a genuinely unusable credential.
+* **`401` or `403` on a background check**: the app keeps the running configuration and retries at the next check without prompting.
+
+A signed-in user's bearer token replaces any `Authorization` header you configured. Both keys are read from device management or the local configuration file only, never from the bootstrap response, and header values are masked in the diagnostic report. [Origin pinning](#origin-pinning) applies in this mode exactly as in device-code mode.
 
 ## The HTTP contract
 
@@ -310,16 +318,16 @@ Return `200 OK` with `Content-Type: application/json` and a JSON object whose ke
 | `401`, `403` | Discard the cached token and prompt the user to sign in again. A `401` on a background refresh keeps the running configuration. When the same sign-in also serves inference, the app treats it as an ended session and asks the user to sign in again (1.34493.0 and later); otherwise it retries at the next check without prompting. Return `401` when the token is missing, expired, or the wrong audience; return `403` when the token is valid but the caller is not entitled. |
 | Other non-2xx, or `3xx` | Fetch error. Falls back to the last good response from this session if one exists; otherwise the app stays in the degraded sign-in state. |
 
-<Warning>
-  A `200` that is not a JSON object (an empty body, an HTML page from a captive portal or load balancer, or a JSON array) is a parse error. Make sure intermediate proxies do not rewrite the response.
-</Warning>
+> [!WARNING]
+>
+> A `200` that is not a JSON object (an empty body, an HTML page from a captive portal or load balancer, or a JSON array) is a parse error. Make sure intermediate proxies do not rewrite the response.
 
 ### Response schema
 
-The full set of bootstrap-settable keys is published as a machine-readable JSON Schema, generated from the same source as the [configuration reference](/docs/third-party/claude-desktop/configuration) and updated with each release:
+The full set of bootstrap-settable keys is published as a machine-readable JSON Schema, generated from the same source as the [configuration reference](https://claude.com/docs/third-party/claude-desktop/configuration.md) and updated with each release:
 
-* [`/third-party/claude-desktop/schemas/bootstrap-config-v2.schema.json`](/docs/third-party/claude-desktop/schemas/bootstrap-config-v2.schema.json) (recommended): nested response format with a discriminated `inference` object.
-* [`/third-party/claude-desktop/schemas/bootstrap-config-v1.schema.json`](/docs/third-party/claude-desktop/schemas/bootstrap-config-v1.schema.json): flat format, with the managed-configuration key names at the top level as in the example above and in the [configuration reference](/docs/third-party/claude-desktop/configuration). The app accepts either format.
+* [`/third-party/claude-desktop/schemas/bootstrap-config-v2.schema.json`](https://claude.com/docs/third-party/claude-desktop/schemas/bootstrap-config-v2.schema.json) (recommended): nested response format with a discriminated `inference` object.
+* [`/third-party/claude-desktop/schemas/bootstrap-config-v1.schema.json`](https://claude.com/docs/third-party/claude-desktop/schemas/bootstrap-config-v1.schema.json): flat format, with the managed-configuration key names at the top level as in the example above and in the [configuration reference](https://claude.com/docs/third-party/claude-desktop/configuration.md). The app accepts either format.
 
 Reference the schema with `"$schema"` in your response template, or with `# yaml-language-server: $schema=…` in YAML, for autocomplete and validation.
 
@@ -327,15 +335,18 @@ Each configuration key in both schemas carries an `x-availableInVersion` annotat
 
 The response can supply any key in that schema, including inference credentials, model allowlists, MCP servers, the egress allowlist, telemetry endpoints, and the organization banner.
 
-<Note>
-  Organization plugins and skills can be delivered over the network by returning `allowedPluginMarketplaces` in the bootstrap response (see [Plugin marketplaces](/docs/third-party/claude-desktop/extensions#plugin-marketplaces-admin)), or through the filesystem `org-plugins/` directory described in [Connectors and extensions](/docs/third-party/claude-desktop/extensions).
-</Note>
+> [!NOTE]
+>
+> Organization plugins and skills can be delivered over the network by returning `allowedPluginMarketplaces` in the bootstrap response (see [Plugin marketplaces](https://claude.com/docs/third-party/claude-desktop/extensions.md#plugin-marketplaces-admin)), or through the filesystem `org-plugins/` directory described in [Connectors and extensions](https://claude.com/docs/third-party/claude-desktop/extensions.md).
 
-A small set of keys are **structurally excluded** and ignored if returned:
+A small set of keys, labeled **MDM only** in the [configuration reference](https://claude.com/docs/third-party/claude-desktop/configuration.md), are **structurally excluded** and ignored if returned:
 
 * `bootstrapUrl`, `bootstrapOidc`, `bootstrapHeaders`, `bootstrapHeadersHelper`, `bootstrapEnabled`, and `trustBootstrapDelivery`: the trust anchor cannot redirect itself, authenticate itself, or grant trust in itself.
-* `egressProxyUrl` and `egressProxyPacUrl`: the app may need the [network proxy](/docs/third-party/claude-desktop/network-proxy#pin-a-proxy-from-managed-configuration) to reach your endpoint in the first place, so these keys are read from device management or the local configuration file only. These two and the six keys above are the keys whose Availability column reads **MDM only** in the [configuration reference](/docs/third-party/claude-desktop/configuration).
-* Loopback hosts (`127.0.0.1`, `localhost`, `[::1]`) in any URL-valued key, regardless of scheme.
+* `egressProxyUrl` and `egressProxyPacUrl`: the app may need the [network proxy](https://claude.com/docs/third-party/claude-desktop/network-proxy.md#pin-a-proxy-from-managed-configuration) to reach your endpoint in the first place, so these keys are read from device management or the local configuration file only.
+* [`deploymentMode`](https://claude.com/docs/third-party/claude-desktop/mdm#restrict-a-device-to-one-deployment-mode): the app reads it from the device only.
+* [`disableWslSessions`](https://claude.com/docs/third-party/claude-desktop/configuration#disablewslsessions): the app reads it from an MDM profile only.
+
+The app also ignores loopback hosts (`127.0.0.1`, `localhost`, `[::1]`) in any URL-valued key of a response, regardless of scheme.
 
 `managedMcpServers` entries are not restricted by transport in version 1.19367.0 and later: remote (`http`/`sse`) servers, local `stdio` commands, and the built-in `microsoft365` and `websearch` connectors can all be delivered in the bootstrap response. Earlier versions accept only remote entries and drop the rest. Because a `stdio` entry names a command that runs on the device, a bootstrap response can start local processes — part of why the warning at the top of this page says to treat this endpoint as fully trusted. Entries whose server URL or OAuth authorization-server URL is loopback or non-HTTPS are still dropped, and the desktop log (see [Troubleshooting](#troubleshooting)) records which keys were dropped and why.
 
@@ -354,9 +365,9 @@ Whether the dialog appears depends on how `bootstrapUrl` reached the device:
 * Deployed through machine-scoped device management (`HKLM` policy on Windows, a configuration profile on macOS, `/etc/claude-desktop` on Linux): delivered values are trusted without prompting, because the admin already made a device-level decision.
 * Read from a local configuration file, or from user-scope registry policy: the dialog is shown by default.
 
-The [`trustBootstrapDelivery`](/docs/third-party/claude-desktop/configuration#trustbootstrapdelivery) key overrides the default in either direction. The key is accepted from device management or the local configuration file only, never from the bootstrap response itself. When the rest of your configuration is a local file, set the key in that same file next to `bootstrapUrl`. Delivering only this key through device management makes the whole installation managed, and the app then ignores the local file entirely, including its `bootstrapUrl`.
+The [`trustBootstrapDelivery`](https://claude.com/docs/third-party/claude-desktop/configuration#trustbootstrapdelivery) key overrides the default in either direction. The key is accepted from device management or the local configuration file only, never from the bootstrap response itself. When the rest of your configuration is a local file, set the key in that same file next to `bootstrapUrl`. Delivering only this key through device management makes the whole installation managed, and the app then ignores the local file entirely, including its `bootstrapUrl`.
 
-Consent gates only bootstrap-delivered values. The same keys delivered through device management apply without prompting. Versions that predate a key's availability ignore that key in a bootstrap response (the [configuration changelog](/docs/third-party/claude-desktop/configuration-changelog) records when each key became available), so a response can safely carry keys ahead of a fleet upgrade.
+Consent gates only bootstrap-delivered values. The same keys delivered through device management apply without prompting. Versions that predate a key's availability ignore that key in a bootstrap response (the [configuration changelog](https://claude.com/docs/third-party/claude-desktop/configuration-changelog.md) records when each key became available), so a response can safely carry keys ahead of a fleet upgrade.
 
 ### Caching and `expiresAt`
 
@@ -365,17 +376,15 @@ Consent gates only bootstrap-delivered values. The same keys delivered through d
 | `$schemaVersion` | `integer` | Wire-format marker: `2` for the nested format (bootstrap-config-v2, what the app's own JSON export writes), `1` for the flat format (bootstrap-config-v1). Optional: the client infers the format from the document shape; set it to state the format explicitly. |
 | `expiresAt` | `number` | Unix epoch (seconds or milliseconds) after which the client should re-fetch this document. Optional; when absent the client uses its default refresh interval. |
 
-<AccordionGroup>
-  <Accordion title="$schemaVersion details">
-    Omitted → the client infers the version from the document shape (any cluster key present → 2, otherwise 1).
-  </Accordion>
+> [accordion] \$schemaVersion details
+>
+> Omitted → the client infers the version from the document shape (any cluster key present → 2, otherwise 1).
 
-  <Accordion title="expiresAt details">
-    Omitted → cache for 1 hour. A number ≥ 10¹² is read as Unix epoch **milliseconds**; below that, **seconds**.
-
-    A failed re-fetch keeps the last good response from the current session and retries; the app only enters the degraded state when there has never been a usable response this session.
-  </Accordion>
-</AccordionGroup>
+> [accordion] expiresAt details
+>
+> Omitted → cache for 1 hour. A number ≥ 10¹² is read as Unix epoch **milliseconds**; below that, **seconds**.
+>
+> A failed re-fetch keeps the last good response from the current session and retries; the app only enters the degraded state when there has never been a usable response this session.
 
 ### Origin pinning
 
@@ -385,41 +394,139 @@ When you supply `bootstrapOidc`, your configuration server and gateway are indep
 
 ## MDM configuration keys
 
-| Setting | Type | Availability | Default | Description |
-| - | - | - | - | - |
-| <span id="bootstrapenabled" />Use bootstrap config<br />`bootstrapEnabled` | `boolean` | MDM only<br />Added in 1.10628.0 | `true` | Fetch and apply the URL above at launch. Turn off to keep the URL saved but skip the fetch. Defaults to `true`. |
-| <span id="bootstrapurl" />Bootstrap config URL<br />`bootstrapUrl` | `string` | MDM only<br />Added in 1.10628.0 | — | HTTPS endpoint that returns a per-user JSON config overlay. Values from the response override local settings and become read-only. |
-| <span id="bootstrapoidc" />Bootstrap OIDC parameters<br />`bootstrapOidc` | `object` | MDM only<br />Added in 1.10628.0 | — | When set, the bootstrap request sends a Bearer token from a browser sign-in (authorization-code-with-PKCE). |
-| <span id="bootstrapheaders" />Bootstrap request headers<br />`bootstrapHeaders` | `object` | MDM only<br />Added in 1.32885.1 | — | HTTP headers sent on every bootstrap config fetch. Use this instead of embedding user:pass@ in the URL. |
-| <span id="bootstrapheadershelper" />Bootstrap headers helper script<br />`bootstrapHeadersHelper` | `string` | MDM only<br />Added in 1.32885.1 | — | Absolute path to an executable that prints a JSON object of bootstrap request headers. Merged over the static headers; the helper wins. |
-| <span id="trustbootstrapdelivery" />Trust bootstrap-delivered settings<br />`trustBootstrapDelivery` | `boolean` | MDM only<br />Added in 1.26832.0 | `false` | Skip the per-user consent prompt for sign-in targets, inference endpoints, helper scripts, and connectors the bootstrap server delivers. Defaults to `false`. |
+[Entry labels](https://claude.com/docs/third-party/claude-desktop/configuration.md#entry-labels) says what each label means.
 
-<AccordionGroup>
-  <Accordion title="bootstrapOidc details">
-    Set this to use a separate identity provider (Microsoft Entra ID, Okta, Ping, or any compliant OIDC provider) for the bootstrap sign-in. The app runs an authorization-code-with-PKCE flow in the system browser. Omit to use device-code mode against the bootstrap server's own origin.
+### `bootstrapEnabled`
 
-    This is an **object-typed key** — in an MDM profile it is a single JSON-string value, not separate keys with dotted names like `bootstrapOidc.clientId`. Writing the sub-fields as separate registry values causes the app to silently fall through to device-code mode.
+booleanDefault: true
 
-    | Field | Type | Default | Description |
-    | - | - | - | - |
-    | `clientId` | `string` | — | OAuth client ID of the desktop app registration at your identity provider (public client, PKCE). |
-    | `issuer` | `string` | — | HTTPS issuer with OIDC discovery. Set this, or set the authorization and token URLs instead. |
-    | `authorizationUrl` | `string` | — | HTTPS authorization endpoint. Used with the token URL when no issuer is set. |
-    | `tokenUrl` | `string` | — | HTTPS token endpoint. Used with the authorization URL when no issuer is set. |
-    | `scopes` | `string` | — | Space-separated; the token’s audience must match what your bootstrap server validates. |
-    | `redirectPort` | `integer` | — | Fixed loopback port for the sign-in redirect. Leave unset to use a free port each time. |
-    | `redirectHost` | `enum` | — | Use localhost only if your IdP’s registered redirect URI specifies it. One of: `127.0.0.1`, `localhost`. |
-    | `additionalRedirectReferrerHosts` | `string` | — | Space-separated hostnames also accepted as the referrer of the sign-in callback. Only needed when the IdP completes sign-in from a different host. |
-  </Accordion>
+MDM only (You can set the key only in an MDM profile or the local configuration file. Claude Desktop ignores it in a bootstrap server's response. Where a key's description says MDM profile only, the local configuration file does not count either.)
 
-  <Accordion title="bootstrapHeaders details">
-    Static headers sent on every request to the bootstrap config URL — for a service-account credential (`Authorization: Basic …`, an API key header) or a routing/tenant header. When either this or the headers helper script is set and no separate `bootstrapOidc` provider is configured, the app treats the headers as sufficient auth and does not require a per-user sign-in for the bootstrap fetch. These headers (and the helper script's below) also accompany requests to a plugin marketplace this server hosts on its own origin (`allowedPluginMarketplaces` with `credentialKind: "inferenceCredential"`). Header values are masked in diagnostics and telemetry. For a rotating token, use the headers helper script instead.
-  </Accordion>
+Since 1.10628.0
 
-  <Accordion title="bootstrapHeadersHelper details">
-    Absolute path to an executable that prints a single JSON object of HTTP headers on stdout, e.g. `{"Authorization": "Bearer …"}`. The app runs it (no arguments; output cached for a few minutes) before each bootstrap config fetch and merges the result over **Bootstrap request headers** (the helper wins on conflict). Use this instead of embedding `user:pass@` in the bootstrap URL, or when the bootstrap server needs a rotating token from a secrets manager. When either this or the static headers are set and no separate `bootstrapOidc` provider is configured, the app treats them as sufficient auth and does not require a per-user sign-in for the bootstrap fetch. If a per-user sign-in also runs (`bootstrapOidc` or the server’s own device-code flow), that Bearer token wins on `Authorization`.
-  </Accordion>
-</AccordionGroup>
+**Use bootstrap config.** Fetch and apply settings from the bootstrap config URL at launch. Turn off to keep the URL saved but skip the fetch.
+
+***
+
+### `bootstrapUrl`
+
+string
+
+MDM only (You can set the key only in an MDM profile or the local configuration file. Claude Desktop ignores it in a bootstrap server's response. Where a key's description says MDM profile only, the local configuration file does not count either.)
+
+Since 1.10628.0
+
+**Bootstrap config URL.** HTTPS endpoint that returns a per-user JSON config overlay. Values from the response override local settings and become read-only.
+
+***
+
+### `bootstrapOidc`
+
+object
+
+MDM only (You can set the key only in an MDM profile or the local configuration file. Claude Desktop ignores it in a bootstrap server's response. Where a key's description says MDM profile only, the local configuration file does not count either.)
+
+Since 1.10628.0
+
+**Bootstrap OIDC parameters.** Your organization’s OpenID Connect identity provider. The user’s token from a browser sign-in is sent as Bearer to the bootstrap server.
+
+> [accordion] More detail
+>
+> When unset, the bootstrap sign-in uses a device code on the bootstrap server's own origin.
+>
+> In an MDM profile, write this key as one JSON string. Separate values such as `bootstrapOidc.clientId` do not work: the app silently uses the device-code sign-in instead.
+
+> [accordion] Child attributes (8)
+>
+> **clientId** `string` *required*
+>
+> OAuth client ID of the desktop app registration at your identity provider (public client, PKCE).
+>
+> **issuer** `string`
+>
+> HTTPS issuer with OIDC discovery. Set this, or set the authorization and token URLs instead.
+>
+> **authorizationUrl** `string`
+>
+> HTTPS authorization endpoint. Used with the token URL when no issuer is set.
+>
+> **tokenUrl** `string`
+>
+> HTTPS token endpoint. Used with the authorization URL when no issuer is set.
+>
+> **scopes** `string`
+>
+> Space-separated; the token’s audience must match what your bootstrap server validates.
+>
+> **redirectPort** `integer`
+>
+> Fixed loopback port for the sign-in redirect. Leave unset to use a free port each time.
+>
+> **redirectHost** `enum`
+>
+> Use localhost only if your IdP’s registered redirect URI specifies it.
+>
+> One of: `127.0.0.1`, `localhost`
+>
+> **additionalRedirectReferrerHosts** `string`
+>
+> Space-separated hostnames also accepted as the referrer of the sign-in callback, besides the authorization URL’s host.
+>
+> > [accordion] More detail
+> >
+> > If a callback is rejected for a referrer mismatch, the app log names the rejected host. Add that hostname here.
+
+***
+
+### `bootstrapHeaders`
+
+object: name → value
+
+MDM only (You can set the key only in an MDM profile or the local configuration file. Claude Desktop ignores it in a bootstrap server's response. Where a key's description says MDM profile only, the local configuration file does not count either.)
+
+Since 1.32885.1
+
+**Bootstrap request headers.** HTTP headers sent on every bootstrap config fetch. Use this instead of embedding user:pass@ in the URL.
+
+> [accordion] More detail
+>
+> If `bootstrapOidc` is unset, the app treats these headers as sufficient authentication and requires no per-user sign-in for the bootstrap fetch.
+>
+> These headers, and those of `bootstrapHeadersHelper`, also go to a plugin marketplace on this server's own origin, if its `allowedPluginMarketplaces` entry sets `credentialKind: "inferenceCredential"`.
+>
+> Header values are masked in diagnostics and telemetry.
+
+***
+
+### `bootstrapHeadersHelper`
+
+string
+
+MDM only (You can set the key only in an MDM profile or the local configuration file. Claude Desktop ignores it in a bootstrap server's response. Where a key's description says MDM profile only, the local configuration file does not count either.)
+
+Since 1.32885.1
+
+**Bootstrap headers helper script.** Absolute path to an executable that prints a JSON object of bootstrap request headers. Merged over the static headers; the helper wins.
+
+> [accordion] More detail
+>
+> Example output: `{"Authorization": "Bearer …"}`. The app runs the helper script with no arguments and reuses its output for a few minutes.
+>
+> If `bootstrapOidc` is unset, the app treats these headers as sufficient authentication and requires no per-user sign-in for the bootstrap fetch. If a per-user sign-in also runs, its token takes priority for the `Authorization` header.
+
+***
+
+### `trustBootstrapDelivery`
+
+booleanDefault: false
+
+MDM only (You can set the key only in an MDM profile or the local configuration file. Claude Desktop ignores it in a bootstrap server's response. Where a key's description says MDM profile only, the local configuration file does not count either.)
+
+Since 1.26832.0
+
+**Trust bootstrap-delivered settings.** Skip the per-user consent prompt for sign-in settings, inference endpoints, helper scripts, and connectors the bootstrap server delivers.
+
+***
 
 No `inferenceProvider` is needed in the MDM profile when using bootstrap; the response supplies it.
 
@@ -434,3 +541,4 @@ No `inferenceProvider` is needed in the MDM profile when using bootstrap; the re
 | Silent refresh fails after \~1 hour with `AADSTS90009` | `scopes` uses the `api://CLIENT_ID/.default` form. Use the bare-GUID `CLIENT_ID/.default` form. |
 | Some keys you returned are not applied | They failed schema validation, are structurally excluded, or were dropped by origin pinning. If the app instead shows an **Apply settings from your organization?** dialog, the whole response is waiting for [user consent](#keys-that-require-user-consent) and none of it has been applied yet. The desktop log (`~/Library/Logs/Claude-3p/main.log` on macOS, `%LOCALAPPDATA%\Claude-3p\logs\main.log` on Windows) records which keys were dropped and why. |
 | Browser opens to your identity provider's device page instead of yours | In device-code mode, `verification_uri` must share the `bootstrapUrl` origin. Federate behind your own page. |
+| Changes on your server don't reach running apps, which show no restart prompt | A running app acts on a changed response once two [background re-checks](#how-it-works) in a row return the same values. A response that differs only in `expiresAt` counts as unchanged. If your server returns a different response to every request, for example a new credential each time, a running app applies none of the changes until it relaunches, and `main.log` records `served configuration changed again before it was confirmed`. |

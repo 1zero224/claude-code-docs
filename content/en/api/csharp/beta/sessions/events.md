@@ -147,7 +147,7 @@ List Events
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
@@ -249,6 +249,18 @@ List Events
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -265,7 +277,7 @@ List Events
 
     A user message event in the session conversation.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.message"`
 
     - `required string ID`
 
@@ -279,7 +291,7 @@ List Events
 
         Regular text content.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -291,7 +303,7 @@ List Events
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `required Type Type`
+        - `JsonElement Type = "image"`
 
         - `required Source Source`
 
@@ -301,7 +313,7 @@ List Events
 
             Base64-encoded image data.
 
-            - `required Type Type`
+            - `JsonElement Type = "base64"`
 
             - `required string Data`
 
@@ -319,7 +331,7 @@ List Events
 
             Image referenced by URL.
 
-            - `required Type Type`
+            - `JsonElement Type = "url"`
 
             - `required string Url`
 
@@ -331,7 +343,7 @@ List Events
 
             Image referenced by file ID.
 
-            - `required Type Type`
+            - `JsonElement Type = "file"`
 
             - `required string FileID`
 
@@ -343,7 +355,7 @@ List Events
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `required Type Type`
+        - `JsonElement Type = "document"`
 
         - `required Source Source`
 
@@ -353,7 +365,7 @@ List Events
 
             Base64-encoded document data.
 
-            - `required Type Type`
+            - `JsonElement Type = "base64"`
 
             - `required string Data`
 
@@ -371,7 +383,7 @@ List Events
 
             Plain text document content.
 
-            - `required Type Type`
+            - `JsonElement Type = "text"`
 
             - `required string Data`
 
@@ -379,7 +391,7 @@ List Events
 
               minLength: 1
 
-            - `required MediaType MediaType`
+            - `JsonElement MediaType = "text/plain"`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -387,7 +399,7 @@ List Events
 
             Document referenced by URL.
 
-            - `required Type Type`
+            - `JsonElement Type = "url"`
 
             - `required string Url`
 
@@ -399,7 +411,7 @@ List Events
 
             Document referenced by file ID.
 
-            - `required Type Type`
+            - `JsonElement Type = "file"`
 
             - `required string FileID`
 
@@ -419,7 +431,7 @@ List Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `required Type Type`
+        - `JsonElement Type = "redacted"`
 
     - `DateTimeOffset? ProcessedAt`
 
@@ -431,7 +443,7 @@ List Events
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.interrupt"`
 
     - `required string ID`
 
@@ -451,7 +463,7 @@ List Events
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.tool_confirmation"`
 
     - `required string ID`
 
@@ -489,7 +501,7 @@ List Events
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.custom_tool_result"`
 
     - `required string ID`
 
@@ -519,7 +531,7 @@ List Events
 
         A block containing a web search result.
 
-        - `required Type Type`
+        - `JsonElement Type = "search_result"`
 
         - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -533,7 +545,7 @@ List Events
 
           Array of text content blocks from the search result.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Text`
 
@@ -571,7 +583,7 @@ List Events
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.custom_tool_use"`
 
     - `required string ID`
 
@@ -599,7 +611,7 @@ List Events
 
     An agent response event in the session conversation.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.message"`
 
     - `required string ID`
 
@@ -627,7 +639,7 @@ List Events
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thinking"`
 
     - `required string ID`
 
@@ -643,7 +655,7 @@ List Events
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.mcp_tool_use"`
 
     - `required string ID`
 
@@ -741,7 +753,7 @@ List Events
 
     Event representing the result of an MCP tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.mcp_tool_result"`
 
     - `required string ID`
 
@@ -785,7 +797,7 @@ List Events
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.tool_use"`
 
     - `required string ID`
 
@@ -821,7 +833,7 @@ List Events
 
     Event representing the result of an agent tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.tool_result"`
 
     - `required string ID`
 
@@ -865,7 +877,7 @@ List Events
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thread_message_received"`
 
     - `required string ID`
 
@@ -909,7 +921,7 @@ List Events
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thread_message_sent"`
 
     - `required string ID`
 
@@ -953,7 +965,7 @@ List Events
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thread_context_compacted"`
 
     - `required string ID`
 
@@ -969,7 +981,7 @@ List Events
 
     An error event indicating a problem occurred during session execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.error"`
 
     - `required string ID`
 
@@ -981,7 +993,7 @@ List Events
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `required Type Type`
+        - `JsonElement Type = "unknown_error"`
 
         - `required string Message`
 
@@ -995,25 +1007,25 @@ List Events
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `required Type Type`
+            - `JsonElement Type = "retrying"`
 
           - `class BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `required Type Type`
+            - `JsonElement Type = "exhausted"`
 
           - `class BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `required Type Type`
+            - `JsonElement Type = "terminal"`
 
       - `class BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `required Type Type`
+        - `JsonElement Type = "model_overloaded_error"`
 
         - `required string Message`
 
@@ -1039,7 +1051,7 @@ List Events
 
         The model request was rate-limited.
 
-        - `required Type Type`
+        - `JsonElement Type = "model_rate_limited_error"`
 
         - `required string Message`
 
@@ -1065,7 +1077,7 @@ List Events
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `required Type Type`
+        - `JsonElement Type = "model_request_failed_error"`
 
         - `required string Message`
 
@@ -1091,7 +1103,7 @@ List Events
 
         Failed to connect to an MCP server.
 
-        - `required Type Type`
+        - `JsonElement Type = "mcp_connection_failed_error"`
 
         - `required string McpServerName`
 
@@ -1121,7 +1133,7 @@ List Events
 
         Authentication to an MCP server failed.
 
-        - `required Type Type`
+        - `JsonElement Type = "mcp_authentication_failed_error"`
 
         - `required string McpServerName`
 
@@ -1151,7 +1163,7 @@ List Events
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `required Type Type`
+        - `JsonElement Type = "billing_error"`
 
         - `required string Message`
 
@@ -1177,7 +1189,7 @@ List Events
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `required Type Type`
+        - `JsonElement Type = "credential_host_unreachable_error"`
 
         - `required string CredentialID`
 
@@ -1206,6 +1218,58 @@ List Events
         - `required string VaultID`
 
           ID of the vault containing the affected credential.
+
+      - `class BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonElement Type = "tool_use_limit_reached_error"`
+
+        - `required string Message`
+
+          Human-readable error description.
+
+        - `required RetryStatus RetryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `class BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonElement Type = "compaction_limit_reached_error"`
+
+        - `required string Message`
+
+          Human-readable error description.
+
+        - `required RetryStatus RetryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `class BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -1367,7 +1431,7 @@ List Events
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_rescheduled"`
 
     - `required string ID`
 
@@ -1383,7 +1447,7 @@ List Events
 
     Indicates the session is actively running and the agent is working.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_running"`
 
     - `required string ID`
 
@@ -1399,7 +1463,7 @@ List Events
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_idle"`
 
     - `required string ID`
 
@@ -1441,13 +1505,13 @@ List Events
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `required Type Type`
+        - `JsonElement Type = "end_turn"`
 
       - `class BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `required Type Type`
+        - `JsonElement Type = "requires_action"`
 
         - `required IReadOnlyList<string> EventIds`
 
@@ -1457,13 +1521,13 @@ List Events
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `required Type Type`
+        - `JsonElement Type = "retries_exhausted"`
 
       - `class BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `required Type Type`
+        - `JsonElement Type = "budget_reached"`
 
       - `class BetaManagedAgentsSessionRefusal`
 
@@ -1475,7 +1539,7 @@ List Events
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_terminated"`
 
     - `required string ID`
 
@@ -1491,7 +1555,7 @@ List Events
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_created"`
 
     - `required string ID`
 
@@ -1519,7 +1583,7 @@ List Events
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.outcome_evaluation_start"`
 
     - `required string ID`
 
@@ -1545,7 +1609,7 @@ List Events
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.outcome_evaluation_end"`
 
     - `required string ID`
 
@@ -1619,7 +1683,7 @@ List Events
 
     Emitted when a model request is initiated by the agent.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.model_request_start"`
 
     - `required string ID`
 
@@ -1635,7 +1699,7 @@ List Events
 
     Emitted when a model request completes.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.model_request_end"`
 
     - `required string ID`
 
@@ -1663,7 +1727,7 @@ List Events
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.outcome_evaluation_ongoing"`
 
     - `required string ID`
 
@@ -1689,7 +1753,7 @@ List Events
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.define_outcome"`
 
     - `required string ID`
 
@@ -1723,7 +1787,7 @@ List Events
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `required Type Type`
+        - `JsonElement Type = "file"`
 
         - `required string FileID`
 
@@ -1733,7 +1797,7 @@ List Events
 
         Rubric content provided inline as text.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Content`
 
@@ -1743,7 +1807,7 @@ List Events
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.deleted"`
 
     - `required string ID`
 
@@ -1759,7 +1823,7 @@ List Events
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_running"`
 
     - `required string ID`
 
@@ -1783,7 +1847,7 @@ List Events
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_idle"`
 
     - `required string ID`
 
@@ -1833,7 +1897,7 @@ List Events
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_terminated"`
 
     - `required string ID`
 
@@ -1857,7 +1921,7 @@ List Events
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.tool_result"`
 
     - `required string ID`
 
@@ -1905,7 +1969,7 @@ List Events
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_rescheduled"`
 
     - `required string ID`
 
@@ -1929,7 +1993,7 @@ List Events
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.updated"`
 
     - `required string ID`
 
@@ -1945,15 +2009,35 @@ List Events
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `required Type Type`
+      - `JsonElement Type = "agent"`
 
       - `required string ID`
 
       - `required string? Description`
 
+      - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `JsonElement Type = "aws_role"`
+
+          - `required string RoleArn`
+
+            The IAM role's ARN.
+
+        - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `JsonElement Type = "service_account"`
+
       - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
-        - `required Type Type`
+        - `JsonElement Type = "url"`
 
         - `required string Name`
 
@@ -1968,6 +2052,10 @@ List Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `ClaudeFable5_2("claude-fable-5-2")`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `ClaudeHaiku5_5("claude-haiku-5-5")`
 
@@ -2045,31 +2133,31 @@ List Events
 
             Low effort. Favors latency over reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "low"`
 
           - `class BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "medium"`
 
           - `class BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "high"`
 
           - `class BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `required Type Type`
+            - `JsonElement Type = "xhigh"`
 
           - `class BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `required Type Type`
+            - `JsonElement Type = "max"`
 
         - `string InferenceGeo`
 
@@ -2091,7 +2179,7 @@ List Events
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `required Type Type`
+          - `JsonElement Type = "coordinator"`
 
           - `required IReadOnlyList<Agent> Agents`
 
@@ -2101,15 +2189,21 @@ List Events
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `required Type Type`
+              - `JsonElement Type = "agent"`
 
               - `required string ID`
 
               - `required string? Description`
 
+              - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
-                - `required Type Type`
+                - `JsonElement Type = "url"`
+
+                - `required string Name`
 
                 - `required string Name`
 
@@ -2127,7 +2221,9 @@ List Events
 
                   A resolved Anthropic-managed skill.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "anthropic"`
+
+                  - `required string SkillID`
 
                   - `required string SkillID`
 
@@ -2137,7 +2233,9 @@ List Events
 
                   A resolved user-created custom skill.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "custom"`
+
+                  - `required string SkillID`
 
                   - `required string SkillID`
 
@@ -2149,7 +2247,7 @@ List Events
 
                 - `class BetaManagedAgentsAgentToolset20260401`
 
-                  - `required Type Type`
+                  - `JsonElement Type = "agent_toolset_20260401"`
 
                   - `required IReadOnlyList<BetaManagedAgentsAgentToolConfig> Configs`
 
@@ -2171,13 +2269,13 @@ List Events
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `required Type Type`
+                          - `JsonElement Type = "always_allow"`
 
                         - `class BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `required Type Type`
+                          - `JsonElement Type = "always_ask"`
 
                         - `class BetaManagedAgentsAutoPolicy`
 
@@ -2473,6 +2571,8 @@ List Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `string? Region`
 
                           Region or state name.
@@ -2509,7 +2609,7 @@ List Events
 
                 - `class BetaManagedAgentsMcpToolset`
 
-                  - `required Type Type`
+                  - `JsonElement Type = "mcp_toolset"`
 
                   - `required IReadOnlyList<BetaManagedAgentsMcpToolConfig> Configs`
 
@@ -2561,7 +2661,7 @@ List Events
 
                   A custom tool as returned in API responses.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "custom"`
 
                   - `required string Description`
 
@@ -2585,7 +2685,7 @@ List Events
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `required Type Type`
+              - `JsonElement Type = "advisor"`
 
               - `required string Model`
 
@@ -2647,11 +2747,15 @@ List Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `required Type Type`
+                - `JsonElement Type = "agent"`
 
                 - `required string ID`
 
                 - `required string? Description`
+
+                - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
@@ -2695,11 +2799,15 @@ List Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `required Type Type`
+                - `JsonElement Type = "agent"`
 
                 - `required string ID`
 
                 - `required string? Description`
+
+                - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
@@ -2757,7 +2865,7 @@ List Events
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `required Type Type`
+      - `JsonElement Type = "limit"`
 
       - `required BetaMonetaryAmount MaxListCost`
 
@@ -2766,6 +2874,8 @@ List Events
         - `required string Amount`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `required BetaCurrency Currency`
 
@@ -2783,7 +2893,7 @@ List Events
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `required Type Type`
+    - `JsonElement Type = "system.message"`
 
     - `required string ID`
 
@@ -2793,7 +2903,7 @@ List Events
 
       System content blocks. Text-only.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -2811,7 +2921,7 @@ List Events
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.usage"`
 
     - `required string ID`
 
@@ -2841,7 +2951,7 @@ List Events
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+              The agent can spawn session threads.
 
         - `int Ephemeral5mInputTokens`
 
@@ -2913,7 +3023,7 @@ List Events
 
       The phases that the run's plan declares, in the plan's order. Can be empty.
 
-      - `required string ID`
+                - `required BetaManagedAgentsModelConfig Model`
 
         Unique identifier for the phase.
 
@@ -3150,6 +3260,9 @@ List Events
 ### Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Sessions.Events;
+
 EventListParams parameters = new()
 {
     SessionID = "sesn_011CZkZAtmR3yMPDzynEDxu7"
@@ -3216,7 +3329,7 @@ Send Events
 
       Parameters for sending a user message to the session.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.message"`
 
       - `required IReadOnlyList<Content> Content`
 
@@ -3226,7 +3339,7 @@ Send Events
 
           Regular text content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Text`
 
@@ -3238,7 +3351,7 @@ Send Events
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "image"`
 
           - `required Source Source`
 
@@ -3248,7 +3361,7 @@ Send Events
 
               Base64-encoded image data.
 
-              - `required Type Type`
+              - `JsonElement Type = "base64"`
 
               - `required string Data`
 
@@ -3266,7 +3379,7 @@ Send Events
 
               Image referenced by URL.
 
-              - `required Type Type`
+              - `JsonElement Type = "url"`
 
               - `required string Url`
 
@@ -3278,7 +3391,7 @@ Send Events
 
               Image referenced by file ID.
 
-              - `required Type Type`
+              - `JsonElement Type = "file"`
 
               - `required string FileID`
 
@@ -3290,7 +3403,7 @@ Send Events
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "document"`
 
           - `required Source Source`
 
@@ -3300,7 +3413,7 @@ Send Events
 
               Base64-encoded document data.
 
-              - `required Type Type`
+              - `JsonElement Type = "base64"`
 
               - `required string Data`
 
@@ -3318,7 +3431,7 @@ Send Events
 
               Plain text document content.
 
-              - `required Type Type`
+              - `JsonElement Type = "text"`
 
               - `required string Data`
 
@@ -3326,7 +3439,7 @@ Send Events
 
                 minLength: 1
 
-              - `required MediaType MediaType`
+              - `JsonElement MediaType = "text/plain"`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -3334,7 +3447,7 @@ Send Events
 
               Document referenced by URL.
 
-              - `required Type Type`
+              - `JsonElement Type = "url"`
 
               - `required string Url`
 
@@ -3346,7 +3459,7 @@ Send Events
 
               Document referenced by file ID.
 
-              - `required Type Type`
+              - `JsonElement Type = "file"`
 
               - `required string FileID`
 
@@ -3366,13 +3479,13 @@ Send Events
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `required Type Type`
+          - `JsonElement Type = "redacted"`
 
     - `class BetaManagedAgentsUserInterruptEventParams`
 
       Parameters for sending an interrupt to pause the agent.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.interrupt"`
 
       - `string? SessionThreadID`
 
@@ -3382,7 +3495,7 @@ Send Events
 
       Parameters for confirming or denying a tool execution request.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.tool_confirmation"`
 
       - `required Result Result`
 
@@ -3408,7 +3521,7 @@ Send Events
 
       Parameters for providing the result of a custom tool execution.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.custom_tool_result"`
 
       - `required string CustomToolUseID`
 
@@ -3436,7 +3549,7 @@ Send Events
 
           A block containing a web search result.
 
-          - `required Type Type`
+          - `JsonElement Type = "search_result"`
 
           - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -3450,7 +3563,7 @@ Send Events
 
             Array of text content blocks from the search result.
 
-            - `required Type Type`
+            - `JsonElement Type = "text"`
 
             - `required string Text`
 
@@ -3478,7 +3591,7 @@ Send Events
 
       Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.define_outcome"`
 
       - `required string Description`
 
@@ -3492,7 +3605,7 @@ Send Events
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -3502,7 +3615,7 @@ Send Events
 
           Rubric content provided inline as text.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Content`
 
@@ -3520,7 +3633,7 @@ Send Events
 
       Parameters for providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.tool_result"`
 
       - `required string ToolUseID`
 
@@ -3556,13 +3669,13 @@ Send Events
 
       Privileged context for the accompanying turn and all subsequent turns, appended to the session's system context as a `role: "system"` turn rather than replacing the top-level system prompt. At most one per request: it must be the final event and immediately follow the `user.message`, `user.tool_result`, or `user.custom_tool_result` it accompanies. Only supported on models that accept mid-conversation system messages.
 
-      - `required Type Type`
+      - `JsonElement Type = "system.message"`
 
       - `required IReadOnlyList<BetaManagedAgentsSystemContentBlock> Content`
 
         System content blocks to append. Text-only.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -3572,7 +3685,7 @@ Send Events
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
@@ -3674,6 +3787,18 @@ Send Events
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -3694,7 +3819,7 @@ Send Events
 
       A user message event in the session conversation.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.message"`
 
       - `required string ID`
 
@@ -3708,7 +3833,7 @@ Send Events
 
           Regular text content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Text`
 
@@ -3720,7 +3845,7 @@ Send Events
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "image"`
 
           - `required Source Source`
 
@@ -3730,7 +3855,7 @@ Send Events
 
               Base64-encoded image data.
 
-              - `required Type Type`
+              - `JsonElement Type = "base64"`
 
               - `required string Data`
 
@@ -3748,7 +3873,7 @@ Send Events
 
               Image referenced by URL.
 
-              - `required Type Type`
+              - `JsonElement Type = "url"`
 
               - `required string Url`
 
@@ -3760,7 +3885,7 @@ Send Events
 
               Image referenced by file ID.
 
-              - `required Type Type`
+              - `JsonElement Type = "file"`
 
               - `required string FileID`
 
@@ -3772,7 +3897,7 @@ Send Events
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "document"`
 
           - `required Source Source`
 
@@ -3782,7 +3907,7 @@ Send Events
 
               Base64-encoded document data.
 
-              - `required Type Type`
+              - `JsonElement Type = "base64"`
 
               - `required string Data`
 
@@ -3800,7 +3925,7 @@ Send Events
 
               Plain text document content.
 
-              - `required Type Type`
+              - `JsonElement Type = "text"`
 
               - `required string Data`
 
@@ -3808,7 +3933,7 @@ Send Events
 
                 minLength: 1
 
-              - `required MediaType MediaType`
+              - `JsonElement MediaType = "text/plain"`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -3816,7 +3941,7 @@ Send Events
 
               Document referenced by URL.
 
-              - `required Type Type`
+              - `JsonElement Type = "url"`
 
               - `required string Url`
 
@@ -3828,7 +3953,7 @@ Send Events
 
               Document referenced by file ID.
 
-              - `required Type Type`
+              - `JsonElement Type = "file"`
 
               - `required string FileID`
 
@@ -3848,7 +3973,7 @@ Send Events
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `required Type Type`
+          - `JsonElement Type = "redacted"`
 
       - `DateTimeOffset? ProcessedAt`
 
@@ -3860,7 +3985,7 @@ Send Events
 
       An interrupt event that pauses agent execution and returns control to the user.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.interrupt"`
 
       - `required string ID`
 
@@ -3880,7 +4005,7 @@ Send Events
 
       A tool confirmation event that approves or denies a pending tool execution.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.tool_confirmation"`
 
       - `required string ID`
 
@@ -3918,7 +4043,7 @@ Send Events
 
       Event sent by the client providing the result of a custom tool execution.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.custom_tool_result"`
 
       - `required string ID`
 
@@ -3948,7 +4073,7 @@ Send Events
 
           A block containing a web search result.
 
-          - `required Type Type`
+          - `JsonElement Type = "search_result"`
 
           - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -3962,7 +4087,7 @@ Send Events
 
             Array of text content blocks from the search result.
 
-            - `required Type Type`
+            - `JsonElement Type = "text"`
 
             - `required string Text`
 
@@ -4000,7 +4125,7 @@ Send Events
 
       Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.define_outcome"`
 
       - `required string ID`
 
@@ -4034,7 +4159,7 @@ Send Events
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -4044,7 +4169,7 @@ Send Events
 
           Rubric content provided inline as text.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Content`
 
@@ -4054,7 +4179,7 @@ Send Events
 
       Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.tool_result"`
 
       - `required string ID`
 
@@ -4102,7 +4227,7 @@ Send Events
 
       A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-      - `required Type Type`
+      - `JsonElement Type = "system.message"`
 
       - `required string ID`
 
@@ -4112,7 +4237,7 @@ Send Events
 
         System content blocks. Text-only.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -4129,23 +4254,20 @@ Send Events
 ### Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Sessions.Events;
+
 EventSendParams parameters = new()
 {
     SessionID = "sesn_011CZkZAtmR3yMPDzynEDxu7",
     Events =
     [
-        new BetaManagedAgentsUserMessageEventParams()
-        {
-            Content =
+        new BetaManagedAgentsUserMessageEventParams(
+
             [
-                new BetaManagedAgentsTextBlock()
-                {
-                    Text = "Where is my order #1234?",
-                    Type = Type.Text,
-                },
-            ],
-            Type = Type.UserMessage,
-        },
+                new BetaManagedAgentsTextBlock("Where is my order #1234?")
+            ]
+        ),
     ],
 };
 
@@ -4198,7 +4320,7 @@ Stream Events
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
@@ -4300,6 +4422,18 @@ Stream Events
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -4316,7 +4450,7 @@ Stream Events
 
     A user message event in the session conversation.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.message"`
 
     - `required string ID`
 
@@ -4330,7 +4464,7 @@ Stream Events
 
         Regular text content.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -4342,7 +4476,7 @@ Stream Events
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `required Type Type`
+        - `JsonElement Type = "image"`
 
         - `required Source Source`
 
@@ -4352,7 +4486,7 @@ Stream Events
 
             Base64-encoded image data.
 
-            - `required Type Type`
+            - `JsonElement Type = "base64"`
 
             - `required string Data`
 
@@ -4370,7 +4504,7 @@ Stream Events
 
             Image referenced by URL.
 
-            - `required Type Type`
+            - `JsonElement Type = "url"`
 
             - `required string Url`
 
@@ -4382,7 +4516,7 @@ Stream Events
 
             Image referenced by file ID.
 
-            - `required Type Type`
+            - `JsonElement Type = "file"`
 
             - `required string FileID`
 
@@ -4394,7 +4528,7 @@ Stream Events
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `required Type Type`
+        - `JsonElement Type = "document"`
 
         - `required Source Source`
 
@@ -4404,7 +4538,7 @@ Stream Events
 
             Base64-encoded document data.
 
-            - `required Type Type`
+            - `JsonElement Type = "base64"`
 
             - `required string Data`
 
@@ -4422,7 +4556,7 @@ Stream Events
 
             Plain text document content.
 
-            - `required Type Type`
+            - `JsonElement Type = "text"`
 
             - `required string Data`
 
@@ -4430,7 +4564,7 @@ Stream Events
 
               minLength: 1
 
-            - `required MediaType MediaType`
+            - `JsonElement MediaType = "text/plain"`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -4438,7 +4572,7 @@ Stream Events
 
             Document referenced by URL.
 
-            - `required Type Type`
+            - `JsonElement Type = "url"`
 
             - `required string Url`
 
@@ -4450,7 +4584,7 @@ Stream Events
 
             Document referenced by file ID.
 
-            - `required Type Type`
+            - `JsonElement Type = "file"`
 
             - `required string FileID`
 
@@ -4470,7 +4604,7 @@ Stream Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `required Type Type`
+        - `JsonElement Type = "redacted"`
 
     - `DateTimeOffset? ProcessedAt`
 
@@ -4482,7 +4616,7 @@ Stream Events
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.interrupt"`
 
     - `required string ID`
 
@@ -4502,7 +4636,7 @@ Stream Events
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.tool_confirmation"`
 
     - `required string ID`
 
@@ -4540,7 +4674,7 @@ Stream Events
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.custom_tool_result"`
 
     - `required string ID`
 
@@ -4570,7 +4704,7 @@ Stream Events
 
         A block containing a web search result.
 
-        - `required Type Type`
+        - `JsonElement Type = "search_result"`
 
         - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -4584,7 +4718,7 @@ Stream Events
 
           Array of text content blocks from the search result.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Text`
 
@@ -4622,7 +4756,7 @@ Stream Events
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.custom_tool_use"`
 
     - `required string ID`
 
@@ -4650,7 +4784,7 @@ Stream Events
 
     An agent response event in the session conversation.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.message"`
 
     - `required string ID`
 
@@ -4678,7 +4812,7 @@ Stream Events
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thinking"`
 
     - `required string ID`
 
@@ -4694,7 +4828,7 @@ Stream Events
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.mcp_tool_use"`
 
     - `required string ID`
 
@@ -4792,7 +4926,7 @@ Stream Events
 
     Event representing the result of an MCP tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.mcp_tool_result"`
 
     - `required string ID`
 
@@ -4836,7 +4970,7 @@ Stream Events
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.tool_use"`
 
     - `required string ID`
 
@@ -4872,7 +5006,7 @@ Stream Events
 
     Event representing the result of an agent tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.tool_result"`
 
     - `required string ID`
 
@@ -4916,7 +5050,7 @@ Stream Events
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thread_message_received"`
 
     - `required string ID`
 
@@ -4960,7 +5094,7 @@ Stream Events
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thread_message_sent"`
 
     - `required string ID`
 
@@ -5004,7 +5138,7 @@ Stream Events
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thread_context_compacted"`
 
     - `required string ID`
 
@@ -5020,7 +5154,7 @@ Stream Events
 
     An error event indicating a problem occurred during session execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.error"`
 
     - `required string ID`
 
@@ -5032,7 +5166,7 @@ Stream Events
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `required Type Type`
+        - `JsonElement Type = "unknown_error"`
 
         - `required string Message`
 
@@ -5046,25 +5180,25 @@ Stream Events
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `required Type Type`
+            - `JsonElement Type = "retrying"`
 
           - `class BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `required Type Type`
+            - `JsonElement Type = "exhausted"`
 
           - `class BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `required Type Type`
+            - `JsonElement Type = "terminal"`
 
       - `class BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `required Type Type`
+        - `JsonElement Type = "model_overloaded_error"`
 
         - `required string Message`
 
@@ -5090,7 +5224,7 @@ Stream Events
 
         The model request was rate-limited.
 
-        - `required Type Type`
+        - `JsonElement Type = "model_rate_limited_error"`
 
         - `required string Message`
 
@@ -5116,7 +5250,7 @@ Stream Events
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `required Type Type`
+        - `JsonElement Type = "model_request_failed_error"`
 
         - `required string Message`
 
@@ -5142,7 +5276,7 @@ Stream Events
 
         Failed to connect to an MCP server.
 
-        - `required Type Type`
+        - `JsonElement Type = "mcp_connection_failed_error"`
 
         - `required string McpServerName`
 
@@ -5172,7 +5306,7 @@ Stream Events
 
         Authentication to an MCP server failed.
 
-        - `required Type Type`
+        - `JsonElement Type = "mcp_authentication_failed_error"`
 
         - `required string McpServerName`
 
@@ -5202,7 +5336,7 @@ Stream Events
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `required Type Type`
+        - `JsonElement Type = "billing_error"`
 
         - `required string Message`
 
@@ -5228,7 +5362,7 @@ Stream Events
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `required Type Type`
+        - `JsonElement Type = "credential_host_unreachable_error"`
 
         - `required string CredentialID`
 
@@ -5257,6 +5391,58 @@ Stream Events
         - `required string VaultID`
 
           ID of the vault containing the affected credential.
+
+      - `class BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonElement Type = "tool_use_limit_reached_error"`
+
+        - `required string Message`
+
+          Human-readable error description.
+
+        - `required RetryStatus RetryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `class BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonElement Type = "compaction_limit_reached_error"`
+
+        - `required string Message`
+
+          Human-readable error description.
+
+        - `required RetryStatus RetryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `class BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -5418,7 +5604,7 @@ Stream Events
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_rescheduled"`
 
     - `required string ID`
 
@@ -5434,7 +5620,7 @@ Stream Events
 
     Indicates the session is actively running and the agent is working.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_running"`
 
     - `required string ID`
 
@@ -5450,7 +5636,7 @@ Stream Events
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_idle"`
 
     - `required string ID`
 
@@ -5492,13 +5678,13 @@ Stream Events
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `required Type Type`
+        - `JsonElement Type = "end_turn"`
 
       - `class BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `required Type Type`
+        - `JsonElement Type = "requires_action"`
 
         - `required IReadOnlyList<string> EventIds`
 
@@ -5508,13 +5694,13 @@ Stream Events
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `required Type Type`
+        - `JsonElement Type = "retries_exhausted"`
 
       - `class BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `required Type Type`
+        - `JsonElement Type = "budget_reached"`
 
       - `class BetaManagedAgentsSessionRefusal`
 
@@ -5526,7 +5712,7 @@ Stream Events
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_terminated"`
 
     - `required string ID`
 
@@ -5542,7 +5728,7 @@ Stream Events
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_created"`
 
     - `required string ID`
 
@@ -5570,7 +5756,7 @@ Stream Events
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.outcome_evaluation_start"`
 
     - `required string ID`
 
@@ -5596,7 +5782,7 @@ Stream Events
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.outcome_evaluation_end"`
 
     - `required string ID`
 
@@ -5670,7 +5856,7 @@ Stream Events
 
     Emitted when a model request is initiated by the agent.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.model_request_start"`
 
     - `required string ID`
 
@@ -5686,7 +5872,7 @@ Stream Events
 
     Emitted when a model request completes.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.model_request_end"`
 
     - `required string ID`
 
@@ -5714,7 +5900,7 @@ Stream Events
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.outcome_evaluation_ongoing"`
 
     - `required string ID`
 
@@ -5740,7 +5926,7 @@ Stream Events
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.define_outcome"`
 
     - `required string ID`
 
@@ -5774,7 +5960,7 @@ Stream Events
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `required Type Type`
+        - `JsonElement Type = "file"`
 
         - `required string FileID`
 
@@ -5784,7 +5970,7 @@ Stream Events
 
         Rubric content provided inline as text.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Content`
 
@@ -5794,7 +5980,7 @@ Stream Events
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.deleted"`
 
     - `required string ID`
 
@@ -5810,7 +5996,7 @@ Stream Events
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_running"`
 
     - `required string ID`
 
@@ -5834,7 +6020,7 @@ Stream Events
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_idle"`
 
     - `required string ID`
 
@@ -5884,7 +6070,7 @@ Stream Events
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_terminated"`
 
     - `required string ID`
 
@@ -5908,7 +6094,7 @@ Stream Events
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.tool_result"`
 
     - `required string ID`
 
@@ -5956,7 +6142,7 @@ Stream Events
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_rescheduled"`
 
     - `required string ID`
 
@@ -5980,7 +6166,7 @@ Stream Events
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.updated"`
 
     - `required string ID`
 
@@ -5996,15 +6182,37 @@ Stream Events
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `required Type Type`
+      - `JsonElement Type = "agent"`
 
       - `required string ID`
 
       - `required string? Description`
 
+      - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `JsonElement Type = "aws_role"`
+
+          - `required string RoleArn`
+
+            The IAM role's ARN.
+
+        - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `JsonElement Type = "service_account"`
+
       - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
-        - `required Type Type`
+        - `JsonElement Type = "url"`
+
+        - `required string Name`
 
         - `required string Name`
 
@@ -6019,6 +6227,10 @@ Stream Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `ClaudeFable5_2("claude-fable-5-2")`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `ClaudeHaiku5_5("claude-haiku-5-5")`
 
@@ -6096,31 +6308,31 @@ Stream Events
 
             Low effort. Favors latency over reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "low"`
 
           - `class BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "medium"`
 
           - `class BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "high"`
 
           - `class BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `required Type Type`
+            - `JsonElement Type = "xhigh"`
 
           - `class BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `required Type Type`
+            - `JsonElement Type = "max"`
 
         - `string InferenceGeo`
 
@@ -6142,7 +6354,7 @@ Stream Events
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `required Type Type`
+          - `JsonElement Type = "coordinator"`
 
           - `required IReadOnlyList<Agent> Agents`
 
@@ -6152,15 +6364,19 @@ Stream Events
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `required Type Type`
+              - `JsonElement Type = "agent"`
 
               - `required string ID`
 
               - `required string? Description`
 
+              - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
-                - `required Type Type`
+                - `JsonElement Type = "url"`
 
                 - `required string Name`
 
@@ -6178,7 +6394,7 @@ Stream Events
 
                   A resolved Anthropic-managed skill.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "anthropic"`
 
                   - `required string SkillID`
 
@@ -6188,7 +6404,7 @@ Stream Events
 
                   A resolved user-created custom skill.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "custom"`
 
                   - `required string SkillID`
 
@@ -6200,7 +6416,7 @@ Stream Events
 
                 - `class BetaManagedAgentsAgentToolset20260401`
 
-                  - `required Type Type`
+                  - `JsonElement Type = "agent_toolset_20260401"`
 
                   - `required IReadOnlyList<BetaManagedAgentsAgentToolConfig> Configs`
 
@@ -6222,13 +6438,13 @@ Stream Events
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `required Type Type`
+                          - `JsonElement Type = "always_allow"`
 
                         - `class BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `required Type Type`
+                          - `JsonElement Type = "always_ask"`
 
                         - `class BetaManagedAgentsAutoPolicy`
 
@@ -6524,6 +6740,8 @@ Stream Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `string? Region`
 
                           Region or state name.
@@ -6560,7 +6778,7 @@ Stream Events
 
                 - `class BetaManagedAgentsMcpToolset`
 
-                  - `required Type Type`
+                  - `JsonElement Type = "mcp_toolset"`
 
                   - `required IReadOnlyList<BetaManagedAgentsMcpToolConfig> Configs`
 
@@ -6612,7 +6830,7 @@ Stream Events
 
                   A custom tool as returned in API responses.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "custom"`
 
                   - `required string Description`
 
@@ -6636,7 +6854,7 @@ Stream Events
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `required Type Type`
+              - `JsonElement Type = "advisor"`
 
               - `required string Model`
 
@@ -6698,11 +6916,15 @@ Stream Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `required Type Type`
+                - `JsonElement Type = "agent"`
 
                 - `required string ID`
 
                 - `required string? Description`
+
+                - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
@@ -6746,11 +6968,15 @@ Stream Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `required Type Type`
+                - `JsonElement Type = "agent"`
 
                 - `required string ID`
 
                 - `required string? Description`
+
+                - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
@@ -6808,7 +7034,7 @@ Stream Events
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `required Type Type`
+      - `JsonElement Type = "limit"`
 
       - `required BetaMonetaryAmount MaxListCost`
 
@@ -6817,6 +7043,8 @@ Stream Events
         - `required string Amount`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `required BetaCurrency Currency`
 
@@ -6834,7 +7062,7 @@ Stream Events
 
     Opens a preview of a buffered event. Carries the previewed event's type and id only. Followed by zero or more event_delta events with the same event id, normally concluded by the buffered event carrying that id. If the producing model request ends without that event (an error or interrupt mid-stream), its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `required Type Type`
+    - `JsonElement Type = "event_start"`
 
     - `required BetaManagedAgentsStartEventPreview Event`
 
@@ -6842,7 +7070,7 @@ Stream Events
 
       - `class BetaManagedAgentsAgentMessagePreview`
 
-        - `required Type Type`
+        - `JsonElement Type = "agent.message"`
 
         - `required string ID`
 
@@ -6850,7 +7078,7 @@ Stream Events
 
       - `class BetaManagedAgentsAgentThinkingPreview`
 
-        - `required Type Type`
+        - `JsonElement Type = "agent.thinking"`
 
         - `required string ID`
 
@@ -6860,13 +7088,13 @@ Stream Events
 
     An incremental update to an event that is still being streamed. Deltas are best-effort and may stop early; when the buffered event with id == event_id is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no buffered event — its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `required Type Type`
+    - `JsonElement Type = "event_delta"`
 
     - `required BetaManagedAgentsDeltaContent Delta`
 
       One fragment of the previewed event. The delta type is named for the previewed event's field it streams into: agent.message events stream content_delta fragments, each a partial element of the content array.
 
-      - `required Type Type`
+      - `JsonElement Type = "content_delta"`
 
       - `required BetaManagedAgentsTextBlock Content`
 
@@ -6884,7 +7112,7 @@ Stream Events
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `required Type Type`
+    - `JsonElement Type = "system.message"`
 
     - `required string ID`
 
@@ -6894,7 +7122,7 @@ Stream Events
 
       System content blocks. Text-only.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -6912,7 +7140,7 @@ Stream Events
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.usage"`
 
     - `required string ID`
 
@@ -7251,6 +7479,9 @@ Stream Events
 ### Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Sessions.Events;
+
 EventStreamParams parameters = new()
 {
     SessionID = "sesn_011CZkZAtmR3yMPDzynEDxu7"
@@ -7358,7 +7589,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-  - `required Type Type`
+  - `JsonElement Type = "agent.custom_tool_use"`
 
   - `required string ID`
 
@@ -7398,7 +7629,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Event representing the result of an MCP tool execution.
 
-  - `required Type Type`
+  - `JsonElement Type = "agent.mcp_tool_result"`
 
   - `required string ID`
 
@@ -7422,7 +7653,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Regular text content.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -7434,7 +7665,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "image"`
 
       - `required Source Source`
 
@@ -7444,7 +7675,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded image data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -7462,7 +7693,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -7474,7 +7705,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -7486,7 +7717,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "document"`
 
       - `required Source Source`
 
@@ -7496,7 +7727,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded document data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -7514,7 +7745,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Plain text document content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Data`
 
@@ -7522,7 +7753,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             minLength: 1
 
-          - `required MediaType MediaType`
+          - `JsonElement MediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -7530,7 +7761,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -7542,7 +7773,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -7562,7 +7793,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       A block containing a web search result.
 
-      - `required Type Type`
+      - `JsonElement Type = "search_result"`
 
       - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -7576,7 +7807,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Array of text content blocks from the search result.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -7606,7 +7837,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Event emitted when the agent invokes a tool provided by an MCP server.
 
-  - `required Type Type`
+  - `JsonElement Type = "agent.mcp_tool_use"`
 
   - `required string ID`
 
@@ -7706,7 +7937,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   An agent response event in the session conversation.
 
-  - `required Type Type`
+  - `JsonElement Type = "agent.message"`
 
   - `required string ID`
 
@@ -7720,7 +7951,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Regular text content.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -7732,7 +7963,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `required Type Type`
+      - `JsonElement Type = "redacted"`
 
   - `required DateTimeOffset ProcessedAt`
 
@@ -7746,7 +7977,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-  - `required Type Type`
+  - `JsonElement Type = "agent.thinking"`
 
   - `required string ID`
 
@@ -7764,7 +7995,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Indicates that context compaction (summarization) occurred during the session.
 
-  - `required Type Type`
+  - `JsonElement Type = "agent.thread_context_compacted"`
 
   - `required string ID`
 
@@ -7782,7 +8013,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-  - `required Type Type`
+  - `JsonElement Type = "agent.thread_message_received"`
 
   - `required string ID`
 
@@ -7796,7 +8027,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Regular text content.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -7808,7 +8039,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "image"`
 
       - `required Source Source`
 
@@ -7818,7 +8049,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded image data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -7836,7 +8067,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -7848,7 +8079,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -7860,7 +8091,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "document"`
 
       - `required Source Source`
 
@@ -7870,7 +8101,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded document data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -7888,7 +8119,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Plain text document content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Data`
 
@@ -7896,7 +8127,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             minLength: 1
 
-          - `required MediaType MediaType`
+          - `JsonElement MediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -7904,7 +8135,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -7916,7 +8147,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -7936,7 +8167,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `required Type Type`
+      - `JsonElement Type = "redacted"`
 
   - `required string FromSessionThreadID`
 
@@ -7958,7 +8189,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-  - `required Type Type`
+  - `JsonElement Type = "agent.thread_message_sent"`
 
   - `required string ID`
 
@@ -7972,7 +8203,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Regular text content.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -7984,7 +8215,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "image"`
 
       - `required Source Source`
 
@@ -7994,7 +8225,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded image data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -8012,7 +8243,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -8024,7 +8255,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -8036,7 +8267,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "document"`
 
       - `required Source Source`
 
@@ -8046,7 +8277,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded document data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -8064,7 +8295,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Plain text document content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Data`
 
@@ -8072,7 +8303,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             minLength: 1
 
-          - `required MediaType MediaType`
+          - `JsonElement MediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -8080,7 +8311,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -8092,7 +8323,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -8112,7 +8343,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `required Type Type`
+      - `JsonElement Type = "redacted"`
 
   - `required DateTimeOffset ProcessedAt`
 
@@ -8250,7 +8481,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Event representing the result of an agent tool execution.
 
-  - `required Type Type`
+  - `JsonElement Type = "agent.tool_result"`
 
   - `required string ID`
 
@@ -8274,7 +8505,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Regular text content.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -8286,7 +8517,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "image"`
 
       - `required Source Source`
 
@@ -8296,7 +8527,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded image data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -8314,7 +8545,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -8326,7 +8557,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -8338,7 +8569,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "document"`
 
       - `required Source Source`
 
@@ -8348,7 +8579,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded document data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -8366,7 +8597,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Plain text document content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Data`
 
@@ -8374,7 +8605,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             minLength: 1
 
-          - `required MediaType MediaType`
+          - `JsonElement MediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -8382,7 +8613,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -8394,7 +8625,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -8414,7 +8645,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       A block containing a web search result.
 
-      - `required Type Type`
+      - `JsonElement Type = "search_result"`
 
       - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -8428,7 +8659,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Array of text content blocks from the search result.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -8458,7 +8689,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Event emitted when the agent invokes a built-in agent tool.
 
-  - `required Type Type`
+  - `JsonElement Type = "agent.tool_use"`
 
   - `required string ID`
 
@@ -8554,7 +8785,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Base64-encoded document data.
 
-  - `required Type Type`
+  - `JsonElement Type = "base64"`
 
   - `required string Data`
 
@@ -8574,7 +8805,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Base64-encoded image data.
 
-  - `required Type Type`
+  - `JsonElement Type = "base64"`
 
   - `required string Data`
 
@@ -8594,7 +8825,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-  - `required Type Type`
+  - `JsonElement Type = "billing_error"`
 
   - `required string Message`
 
@@ -8608,19 +8839,53 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `required Type Type`
+      - `JsonElement Type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `required Type Type`
+      - `JsonElement Type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `required Type Type`
+      - `JsonElement Type = "terminal"`
+
+### Beta Managed Agents Compaction Limit Reached Error
+
+- `class BetaManagedAgentsCompactionLimitReachedError`
+
+  The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+  - `JsonElement Type = "compaction_limit_reached_error"`
+
+  - `required string Message`
+
+    Human-readable error description.
+
+  - `required RetryStatus RetryStatus`
+
+    What the client should do next.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonElement Type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonElement Type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonElement Type = "terminal"`
 
 ### Beta Managed Agents Credential Host Unreachable Error
 
@@ -8628,7 +8893,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-  - `required Type Type`
+  - `JsonElement Type = "credential_host_unreachable_error"`
 
   - `required string CredentialID`
 
@@ -8646,19 +8911,19 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `required Type Type`
+      - `JsonElement Type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `required Type Type`
+      - `JsonElement Type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `required Type Type`
+      - `JsonElement Type = "terminal"`
 
   - `required string VaultID`
 
@@ -8670,7 +8935,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-  - `required Type Type`
+  - `JsonElement Type = "document"`
 
   - `required Source Source`
 
@@ -8680,7 +8945,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Base64-encoded document data.
 
-      - `required Type Type`
+      - `JsonElement Type = "base64"`
 
       - `required string Data`
 
@@ -8698,7 +8963,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Plain text document content.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Data`
 
@@ -8706,7 +8971,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         minLength: 1
 
-      - `required MediaType MediaType`
+      - `JsonElement MediaType = "text/plain"`
 
         MIME type of the text content. Must be "text/plain".
 
@@ -8714,7 +8979,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Document referenced by URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "url"`
 
       - `required string Url`
 
@@ -8726,7 +8991,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Document referenced by file ID.
 
-      - `required Type Type`
+      - `JsonElement Type = "file"`
 
       - `required string FileID`
 
@@ -8752,7 +9017,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Parameters for sending a user message to the session.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.message"`
 
     - `required IReadOnlyList<Content> Content`
 
@@ -8762,7 +9027,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Regular text content.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -8774,7 +9039,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `required Type Type`
+        - `JsonElement Type = "image"`
 
         - `required Source Source`
 
@@ -8784,7 +9049,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Base64-encoded image data.
 
-            - `required Type Type`
+            - `JsonElement Type = "base64"`
 
             - `required string Data`
 
@@ -8802,7 +9067,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Image referenced by URL.
 
-            - `required Type Type`
+            - `JsonElement Type = "url"`
 
             - `required string Url`
 
@@ -8814,7 +9079,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Image referenced by file ID.
 
-            - `required Type Type`
+            - `JsonElement Type = "file"`
 
             - `required string FileID`
 
@@ -8826,7 +9091,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `required Type Type`
+        - `JsonElement Type = "document"`
 
         - `required Source Source`
 
@@ -8836,7 +9101,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Base64-encoded document data.
 
-            - `required Type Type`
+            - `JsonElement Type = "base64"`
 
             - `required string Data`
 
@@ -8854,7 +9119,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Plain text document content.
 
-            - `required Type Type`
+            - `JsonElement Type = "text"`
 
             - `required string Data`
 
@@ -8862,7 +9127,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               minLength: 1
 
-            - `required MediaType MediaType`
+            - `JsonElement MediaType = "text/plain"`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -8870,7 +9135,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Document referenced by URL.
 
-            - `required Type Type`
+            - `JsonElement Type = "url"`
 
             - `required string Url`
 
@@ -8882,7 +9147,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Document referenced by file ID.
 
-            - `required Type Type`
+            - `JsonElement Type = "file"`
 
             - `required string FileID`
 
@@ -8902,13 +9167,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `required Type Type`
+        - `JsonElement Type = "redacted"`
 
   - `class BetaManagedAgentsUserInterruptEventParams`
 
     Parameters for sending an interrupt to pause the agent.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.interrupt"`
 
     - `string? SessionThreadID`
 
@@ -8918,7 +9183,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Parameters for confirming or denying a tool execution request.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.tool_confirmation"`
 
     - `required Result Result`
 
@@ -8944,7 +9209,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Parameters for providing the result of a custom tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.custom_tool_result"`
 
     - `required string CustomToolUseID`
 
@@ -8972,7 +9237,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         A block containing a web search result.
 
-        - `required Type Type`
+        - `JsonElement Type = "search_result"`
 
         - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -8986,7 +9251,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Array of text content blocks from the search result.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Text`
 
@@ -9014,7 +9279,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.define_outcome"`
 
     - `required string Description`
 
@@ -9028,7 +9293,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `required Type Type`
+        - `JsonElement Type = "file"`
 
         - `required string FileID`
 
@@ -9038,7 +9303,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Rubric content provided inline as text.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Content`
 
@@ -9056,7 +9321,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Parameters for providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.tool_result"`
 
     - `required string ToolUseID`
 
@@ -9092,13 +9357,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Privileged context for the accompanying turn and all subsequent turns, appended to the session's system context as a `role: "system"` turn rather than replacing the top-level system prompt. At most one per request: it must be the final event and immediately follow the `user.message`, `user.tool_result`, or `user.custom_tool_result` it accompanies. Only supported on models that accept mid-conversation system messages.
 
-    - `required Type Type`
+    - `JsonElement Type = "system.message"`
 
     - `required IReadOnlyList<BetaManagedAgentsSystemContentBlock> Content`
 
       System content blocks to append. Text-only.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -9112,7 +9377,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Document referenced by file ID.
 
-  - `required Type Type`
+  - `JsonElement Type = "file"`
 
   - `required string FileID`
 
@@ -9126,7 +9391,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Image referenced by file ID.
 
-  - `required Type Type`
+  - `JsonElement Type = "file"`
 
   - `required string FileID`
 
@@ -9140,7 +9405,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Rubric referenced by a file uploaded via the Files API.
 
-  - `required Type Type`
+  - `JsonElement Type = "file"`
 
   - `required string FileID`
 
@@ -9152,7 +9417,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Rubric referenced by a file uploaded via the Files API.
 
-  - `required Type Type`
+  - `JsonElement Type = "file"`
 
   - `required string FileID`
 
@@ -9164,7 +9429,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Image content specified directly as base64 data or as a reference via a URL.
 
-  - `required Type Type`
+  - `JsonElement Type = "image"`
 
   - `required Source Source`
 
@@ -9174,7 +9439,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Base64-encoded image data.
 
-      - `required Type Type`
+      - `JsonElement Type = "base64"`
 
       - `required string Data`
 
@@ -9192,7 +9457,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Image referenced by URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "url"`
 
       - `required string Url`
 
@@ -9204,7 +9469,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Image referenced by file ID.
 
-      - `required Type Type`
+      - `JsonElement Type = "file"`
 
       - `required string FileID`
 
@@ -9230,7 +9495,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Authentication to an MCP server failed.
 
-  - `required Type Type`
+  - `JsonElement Type = "mcp_authentication_failed_error"`
 
   - `required string McpServerName`
 
@@ -9248,19 +9513,19 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `required Type Type`
+      - `JsonElement Type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `required Type Type`
+      - `JsonElement Type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `required Type Type`
+      - `JsonElement Type = "terminal"`
 
 ### Beta Managed Agents MCP Connection Failed Error
 
@@ -9268,7 +9533,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Failed to connect to an MCP server.
 
-  - `required Type Type`
+  - `JsonElement Type = "mcp_connection_failed_error"`
 
   - `required string McpServerName`
 
@@ -9286,19 +9551,19 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `required Type Type`
+      - `JsonElement Type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `required Type Type`
+      - `JsonElement Type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `required Type Type`
+      - `JsonElement Type = "terminal"`
 
 ### Beta Managed Agents Model Overloaded Error
 
@@ -9306,7 +9571,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-  - `required Type Type`
+  - `JsonElement Type = "model_overloaded_error"`
 
   - `required string Message`
 
@@ -9320,19 +9585,19 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `required Type Type`
+      - `JsonElement Type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `required Type Type`
+      - `JsonElement Type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `required Type Type`
+      - `JsonElement Type = "terminal"`
 
 ### Beta Managed Agents Model Rate Limited Error
 
@@ -9340,7 +9605,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   The model request was rate-limited.
 
-  - `required Type Type`
+  - `JsonElement Type = "model_rate_limited_error"`
 
   - `required string Message`
 
@@ -9354,19 +9619,19 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `required Type Type`
+      - `JsonElement Type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `required Type Type`
+      - `JsonElement Type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `required Type Type`
+      - `JsonElement Type = "terminal"`
 
 ### Beta Managed Agents Model Request Failed Error
 
@@ -9374,7 +9639,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   A model request failed for a reason other than overload or rate-limiting.
 
-  - `required Type Type`
+  - `JsonElement Type = "model_request_failed_error"`
 
   - `required string Message`
 
@@ -9388,19 +9653,19 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `required Type Type`
+      - `JsonElement Type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `required Type Type`
+      - `JsonElement Type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `required Type Type`
+      - `JsonElement Type = "terminal"`
 
 ### Beta Managed Agents Plain Text Document Source
 
@@ -9408,7 +9673,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Plain text document content.
 
-  - `required Type Type`
+  - `JsonElement Type = "text"`
 
   - `required string Data`
 
@@ -9416,7 +9681,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     minLength: 1
 
-  - `required MediaType MediaType`
+  - `JsonElement MediaType = "text/plain"`
 
     MIME type of the text content. Must be "text/plain".
 
@@ -9438,7 +9703,197 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Placeholder for content withheld by Anthropic model policy.
 
-  - `required Type Type`
+  - `JsonElement Type = "redacted"`
+
+### Beta Managed Agents Repository Authentication Error
+
+- `class BetaManagedAgentsRepositoryAuthenticationError`
+
+  The repository host rejected the credentials, or required credentials and received none.
+
+  - `JsonElement Type = "repository_authentication_error"`
+
+  - `required string Message`
+
+    Human-readable error description.
+
+  - `required string? RepositoryUrl`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `required RetryStatus RetryStatus`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonElement Type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonElement Type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonElement Type = "terminal"`
+
+### Beta Managed Agents Repository Checkout Error
+
+- `class BetaManagedAgentsRepositoryCheckoutError`
+
+  The requested branch or commit does not exist in the repository.
+
+  - `JsonElement Type = "repository_checkout_error"`
+
+  - `required string Message`
+
+    Human-readable error description.
+
+  - `required string? RepositoryUrl`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `required RetryStatus RetryStatus`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonElement Type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonElement Type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonElement Type = "terminal"`
+
+### Beta Managed Agents Repository Clone Error
+
+- `class BetaManagedAgentsRepositoryCloneError`
+
+  The repository could not be cloned.
+
+  - `JsonElement Type = "repository_clone_error"`
+
+  - `required string Message`
+
+    Human-readable error description.
+
+  - `required string? RepositoryUrl`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `required RetryStatus RetryStatus`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonElement Type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonElement Type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonElement Type = "terminal"`
+
+### Beta Managed Agents Repository Forbidden Error
+
+- `class BetaManagedAgentsRepositoryForbiddenError`
+
+  The repository host refused access to the repository.
+
+  - `JsonElement Type = "repository_forbidden_error"`
+
+  - `required string Message`
+
+    Human-readable error description.
+
+  - `required string? RepositoryUrl`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `required RetryStatus RetryStatus`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonElement Type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonElement Type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonElement Type = "terminal"`
+
+### Beta Managed Agents Repository Not Found Error
+
+- `class BetaManagedAgentsRepositoryNotFoundError`
+
+  The repository host reported the repository as not found.
+
+  - `JsonElement Type = "repository_not_found_error"`
+
+  - `required string Message`
+
+    Human-readable error description.
+
+  - `required string? RepositoryUrl`
+
+    URL of the repository that could not be cloned. Null when it could not be identified.
+
+  - `required RetryStatus RetryStatus`
+
+    What the client should do next. Always `retrying`: the session keeps running without the repository.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonElement Type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonElement Type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonElement Type = "terminal"`
 
 ### Beta Managed Agents Repository Authentication Error
 
@@ -9636,7 +10091,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-  - `required Type Type`
+  - `JsonElement Type = "exhausted"`
 
 ### Beta Managed Agents Retry Status Retrying
 
@@ -9644,7 +10099,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-  - `required Type Type`
+  - `JsonElement Type = "retrying"`
 
 ### Beta Managed Agents Retry Status Terminal
 
@@ -9652,7 +10107,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   The session encountered a terminal error and will transition to `terminated` state.
 
-  - `required Type Type`
+  - `JsonElement Type = "terminal"`
 
 ### Beta Managed Agents Search Result Block
 
@@ -9660,7 +10115,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   A block containing a web search result.
 
-  - `required Type Type`
+  - `JsonElement Type = "search_result"`
 
   - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -9674,7 +10129,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Array of text content blocks from the search result.
 
-    - `required Type Type`
+    - `JsonElement Type = "text"`
 
     - `required string Text`
 
@@ -9710,7 +10165,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Text content within a search result.
 
-  - `required Type Type`
+  - `JsonElement Type = "text"`
 
   - `required string Text`
 
@@ -9732,7 +10187,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       A user message event in the session conversation.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.message"`
 
       - `required string ID`
 
@@ -9746,7 +10201,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Regular text content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Text`
 
@@ -9758,7 +10213,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "image"`
 
           - `required Source Source`
 
@@ -9768,7 +10223,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               Base64-encoded image data.
 
-              - `required Type Type`
+              - `JsonElement Type = "base64"`
 
               - `required string Data`
 
@@ -9786,7 +10241,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               Image referenced by URL.
 
-              - `required Type Type`
+              - `JsonElement Type = "url"`
 
               - `required string Url`
 
@@ -9798,7 +10253,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               Image referenced by file ID.
 
-              - `required Type Type`
+              - `JsonElement Type = "file"`
 
               - `required string FileID`
 
@@ -9810,7 +10265,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "document"`
 
           - `required Source Source`
 
@@ -9820,7 +10275,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               Base64-encoded document data.
 
-              - `required Type Type`
+              - `JsonElement Type = "base64"`
 
               - `required string Data`
 
@@ -9838,7 +10293,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               Plain text document content.
 
-              - `required Type Type`
+              - `JsonElement Type = "text"`
 
               - `required string Data`
 
@@ -9846,7 +10301,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                 minLength: 1
 
-              - `required MediaType MediaType`
+              - `JsonElement MediaType = "text/plain"`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -9854,7 +10309,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               Document referenced by URL.
 
-              - `required Type Type`
+              - `JsonElement Type = "url"`
 
               - `required string Url`
 
@@ -9866,7 +10321,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               Document referenced by file ID.
 
-              - `required Type Type`
+              - `JsonElement Type = "file"`
 
               - `required string FileID`
 
@@ -9886,7 +10341,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `required Type Type`
+          - `JsonElement Type = "redacted"`
 
       - `DateTimeOffset? ProcessedAt`
 
@@ -9898,7 +10353,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       An interrupt event that pauses agent execution and returns control to the user.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.interrupt"`
 
       - `required string ID`
 
@@ -9918,7 +10373,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       A tool confirmation event that approves or denies a pending tool execution.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.tool_confirmation"`
 
       - `required string ID`
 
@@ -9956,7 +10411,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Event sent by the client providing the result of a custom tool execution.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.custom_tool_result"`
 
       - `required string ID`
 
@@ -9986,7 +10441,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           A block containing a web search result.
 
-          - `required Type Type`
+          - `JsonElement Type = "search_result"`
 
           - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -10000,7 +10455,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Array of text content blocks from the search result.
 
-            - `required Type Type`
+            - `JsonElement Type = "text"`
 
             - `required string Text`
 
@@ -10038,7 +10493,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.define_outcome"`
 
       - `required string ID`
 
@@ -10072,7 +10527,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -10082,7 +10537,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Rubric content provided inline as text.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Content`
 
@@ -10092,7 +10547,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.tool_result"`
 
       - `required string ID`
 
@@ -10140,7 +10595,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-      - `required Type Type`
+      - `JsonElement Type = "system.message"`
 
       - `required string ID`
 
@@ -10150,7 +10605,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         System content blocks. Text-only.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -10170,7 +10625,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-  - `required Type Type`
+  - `JsonElement Type = "budget_reached"`
 
 ### Beta Managed Agents Session Deleted Event
 
@@ -10178,7 +10633,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-  - `required Type Type`
+  - `JsonElement Type = "session.deleted"`
 
   - `required string ID`
 
@@ -10196,7 +10651,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   The agent completed its turn naturally and is ready for the next user message.
 
-  - `required Type Type`
+  - `JsonElement Type = "end_turn"`
 
 ### Beta Managed Agents Session Error Event
 
@@ -10204,7 +10659,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   An error event indicating a problem occurred during session execution.
 
-  - `required Type Type`
+  - `JsonElement Type = "session.error"`
 
   - `required string ID`
 
@@ -10216,7 +10671,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-      - `required Type Type`
+      - `JsonElement Type = "unknown_error"`
 
       - `required string Message`
 
@@ -10230,25 +10685,25 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-          - `required Type Type`
+          - `JsonElement Type = "retrying"`
 
         - `class BetaManagedAgentsRetryStatusExhausted`
 
           This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-          - `required Type Type`
+          - `JsonElement Type = "exhausted"`
 
         - `class BetaManagedAgentsRetryStatusTerminal`
 
           The session encountered a terminal error and will transition to `terminated` state.
 
-          - `required Type Type`
+          - `JsonElement Type = "terminal"`
 
     - `class BetaManagedAgentsModelOverloadedError`
 
       The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-      - `required Type Type`
+      - `JsonElement Type = "model_overloaded_error"`
 
       - `required string Message`
 
@@ -10274,7 +10729,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The model request was rate-limited.
 
-      - `required Type Type`
+      - `JsonElement Type = "model_rate_limited_error"`
 
       - `required string Message`
 
@@ -10300,7 +10755,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       A model request failed for a reason other than overload or rate-limiting.
 
-      - `required Type Type`
+      - `JsonElement Type = "model_request_failed_error"`
 
       - `required string Message`
 
@@ -10326,7 +10781,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Failed to connect to an MCP server.
 
-      - `required Type Type`
+      - `JsonElement Type = "mcp_connection_failed_error"`
 
       - `required string McpServerName`
 
@@ -10356,7 +10811,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Authentication to an MCP server failed.
 
-      - `required Type Type`
+      - `JsonElement Type = "mcp_authentication_failed_error"`
 
       - `required string McpServerName`
 
@@ -10386,7 +10841,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-      - `required Type Type`
+      - `JsonElement Type = "billing_error"`
 
       - `required string Message`
 
@@ -10412,7 +10867,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-      - `required Type Type`
+      - `JsonElement Type = "credential_host_unreachable_error"`
 
       - `required string CredentialID`
 
@@ -10441,6 +10896,58 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
       - `required string VaultID`
 
         ID of the vault containing the affected credential.
+
+    - `class BetaManagedAgentsToolUseLimitReachedError`
+
+      The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+      - `JsonElement Type = "tool_use_limit_reached_error"`
+
+      - `required string Message`
+
+        Human-readable error description.
+
+      - `required RetryStatus RetryStatus`
+
+        What the client should do next.
+
+        - `class BetaManagedAgentsRetryStatusRetrying`
+
+          The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+        - `class BetaManagedAgentsRetryStatusExhausted`
+
+          This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+        - `class BetaManagedAgentsRetryStatusTerminal`
+
+          The session encountered a terminal error and will transition to `terminated` state.
+
+    - `class BetaManagedAgentsCompactionLimitReachedError`
+
+      The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+      - `JsonElement Type = "compaction_limit_reached_error"`
+
+      - `required string Message`
+
+        Human-readable error description.
+
+      - `required RetryStatus RetryStatus`
+
+        What the client should do next.
+
+        - `class BetaManagedAgentsRetryStatusRetrying`
+
+          The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+        - `class BetaManagedAgentsRetryStatusExhausted`
+
+          This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+        - `class BetaManagedAgentsRetryStatusTerminal`
+
+          The session encountered a terminal error and will transition to `terminated` state.
 
     - `class BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -10608,7 +11115,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A user message event in the session conversation.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.message"`
 
     - `required string ID`
 
@@ -10622,7 +11129,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Regular text content.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -10634,7 +11141,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `required Type Type`
+        - `JsonElement Type = "image"`
 
         - `required Source Source`
 
@@ -10644,7 +11151,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Base64-encoded image data.
 
-            - `required Type Type`
+            - `JsonElement Type = "base64"`
 
             - `required string Data`
 
@@ -10662,7 +11169,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Image referenced by URL.
 
-            - `required Type Type`
+            - `JsonElement Type = "url"`
 
             - `required string Url`
 
@@ -10674,7 +11181,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Image referenced by file ID.
 
-            - `required Type Type`
+            - `JsonElement Type = "file"`
 
             - `required string FileID`
 
@@ -10686,7 +11193,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `required Type Type`
+        - `JsonElement Type = "document"`
 
         - `required Source Source`
 
@@ -10696,7 +11203,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Base64-encoded document data.
 
-            - `required Type Type`
+            - `JsonElement Type = "base64"`
 
             - `required string Data`
 
@@ -10714,7 +11221,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Plain text document content.
 
-            - `required Type Type`
+            - `JsonElement Type = "text"`
 
             - `required string Data`
 
@@ -10722,7 +11229,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               minLength: 1
 
-            - `required MediaType MediaType`
+            - `JsonElement MediaType = "text/plain"`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -10730,7 +11237,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Document referenced by URL.
 
-            - `required Type Type`
+            - `JsonElement Type = "url"`
 
             - `required string Url`
 
@@ -10742,7 +11249,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Document referenced by file ID.
 
-            - `required Type Type`
+            - `JsonElement Type = "file"`
 
             - `required string FileID`
 
@@ -10762,7 +11269,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `required Type Type`
+        - `JsonElement Type = "redacted"`
 
     - `DateTimeOffset? ProcessedAt`
 
@@ -10774,7 +11281,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.interrupt"`
 
     - `required string ID`
 
@@ -10794,7 +11301,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.tool_confirmation"`
 
     - `required string ID`
 
@@ -10832,7 +11339,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.custom_tool_result"`
 
     - `required string ID`
 
@@ -10862,7 +11369,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         A block containing a web search result.
 
-        - `required Type Type`
+        - `JsonElement Type = "search_result"`
 
         - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -10876,7 +11383,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Array of text content blocks from the search result.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Text`
 
@@ -10914,7 +11421,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.custom_tool_use"`
 
     - `required string ID`
 
@@ -10942,7 +11449,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     An agent response event in the session conversation.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.message"`
 
     - `required string ID`
 
@@ -10970,7 +11477,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thinking"`
 
     - `required string ID`
 
@@ -10986,7 +11493,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.mcp_tool_use"`
 
     - `required string ID`
 
@@ -11084,7 +11591,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event representing the result of an MCP tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.mcp_tool_result"`
 
     - `required string ID`
 
@@ -11128,7 +11635,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.tool_use"`
 
     - `required string ID`
 
@@ -11164,7 +11671,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event representing the result of an agent tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.tool_result"`
 
     - `required string ID`
 
@@ -11208,7 +11715,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thread_message_received"`
 
     - `required string ID`
 
@@ -11252,7 +11759,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thread_message_sent"`
 
     - `required string ID`
 
@@ -11296,7 +11803,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thread_context_compacted"`
 
     - `required string ID`
 
@@ -11312,7 +11819,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     An error event indicating a problem occurred during session execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.error"`
 
     - `required string ID`
 
@@ -11324,7 +11831,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `required Type Type`
+        - `JsonElement Type = "unknown_error"`
 
         - `required string Message`
 
@@ -11338,25 +11845,25 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `required Type Type`
+            - `JsonElement Type = "retrying"`
 
           - `class BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `required Type Type`
+            - `JsonElement Type = "exhausted"`
 
           - `class BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `required Type Type`
+            - `JsonElement Type = "terminal"`
 
       - `class BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `required Type Type`
+        - `JsonElement Type = "model_overloaded_error"`
 
         - `required string Message`
 
@@ -11382,7 +11889,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         The model request was rate-limited.
 
-        - `required Type Type`
+        - `JsonElement Type = "model_rate_limited_error"`
 
         - `required string Message`
 
@@ -11408,7 +11915,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `required Type Type`
+        - `JsonElement Type = "model_request_failed_error"`
 
         - `required string Message`
 
@@ -11434,7 +11941,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Failed to connect to an MCP server.
 
-        - `required Type Type`
+        - `JsonElement Type = "mcp_connection_failed_error"`
 
         - `required string McpServerName`
 
@@ -11464,7 +11971,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Authentication to an MCP server failed.
 
-        - `required Type Type`
+        - `JsonElement Type = "mcp_authentication_failed_error"`
 
         - `required string McpServerName`
 
@@ -11494,7 +12001,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `required Type Type`
+        - `JsonElement Type = "billing_error"`
 
         - `required string Message`
 
@@ -11520,7 +12027,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `required Type Type`
+        - `JsonElement Type = "credential_host_unreachable_error"`
 
         - `required string CredentialID`
 
@@ -11549,6 +12056,58 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
         - `required string VaultID`
 
           ID of the vault containing the affected credential.
+
+      - `class BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonElement Type = "tool_use_limit_reached_error"`
+
+        - `required string Message`
+
+          Human-readable error description.
+
+        - `required RetryStatus RetryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `class BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonElement Type = "compaction_limit_reached_error"`
+
+        - `required string Message`
+
+          Human-readable error description.
+
+        - `required RetryStatus RetryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `class BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -11710,7 +12269,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_rescheduled"`
 
     - `required string ID`
 
@@ -11726,7 +12285,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Indicates the session is actively running and the agent is working.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_running"`
 
     - `required string ID`
 
@@ -11742,7 +12301,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_idle"`
 
     - `required string ID`
 
@@ -11784,13 +12343,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `required Type Type`
+        - `JsonElement Type = "end_turn"`
 
       - `class BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `required Type Type`
+        - `JsonElement Type = "requires_action"`
 
         - `required IReadOnlyList<string> EventIds`
 
@@ -11800,13 +12359,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `required Type Type`
+        - `JsonElement Type = "retries_exhausted"`
 
       - `class BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `required Type Type`
+        - `JsonElement Type = "budget_reached"`
 
       - `class BetaManagedAgentsSessionRefusal`
 
@@ -11818,7 +12377,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_terminated"`
 
     - `required string ID`
 
@@ -11834,7 +12393,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_created"`
 
     - `required string ID`
 
@@ -11862,7 +12421,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.outcome_evaluation_start"`
 
     - `required string ID`
 
@@ -11888,7 +12447,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.outcome_evaluation_end"`
 
     - `required string ID`
 
@@ -11962,7 +12521,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when a model request is initiated by the agent.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.model_request_start"`
 
     - `required string ID`
 
@@ -11978,7 +12537,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when a model request completes.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.model_request_end"`
 
     - `required string ID`
 
@@ -12006,7 +12565,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.outcome_evaluation_ongoing"`
 
     - `required string ID`
 
@@ -12032,7 +12591,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.define_outcome"`
 
     - `required string ID`
 
@@ -12066,7 +12625,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `required Type Type`
+        - `JsonElement Type = "file"`
 
         - `required string FileID`
 
@@ -12076,7 +12635,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Rubric content provided inline as text.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Content`
 
@@ -12086,7 +12645,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.deleted"`
 
     - `required string ID`
 
@@ -12102,7 +12661,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_running"`
 
     - `required string ID`
 
@@ -12126,7 +12685,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_idle"`
 
     - `required string ID`
 
@@ -12176,7 +12735,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_terminated"`
 
     - `required string ID`
 
@@ -12200,7 +12759,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.tool_result"`
 
     - `required string ID`
 
@@ -12248,7 +12807,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_rescheduled"`
 
     - `required string ID`
 
@@ -12272,7 +12831,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.updated"`
 
     - `required string ID`
 
@@ -12288,15 +12847,37 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `required Type Type`
+      - `JsonElement Type = "agent"`
 
       - `required string ID`
 
       - `required string? Description`
 
+      - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `JsonElement Type = "aws_role"`
+
+          - `required string RoleArn`
+
+            The IAM role's ARN.
+
+        - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `JsonElement Type = "service_account"`
+
       - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
-        - `required Type Type`
+        - `JsonElement Type = "url"`
+
+        - `required string Name`
 
         - `required string Name`
 
@@ -12311,6 +12892,10 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `ClaudeFable5_2("claude-fable-5-2")`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `ClaudeHaiku5_5("claude-haiku-5-5")`
 
@@ -12388,31 +12973,31 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Low effort. Favors latency over reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "low"`
 
           - `class BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "medium"`
 
           - `class BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "high"`
 
           - `class BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `required Type Type`
+            - `JsonElement Type = "xhigh"`
 
           - `class BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `required Type Type`
+            - `JsonElement Type = "max"`
 
         - `string InferenceGeo`
 
@@ -12434,7 +13019,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `required Type Type`
+          - `JsonElement Type = "coordinator"`
 
           - `required IReadOnlyList<Agent> Agents`
 
@@ -12444,15 +13029,19 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `required Type Type`
+              - `JsonElement Type = "agent"`
 
               - `required string ID`
 
               - `required string? Description`
 
+              - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
-                - `required Type Type`
+                - `JsonElement Type = "url"`
 
                 - `required string Name`
 
@@ -12470,7 +13059,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                   A resolved Anthropic-managed skill.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "anthropic"`
 
                   - `required string SkillID`
 
@@ -12480,7 +13069,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                   A resolved user-created custom skill.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "custom"`
 
                   - `required string SkillID`
 
@@ -12492,7 +13081,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                 - `class BetaManagedAgentsAgentToolset20260401`
 
-                  - `required Type Type`
+                  - `JsonElement Type = "agent_toolset_20260401"`
 
                   - `required IReadOnlyList<BetaManagedAgentsAgentToolConfig> Configs`
 
@@ -12514,13 +13103,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `required Type Type`
+                          - `JsonElement Type = "always_allow"`
 
                         - `class BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `required Type Type`
+                          - `JsonElement Type = "always_ask"`
 
                         - `class BetaManagedAgentsAutoPolicy`
 
@@ -12816,6 +13405,8 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `string? Region`
 
                           Region or state name.
@@ -12852,7 +13443,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                 - `class BetaManagedAgentsMcpToolset`
 
-                  - `required Type Type`
+                  - `JsonElement Type = "mcp_toolset"`
 
                   - `required IReadOnlyList<BetaManagedAgentsMcpToolConfig> Configs`
 
@@ -12904,7 +13495,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                   A custom tool as returned in API responses.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "custom"`
 
                   - `required string Description`
 
@@ -12928,7 +13519,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `required Type Type`
+              - `JsonElement Type = "advisor"`
 
               - `required string Model`
 
@@ -12990,11 +13581,15 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `required Type Type`
+                - `JsonElement Type = "agent"`
 
                 - `required string ID`
 
                 - `required string? Description`
+
+                - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
@@ -13038,11 +13633,15 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `required Type Type`
+                - `JsonElement Type = "agent"`
 
                 - `required string ID`
 
                 - `required string? Description`
+
+                - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
@@ -13100,7 +13699,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `required Type Type`
+      - `JsonElement Type = "limit"`
 
       - `required BetaMonetaryAmount MaxListCost`
 
@@ -13109,6 +13708,8 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
         - `required string Amount`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `required BetaCurrency Currency`
 
@@ -13126,7 +13727,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `required Type Type`
+    - `JsonElement Type = "system.message"`
 
     - `required string ID`
 
@@ -13136,7 +13737,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       System content blocks. Text-only.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -13154,7 +13755,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.usage"`
 
     - `required string ID`
 
@@ -13618,7 +14219,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-  - `required Type Type`
+  - `JsonElement Type = "requires_action"`
 
   - `required IReadOnlyList<string> EventIds`
 
@@ -13630,7 +14231,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-  - `required Type Type`
+  - `JsonElement Type = "retries_exhausted"`
 
 ### Beta Managed Agents Session Status Idle Event
 
@@ -13638,7 +14239,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Indicates the agent has paused and is awaiting user input.
 
-  - `required Type Type`
+  - `JsonElement Type = "session.status_idle"`
 
   - `required string ID`
 
@@ -13680,13 +14281,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The agent completed its turn naturally and is ready for the next user message.
 
-      - `required Type Type`
+      - `JsonElement Type = "end_turn"`
 
     - `class BetaManagedAgentsSessionRequiresAction`
 
       The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-      - `required Type Type`
+      - `JsonElement Type = "requires_action"`
 
       - `required IReadOnlyList<string> EventIds`
 
@@ -13696,13 +14297,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-      - `required Type Type`
+      - `JsonElement Type = "retries_exhausted"`
 
     - `class BetaManagedAgentsSessionBudgetReached`
 
       The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-      - `required Type Type`
+      - `JsonElement Type = "budget_reached"`
 
     - `class BetaManagedAgentsSessionRefusal`
 
@@ -13716,7 +14317,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Indicates the session is recovering from an error state and is rescheduled for execution.
 
-  - `required Type Type`
+  - `JsonElement Type = "session.status_rescheduled"`
 
   - `required string ID`
 
@@ -13734,7 +14335,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Indicates the session is actively running and the agent is working.
 
-  - `required Type Type`
+  - `JsonElement Type = "session.status_running"`
 
   - `required string ID`
 
@@ -13752,7 +14353,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Indicates the session has terminated, either due to an error or completion.
 
-  - `required Type Type`
+  - `JsonElement Type = "session.status_terminated"`
 
   - `required string ID`
 
@@ -13770,7 +14371,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-  - `required Type Type`
+  - `JsonElement Type = "session.thread_created"`
 
   - `required string ID`
 
@@ -13800,7 +14401,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-  - `required Type Type`
+  - `JsonElement Type = "session.thread_status_idle"`
 
   - `required string ID`
 
@@ -13850,13 +14451,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The agent completed its turn naturally and is ready for the next user message.
 
-      - `required Type Type`
+      - `JsonElement Type = "end_turn"`
 
     - `class BetaManagedAgentsSessionRequiresAction`
 
       The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-      - `required Type Type`
+      - `JsonElement Type = "requires_action"`
 
       - `required IReadOnlyList<string> EventIds`
 
@@ -13866,13 +14467,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-      - `required Type Type`
+      - `JsonElement Type = "retries_exhausted"`
 
     - `class BetaManagedAgentsSessionBudgetReached`
 
       The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-      - `required Type Type`
+      - `JsonElement Type = "budget_reached"`
 
     - `class BetaManagedAgentsSessionRefusal`
 
@@ -13886,7 +14487,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-  - `required Type Type`
+  - `JsonElement Type = "session.thread_status_rescheduled"`
 
   - `required string ID`
 
@@ -13912,7 +14513,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-  - `required Type Type`
+  - `JsonElement Type = "session.thread_status_running"`
 
   - `required string ID`
 
@@ -13938,7 +14539,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-  - `required Type Type`
+  - `JsonElement Type = "session.thread_status_terminated"`
 
   - `required string ID`
 
@@ -14006,6 +14607,8 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+      pattern: ^(0|[1-9]\d*)$
+
     - `required BetaCurrency Currency`
 
       Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -14038,7 +14641,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Emitted when a model request completes.
 
-  - `required Type Type`
+  - `JsonElement Type = "span.model_request_end"`
 
   - `required string ID`
 
@@ -14100,7 +14703,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Emitted when a model request is initiated by the agent.
 
-  - `required Type Type`
+  - `JsonElement Type = "span.model_request_start"`
 
   - `required string ID`
 
@@ -14156,7 +14759,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-  - `required Type Type`
+  - `JsonElement Type = "span.outcome_evaluation_end"`
 
   - `required string ID`
 
@@ -14232,7 +14835,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-  - `required Type Type`
+  - `JsonElement Type = "span.outcome_evaluation_ongoing"`
 
   - `required string ID`
 
@@ -14260,7 +14863,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Emitted when an outcome evaluation cycle begins.
 
-  - `required Type Type`
+  - `JsonElement Type = "span.outcome_evaluation_start"`
 
   - `required string ID`
 
@@ -14292,7 +14895,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A user message event in the session conversation.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.message"`
 
     - `required string ID`
 
@@ -14306,7 +14909,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Regular text content.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -14318,7 +14921,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `required Type Type`
+        - `JsonElement Type = "image"`
 
         - `required Source Source`
 
@@ -14328,7 +14931,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Base64-encoded image data.
 
-            - `required Type Type`
+            - `JsonElement Type = "base64"`
 
             - `required string Data`
 
@@ -14346,7 +14949,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Image referenced by URL.
 
-            - `required Type Type`
+            - `JsonElement Type = "url"`
 
             - `required string Url`
 
@@ -14358,7 +14961,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Image referenced by file ID.
 
-            - `required Type Type`
+            - `JsonElement Type = "file"`
 
             - `required string FileID`
 
@@ -14370,7 +14973,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `required Type Type`
+        - `JsonElement Type = "document"`
 
         - `required Source Source`
 
@@ -14380,7 +14983,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Base64-encoded document data.
 
-            - `required Type Type`
+            - `JsonElement Type = "base64"`
 
             - `required string Data`
 
@@ -14398,7 +15001,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Plain text document content.
 
-            - `required Type Type`
+            - `JsonElement Type = "text"`
 
             - `required string Data`
 
@@ -14406,7 +15009,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               minLength: 1
 
-            - `required MediaType MediaType`
+            - `JsonElement MediaType = "text/plain"`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -14414,7 +15017,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Document referenced by URL.
 
-            - `required Type Type`
+            - `JsonElement Type = "url"`
 
             - `required string Url`
 
@@ -14426,7 +15029,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Document referenced by file ID.
 
-            - `required Type Type`
+            - `JsonElement Type = "file"`
 
             - `required string FileID`
 
@@ -14446,7 +15049,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `required Type Type`
+        - `JsonElement Type = "redacted"`
 
     - `DateTimeOffset? ProcessedAt`
 
@@ -14458,7 +15061,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.interrupt"`
 
     - `required string ID`
 
@@ -14478,7 +15081,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.tool_confirmation"`
 
     - `required string ID`
 
@@ -14516,7 +15119,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.custom_tool_result"`
 
     - `required string ID`
 
@@ -14546,7 +15149,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         A block containing a web search result.
 
-        - `required Type Type`
+        - `JsonElement Type = "search_result"`
 
         - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -14560,7 +15163,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Array of text content blocks from the search result.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Text`
 
@@ -14598,7 +15201,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.custom_tool_use"`
 
     - `required string ID`
 
@@ -14626,7 +15229,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     An agent response event in the session conversation.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.message"`
 
     - `required string ID`
 
@@ -14654,7 +15257,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thinking"`
 
     - `required string ID`
 
@@ -14670,7 +15273,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.mcp_tool_use"`
 
     - `required string ID`
 
@@ -14768,7 +15371,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event representing the result of an MCP tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.mcp_tool_result"`
 
     - `required string ID`
 
@@ -14812,7 +15415,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.tool_use"`
 
     - `required string ID`
 
@@ -14848,7 +15451,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event representing the result of an agent tool execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.tool_result"`
 
     - `required string ID`
 
@@ -14892,7 +15495,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thread_message_received"`
 
     - `required string ID`
 
@@ -14936,7 +15539,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thread_message_sent"`
 
     - `required string ID`
 
@@ -14980,7 +15583,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `required Type Type`
+    - `JsonElement Type = "agent.thread_context_compacted"`
 
     - `required string ID`
 
@@ -14996,7 +15599,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     An error event indicating a problem occurred during session execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.error"`
 
     - `required string ID`
 
@@ -15008,7 +15611,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `required Type Type`
+        - `JsonElement Type = "unknown_error"`
 
         - `required string Message`
 
@@ -15022,25 +15625,25 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `required Type Type`
+            - `JsonElement Type = "retrying"`
 
           - `class BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `required Type Type`
+            - `JsonElement Type = "exhausted"`
 
           - `class BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `required Type Type`
+            - `JsonElement Type = "terminal"`
 
       - `class BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `required Type Type`
+        - `JsonElement Type = "model_overloaded_error"`
 
         - `required string Message`
 
@@ -15066,7 +15669,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         The model request was rate-limited.
 
-        - `required Type Type`
+        - `JsonElement Type = "model_rate_limited_error"`
 
         - `required string Message`
 
@@ -15092,7 +15695,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `required Type Type`
+        - `JsonElement Type = "model_request_failed_error"`
 
         - `required string Message`
 
@@ -15118,7 +15721,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Failed to connect to an MCP server.
 
-        - `required Type Type`
+        - `JsonElement Type = "mcp_connection_failed_error"`
 
         - `required string McpServerName`
 
@@ -15148,7 +15751,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Authentication to an MCP server failed.
 
-        - `required Type Type`
+        - `JsonElement Type = "mcp_authentication_failed_error"`
 
         - `required string McpServerName`
 
@@ -15178,7 +15781,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `required Type Type`
+        - `JsonElement Type = "billing_error"`
 
         - `required string Message`
 
@@ -15204,7 +15807,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `required Type Type`
+        - `JsonElement Type = "credential_host_unreachable_error"`
 
         - `required string CredentialID`
 
@@ -15233,6 +15836,58 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
         - `required string VaultID`
 
           ID of the vault containing the affected credential.
+
+      - `class BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonElement Type = "tool_use_limit_reached_error"`
+
+        - `required string Message`
+
+          Human-readable error description.
+
+        - `required RetryStatus RetryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `class BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonElement Type = "compaction_limit_reached_error"`
+
+        - `required string Message`
+
+          Human-readable error description.
+
+        - `required RetryStatus RetryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `class BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -15394,7 +16049,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_rescheduled"`
 
     - `required string ID`
 
@@ -15410,7 +16065,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Indicates the session is actively running and the agent is working.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_running"`
 
     - `required string ID`
 
@@ -15426,7 +16081,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_idle"`
 
     - `required string ID`
 
@@ -15468,13 +16123,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `required Type Type`
+        - `JsonElement Type = "end_turn"`
 
       - `class BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `required Type Type`
+        - `JsonElement Type = "requires_action"`
 
         - `required IReadOnlyList<string> EventIds`
 
@@ -15484,13 +16139,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `required Type Type`
+        - `JsonElement Type = "retries_exhausted"`
 
       - `class BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `required Type Type`
+        - `JsonElement Type = "budget_reached"`
 
       - `class BetaManagedAgentsSessionRefusal`
 
@@ -15502,7 +16157,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.status_terminated"`
 
     - `required string ID`
 
@@ -15518,7 +16173,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_created"`
 
     - `required string ID`
 
@@ -15546,7 +16201,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.outcome_evaluation_start"`
 
     - `required string ID`
 
@@ -15572,7 +16227,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.outcome_evaluation_end"`
 
     - `required string ID`
 
@@ -15646,7 +16301,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when a model request is initiated by the agent.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.model_request_start"`
 
     - `required string ID`
 
@@ -15662,7 +16317,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when a model request completes.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.model_request_end"`
 
     - `required string ID`
 
@@ -15690,7 +16345,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `required Type Type`
+    - `JsonElement Type = "span.outcome_evaluation_ongoing"`
 
     - `required string ID`
 
@@ -15716,7 +16371,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.define_outcome"`
 
     - `required string ID`
 
@@ -15750,7 +16405,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `required Type Type`
+        - `JsonElement Type = "file"`
 
         - `required string FileID`
 
@@ -15760,7 +16415,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Rubric content provided inline as text.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Content`
 
@@ -15770,7 +16425,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.deleted"`
 
     - `required string ID`
 
@@ -15786,7 +16441,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_running"`
 
     - `required string ID`
 
@@ -15810,7 +16465,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_idle"`
 
     - `required string ID`
 
@@ -15860,7 +16515,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_terminated"`
 
     - `required string ID`
 
@@ -15884,7 +16539,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `required Type Type`
+    - `JsonElement Type = "user.tool_result"`
 
     - `required string ID`
 
@@ -15932,7 +16587,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.thread_status_rescheduled"`
 
     - `required string ID`
 
@@ -15956,7 +16611,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.updated"`
 
     - `required string ID`
 
@@ -15972,15 +16627,37 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `required Type Type`
+      - `JsonElement Type = "agent"`
 
       - `required string ID`
 
       - `required string? Description`
 
+      - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `JsonElement Type = "aws_role"`
+
+          - `required string RoleArn`
+
+            The IAM role's ARN.
+
+        - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `JsonElement Type = "service_account"`
+
       - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
-        - `required Type Type`
+        - `JsonElement Type = "url"`
+
+        - `required string Name`
 
         - `required string Name`
 
@@ -15995,6 +16672,10 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `ClaudeFable5_2("claude-fable-5-2")`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `ClaudeHaiku5_5("claude-haiku-5-5")`
 
@@ -16072,31 +16753,31 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             Low effort. Favors latency over reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "low"`
 
           - `class BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "medium"`
 
           - `class BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `required Type Type`
+            - `JsonElement Type = "high"`
 
           - `class BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `required Type Type`
+            - `JsonElement Type = "xhigh"`
 
           - `class BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `required Type Type`
+            - `JsonElement Type = "max"`
 
         - `string InferenceGeo`
 
@@ -16118,7 +16799,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `required Type Type`
+          - `JsonElement Type = "coordinator"`
 
           - `required IReadOnlyList<Agent> Agents`
 
@@ -16128,15 +16809,19 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `required Type Type`
+              - `JsonElement Type = "agent"`
 
               - `required string ID`
 
               - `required string? Description`
 
+              - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
-                - `required Type Type`
+                - `JsonElement Type = "url"`
 
                 - `required string Name`
 
@@ -16154,7 +16839,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                   A resolved Anthropic-managed skill.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "anthropic"`
 
                   - `required string SkillID`
 
@@ -16164,7 +16849,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                   A resolved user-created custom skill.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "custom"`
 
                   - `required string SkillID`
 
@@ -16176,7 +16861,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                 - `class BetaManagedAgentsAgentToolset20260401`
 
-                  - `required Type Type`
+                  - `JsonElement Type = "agent_toolset_20260401"`
 
                   - `required IReadOnlyList<BetaManagedAgentsAgentToolConfig> Configs`
 
@@ -16198,13 +16883,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `required Type Type`
+                          - `JsonElement Type = "always_allow"`
 
                         - `class BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `required Type Type`
+                          - `JsonElement Type = "always_ask"`
 
                         - `class BetaManagedAgentsAutoPolicy`
 
@@ -16500,6 +17185,8 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `string? Region`
 
                           Region or state name.
@@ -16536,7 +17223,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                 - `class BetaManagedAgentsMcpToolset`
 
-                  - `required Type Type`
+                  - `JsonElement Type = "mcp_toolset"`
 
                   - `required IReadOnlyList<BetaManagedAgentsMcpToolConfig> Configs`
 
@@ -16588,7 +17275,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                   A custom tool as returned in API responses.
 
-                  - `required Type Type`
+                  - `JsonElement Type = "custom"`
 
                   - `required string Description`
 
@@ -16612,7 +17299,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `required Type Type`
+              - `JsonElement Type = "advisor"`
 
               - `required string Model`
 
@@ -16674,11 +17361,15 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `required Type Type`
+                - `JsonElement Type = "agent"`
 
                 - `required string ID`
 
                 - `required string? Description`
+
+                - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
@@ -16722,11 +17413,15 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `required Type Type`
+                - `JsonElement Type = "agent"`
 
                 - `required string ID`
 
                 - `required string? Description`
+
+                - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
@@ -16784,7 +17479,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `required Type Type`
+      - `JsonElement Type = "limit"`
 
       - `required BetaMonetaryAmount MaxListCost`
 
@@ -16793,6 +17488,8 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
         - `required string Amount`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `required BetaCurrency Currency`
 
@@ -16810,7 +17507,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Opens a preview of a buffered event. Carries the previewed event's type and id only. Followed by zero or more event_delta events with the same event id, normally concluded by the buffered event carrying that id. If the producing model request ends without that event (an error or interrupt mid-stream), its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `required Type Type`
+    - `JsonElement Type = "event_start"`
 
     - `required BetaManagedAgentsStartEventPreview Event`
 
@@ -16818,7 +17515,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       - `class BetaManagedAgentsAgentMessagePreview`
 
-        - `required Type Type`
+        - `JsonElement Type = "agent.message"`
 
         - `required string ID`
 
@@ -16826,7 +17523,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       - `class BetaManagedAgentsAgentThinkingPreview`
 
-        - `required Type Type`
+        - `JsonElement Type = "agent.thinking"`
 
         - `required string ID`
 
@@ -16836,13 +17533,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     An incremental update to an event that is still being streamed. Deltas are best-effort and may stop early; when the buffered event with id == event_id is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no buffered event — its terminal span.model_request_end closes the preview. Only sent on stream connections that opt in via event_deltas; never appears in event history.
 
-    - `required Type Type`
+    - `JsonElement Type = "event_delta"`
 
     - `required BetaManagedAgentsDeltaContent Delta`
 
       One fragment of the previewed event. The delta type is named for the previewed event's field it streams into: agent.message events stream content_delta fragments, each a partial element of the content array.
 
-      - `required Type Type`
+      - `JsonElement Type = "content_delta"`
 
       - `required BetaManagedAgentsTextBlock Content`
 
@@ -16860,7 +17557,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `required Type Type`
+    - `JsonElement Type = "system.message"`
 
     - `required string ID`
 
@@ -16870,7 +17567,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       System content blocks. Text-only.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -16888,7 +17585,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `required Type Type`
+    - `JsonElement Type = "session.usage"`
 
     - `required string ID`
 
@@ -17230,13 +17927,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Privileged context for the accompanying turn and all subsequent turns, appended to the session's system context as a `role: "system"` turn rather than replacing the top-level system prompt. At most one per request: it must be the final event and immediately follow the `user.message`, `user.tool_result`, or `user.custom_tool_result` it accompanies. Only supported on models that accept mid-conversation system messages.
 
-  - `required Type Type`
+  - `JsonElement Type = "system.message"`
 
   - `required IReadOnlyList<BetaManagedAgentsSystemContentBlock> Content`
 
     System content blocks to append. Text-only.
 
-    - `required Type Type`
+    - `JsonElement Type = "text"`
 
     - `required string Text`
 
@@ -17250,7 +17947,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Regular text content.
 
-  - `required Type Type`
+  - `JsonElement Type = "text"`
 
   - `required string Text`
 
@@ -17264,7 +17961,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Rubric content provided inline as text.
 
-  - `required Type Type`
+  - `JsonElement Type = "text"`
 
   - `required string Content`
 
@@ -17276,7 +17973,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Rubric content provided inline as text.
 
-  - `required Type Type`
+  - `JsonElement Type = "text"`
 
   - `required string Content`
 
@@ -17308,11 +18005,13 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
     Short explanation written by the server. It never contains content from the run or its agents.
 
-### Beta Managed Agents Unknown Error
+### Beta Managed Agents Tool Use Limit Reached Error
 
-- `class BetaManagedAgentsUnknownError`
+- `class BetaManagedAgentsToolUseLimitReachedError`
 
-  An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
+  The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+  - `JsonElement Type = "tool_use_limit_reached_error"`
 
   - `required Type Type`
 
@@ -17328,19 +18027,53 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-      - `required Type Type`
+      - `JsonElement Type = "retrying"`
 
     - `class BetaManagedAgentsRetryStatusExhausted`
 
       This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-      - `required Type Type`
+      - `JsonElement Type = "exhausted"`
 
     - `class BetaManagedAgentsRetryStatusTerminal`
 
       The session encountered a terminal error and will transition to `terminated` state.
 
-      - `required Type Type`
+      - `JsonElement Type = "terminal"`
+
+### Beta Managed Agents Unknown Error
+
+- `class BetaManagedAgentsUnknownError`
+
+  An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
+
+  - `JsonElement Type = "unknown_error"`
+
+  - `required string Message`
+
+    Human-readable error description.
+
+  - `required RetryStatus RetryStatus`
+
+    What the client should do next.
+
+    - `class BetaManagedAgentsRetryStatusRetrying`
+
+      The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+      - `JsonElement Type = "retrying"`
+
+    - `class BetaManagedAgentsRetryStatusExhausted`
+
+      This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+      - `JsonElement Type = "exhausted"`
+
+    - `class BetaManagedAgentsRetryStatusTerminal`
+
+      The session encountered a terminal error and will transition to `terminated` state.
+
+      - `JsonElement Type = "terminal"`
 
 ### Beta Managed Agents Unknown Workflow Run Error
 
@@ -17360,7 +18093,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Document referenced by URL.
 
-  - `required Type Type`
+  - `JsonElement Type = "url"`
 
   - `required string Url`
 
@@ -17374,7 +18107,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Image referenced by URL.
 
-  - `required Type Type`
+  - `JsonElement Type = "url"`
 
   - `required string Url`
 
@@ -17388,7 +18121,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Event sent by the client providing the result of a custom tool execution.
 
-  - `required Type Type`
+  - `JsonElement Type = "user.custom_tool_result"`
 
   - `required string ID`
 
@@ -17406,7 +18139,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Regular text content.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -17418,7 +18151,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "image"`
 
       - `required Source Source`
 
@@ -17428,7 +18161,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded image data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -17446,7 +18179,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -17458,7 +18191,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -17470,7 +18203,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "document"`
 
       - `required Source Source`
 
@@ -17480,7 +18213,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded document data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -17498,7 +18231,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Plain text document content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Data`
 
@@ -17506,7 +18239,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             minLength: 1
 
-          - `required MediaType MediaType`
+          - `JsonElement MediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -17514,7 +18247,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -17526,7 +18259,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -17546,7 +18279,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       A block containing a web search result.
 
-      - `required Type Type`
+      - `JsonElement Type = "search_result"`
 
       - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -17560,7 +18293,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Array of text content blocks from the search result.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -17600,7 +18333,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Parameters for providing the result of a custom tool execution.
 
-  - `required Type Type`
+  - `JsonElement Type = "user.custom_tool_result"`
 
   - `required string CustomToolUseID`
 
@@ -17616,7 +18349,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Regular text content.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -17628,7 +18361,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "image"`
 
       - `required Source Source`
 
@@ -17638,7 +18371,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded image data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -17656,7 +18389,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -17668,7 +18401,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -17680,7 +18413,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "document"`
 
       - `required Source Source`
 
@@ -17690,7 +18423,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded document data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -17708,7 +18441,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Plain text document content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Data`
 
@@ -17716,7 +18449,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             minLength: 1
 
-          - `required MediaType MediaType`
+          - `JsonElement MediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -17724,7 +18457,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -17736,7 +18469,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -17756,7 +18489,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       A block containing a web search result.
 
-      - `required Type Type`
+      - `JsonElement Type = "search_result"`
 
       - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -17770,7 +18503,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Array of text content blocks from the search result.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -17800,7 +18533,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-  - `required Type Type`
+  - `JsonElement Type = "user.define_outcome"`
 
   - `required string ID`
 
@@ -17834,7 +18567,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Rubric referenced by a file uploaded via the Files API.
 
-      - `required Type Type`
+      - `JsonElement Type = "file"`
 
       - `required string FileID`
 
@@ -17844,7 +18577,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Rubric content provided inline as text.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Content`
 
@@ -17856,7 +18589,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-  - `required Type Type`
+  - `JsonElement Type = "user.define_outcome"`
 
   - `required string Description`
 
@@ -17870,7 +18603,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Rubric referenced by a file uploaded via the Files API.
 
-      - `required Type Type`
+      - `JsonElement Type = "file"`
 
       - `required string FileID`
 
@@ -17880,7 +18613,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Rubric content provided inline as text.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Content`
 
@@ -17900,7 +18633,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   An interrupt event that pauses agent execution and returns control to the user.
 
-  - `required Type Type`
+  - `JsonElement Type = "user.interrupt"`
 
   - `required string ID`
 
@@ -17922,7 +18655,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Parameters for sending an interrupt to pause the agent.
 
-  - `required Type Type`
+  - `JsonElement Type = "user.interrupt"`
 
   - `string? SessionThreadID`
 
@@ -17934,7 +18667,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   A user message event in the session conversation.
 
-  - `required Type Type`
+  - `JsonElement Type = "user.message"`
 
   - `required string ID`
 
@@ -17948,7 +18681,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Regular text content.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -17960,7 +18693,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "image"`
 
       - `required Source Source`
 
@@ -17970,7 +18703,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded image data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -17988,7 +18721,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -18000,7 +18733,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -18012,7 +18745,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "document"`
 
       - `required Source Source`
 
@@ -18022,7 +18755,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded document data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -18040,7 +18773,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Plain text document content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Data`
 
@@ -18048,7 +18781,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             minLength: 1
 
-          - `required MediaType MediaType`
+          - `JsonElement MediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -18056,7 +18789,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -18068,7 +18801,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -18088,7 +18821,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `required Type Type`
+      - `JsonElement Type = "redacted"`
 
   - `DateTimeOffset? ProcessedAt`
 
@@ -18102,7 +18835,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Parameters for sending a user message to the session.
 
-  - `required Type Type`
+  - `JsonElement Type = "user.message"`
 
   - `required IReadOnlyList<Content> Content`
 
@@ -18112,7 +18845,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Regular text content.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -18124,7 +18857,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "image"`
 
       - `required Source Source`
 
@@ -18134,7 +18867,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded image data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -18152,7 +18885,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -18164,7 +18897,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -18176,7 +18909,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "document"`
 
       - `required Source Source`
 
@@ -18186,7 +18919,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded document data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -18204,7 +18937,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Plain text document content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Data`
 
@@ -18212,7 +18945,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             minLength: 1
 
-          - `required MediaType MediaType`
+          - `JsonElement MediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -18220,7 +18953,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -18232,7 +18965,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -18252,7 +18985,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Placeholder for content withheld by Anthropic model policy.
 
-      - `required Type Type`
+      - `JsonElement Type = "redacted"`
 
 ### Beta Managed Agents User Tool Confirmation Event
 
@@ -18260,7 +18993,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   A tool confirmation event that approves or denies a pending tool execution.
 
-  - `required Type Type`
+  - `JsonElement Type = "user.tool_confirmation"`
 
   - `required string ID`
 
@@ -18300,7 +19033,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Parameters for confirming or denying a tool execution request.
 
-  - `required Type Type`
+  - `JsonElement Type = "user.tool_confirmation"`
 
   - `required Result Result`
 
@@ -18328,7 +19061,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
   Parameters for providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-  - `required Type Type`
+  - `JsonElement Type = "user.tool_result"`
 
   - `required string ToolUseID`
 
@@ -18344,7 +19077,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Regular text content.
 
-      - `required Type Type`
+      - `JsonElement Type = "text"`
 
       - `required string Text`
 
@@ -18356,7 +19089,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Image content specified directly as base64 data or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "image"`
 
       - `required Source Source`
 
@@ -18366,7 +19099,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded image data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -18384,7 +19117,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -18396,7 +19129,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Image referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -18408,7 +19141,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-      - `required Type Type`
+      - `JsonElement Type = "document"`
 
       - `required Source Source`
 
@@ -18418,7 +19151,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Base64-encoded document data.
 
-          - `required Type Type`
+          - `JsonElement Type = "base64"`
 
           - `required string Data`
 
@@ -18436,7 +19169,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Plain text document content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Data`
 
@@ -18444,7 +19177,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
             minLength: 1
 
-          - `required MediaType MediaType`
+          - `JsonElement MediaType = "text/plain"`
 
             MIME type of the text content. Must be "text/plain".
 
@@ -18452,7 +19185,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "url"`
 
           - `required string Url`
 
@@ -18464,7 +19197,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
           Document referenced by file ID.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -18484,7 +19217,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
       A block containing a web search result.
 
-      - `required Type Type`
+      - `JsonElement Type = "search_result"`
 
       - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -18498,7 +19231,7 @@ await foreach (var betaManagedAgentsStreamSessionEvents in client.Beta.Sessions.
 
         Array of text content blocks from the search result.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 

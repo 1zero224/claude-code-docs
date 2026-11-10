@@ -5,6 +5,10 @@ description: Model cards with detailed documentation for Claude models.
 ---
 
 <CardGroup cols={3}>
+  <Card title="Claude Fable 5.2 and Mythos 5.2 System Card" icon="file" href="https://www.anthropic.com/document/claude-fable-5-2-mythos-5-2-system-card">
+    Detailed documentation of Claude Fable 5.2 and Claude Mythos 5.2.
+  </Card>
+
   <Card title="Claude Haiku 5.5 System Card" icon="file" href="https://www.anthropic.com/document/claude-haiku-5-5-system-card">
     Detailed documentation of Claude Haiku 5.5.
   </Card>
@@ -82,7 +86,7 @@ description: Model cards with detailed documentation for Claude models.
   </Card>
 
   <Card title="Claude 3 Model Card" icon="file" href="https://www.anthropic.com/claude-3-model-card">
-    Detailed documentation of Claude 3 models including latest 3.5 addendum.
+    Detailed documentation of Claude 3 models including the latest 3.5 addendum.
   </Card>
 
   <Card title="Claude 2 Model Card" icon="file" href="https://www.anthropic.com/claude-2-model-card">

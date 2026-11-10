@@ -6,9 +6,9 @@
 
 > Connect Stripe to Claude Tag so it can answer billing and subscription questions. Covers the dedicated account to create, the key fields, and the URL to allow.
 
-export const BetaNote = () => <Info>Claude Tag is in public beta. Features and behavior described here may change before general availability.</Info>;
-
-<BetaNote />
+> [!NOTE]
+>
+> Claude Tag is in public beta. Features and behavior described here may change before general availability.
 
 Connecting Stripe lets Claude answer billing and subscription questions in any channel where the connector is on. Claude connects with its own credential, not a person's.
 
@@ -31,9 +31,9 @@ Go to [**Organization settings > Claude Tag > Connectors**](https://claude.ai/ad
 
 The field labeled Claude's secret key accepts a restricted key; the label is the field name, not a key-type constraint.
 
-The first credential you add for a service from the **Connectors** tab is on in every workspace and channel as soon as you save it. To give it narrower reach, see [where a new connector applies](/docs/claude-tag/admins/add-connections#add-a-connection) before you save the connector. Click **Connect** to save the connector.
+The first credential you add for a service from the **Connectors** tab is on in every workspace and channel as soon as you save it. To give it narrower reach, see [where a new connector applies](https://claude.com/docs/claude-tag/admins/add-connections.md#add-a-connection) before you save the connector. Click **Connect** to save the connector.
 
-The Agent Proxy injects the credential at the network boundary; the model and the sandbox are not given the key. See [how Agent Proxy works](/docs/claude-tag/concepts/agent-identity#agent-proxy).
+The Agent Proxy injects the credential at the network boundary; the model and the sandbox are not given the key. See [how Agent Proxy works](https://claude.com/docs/claude-tag/concepts/agent-identity.md#agent-proxy).
 
 ## Verify the connection
 
@@ -47,4 +47,4 @@ Stripe appears in the list once the connector is live. New threads pick up the c
 
 ## Related resources
 
-* [Give Claude access](/docs/claude-tag/admins/add-connections): the full credential-type and allowed-hosts reference
+* [Give Claude access](https://claude.com/docs/claude-tag/admins/add-connections.md): the full credential-type and allowed-hosts reference

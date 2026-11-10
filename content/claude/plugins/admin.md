@@ -10,11 +10,11 @@ Owners of a Team or Enterprise organization decide which plugins members can use
 
 This page is for Owners, and for Enterprise members whose role includes managing the organization's plugins.
 
-<Note>
-  * If you set plugin policy for the Claude Code command line, see [managed settings](https://code.claude.com/docs/en/plugins/org) in the Claude Code docs
-  * If you want one plugin to reach members in claude.ai and Cowork and developers in the Claude Code command line, and need to decide between this page and managed settings, or use the two together, see [Roll out a plugin to your whole organization](/docs/plugins/org-rollout)
-  * If you run Claude Desktop on your own model provider, see [MCP, plugins, skills, and hooks](/docs/third-party/claude-desktop/extensions)
-</Note>
+> [!NOTE]
+>
+> * If you set plugin policy for the Claude Code command line, see [managed settings](https://code.claude.com/docs/en/plugins/org) in the Claude Code docs
+> * If you want one plugin to reach members in claude.ai and Cowork and developers in the Claude Code command line, and need to decide between this page and managed settings, or use the two together, see [Roll out a plugin to your whole organization](https://claude.com/docs/plugins/org-rollout.md)
+> * If you run Claude Desktop on your own model provider, see [MCP, plugins, skills, and hooks](https://claude.com/docs/third-party/claude-desktop/extensions.md)
 
 To start, go to [**Organization settings > Plugins & skills**](https://claude.ai/admin-settings/skills?tab=inventory). From there you can [review what your organization has](#review-your-organization%E2%80%99s-inventory), [set each plugin's availability](#set-availability), or [add your organization's own plugins](#add-your-own-plugins).
 
@@ -42,7 +42,7 @@ The [**Requests**](https://claude.ai/admin-settings/skills?tab=requests) tab lis
 
 ### Policy
 
-The [**Policy**](https://claude.ai/admin-settings/skills?tab=policy) tab holds the switches for what members can do themselves: [create and add their own](#control-what-members-add-themselves), [share with each other](#let-members-share-plugins-with-each-other), and [publish to the organization](#review-plugins-that-members-publish). It also holds the **Skills and plugins scanning** switch, which turns on the security scan whose result the **Inventory** tab shows, and the switch that [turns plugins and skills off for everyone](#turn-plugins-and-skills-off-for-everyone).
+The [**Policy**](https://claude.ai/admin-settings/skills?tab=policy) tab holds the switches for what members can do themselves: [create and add their own](#control-what-members-add-themselves), [share with each other](#let-members-share-plugins-with-each-other), and [publish to the organization](#review-plugins-that-members-publish). It also holds the **Skill and plugin security scanning** switch, which turns on the security scan whose result the **Inventory** tab shows, and the switch that [turns plugins and skills off for everyone](#turn-plugins-and-skills-off-for-everyone).
 
 ## Review your organization's inventory
 
@@ -52,7 +52,7 @@ Each row has these columns. Read across a row to see where an item came from and
 
 * **Name**: the item's name, marked **Skill** or **Plugin**
 * **Source**: the marketplace or repository the item comes from, or **Member** for an item a member created
-* **Security scan**: the result of the item's security scan. You see this column when **Skills and plugins scanning** is on in the [**Policy**](https://claude.ai/admin-settings/skills?tab=policy) tab. Otherwise the column is **Version**
+* **Security scan**: the result of the item's security scan. You see this column when **Skill and plugin security scanning** is on in the [**Policy**](https://claude.ai/admin-settings/skills?tab=policy) tab. Otherwise the column is **Version**.
 * **Capabilities**: the connectors and tools the item uses
 * **Audience**: who can use the item, such as everyone or specific groups
 * **Users (30d)**: how many people in your organization used the item in the last 30 days
@@ -83,27 +83,25 @@ For an item a member created for themselves, the page shows who created it, who 
 
 For an item your organization uploads, you can make any earlier version the one members get:
 
-<Steps>
-  <Step title="Open the item's page">
-    On the [**Inventory**](https://claude.ai/admin-settings/skills?tab=inventory) tab, select the item's row to open its page.
-  </Step>
+**1. Open the item's page**
 
-  <Step title="Go to Version history">
-    Go to **Version history**. The version members get now is marked **Current**.
-  </Step>
+On the [**Inventory**](https://claude.ai/admin-settings/skills?tab=inventory) tab, select the item's row to open its page.
 
-  <Step title="Compare the earlier version">
-    To see what an earlier version changes, open that version's menu and select **Compare with current**.
-  </Step>
+**2. Go to Version history**
 
-  <Step title="Revert to the version">
-    Open the menu of the version you want, select **Revert to this version**, and confirm.
-  </Step>
-</Steps>
+Go to **Version history**. The version members get now is marked **Current**.
+
+**3. Compare the earlier version**
+
+To see what an earlier version changes, open that version's menu and select **Compare with current**.
+
+**4. Revert to the version**
+
+Open the menu of the version you want, select **Revert to this version**, and confirm.
 
 Members then get that version, and **Current** moves to it. Reverting deletes nothing, so every version stays in the list. To go forward again, open a newer version's menu and select **Make this the current version**.
 
-Reverting isn't available for an item synced from a repository. Fix the plugin in the repository and push to the default branch. Then select **Re-sync** on the marketplace in the [**Marketplaces**](https://claude.ai/admin-settings/skills?tab=marketplaces) tab, as [Update through organization settings](/docs/plugins/org-rollout#update-through-organization-settings) describes.
+Reverting isn't available for an item synced from a repository. Fix the plugin in the repository and push to the default branch. Then select **Re-sync** on the marketplace in the [**Marketplaces**](https://claude.ai/admin-settings/skills?tab=marketplaces) tab, as [Update through organization settings](https://claude.com/docs/plugins/org-rollout.md#update-through-organization-settings) describes.
 
 While the repository is being fixed, you can [set the plugin's availability](#set-availability) to **Not available**. Members stop seeing the plugin and Claude stops loading it for them, including members who had it installed. On Enterprise, a group's own **Group access…** setting replaces the organization-wide one for that group's members, as [Limit to user groups on Enterprise](#limit-to-user-groups-on-enterprise) explains. Set any group that has one for this plugin to **Not available** as well. Set the availability back when the fix has synced. Don't use **Delete source** on the marketplace for this, because it permanently deletes every plugin in that marketplace for every member.
 
@@ -115,23 +113,21 @@ You set a plugin's availability, add your own plugins, manage synced marketplace
 
 A plugin's availability decides whether members can see the plugin, install it if they want it, get it installed automatically, or must keep it on. In the plugin's row menu, this setting is labeled **Default access**. To set it:
 
-<Steps>
-  <Step title="Open the Inventory tab">
-    Go to [**Organization settings > Plugins & skills**](https://claude.ai/admin-settings/skills?tab=inventory) and stay on the **Inventory** tab.
-  </Step>
+**1. Open the Inventory tab**
 
-  <Step title="Open the plugin's menu">
-    Open the menu at the end of the plugin's row.
-  </Step>
+Go to [**Organization settings > Plugins & skills**](https://claude.ai/admin-settings/skills?tab=inventory) and stay on the **Inventory** tab.
 
-  <Step title="Select Default access">
-    Select **Default access**.
-  </Step>
+**2. Open the plugin's menu**
 
-  <Step title="Choose a value">
-    Choose **Not available**, **Available to install**, **Installed by default**, or **Required**.
-  </Step>
-</Steps>
+Open the menu at the end of the plugin's row.
+
+**3. Select Default access**
+
+Select **Default access**.
+
+**4. Choose a value**
+
+Choose **Not available**, **Available to install**, **Installed by default**, or **Required**.
 
 The product shows the availability setting under other labels too: **Distribution** on the item's page, **Audience** in the table, and **Group access…** for a user group.
 
@@ -148,31 +144,29 @@ Availability doesn't add a plugin's bundled connectors. If a plugin you install 
 
 You can set availability for plugins your organization owns and for plugins from Anthropic's catalogs. An item a member created for themselves has no availability setting.
 
-In Claude Code sessions that sync the member's account plugins, a required plugin stays on as well. [Choose a rollout route](/docs/plugins/org-rollout#choose-a-rollout-route) says which sessions sync, and [Control which synced plugins load](https://code.claude.com/docs/en/plugins/loading#control-which-synced-plugins-load) in the Claude Code docs covers what the member sees there.
+In Claude Code sessions that sync the member's account plugins, a required plugin stays on as well. [Choose a rollout route](https://claude.com/docs/plugins/org-rollout.md#choose-a-rollout-route) says which sessions sync, and [Control which synced plugins load](https://code.claude.com/docs/en/plugins/loading#control-which-synced-plugins-load) in the Claude Code docs covers what the member sees there.
 
 ### Add your own plugins
 
 Adding a plugin or skill of your own puts it on the **Inventory** tab, private to your organization, where you then [set its availability](#set-availability) for members. To add one:
 
-<Steps>
-  <Step title="Open Plugins & skills">
-    Go to [**Organization settings > Plugins & skills**](https://claude.ai/admin-settings/skills?tab=inventory).
-  </Step>
+**1. Open Plugins & skills**
 
-  <Step title="Select Add and choose the source">
-    Select **Add**, then choose where the plugin or skill comes from. The menu groups these items under **Skills** and **Plugins**:
+Go to [**Organization settings > Plugins & skills**](https://claude.ai/admin-settings/skills?tab=inventory).
 
-    * **Upload a skill** or **Create a skill**: one skill for your organization
-    * **Upload a plugin**: a plugin zip
-    * **Create a plugin**: a plugin you write in the browser
-    * **Sync from GitHub** or **Sync from GitLab**: a [plugin marketplace](https://code.claude.com/docs/en/plugins/create-marketplace) repository that contains your plugins
-    * **Add marketplace**: another source of plugins, such as one of Anthropic's catalogs
-  </Step>
-</Steps>
+**2. Select Add and choose the source**
+
+Select **Add**, then choose where the plugin or skill comes from. The menu groups these items under **Skills** and **Plugins**:
+
+* **Upload a skill** or **Create a skill**: one skill for your organization
+* **Upload a plugin**: a plugin zip
+* **Create a plugin**: a plugin you write in the browser
+* **Sync from GitHub** or **Sync from GitLab**: a [plugin marketplace](https://code.claude.com/docs/en/plugins/create-marketplace) repository that contains your plugins
+* **Add marketplace**: another source of plugins, such as one of Anthropic's catalogs
 
 A marketplace you add appears on the **Marketplaces** tab, and its plugins appear on the **Inventory** tab. Adding plugins here doesn't publish them anywhere.
 
-[Sync your organization's plugins from a repository](/docs/plugins/org-sync) covers the repository requirements for syncing, the GitLab setup, and how members receive the plugins without needing access to the repository themselves.
+[Sync your organization's plugins from a repository](https://claude.com/docs/plugins/org-sync.md) covers the repository requirements for syncing, the GitLab setup, and how members receive the plugins without needing access to the repository themselves.
 
 ### Manage synced marketplaces
 
@@ -188,23 +182,21 @@ If a sync fails, the marketplace's page shows the date and the reason, with a **
 
 You can remove a catalog source, such as Anthropic's directory or a partner catalog, so that members no longer see plugins from it:
 
-<Steps>
-  <Step title="Open the Marketplaces tab">
-    Open the [**Marketplaces**](https://claude.ai/admin-settings/skills?tab=marketplaces) tab.
-  </Step>
+**1. Open the Marketplaces tab**
 
-  <Step title="Find the catalog's row">
-    Find the row that shows **Catalog** under its name. Its **Sync** column reads **Managed by Anthropic**, or **Managed by** the partner's name for a partner catalog.
-  </Step>
+Open the [**Marketplaces**](https://claude.ai/admin-settings/skills?tab=marketplaces) tab.
 
-  <Step title="Remove it from the organization">
-    Open the menu at the end of the row and select **Remove from organization**.
-  </Step>
+**2. Find the catalog's row**
 
-  <Step title="Confirm">
-    In **Remove source**, select **Remove**.
-  </Step>
-</Steps>
+Find the row that shows **Catalog** under its name. Its **Sync** column reads **Managed by Anthropic**, or **Managed by** the partner's name for a partner catalog.
+
+**3. Remove it from the organization**
+
+Open the menu at the end of the row and select **Remove from organization**.
+
+**4. Confirm**
+
+In **Remove source**, select **Remove**.
 
 To add the source back, select **Add**, then **Add marketplace**, then **Browse Anthropic sources**, and select **Add** next to the source.
 
@@ -220,15 +212,13 @@ For the Claude Code command line, the counterpart is managed settings. [Restrict
 
 You can turn plugins and skills off for your whole organization. This also stops Claude Code from loading the plugins it syncs from members' claude.ai accounts.
 
-<Steps>
-  <Step title="Open the Policy tab">
-    Go to [**Organization settings > Plugins & skills > Policy**](https://claude.ai/admin-settings/skills?tab=policy).
-  </Step>
+**1. Open the Policy tab**
 
-  <Step title="Turn off Skills">
-    Turn off **Skills**.
-  </Step>
-</Steps>
+Go to [**Organization settings > Plugins & skills > Policy**](https://claude.ai/admin-settings/skills?tab=policy).
+
+**2. Turn off Skills**
+
+Turn off **Skills**.
 
 Members then see **Skills must be enabled in order to use plugins.** on **Customize > Plugins**, and they can't add or use plugins there. The organization's own skills are off as well.
 
@@ -236,35 +226,33 @@ To stop the sync into Claude Code and leave plugins on in claude.ai and Cowork, 
 
 ### Let members share plugins with each other
 
-Members can share a plugin they made with specific people without involving you. In [**Organization settings > Plugins & skills > Policy**](https://claude.ai/admin-settings/skills?tab=policy), **Skill sharing** controls whether members can share skills and plugins they made with specific people in your organization. On Enterprise, **Share with groups** lets them share with user groups as well. [Share a plugin with specific people](/docs/plugins/share#share-a-plugin-with-specific-people) covers what members and recipients see.
+Members can share a plugin they made with specific people without involving you. In [**Organization settings > Plugins & skills > Policy**](https://claude.ai/admin-settings/skills?tab=policy), **Skill sharing** controls whether members can share skills and plugins they made with specific people in your organization. On Enterprise, **Share with groups** lets them share with user groups as well. [Share a plugin with specific people](https://claude.com/docs/plugins/share.md#share-a-plugin-with-specific-people) covers what members and recipients see.
 
 ### Stop sharing by a member who left
 
 When someone leaves your organization, the items they shared keep working for the people they shared them with. The **Inventory** tab shows a notice with the number of former members who still share items. To end that sharing:
 
-<Steps>
-  <Step title="Open the review">
-    On the [**Inventory**](https://claude.ai/admin-settings/skills?tab=inventory) tab, select **Review** in the notice.
-  </Step>
+**1. Open the review**
 
-  <Step title="Stop sharing">
-    Select **Stop sharing** for an item, or stop sharing all of one former member's items at once.
-  </Step>
+On the [**Inventory**](https://claude.ai/admin-settings/skills?tab=inventory) tab, select **Review** in the notice.
 
-  <Step title="Confirm">
-    Confirm. Everyone the item is shared with loses access right away.
-  </Step>
-</Steps>
+**2. Stop sharing**
+
+Select **Stop sharing** for an item, or stop sharing all of one former member's items at once.
+
+**3. Confirm**
+
+Confirm. Everyone the item is shared with loses access right away.
 
 You can also open a former member's item from the table. Its page has an **Owner has left** section with **Stop sharing** and **Delete**.
 
 ### Review plugins that members publish
 
-Members on Team and Enterprise plans can publish a plugin they made to your organization's library with **Publish to org** on the plugin's page. You decide whether that's allowed and whether each request waits for your approval. [Publish a plugin to your organization](/docs/plugins/share#publish-a-plugin-to-your-organization) covers the member's side.
+Members on Team and Enterprise plans can publish a plugin they made to your organization's library with **Publish to org** on the plugin's page. You decide whether that's allowed and whether each request waits for your approval. [Publish a plugin to your organization](https://claude.com/docs/plugins/share.md#publish-a-plugin-to-your-organization) covers the member's side.
 
 #### Set the publishing policy
 
-The **Publishing** setting decides whether members can publish to your organization and whether each request waits for review. Set it in [**Organization settings > Plugins & skills > Policy**](https://claude.ai/admin-settings/skills?tab=policy). Owners and Primary Owners can change it. The same setting covers skills and plugins, and it has these values:
+The **Publishing** setting decides whether members can publish to your organization and whether each request waits for review. Set it under [**Policy** in **Organization settings**](https://claude.ai/admin-settings/skills?tab=policy). Owners and Primary Owners can change it. The same setting covers skills and plugins, and it has these values:
 
 | Publishing | What members can do |
 | :- | :- |
@@ -275,7 +263,7 @@ The **Publishing** setting decides whether members can publish to your organizat
 If nobody in your organization has chosen a **Publishing** value, your plan's default applies:
 
 * **Team**: **Open**
-* **Enterprise**: **Off**. On October 2, 2026, the Enterprise default becomes **Requires review**. To keep a different value, choose it before then
+* **Enterprise**: **Open** if your organization has [security scanning](#policy) on, and **Requires review** otherwise. Where **Open** is the default, members whose custom role doesn't allow publishing to the whole organization still need review.
 
 #### Review a request
 
@@ -285,21 +273,19 @@ Requests to publish wait in [**Organization settings > Plugins & skills > Reques
 
 To review a request:
 
-<Steps>
-  <Step title="Open the request">
-    Open the request to see what the member submitted.
-  </Step>
+**1. Open the request**
 
-  <Step title="Approve or deny">
-    Select **Approve** or **Deny**.
-  </Step>
+Open the request to see what the member submitted.
 
-  <Step title="Set availability or give a reason">
-    If you approve, choose the plugin's availability, as [Set availability](#set-availability) describes.
+**2. Approve or deny**
 
-    If you deny, enter a reason, which the member receives by email and sees on their plugin's page. A denial closes that request, and the member can revise the plugin and submit a new one.
-  </Step>
-</Steps>
+Select **Approve** or **Deny**.
+
+**3. Set availability or give a reason**
+
+If you approve, choose the plugin's availability, as [Set availability](#set-availability) describes.
+
+If you deny, enter a reason, which the member receives by email and sees on their plugin's page. A denial closes that request, and the member can revise the plugin and submit a new one.
 
 A plugin that a member published appears on the **Inventory** tab with your organization's other plugins. You [set its availability](#set-availability) there, and you can delete it from its menu.
 
@@ -311,34 +297,32 @@ User groups are the ones listed at **Organization settings > Groups**. They sync
 
 To set availability for a group, you need to be an Owner or Primary Owner, or hold a custom role with **Libraries** set to **Can manage** and **Identity & Access** set to **Can view**. Then:
 
-<Steps>
-  <Step title="Open the Inventory tab">
-    Go to [**Organization settings > Plugins & skills**](https://claude.ai/admin-settings/skills?tab=inventory) and stay on the **Inventory** tab.
-  </Step>
+**1. Open the Inventory tab**
 
-  <Step title="Open the plugin's menu">
-    Open the menu at the end of the plugin's row. **Default access** is the availability for the whole organization.
-  </Step>
+Go to [**Organization settings > Plugins & skills**](https://claude.ai/admin-settings/skills?tab=inventory) and stay on the **Inventory** tab.
 
-  <Step title="Select Group access">
-    Select **Group access…**.
-  </Step>
+**2. Open the plugin's menu**
 
-  <Step title="Choose the group and its availability">
-    Choose a group and the availability for it.
-  </Step>
-</Steps>
+Open the menu at the end of the plugin's row. **Default access** is the availability for the whole organization.
+
+**3. Select Group access**
+
+Select **Group access…**.
+
+**4. Choose the group and its availability**
+
+Choose a group and the availability for it.
 
 When a member falls under more than one setting for a plugin, these rules decide which one applies:
 
 * **Group over organization**: the setting you choose for a group replaces the organization-wide setting for that group's members, even when the group's setting is stricter. A member who is only in a group set to **Not available** doesn't get a plugin that's **Required** organization-wide. You can also set a group to **Installed by default** or **Required** for a plugin that's **Not available** organization-wide
 * **Several groups**: when a member is in several groups with different settings for a plugin, the most permissive setting applies, in this order: **Required**, **Installed by default**, **Available to install**, **Not available**
 
-On a Team plan, which has no group setting, you can pilot a plugin with a few people before everyone gets it: with [**User-created skills**](#control-what-members-add-themselves) on, upload the plugin to your own account from [**Customize > Plugins**](https://claude.ai/customize/plugins) with **Add > Upload plugin**, and [share it with specific people](/docs/plugins/share#share-a-plugin-with-specific-people). When the pilot is done, add it for the organization and set its availability.
+On a Team plan, which has no group setting, you can pilot a plugin with a few people before everyone gets it: with [**User-created skills**](#control-what-members-add-themselves) on, upload the plugin to your own account from [**Customize > Plugins**](https://claude.ai/customize/plugins) with **Add > Upload plugin**, and [share it with specific people](https://claude.com/docs/plugins/share.md#share-a-plugin-with-specific-people). When the pilot is done, add it for the organization and set its availability.
 
 ## Track usage in your organization
 
-Members on Team and Enterprise plans see usage figures on a plugin's or skill's own page, as [how a plugin is used in your organization](/docs/plugins/overview#track-plugin-usage-in-your-organization) describes. The [**Inventory**](https://claude.ai/admin-settings/skills?tab=inventory) tab adds one view across all of them. To find which items people use, read the **Users (30d)** column or sort by **Most users**:
+Members on Team and Enterprise plans see usage figures on a plugin's or skill's own page, as [how a plugin is used in your organization](https://claude.com/docs/plugins/overview.md#track-plugin-usage-in-your-organization) describes. The [**Inventory**](https://claude.ai/admin-settings/skills?tab=inventory) tab adds one view across all of them. To find which items people use, read the **Users (30d)** column or sort by **Most users**:
 
 * **Users (30d)**: the number of distinct people in your organization who used the item in the last 30 days. A dash means there's no data for the item, not that nobody used it
 * **Most users**: a **Sort** option that puts the most-used items first
@@ -351,9 +335,9 @@ The **Inventory** tab has no export.
 
 You control connectors, Claude Code policy, monitoring, and directory submissions separately from plugin availability, and directory review is described with the submission pages:
 
-* [Roll out a plugin to your whole organization](/docs/plugins/org-rollout): reach members in claude.ai and Cowork and developers in the Claude Code command line with one plugin
+* [Roll out a plugin to your whole organization](https://claude.com/docs/plugins/org-rollout.md): reach members in claude.ai and Cowork and developers in the Claude Code command line with one plugin
 * [Manage Claude Code plugins for your organization](https://code.claude.com/docs/en/plugins/org): allowlist marketplaces, force-install plugins, and turn account sync on or off for the command line with managed settings
 * [**Organization settings > Connectors**](https://claude.ai/admin-settings/connectors): choose which connectors members can add, including a plugin's bundled connectors
-* [Monitoring](/docs/cowork/monitoring): export members' Cowork activity to your OpenTelemetry collector
-* [Prepare for review](/docs/directory/publish#prepare-for-review): how Anthropic checks plugins listed in the directory, with automated validation and a security scan on every version and a person reviewing each new listing, for when you're deciding whether to keep the directory as a source
-* [Publish to the directory](/docs/directory/publish): submit a plugin for a public listing through the developer portal, which the **Directory** item in organization settings opens for members with permission to submit
+* [Monitoring](https://claude.com/docs/cowork/monitoring.md): export members' Cowork activity to your OpenTelemetry collector
+* [Prepare for review](https://claude.com/docs/directory/publish.md#prepare-for-review): how Anthropic checks plugins listed in the directory, with automated validation and a security scan on every version and a person reviewing each new listing, for when you're deciding whether to keep the directory as a source
+* [Publish to the directory](https://claude.com/docs/directory/publish.md): submit a plugin for a public listing through the developer portal, which the **Directory** item in organization settings opens for members with permission to submit

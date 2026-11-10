@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/php/models/retrieve
 
 # Get a Model
 
-`$client->models->retrieve(string modelID, ?list<AnthropicBeta> betas, ?string workspaceID): ModelInfo`
+`$client->models->retrieve(string modelID, ?string workspaceID): ModelInfo`
 
 **GET** `/v1/models/{model_id}`
 
@@ -19,17 +19,11 @@ The Models API response can be used to determine information about a specific mo
 
   Model identifier or alias.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `betas?:optional list<AnthropicBeta>` (header parameter)
-
-  **Deprecated**: Deprecated. This parameter will be removed from this method in a future release. To use beta features, call the beta models methods (`client.beta.models`) instead.
-
-  Optional header to specify the beta version(s) you want to use.
 
 ## Returns
 
@@ -92,12 +86,12 @@ The Models API response can be used to determine information about a specific mo
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $modelInfo = $client->models->retrieve(
-  'model_id',
-  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
-  workspaceID: 'wrkspc_011CZkZaBF1tNoB5wlCeusgy',
+  'model_id', workspaceID: 'wrkspc_011CZkZaBF1tNoB5wlCeusgy'
 );
 
 var_dump($modelInfo);
@@ -172,6 +166,9 @@ var_dump($modelInfo);
         "adaptive": {
           "supported": true
         },
+        "between_tools": {
+          "supported": true
+        },
         "disabled": {
           "supported": true
         },
@@ -185,7 +182,7 @@ var_dump($modelInfo);
   "deprecated_at": "2019-12-27T18:11:19.117Z",
   "display_name": "Claude Opus 5.5",
   "lifecycle": "active",
-  "line": "haiku",
+  "line": "opus",
   "max_input_tokens": 0,
   "max_tokens": 0,
   "retires_at": "2019-12-27T18:11:19.117Z",

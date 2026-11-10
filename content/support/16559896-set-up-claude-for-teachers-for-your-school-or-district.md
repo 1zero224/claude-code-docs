@@ -22,7 +22,7 @@ US K-12 schools and districts qualify. The person applying must be authorized to
 
 You'll need your school or district email, a document showing your role (such as an employee ID), access to your domain's DNS records, and access to your identity provider.
 
-1. **Apply and accept the K-12 terms**. Go to[**claude.ai/k12districts**](https://claude.ai/k12districts), confirm you're authorized, and accept the **[US K-12 Terms of Service](https://www.anthropic.com/legal/k12-terms)**, **[US K-12 Public Sector Addendum](http://anthropic.com/legal/k12-addendum),** and **[US K-12 Data Processing Agreement](https://www.anthropic.com/legal/k12-dpa)**.
+1. **Apply and accept the K-12 terms**. Go to **[claude.ai/k12districts](https://claude.ai/k12districts)**, confirm you're authorized, and accept the **[US K-12 Terms of Service](https://www.anthropic.com/legal/k12-terms)**, **[US K-12 Public Sector Addendum](https://anthropic.com/legal/k12-addendum),** and **[US K-12 Data Processing Agreement](https://www.anthropic.com/legal/k12-dpa)**.
 
 2. **Verify your school or district.** Our partner Goodstack confirms your affiliation. When approved, you'll get an email link to your new organization.
 
@@ -30,7 +30,7 @@ You'll need your school or district email, a document showing your role (such as
 
 4. **Set up SSO and automatic account creation.** Connect your identity provider, turn on Require SSO, turn on just-in-time or SCIM provisioning, and turn on Restrict organization creation so district emails can't create personal Claude accounts. Once automatic account creation is on, email invitations are disabled. See **[Set up JIT or SCIM provisioning](https://support.claude.com/en/articles/13133195-set-up-jit-or-scim-provisioning)**.
 
-5. **Bring your teachers in.** Click Migrate accounts to start a 30-day window. Every existing Claude account on your domain, including individual Claude for Teachers accounts, is notified and chooses to move everything, start over, or do nothing (the account closes at the deadline; data is kept so Support can recover it). Teachers who join later sign in with SSO and land in your organization directly. See Claim and migrate accounts on your domain.
+5. **Bring your teachers in.** Click Migrate accounts to start a 30-day window. Every existing Claude account on your domain, including individual Claude for Teachers accounts, is notified and chooses to move everything, start over, or do nothing. Teachers who join later sign in with SSO and land in your organization directly. See Claim and migrate accounts on your domain.
 
 ## Manage your organization
 

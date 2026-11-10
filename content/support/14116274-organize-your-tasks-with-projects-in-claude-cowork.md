@@ -1,22 +1,14 @@
 # Organize your tasks with projects in Claude Cowork
 
-**Note:** Claude Cowork is now just Claude. Ask for what you need, and Claude decides whether that's a quick answer or a task. This is rolling out gradually to Pro and Max plans, with more plans to follow. If you're on a Pro or Max plan and your message box no longer shows "Chat" and "Cowork" options, you have the new experience, and some steps in this article may look different. Learn more in **[Claude Cowork and chat are one Claude](https://support.claude.com/en/articles/16761823)**, or read our **[blog post](https://claude.com/blog/cowork-is-now-claude)**.
-
-Projects in Claude Cowork let you group related tasks into dedicated workspaces with their own files, context, instructions, and memory. Projects work the same way in Cowork and in Claude. New projects you create in Cowork are saved to your Claude account, so you can pick them up from your other devices, and projects you create from a folder on your computer stay on that computer.
+Projects in Claude Cowork let you group related tasks into dedicated workspaces with their own files, context, instructions, and memory. Projects work the same way in Cowork and in Claude. New projects you create in Cowork are saved to your Claude account, so you can pick them up from your other devices. Claude Desktop also moves projects you created from a folder on your computer into your Claude account, and their folders and files stay on your computer. Learn more about **[local projects moved to your Claude account](#h_6a11f1ee1d)**.
 
 ## Availability
 
-**Important:** This feature requires the latest version of Claude Desktop. Start by updating your desktop app if you’re not using the latest version.
+Projects in Cowork require the latest version of Claude Desktop. Download or update at **claude.com/download**.
 
-Cowork is available for paid plans (Pro, Max, Team, Enterprise) on:
+Claude Cowork is available on desktop on all paid plans (Pro, Max, Ultra, Team, and Enterprise). On web and mobile, it's available on Pro, Max, Ultra, and Team plans (in beta on Team), and on Enterprise plans when an owner enables it.
 
-- **Claude Desktop for macOS**
-
-  - **[Click here](https://claude.ai/api/desktop/darwin/universal/dmg/latest/redirect)** to download
-
-- **Claude Desktop for Windows**
-
-  - Cowork requires the latest version of Claude for Windows. Download or update at **[our download page](https://claude.com/download)**.
+The new Claude experience, which combines chat and Cowork, is rolling out to Pro, Max, and Ultra plans. On Team plans (in beta) and Enterprise plans, it's available where **Chat and Cowork unified** is turned on. If your message box no longer shows "Chat" and "Cowork" options, you have the new experience, and some steps in this article may look different. Learn more in **[Claude Cowork and chat are one Claude](https://support.claude.com/en/articles/16761823)**.
 
 ---
 
@@ -24,23 +16,23 @@ Cowork is available for paid plans (Pro, Max, Team, Enterprise) on:
 
 Find **Projects** in the left navigation panel and click the “+” button to see the three different ways to create a project:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183720240/6f6ef438913391703598d86d606c/CleanShot+2026-03-20+at+09_11_43.png?expires=1792108800&amp;signature=f0023cad54ffc738ecf93d2878656ce51ee54abe5585456ac8201ac2c804d8e4&amp;req=diEvFc58nYNbWfMW3nq%2BgS9JzlhU6fWMSbXmZ15UIz21kwwtZhuz%2Fw7LpJxX%0A5u3pPLyBdJ3pCFsZHA1k786R5bY%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183720240/6f6ef438913391703598d86d606c/CleanShot+2026-03-20+at+09_11_43.png?expires=1794298500&amp;signature=c478ea58e95760c5576b2578d6fbd176185e21c04405122a4724c61b34307add&amp;req=diEvFc58nYNbWfMW1HO4zcOgigG42CBwZwSvwegvtgxx8ln5I7EHgKsQfF8u%0A6RgvPVTK0Q9WwY8vPuM%3D%0A)
 
 ### Start from scratch
 
 Selecting “Start from scratch” allows you to set up a new folder with instructions and files:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177090014/07832b50003cf7fd3b4e9c7c448b/3385d9b8-c3e7-42b9-ae3f-4d213baa53a7?expires=1792108800&amp;signature=daea4b84b36a0bca0e164c7f792de98cb0482061c8a176de234edf5f1aed61e9&amp;req=diEgEcl3nYFeXfMW3nq%2BgQzh0zjohibIxXN%2FmMBCSA3EAu0t6pT6SBfQFB9Y%0Ae%2FZzD3tSPsZdo0hnFA9iCHz0C%2Bc%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177090014/07832b50003cf7fd3b4e9c7c448b/3385d9b8-c3e7-42b9-ae3f-4d213baa53a7?expires=1794298500&amp;signature=fafd1de78d1b31fd4577fd3709eeaf5debb5b512166bb13ce33b4c21d5e47b43&amp;req=diEgEcl3nYFeXfMW1HO4zZCoQolHR32Tvb0suCMAnj0f80yWF1ysUN7WNqpG%0AD1oUfgB44RLehURgsWo%3D%0A)
 
 ### Import from a Claude project
 
 After selecting “Import from project,” you’ll see a “Search projects in Chat…” field:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183717962/acdc11bcc825ae76a13f508365bc/CleanShot+2026-03-20+at+09_12_08.png?expires=1792108800&amp;signature=061e676ba3e4514f67e29a00e1ff0730b0e27d888d654f4a23611ea9d32c1bf0&amp;req=diEvFc5%2FmohZW%2FMW3nq%2BgTD%2BXnQPRQJnc8iJnMKe4XvQEZx55ELtX67WsRBv%0AW0z5vmK6L%2B5WTNNiBUNOW921VLU%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183717962/acdc11bcc825ae76a13f508365bc/CleanShot+2026-03-20+at+09_12_08.png?expires=1794298500&amp;signature=d61a4d2594a6506879257622f2ed8e7e38b5a9c7999b744b31e6feded86b89d8&amp;req=diEvFc5%2FmohZW%2FMW1HO4zQQ7UWdfw5AajggUT7FIJz%2BFSpn9qjENc7WG3ZZm%0A%2F7qLpIph1kIsLLrXE2w%3D%0A)
 
 Clicking into the field will display a drop-down showing your recent projects, but you can also use it to search all your projects. After you select a chat project (bulk upload is not supported), you can name the new Cowork project and choose where to save it on your computer:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183727973/7a25430123d9e13e7c3cdd411f70/CleanShot+2026-03-20+at+09_13_41.png?expires=1792108800&amp;signature=5202a1ed7791b76a4e7b48e48ae8f99c61be6cfa2ae50024559cdb691cd5892a&amp;req=diEvFc58mohYWvMW3nq%2Bga1gukvj%2BMEGrwuHI3TxybNBsj35SqDC18340cew%0AA0rXg4R%2BwgjwuWYWQfuAyrN6QBY%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183727973/7a25430123d9e13e7c3cdd411f70/CleanShot+2026-03-20+at+09_13_41.png?expires=1794298500&amp;signature=453f7cc8d2bc102ccc75cd81f887050a35a51950ec09776720c6a34641215ef0&amp;req=diEvFc58mohYWvMW1HO4zU%2FKAydE9SvJI7f%2FdY0VL6jqlKGodqOSpr6M5729%0AsPslbCk7suNO3ZtOnjY%3D%0A)
 
 Clicking “Create” will transfer the files and instructions from your existing Claude project and create a new Cowork project.
 
@@ -48,11 +40,11 @@ Clicking “Create” will transfer the files and instructions from your existin
 
 If you select “Use an existing folder,” you’ll be prompted to pick a file to use as context for the new Cowork project:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177087935/2f0052dae601d0b7fecdc029e1c3/2e3ca9e7-23b1-436e-bbdb-edcd31c41f15?expires=1792108800&amp;signature=6ab9991c9bd8f4b339a3e7cfe91138277f3e986dde8d1ac474ad5c4e831ff295&amp;req=diEgEcl2mohcXPMW3nq%2BgQekV9tTPMoSGZAJNd33oKp3sl79rYwoeCUIf%2FzD%0Amo6oiCc2SdS87km8gI6R3e%2FSI5w%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177087935/2f0052dae601d0b7fecdc029e1c3/2e3ca9e7-23b1-436e-bbdb-edcd31c41f15?expires=1794298500&amp;signature=eaad18e42e70931f3381efac5a60a39bd4191a37c217950dfe293817fb825faf&amp;req=diEgEcl2mohcXPMW1HO4zejrnjLUHCtauv8e2Xj2xOWAeaiPGcMis7ASQT%2FO%0AI2jMTx6iTLD%2B9M2AJyc%3D%0A)
 
 After selecting a folder, you can name the new Cowork project, choose where to save it on your computer, add instructions, and attach any additional files. Click “Create” to start using your new project:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177087937/f59dbe3fc28448a9597ea097cb4d/96a59acb-4054-4b4b-a208-751f9711f535?expires=1792108800&amp;signature=34d6bf5b93bb4a0ef6ed912cb60cf4c8d233f6ed01b3e884c50a28bc8125103a&amp;req=diEgEcl2mohcXvMW3nq%2BgY9ePC74qo7wpsmgV6Sj3BJAdCDI14g7MY7pnjrM%0ALczdMY9yVG2MqiC5EHNc%2Bkj8BP8%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177087937/f59dbe3fc28448a9597ea097cb4d/96a59acb-4054-4b4b-a208-751f9711f535?expires=1794298500&amp;signature=69cf7959aa0cb6d5715bd936db1c849dd5926e1093feeb276ac6f288682cbb28&amp;req=diEgEcl2mohcXvMW1HO4zUq4Vue2iqo%2FMfnqHouW6MI0BJPRn9mCaBcxT6oT%0AsW%2F5OjHdiaJu%2FWlxA50%3D%0A)
 
 ---
 
@@ -100,8 +92,28 @@ When you archive a project in Cowork:
 
 ---
 
+## Local projects moved to your Claude account
+
+Claude Desktop moves projects you created from a folder on your computer into your Claude account automatically, and each project keeps its name. On Pro, Max, and Ultra plans, this happens in Claude Desktop. On Team and Enterprise plans, it happens once **Chat and Cowork unified** is on for you.
+
+What moves to your Claude account:
+
+- The project’s name, description, and instructions, including any Google Drive links. If the project is linked to a project in Claude, its description and instructions go into that project instead.
+
+- A copy of the project’s memory, if memory is on for your account.
+
+What stays on your computer:
+
+- The project’s folders and files. Nothing is uploaded or deleted.
+
+- Earlier sessions on this computer, which stay listed under the project in Claude Desktop.
+
+After the move, the original local project no longer appears in your projects list.
+
+---
+
 ## Current limitations
 
 - Projects are only available in Cowork, not in Claude Code. Support for Claude Code is planned for a future update.
 
-- Projects you create from an existing folder on your computer stay on that computer and aren’t saved to your Claude account.
+- On Team and Enterprise plans without **Chat and Cowork unified**, projects you create from an existing folder on your computer stay on that computer and aren’t saved to your Claude account.

@@ -1,15 +1,15 @@
 ---
-title: Create Credential
+title: Create a Credential
 url: https://platform.claude.com/docs/en/api/ruby/beta/vaults/credentials/create
 ---
 
-# Create Credential
+# Create a Credential
 
 `beta.vaults.credentials.create(vault_id, **kwargs) -> BetaManagedAgentsCredential`
 
 **POST** `/v1/vaults/{vault_id}/credentials`
 
-Create Credential
+Create a Credential
 
 ## Parameters
 
@@ -29,9 +29,9 @@ Create Credential
 
     - `access_token: String`
 
-      OAuth access token.
+      The OAuth access token to send to the MCP server.
 
-      minLength: 1, maxLength: 8192
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
     - `mcp_server_url: String`
 
@@ -39,25 +39,27 @@ Create Credential
 
       minLength: 1, maxLength: 2047
 
-    - `expires_at: Time`
+    - `expires_at: optional Time | nil`
 
-      A timestamp in RFC 3339 format
+      When `access_token` expires, in RFC 3339.
+
+      Must be in the future.
 
       format: date-time
 
-    - `refresh: BetaManagedAgentsMCPOAuthRefreshParams`
+    - `refresh: optional BetaManagedAgentsMCPOAuthRefreshParams | nil`
 
       Refresh token configuration, if the credential supports token refresh.
 
       - `client_id: String`
 
-        OAuth client ID.
+        The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
 
         minLength: 1, maxLength: 1024
 
       - `refresh_token: String`
 
-        OAuth refresh token.
+        The OAuth refresh token that the API uses to get a new access token when the current one expires.
 
         minLength: 1, maxLength: 8192
 
@@ -83,7 +85,7 @@ Create Credential
 
           - `client_secret: String`
 
-            OAuth client secret.
+            The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
             minLength: 1, maxLength: 512
 
@@ -95,17 +97,17 @@ Create Credential
 
           - `client_secret: String`
 
-            OAuth client secret.
+            The OAuth client secret, sent to `token_endpoint` in the POST body.
 
             minLength: 1, maxLength: 512
 
-      - `resource: String`
+      - `resource: optional String | nil`
 
         OAuth resource indicator.
 
         minLength: 1, maxLength: 2047
 
-      - `scope: String`
+      - `scope: optional String | nil`
 
         OAuth scope for the refresh request.
 
@@ -119,9 +121,9 @@ Create Credential
 
     - `token: String`
 
-      Static bearer token value.
+      The static bearer token to send to the MCP server, such as an API key or personal access token.
 
-      minLength: 1, maxLength: 8192
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
     - `mcp_server_url: String`
 
@@ -153,45 +155,47 @@ Create Credential
 
         - `allowed_hosts: Array[String]`
 
-          Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+          The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+          Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
     - `secret_name: String`
 
       Name of the environment variable. Immutable after create.
 
-      minLength: 1, maxLength: 255
+      minLength: 1, maxLength: 255, pattern: ^[A-Z_][A-Z0-9_]*$
 
     - `secret_value: String`
 
-      Secret value. Write-only; never returned in responses.
+      The secret to substitute into the agent's outbound requests. It's write-only and never returned in responses.
 
-      minLength: 1, maxLength: 4096
+      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
-    - `injection_location: BetaManagedAgentsInjectionLocationParams`
+    - `injection_location: optional BetaManagedAgentsInjectionLocationParams`
 
       Where in the outbound request the secret value may be substituted.
 
-      - `body: bool`
+      - `body: optional bool`
 
         Substitute when the placeholder appears in the request body.
 
-      - `header: bool`
+      - `header: optional bool`
 
         Substitute when the placeholder appears in a request header value.
 
-- `display_name: String`
+- `display_name: optional String | nil`
 
   Human-readable name for the credential. Up to 255 characters.
 
   maxLength: 255
 
-- `metadata: Hash[Symbol, String]`
+- `metadata: optional Hash[Symbol, String]`
 
   Arbitrary key-value metadata to attach to the credential. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -295,7 +299,19 @@ Create Credential
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -311,9 +327,9 @@ Create Credential
 
   - `id: String`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the credential was archived. Null if not archived.
 
@@ -333,19 +349,19 @@ Create Credential
 
         URL of the MCP server this credential authenticates against.
 
-      - `expires_at: Time`
+      - `expires_at: optional Time | nil`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
-      - `refresh: BetaManagedAgentsMCPOAuthRefreshResponse`
+      - `refresh: optional BetaManagedAgentsMCPOAuthRefreshResponse | nil`
 
         Refresh token configuration, if the credential supports token refresh.
 
         - `client_id: String`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: String`
 
@@ -371,11 +387,11 @@ Create Credential
 
             - `type: :client_secret_post`
 
-        - `resource: String`
+        - `resource: optional String | nil`
 
           OAuth resource indicator.
 
-        - `scope: String`
+        - `scope: optional String | nil`
 
           OAuth scope for the refresh request.
 
@@ -425,7 +441,9 @@ Create Credential
 
           - `allowed_hosts: Array[String]`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: String`
 
@@ -451,7 +469,7 @@ Create Credential
 
     Identifier of the vault this credential belongs to.
 
-  - `display_name: String`
+  - `display_name: optional String | nil`
 
     Human-readable name for the credential.
 

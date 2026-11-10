@@ -5,13 +5,13 @@ url: https://platform.claude.com/docs/en/api/java/beta/vaults
 
 # Vaults
 
-## Create Vault
+## Create a Vault
 
 `BetaManagedAgentsVault beta().vaults().create(params, requestOptions = RequestOptions.none())`
 
 **POST** `/v1/vaults`
 
-Create Vault
+Create a Vault
 
 ### Parameters
 
@@ -19,7 +19,7 @@ Create Vault
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -121,6 +121,18 @@ Create Vault
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -143,19 +155,19 @@ Create Vault
 
   A vault that stores credentials for use by agents during sessions.
 
-  - `Type type`
+  - `JsonValue type = "vault"`
 
   - `String id`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the vault was archived. Null if not archived.
 
     format: date-time
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -169,7 +181,7 @@ Create Vault
 
     Arbitrary key-value metadata attached to the vault.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -229,9 +241,9 @@ List Vaults
 
   - `Optional<Boolean> includeArchived` (query parameter)
 
-    Whether to include archived vaults in the results.
+    Whether to include archived vaults in the results. Defaults to `false`.
 
-  - `Optional<Long> limit` (query parameter)
+  - `Optional<Integer> limit` (query parameter)
 
     Maximum number of vaults to return per page. Defaults to 20, maximum 100.
 
@@ -239,11 +251,11 @@ List Vaults
 
   - `Optional<String> page` (query parameter)
 
-    Opaque pagination token from a previous `list_vaults` response.
+    The `next_page` value from a previous [List Vaults](https://platform.claude.com/docs/en/api/beta/vaults/list?sdk_languages=java) response, to get the next page. Leave it out to get the first page.
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -345,6 +357,18 @@ List Vaults
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -357,19 +381,19 @@ List Vaults
 
   A vault that stores credentials for use by agents during sessions.
 
-  - `Type type`
+  - `JsonValue type = "vault"`
 
   - `String id`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the vault was archived. Null if not archived.
 
     format: date-time
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -383,7 +407,7 @@ List Vaults
 
     Arbitrary key-value metadata attached to the vault.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -431,13 +455,13 @@ public final class Main {
 }
 ```
 
-## Get Vault
+## Retrieve a Vault
 
 `BetaManagedAgentsVault beta().vaults().retrieve(params = VaultRetrieveParams.none(), requestOptions = RequestOptions.none())`
 
 **GET** `/v1/vaults/{vault_id}`
 
-Get Vault
+Retrieve a Vault
 
 ### Parameters
 
@@ -449,7 +473,7 @@ Get Vault
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -551,6 +575,18 @@ Get Vault
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -563,19 +599,19 @@ Get Vault
 
   A vault that stores credentials for use by agents during sessions.
 
-  - `Type type`
+  - `JsonValue type = "vault"`
 
   - `String id`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the vault was archived. Null if not archived.
 
     format: date-time
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -589,7 +625,7 @@ Get Vault
 
     Arbitrary key-value metadata attached to the vault.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -632,13 +668,13 @@ public final class Main {
 }
 ```
 
-## Update Vault
+## Update a Vault
 
 `BetaManagedAgentsVault beta().vaults().update(params = VaultUpdateParams.none(), requestOptions = RequestOptions.none())`
 
 **POST** `/v1/vaults/{vault_id}`
 
-Update Vault
+Update a Vault
 
 ### Parameters
 
@@ -650,7 +686,7 @@ Update Vault
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -752,6 +788,18 @@ Update Vault
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -774,19 +822,19 @@ Update Vault
 
   A vault that stores credentials for use by agents during sessions.
 
-  - `Type type`
+  - `JsonValue type = "vault"`
 
   - `String id`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the vault was archived. Null if not archived.
 
     format: date-time
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -800,7 +848,7 @@ Update Vault
 
     Arbitrary key-value metadata attached to the vault.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -843,13 +891,13 @@ public final class Main {
 }
 ```
 
-## Delete Vault
+## Delete a Vault
 
 `BetaManagedAgentsDeletedVault beta().vaults().delete(params = VaultDeleteParams.none(), requestOptions = RequestOptions.none())`
 
 **DELETE** `/v1/vaults/{vault_id}`
 
-Delete Vault
+Delete a Vault
 
 ### Parameters
 
@@ -861,7 +909,7 @@ Delete Vault
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -963,6 +1011,18 @@ Delete Vault
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -975,11 +1035,11 @@ Delete Vault
 
   Confirmation of a deleted vault.
 
-  - `Type type`
+  - `JsonValue type = "vault_deleted"`
 
   - `String id`
 
-    Unique identifier of the deleted vault.
+    The unique ID of the deleted vault (`vlt_...`).
 
 ### Example
 
@@ -1011,13 +1071,13 @@ public final class Main {
 }
 ```
 
-## Archive Vault
+## Archive a Vault
 
 `BetaManagedAgentsVault beta().vaults().archive(params = VaultArchiveParams.none(), requestOptions = RequestOptions.none())`
 
 **POST** `/v1/vaults/{vault_id}/archive`
 
-Archive Vault
+Archive a Vault
 
 ### Parameters
 
@@ -1029,7 +1089,7 @@ Archive Vault
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -1131,6 +1191,18 @@ Archive Vault
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1143,19 +1215,19 @@ Archive Vault
 
   A vault that stores credentials for use by agents during sessions.
 
-  - `Type type`
+  - `JsonValue type = "vault"`
 
   - `String id`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the vault was archived. Null if not archived.
 
     format: date-time
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -1169,7 +1241,7 @@ Archive Vault
 
     Arbitrary key-value metadata attached to the vault.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -1220,11 +1292,11 @@ public final class Main {
 
   Confirmation of a deleted vault.
 
-  - `Type type`
+  - `JsonValue type = "vault_deleted"`
 
   - `String id`
 
-    Unique identifier of the deleted vault.
+    The unique ID of the deleted vault (`vlt_...`).
 
 ### Beta Managed Agents Vault
 
@@ -1232,19 +1304,19 @@ public final class Main {
 
   A vault that stores credentials for use by agents during sessions.
 
-  - `Type type`
+  - `JsonValue type = "vault"`
 
   - `String id`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the vault was archived. Null if not archived.
 
     format: date-time
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -1258,7 +1330,7 @@ public final class Main {
 
     Arbitrary key-value metadata attached to the vault.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -1266,13 +1338,13 @@ public final class Main {
 
 ## Vaults › Credentials
 
-### Create Credential
+### Create a Credential
 
 `BetaManagedAgentsCredential beta().vaults().credentials().create(params, requestOptions = RequestOptions.none())`
 
 **POST** `/v1/vaults/{vault_id}/credentials`
 
-Create Credential
+Create a Credential
 
 #### Parameters
 
@@ -1284,7 +1356,7 @@ Create Credential
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -1386,6 +1458,18 @@ Create Credential
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1400,13 +1484,13 @@ Create Credential
 
       Parameters for creating an MCP OAuth credential.
 
-      - `Type type`
+      - `JsonValue type = "mcp_oauth"`
 
       - `String accessToken`
 
-        OAuth access token.
+        The OAuth access token to send to the MCP server.
 
-        minLength: 1, maxLength: 8192
+        minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
       - `String mcpServerUrl`
 
@@ -1414,9 +1498,11 @@ Create Credential
 
         minLength: 1, maxLength: 2047
 
-      - `Optional<LocalDateTime> expiresAt`
+      - `Optional<OffsetDateTime> expiresAt`
 
-        A timestamp in RFC 3339 format
+        When `access_token` expires, in RFC 3339.
+
+        Must be in the future.
 
         format: date-time
 
@@ -1426,13 +1512,13 @@ Create Credential
 
         - `String clientId`
 
-          OAuth client ID.
+          The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
 
           minLength: 1, maxLength: 1024
 
         - `String refreshToken`
 
-          OAuth refresh token.
+          The OAuth refresh token that the API uses to get a new access token when the current one expires.
 
           minLength: 1, maxLength: 8192
 
@@ -1448,17 +1534,17 @@ Create Credential
 
             Token endpoint requires no client authentication.
 
-            - `Type type`
+            - `JsonValue type = "none"`
 
           - `class BetaManagedAgentsTokenEndpointAuthBasicParam`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_basic"`
 
             - `String clientSecret`
 
-              OAuth client secret.
+              The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
               minLength: 1, maxLength: 512
 
@@ -1466,11 +1552,11 @@ Create Credential
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_post"`
 
             - `String clientSecret`
 
-              OAuth client secret.
+              The OAuth client secret, sent to `token_endpoint` in the POST body.
 
               minLength: 1, maxLength: 512
 
@@ -1490,13 +1576,13 @@ Create Credential
 
       Parameters for creating a static bearer token credential.
 
-      - `Type type`
+      - `JsonValue type = "static_bearer"`
 
       - `String token`
 
-        Static bearer token value.
+        The static bearer token to send to the MCP server, such as an API key or personal access token.
 
-        minLength: 1, maxLength: 8192
+        minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
       - `String mcpServerUrl`
 
@@ -1508,7 +1594,7 @@ Create Credential
 
       Parameters for creating an environment variable credential.
 
-      - `Type type`
+      - `JsonValue type = "environment_variable"`
 
       - `BetaManagedAgentsCredentialNetworkingParams networking`
 
@@ -1518,29 +1604,31 @@ Create Credential
 
           Substitute the secret on any host the session's Environment network policy permits egress to. The Environment's network policy is the only boundary on where the secret can reach.
 
-          - `Type type`
+          - `JsonValue type = "unrestricted"`
 
         - `class BetaManagedAgentsLimitedCredentialNetworkingParams`
 
           Substitute the secret only on requests to the listed hosts.
 
-          - `Type type`
+          - `JsonValue type = "limited"`
 
           - `List<String> allowedHosts`
 
-            Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
       - `String secretName`
 
         Name of the environment variable. Immutable after create.
 
-        minLength: 1, maxLength: 255
+        minLength: 1, maxLength: 255, pattern: ^[A-Z_][A-Z0-9_]*$
 
       - `String secretValue`
 
-        Secret value. Write-only; never returned in responses.
+        The secret to substitute into the agent's outbound requests. It's write-only and never returned in responses.
 
-        minLength: 1, maxLength: 4096
+        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
       - `Optional<BetaManagedAgentsInjectionLocationParams> injectionLocation`
 
@@ -1570,13 +1658,13 @@ Create Credential
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type type`
+  - `JsonValue type = "vault_credential"`
 
   - `String id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the credential was archived. Null if not archived.
 
@@ -1590,15 +1678,15 @@ Create Credential
 
       OAuth credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "mcp_oauth"`
 
       - `String mcpServerUrl`
 
         URL of the MCP server this credential authenticates against.
 
-      - `Optional<LocalDateTime> expiresAt`
+      - `Optional<OffsetDateTime> expiresAt`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -1608,7 +1696,7 @@ Create Credential
 
         - `String clientId`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `String tokenEndpoint`
 
@@ -1620,19 +1708,19 @@ Create Credential
 
             Token endpoint requires no client authentication.
 
-            - `Type type`
+            - `JsonValue type = "none"`
 
           - `class BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_basic"`
 
           - `class BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_post"`
 
         - `Optional<String> resource`
 
@@ -1646,7 +1734,7 @@ Create Credential
 
       Static bearer token credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "static_bearer"`
 
       - `String mcpServerUrl`
 
@@ -1656,7 +1744,7 @@ Create Credential
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type type`
+      - `JsonValue type = "environment_variable"`
 
       - `BetaManagedAgentsInjectionLocationResponse injectionLocation`
 
@@ -1678,23 +1766,25 @@ Create Credential
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type type`
+          - `JsonValue type = "unrestricted"`
 
         - `class BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type type`
+          - `JsonValue type = "limited"`
 
           - `List<String> allowedHosts`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `String secretName`
 
         Name of the environment variable.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -1704,7 +1794,7 @@ Create Credential
 
     Arbitrary key-value metadata attached to the credential.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -1740,7 +1830,6 @@ public final class Main {
             .auth(BetaManagedAgentsStaticBearerCreateParams.builder()
                 .token("bearer_exampletoken")
                 .mcpServerUrl("https://example-server.modelcontextprotocol.io/sse")
-                .type(BetaManagedAgentsStaticBearerCreateParams.Type.STATIC_BEARER)
                 .build())
             .build();
         BetaManagedAgentsCredential betaManagedAgentsCredential = client.beta().vaults().credentials().create(params);
@@ -1787,9 +1876,9 @@ List Credentials
 
   - `Optional<Boolean> includeArchived` (query parameter)
 
-    Whether to include archived credentials in the results.
+    Whether to include archived credentials in the results. Defaults to `false`.
 
-  - `Optional<Long> limit` (query parameter)
+  - `Optional<Integer> limit` (query parameter)
 
     Maximum number of credentials to return per page. Defaults to 20, maximum 100.
 
@@ -1797,11 +1886,11 @@ List Credentials
 
   - `Optional<String> page` (query parameter)
 
-    Opaque pagination token from a previous `list_credentials` response.
+    The `next_page` value from a previous [List Credentials](https://platform.claude.com/docs/en/api/beta/vaults/credentials/list?sdk_languages=java) response, to get the next page. Leave it out to get the first page.
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -1903,6 +1992,18 @@ List Credentials
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1915,13 +2016,13 @@ List Credentials
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type type`
+  - `JsonValue type = "vault_credential"`
 
   - `String id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the credential was archived. Null if not archived.
 
@@ -1935,15 +2036,15 @@ List Credentials
 
       OAuth credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "mcp_oauth"`
 
       - `String mcpServerUrl`
 
         URL of the MCP server this credential authenticates against.
 
-      - `Optional<LocalDateTime> expiresAt`
+      - `Optional<OffsetDateTime> expiresAt`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -1953,7 +2054,7 @@ List Credentials
 
         - `String clientId`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `String tokenEndpoint`
 
@@ -1965,19 +2066,19 @@ List Credentials
 
             Token endpoint requires no client authentication.
 
-            - `Type type`
+            - `JsonValue type = "none"`
 
           - `class BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_basic"`
 
           - `class BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_post"`
 
         - `Optional<String> resource`
 
@@ -1991,7 +2092,7 @@ List Credentials
 
       Static bearer token credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "static_bearer"`
 
       - `String mcpServerUrl`
 
@@ -2001,7 +2102,7 @@ List Credentials
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type type`
+      - `JsonValue type = "environment_variable"`
 
       - `BetaManagedAgentsInjectionLocationResponse injectionLocation`
 
@@ -2023,23 +2124,25 @@ List Credentials
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type type`
+          - `JsonValue type = "unrestricted"`
 
         - `class BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type type`
+          - `JsonValue type = "limited"`
 
           - `List<String> allowedHosts`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `String secretName`
 
         Name of the environment variable.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -2049,7 +2152,7 @@ List Credentials
 
     Arbitrary key-value metadata attached to the credential.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -2110,13 +2213,13 @@ public final class Main {
 }
 ```
 
-### Get Credential
+### Retrieve a Credential
 
 `BetaManagedAgentsCredential beta().vaults().credentials().retrieve(params, requestOptions = RequestOptions.none())`
 
 **GET** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Get Credential
+Retrieve a Credential
 
 #### Parameters
 
@@ -2132,7 +2235,7 @@ Get Credential
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -2234,6 +2337,18 @@ Get Credential
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -2246,13 +2361,13 @@ Get Credential
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type type`
+  - `JsonValue type = "vault_credential"`
 
   - `String id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the credential was archived. Null if not archived.
 
@@ -2266,15 +2381,15 @@ Get Credential
 
       OAuth credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "mcp_oauth"`
 
       - `String mcpServerUrl`
 
         URL of the MCP server this credential authenticates against.
 
-      - `Optional<LocalDateTime> expiresAt`
+      - `Optional<OffsetDateTime> expiresAt`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -2284,7 +2399,7 @@ Get Credential
 
         - `String clientId`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `String tokenEndpoint`
 
@@ -2296,19 +2411,19 @@ Get Credential
 
             Token endpoint requires no client authentication.
 
-            - `Type type`
+            - `JsonValue type = "none"`
 
           - `class BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_basic"`
 
           - `class BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_post"`
 
         - `Optional<String> resource`
 
@@ -2322,7 +2437,7 @@ Get Credential
 
       Static bearer token credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "static_bearer"`
 
       - `String mcpServerUrl`
 
@@ -2332,7 +2447,7 @@ Get Credential
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type type`
+      - `JsonValue type = "environment_variable"`
 
       - `BetaManagedAgentsInjectionLocationResponse injectionLocation`
 
@@ -2354,23 +2469,25 @@ Get Credential
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type type`
+          - `JsonValue type = "unrestricted"`
 
         - `class BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type type`
+          - `JsonValue type = "limited"`
 
           - `List<String> allowedHosts`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `String secretName`
 
         Name of the environment variable.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -2380,7 +2497,7 @@ Get Credential
 
     Arbitrary key-value metadata attached to the credential.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -2440,13 +2557,13 @@ public final class Main {
 }
 ```
 
-### Update Credential
+### Update a Credential
 
 `BetaManagedAgentsCredential beta().vaults().credentials().update(params, requestOptions = RequestOptions.none())`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Update Credential
+Update a Credential
 
 #### Parameters
 
@@ -2462,7 +2579,7 @@ Update Credential
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -2564,6 +2681,18 @@ Update Credential
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -2572,23 +2701,27 @@ Update Credential
 
   - `Optional<Auth> auth`
 
-    Updated authentication configuration. The `type` is immutable; the variant sent must match the stored credential's type.
+    New authentication settings for the credential. The `type` must match the credential's current type, which can't be changed.
 
     - `class BetaManagedAgentsMcpOAuthUpdateParams`
 
       Parameters for updating an MCP OAuth credential. The `mcp_server_url` is immutable.
 
-      - `Type type`
+      - `JsonValue type = "mcp_oauth"`
 
       - `Optional<String> accessToken`
 
-        Updated OAuth access token.
+        The new OAuth access token to replace the stored one.
 
-        minLength: 1, maxLength: 8192
+        minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
-      - `Optional<LocalDateTime> expiresAt`
+      - `Optional<OffsetDateTime> expiresAt`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Leave it out to keep the stored expiry.
+
+        If you send a new `access_token`, send its `expires_at` too, or the new token keeps the old expiry.
+
+        Must be in the future.
 
         format: date-time
 
@@ -2598,13 +2731,13 @@ Update Credential
 
         - `Optional<String> refreshToken`
 
-          Updated OAuth refresh token.
+          The new OAuth refresh token to replace the stored one.
 
           minLength: 1, maxLength: 8192
 
         - `Optional<String> scope`
 
-          Updated OAuth scope for the refresh request.
+          The new OAuth scope for refresh requests. Send an empty string to clear the stored scope.
 
           maxLength: 8192
 
@@ -2614,11 +2747,13 @@ Update Credential
 
             Updated HTTP Basic authentication parameters for the token endpoint.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_basic"`
 
             - `Optional<String> clientSecret`
 
-              Updated OAuth client secret.
+              A new OAuth client secret to replace the stored one.
+
+              The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
               minLength: 1, maxLength: 512
 
@@ -2626,11 +2761,13 @@ Update Credential
 
             Updated POST body authentication parameters for the token endpoint.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_post"`
 
             - `Optional<String> clientSecret`
 
-              Updated OAuth client secret.
+              A new OAuth client secret to replace the stored one.
+
+              The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
               minLength: 1, maxLength: 512
 
@@ -2638,19 +2775,19 @@ Update Credential
 
       Parameters for updating a static bearer token credential. The `mcp_server_url` is immutable.
 
-      - `Type type`
+      - `JsonValue type = "static_bearer"`
 
       - `Optional<String> token`
 
-        Updated static bearer token value.
+        The new static bearer token to replace the stored one.
 
-        minLength: 1, maxLength: 8192
+        minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
     - `class BetaManagedAgentsEnvironmentVariableUpdateParams`
 
       Parameters for updating an environment variable credential. `secret_name` is immutable.
 
-      - `Type type`
+      - `JsonValue type = "environment_variable"`
 
       - `Optional<BetaManagedAgentsInjectionLocationUpdateParams> injectionLocation`
 
@@ -2666,29 +2803,31 @@ Update Credential
 
       - `Optional<BetaManagedAgentsCredentialNetworkingParams> networking`
 
-        Updated networking scope. Full replacement.
+        The new networking scope, which replaces the stored one as a whole.
 
         - `class BetaManagedAgentsUnrestrictedCredentialNetworkingParams`
 
           Substitute the secret on any host the session's Environment network policy permits egress to. The Environment's network policy is the only boundary on where the secret can reach.
 
-          - `Type type`
+          - `JsonValue type = "unrestricted"`
 
         - `class BetaManagedAgentsLimitedCredentialNetworkingParams`
 
           Substitute the secret only on requests to the listed hosts.
 
-          - `Type type`
+          - `JsonValue type = "limited"`
 
           - `List<String> allowedHosts`
 
-            Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
       - `Optional<String> secretValue`
 
-        Updated secret value.
+        The new secret value to replace the stored one.
 
-        minLength: 1, maxLength: 4096
+        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `Optional<String> displayName`
 
@@ -2706,13 +2845,13 @@ Update Credential
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type type`
+  - `JsonValue type = "vault_credential"`
 
   - `String id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the credential was archived. Null if not archived.
 
@@ -2726,15 +2865,15 @@ Update Credential
 
       OAuth credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "mcp_oauth"`
 
       - `String mcpServerUrl`
 
         URL of the MCP server this credential authenticates against.
 
-      - `Optional<LocalDateTime> expiresAt`
+      - `Optional<OffsetDateTime> expiresAt`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -2744,7 +2883,7 @@ Update Credential
 
         - `String clientId`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `String tokenEndpoint`
 
@@ -2756,19 +2895,19 @@ Update Credential
 
             Token endpoint requires no client authentication.
 
-            - `Type type`
+            - `JsonValue type = "none"`
 
           - `class BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_basic"`
 
           - `class BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_post"`
 
         - `Optional<String> resource`
 
@@ -2782,7 +2921,7 @@ Update Credential
 
       Static bearer token credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "static_bearer"`
 
       - `String mcpServerUrl`
 
@@ -2792,7 +2931,7 @@ Update Credential
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type type`
+      - `JsonValue type = "environment_variable"`
 
       - `BetaManagedAgentsInjectionLocationResponse injectionLocation`
 
@@ -2814,23 +2953,25 @@ Update Credential
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type type`
+          - `JsonValue type = "unrestricted"`
 
         - `class BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type type`
+          - `JsonValue type = "limited"`
 
           - `List<String> allowedHosts`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `String secretName`
 
         Name of the environment variable.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -2840,7 +2981,7 @@ Update Credential
 
     Arbitrary key-value metadata attached to the credential.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -2900,13 +3041,13 @@ public final class Main {
 }
 ```
 
-### Delete Credential
+### Delete a Credential
 
 `BetaManagedAgentsDeletedCredential beta().vaults().credentials().delete(params, requestOptions = RequestOptions.none())`
 
 **DELETE** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Delete Credential
+Delete a Credential
 
 #### Parameters
 
@@ -2922,7 +3063,7 @@ Delete Credential
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -3024,6 +3165,18 @@ Delete Credential
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -3036,11 +3189,11 @@ Delete Credential
 
   Confirmation of a deleted credential.
 
-  - `Type type`
+  - `JsonValue type = "vault_credential_deleted"`
 
   - `String id`
 
-    Unique identifier of the deleted credential.
+    The unique ID of the deleted credential (`vcrd_...`).
 
 #### Example
 
@@ -3076,13 +3229,13 @@ public final class Main {
 }
 ```
 
-### Archive Credential
+### Archive a Credential
 
 `BetaManagedAgentsCredential beta().vaults().credentials().archive(params, requestOptions = RequestOptions.none())`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/archive`
 
-Archive Credential
+Archive a Credential
 
 #### Parameters
 
@@ -3098,7 +3251,7 @@ Archive Credential
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -3200,6 +3353,18 @@ Archive Credential
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -3212,13 +3377,13 @@ Archive Credential
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type type`
+  - `JsonValue type = "vault_credential"`
 
   - `String id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the credential was archived. Null if not archived.
 
@@ -3232,15 +3397,15 @@ Archive Credential
 
       OAuth credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "mcp_oauth"`
 
       - `String mcpServerUrl`
 
         URL of the MCP server this credential authenticates against.
 
-      - `Optional<LocalDateTime> expiresAt`
+      - `Optional<OffsetDateTime> expiresAt`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -3250,7 +3415,7 @@ Archive Credential
 
         - `String clientId`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `String tokenEndpoint`
 
@@ -3262,19 +3427,19 @@ Archive Credential
 
             Token endpoint requires no client authentication.
 
-            - `Type type`
+            - `JsonValue type = "none"`
 
           - `class BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_basic"`
 
           - `class BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type type`
+            - `JsonValue type = "client_secret_post"`
 
         - `Optional<String> resource`
 
@@ -3288,7 +3453,7 @@ Archive Credential
 
       Static bearer token credential details for an MCP server.
 
-      - `Type type`
+      - `JsonValue type = "static_bearer"`
 
       - `String mcpServerUrl`
 
@@ -3298,7 +3463,7 @@ Archive Credential
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type type`
+      - `JsonValue type = "environment_variable"`
 
       - `BetaManagedAgentsInjectionLocationResponse injectionLocation`
 
@@ -3320,23 +3485,25 @@ Archive Credential
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type type`
+          - `JsonValue type = "unrestricted"`
 
         - `class BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type type`
+          - `JsonValue type = "limited"`
 
           - `List<String> allowedHosts`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `String secretName`
 
         Name of the environment variable.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -3346,7 +3513,7 @@ Archive Credential
 
     Arbitrary key-value metadata attached to the credential.
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -3406,13 +3573,13 @@ public final class Main {
 }
 ```
 
-### Validate Credential
+### Validate an MCP OAuth Credential
 
 `BetaManagedAgentsCredentialValidation beta().vaults().credentials().mcpOAuthValidate(params, requestOptions = RequestOptions.none())`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/mcp_oauth_validate`
 
-Validate Credential
+Validate an MCP OAuth Credential
 
 #### Parameters
 
@@ -3428,7 +3595,7 @@ Validate Credential
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -3530,6 +3697,18 @@ Validate Credential
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -3542,7 +3721,7 @@ Validate Credential
 
   Result of live-probing a credential against its configured MCP server.
 
-  - `Type type`
+  - `JsonValue type = "vault_credential_validation"`
 
   - `String credentialId`
 
@@ -3554,11 +3733,11 @@ Validate Credential
 
   - `Optional<BetaManagedAgentsMcpProbe> mcpProbe`
 
-    Details of the failing MCP probe step. Null when the probe succeeded.
+    Details of the MCP probe step that failed, or `null` if the probe succeeded or there was no access token to test.
 
     - `Optional<BetaManagedAgentsRefreshHttpResponse> httpResponse`
 
-      The captured HTTP error response. Null when no HTTP response was received (timeout, DNS, TLS).
+      The HTTP error response from the MCP server, or `null` if the MCP server didn't return one for the failing step, for example after a timeout or a DNS or TLS failure.
 
       - `String body`
 
@@ -3572,7 +3751,7 @@ Validate Credential
 
         Value of the `Content-Type` response header.
 
-      - `long statusCode`
+      - `int statusCode`
 
         HTTP status code.
 
@@ -3620,13 +3799,13 @@ Validate Credential
 
     - `INVALID("invalid")`
 
-      The probe reached the MCP server and was rejected, and a refresh (if attempted) did not recover it.
+      The probe reached the MCP server and the server rejected the credential, or no access token is stored. A refresh, if one was tried, didn't recover it. Usually the end user needs to authorize again.
 
     - `UNKNOWN("unknown")`
 
-      The probe could not determine validity — for example, a transport error or a successful refresh that was not re-probed.
+      The probe couldn't tell whether the credential works, for example because of a network error or because a refresh succeeded but the new access token wasn't tested. Validate the credential again to find out.
 
-  - `LocalDateTime validatedAt`
+  - `OffsetDateTime validatedAt`
 
     When the validation probe was performed.
 

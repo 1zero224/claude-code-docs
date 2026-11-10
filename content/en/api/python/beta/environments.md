@@ -7,7 +7,7 @@ url: https://platform.claude.com/docs/en/api/python/beta/environments
 
 ## Create Environment
 
-`beta.environments.create(**kwargs)  -> BetaEnvironment`
+`beta.environments.create(**kwargs) -> BetaEnvironment`
 
 **POST** `/v1/environments`
 
@@ -237,6 +237,18 @@ Create a new environment with the specified configuration.
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -445,7 +457,7 @@ print(beta_environment.id)
 
 ## List Environments
 
-`beta.environments.list(**kwargs)  -> SyncPageCursor[BetaEnvironment]`
+`beta.environments.list(**kwargs) -> SyncPageCursor[BetaEnvironment]`
 
 **GET** `/v1/environments`
 
@@ -574,6 +586,18 @@ List environments with pagination support.
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -787,7 +811,7 @@ print(page.id)
 
 ## Get Environment
 
-`beta.environments.retrieve(environment_id, **kwargs)  -> BetaEnvironment`
+`beta.environments.retrieve(environment_id, **kwargs) -> BetaEnvironment`
 
 **GET** `/v1/environments/{environment_id}`
 
@@ -902,6 +926,18 @@ Retrieve a specific environment by ID.
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -1111,7 +1147,7 @@ print(beta_environment.id)
 
 ## Update Environment
 
-`beta.environments.update(environment_id, **kwargs)  -> BetaEnvironment`
+`beta.environments.update(environment_id, **kwargs) -> BetaEnvironment`
 
 **POST** `/v1/environments/{environment_id}`
 
@@ -1343,6 +1379,18 @@ Update an existing environment's configuration.
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1551,7 +1599,7 @@ print(beta_environment.id)
 
 ## Delete Environment
 
-`beta.environments.delete(environment_id, **kwargs)  -> BetaEnvironmentDeleteResponse`
+`beta.environments.delete(environment_id, **kwargs) -> BetaEnvironmentDeleteResponse`
 
 **DELETE** `/v1/environments/{environment_id}`
 
@@ -1667,6 +1715,18 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1717,7 +1777,7 @@ print(beta_environment_delete_response.id)
 
 ## Archive Environment
 
-`beta.environments.archive(environment_id, **kwargs)  -> BetaEnvironment`
+`beta.environments.archive(environment_id, **kwargs) -> BetaEnvironment`
 
 **POST** `/v1/environments/{environment_id}/archive`
 
@@ -1832,6 +1892,18 @@ Archive an environment by ID. Archived environments cannot be used to create new
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -2333,6 +2405,22 @@ print(beta_environment.id)
 
     - `"account"`
 
+### Beta Environment Archived Error Details
+
+- `class BetaEnvironmentArchivedErrorDetails`
+
+  The environment is archived, so it cannot be updated.
+
+  - `error_code: Literal["environment_archived"]`
+
+### Beta Environment Create Disabled Error Details
+
+- `class BetaEnvironmentCreateDisabledErrorDetails`
+
+  Anthropic has turned off creating environments for this organization. Existing environments still work.
+
+  - `error_code: Literal["environment_create_disabled"]`
+
 ### Beta Environment Delete Response
 
 - `class BetaEnvironmentDeleteResponse`
@@ -2348,6 +2436,38 @@ print(beta_environment.id)
   - `id: str`
 
     Environment identifier
+
+### Beta Environment Not Found Error Details
+
+- `class BetaEnvironmentNotFoundErrorDetails`
+
+  `settings.environment_id` names no Environment within the organization's reach.
+
+  - `error_code: Literal["environment_not_found"]`
+
+### Beta Environment Update Disabled Error Details
+
+- `class BetaEnvironmentUpdateDisabledErrorDetails`
+
+  Anthropic has turned off updating environments for this organization. Existing environments still work as they are.
+
+  - `error_code: Literal["environment_update_disabled"]`
+
+### Beta Invalid Config Type Change Error Details
+
+- `class BetaInvalidConfigTypeChangeErrorDetails`
+
+  `config.type` differs from the environment's stored type, which cannot change after creation.
+
+  - `error_code: Literal["invalid_config_type_change"]`
+
+### Beta Invalid Metadata Error Details
+
+- `class BetaInvalidMetadataErrorDetails`
+
+  `metadata` has too many keys, a key or value that is too long, or a reserved key. The message names each problem.
+
+  - `error_code: Literal["invalid_metadata"]`
 
 ### Beta Limited Network
 
@@ -2506,7 +2626,7 @@ print(beta_environment.id)
 
 ### Get Work Item
 
-`beta.environments.work.retrieve(work_id, **kwargs)  -> BetaSelfHostedWork`
+`beta.environments.work.retrieve(work_id, **kwargs) -> BetaSelfHostedWork`
 
 **GET** `/v1/environments/{environment_id}/work/{work_id}`
 
@@ -2625,6 +2745,18 @@ Retrieve detailed information about a specific work item.
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -2759,7 +2891,7 @@ print(beta_self_hosted_work.id)
 
 ### Poll for Work
 
-`beta.environments.work.poll(environment_id, **kwargs)  -> BetaSelfHostedWork`
+`beta.environments.work.poll(environment_id, **kwargs) -> BetaSelfHostedWork`
 
 **GET** `/v1/environments/{environment_id}/work/poll`
 
@@ -2889,6 +3021,18 @@ Long poll for work items in the queue.
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `anthropic_worker_id: Optional[str]` (header parameter)
 
   Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
@@ -2989,7 +3133,7 @@ client = Anthropic(
 beta_self_hosted_work = client.beta.environments.work.poll(
     environment_id="env_011CZkZ9X2dpNyB7HsEFoRfW",
 )
-print(beta_self_hosted_work.id)
+print(beta_self_hosted_work)
 ```
 
 ##### Response (200)
@@ -3019,7 +3163,7 @@ print(beta_self_hosted_work.id)
 
 ### Acknowledge Work
 
-`beta.environments.work.ack(work_id, **kwargs)  -> BetaSelfHostedWork`
+`beta.environments.work.ack(work_id, **kwargs) -> BetaSelfHostedWork`
 
 **POST** `/v1/environments/{environment_id}/work/{work_id}/ack`
 
@@ -3138,6 +3282,18 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 #### Returns
 
@@ -3266,7 +3422,7 @@ print(beta_self_hosted_work.id)
 
 ### Record Heartbeat
 
-`beta.environments.work.heartbeat(work_id, **kwargs)  -> BetaSelfHostedWorkHeartbeatResponse`
+`beta.environments.work.heartbeat(work_id, **kwargs) -> BetaSelfHostedWorkHeartbeatResponse`
 
 **POST** `/v1/environments/{environment_id}/work/{work_id}/heartbeat`
 
@@ -3286,7 +3442,7 @@ Record a heartbeat for a work item to maintain the lease.
 
 - `expected_last_heartbeat: Optional[str]` (query parameter)
 
-  Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match.
+  Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match. The server does not compare the value when the work item is 'stopping' or 'stopped'.
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
@@ -3394,6 +3550,18 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 #### Returns
 
 - `class BetaSelfHostedWorkHeartbeatResponse`
@@ -3408,7 +3576,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `last_heartbeat: str`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `lease_extended: bool`
 
@@ -3464,7 +3632,7 @@ print(beta_self_hosted_work_heartbeat_response.last_heartbeat)
 
 ### Stop Work
 
-`beta.environments.work.stop(work_id, **kwargs)  -> BetaSelfHostedWork`
+`beta.environments.work.stop(work_id, **kwargs) -> BetaSelfHostedWork`
 
 **POST** `/v1/environments/{environment_id}/work/{work_id}/stop`
 
@@ -3589,6 +3757,18 @@ Stop a work item, initiating graceful or forced shutdown.
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -3723,7 +3903,7 @@ print(beta_self_hosted_work.id)
 
 ### List Work Items
 
-`beta.environments.work.list(environment_id, **kwargs)  -> SyncPageCursor[BetaSelfHostedWork]`
+`beta.environments.work.list(environment_id, **kwargs) -> SyncPageCursor[BetaSelfHostedWork]`
 
 **GET** `/v1/environments/{environment_id}/work`
 
@@ -3850,6 +4030,18 @@ List work items in an environment.
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 #### Returns
 
@@ -3983,7 +4175,7 @@ print(page.id)
 
 ### Update Work Item
 
-`beta.environments.work.update(work_id, **kwargs)  -> BetaSelfHostedWork`
+`beta.environments.work.update(work_id, **kwargs) -> BetaSelfHostedWork`
 
 **POST** `/v1/environments/{environment_id}/work/{work_id}`
 
@@ -4106,6 +4298,18 @@ Update work item metadata with merge semantics.
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -4241,7 +4445,7 @@ print(beta_self_hosted_work.id)
 
 ### Get Queue Statistics
 
-`beta.environments.work.stats(environment_id, **kwargs)  -> BetaSelfHostedWorkQueueStats`
+`beta.environments.work.stats(environment_id, **kwargs) -> BetaSelfHostedWorkQueueStats`
 
 **GET** `/v1/environments/{environment_id}/work/stats`
 
@@ -4357,6 +4561,18 @@ Get statistics about the work queue for an environment.
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `workspace_id: Optional[str]` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -4369,7 +4585,11 @@ Get statistics about the work queue for an environment.
 
   Statistics about the work queue for an environment.
 
-  Uses Redis Stream consumer group metrics for O(1) queries.
+  - `type: Literal["work_queue_stats"]`
+
+    The type of object
+
+    default: work_queue_stats
 
   - `type: Literal["work_queue_stats"]`
 
@@ -4379,7 +4599,7 @@ Get statistics about the work queue for an environment.
 
   - `depth: int`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
   - `oldest_queued_at: Optional[str]`
 

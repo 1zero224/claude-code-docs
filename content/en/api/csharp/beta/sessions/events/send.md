@@ -25,7 +25,7 @@ Send Events
 
       Parameters for sending a user message to the session.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.message"`
 
       - `required IReadOnlyList<Content> Content`
 
@@ -35,7 +35,7 @@ Send Events
 
           Regular text content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Text`
 
@@ -47,7 +47,7 @@ Send Events
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "image"`
 
           - `required Source Source`
 
@@ -57,7 +57,7 @@ Send Events
 
               Base64-encoded image data.
 
-              - `required Type Type`
+              - `JsonElement Type = "base64"`
 
               - `required string Data`
 
@@ -75,7 +75,7 @@ Send Events
 
               Image referenced by URL.
 
-              - `required Type Type`
+              - `JsonElement Type = "url"`
 
               - `required string Url`
 
@@ -87,7 +87,7 @@ Send Events
 
               Image referenced by file ID.
 
-              - `required Type Type`
+              - `JsonElement Type = "file"`
 
               - `required string FileID`
 
@@ -99,7 +99,7 @@ Send Events
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "document"`
 
           - `required Source Source`
 
@@ -109,7 +109,7 @@ Send Events
 
               Base64-encoded document data.
 
-              - `required Type Type`
+              - `JsonElement Type = "base64"`
 
               - `required string Data`
 
@@ -127,7 +127,7 @@ Send Events
 
               Plain text document content.
 
-              - `required Type Type`
+              - `JsonElement Type = "text"`
 
               - `required string Data`
 
@@ -135,7 +135,7 @@ Send Events
 
                 minLength: 1
 
-              - `required MediaType MediaType`
+              - `JsonElement MediaType = "text/plain"`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -143,7 +143,7 @@ Send Events
 
               Document referenced by URL.
 
-              - `required Type Type`
+              - `JsonElement Type = "url"`
 
               - `required string Url`
 
@@ -155,7 +155,7 @@ Send Events
 
               Document referenced by file ID.
 
-              - `required Type Type`
+              - `JsonElement Type = "file"`
 
               - `required string FileID`
 
@@ -175,13 +175,13 @@ Send Events
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `required Type Type`
+          - `JsonElement Type = "redacted"`
 
     - `class BetaManagedAgentsUserInterruptEventParams`
 
       Parameters for sending an interrupt to pause the agent.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.interrupt"`
 
       - `string? SessionThreadID`
 
@@ -191,7 +191,7 @@ Send Events
 
       Parameters for confirming or denying a tool execution request.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.tool_confirmation"`
 
       - `required Result Result`
 
@@ -217,7 +217,7 @@ Send Events
 
       Parameters for providing the result of a custom tool execution.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.custom_tool_result"`
 
       - `required string CustomToolUseID`
 
@@ -245,7 +245,7 @@ Send Events
 
           A block containing a web search result.
 
-          - `required Type Type`
+          - `JsonElement Type = "search_result"`
 
           - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -259,7 +259,7 @@ Send Events
 
             Array of text content blocks from the search result.
 
-            - `required Type Type`
+            - `JsonElement Type = "text"`
 
             - `required string Text`
 
@@ -287,7 +287,7 @@ Send Events
 
       Parameters for defining an outcome the agent should work toward. The agent begins work on receipt.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.define_outcome"`
 
       - `required string Description`
 
@@ -301,7 +301,7 @@ Send Events
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -311,7 +311,7 @@ Send Events
 
           Rubric content provided inline as text.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Content`
 
@@ -329,7 +329,7 @@ Send Events
 
       Parameters for providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.tool_result"`
 
       - `required string ToolUseID`
 
@@ -365,13 +365,13 @@ Send Events
 
       Privileged context for the accompanying turn and all subsequent turns, appended to the session's system context as a `role: "system"` turn rather than replacing the top-level system prompt. At most one per request: it must be the final event and immediately follow the `user.message`, `user.tool_result`, or `user.custom_tool_result` it accompanies. Only supported on models that accept mid-conversation system messages.
 
-      - `required Type Type`
+      - `JsonElement Type = "system.message"`
 
       - `required IReadOnlyList<BetaManagedAgentsSystemContentBlock> Content`
 
         System content blocks to append. Text-only.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -381,7 +381,7 @@ Send Events
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
@@ -483,6 +483,18 @@ Send Events
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -503,7 +515,7 @@ Send Events
 
       A user message event in the session conversation.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.message"`
 
       - `required string ID`
 
@@ -517,7 +529,7 @@ Send Events
 
           Regular text content.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Text`
 
@@ -529,7 +541,7 @@ Send Events
 
           Image content specified directly as base64 data or as a reference via a URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "image"`
 
           - `required Source Source`
 
@@ -539,7 +551,7 @@ Send Events
 
               Base64-encoded image data.
 
-              - `required Type Type`
+              - `JsonElement Type = "base64"`
 
               - `required string Data`
 
@@ -557,7 +569,7 @@ Send Events
 
               Image referenced by URL.
 
-              - `required Type Type`
+              - `JsonElement Type = "url"`
 
               - `required string Url`
 
@@ -569,7 +581,7 @@ Send Events
 
               Image referenced by file ID.
 
-              - `required Type Type`
+              - `JsonElement Type = "file"`
 
               - `required string FileID`
 
@@ -581,7 +593,7 @@ Send Events
 
           Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-          - `required Type Type`
+          - `JsonElement Type = "document"`
 
           - `required Source Source`
 
@@ -591,7 +603,7 @@ Send Events
 
               Base64-encoded document data.
 
-              - `required Type Type`
+              - `JsonElement Type = "base64"`
 
               - `required string Data`
 
@@ -609,7 +621,7 @@ Send Events
 
               Plain text document content.
 
-              - `required Type Type`
+              - `JsonElement Type = "text"`
 
               - `required string Data`
 
@@ -617,7 +629,7 @@ Send Events
 
                 minLength: 1
 
-              - `required MediaType MediaType`
+              - `JsonElement MediaType = "text/plain"`
 
                 MIME type of the text content. Must be "text/plain".
 
@@ -625,7 +637,7 @@ Send Events
 
               Document referenced by URL.
 
-              - `required Type Type`
+              - `JsonElement Type = "url"`
 
               - `required string Url`
 
@@ -637,7 +649,7 @@ Send Events
 
               Document referenced by file ID.
 
-              - `required Type Type`
+              - `JsonElement Type = "file"`
 
               - `required string FileID`
 
@@ -657,7 +669,7 @@ Send Events
 
           Placeholder for content withheld by Anthropic model policy.
 
-          - `required Type Type`
+          - `JsonElement Type = "redacted"`
 
       - `DateTimeOffset? ProcessedAt`
 
@@ -669,7 +681,7 @@ Send Events
 
       An interrupt event that pauses agent execution and returns control to the user.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.interrupt"`
 
       - `required string ID`
 
@@ -689,7 +701,7 @@ Send Events
 
       A tool confirmation event that approves or denies a pending tool execution.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.tool_confirmation"`
 
       - `required string ID`
 
@@ -727,7 +739,7 @@ Send Events
 
       Event sent by the client providing the result of a custom tool execution.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.custom_tool_result"`
 
       - `required string ID`
 
@@ -757,7 +769,7 @@ Send Events
 
           A block containing a web search result.
 
-          - `required Type Type`
+          - `JsonElement Type = "search_result"`
 
           - `required BetaManagedAgentsSearchResultCitations Citations`
 
@@ -771,7 +783,7 @@ Send Events
 
             Array of text content blocks from the search result.
 
-            - `required Type Type`
+            - `JsonElement Type = "text"`
 
             - `required string Text`
 
@@ -809,7 +821,7 @@ Send Events
 
       Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.define_outcome"`
 
       - `required string ID`
 
@@ -843,7 +855,7 @@ Send Events
 
           Rubric referenced by a file uploaded via the Files API.
 
-          - `required Type Type`
+          - `JsonElement Type = "file"`
 
           - `required string FileID`
 
@@ -853,7 +865,7 @@ Send Events
 
           Rubric content provided inline as text.
 
-          - `required Type Type`
+          - `JsonElement Type = "text"`
 
           - `required string Content`
 
@@ -863,7 +875,7 @@ Send Events
 
       Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-      - `required Type Type`
+      - `JsonElement Type = "user.tool_result"`
 
       - `required string ID`
 
@@ -911,7 +923,7 @@ Send Events
 
       A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-      - `required Type Type`
+      - `JsonElement Type = "system.message"`
 
       - `required string ID`
 
@@ -921,7 +933,7 @@ Send Events
 
         System content blocks. Text-only.
 
-        - `required Type Type`
+        - `JsonElement Type = "text"`
 
         - `required string Text`
 
@@ -938,23 +950,20 @@ Send Events
 ## Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Sessions.Events;
+
 EventSendParams parameters = new()
 {
     SessionID = "sesn_011CZkZAtmR3yMPDzynEDxu7",
     Events =
     [
-        new BetaManagedAgentsUserMessageEventParams()
-        {
-            Content =
+        new BetaManagedAgentsUserMessageEventParams(
+
             [
-                new BetaManagedAgentsTextBlock()
-                {
-                    Text = "Where is my order #1234?",
-                    Type = Type.Text,
-                },
-            ],
-            Type = Type.UserMessage,
-        },
+                new BetaManagedAgentsTextBlock("Where is my order #1234?")
+            ]
+        ),
     ],
 };
 

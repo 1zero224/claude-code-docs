@@ -5,13 +5,13 @@ url: https://platform.claude.com/docs/en/api/go/beta/vaults/credentials
 
 # Credentials
 
-## Create Credential
+## Create a Credential
 
 `client.Beta.Vaults.Credentials.New(ctx, vaultID, params) (*BetaManagedAgentsCredential, error)`
 
 **POST** `/v1/vaults/{vault_id}/credentials`
 
-Create Credential
+Create a Credential
 
 ### Parameters
 
@@ -29,13 +29,13 @@ Create Credential
 
       Parameters for creating an MCP OAuth credential.
 
-      - `Type BetaManagedAgentsMCPOAuthCreateParamsType`
+      - `Type MCPOAuth`
 
       - `AccessToken string`
 
-        OAuth access token.
+        The OAuth access token to send to the MCP server.
 
-        minLength: 1, maxLength: 8192
+        minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
       - `MCPServerURL string`
 
@@ -45,7 +45,9 @@ Create Credential
 
       - `ExpiresAt Time Optional`
 
-        A timestamp in RFC 3339 format
+        When `access_token` expires, in RFC 3339.
+
+        Must be in the future.
 
         format: date-time
 
@@ -55,13 +57,13 @@ Create Credential
 
         - `ClientID string`
 
-          OAuth client ID.
+          The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
 
           minLength: 1, maxLength: 1024
 
         - `RefreshToken string`
 
-          OAuth refresh token.
+          The OAuth refresh token that the API uses to get a new access token when the current one expires.
 
           minLength: 1, maxLength: 8192
 
@@ -77,17 +79,17 @@ Create Credential
 
             Token endpoint requires no client authentication.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthNoneParamType`
+            - `Type None`
 
           - `type BetaManagedAgentsTokenEndpointAuthBasicParam`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthBasicParamType`
+            - `Type ClientSecretBasic`
 
             - `ClientSecret string`
 
-              OAuth client secret.
+              The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
               minLength: 1, maxLength: 512
 
@@ -95,11 +97,11 @@ Create Credential
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthPostParamType`
+            - `Type ClientSecretPost`
 
             - `ClientSecret string`
 
-              OAuth client secret.
+              The OAuth client secret, sent to `token_endpoint` in the POST body.
 
               minLength: 1, maxLength: 512
 
@@ -119,13 +121,13 @@ Create Credential
 
       Parameters for creating a static bearer token credential.
 
-      - `Type BetaManagedAgentsStaticBearerCreateParamsType`
+      - `Type StaticBearer`
 
       - `Token string`
 
-        Static bearer token value.
+        The static bearer token to send to the MCP server, such as an API key or personal access token.
 
-        minLength: 1, maxLength: 8192
+        minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
       - `MCPServerURL string`
 
@@ -137,7 +139,7 @@ Create Credential
 
       Parameters for creating an environment variable credential.
 
-      - `Type BetaManagedAgentsEnvironmentVariableCreateParamsType`
+      - `Type EnvironmentVariable`
 
       - `Networking BetaManagedAgentsCredentialNetworkingParamsUnion`
 
@@ -147,29 +149,31 @@ Create Credential
 
           Substitute the secret on any host the session's Environment network policy permits egress to. The Environment's network policy is the only boundary on where the secret can reach.
 
-          - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingParamsType`
+          - `Type Unrestricted`
 
         - `type BetaManagedAgentsLimitedCredentialNetworkingParams`
 
           Substitute the secret only on requests to the listed hosts.
 
-          - `Type BetaManagedAgentsLimitedCredentialNetworkingParamsType`
+          - `Type Limited`
 
           - `AllowedHosts []string`
 
-            Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
       - `SecretName string`
 
         Name of the environment variable. Immutable after create.
 
-        minLength: 1, maxLength: 255
+        minLength: 1, maxLength: 255, pattern: ^[A-Z_][A-Z0-9_]*$
 
       - `SecretValue string`
 
-        Secret value. Write-only; never returned in responses.
+        The secret to substitute into the agent's outbound requests. It's write-only and never returned in responses.
 
-        minLength: 1, maxLength: 4096
+        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
       - `InjectionLocation BetaManagedAgentsInjectionLocationParams Optional`
 
@@ -189,13 +193,13 @@ Create Credential
 
     maxLength: 255
 
-  - `Metadata map[string, string] Optional`
+  - `Metadata map[string]string Optional`
 
     Arbitrary key-value metadata to attach to the credential. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -297,6 +301,18 @@ Create Credential
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -309,11 +325,11 @@ Create Credential
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type BetaManagedAgentsCredentialType`
+  - `Type VaultCredential`
 
   - `ID string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `ArchivedAt Time`
 
@@ -329,7 +345,7 @@ Create Credential
 
       OAuth credential details for an MCP server.
 
-      - `Type BetaManagedAgentsMCPOAuthAuthResponseType`
+      - `Type MCPOAuth`
 
       - `MCPServerURL string`
 
@@ -337,7 +353,7 @@ Create Credential
 
       - `ExpiresAt Time Optional`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -347,7 +363,7 @@ Create Credential
 
         - `ClientID string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `TokenEndpoint string`
 
@@ -359,19 +375,19 @@ Create Credential
 
             Token endpoint requires no client authentication.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthNoneResponseType`
+            - `Type None`
 
           - `type BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthBasicResponseType`
+            - `Type ClientSecretBasic`
 
           - `type BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthPostResponseType`
+            - `Type ClientSecretPost`
 
         - `Resource string Optional`
 
@@ -385,7 +401,7 @@ Create Credential
 
       Static bearer token credential details for an MCP server.
 
-      - `Type BetaManagedAgentsStaticBearerAuthResponseType`
+      - `Type StaticBearer`
 
       - `MCPServerURL string`
 
@@ -395,7 +411,7 @@ Create Credential
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type BetaManagedAgentsEnvironmentVariableAuthResponseType`
+      - `Type EnvironmentVariable`
 
       - `InjectionLocation BetaManagedAgentsInjectionLocationResponse`
 
@@ -417,17 +433,19 @@ Create Credential
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingResponseType`
+          - `Type Unrestricted`
 
         - `type BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type BetaManagedAgentsLimitedCredentialNetworkingResponseType`
+          - `Type Limited`
 
           - `AllowedHosts []string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `SecretName string`
 
@@ -439,7 +457,7 @@ Create Credential
 
     format: date-time
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     Arbitrary key-value metadata attached to the credential.
 
@@ -466,8 +484,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -482,7 +500,6 @@ func main() {
 				OfStaticBearer: &anthropic.BetaManagedAgentsStaticBearerCreateParams{
 					Token:        "bearer_exampletoken",
 					MCPServerURL: "https://example-server.modelcontextprotocol.io/sse",
-					Type:         anthropic.BetaManagedAgentsStaticBearerCreateParamsTypeStaticBearer,
 				},
 			},
 		},
@@ -533,7 +550,7 @@ List Credentials
 
   - `IncludeArchived param.Opt[bool] Optional` (query parameter)
 
-    Whether to include archived credentials in the results.
+    Whether to include archived credentials in the results. Defaults to `false`.
 
   - `Limit param.Opt[int64] Optional` (query parameter)
 
@@ -543,11 +560,11 @@ List Credentials
 
   - `Page param.Opt[string] Optional` (query parameter)
 
-    Opaque pagination token from a previous `list_credentials` response.
+    The `next_page` value from a previous [List Credentials](https://platform.claude.com/docs/en/api/beta/vaults/credentials/list?sdk_languages=go) response, to get the next page. Leave it out to get the first page.
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -649,6 +666,18 @@ List Credentials
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -661,11 +690,11 @@ List Credentials
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type BetaManagedAgentsCredentialType`
+  - `Type VaultCredential`
 
   - `ID string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `ArchivedAt Time`
 
@@ -681,7 +710,7 @@ List Credentials
 
       OAuth credential details for an MCP server.
 
-      - `Type BetaManagedAgentsMCPOAuthAuthResponseType`
+      - `Type MCPOAuth`
 
       - `MCPServerURL string`
 
@@ -689,7 +718,7 @@ List Credentials
 
       - `ExpiresAt Time Optional`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -699,7 +728,7 @@ List Credentials
 
         - `ClientID string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `TokenEndpoint string`
 
@@ -711,19 +740,19 @@ List Credentials
 
             Token endpoint requires no client authentication.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthNoneResponseType`
+            - `Type None`
 
           - `type BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthBasicResponseType`
+            - `Type ClientSecretBasic`
 
           - `type BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthPostResponseType`
+            - `Type ClientSecretPost`
 
         - `Resource string Optional`
 
@@ -737,7 +766,7 @@ List Credentials
 
       Static bearer token credential details for an MCP server.
 
-      - `Type BetaManagedAgentsStaticBearerAuthResponseType`
+      - `Type StaticBearer`
 
       - `MCPServerURL string`
 
@@ -747,7 +776,7 @@ List Credentials
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type BetaManagedAgentsEnvironmentVariableAuthResponseType`
+      - `Type EnvironmentVariable`
 
       - `InjectionLocation BetaManagedAgentsInjectionLocationResponse`
 
@@ -769,17 +798,19 @@ List Credentials
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingResponseType`
+          - `Type Unrestricted`
 
         - `type BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type BetaManagedAgentsLimitedCredentialNetworkingResponseType`
+          - `Type Limited`
 
           - `AllowedHosts []string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `SecretName string`
 
@@ -791,7 +822,7 @@ List Credentials
 
     format: date-time
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     Arbitrary key-value metadata attached to the credential.
 
@@ -818,8 +849,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -864,13 +895,13 @@ func main() {
 }
 ```
 
-## Get Credential
+## Retrieve a Credential
 
 `client.Beta.Vaults.Credentials.Get(ctx, credentialID, params) (*BetaManagedAgentsCredential, error)`
 
 **GET** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Get Credential
+Retrieve a Credential
 
 ### Parameters
 
@@ -886,7 +917,7 @@ Get Credential
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -988,6 +1019,18 @@ Get Credential
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1000,11 +1043,11 @@ Get Credential
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type BetaManagedAgentsCredentialType`
+  - `Type VaultCredential`
 
   - `ID string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `ArchivedAt Time`
 
@@ -1020,7 +1063,7 @@ Get Credential
 
       OAuth credential details for an MCP server.
 
-      - `Type BetaManagedAgentsMCPOAuthAuthResponseType`
+      - `Type MCPOAuth`
 
       - `MCPServerURL string`
 
@@ -1028,7 +1071,7 @@ Get Credential
 
       - `ExpiresAt Time Optional`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -1038,7 +1081,7 @@ Get Credential
 
         - `ClientID string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `TokenEndpoint string`
 
@@ -1050,19 +1093,19 @@ Get Credential
 
             Token endpoint requires no client authentication.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthNoneResponseType`
+            - `Type None`
 
           - `type BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthBasicResponseType`
+            - `Type ClientSecretBasic`
 
           - `type BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthPostResponseType`
+            - `Type ClientSecretPost`
 
         - `Resource string Optional`
 
@@ -1076,7 +1119,7 @@ Get Credential
 
       Static bearer token credential details for an MCP server.
 
-      - `Type BetaManagedAgentsStaticBearerAuthResponseType`
+      - `Type StaticBearer`
 
       - `MCPServerURL string`
 
@@ -1086,7 +1129,7 @@ Get Credential
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type BetaManagedAgentsEnvironmentVariableAuthResponseType`
+      - `Type EnvironmentVariable`
 
       - `InjectionLocation BetaManagedAgentsInjectionLocationResponse`
 
@@ -1108,17 +1151,19 @@ Get Credential
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingResponseType`
+          - `Type Unrestricted`
 
         - `type BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type BetaManagedAgentsLimitedCredentialNetworkingResponseType`
+          - `Type Limited`
 
           - `AllowedHosts []string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `SecretName string`
 
@@ -1130,7 +1175,7 @@ Get Credential
 
     format: date-time
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     Arbitrary key-value metadata attached to the credential.
 
@@ -1157,8 +1202,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -1200,13 +1245,13 @@ func main() {
 }
 ```
 
-## Update Credential
+## Update a Credential
 
 `client.Beta.Vaults.Credentials.Update(ctx, credentialID, params) (*BetaManagedAgentsCredential, error)`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Update Credential
+Update a Credential
 
 ### Parameters
 
@@ -1222,23 +1267,27 @@ Update Credential
 
   - `Auth BetaVaultCredentialUpdateParamsAuthUnion Optional`
 
-    Updated authentication configuration. The `type` is immutable; the variant sent must match the stored credential's type.
+    New authentication settings for the credential. The `type` must match the credential's current type, which can't be changed.
 
     - `type BetaManagedAgentsMCPOAuthUpdateParams`
 
       Parameters for updating an MCP OAuth credential. The `mcp_server_url` is immutable.
 
-      - `Type BetaManagedAgentsMCPOAuthUpdateParamsType`
+      - `Type MCPOAuth`
 
       - `AccessToken string Optional`
 
-        Updated OAuth access token.
+        The new OAuth access token to replace the stored one.
 
-        minLength: 1, maxLength: 8192
+        minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
       - `ExpiresAt Time Optional`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Leave it out to keep the stored expiry.
+
+        If you send a new `access_token`, send its `expires_at` too, or the new token keeps the old expiry.
+
+        Must be in the future.
 
         format: date-time
 
@@ -1248,13 +1297,13 @@ Update Credential
 
         - `RefreshToken string Optional`
 
-          Updated OAuth refresh token.
+          The new OAuth refresh token to replace the stored one.
 
           minLength: 1, maxLength: 8192
 
         - `Scope string Optional`
 
-          Updated OAuth scope for the refresh request.
+          The new OAuth scope for refresh requests. Send an empty string to clear the stored scope.
 
           maxLength: 8192
 
@@ -1264,11 +1313,13 @@ Update Credential
 
             Updated HTTP Basic authentication parameters for the token endpoint.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthBasicUpdateParamType`
+            - `Type ClientSecretBasic`
 
             - `ClientSecret string Optional`
 
-              Updated OAuth client secret.
+              A new OAuth client secret to replace the stored one.
+
+              The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
               minLength: 1, maxLength: 512
 
@@ -1276,11 +1327,13 @@ Update Credential
 
             Updated POST body authentication parameters for the token endpoint.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthPostUpdateParamType`
+            - `Type ClientSecretPost`
 
             - `ClientSecret string Optional`
 
-              Updated OAuth client secret.
+              A new OAuth client secret to replace the stored one.
+
+              The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
               minLength: 1, maxLength: 512
 
@@ -1288,19 +1341,19 @@ Update Credential
 
       Parameters for updating a static bearer token credential. The `mcp_server_url` is immutable.
 
-      - `Type BetaManagedAgentsStaticBearerUpdateParamsType`
+      - `Type StaticBearer`
 
       - `Token string Optional`
 
-        Updated static bearer token value.
+        The new static bearer token to replace the stored one.
 
-        minLength: 1, maxLength: 8192
+        minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
     - `type BetaManagedAgentsEnvironmentVariableUpdateParams`
 
       Parameters for updating an environment variable credential. `secret_name` is immutable.
 
-      - `Type BetaManagedAgentsEnvironmentVariableUpdateParamsType`
+      - `Type EnvironmentVariable`
 
       - `InjectionLocation BetaManagedAgentsInjectionLocationUpdateParams Optional`
 
@@ -1316,29 +1369,31 @@ Update Credential
 
       - `Networking BetaManagedAgentsCredentialNetworkingParamsUnion Optional`
 
-        Updated networking scope. Full replacement.
+        The new networking scope, which replaces the stored one as a whole.
 
         - `type BetaManagedAgentsUnrestrictedCredentialNetworkingParams`
 
           Substitute the secret on any host the session's Environment network policy permits egress to. The Environment's network policy is the only boundary on where the secret can reach.
 
-          - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingParamsType`
+          - `Type Unrestricted`
 
         - `type BetaManagedAgentsLimitedCredentialNetworkingParams`
 
           Substitute the secret only on requests to the listed hosts.
 
-          - `Type BetaManagedAgentsLimitedCredentialNetworkingParamsType`
+          - `Type Limited`
 
           - `AllowedHosts []string`
 
-            Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
       - `SecretValue string Optional`
 
-        Updated secret value.
+        The new secret value to replace the stored one.
 
-        minLength: 1, maxLength: 4096
+        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `DisplayName param.Opt[string] Optional`
 
@@ -1346,13 +1401,13 @@ Update Credential
 
     minLength: 1, maxLength: 255
 
-  - `Metadata map[string, string] Optional`
+  - `Metadata map[string]string Optional`
 
     Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omitted keys are preserved.
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -1454,6 +1509,18 @@ Update Credential
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1466,11 +1533,11 @@ Update Credential
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type BetaManagedAgentsCredentialType`
+  - `Type VaultCredential`
 
   - `ID string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `ArchivedAt Time`
 
@@ -1486,7 +1553,7 @@ Update Credential
 
       OAuth credential details for an MCP server.
 
-      - `Type BetaManagedAgentsMCPOAuthAuthResponseType`
+      - `Type MCPOAuth`
 
       - `MCPServerURL string`
 
@@ -1494,7 +1561,7 @@ Update Credential
 
       - `ExpiresAt Time Optional`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -1504,7 +1571,7 @@ Update Credential
 
         - `ClientID string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `TokenEndpoint string`
 
@@ -1516,19 +1583,19 @@ Update Credential
 
             Token endpoint requires no client authentication.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthNoneResponseType`
+            - `Type None`
 
           - `type BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthBasicResponseType`
+            - `Type ClientSecretBasic`
 
           - `type BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthPostResponseType`
+            - `Type ClientSecretPost`
 
         - `Resource string Optional`
 
@@ -1542,7 +1609,7 @@ Update Credential
 
       Static bearer token credential details for an MCP server.
 
-      - `Type BetaManagedAgentsStaticBearerAuthResponseType`
+      - `Type StaticBearer`
 
       - `MCPServerURL string`
 
@@ -1552,7 +1619,7 @@ Update Credential
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type BetaManagedAgentsEnvironmentVariableAuthResponseType`
+      - `Type EnvironmentVariable`
 
       - `InjectionLocation BetaManagedAgentsInjectionLocationResponse`
 
@@ -1574,17 +1641,19 @@ Update Credential
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingResponseType`
+          - `Type Unrestricted`
 
         - `type BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type BetaManagedAgentsLimitedCredentialNetworkingResponseType`
+          - `Type Limited`
 
           - `AllowedHosts []string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `SecretName string`
 
@@ -1596,7 +1665,7 @@ Update Credential
 
     format: date-time
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     Arbitrary key-value metadata attached to the credential.
 
@@ -1623,8 +1692,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -1666,13 +1735,13 @@ func main() {
 }
 ```
 
-## Delete Credential
+## Delete a Credential
 
 `client.Beta.Vaults.Credentials.Delete(ctx, credentialID, params) (*BetaManagedAgentsDeletedCredential, error)`
 
 **DELETE** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Delete Credential
+Delete a Credential
 
 ### Parameters
 
@@ -1688,7 +1757,7 @@ Delete Credential
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -1790,6 +1859,18 @@ Delete Credential
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1802,11 +1883,11 @@ Delete Credential
 
   Confirmation of a deleted credential.
 
-  - `Type BetaManagedAgentsDeletedCredentialType`
+  - `Type VaultCredentialDeletedResponseType`
 
   - `ID string`
 
-    Unique identifier of the deleted credential.
+    The unique ID of the deleted credential (`vcrd_...`).
 
 ### Example
 
@@ -1817,8 +1898,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -1848,13 +1929,13 @@ func main() {
 }
 ```
 
-## Archive Credential
+## Archive a Credential
 
 `client.Beta.Vaults.Credentials.Archive(ctx, credentialID, params) (*BetaManagedAgentsCredential, error)`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/archive`
 
-Archive Credential
+Archive a Credential
 
 ### Parameters
 
@@ -1870,7 +1951,7 @@ Archive Credential
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -1972,6 +2053,18 @@ Archive Credential
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1984,11 +2077,11 @@ Archive Credential
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type BetaManagedAgentsCredentialType`
+  - `Type VaultCredential`
 
   - `ID string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `ArchivedAt Time`
 
@@ -2004,7 +2097,7 @@ Archive Credential
 
       OAuth credential details for an MCP server.
 
-      - `Type BetaManagedAgentsMCPOAuthAuthResponseType`
+      - `Type MCPOAuth`
 
       - `MCPServerURL string`
 
@@ -2012,7 +2105,7 @@ Archive Credential
 
       - `ExpiresAt Time Optional`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -2022,7 +2115,7 @@ Archive Credential
 
         - `ClientID string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `TokenEndpoint string`
 
@@ -2034,19 +2127,19 @@ Archive Credential
 
             Token endpoint requires no client authentication.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthNoneResponseType`
+            - `Type None`
 
           - `type BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthBasicResponseType`
+            - `Type ClientSecretBasic`
 
           - `type BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthPostResponseType`
+            - `Type ClientSecretPost`
 
         - `Resource string Optional`
 
@@ -2060,7 +2153,7 @@ Archive Credential
 
       Static bearer token credential details for an MCP server.
 
-      - `Type BetaManagedAgentsStaticBearerAuthResponseType`
+      - `Type StaticBearer`
 
       - `MCPServerURL string`
 
@@ -2070,7 +2163,7 @@ Archive Credential
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type BetaManagedAgentsEnvironmentVariableAuthResponseType`
+      - `Type EnvironmentVariable`
 
       - `InjectionLocation BetaManagedAgentsInjectionLocationResponse`
 
@@ -2092,17 +2185,19 @@ Archive Credential
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingResponseType`
+          - `Type Unrestricted`
 
         - `type BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type BetaManagedAgentsLimitedCredentialNetworkingResponseType`
+          - `Type Limited`
 
           - `AllowedHosts []string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `SecretName string`
 
@@ -2114,7 +2209,7 @@ Archive Credential
 
     format: date-time
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     Arbitrary key-value metadata attached to the credential.
 
@@ -2141,8 +2236,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -2184,13 +2279,13 @@ func main() {
 }
 ```
 
-## Validate Credential
+## Validate an MCP OAuth Credential
 
 `client.Beta.Vaults.Credentials.MCPOAuthValidate(ctx, credentialID, params) (*BetaManagedAgentsCredentialValidation, error)`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/mcp_oauth_validate`
 
-Validate Credential
+Validate an MCP OAuth Credential
 
 ### Parameters
 
@@ -2206,7 +2301,7 @@ Validate Credential
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -2308,6 +2403,18 @@ Validate Credential
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -2320,7 +2427,7 @@ Validate Credential
 
   Result of live-probing a credential against its configured MCP server.
 
-  - `Type BetaManagedAgentsCredentialValidationType`
+  - `Type VaultCredentialValidation`
 
   - `CredentialID string`
 
@@ -2332,11 +2439,11 @@ Validate Credential
 
   - `MCPProbe BetaManagedAgentsMCPProbe`
 
-    Details of the failing MCP probe step. Null when the probe succeeded.
+    Details of the MCP probe step that failed, or `null` if the probe succeeded or there was no access token to test.
 
     - `HTTPResponse BetaManagedAgentsRefreshHTTPResponse`
 
-      The captured HTTP error response. Null when no HTTP response was received (timeout, DNS, TLS).
+      The HTTP error response from the MCP server, or `null` if the MCP server didn't return one for the failing step, for example after a timeout or a DNS or TLS failure.
 
       - `Body string`
 
@@ -2398,11 +2505,11 @@ Validate Credential
 
     - `const BetaManagedAgentsCredentialValidationStatusInvalid BetaManagedAgentsCredentialValidationStatus = "invalid"`
 
-      The probe reached the MCP server and was rejected, and a refresh (if attempted) did not recover it.
+      The probe reached the MCP server and the server rejected the credential, or no access token is stored. A refresh, if one was tried, didn't recover it. Usually the end user needs to authorize again.
 
     - `const BetaManagedAgentsCredentialValidationStatusUnknown BetaManagedAgentsCredentialValidationStatus = "unknown"`
 
-      The probe could not determine validity — for example, a transport error or a successful refresh that was not re-probed.
+      The probe couldn't tell whether the credential works, for example because of a network error or because a refresh succeeded but the new access token wasn't tested. Validate the credential again to find out.
 
   - `ValidatedAt Time`
 
@@ -2423,8 +2530,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {
@@ -2484,11 +2591,11 @@ func main() {
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type BetaManagedAgentsCredentialType`
+  - `Type VaultCredential`
 
   - `ID string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `ArchivedAt Time`
 
@@ -2504,7 +2611,7 @@ func main() {
 
       OAuth credential details for an MCP server.
 
-      - `Type BetaManagedAgentsMCPOAuthAuthResponseType`
+      - `Type MCPOAuth`
 
       - `MCPServerURL string`
 
@@ -2512,7 +2619,7 @@ func main() {
 
       - `ExpiresAt Time Optional`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -2522,7 +2629,7 @@ func main() {
 
         - `ClientID string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `TokenEndpoint string`
 
@@ -2534,19 +2641,19 @@ func main() {
 
             Token endpoint requires no client authentication.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthNoneResponseType`
+            - `Type None`
 
           - `type BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthBasicResponseType`
+            - `Type ClientSecretBasic`
 
           - `type BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthPostResponseType`
+            - `Type ClientSecretPost`
 
         - `Resource string Optional`
 
@@ -2560,7 +2667,7 @@ func main() {
 
       Static bearer token credential details for an MCP server.
 
-      - `Type BetaManagedAgentsStaticBearerAuthResponseType`
+      - `Type StaticBearer`
 
       - `MCPServerURL string`
 
@@ -2570,7 +2677,7 @@ func main() {
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type BetaManagedAgentsEnvironmentVariableAuthResponseType`
+      - `Type EnvironmentVariable`
 
       - `InjectionLocation BetaManagedAgentsInjectionLocationResponse`
 
@@ -2592,17 +2699,19 @@ func main() {
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingResponseType`
+          - `Type Unrestricted`
 
         - `type BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type BetaManagedAgentsLimitedCredentialNetworkingResponseType`
+          - `Type Limited`
 
           - `AllowedHosts []string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `SecretName string`
 
@@ -2614,7 +2723,7 @@ func main() {
 
     format: date-time
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     Arbitrary key-value metadata attached to the credential.
 
@@ -2640,17 +2749,19 @@ func main() {
 
     Substitute the secret on any host the session's Environment network policy permits egress to. The Environment's network policy is the only boundary on where the secret can reach.
 
-    - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingParamsType`
+    - `Type Unrestricted`
 
   - `type BetaManagedAgentsLimitedCredentialNetworkingParams`
 
     Substitute the secret only on requests to the listed hosts.
 
-    - `Type BetaManagedAgentsLimitedCredentialNetworkingParamsType`
+    - `Type Limited`
 
     - `AllowedHosts []string`
 
-      Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+      The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+      Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
 ### Beta Managed Agents Credential Validation
 
@@ -2658,7 +2769,7 @@ func main() {
 
   Result of live-probing a credential against its configured MCP server.
 
-  - `Type BetaManagedAgentsCredentialValidationType`
+  - `Type VaultCredentialValidation`
 
   - `CredentialID string`
 
@@ -2670,11 +2781,11 @@ func main() {
 
   - `MCPProbe BetaManagedAgentsMCPProbe`
 
-    Details of the failing MCP probe step. Null when the probe succeeded.
+    Details of the MCP probe step that failed, or `null` if the probe succeeded or there was no access token to test.
 
     - `HTTPResponse BetaManagedAgentsRefreshHTTPResponse`
 
-      The captured HTTP error response. Null when no HTTP response was received (timeout, DNS, TLS).
+      The HTTP error response from the MCP server, or `null` if the MCP server didn't return one for the failing step, for example after a timeout or a DNS or TLS failure.
 
       - `Body string`
 
@@ -2736,11 +2847,11 @@ func main() {
 
     - `const BetaManagedAgentsCredentialValidationStatusInvalid BetaManagedAgentsCredentialValidationStatus = "invalid"`
 
-      The probe reached the MCP server and was rejected, and a refresh (if attempted) did not recover it.
+      The probe reached the MCP server and the server rejected the credential, or no access token is stored. A refresh, if one was tried, didn't recover it. Usually the end user needs to authorize again.
 
     - `const BetaManagedAgentsCredentialValidationStatusUnknown BetaManagedAgentsCredentialValidationStatus = "unknown"`
 
-      The probe could not determine validity — for example, a transport error or a successful refresh that was not re-probed.
+      The probe couldn't tell whether the credential works, for example because of a network error or because a refresh succeeded but the new access token wasn't tested. Validate the credential again to find out.
 
   - `ValidatedAt Time`
 
@@ -2764,11 +2875,11 @@ func main() {
 
   - `const BetaManagedAgentsCredentialValidationStatusInvalid BetaManagedAgentsCredentialValidationStatus = "invalid"`
 
-    The probe reached the MCP server and was rejected, and a refresh (if attempted) did not recover it.
+    The probe reached the MCP server and the server rejected the credential, or no access token is stored. A refresh, if one was tried, didn't recover it. Usually the end user needs to authorize again.
 
   - `const BetaManagedAgentsCredentialValidationStatusUnknown BetaManagedAgentsCredentialValidationStatus = "unknown"`
 
-    The probe could not determine validity — for example, a transport error or a successful refresh that was not re-probed.
+    The probe couldn't tell whether the credential works, for example because of a network error or because a refresh succeeded but the new access token wasn't tested. Validate the credential again to find out.
 
 ### Beta Managed Agents Deleted Credential
 
@@ -2776,11 +2887,11 @@ func main() {
 
   Confirmation of a deleted credential.
 
-  - `Type BetaManagedAgentsDeletedCredentialType`
+  - `Type VaultCredentialDeletedResponseType`
 
   - `ID string`
 
-    Unique identifier of the deleted credential.
+    The unique ID of the deleted credential (`vcrd_...`).
 
 ### Beta Managed Agents Environment Variable Auth Response
 
@@ -2788,7 +2899,7 @@ func main() {
 
   Environment variable credential details. The secret value is never returned.
 
-  - `Type BetaManagedAgentsEnvironmentVariableAuthResponseType`
+  - `Type EnvironmentVariable`
 
   - `InjectionLocation BetaManagedAgentsInjectionLocationResponse`
 
@@ -2810,17 +2921,19 @@ func main() {
 
       The secret is substituted on any host the session's Environment network policy permits egress to.
 
-      - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingResponseType`
+      - `Type Unrestricted`
 
     - `type BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
       The secret is substituted only on requests to the listed hosts.
 
-      - `Type BetaManagedAgentsLimitedCredentialNetworkingResponseType`
+      - `Type Limited`
 
       - `AllowedHosts []string`
 
-        Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+        The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+        An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
   - `SecretName string`
 
@@ -2832,7 +2945,7 @@ func main() {
 
   Parameters for creating an environment variable credential.
 
-  - `Type BetaManagedAgentsEnvironmentVariableCreateParamsType`
+  - `Type EnvironmentVariable`
 
   - `Networking BetaManagedAgentsCredentialNetworkingParamsUnion`
 
@@ -2842,29 +2955,31 @@ func main() {
 
       Substitute the secret on any host the session's Environment network policy permits egress to. The Environment's network policy is the only boundary on where the secret can reach.
 
-      - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingParamsType`
+      - `Type Unrestricted`
 
     - `type BetaManagedAgentsLimitedCredentialNetworkingParams`
 
       Substitute the secret only on requests to the listed hosts.
 
-      - `Type BetaManagedAgentsLimitedCredentialNetworkingParamsType`
+      - `Type Limited`
 
       - `AllowedHosts []string`
 
-        Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+        The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+        Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
   - `SecretName string`
 
     Name of the environment variable. Immutable after create.
 
-    minLength: 1, maxLength: 255
+    minLength: 1, maxLength: 255, pattern: ^[A-Z_][A-Z0-9_]*$
 
   - `SecretValue string`
 
-    Secret value. Write-only; never returned in responses.
+    The secret to substitute into the agent's outbound requests. It's write-only and never returned in responses.
 
-    minLength: 1, maxLength: 4096
+    minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `InjectionLocation BetaManagedAgentsInjectionLocationParams Optional`
 
@@ -2884,7 +2999,7 @@ func main() {
 
   Parameters for updating an environment variable credential. `secret_name` is immutable.
 
-  - `Type BetaManagedAgentsEnvironmentVariableUpdateParamsType`
+  - `Type EnvironmentVariable`
 
   - `InjectionLocation BetaManagedAgentsInjectionLocationUpdateParams Optional`
 
@@ -2900,29 +3015,31 @@ func main() {
 
   - `Networking BetaManagedAgentsCredentialNetworkingParamsUnion Optional`
 
-    Updated networking scope. Full replacement.
+    The new networking scope, which replaces the stored one as a whole.
 
     - `type BetaManagedAgentsUnrestrictedCredentialNetworkingParams`
 
       Substitute the secret on any host the session's Environment network policy permits egress to. The Environment's network policy is the only boundary on where the secret can reach.
 
-      - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingParamsType`
+      - `Type Unrestricted`
 
     - `type BetaManagedAgentsLimitedCredentialNetworkingParams`
 
       Substitute the secret only on requests to the listed hosts.
 
-      - `Type BetaManagedAgentsLimitedCredentialNetworkingParamsType`
+      - `Type Limited`
 
       - `AllowedHosts []string`
 
-        Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+        The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+        Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
   - `SecretValue string Optional`
 
-    Updated secret value.
+    The new secret value to replace the stored one.
 
-    minLength: 1, maxLength: 4096
+    minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
 ### Beta Managed Agents Injection Location Params
 
@@ -2956,7 +3073,11 @@ func main() {
 
 - `type BetaManagedAgentsInjectionLocationUpdateParams`
 
-  Updated injection location.
+  Changes which parts of an outbound request the secret is substituted into. A location you leave out keeps its current setting.
+
+  After the change, at least one location must be enabled.
+
+  See [Authenticate with vaults](https://platform.claude.com/docs/en/managed-agents/vaults?sdk_languages=go#add-a-credential) to learn more about injection locations.
 
   - `Body bool Optional`
 
@@ -2972,11 +3093,13 @@ func main() {
 
   Substitute the secret only on requests to the listed hosts.
 
-  - `Type BetaManagedAgentsLimitedCredentialNetworkingParamsType`
+  - `Type Limited`
 
   - `AllowedHosts []string`
 
-    Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+    The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+    Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
 ### Beta Managed Agents Limited Credential Networking Response
 
@@ -2984,11 +3107,13 @@ func main() {
 
   The secret is substituted only on requests to the listed hosts.
 
-  - `Type BetaManagedAgentsLimitedCredentialNetworkingResponseType`
+  - `Type Limited`
 
   - `AllowedHosts []string`
 
-    Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+    The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+    An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
 ### Beta Managed Agents MCP OAuth Auth Response
 
@@ -2996,7 +3121,7 @@ func main() {
 
   OAuth credential details for an MCP server.
 
-  - `Type BetaManagedAgentsMCPOAuthAuthResponseType`
+  - `Type MCPOAuth`
 
   - `MCPServerURL string`
 
@@ -3004,7 +3129,7 @@ func main() {
 
   - `ExpiresAt Time Optional`
 
-    A timestamp in RFC 3339 format
+    When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
     format: date-time
 
@@ -3014,7 +3139,7 @@ func main() {
 
     - `ClientID string`
 
-      OAuth client ID.
+      The OAuth client ID used when refreshing the access token.
 
     - `TokenEndpoint string`
 
@@ -3026,19 +3151,19 @@ func main() {
 
         Token endpoint requires no client authentication.
 
-        - `Type BetaManagedAgentsTokenEndpointAuthNoneResponseType`
+        - `Type None`
 
       - `type BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
         Token endpoint uses HTTP Basic authentication with client credentials.
 
-        - `Type BetaManagedAgentsTokenEndpointAuthBasicResponseType`
+        - `Type ClientSecretBasic`
 
       - `type BetaManagedAgentsTokenEndpointAuthPostResponse`
 
         Token endpoint uses POST body authentication with client credentials.
 
-        - `Type BetaManagedAgentsTokenEndpointAuthPostResponseType`
+        - `Type ClientSecretPost`
 
     - `Resource string Optional`
 
@@ -3054,13 +3179,13 @@ func main() {
 
   Parameters for creating an MCP OAuth credential.
 
-  - `Type BetaManagedAgentsMCPOAuthCreateParamsType`
+  - `Type MCPOAuth`
 
   - `AccessToken string`
 
-    OAuth access token.
+    The OAuth access token to send to the MCP server.
 
-    minLength: 1, maxLength: 8192
+    minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `MCPServerURL string`
 
@@ -3070,7 +3195,9 @@ func main() {
 
   - `ExpiresAt Time Optional`
 
-    A timestamp in RFC 3339 format
+    When `access_token` expires, in RFC 3339.
+
+    Must be in the future.
 
     format: date-time
 
@@ -3080,13 +3207,13 @@ func main() {
 
     - `ClientID string`
 
-      OAuth client ID.
+      The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
 
       minLength: 1, maxLength: 1024
 
     - `RefreshToken string`
 
-      OAuth refresh token.
+      The OAuth refresh token that the API uses to get a new access token when the current one expires.
 
       minLength: 1, maxLength: 8192
 
@@ -3102,17 +3229,17 @@ func main() {
 
         Token endpoint requires no client authentication.
 
-        - `Type BetaManagedAgentsTokenEndpointAuthNoneParamType`
+        - `Type None`
 
       - `type BetaManagedAgentsTokenEndpointAuthBasicParam`
 
         Token endpoint uses HTTP Basic authentication with client credentials.
 
-        - `Type BetaManagedAgentsTokenEndpointAuthBasicParamType`
+        - `Type ClientSecretBasic`
 
         - `ClientSecret string`
 
-          OAuth client secret.
+          The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
           minLength: 1, maxLength: 512
 
@@ -3120,11 +3247,11 @@ func main() {
 
         Token endpoint uses POST body authentication with client credentials.
 
-        - `Type BetaManagedAgentsTokenEndpointAuthPostParamType`
+        - `Type ClientSecretPost`
 
         - `ClientSecret string`
 
-          OAuth client secret.
+          The OAuth client secret, sent to `token_endpoint` in the POST body.
 
           minLength: 1, maxLength: 512
 
@@ -3148,13 +3275,13 @@ func main() {
 
   - `ClientID string`
 
-    OAuth client ID.
+    The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
 
     minLength: 1, maxLength: 1024
 
   - `RefreshToken string`
 
-    OAuth refresh token.
+    The OAuth refresh token that the API uses to get a new access token when the current one expires.
 
     minLength: 1, maxLength: 8192
 
@@ -3170,17 +3297,17 @@ func main() {
 
       Token endpoint requires no client authentication.
 
-      - `Type BetaManagedAgentsTokenEndpointAuthNoneParamType`
+      - `Type None`
 
     - `type BetaManagedAgentsTokenEndpointAuthBasicParam`
 
       Token endpoint uses HTTP Basic authentication with client credentials.
 
-      - `Type BetaManagedAgentsTokenEndpointAuthBasicParamType`
+      - `Type ClientSecretBasic`
 
       - `ClientSecret string`
 
-        OAuth client secret.
+        The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
         minLength: 1, maxLength: 512
 
@@ -3188,11 +3315,11 @@ func main() {
 
       Token endpoint uses POST body authentication with client credentials.
 
-      - `Type BetaManagedAgentsTokenEndpointAuthPostParamType`
+      - `Type ClientSecretPost`
 
       - `ClientSecret string`
 
-        OAuth client secret.
+        The OAuth client secret, sent to `token_endpoint` in the POST body.
 
         minLength: 1, maxLength: 512
 
@@ -3216,7 +3343,7 @@ func main() {
 
   - `ClientID string`
 
-    OAuth client ID.
+    The OAuth client ID used when refreshing the access token.
 
   - `TokenEndpoint string`
 
@@ -3228,19 +3355,19 @@ func main() {
 
       Token endpoint requires no client authentication.
 
-      - `Type BetaManagedAgentsTokenEndpointAuthNoneResponseType`
+      - `Type None`
 
     - `type BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
       Token endpoint uses HTTP Basic authentication with client credentials.
 
-      - `Type BetaManagedAgentsTokenEndpointAuthBasicResponseType`
+      - `Type ClientSecretBasic`
 
     - `type BetaManagedAgentsTokenEndpointAuthPostResponse`
 
       Token endpoint uses POST body authentication with client credentials.
 
-      - `Type BetaManagedAgentsTokenEndpointAuthPostResponseType`
+      - `Type ClientSecretPost`
 
   - `Resource string Optional`
 
@@ -3258,13 +3385,13 @@ func main() {
 
   - `RefreshToken string Optional`
 
-    Updated OAuth refresh token.
+    The new OAuth refresh token to replace the stored one.
 
     minLength: 1, maxLength: 8192
 
   - `Scope string Optional`
 
-    Updated OAuth scope for the refresh request.
+    The new OAuth scope for refresh requests. Send an empty string to clear the stored scope.
 
     maxLength: 8192
 
@@ -3274,11 +3401,13 @@ func main() {
 
       Updated HTTP Basic authentication parameters for the token endpoint.
 
-      - `Type BetaManagedAgentsTokenEndpointAuthBasicUpdateParamType`
+      - `Type ClientSecretBasic`
 
       - `ClientSecret string Optional`
 
-        Updated OAuth client secret.
+        A new OAuth client secret to replace the stored one.
+
+        The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
         minLength: 1, maxLength: 512
 
@@ -3286,11 +3415,13 @@ func main() {
 
       Updated POST body authentication parameters for the token endpoint.
 
-      - `Type BetaManagedAgentsTokenEndpointAuthPostUpdateParamType`
+      - `Type ClientSecretPost`
 
       - `ClientSecret string Optional`
 
-        Updated OAuth client secret.
+        A new OAuth client secret to replace the stored one.
+
+        The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
         minLength: 1, maxLength: 512
 
@@ -3300,17 +3431,21 @@ func main() {
 
   Parameters for updating an MCP OAuth credential. The `mcp_server_url` is immutable.
 
-  - `Type BetaManagedAgentsMCPOAuthUpdateParamsType`
+  - `Type MCPOAuth`
 
   - `AccessToken string Optional`
 
-    Updated OAuth access token.
+    The new OAuth access token to replace the stored one.
 
-    minLength: 1, maxLength: 8192
+    minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `ExpiresAt Time Optional`
 
-    A timestamp in RFC 3339 format
+    When the credential's access token expires, in RFC 3339. Leave it out to keep the stored expiry.
+
+    If you send a new `access_token`, send its `expires_at` too, or the new token keeps the old expiry.
+
+    Must be in the future.
 
     format: date-time
 
@@ -3320,13 +3455,13 @@ func main() {
 
     - `RefreshToken string Optional`
 
-      Updated OAuth refresh token.
+      The new OAuth refresh token to replace the stored one.
 
       minLength: 1, maxLength: 8192
 
     - `Scope string Optional`
 
-      Updated OAuth scope for the refresh request.
+      The new OAuth scope for refresh requests. Send an empty string to clear the stored scope.
 
       maxLength: 8192
 
@@ -3336,11 +3471,13 @@ func main() {
 
         Updated HTTP Basic authentication parameters for the token endpoint.
 
-        - `Type BetaManagedAgentsTokenEndpointAuthBasicUpdateParamType`
+        - `Type ClientSecretBasic`
 
         - `ClientSecret string Optional`
 
-          Updated OAuth client secret.
+          A new OAuth client secret to replace the stored one.
+
+          The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
           minLength: 1, maxLength: 512
 
@@ -3348,11 +3485,13 @@ func main() {
 
         Updated POST body authentication parameters for the token endpoint.
 
-        - `Type BetaManagedAgentsTokenEndpointAuthPostUpdateParamType`
+        - `Type ClientSecretPost`
 
         - `ClientSecret string Optional`
 
-          Updated OAuth client secret.
+          A new OAuth client secret to replace the stored one.
+
+          The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
           minLength: 1, maxLength: 512
 
@@ -3364,7 +3503,7 @@ func main() {
 
   - `HTTPResponse BetaManagedAgentsRefreshHTTPResponse`
 
-    The captured HTTP error response. Null when no HTTP response was received (timeout, DNS, TLS).
+    The HTTP error response from the MCP server, or `null` if the MCP server didn't return one for the failing step, for example after a timeout or a DNS or TLS failure.
 
     - `Body string`
 
@@ -3466,7 +3605,7 @@ func main() {
 
   Static bearer token credential details for an MCP server.
 
-  - `Type BetaManagedAgentsStaticBearerAuthResponseType`
+  - `Type StaticBearer`
 
   - `MCPServerURL string`
 
@@ -3478,13 +3617,13 @@ func main() {
 
   Parameters for creating a static bearer token credential.
 
-  - `Type BetaManagedAgentsStaticBearerCreateParamsType`
+  - `Type StaticBearer`
 
   - `Token string`
 
-    Static bearer token value.
+    The static bearer token to send to the MCP server, such as an API key or personal access token.
 
-    minLength: 1, maxLength: 8192
+    minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `MCPServerURL string`
 
@@ -3498,13 +3637,13 @@ func main() {
 
   Parameters for updating a static bearer token credential. The `mcp_server_url` is immutable.
 
-  - `Type BetaManagedAgentsStaticBearerUpdateParamsType`
+  - `Type StaticBearer`
 
   - `Token string Optional`
 
-    Updated static bearer token value.
+    The new static bearer token to replace the stored one.
 
-    minLength: 1, maxLength: 8192
+    minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
 ### Beta Managed Agents Token Endpoint Auth Basic Param
 
@@ -3512,11 +3651,11 @@ func main() {
 
   Token endpoint uses HTTP Basic authentication with client credentials.
 
-  - `Type BetaManagedAgentsTokenEndpointAuthBasicParamType`
+  - `Type ClientSecretBasic`
 
   - `ClientSecret string`
 
-    OAuth client secret.
+    The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
     minLength: 1, maxLength: 512
 
@@ -3526,7 +3665,7 @@ func main() {
 
   Token endpoint uses HTTP Basic authentication with client credentials.
 
-  - `Type BetaManagedAgentsTokenEndpointAuthBasicResponseType`
+  - `Type ClientSecretBasic`
 
 ### Beta Managed Agents Token Endpoint Auth Basic Update Param
 
@@ -3534,11 +3673,13 @@ func main() {
 
   Updated HTTP Basic authentication parameters for the token endpoint.
 
-  - `Type BetaManagedAgentsTokenEndpointAuthBasicUpdateParamType`
+  - `Type ClientSecretBasic`
 
   - `ClientSecret string Optional`
 
-    Updated OAuth client secret.
+    A new OAuth client secret to replace the stored one.
+
+    The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
     minLength: 1, maxLength: 512
 
@@ -3548,7 +3689,7 @@ func main() {
 
   Token endpoint requires no client authentication.
 
-  - `Type BetaManagedAgentsTokenEndpointAuthNoneParamType`
+  - `Type None`
 
 ### Beta Managed Agents Token Endpoint Auth None Response
 
@@ -3556,7 +3697,7 @@ func main() {
 
   Token endpoint requires no client authentication.
 
-  - `Type BetaManagedAgentsTokenEndpointAuthNoneResponseType`
+  - `Type None`
 
 ### Beta Managed Agents Token Endpoint Auth Post Param
 
@@ -3564,11 +3705,11 @@ func main() {
 
   Token endpoint uses POST body authentication with client credentials.
 
-  - `Type BetaManagedAgentsTokenEndpointAuthPostParamType`
+  - `Type ClientSecretPost`
 
   - `ClientSecret string`
 
-    OAuth client secret.
+    The OAuth client secret, sent to `token_endpoint` in the POST body.
 
     minLength: 1, maxLength: 512
 
@@ -3578,7 +3719,7 @@ func main() {
 
   Token endpoint uses POST body authentication with client credentials.
 
-  - `Type BetaManagedAgentsTokenEndpointAuthPostResponseType`
+  - `Type ClientSecretPost`
 
 ### Beta Managed Agents Token Endpoint Auth Post Update Param
 
@@ -3586,11 +3727,13 @@ func main() {
 
   Updated POST body authentication parameters for the token endpoint.
 
-  - `Type BetaManagedAgentsTokenEndpointAuthPostUpdateParamType`
+  - `Type ClientSecretPost`
 
   - `ClientSecret string Optional`
 
-    Updated OAuth client secret.
+    A new OAuth client secret to replace the stored one.
+
+    The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
     minLength: 1, maxLength: 512
 
@@ -3600,7 +3743,7 @@ func main() {
 
   Substitute the secret on any host the session's Environment network policy permits egress to. The Environment's network policy is the only boundary on where the secret can reach.
 
-  - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingParamsType`
+  - `Type Unrestricted`
 
 ### Beta Managed Agents Unrestricted Credential Networking Response
 
@@ -3608,4 +3751,4 @@ func main() {
 
   The secret is substituted on any host the session's Environment network policy permits egress to.
 
-  - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingResponseType`
+  - `Type Unrestricted`

@@ -18,20 +18,20 @@ Each server carries a `protocolEra` of `legacy`, `auto`, or `modern`. In the web
 | `auto` | Probe `server/discover` first, and fall back to `initialize` on any non-modern outcome. |
 | `modern` | Pin exactly `2026-07-28`. No fallback, so a non-modern server fails loudly. |
 
-<Note>
-  **Why `legacy` is the default, and not `auto`.** A debugging tool must not
-  auto-probe. A `server/discover` probe stalls against silent legacy stdio
-  servers, and it pollutes the recorded transcript you came here to read. Opting
-  into `auto` or `modern` is a deliberate act, so what you see in the Protocol
-  tab is what your server would have seen from a client behaving the way you
-  configured.
-</Note>
+> [!NOTE]
+>
+> **Why `legacy` is the default, and not `auto`.** A debugging tool must not
+> auto-probe. A `server/discover` probe stalls against silent legacy stdio
+> servers, and it pollutes the recorded transcript you came here to read. Opting
+> into `auto` or `modern` is a deliberate act, so what you see in the Protocol
+> tab is what your server would have seen from a client behaving the way you
+> configured.
 
 Once connected, the negotiated era is shown as a badge on the **Protocol** tab's Messages header and in **Connection Info**. On a modern connection, `server/discover` also supplies `capabilities` (including `extensions`), `instructions`, and the list of `supportedVersions`. The server's name and version arrive in the result `_meta` under `io.modelcontextprotocol/serverInfo`.
 
-<Frame caption="Server Settings: the Protocol Era selector, with all three choices.">
-  <img src="https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/settings-protocol-era.png?fit=max&auto=format&n=gk28X8wi_tbRYzej&q=85&s=34566c45f97c8af0e2c0d9ee0493b572" width="3840" height="2160" data-path="images/inspector/settings-protocol-era.png" />
-</Frame>
+![](https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/settings-protocol-era.png?fit=max\&auto=format\&n=gk28X8wi_tbRYzej\&q=85\&s=34566c45f97c8af0e2c0d9ee0493b572)
+
+Server Settings: the Protocol Era selector, with all three choices.
 
 ## Reproducing each era locally
 
@@ -55,59 +55,55 @@ The server prints its URL on stderr. If the config's port is already in use, it 
 
 ## Logging
 
-<Tabs>
-  <Tab title="Legacy">
-    Logging is **session-scoped**. The client sends `logging/setLevel` once, and the server emits `notifications/message` at or above that level for the rest of the session.
+> [tab] Legacy
+>
+> Logging is **session-scoped**. The client sends `logging/setLevel` once, and the server emits `notifications/message` at or above that level for the rest of the session.
+>
+> The **Logs** tab shows a **Set Active Level** selector plus a **Set** button. Choose a level, click Set, and subsequent server logs stream into the panel.
+>
+> Reproduce with `test-servers/configs/logging-legacy-http.json`.
 
-    The **Logs** tab shows a **Set Active Level** selector plus a **Set** button. Choose a level, click Set, and subsequent server logs stream into the panel.
+> [tab] Modern
+>
+> `logging/setLevel` is **gone**. Instead the client opts in **per request**, by stamping `_meta["io.modelcontextprotocol/logLevel"]` on each outgoing request. A server MUST NOT emit `notifications/message` for a request that did not opt in.
+>
+> The **Logs** tab therefore shows a **Log Level per Request** control instead. Pick a level and every subsequent request carries the stamp, visible in the Network tab's request body. Logs emitted while handling a request ride that request's SSE response stream.
+>
+> Set the control to **Off** and the `logLevel` key is omitted entirely, so the same tool call produces no logs at all. That silence is correct behavior, not a bug.
+>
+> The per-server default is `debug` (opted in at the most verbose level, since the Inspector is a debugging tool); set `modernLogLevel: "off"` on a server to opt back out by default.
+>
+> Reproduce with `test-servers/configs/logging-modern-http.json`.
 
-    Reproduce with `test-servers/configs/logging-legacy-http.json`.
-  </Tab>
+![](https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/logs-legacy.png?fit=max\&auto=format\&n=gk28X8wi_tbRYzej\&q=85\&s=ec5fddd86d1fe7ecc1ef83549798f33e)
 
-  <Tab title="Modern">
-    `logging/setLevel` is **gone**. Instead the client opts in **per request**, by stamping `_meta["io.modelcontextprotocol/logLevel"]` on each outgoing request. A server MUST NOT emit `notifications/message` for a request that did not opt in.
+Legacy: the Logs tab offers a session-scoped Set Active Level control, and a log arrives after calling send\_notification.
 
-    The **Logs** tab therefore shows a **Log Level per Request** control instead. Pick a level and every subsequent request carries the stamp, visible in the Network tab's request body. Logs emitted while handling a request ride that request's SSE response stream.
+![](https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/logs-modern.png?fit=max\&auto=format\&n=gk28X8wi_tbRYzej\&q=85\&s=85a1d7118a1e693930aefab8ca6b21a3)
 
-    Set the control to **Off** and the `logLevel` key is omitted entirely, so the same tool call produces no logs at all. That silence is correct behavior, not a bug.
-
-    The per-server default is `debug` (opted in at the most verbose level, since the Inspector is a debugging tool); set `modernLogLevel: "off"` on a server to opt back out by default.
-
-    Reproduce with `test-servers/configs/logging-modern-http.json`.
-  </Tab>
-</Tabs>
-
-<Frame caption="Legacy: the Logs tab offers a session-scoped Set Active Level control, and a log arrives after calling send_notification.">
-  <img src="https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/logs-legacy.png?fit=max&auto=format&n=gk28X8wi_tbRYzej&q=85&s=ec5fddd86d1fe7ecc1ef83549798f33e" width="3840" height="2160" data-path="images/inspector/logs-legacy.png" />
-</Frame>
-
-<Frame caption="Modern: the same tab instead offers Log Level per Request. The level is stamped on every outgoing request, and the log rides that request's stream.">
-  <img src="https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/logs-modern.png?fit=max&auto=format&n=gk28X8wi_tbRYzej&q=85&s=85a1d7118a1e693930aefab8ca6b21a3" width="3840" height="2160" data-path="images/inspector/logs-modern.png" />
-</Frame>
+Modern: the same tab instead offers Log Level per Request. The level is stamped on every outgoing request, and the log rides that request's stream.
 
 ***
 
 ## Resource subscriptions
 
-<Tabs>
-  <Tab title="Legacy">
-    Clicking **Subscribe** on a resource sends `resources/subscribe`. The Subscriptions section lists the URI with no stream chrome. When the resource changes, the server emits `notifications/resources/updated` and the subscribed tile's last-updated time is stamped.
+> [tab] Legacy
+>
+> Clicking **Subscribe** on a resource sends `resources/subscribe`. The Subscriptions section lists the URI with no stream chrome. When the resource changes, the server emits `notifications/resources/updated` and the subscribed tile's last-updated time is stamped.
+>
+> Reproduce with `test-servers/configs/subscriptions-legacy-http.json`, which also serves an `update_resource` tool so you can drive the notification round-trip yourself.
 
-    Reproduce with `test-servers/configs/subscriptions-legacy-http.json`, which also serves an `update_resource` tool so you can drive the notification round-trip yourself.
-  </Tab>
+> [tab] Modern
+>
+> The same **Subscribe** button instead sends **`subscriptions/listen`**, with a filter carrying `resourceSubscriptions` plus whichever `*ListChanged` opt-ins apply (such as `resourcesListChanged`). The subscription is confirmed when the server sends `notifications/subscriptions/acknowledged`.
+>
+> Because the subscription is now a long-lived stream rather than a session flag, the Subscriptions section grows a **stream-status badge** in its header that moves from `Connecting...` to `Listening`. If the stream drops, the badge shows `Reconnecting...` while the Inspector re-sends `subscriptions/listen`. It shows `Stream ended` once the stream closes for good. It shows `Not acknowledged` when the server answers the listen with a plain result and never sends the acknowledgement; the Inspector does not retry in that case.
+>
+> Reproduce with `test-servers/configs/subscriptions-modern-http.json`. To see the `Not acknowledged` state, use `test-servers/configs/subscriptions-never-acknowledged-http.json`. That server acknowledges your first subscription, then refuses every later listen, so subscribing to a second resource trips the badge.
 
-  <Tab title="Modern">
-    The same **Subscribe** button instead sends **`subscriptions/listen`**, with a filter carrying `resourceSubscriptions` plus whichever `*ListChanged` opt-ins apply (such as `resourcesListChanged`). The subscription is confirmed when the server sends `notifications/subscriptions/acknowledged`.
+![](https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/resources-subscriptions-modern.png?fit=max\&auto=format\&n=gk28X8wi_tbRYzej\&q=85\&s=5ca4c64c6783eb210fe54248f03de144)
 
-    Because the subscription is now a long-lived stream rather than a session flag, the Subscriptions section grows a **stream-status badge** in its header that moves from `Connecting...` to `Listening`. If the stream drops, the badge shows `Reconnecting...` while the Inspector re-sends `subscriptions/listen`. It shows `Stream ended` once the stream closes for good. It shows `Not acknowledged` when the server answers the listen with a plain result and never sends the acknowledgement; the Inspector does not retry in that case.
-
-    Reproduce with `test-servers/configs/subscriptions-modern-http.json`. To see the `Not acknowledged` state, use `test-servers/configs/subscriptions-never-acknowledged-http.json`. That server acknowledges your first subscription, then refuses every later listen, so subscribing to a second resource trips the badge.
-  </Tab>
-</Tabs>
-
-<Frame caption="A modern subscription: the Subscriptions section carries a LISTENING stream-status badge that a legacy subscription has no need for.">
-  <img src="https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/resources-subscriptions-modern.png?fit=max&auto=format&n=gk28X8wi_tbRYzej&q=85&s=5ca4c64c6783eb210fe54248f03de144" width="3840" height="2160" data-path="images/inspector/resources-subscriptions-modern.png" />
-</Frame>
+A modern subscription: the Subscriptions section carries a LISTENING stream-status badge that a legacy subscription has no need for.
 
 ***
 
@@ -115,37 +111,35 @@ The server prints its URL on stderr. If the config's port is already in use, it 
 
 Tasks change the most between protocol eras, including *how the Inspector UI tab is gated*.
 
-<Tabs>
-  <Tab title="Legacy">
-    The **Tasks** tab appears when the server advertises `capabilities.tasks`. Run a tool with **Run as task** enabled and the tab lists it, populated by `tasks/list` and polled with `tasks/get`. The completed payload is fetched with a **blocking `tasks/result`**, and **Cancel** sends `tasks/cancel`.
+> [tab] Legacy
+>
+> The **Tasks** tab appears when the server advertises `capabilities.tasks`. Run a tool with **Run as task** enabled and the tab lists it, populated by `tasks/list` and polled with `tasks/get`. The completed payload is fetched with a **blocking `tasks/result`**, and **Cancel** sends `tasks/cancel`.
+>
+> Reproduce with `test-servers/configs/tasks-legacy-http.json`.
 
-    Reproduce with `test-servers/configs/tasks-legacy-http.json`.
-  </Tab>
+> [tab] Modern
+>
+> Tasks are an **extension** (`io.modelcontextprotocol/tasks`, [SEP-2663](https://modelcontextprotocol.io/seps/2663-tasks-extension.md)), so the tab is gated on the server *advertising that extension* rather than on `capabilities.tasks`.
+>
+> There is no **Run as task** control on a modern connection. Task creation is server-directed, so the server decides per request whether `tools/call` returns a `CreateTaskResult` (`resultType: "task"`, visible in the Protocol and Network tabs). The Inspector polls **`tasks/get`** only; there is no `tasks/list`, so **Refresh** re-polls the handles the client already knows about. A completed task **inlines its result**, with no blocking `tasks/result` call.
+>
+> A task that needs more information moves to `input_required` and surfaces an embedded [elicitation](https://modelcontextprotocol.io/specification/draft/client/elicitation.md) in the pending-request modal (the dialog the web client opens whenever a request is waiting on you). Answering it sends **`tasks/update`** carrying the `inputResponses`, and the next poll completes.
+>
+> Reproduce with `test-servers/configs/tasks-modern-http.json` (tools `modern_task` and `modern_input_task`).
 
-  <Tab title="Modern">
-    Tasks are an **extension** (`io.modelcontextprotocol/tasks`, [SEP-2663](/seps/2663-tasks-extension)), so the tab is gated on the server *advertising that extension* rather than on `capabilities.tasks`.
+![](https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/tasks-legacy.png?fit=max\&auto=format\&n=gk28X8wi_tbRYzej\&q=85\&s=777729bfc1b58b359808c8120d9597d3)
 
-    Run a tool as a task and `tools/call` returns a `CreateTaskResult` (`resultType: "task"`, visible in the Protocol and Network tabs). The Inspector polls **`tasks/get`** only; there is no `tasks/list`, so **Refresh** re-polls the handles the client already knows about. A completed task **inlines its result**, with no blocking `tasks/result` call.
+Legacy: the Tasks tab is populated from tasks/list, and the payload is fetched with a blocking tasks/result.
 
-    A task that needs more information moves to `input_required` and surfaces an embedded [elicitation](/specification/draft/client/elicitation) in the pending-request modal (the dialog the web client opens whenever a request is waiting on you). Answering it sends **`tasks/update`** carrying the `inputResponses`, and the next poll completes.
+![](https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/tasks-modern.png?fit=max\&auto=format\&n=gk28X8wi_tbRYzej\&q=85\&s=8e90d128528463fd672537c79db2e1fe)
 
-    Reproduce with `test-servers/configs/tasks-modern-http.json` (tools `modern_task` and `modern_input_task`).
-  </Tab>
-</Tabs>
-
-<Frame caption="Legacy: the Tasks tab is populated from tasks/list, and the payload is fetched with a blocking tasks/result.">
-  <img src="https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/tasks-legacy.png?fit=max&auto=format&n=gk28X8wi_tbRYzej&q=85&s=777729bfc1b58b359808c8120d9597d3" width="3840" height="2160" data-path="images/inspector/tasks-legacy.png" />
-</Frame>
-
-<Frame caption="Modern: the client polls tasks/get on handles it already holds, and the completed task inlines its result; note resultType: complete in the full task object.">
-  <img src="https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/tasks-modern.png?fit=max&auto=format&n=gk28X8wi_tbRYzej&q=85&s=8e90d128528463fd672537c79db2e1fe" width="3840" height="2160" data-path="images/inspector/tasks-modern.png" />
-</Frame>
+Modern: the client polls tasks/get on handles it already holds, and the completed task inlines its result; note resultType: complete in the full task object.
 
 ***
 
 ## Multi-round tool results (MRTR)
 
-On the modern era a tool can return `input_required` instead of a final result, embedding an [elicitation](/specification/draft/client/elicitation), a [sampling](/specification/draft/client/sampling) request, or a [`roots/list`](/specification/draft/client/roots) request. The client answers that embedded request and retries the `tools/call` under a fresh JSON-RPC id until the call reaches `complete`.
+On the modern era a tool can return `input_required` instead of a final result, embedding an [elicitation](https://modelcontextprotocol.io/specification/draft/client/elicitation.md), a [sampling](https://modelcontextprotocol.io/specification/draft/client/sampling.md) request, or a [`roots/list`](https://modelcontextprotocol.io/specification/draft/client/roots) request. The client answers that embedded request and retries the `tools/call` under a fresh JSON-RPC id until the call reaches `complete`.
 
 The Inspector drives MRTR **manually**, so each round pauses at the **pending-request modal**, tagged `input_required`, for you to answer. The Protocol view groups the whole exchange as one MRTR conversation rather than as unrelated calls.
 
@@ -161,16 +155,20 @@ The Inspector drives MRTR **manually**, so each round pauses at the **pending-re
 | `mrtr_empty` | One elicitation round, then completes with an empty result (no `content`, no `structuredContent`). |
 | `mrtr_loop` | Never completes, so the client stops at its `MRTR_MAX_ROUNDS` limit. |
 
-<Note>
-  The legacy pattern of a server calling `server.elicitInput` (the test servers'
-  `collect_elicitation` preset) **errors** on a 2026-07-28 connection, because
-  server-to-client requests aren't allowed there. MRTR is its modern
-  replacement.
-</Note>
+> [!NOTE]
+>
+> The legacy pattern of a server calling `server.elicitInput` (the test servers'
+> `collect_elicitation` preset) **errors** on a 2026-07-28 connection, because
+> server-to-client requests aren't allowed there. MRTR is its modern
+> replacement.
 
-<Frame caption="An MRTR round paused at the pending-request modal, tagged input_required. Answering it retries the original request.">
-  <img src="https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/mrtr-pending-request.png?fit=max&auto=format&n=gk28X8wi_tbRYzej&q=85&s=99f8acb7f845a12aed42bcea4d310fee" width="3840" height="2160" data-path="images/inspector/mrtr-pending-request.png" />
-</Frame>
+![](https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/mrtr-pending-request.png?fit=max\&auto=format\&n=gk28X8wi_tbRYzej\&q=85\&s=99f8acb7f845a12aed42bcea4d310fee)
+
+An MRTR round paused at the pending-request modal, tagged input\_required. Answering it retries the original request.
+
+![](https://mintcdn.com/mcp/pUebPdrb6PY5_mfH/images/inspector/mrtr-protocol-conversation.png?fit=max\&auto=format\&n=pUebPdrb6PY5_mfH\&q=85\&s=b083d8127a7a67028fcd9702b25aeac1)
+
+The monitoring sidebar's Protocol tab after mrtr\_confirm completes. Both tools/call rounds sit inside one MRTR conversation, Round 1 tagged input\_required and Round 2 complete, while unrelated traffic stays outside it.
 
 <Frame caption="The monitoring sidebar's Protocol tab after mrtr_confirm completes. Both tools/call rounds sit inside one MRTR conversation, Round 1 tagged input_required and Round 2 complete, while unrelated traffic stays outside it.">
   <img src="https://mintcdn.com/mcp/pUebPdrb6PY5_mfH/images/inspector/mrtr-protocol-conversation.png?fit=max&auto=format&n=pUebPdrb6PY5_mfH&q=85&s=b083d8127a7a67028fcd9702b25aeac1" width="3840" height="2160" data-path="images/inspector/mrtr-protocol-conversation.png" />
@@ -180,7 +178,7 @@ The Inspector drives MRTR **manually**, so each round pauses at the **pending-re
 
 ## Tools: mirrored headers and excluded tools
 
-[SEP-2243](/seps/2243-http-standardization) lets a tool annotate an argument with `x-mcp-header`, asking a Streamable HTTP client to mirror that argument's value into an `Mcp-Param-*` request header.
+[SEP-2243](https://modelcontextprotocol.io/seps/2243-http-standardization.md) lets a tool annotate an argument with `x-mcp-header`, asking a Streamable HTTP client to mirror that argument's value into an `Mcp-Param-*` request header.
 
 The Inspector surfaces both halves of that contract in the **Tools** tab:
 
@@ -189,16 +187,16 @@ The Inspector surfaces both halves of that contract in the **Tools** tab:
 
 Reproduce with `test-servers/configs/xmcpheader-modern-http.json`.
 
-<Note>
-  On a modern connection the Inspector mirrors `x-mcp-header` arguments into
-  `Mcp-Param-*` headers itself, in all three clients. In the **web** client the
-  headers are added by the Inspector's Node backend, which issues the upstream
-  request, so they reach the server even though the browser never sends them.
-</Note>
+> [!NOTE]
+>
+> On a modern connection the Inspector mirrors `x-mcp-header` arguments into
+> `Mcp-Param-*` headers itself, in all three clients. In the **web** client the
+> headers are added by the Inspector's Node backend, which issues the upstream
+> request, so they reach the server even though the browser never sends them.
 
-<Frame caption="get_weather shows its mirrored city -> Mcp-Param-City header, and the Network sidebar confirms the call carried mcp-param-city: Boston. invalid_header_tool is struck through under the Excluded (SEP-2243) divider.">
-  <img src="https://mintcdn.com/mcp/pUebPdrb6PY5_mfH/images/inspector/tools-sep2243.png?fit=max&auto=format&n=pUebPdrb6PY5_mfH&q=85&s=0e011c3012332c0a74d0f57fc84a5cf2" width="3840" height="2160" data-path="images/inspector/tools-sep2243.png" />
-</Frame>
+![](https://mintcdn.com/mcp/pUebPdrb6PY5_mfH/images/inspector/tools-sep2243.png?fit=max\&auto=format\&n=pUebPdrb6PY5_mfH\&q=85\&s=0e011c3012332c0a74d0f57fc84a5cf2)
+
+get\_weather shows its mirrored city -> Mcp-Param-City header, and the Network sidebar confirms the call carried mcp-param-city: Boston. invalid\_header\_tool is struck through under the Excluded (SEP-2243) divider.
 
 ### `-32602` error panels
 
@@ -213,7 +211,7 @@ The two share one error code, so the Inspector reads the message to tell them ap
 
 ## Network and Protocol: headers and the error taxonomy
 
-The modern era standardizes a set of `Mcp-*` HTTP headers and introduces a richer JSON-RPC error taxonomy ([SEP-2243](/seps/2243-http-standardization) / [SEP-2575](/seps/2575-stateless-mcp)). The two monitoring tabs divide the work:
+The modern era standardizes a set of `Mcp-*` HTTP headers and introduces a richer JSON-RPC error taxonomy ([SEP-2243](https://modelcontextprotocol.io/seps/2243-http-standardization.md) / [SEP-2575](https://modelcontextprotocol.io/seps/2575-stateless-mcp.md)). The two monitoring tabs divide the work:
 
 * The **Network** tab is the HTTP view: mirrored `Mcp-*` headers are highlighted and sentinel values decoded.
 * The **Protocol** tab is the JSON-RPC view: each spec error renders distinctly rather than as a generic failure.
@@ -227,13 +225,21 @@ The modern era standardizes a set of `Mcp-*` HTTP headers and introduces a riche
 | `trigger_unsupported_version` | `400` | `-32022` | Unsupported version; supported versions in `data.supported`. |
 | `trigger_method_not_found` | `404` | `-32601` | Method not found. |
 
-<Frame caption="The Network tab shows the HTTP layer; here, the 400 Bad Request the strict server answered with.">
-  <img src="https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/network-modern-headers.png?fit=max&auto=format&n=gk28X8wi_tbRYzej&q=85&s=7df4c01f5ab68aa7632ac3b5a5866b42" width="3840" height="2160" data-path="images/inspector/network-modern-headers.png" />
-</Frame>
+![](https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/network-modern-headers.png?fit=max\&auto=format\&n=gk28X8wi_tbRYzej\&q=85\&s=7df4c01f5ab68aa7632ac3b5a5866b42)
 
-<Frame caption="The Protocol tab renders the same failure as a typed spec error: -32022 UnsupportedProtocolVersion, with the versions the server does support.">
-  <img src="https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/protocol-modern-error.png?fit=max&auto=format&n=gk28X8wi_tbRYzej&q=85&s=d578ea8262ff327e4d61d3697937900b" width="3840" height="2160" data-path="images/inspector/protocol-modern-error.png" />
-</Frame>
+The Network tab shows the HTTP layer; here, the 400 Bad Request the strict server answered with.
+
+![](https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/protocol-modern-error.png?fit=max\&auto=format\&n=gk28X8wi_tbRYzej\&q=85\&s=d578ea8262ff327e4d61d3697937900b)
+
+The Protocol tab renders the same failure as a typed spec error: -32022 UnsupportedProtocolVersion, with the versions the server does support.
+
+***
+
+## Cancellation
+
+On a legacy connection, cancelling an in-flight tool call sends `notifications/cancelled`. On a modern Streamable HTTP connection the Inspector instead closes that request's own SSE response stream, which is the 2026-07-28 cancellation signal. Over stdio, cancellation is still `notifications/cancelled`.
+
+Reproduce with `test-servers/configs/cancellation-modern-http.json`: run `slow_task`, click **Cancel** after a few seconds, and the server's terminal prints how far the task got before it stopped.
 
 ***
 

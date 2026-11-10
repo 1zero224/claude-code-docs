@@ -7,8 +7,8 @@ description: "Official tools for building with the Claude API: client SDKs in se
 Anthropic provides three kinds of official tooling for building with the Claude API:
 
 * **CLI:** The `ant` command-line tool for shell scripting and interactive use.
-* **Client SDKs:** General-purpose Messages API clients for Python, TypeScript, C#, Go, Java, PHP, and Ruby. Each SDK provides idiomatic interfaces, type safety, and built-in support for streaming, retries, and error handling.
-* **Libraries and integrations:** Packages and compatibility layers that expose Claude inside another framework's API surface rather than the Messages API directly.
+* **Client SDKs:** General-purpose Messages API clients for Python, TypeScript, C#, Go, Java, PHP, and Ruby. They also cover [Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview) and most of the [Admin API](https://platform.claude.com/docs/en/manage-claude/admin-api). Each SDK provides idiomatic interfaces, type safety, and built-in support for streaming, retries, error handling, and [OpenTelemetry tracing](https://platform.claude.com/docs/en/manage-claude/opentelemetry/sdk).
+* **Libraries and integrations:** Packages and compatibility layers that expose Claude inside another framework’s API surface rather than the Messages API directly.
 
 <Info>
   For the full API specification, see the [API reference](https://platform.claude.com/docs/en/api/overview).
@@ -54,13 +54,30 @@ Anthropic provides three kinds of official tooling for building with the Claude 
   </Card>
 </CardGroup>
 
+Each major version of a client SDK sends one [API version](https://platform.claude.com/docs/en/api/versioning) by default. To move to a new API version, upgrade to a new major version. For `2026-10-21`, see [Switch to 2026-10-21](https://platform.claude.com/docs/en/api/migration-2026-10-21#upgrade).
+
+## Latest versions
+
+| Tool       | Latest version | Package                                                                                                     |
+| ---------- | -------------- | ----------------------------------------------------------------------------------------------------------- |
+| ant CLI    | `2.8.0`        | [`github.com/anthropics/anthropic-cli`](https://github.com/anthropics/anthropic-cli/releases)               |
+| Python     | `2.7.0`        | [`anthropic` on PyPI](https://pypi.org/project/anthropic/)                                                  |
+| TypeScript | `1.7.0`        | [`@anthropic-ai/sdk`](https://www.npmjs.com/package/@anthropic-ai/sdk)                                      |
+| C#         | `13.7.0`       | [`Anthropic`](https://www.nuget.org/packages/Anthropic)                                                     |
+| Go         | `2.8.0`        | [`github.com/anthropics/anthropic-sdk-go/v2`](https://pkg.go.dev/github.com/anthropics/anthropic-sdk-go/v2) |
+| Java       | `3.7.0`        | [`com.anthropic:anthropic-java`](https://central.sonatype.com/artifact/com.anthropic/anthropic-java)        |
+| PHP        | `1.7.0`        | [`anthropic-ai/sdk`](https://packagist.org/packages/anthropic-ai/sdk)                                       |
+| Ruby       | `2.7.0`        | [`anthropic` on RubyGems](https://rubygems.org/gems/anthropic)                                              |
+
+The same versions are available as JSON at `https://platform.claude.com/docs/sdk-versions.json`.
+
 ## Libraries and integrations
 
-Libraries and integrations expose Claude through another framework's API surface. They are not general-purpose Messages API clients.
+Libraries and integrations expose Claude through another framework’s API surface. They are not general-purpose Messages API clients.
 
 <CardGroup cols={3}>
   <Card title="Apple Foundation Models" href="https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models">
-    Swift package for Apple's `LanguageModelSession` API
+    Swift package for Apple’s `LanguageModelSession` API
   </Card>
 
   <Card title="OpenAI SDK compatibility" href="https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/openai-sdk">
@@ -70,7 +87,7 @@ Libraries and integrations expose Claude through another framework's API surface
 
 ## Building agents or using Claude Code?
 
-The CLI, client SDKs, and libraries are for calling the Claude API yourself: you send each request and handle each response. Claude Code, the Claude Agent SDK, and Claude Managed Agents work at a higher level, providing the agent loop, tool execution, and runtime.
+The CLI, client SDKs, and libraries are for calling the Claude API yourself. You send each request and handle each response. Claude Code, the Claude Agent SDK, and Claude Managed Agents work at a higher level, providing the agent loop, tool execution, and runtime.
 
 <CardGroup cols={3}>
   <Card title="Claude Code" href="https://code.claude.com/docs/en/overview">
@@ -82,6 +99,6 @@ The CLI, client SDKs, and libraries are for calling the Claude API yourself: you
   </Card>
 
   <Card title="Claude Managed Agents" href="https://platform.claude.com/docs/en/managed-agents/overview">
-    Run agents in Anthropic's managed infrastructure
+    Run agents in Anthropic’s managed infrastructure
   </Card>
 </CardGroup>

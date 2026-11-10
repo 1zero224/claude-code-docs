@@ -4,9 +4,9 @@
 
 # Publishing Remote Servers
 
-<Note>
-  The MCP Registry is currently in preview. Breaking changes or data resets may occur before general availability. If you encounter any issues, please report them on [GitHub](https://github.com/modelcontextprotocol/registry/issues).
-</Note>
+> [!NOTE]
+>
+> The MCP Registry is currently in preview. Breaking changes or data resets may occur before general availability. If you encounter any issues, please report them on [GitHub](https://github.com/modelcontextprotocol/registry/issues).
 
 The MCP Registry supports remote MCP servers via the `remotes` property in `server.json`:
 
@@ -30,7 +30,7 @@ A remote server **MUST** be publicly accessible at its specified URL.
 
 ## Transport Type
 
-Remote servers should use the Streamable HTTP transport. The SSE transport is [deprecated](/specification/draft/deprecated), so publish an `"sse"` remote only to support existing clients. Remote servers can also support both transports simultaneously at different URLs.
+Remote servers should use the Streamable HTTP transport. The SSE transport is [deprecated](https://modelcontextprotocol.io/specification/draft/deprecated.md), so publish an `"sse"` remote only to support existing clients. Remote servers can also support both transports simultaneously at different URLs.
 
 Specify the transport by setting the `type` property of the `remotes` entry to either `"streamable-http"` or `"sse"`:
 

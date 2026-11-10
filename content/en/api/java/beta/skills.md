@@ -121,13 +121,25 @@ Create Skill
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
     Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-  - `List<String> files`
+  - `List<MultipartField<InputStream>> files`
 
     Files to upload for the skill.
 
@@ -155,7 +167,7 @@ Create Skill
 
     The format and length of IDs may change over time.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     ISO 8601 timestamp of when the skill was created.
 
@@ -201,7 +213,7 @@ Create Skill
 
       - `PLUGIN("plugin")`
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     ISO 8601 timestamp of when the skill was last updated.
 
@@ -214,6 +226,7 @@ package com.anthropic.example;
 
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.core.MultipartField;
 import com.anthropic.models.beta.skills.BetaSkill;
 import com.anthropic.models.beta.skills.SkillCreateParams;
 import java.io.ByteArrayInputStream;
@@ -225,7 +238,7 @@ public final class Main {
         AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
         SkillCreateParams params = SkillCreateParams.builder()
-            .addFile(new ByteArrayInputStream("Example data".getBytes()))
+            .addFile(MultipartField.of(new ByteArrayInputStream("Example data".getBytes())))
             .build();
         BetaSkill betaSkill = client.beta().skills().create(params);
     }
@@ -387,6 +400,18 @@ List Skills
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -409,7 +434,7 @@ List Skills
 
     The format and length of IDs may change over time.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     ISO 8601 timestamp of when the skill was created.
 
@@ -455,7 +480,7 @@ List Skills
 
       - `PLUGIN("plugin")`
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     ISO 8601 timestamp of when the skill was last updated.
 
@@ -625,6 +650,18 @@ Get Skill
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -647,7 +684,7 @@ Get Skill
 
     The format and length of IDs may change over time.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     ISO 8601 timestamp of when the skill was created.
 
@@ -693,7 +730,7 @@ Get Skill
 
       - `PLUGIN("plugin")`
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     ISO 8601 timestamp of when the skill was last updated.
 
@@ -858,6 +895,18 @@ Delete Skill
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -944,7 +993,7 @@ public final class Main {
 
     The format and length of IDs may change over time.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     ISO 8601 timestamp of when the skill was created.
 
@@ -990,7 +1039,7 @@ public final class Main {
 
       - `PLUGIN("plugin")`
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     ISO 8601 timestamp of when the skill was last updated.
 
@@ -1143,13 +1192,25 @@ Create Skill Version
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
     Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-  - `List<String> files`
+  - `List<MultipartField<InputStream>> files`
 
     Files to upload for the skill.
 
@@ -1170,7 +1231,7 @@ Create Skill Version
     Unique identifier for this Skill Version. The id addresses the version in
     paths and pins it in references.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     ISO 8601 timestamp of when the skill was created.
 
@@ -1202,6 +1263,7 @@ package com.anthropic.example;
 
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.core.MultipartField;
 import com.anthropic.models.beta.skills.versions.BetaSkillVersion;
 import com.anthropic.models.beta.skills.versions.VersionCreateParams;
 import java.io.ByteArrayInputStream;
@@ -1214,7 +1276,7 @@ public final class Main {
 
         VersionCreateParams params = VersionCreateParams.builder()
             .skillId("skill_id")
-            .addFile(new ByteArrayInputStream("Example data".getBytes()))
+            .addFile(MultipartField.of(new ByteArrayInputStream("Example data".getBytes())))
             .build();
         BetaSkillVersion betaSkillVersion = client.beta().skills().versions().create(params);
     }
@@ -1368,6 +1430,18 @@ List Skill Versions
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1389,7 +1463,7 @@ List Skill Versions
     Unique identifier for this Skill Version. The id addresses the version in
     paths and pins it in references.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     ISO 8601 timestamp of when the skill was created.
 
@@ -1581,6 +1655,18 @@ Download a skill version's content as a zip archive.
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1740,6 +1826,18 @@ Get Skill Version
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1761,7 +1859,7 @@ Get Skill Version
     Unique identifier for this Skill Version. The id addresses the version in
     paths and pins it in references.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     ISO 8601 timestamp of when the skill was created.
 
@@ -1951,6 +2049,18 @@ Delete Skill Version
     - `CE_PLUGINS_2026_09_01("ce-plugins-2026-09-01")`
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
+
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
 
   - `Optional<String> workspaceId` (header parameter)
 

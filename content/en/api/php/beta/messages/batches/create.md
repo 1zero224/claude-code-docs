@@ -21,13 +21,19 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   List of requests for prompt completion. Each is an individual request to create a Message.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `userProfileID?:optional string` (header parameter)
+- `userProfileID?: optional string` (header parameter)
 
-  The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
+  The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -96,6 +102,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Messages\BetaThinkingPrefixMismatchBehavior;
+use Anthropic\Messages\Model;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaMessageBatch = $client->beta->messages->batches->create(
@@ -104,14 +115,7 @@ $betaMessageBatch = $client->beta->messages->batches->create(
       'customID' => 'my-custom-id-1',
       'params' => [
         'maxTokens' => 1024,
-        'messages' => [
-          [
-            'content' => 'Hello, world',
-            'role' => 'user',
-            'clearAt' => 'next_user_message',
-            'outputConfig' => ['effort' => 'low'],
-          ],
-        ],
+        'messages' => [['content' => 'Hello, world', 'role' => 'user']],
         'model' => Model::CLAUDE_OPUS_5_5,
         'cacheControl' => ['type' => 'ephemeral', 'ttl' => '5m'],
         'compaction' => [
@@ -182,7 +186,6 @@ $betaMessageBatch = $client->beta->messages->batches->create(
             ],
           ],
         ],
-        'temperature' => 1,
         'thinking' => [
           'type' => 'adaptive',
           'blockBinding' => [
@@ -190,6 +193,7 @@ $betaMessageBatch = $client->beta->messages->batches->create(
           ],
           'display' => 'summarized',
         ],
+        'thread' => ['type' => 'create'],
         'toolChoice' => ['type' => 'auto', 'disableParallelToolUse' => true],
         'tools' => [
           [
@@ -209,8 +213,6 @@ $betaMessageBatch = $client->beta->messages->batches->create(
             'type' => 'custom',
           ],
         ],
-        'topK' => 5,
-        'topP' => 0.7,
       ],
     ],
   ],

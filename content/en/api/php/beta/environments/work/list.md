@@ -17,17 +17,17 @@ List work items in an environment.
 
 - `environmentID: string` (path parameter)
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of work items to return
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from previous response for pagination
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -93,6 +93,9 @@ List work items in an environment.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 

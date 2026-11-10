@@ -25,6 +25,10 @@ Create Agent
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
+      - `ClaudeFable5_2("claude-fable-5-2")`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
       - `ClaudeHaiku5_5("claude-haiku-5-5")`
 
         Fastest model for high-volume, real-time tasks
@@ -102,6 +106,10 @@ Create Agent
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `ClaudeFable5_2("claude-fable-5-2")`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `ClaudeHaiku5_5("claude-haiku-5-5")`
 
@@ -203,31 +211,31 @@ Create Agent
 
           Low effort. Favors latency over reasoning depth.
 
-          - `required Type Type`
+          - `JsonElement Type = "low"`
 
         - `class BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `required Type Type`
+          - `JsonElement Type = "medium"`
 
         - `class BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `required Type Type`
+          - `JsonElement Type = "high"`
 
         - `class BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `required Type Type`
+          - `JsonElement Type = "xhigh"`
 
         - `class BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `required Type Type`
+          - `JsonElement Type = "max"`
 
       - `string? InferenceGeo`
 
@@ -235,7 +243,7 @@ Create Agent
 
       - `Speed? Speed`
 
-        Inference speed mode. Defaults to `standard`.
+        Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
         - `Standard("standard")`
 
@@ -253,11 +261,15 @@ Create Agent
 
     maxLength: 2048
 
+  - `BetaManagedAgentsExecutionIdentityParams? executionIdentity`
+
+    Execution principal for runs of this agent. Omitting it, sending null, or sending `{"type": "service_account"}` stores the default.
+
   - `IReadOnlyList<BetaManagedAgentsUrlMcpServerParams> mcpServers`
 
     MCP servers this agent connects to. Maximum 20. Names must be unique within the array. Every server must be referenced by an `mcp_toolset` in `tools`; unreferenced servers are rejected. See the [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector?sdk_languages=csharp).
 
-    - `required Type Type`
+    - `JsonElement Type = "url"`
 
     - `required string Name`
 
@@ -287,7 +299,7 @@ Create Agent
 
       An Anthropic-managed skill.
 
-      - `required Type Type`
+      - `JsonElement Type = "anthropic"`
 
       - `required string SkillID`
 
@@ -305,7 +317,7 @@ Create Agent
 
       A user-created custom skill.
 
-      - `required Type Type`
+      - `JsonElement Type = "custom"`
 
       - `required string SkillID`
 
@@ -333,7 +345,7 @@ Create Agent
 
       Configuration for built-in agent tools. Use this to enable or disable groups of tools available to the agent.
 
-      - `required Type Type`
+      - `JsonElement Type = "agent_toolset_20260401"`
 
       - `IReadOnlyList<BetaManagedAgentsAgentToolConfigParams> Configs`
 
@@ -361,13 +373,13 @@ Create Agent
 
               Tool calls are automatically approved without user confirmation.
 
-              - `required Type Type`
+              - `JsonElement Type = "always_allow"`
 
             - `class BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `required Type Type`
+              - `JsonElement Type = "always_ask"`
 
             - `class BetaManagedAgentsAutoPolicy`
 
@@ -721,6 +733,8 @@ Create Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `string? Region`
 
               Region or state name.
@@ -761,7 +775,7 @@ Create Agent
 
       Configuration for tools from an MCP server defined in `mcp_servers`.
 
-      - `required Type Type`
+      - `JsonElement Type = "mcp_toolset"`
 
       - `required string McpServerName`
 
@@ -827,7 +841,7 @@ Create Agent
 
       A custom tool that is executed by the API client rather than the agent. When the agent calls this tool, an `agent.custom_tool_use` event is emitted and the session goes idle, waiting for the client to provide the result via a `user.custom_tool_result` event.
 
-      - `required Type Type`
+      - `JsonElement Type = "custom"`
 
       - `required string Description`
 
@@ -849,11 +863,11 @@ Create Agent
 
         Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-        minLength: 1, maxLength: 128
+        minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
@@ -955,6 +969,18 @@ Create Agent
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -967,7 +993,7 @@ Create Agent
 
   A Managed Agents `agent`.
 
-  - `required Type Type`
+  - `JsonElement Type = "agent"`
 
   - `required string ID`
 
@@ -985,9 +1011,31 @@ Create Agent
 
   - `required string? Description`
 
+  - `required BetaManagedAgentsExecutionIdentity ExecutionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `JsonElement Type = "aws_role"`
+
+      - `required string RoleArn`
+
+        The IAM role's ARN.
+
+    - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `JsonElement Type = "service_account"`
+
   - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
-    - `required Type Type`
+    - `JsonElement Type = "url"`
+
+    - `required string Name`
 
     - `required string Name`
 
@@ -1004,6 +1052,10 @@ Create Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `ClaudeFable5_2("claude-fable-5-2")`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `ClaudeHaiku5_5("claude-haiku-5-5")`
 
@@ -1081,31 +1133,31 @@ Create Agent
 
         Low effort. Favors latency over reasoning depth.
 
-        - `required Type Type`
+        - `JsonElement Type = "low"`
 
       - `class BetaManagedAgentsEffortMedium`
 
         Medium effort. Balances latency and reasoning depth.
 
-        - `required Type Type`
+        - `JsonElement Type = "medium"`
 
       - `class BetaManagedAgentsEffortHigh`
 
         High effort. Favors reasoning depth.
 
-        - `required Type Type`
+        - `JsonElement Type = "high"`
 
       - `class BetaManagedAgentsEffortXhigh`
 
         Extra-high effort. Not all models accept this level.
 
-        - `required Type Type`
+        - `JsonElement Type = "xhigh"`
 
       - `class BetaManagedAgentsEffortMax`
 
         Maximum effort. Favors reasoning depth over latency.
 
-        - `required Type Type`
+        - `JsonElement Type = "max"`
 
     - `string InferenceGeo`
 
@@ -1127,7 +1179,7 @@ Create Agent
 
       Resolved coordinator topology with a concrete agent roster.
 
-      - `required Type Type`
+      - `JsonElement Type = "coordinator"`
 
       - `required IReadOnlyList<Agent> Agents`
 
@@ -1137,7 +1189,7 @@ Create Agent
 
           A resolved agent reference with a concrete version.
 
-          - `required Type Type`
+          - `JsonElement Type = "agent"`
 
           - `required string ID`
 
@@ -1149,7 +1201,7 @@ Create Agent
 
           Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-          - `required Type Type`
+          - `JsonElement Type = "advisor"`
 
           - `required string Model`
 
@@ -1211,7 +1263,7 @@ Create Agent
 
             Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
 
-            - `required Type Type`
+            - `JsonElement Type = "agent"`
 
             - `required string ID`
 
@@ -1243,7 +1295,7 @@ Create Agent
 
             Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
 
-            - `required Type Type`
+            - `JsonElement Type = "agent"`
 
             - `required string ID`
 
@@ -1265,7 +1317,9 @@ Create Agent
 
       A resolved Anthropic-managed skill.
 
-      - `required Type Type`
+      - `JsonElement Type = "anthropic"`
+
+      - `required string SkillID`
 
       - `required string SkillID`
 
@@ -1275,7 +1329,9 @@ Create Agent
 
       A resolved user-created custom skill.
 
-      - `required Type Type`
+      - `JsonElement Type = "custom"`
+
+      - `required string SkillID`
 
       - `required string SkillID`
 
@@ -1287,7 +1343,7 @@ Create Agent
 
     - `class BetaManagedAgentsAgentToolset20260401`
 
-      - `required Type Type`
+      - `JsonElement Type = "agent_toolset_20260401"`
 
       - `required IReadOnlyList<BetaManagedAgentsAgentToolConfig> Configs`
 
@@ -1309,13 +1365,13 @@ Create Agent
 
               Tool calls are automatically approved without user confirmation.
 
-              - `required Type Type`
+              - `JsonElement Type = "always_allow"`
 
             - `class BetaManagedAgentsAlwaysAskPolicy`
 
               Tool calls require user confirmation before execution.
 
-              - `required Type Type`
+              - `JsonElement Type = "always_ask"`
 
             - `class BetaManagedAgentsAutoPolicy`
 
@@ -1611,6 +1667,8 @@ Create Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `string? Region`
 
               Region or state name.
@@ -1647,7 +1705,7 @@ Create Agent
 
     - `class BetaManagedAgentsMcpToolset`
 
-      - `required Type Type`
+      - `JsonElement Type = "mcp_toolset"`
 
       - `required IReadOnlyList<BetaManagedAgentsMcpToolConfig> Configs`
 
@@ -1699,7 +1757,7 @@ Create Agent
 
       A custom tool as returned in API responses.
 
-      - `required Type Type`
+      - `JsonElement Type = "custom"`
 
       - `required string Description`
 
@@ -1730,6 +1788,9 @@ Create Agent
 ## Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Agents;
+
 AgentCreateParams parameters = new()
 {
     Model = BetaManagedAgentsModel.ClaudeOpus5_5,
@@ -1749,6 +1810,9 @@ Console.WriteLine(betaManagedAgentsAgent);
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",

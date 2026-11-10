@@ -19,7 +19,7 @@ List Session Thread Events
 
   - `Optional<String> threadId` (path parameter)
 
-  - `Optional<Long> limit` (query parameter)
+  - `Optional<Integer> limit` (query parameter)
 
     format: int32
 
@@ -27,7 +27,7 @@ List Session Thread Events
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -129,6 +129,18 @@ List Session Thread Events
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -145,7 +157,7 @@ List Session Thread Events
 
     A user message event in the session conversation.
 
-    - `Type type`
+    - `JsonValue type = "user.message"`
 
     - `String id`
 
@@ -159,7 +171,7 @@ List Session Thread Events
 
         Regular text content.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String text`
 
@@ -171,7 +183,7 @@ List Session Thread Events
 
         Image content specified directly as base64 data or as a reference via a URL.
 
-        - `Type type`
+        - `JsonValue type = "image"`
 
         - `Source source`
 
@@ -181,7 +193,7 @@ List Session Thread Events
 
             Base64-encoded image data.
 
-            - `Type type`
+            - `JsonValue type = "base64"`
 
             - `String data`
 
@@ -199,7 +211,7 @@ List Session Thread Events
 
             Image referenced by URL.
 
-            - `Type type`
+            - `JsonValue type = "url"`
 
             - `String url`
 
@@ -211,7 +223,7 @@ List Session Thread Events
 
             Image referenced by file ID.
 
-            - `Type type`
+            - `JsonValue type = "file"`
 
             - `String fileId`
 
@@ -223,7 +235,7 @@ List Session Thread Events
 
         Document content, either specified directly as base64 data, as text, or as a reference via a URL.
 
-        - `Type type`
+        - `JsonValue type = "document"`
 
         - `Source source`
 
@@ -233,7 +245,7 @@ List Session Thread Events
 
             Base64-encoded document data.
 
-            - `Type type`
+            - `JsonValue type = "base64"`
 
             - `String data`
 
@@ -251,7 +263,7 @@ List Session Thread Events
 
             Plain text document content.
 
-            - `Type type`
+            - `JsonValue type = "text"`
 
             - `String data`
 
@@ -259,7 +271,7 @@ List Session Thread Events
 
               minLength: 1
 
-            - `MediaType mediaType`
+            - `JsonValue mediaType = "text/plain"`
 
               MIME type of the text content. Must be "text/plain".
 
@@ -267,7 +279,7 @@ List Session Thread Events
 
             Document referenced by URL.
 
-            - `Type type`
+            - `JsonValue type = "url"`
 
             - `String url`
 
@@ -279,7 +291,7 @@ List Session Thread Events
 
             Document referenced by file ID.
 
-            - `Type type`
+            - `JsonValue type = "file"`
 
             - `String fileId`
 
@@ -299,9 +311,9 @@ List Session Thread Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-        - `Type type`
+        - `JsonValue type = "redacted"`
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the agent finished processing this message.
 
@@ -311,13 +323,13 @@ List Session Thread Events
 
     An interrupt event that pauses agent execution and returns control to the user.
 
-    - `Type type`
+    - `JsonValue type = "user.interrupt"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the interrupt was processed.
 
@@ -331,7 +343,7 @@ List Session Thread Events
 
     A tool confirmation event that approves or denies a pending tool execution.
 
-    - `Type type`
+    - `JsonValue type = "user.tool_confirmation"`
 
     - `String id`
 
@@ -355,7 +367,7 @@ List Session Thread Events
 
       maxLength: 10000
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when the confirmation was processed.
 
@@ -369,7 +381,7 @@ List Session Thread Events
 
     Event sent by the client providing the result of a custom tool execution.
 
-    - `Type type`
+    - `JsonValue type = "user.custom_tool_result"`
 
     - `String id`
 
@@ -399,7 +411,7 @@ List Session Thread Events
 
         A block containing a web search result.
 
-        - `Type type`
+        - `JsonValue type = "search_result"`
 
         - `BetaManagedAgentsSearchResultCitations citations`
 
@@ -413,7 +425,7 @@ List Session Thread Events
 
           Array of text content blocks from the search result.
 
-          - `Type type`
+          - `JsonValue type = "text"`
 
           - `String text`
 
@@ -437,7 +449,7 @@ List Session Thread Events
 
       Whether the tool execution resulted in an error.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this result was processed.
 
@@ -451,7 +463,7 @@ List Session Thread Events
 
     Event emitted when the agent calls a custom tool. The session goes idle until the client sends a `user.custom_tool_result` event with the result. The client can send it as soon as this event arrives, without waiting for `session.status_idle`.
 
-    - `Type type`
+    - `JsonValue type = "agent.custom_tool_use"`
 
     - `String id`
 
@@ -465,7 +477,7 @@ List Session Thread Events
 
       Name of the custom tool being called.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this tool use was processed.
 
@@ -479,7 +491,7 @@ List Session Thread Events
 
     An agent response event in the session conversation.
 
-    - `Type type`
+    - `JsonValue type = "agent.message"`
 
     - `String id`
 
@@ -497,7 +509,7 @@ List Session Thread Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this response was generated.
 
@@ -507,13 +519,13 @@ List Session Thread Events
 
     Indicates the agent is making forward progress via extended thinking. A progress signal, not a content carrier.
 
-    - `Type type`
+    - `JsonValue type = "agent.thinking"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this thinking was produced.
 
@@ -523,7 +535,7 @@ List Session Thread Events
 
     Event emitted when the agent invokes a tool provided by an MCP server.
 
-    - `Type type`
+    - `JsonValue type = "agent.mcp_tool_use"`
 
     - `String id`
 
@@ -541,7 +553,7 @@ List Session Thread Events
 
       Name of the MCP tool being used.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -621,7 +633,7 @@ List Session Thread Events
 
     Event representing the result of an MCP tool execution.
 
-    - `Type type`
+    - `JsonValue type = "agent.mcp_tool_result"`
 
     - `String id`
 
@@ -631,7 +643,7 @@ List Session Thread Events
 
       The id of the `agent.mcp_tool_use` event this result corresponds to.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -665,7 +677,7 @@ List Session Thread Events
 
     Event emitted when the agent invokes a built-in agent tool.
 
-    - `Type type`
+    - `JsonValue type = "agent.tool_use"`
 
     - `String id`
 
@@ -679,7 +691,7 @@ List Session Thread Events
 
       Name of the agent tool being used.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -701,13 +713,13 @@ List Session Thread Events
 
     Event representing the result of an agent tool execution.
 
-    - `Type type`
+    - `JsonValue type = "agent.tool_result"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -745,7 +757,7 @@ List Session Thread Events
 
     Delivery event written to the target thread's input stream when an agent-to-agent message arrives.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_message_received"`
 
     - `String id`
 
@@ -775,7 +787,7 @@ List Session Thread Events
 
       Public `sthr_` ID of the thread that sent the message.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the message was received.
 
@@ -789,7 +801,7 @@ List Session Thread Events
 
     Observability event emitted to the sender's output stream when an agent-to-agent message is sent.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_message_sent"`
 
     - `String id`
 
@@ -815,7 +827,7 @@ List Session Thread Events
 
         Placeholder for content withheld by Anthropic model policy.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the message was sent.
 
@@ -833,13 +845,13 @@ List Session Thread Events
 
     Indicates that context compaction (summarization) occurred during the session.
 
-    - `Type type`
+    - `JsonValue type = "agent.thread_context_compacted"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when compaction was processed.
 
@@ -849,7 +861,7 @@ List Session Thread Events
 
     An error event indicating a problem occurred during session execution.
 
-    - `Type type`
+    - `JsonValue type = "session.error"`
 
     - `String id`
 
@@ -861,7 +873,7 @@ List Session Thread Events
 
         An unknown or unexpected error occurred during session execution. A fallback variant; clients that don't recognize a new error code can match on `retry_status` and `message` alone.
 
-        - `Type type`
+        - `JsonValue type = "unknown_error"`
 
         - `String message`
 
@@ -875,25 +887,25 @@ List Session Thread Events
 
             The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
 
-            - `Type type`
+            - `JsonValue type = "retrying"`
 
           - `class BetaManagedAgentsRetryStatusExhausted`
 
             This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
 
-            - `Type type`
+            - `JsonValue type = "exhausted"`
 
           - `class BetaManagedAgentsRetryStatusTerminal`
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-            - `Type type`
+            - `JsonValue type = "terminal"`
 
       - `class BetaManagedAgentsModelOverloadedError`
 
         The model is currently overloaded. Emitted after automatic retries are exhausted.
 
-        - `Type type`
+        - `JsonValue type = "model_overloaded_error"`
 
         - `String message`
 
@@ -919,7 +931,7 @@ List Session Thread Events
 
         The model request was rate-limited.
 
-        - `Type type`
+        - `JsonValue type = "model_rate_limited_error"`
 
         - `String message`
 
@@ -945,7 +957,7 @@ List Session Thread Events
 
         A model request failed for a reason other than overload or rate-limiting.
 
-        - `Type type`
+        - `JsonValue type = "model_request_failed_error"`
 
         - `String message`
 
@@ -971,7 +983,7 @@ List Session Thread Events
 
         Failed to connect to an MCP server.
 
-        - `Type type`
+        - `JsonValue type = "mcp_connection_failed_error"`
 
         - `String mcpServerName`
 
@@ -1001,7 +1013,7 @@ List Session Thread Events
 
         Authentication to an MCP server failed.
 
-        - `Type type`
+        - `JsonValue type = "mcp_authentication_failed_error"`
 
         - `String mcpServerName`
 
@@ -1031,7 +1043,7 @@ List Session Thread Events
 
         The caller's organization or workspace cannot make model requests — out of credits or spend limit reached. Retrying with the same credentials will not succeed; the caller must resolve the billing state.
 
-        - `Type type`
+        - `JsonValue type = "billing_error"`
 
         - `String message`
 
@@ -1057,7 +1069,7 @@ List Session Thread Events
 
         An `environment_variable` credential's `auth.networking.allowed_hosts` includes a host the environment's network policy does not permit.
 
-        - `Type type`
+        - `JsonValue type = "credential_host_unreachable_error"`
 
         - `String credentialId`
 
@@ -1086,6 +1098,58 @@ List Session Thread Events
         - `String vaultId`
 
           ID of the vault containing the affected credential.
+
+      - `class BetaManagedAgentsToolUseLimitReachedError`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonValue type = "tool_use_limit_reached_error"`
+
+        - `String message`
+
+          Human-readable error description.
+
+        - `RetryStatus retryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `class BetaManagedAgentsCompactionLimitReachedError`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `JsonValue type = "compaction_limit_reached_error"`
+
+        - `String message`
+
+          Human-readable error description.
+
+        - `RetryStatus retryStatus`
+
+          What the client should do next.
+
+          - `class BetaManagedAgentsRetryStatusRetrying`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `class BetaManagedAgentsRetryStatusExhausted`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `class BetaManagedAgentsRetryStatusTerminal`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `class BetaManagedAgentsRepositoryAuthenticationError`
 
@@ -1237,7 +1301,7 @@ List Session Thread Events
 
             The session encountered a terminal error and will transition to `terminated` state.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the error occurred.
 
@@ -1247,13 +1311,13 @@ List Session Thread Events
 
     Indicates the session is recovering from an error state and is rescheduled for execution.
 
-    - `Type type`
+    - `JsonValue type = "session.status_rescheduled"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -1263,13 +1327,13 @@ List Session Thread Events
 
     Indicates the session is actively running and the agent is working.
 
-    - `Type type`
+    - `JsonValue type = "session.status_running"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -1279,13 +1343,13 @@ List Session Thread Events
 
     Indicates the agent has paused and is awaiting user input.
 
-    - `Type type`
+    - `JsonValue type = "session.status_idle"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -1321,13 +1385,13 @@ List Session Thread Events
 
         The agent completed its turn naturally and is ready for the next user message.
 
-        - `Type type`
+        - `JsonValue type = "end_turn"`
 
       - `class BetaManagedAgentsSessionRequiresAction`
 
         The agent is idle waiting on one or more blocking user-input events (tool confirmation, custom tool result, etc.). Resolving all of them transitions the session back to running.
 
-        - `Type type`
+        - `JsonValue type = "requires_action"`
 
         - `List<String> eventIds`
 
@@ -1337,13 +1401,13 @@ List Session Thread Events
 
         The turn ended because repeated errors exhausted the retry budget or an error escalated to `retry_status: 'exhausted'`.
 
-        - `Type type`
+        - `JsonValue type = "retries_exhausted"`
 
       - `class BetaManagedAgentsSessionBudgetReached`
 
         The agent stopped because the session's tracked list cost reached its budget, or because its usage includes a model with no list price (which the budget cannot measure). Raise the budget to continue — or, if raising is rejected because a model has no list price, remove the budget.
 
-        - `Type type`
+        - `JsonValue type = "budget_reached"`
 
       - `class BetaManagedAgentsSessionRefusal`
 
@@ -1355,13 +1419,13 @@ List Session Thread Events
 
     Indicates the session has terminated, either due to an error or completion.
 
-    - `Type type`
+    - `JsonValue type = "session.status_terminated"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of status change.
 
@@ -1371,7 +1435,7 @@ List Session Thread Events
 
     Emitted when a child thread is created. Written to the parent thread's output stream so clients observing the session see child creation.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_created"`
 
     - `String id`
 
@@ -1381,7 +1445,7 @@ List Session Thread Events
 
       Name of the callable agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the thread was created.
 
@@ -1399,13 +1463,13 @@ List Session Thread Events
 
     Emitted when an outcome evaluation cycle begins.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_start"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle. 0 is the first evaluation; 1 is the re-evaluation after the first revision; etc.
 
@@ -1415,7 +1479,7 @@ List Session Thread Events
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when outcome evaluation started.
 
@@ -1425,7 +1489,7 @@ List Session Thread Events
 
     Emitted when an outcome evaluation cycle completes. Carries the verdict and aggregate token usage. A verdict of `needs_revision` means another evaluation cycle follows; `satisfied`, `max_iterations_reached`, `failed`, or `interrupted` are terminal — no further evaluation cycles follow.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_end"`
 
     - `String id`
 
@@ -1435,7 +1499,7 @@ List Session Thread Events
 
       Human-readable explanation of the verdict. For `needs_revision`, describes which criteria failed and why.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
 
@@ -1449,7 +1513,7 @@ List Session Thread Events
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when outcome evaluation ended.
 
@@ -1463,25 +1527,25 @@ List Session Thread Events
 
       Aggregate token usage for this evaluation cycle. Sums across all grader model requests within the cycle.
 
-      - `long cacheCreationInputTokens`
+      - `int cacheCreationInputTokens`
 
         Tokens used to create prompt cache in this request.
 
         format: int32
 
-      - `long cacheReadInputTokens`
+      - `int cacheReadInputTokens`
 
         Tokens read from prompt cache in this request.
 
         format: int32
 
-      - `long inputTokens`
+      - `int inputTokens`
 
         Input tokens consumed by this request.
 
         format: int32
 
-      - `long outputTokens`
+      - `int outputTokens`
 
         Output tokens generated by this request.
 
@@ -1499,13 +1563,13 @@ List Session Thread Events
 
     Emitted when a model request is initiated by the agent.
 
-    - `Type type`
+    - `JsonValue type = "span.model_request_start"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the model request started.
 
@@ -1515,7 +1579,7 @@ List Session Thread Events
 
     Emitted when a model request completes.
 
-    - `Type type`
+    - `JsonValue type = "span.model_request_end"`
 
     - `String id`
 
@@ -1533,7 +1597,7 @@ List Session Thread Events
 
       Token usage for this model request.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the model request completed.
 
@@ -1543,13 +1607,13 @@ List Session Thread Events
 
     Periodic heartbeat emitted while an outcome evaluation cycle is in progress. Distinguishes 'evaluation is actively running' from 'evaluation is stuck' between the corresponding `span.outcome_evaluation_start` and `span.outcome_evaluation_end` events.
 
-    - `Type type`
+    - `JsonValue type = "span.outcome_evaluation_ongoing"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle, matching the corresponding `span.outcome_evaluation_start`.
 
@@ -1559,7 +1623,7 @@ List Session Thread Events
 
       The `outc_` ID of the outcome being evaluated.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this heartbeat was emitted.
 
@@ -1569,7 +1633,7 @@ List Session Thread Events
 
     Echo of a `user.define_outcome` input event. Carries the server-generated `outcome_id` that subsequent `span.outcome_evaluation_*` events reference.
 
-    - `Type type`
+    - `JsonValue type = "user.define_outcome"`
 
     - `String id`
 
@@ -1579,7 +1643,7 @@ List Session Thread Events
 
       What the agent should produce. Copied from the input event.
 
-    - `Optional<Long> maxIterations`
+    - `Optional<Integer> maxIterations`
 
       Evaluate-then-revise cycles before giving up. Default 3, max 20.
 
@@ -1589,7 +1653,7 @@ List Session Thread Events
 
       Server-generated `outc_` ID for this outcome. Referenced by `span.outcome_evaluation_*` events and the session's `outcome_evaluations` list.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the outcome was accepted.
 
@@ -1603,7 +1667,7 @@ List Session Thread Events
 
         Rubric referenced by a file uploaded via the Files API.
 
-        - `Type type`
+        - `JsonValue type = "file"`
 
         - `String fileId`
 
@@ -1613,7 +1677,7 @@ List Session Thread Events
 
         Rubric content provided inline as text.
 
-        - `Type type`
+        - `JsonValue type = "text"`
 
         - `String content`
 
@@ -1623,13 +1687,13 @@ List Session Thread Events
 
     Emitted when a session has been deleted. Terminates any active event stream — no further events will be emitted for this session.
 
-    - `Type type`
+    - `JsonValue type = "session.deleted"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the session was deleted.
 
@@ -1639,7 +1703,7 @@ List Session Thread Events
 
     A session thread has begun executing. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_running"`
 
     - `String id`
 
@@ -1649,7 +1713,7 @@ List Session Thread Events
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -1663,7 +1727,7 @@ List Session Thread Events
 
     A session thread has yielded and is awaiting input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_idle"`
 
     - `String id`
 
@@ -1673,7 +1737,7 @@ List Session Thread Events
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -1713,7 +1777,7 @@ List Session Thread Events
 
     A session thread has terminated and will accept no further input. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_terminated"`
 
     - `String id`
 
@@ -1723,7 +1787,7 @@ List Session Thread Events
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -1737,7 +1801,7 @@ List Session Thread Events
 
     Event sent by the client providing the result of an agent-toolset tool execution. Only valid on `self_hosted` environments, where sandbox-routed tools are executed by the client rather than the server.
 
-    - `Type type`
+    - `JsonValue type = "user.tool_result"`
 
     - `String id`
 
@@ -1771,7 +1835,7 @@ List Session Thread Events
 
       Whether the tool execution resulted in an error.
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this result was processed.
 
@@ -1785,7 +1849,7 @@ List Session Thread Events
 
     A session thread hit a transient error and is retrying automatically. Emitted on the thread's own stream and cross-posted to the primary stream for child threads.
 
-    - `Type type`
+    - `JsonValue type = "session.thread_status_rescheduled"`
 
     - `String id`
 
@@ -1795,7 +1859,7 @@ List Session Thread Events
 
       Name of the agent the thread runs.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp of the status transition.
 
@@ -1809,13 +1873,13 @@ List Session Thread Events
 
     Emitted when an UpdateSession request changed at least one field. Carries only the fields that changed; absent fields were not part of the update. The new configuration applies from the next turn.
 
-    - `Type type`
+    - `JsonValue type = "session.updated"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the update was applied.
 
@@ -1825,15 +1889,37 @@ List Session Thread Events
 
       The session's effective agent configuration after the update. Present only when the update changed `agent` (tools or mcp_servers); when present it is the full materialised snapshot, not a diff.
 
-      - `Type type`
+      - `JsonValue type = "agent"`
 
       - `String id`
 
       - `Optional<String> description`
 
+      - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `JsonValue type = "aws_role"`
+
+          - `String roleArn`
+
+            The IAM role's ARN.
+
+        - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `JsonValue type = "service_account"`
+
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-        - `Type type`
+        - `JsonValue type = "url"`
+
+        - `String name`
 
         - `String name`
 
@@ -1848,6 +1934,10 @@ List Session Thread Events
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -1925,31 +2015,31 @@ List Session Thread Events
 
             Low effort. Favors latency over reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "low"`
 
           - `class BetaManagedAgentsEffortMedium`
 
             Medium effort. Balances latency and reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "medium"`
 
           - `class BetaManagedAgentsEffortHigh`
 
             High effort. Favors reasoning depth.
 
-            - `Type type`
+            - `JsonValue type = "high"`
 
           - `class BetaManagedAgentsEffortXhigh`
 
             Extra-high effort. Not all models accept this level.
 
-            - `Type type`
+            - `JsonValue type = "xhigh"`
 
           - `class BetaManagedAgentsEffortMax`
 
             Maximum effort. Favors reasoning depth over latency.
 
-            - `Type type`
+            - `JsonValue type = "max"`
 
         - `Optional<String> inferenceGeo`
 
@@ -1971,7 +2061,7 @@ List Session Thread Events
 
           Resolved coordinator topology with full agent definitions for each roster member.
 
-          - `Type type`
+          - `JsonValue type = "coordinator"`
 
           - `List<Agent> agents`
 
@@ -1981,15 +2071,19 @@ List Session Thread Events
 
               Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-              - `Type type`
+              - `JsonValue type = "agent"`
 
               - `String id`
 
               - `Optional<String> description`
 
+              - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-                - `Type type`
+                - `JsonValue type = "url"`
 
                 - `String name`
 
@@ -2007,7 +2101,7 @@ List Session Thread Events
 
                   A resolved Anthropic-managed skill.
 
-                  - `Type type`
+                  - `JsonValue type = "anthropic"`
 
                   - `String skillId`
 
@@ -2017,7 +2111,7 @@ List Session Thread Events
 
                   A resolved user-created custom skill.
 
-                  - `Type type`
+                  - `JsonValue type = "custom"`
 
                   - `String skillId`
 
@@ -2029,7 +2123,7 @@ List Session Thread Events
 
                 - `class BetaManagedAgentsAgentToolset20260401`
 
-                  - `Type type`
+                  - `JsonValue type = "agent_toolset_20260401"`
 
                   - `List<BetaManagedAgentsAgentToolConfig> configs`
 
@@ -2051,13 +2145,13 @@ List Session Thread Events
 
                           Tool calls are automatically approved without user confirmation.
 
-                          - `Type type`
+                          - `JsonValue type = "always_allow"`
 
                         - `class BetaManagedAgentsAlwaysAskPolicy`
 
                           Tool calls require user confirmation before execution.
 
-                          - `Type type`
+                          - `JsonValue type = "always_ask"`
 
                         - `class BetaManagedAgentsAutoPolicy`
 
@@ -2301,7 +2395,7 @@ List Session Thread Events
 
                       - `Optional<List<String>> blockedDomains`
 
-                      - `Optional<Long> maxContentTokens`
+                      - `Optional<Integer> maxContentTokens`
 
                         format: int32
 
@@ -2353,6 +2447,8 @@ List Session Thread Events
 
                           Two-letter ISO 3166-1 country code, uppercase.
 
+                          pattern: ^[A-Z]{2}$
+
                         - `Optional<String> region`
 
                           Region or state name.
@@ -2389,7 +2485,7 @@ List Session Thread Events
 
                 - `class BetaManagedAgentsMcpToolset`
 
-                  - `Type type`
+                  - `JsonValue type = "mcp_toolset"`
 
                   - `List<BetaManagedAgentsMcpToolConfig> configs`
 
@@ -2441,7 +2537,7 @@ List Session Thread Events
 
                   A custom tool as returned in API responses.
 
-                  - `Type type`
+                  - `JsonValue type = "custom"`
 
                   - `String description`
 
@@ -2457,7 +2553,7 @@ List Session Thread Events
 
                   - `String name`
 
-              - `long version`
+              - `int version`
 
                 format: int32
 
@@ -2465,7 +2561,7 @@ List Session Thread Events
 
               Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-              - `Type type`
+              - `JsonValue type = "advisor"`
 
               - `String model`
 
@@ -2527,11 +2623,15 @@ List Session Thread Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-                - `Type type`
+                - `JsonValue type = "agent"`
 
                 - `String id`
 
                 - `Optional<String> description`
+
+                - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -2547,7 +2647,7 @@ List Session Thread Events
 
                 - `List<Tool> tools`
 
-                - `long version`
+                - `int version`
 
                   format: int32
 
@@ -2575,11 +2675,15 @@ List Session Thread Events
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-                - `Type type`
+                - `JsonValue type = "agent"`
 
                 - `String id`
 
                 - `Optional<String> description`
+
+                - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -2595,7 +2699,7 @@ List Session Thread Events
 
                 - `List<Tool> tools`
 
-                - `long version`
+                - `int version`
 
                   format: int32
 
@@ -2629,7 +2733,7 @@ List Session Thread Events
 
           A custom tool as returned in API responses.
 
-      - `long version`
+      - `int version`
 
         format: int32
 
@@ -2637,7 +2741,7 @@ List Session Thread Events
 
       The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
-      - `Type type`
+      - `JsonValue type = "limit"`
 
       - `BetaMonetaryAmount maxListCost`
 
@@ -2646,6 +2750,8 @@ List Session Thread Events
         - `String amount`
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+
+          pattern: ^(0|[1-9]\d*)$
 
         - `BetaCurrency currency`
 
@@ -2663,7 +2769,7 @@ List Session Thread Events
 
     A mid-conversation system message event. Carries system-role content that is appended to the session as a `role: "system"` turn.
 
-    - `Type type`
+    - `JsonValue type = "system.message"`
 
     - `String id`
 
@@ -2673,7 +2779,7 @@ List Session Thread Events
 
       System content blocks. Text-only.
 
-      - `Type type`
+      - `JsonValue type = "text"`
 
       - `String text`
 
@@ -2681,7 +2787,7 @@ List Session Thread Events
 
         minLength: 1
 
-    - `Optional<LocalDateTime> processedAt`
+    - `Optional<OffsetDateTime> processedAt`
 
       Timestamp when this system message was processed.
 
@@ -2691,13 +2797,13 @@ List Session Thread Events
 
     Periodic snapshot of the session's cumulative usage and tracked list cost.
 
-    - `Type type`
+    - `JsonValue type = "session.usage"`
 
     - `String id`
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when the snapshot was taken.
 
@@ -2717,25 +2823,25 @@ List Session Thread Events
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `Optional<Long> ephemeral1hInputTokens`
+        - `Optional<Integer> ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
           format: int32
 
-        - `Optional<Long> ephemeral5mInputTokens`
+        - `Optional<Integer> ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
           format: int32
 
-      - `Optional<Long> cacheReadInputTokens`
+      - `Optional<Integer> cacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
         format: int32
 
-      - `Optional<Long> inputTokens`
+      - `Optional<Integer> inputTokens`
 
         Total input tokens consumed across all turns.
 
@@ -2745,7 +2851,7 @@ List Session Thread Events
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `Optional<Long> outputTokens`
+      - `Optional<Integer> outputTokens`
 
         Total output tokens generated across all turns.
 
@@ -2755,13 +2861,13 @@ List Session Thread Events
 
         Cumulative server-executed tool usage across all turns.
 
-        - `Optional<Long> webFetchRequests`
+        - `Optional<Integer> webFetchRequests`
 
           Number of server-executed web fetch requests.
 
           format: int32
 
-        - `Optional<Long> webSearchRequests`
+        - `Optional<Integer> webSearchRequests`
 
           Number of server-executed web search requests.
 
@@ -2805,7 +2911,7 @@ List Session Thread Events
 
         Name that the agent gave the phase, passed on as written.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -2825,7 +2931,7 @@ List Session Thread Events
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -2921,7 +3027,7 @@ List Session Thread Events
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -2949,7 +3055,7 @@ List Session Thread Events
 
       Identifier of the `workflow_run.phase_started` event that opened the phase.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -2973,7 +3079,7 @@ List Session Thread Events
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -2993,7 +3099,7 @@ List Session Thread Events
 
       Unique identifier for this event.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 
@@ -3017,7 +3123,7 @@ List Session Thread Events
 
       Why the run did not finish, or was not created.
 
-    - `LocalDateTime processedAt`
+    - `OffsetDateTime processedAt`
 
       Timestamp when this event was processed.
 

@@ -26,6 +26,9 @@ retention setting on an individual workspace is not reflected.
 
 The organization must belong to the API key's organization hierarchy;
 unknown organizations and organizations outside the hierarchy return 404.
+The verified_domains and identity_providers settings describe the whole
+parent organization and are returned only to API keys that are not
+restricted to a single organization.
 
 ### Path parameters
 
@@ -91,7 +94,7 @@ unknown organizations and organizations outside the hierarchy return 404.
 
 - `organization_id: string`
 
-- `settings: array of Boolean or Integer or String or 3 more`
+- `settings: array of Boolean or Integer or String or 5 more`
 
   - `Boolean object`
 
@@ -101,7 +104,7 @@ unknown organizations and organizations outside the hierarchy return 404.
 
       default: boolean
 
-    - `name: "access_transparency_enabled" or "ai_powered_artifacts_enabled" or "api_workbench_feedback_collection_enabled" or 60 more`
+    - `name: "access_transparency_enabled" or "ai_powered_artifacts_enabled" or "api_workbench_feedback_collection_enabled" or 64 more`
 
       - `"access_transparency_enabled"`
 
@@ -120,6 +123,12 @@ unknown organizations and organizations outside the hierarchy return 404.
       - `"chat_enabled"`
 
       - `"claude_academy_inference_enabled"`
+
+      - `"claude_ai_ccr_support_sharing_enabled"`
+
+      - `"claude_ai_chat_external_sharing_enabled"`
+
+      - `"claude_ai_chat_org_sharing_enabled"`
 
       - `"claude_ai_chat_sharing_enabled"`
 
@@ -157,11 +166,15 @@ unknown organizations and organizations outside the hierarchy return 404.
 
       - `"claude_in_slack_enabled"`
 
+      - `"claude_science_auto_mode_enabled"`
+
       - `"claude_science_custom_connectors_enabled"`
 
       - `"claude_science_custom_skills_enabled"`
 
       - `"claude_science_enabled"`
+
+      - `"claude_science_local_work_import_enabled"`
 
       - `"claude_science_managed_network_allowlist_enabled"`
 
@@ -182,8 +195,6 @@ unknown organizations and organizations outside the hierarchy return 404.
       - `"connector_tools_default_always_allow"`
 
       - `"content_redaction_enabled"`
-
-      - `"cowork_trusted_devices_required"`
 
       - `"desktop_extension_allowlist_enabled"`
 
@@ -354,6 +365,62 @@ unknown organizations and organizations outside the hierarchy return 404.
 
       default: data_retention_periods
 
+  - `VerifiedDomains object`
+
+    The domains verified for the organization's parent organization. The
+    same for every organization under that parent, and returned only to API
+    keys that are not restricted to a single organization.
+
+    - `type: optional "verified_domains"`
+
+      default: verified_domains
+
+    - `value: array of object`
+
+      - `domain: string`
+
+        The verified domain name.
+
+      - `sso_claude_ai_enforced: boolean`
+
+        Whether single sign-on is required to sign in to Claude.ai with an email address on this domain.
+
+      - `sso_console_enforced: boolean`
+
+        Whether single sign-on is required to sign in to the Claude Console with an email address on this domain.
+
+    - `name: optional "verified_domains"`
+
+      default: verified_domains
+
+  - `IdentityProviders object`
+
+    The IdP connections of the organization's parent organization, oldest
+    first. The same for every organization under that parent, and returned
+    only to API keys that are not restricted to a single organization.
+
+    - `type: optional "identity_providers"`
+
+      default: identity_providers
+
+    - `value: array of object`
+
+      - `id: string`
+
+        Unique identifier for the IdP connection.
+
+      - `directory_sync_enabled: boolean`
+
+        Whether directory sync through this IdP connection is enabled.
+
+      - `sso_enabled: boolean`
+
+        Whether single sign-on through this IdP connection is enabled.
+
+    - `name: optional "identity_providers"`
+
+      default: identity_providers
+
 ### Example
 
 ```bash
@@ -458,7 +525,7 @@ curl https://api.anthropic.com/v1/compliance/organizations/$ORGANIZATION_ID/sett
 
   - `organization_id: string`
 
-  - `settings: array of Boolean or Integer or String or 3 more`
+  - `settings: array of Boolean or Integer or String or 5 more`
 
     - `Boolean object`
 
@@ -468,7 +535,7 @@ curl https://api.anthropic.com/v1/compliance/organizations/$ORGANIZATION_ID/sett
 
         default: boolean
 
-      - `name: "access_transparency_enabled" or "ai_powered_artifacts_enabled" or "api_workbench_feedback_collection_enabled" or 60 more`
+      - `name: "access_transparency_enabled" or "ai_powered_artifacts_enabled" or "api_workbench_feedback_collection_enabled" or 64 more`
 
         - `"access_transparency_enabled"`
 
@@ -487,6 +554,12 @@ curl https://api.anthropic.com/v1/compliance/organizations/$ORGANIZATION_ID/sett
         - `"chat_enabled"`
 
         - `"claude_academy_inference_enabled"`
+
+        - `"claude_ai_ccr_support_sharing_enabled"`
+
+        - `"claude_ai_chat_external_sharing_enabled"`
+
+        - `"claude_ai_chat_org_sharing_enabled"`
 
         - `"claude_ai_chat_sharing_enabled"`
 
@@ -524,11 +597,15 @@ curl https://api.anthropic.com/v1/compliance/organizations/$ORGANIZATION_ID/sett
 
         - `"claude_in_slack_enabled"`
 
+        - `"claude_science_auto_mode_enabled"`
+
         - `"claude_science_custom_connectors_enabled"`
 
         - `"claude_science_custom_skills_enabled"`
 
         - `"claude_science_enabled"`
+
+        - `"claude_science_local_work_import_enabled"`
 
         - `"claude_science_managed_network_allowlist_enabled"`
 
@@ -549,8 +626,6 @@ curl https://api.anthropic.com/v1/compliance/organizations/$ORGANIZATION_ID/sett
         - `"connector_tools_default_always_allow"`
 
         - `"content_redaction_enabled"`
-
-        - `"cowork_trusted_devices_required"`
 
         - `"desktop_extension_allowlist_enabled"`
 
@@ -720,3 +795,59 @@ curl https://api.anthropic.com/v1/compliance/organizations/$ORGANIZATION_ID/sett
       - `name: optional "data_retention_periods"`
 
         default: data_retention_periods
+
+    - `VerifiedDomains object`
+
+      The domains verified for the organization's parent organization. The
+      same for every organization under that parent, and returned only to API
+      keys that are not restricted to a single organization.
+
+      - `type: optional "verified_domains"`
+
+        default: verified_domains
+
+      - `value: array of object`
+
+        - `domain: string`
+
+          The verified domain name.
+
+        - `sso_claude_ai_enforced: boolean`
+
+          Whether single sign-on is required to sign in to Claude.ai with an email address on this domain.
+
+        - `sso_console_enforced: boolean`
+
+          Whether single sign-on is required to sign in to the Claude Console with an email address on this domain.
+
+      - `name: optional "verified_domains"`
+
+        default: verified_domains
+
+    - `IdentityProviders object`
+
+      The IdP connections of the organization's parent organization, oldest
+      first. The same for every organization under that parent, and returned
+      only to API keys that are not restricted to a single organization.
+
+      - `type: optional "identity_providers"`
+
+        default: identity_providers
+
+      - `value: array of object`
+
+        - `id: string`
+
+          Unique identifier for the IdP connection.
+
+        - `directory_sync_enabled: boolean`
+
+          Whether directory sync through this IdP connection is enabled.
+
+        - `sso_enabled: boolean`
+
+          Whether single sign-on through this IdP connection is enabled.
+
+      - `name: optional "identity_providers"`
+
+        default: identity_providers

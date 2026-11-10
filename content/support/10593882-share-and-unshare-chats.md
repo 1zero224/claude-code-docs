@@ -22,7 +22,9 @@ When sharing chats that include uploaded files or MCP (Model Context Protocol) i
 
 **MCP tool calls:** When sharing chats that use MCP integrations, the raw data retrieved from MCP tool calls remains hidden in the shared snapshot. Only the final chat output and conversation will be visible to viewers. The underlying tool call data stays private.
 
-This ensures that sensitive information from your files and connected tools is protected, even when you share a chat snapshot.
+This keeps your attached files and raw tool data out of the snapshot.
+
+If Claude used your linked accounts in Personal Finance, the snapshot shows your messages and Claude’s responses, including any figures from your accounts. It can also show a chart or artifact that Claude made, figures included. Learn more in **[Use Personal Finance in Claude](https://support.claude.com/en/articles/18185620-use-personal-finance-with-claude)**.
 
 ## Unshare chats
 
@@ -36,14 +38,14 @@ To unshare a chat:
 
 ## Manage shared chats
 
-Users on free, Pro, or Max plans can review a log of shared chats by navigating to **[Settings > Privacy](https://claude.ai/settings/data-privacy-controls)**. Find the **Privacy settings** section and click “Manage” next to **Shared chats:**
+Users on Free, Pro, Max, or Ultra plans can review a log of shared chats by navigating to **[Settings > Privacy](https://claude.ai/settings/data-privacy-controls)**. Find the **Privacy settings** section and click “Manage” next to **Shared chats:**
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1921669913/7cc7be48cfc7a18f9f469d6cd83c/CleanShot+2026-01-08+at+10_20_43%402x.png?expires=1792008900&amp;signature=7746890065eb975c7871fac11b9387d9a476e5d66a7514bd14d52e423b89c9cf&amp;req=dSklF894lIheWvMW1HO4zWn5HjEdYk1ic9cNIYuX0GFE5aRdDshqHLj0HhY5%0AkbDFWcCygyluzZUw%2FJY%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1921669913/7cc7be48cfc7a18f9f469d6cd83c/CleanShot+2026-01-08+at+10_20_43%402x.png?expires=1794298500&amp;signature=e6dd87a799fea815d6a3856d297335a0ba6e292610af0eda9f5b2ae4242bfcc9&amp;req=dSklF894lIheWvMW1HO4zWn5Hjcfa01uc9cNIYuX0GGhe7PVSBW2pQSfIHZ5%0Atmma7XTibb5fPDvYLHA%3D%0A)
 
 This will open a **Shared chats** modal listing the title, date shared, and link to each chat, allowing you to easily review and access all your previously-shared content. From here, you also have the option to click “Unshare” next to each listed chat to revoke access to the last snapshot you shared:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1624243810/e6fe1d262597446c7fe21dff9f10/AD_4nXdW-GhByF8uKV7fCq9lTbkVB91FglSL6TSyXAOUk_MLcTV9YsEMBMkm9rgm1oXqv0k3sJh1JhlzZP6tHVkKbDJJ71pDRRtM3aVNG64MDuKDIzgmknh-XDZdNa7biTsTdwGoPr5GRg?expires=1792008900&amp;signature=0a5bb77801d1e129868dbc7d952a9e1876d2a6181561a9f042d4ad491e5714bc&amp;req=dSYlEst6noleWfMW1HO4ze44eSVhlBo3guvTv9woD7YS%2FeugdNN9eBW6mcFk%0AiDw%2B7JwWrZomxidTthk%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1624243810/e6fe1d262597446c7fe21dff9f10/AD_4nXdW-GhByF8uKV7fCq9lTbkVB91FglSL6TSyXAOUk_MLcTV9YsEMBMkm9rgm1oXqv0k3sJh1JhlzZP6tHVkKbDJJ71pDRRtM3aVNG64MDuKDIzgmknh-XDZdNa7biTsTdwGoPr5GRg?expires=1794298500&amp;signature=07b9e5f9e55503f624be2513777d17fc99334500f8aadfe338a2a515444a977c&amp;req=dSYlEst6noleWfMW1HO4ze44eSNjnRo7guvTv9woD7al6iLYTJ6M2pI7BS79%0ApLE6a9psGopfHt7hBcY%3D%0A)
 
 If you don’t have any shared chat snapshots, the **Shared chats** modal will show “No shared content found”:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1624243808/b025db8e598f0c88fb16d83d48d5/AD_4nXeUwCKnmFzzrjMHhfr5By4zk5pJlkEn3wbJ8-aNfu13Yl99IjBywpqPx9G07QRzpH1EwRY7uG7Q9m9fib98Gql1cIV7XwUCTzEgBNu79Ey8tCOS5CEVmwveIcEOxJ4fonBhe3g9MA?expires=1792008900&amp;signature=8807c755ef2e12aff6591031bcede711a1efe468c4267c0b4353b487d6eaa609&amp;req=dSYlEst6nolfUfMW1HO4zdaFnMd0gYG4DeZsm0Gz1HviztIHeJZBFazi41OA%0AoGVaRHDMS4GBF0Ms9rY%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1624243808/b025db8e598f0c88fb16d83d48d5/AD_4nXeUwCKnmFzzrjMHhfr5By4zk5pJlkEn3wbJ8-aNfu13Yl99IjBywpqPx9G07QRzpH1EwRY7uG7Q9m9fib98Gql1cIV7XwUCTzEgBNu79Ey8tCOS5CEVmwveIcEOxJ4fonBhe3g9MA?expires=1794298500&amp;signature=e544f3297b71834e94dd2d802d25801eb3255b75793e928c902228ee14b39114&amp;req=dSYlEst6nolfUfMW1HO4zdaFnMF2iIG0DeZsm0Gz1HsEKEmE7XX1685TyajX%0AMkvNTZ5RbsWF2pIlcpw%3D%0A)

@@ -22,7 +22,7 @@ Users with Standard seats on the Team plan can access the following:
 
   - **Role-based permissioning:** Customize access levels and control user privileges across your organization.
 
-- **Spend controls:** Set spending caps at organization and individual user levels.
+- **Spend controls:** Set spending caps for your organization, and for individual users where available.
 
 - **Enterprise search capabilities:** Dedicated search project for unified knowledge access.
 
@@ -36,7 +36,7 @@ Users with Standard seats on the Team plan can access the following:
 
 - **Connectors for your workplace tools:** Connect Claude to Google Drive, Gmail, Google Calendar, GitHub, Microsoft 365, and Slack to search and retrieve context from your existing documents, emails, calendars, and team communications—without manual uploads.
 
-- **Monthly API credits:** Claude Max and Team plans include monthly credits for the Claude API. Learn more about **[monthly API credits for Max and Team plans](https://support.claude.com/en/articles/17154008)**.
+- **Monthly API credits:** Claude Max, Ultra, and Team plans include monthly credits for the Claude API. Learn more about **[monthly API credits for Max, Ultra, and Team plans](https://support.claude.com/en/articles/17154008)**.
 
 - **Everything in Pro, including:**
 
@@ -113,6 +113,8 @@ This means:
 - If one team member reaches their seat's included usage limit, it does not affect the limits of other team members.
 
 - Other team members can continue to use the service even if one member has reached their seat's included limit.
+
+- Usage limits can't be transferred or shared between team members. Each seat is for one named individual. Learn more about **[who can use a seat](https://support.claude.com/en/articles/12004354-purchase-and-manage-seats-on-team-plans#h_b8a7d07129)**.
 
 ### How do I increase my Team plan usage limits?
 

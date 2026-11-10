@@ -33,7 +33,7 @@ On plans that draw members from a finite pool of purchased seats, the invite aut
 
   Role for the invited User.
 
-  The accepted values depend on the organization type. Console and API organizations accept `user`, `developer`, `billing`, and `claude_code_user`; `admin` cannot be assigned through the API. Claude Enterprise organizations accept `user` and `managed`.
+  The accepted values depend on the organization type. Console and API organizations accept `user`, `developer`, `billing`, and `claude_code_user`; `admin` cannot be assigned through the API. Claude Enterprise organizations accept `user` and `managed`; inviting with the `managed` role requires the `write:rbac_groups` scope in addition to `write:members`.
 
   - `"billing"`
 
@@ -132,8 +132,8 @@ On plans that draw members from a finite pool of purchased seats, the invite aut
 ```bash
 curl https://api.anthropic.com/v1/organizations/invites \
     -H 'Content-Type: application/json' \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY" \
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
           "email": "user@emaildomain.com",
           "role": "user"
@@ -304,8 +304,8 @@ List the organization's invites.
 
 ```bash
 curl https://api.anthropic.com/v1/organizations/invites \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -433,8 +433,8 @@ Retrieve an invite by ID.
 
 ```bash
 curl https://api.anthropic.com/v1/organizations/invites/$INVITE_ID \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -494,8 +494,8 @@ Delete a pending invite.
 ```bash
 curl https://api.anthropic.com/v1/organizations/invites/$INVITE_ID \
     -X DELETE \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 #### Response (200)
@@ -508,6 +508,38 @@ curl https://api.anthropic.com/v1/organizations/invites/$INVITE_ID \
 ```
 
 ## Domain types
+
+### Already Member Error Details
+
+- `AlreadyMemberErrorDetails object`
+
+  The email address already belongs to a user in the organization. The message names the user.
+
+  - `error_code: "already_member"`
+
+### Cannot Invite Emails With Unverified Domains Error Details
+
+- `CannotInviteEmailsWithUnverifiedDomainsErrorDetails object`
+
+  The email address's domain is not one of the verified domains of the organization's parent organization.
+
+  - `error_code: "cannot_invite_emails_with_unverified_domains"`
+
+### Email Domain Not Allowed Error Details
+
+- `EmailDomainNotAllowedErrorDetails object`
+
+  The organization restricts invites to an allowed list of email domains, and the list is empty or does not include the email address's domain.
+
+  - `error_code: "email_domain_not_allowed"`
+
+### Invite Already Exists Error Details
+
+- `InviteAlreadyExistsErrorDetails object`
+
+  A pending invite already exists for the email address. The message names the invite.
+
+  - `error_code: "invite_already_exists"`
 
 ### Organization Invite
 

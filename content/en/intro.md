@@ -19,9 +19,9 @@ To learn more about each, see [Using the Messages API](https://platform.claude.c
 
 ## Explore the latest generation of Claude models
 
-If you're unsure which model to use, start with [Claude Opus 5.5](https://platform.claude.com/docs/en/models/opus-5-5/overview) for most workloads. Use [Claude Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/overview) for demanding reasoning and long-horizon agentic work, or when your evals on Claude Opus 5.5 at higher effort still fall short. All current models support text and image input, text output, multilingual capabilities, vision, and tool use. Each model's page lists the platforms it's available on.
+If you’re unsure which model to use, start with [Claude Opus 5.5](https://platform.claude.com/docs/en/models/opus-5-5/overview) for most workloads. Use [Claude Fable 5.2](https://platform.claude.com/docs/en/models/fable-5-2/overview) for demanding reasoning and long-horizon agentic work, or when your evals on Claude Opus 5.5 at higher effort still fall short. All current models support text and image input, text output, multilingual capabilities, vision, and tool use. Each model’s page lists the platforms it’s available on.
 
-* [Claude Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/overview) (`claude-fable-5-1`) — New — *For demanding reasoning and long-horizon agentic work* — Most capable · Research · Multi-day tasks
+* [Claude Fable 5.2](https://platform.claude.com/docs/en/models/fable-5-2/overview) (`claude-fable-5-2`) — New — *For demanding reasoning and long-horizon agentic work* — Most capable · Research · Multi-day tasks
 * [Claude Opus 5.5](https://platform.claude.com/docs/en/models/opus-5-5/overview) (`claude-opus-5-5`) — New — *For long-running agentic coding and knowledge work* — Complex projects · Agents · Coding
 * [Claude Sonnet 5.5](https://platform.claude.com/docs/en/models/sonnet-5-5/overview) (`claude-sonnet-5-5`) — New — *The best combination of speed and intelligence* — Everyday tasks · Writing · Cost-efficient
 * [Claude Haiku 5.5](https://platform.claude.com/docs/en/models/haiku-5-5/overview) (`claude-haiku-5-5`) — New — *For high-volume, latency-sensitive tasks such as classification, extraction, and routing* — Fastest · Lowest cost · High volume
@@ -32,7 +32,7 @@ If you're unsure which model to use, start with [Claude Opus 5.5](https://platfo
 
 ## Recommended path for new developers
 
-Follow these steps to go from zero to a working Claude integration.
+Follow these steps to build a working Claude integration.
 
 <Steps>
   <Step title="Make your first API call">
@@ -73,11 +73,11 @@ Follow these steps to go from zero to a working Claude integration.
 Anthropic provides developer tools to help you build and scale applications with Claude.
 
 <CardGroup cols={3}>
-  <Card title="Developer Console" icon="computer" href="https://platform.claude.com/">
+  <Card title="Claude Console" icon="computer" href="https://platform.claude.com/">
     Explore and understand the API in your browser with playground.
   </Card>
 
-  <Card title="API Reference" icon="code" href="https://platform.claude.com/docs/en/api/overview">
+  <Card title="API reference" icon="code" href="https://platform.claude.com/docs/en/api/overview">
     Explore the full Claude API and client SDK documentation.
   </Card>
 
@@ -90,7 +90,7 @@ Anthropic provides developer tools to help you build and scale applications with
 
 ## Key capabilities
 
-Claude can assist with many tasks that involve text, code, and images.
+Claude can help with many tasks that involve text, code, and images.
 
 <CardGroup cols={2}>
   <Card title="Text and code generation" icon="text-aa" href="https://platform.claude.com/docs/en/build-with-claude/overview">
@@ -111,7 +111,7 @@ Claude can assist with many tasks that involve text, code, and images.
     Find answers to frequently asked account and billing questions.
   </Card>
 
-  <Card title="Service Status" icon="chart" href="https://status.claude.com">
+  <Card title="Service status" icon="chart" href="https://status.claude.com">
     Check the status of Anthropic services.
   </Card>
 </CardGroup>

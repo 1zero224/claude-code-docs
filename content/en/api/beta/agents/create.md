@@ -13,9 +13,13 @@ Create Agent
 
 - `"anthropic-version": optional string`
 
+  The version of the Claude API you want to use.
+
+  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+
 - `"anthropic-beta": optional array of AnthropicBeta`
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `string`
 
@@ -119,6 +123,18 @@ Create Agent
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 - `"anthropic-workspace-id": optional string`
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -131,11 +147,15 @@ Create Agent
 
   Model identifier. Accepts the [model string](https://platform.claude.com/docs/en/about-claude/models/overview?sdk_languages=http#latest-models-comparison), e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration control
 
-  - `BetaManagedAgentsModel = "claude-haiku-5-5" or "claude-sonnet-5-5" or "claude-opus-5-5" or 14 more or string`
+  - `BetaManagedAgentsModel = "claude-fable-5-2" or "claude-haiku-5-5" or "claude-sonnet-5-5" or 15 more or string`
 
     The model that will power your agent.
 
     See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+    - `"claude-fable-5-2"`
+
+      Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
     - `"claude-haiku-5-5"`
 
@@ -277,7 +297,7 @@ Create Agent
 
     - `speed: optional "standard" or "fast" or null`
 
-      Inference speed mode. Defaults to `standard`.
+      Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
       - `"standard"`
 
@@ -294,6 +314,28 @@ Create Agent
   Description of what the agent does.
 
   maxLength: 2048
+
+- `execution_identity: optional BetaManagedAgentsExecutionIdentityParams or null`
+
+  Execution principal for runs of this agent. Omitting it, sending null, or sending `{"type": "service_account"}` stores the default.
+
+  - `BetaManagedAgentsAWSRoleExecutionIdentityParams object`
+
+    An AWS IAM role principal.
+
+    - `type: "aws_role"`
+
+    - `role_arn: string`
+
+      The IAM role's ARN, e.g. "arn:aws:iam::123456789012:role/my-agent-runner". Maximum 2048 characters.
+
+      maxLength: 2048, pattern: ^arn:aws(-[a-z]+)*:iam::[0-9]{12}:role/[\w+=,.@/-]+$
+
+  - `BetaManagedAgentsServiceAccountExecutionIdentityParams object`
+
+    The Anthropic-managed service account — the default execution principal. Carries no identifier.
+
+    - `type: "service_account"`
 
 - `mcp_servers: optional array of BetaManagedAgentsURLMCPServerParams`
 
@@ -919,6 +961,8 @@ Create Agent
 
             Two-letter ISO 3166-1 country code, uppercase.
 
+            pattern: ^[A-Z]{2}$
+
           - `region: optional string or null`
 
             Region or state name.
@@ -1047,7 +1091,7 @@ Create Agent
 
       Unique name for the tool. 1-128 characters; letters, digits, underscores, and hyphens.
 
-      minLength: 1, maxLength: 128
+      minLength: 1, maxLength: 128, pattern: ^[a-zA-Z0-9_-]{1,128}$
 
 ## Returns
 
@@ -1073,6 +1117,26 @@ Create Agent
 
   - `description: string or null`
 
+  - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+    - `BetaManagedAgentsAWSRoleExecutionIdentity object`
+
+      An AWS IAM role principal as returned in API responses.
+
+      - `type: "aws_role"`
+
+      - `role_arn: string`
+
+        The IAM role's ARN.
+
+    - `BetaManagedAgentsServiceAccountExecutionIdentity object`
+
+      The Anthropic-managed service account as returned in API responses.
+
+      - `type: "service_account"`
+
   - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
     - `type: "url"`
@@ -1092,6 +1156,10 @@ Create Agent
       The model that will power your agent.
 
       See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+      - `"claude-fable-5-2"`
+
+        Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
       - `"claude-haiku-5-5"`
 
@@ -1701,6 +1769,8 @@ Create Agent
 
               Two-letter ISO 3166-1 country code, uppercase.
 
+              pattern: ^[A-Z]{2}$
+
             - `region: optional string or null`
 
               Region or state name.
@@ -1822,15 +1892,21 @@ Create Agent
 ```bash
 curl https://api.anthropic.com/v1/agents \
     -H 'Content-Type: application/json' \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY" \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
           "model": "claude-opus-5-5",
           "name": "My First Agent",
           "description": "A general-purpose starter agent.",
           "metadata": {
             "foo": "bar"
+          },
+          "multiagent": {
+            "type": "multiagent_20261001",
+            "workflows": {
+              "type": "enabled"
+            }
           },
           "system": "You are a general-purpose agent that can research, write code, run commands, and use connected tools to complete the user'\''s task end to end.",
           "tools": [
@@ -1849,6 +1925,9 @@ curl https://api.anthropic.com/v1/agents \
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",

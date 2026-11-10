@@ -1,6 +1,6 @@
 # Use plugins in Claude
 
-Plugins are available to all paid plans (Pro, Max, Team, Enterprise).
+Plugins are available to all paid plans (Pro, Max, Ultra, Team, Enterprise).
 
 Plugins customize how Claude works for your role, team, and company. Each plugin bundles skills, connectors, and sub-agents into a single package, so you get a ready-to-go setup from your first conversation instead of configuring each piece yourself.
 
@@ -56,9 +56,9 @@ For the full collection of Anthropic-built plugins, visit **[GitHub](https://git
 
 In Cowork, open the "Cowork" tab first, then open **Customize**.
 
-You can also upload a custom plugin file if you built one yourself. On Team and Enterprise plans, a colleague can share a plugin with you directly instead of sending you the file. See **[Use a plugin shared with you](#h_ef985546b4)** below. Plugins you add in Claude on the web or in Claude Desktop are saved to your account, not to your computer, so they follow you to chat, Cowork, and Claude Code.
+You can also upload a custom plugin file if you built one yourself. On Team and Enterprise plans, a colleague can share a plugin with you directly instead of sending you the file. See **[Use a plugin shared with you](https://support.claude.com/en/articles/13837440-use-plugins-in-claude#h_ef985546b4)** below. Plugins you add in Claude on the web or in Claude Desktop are saved to your account, not to your computer, so they follow you to chat, Cowork, and Claude Code.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2100409211/fc01614dde1a616fa31ffaa9cb04/47bacf5b-a810-45b5-a468-9769f1a58ef8?expires=1792008900&amp;signature=95bb348c9e1abd1b8004238d421482e7be02347100cbb27515bf5b979007d6ef&amp;req=diEnFs1%2BlINeWPMW1HO4zZF3IxfdM%2F1cxakFVfq5WwwL0bD%2F4rnNCXs7nSu6%0AIC2b32z4KBn5TDUAcMU%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2100409211/fc01614dde1a616fa31ffaa9cb04/47bacf5b-a810-45b5-a468-9769f1a58ef8?expires=1794298500&amp;signature=fabe12b4bdc869d5f5d39a3aa429ec3c860470c43f71c013f64f2c32d3b2eb6b&amp;req=diEnFs1%2BlINeWPMW1HO4zZF3IxHfOv1QxakFVfq5Wwxtk9nPdFdS43Iwx%2Bb2%0AWLaPG0PUyHB34rA3b9w%3D%0A)
 
 If you're on the Enterprise plan and your organization has skill scanning turned on, plugins are checked for malicious content when they're installed or updated. A plugin with malicious content is blocked, and one that may carry risk shows a caution banner. Learn more about **[skill and plugin scanning](https://support.claude.com/en/articles/15927065)**.
 
@@ -68,7 +68,7 @@ If you're on the Enterprise plan and your organization has skill scanning turned
 
 Each plugin you add brings skills and commands you can use while working with Claude. Type "/" or click the "+" button to see the available skills from your plugins, in chat and in Cowork. In Cowork, you can also run a plugin's command by typing `/plugin-name:command`. Click any skill to see its details.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2157396844/4a790e10f5b88df770783df1d7e9/image.png?expires=1792008900&amp;signature=cfd1e8886adb7640cdfea667ef55ca1d456be33ee428716380fa3f452c034aed&amp;req=diEiEcp3m4lbXfMW1HO4zf4NBfT8g0idmKUxugP2BQtQqhIFLRFDKeBSXIsl%0A1ssNl5dSPCpIWc0Oh1U%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2157396844/4a790e10f5b88df770783df1d7e9/image.png?expires=1794298500&amp;signature=47d0540c468a3fda9891c74c79535557cdb868032798239ffce621d20f3c1161&amp;req=diEiEcp3m4lbXfMW1HO4zf4NBfL%2BikiRmKUxugP2BQt43ZxrPWUTw8nKEea0%0A2w14imKXug%2FlTurSU4Q%3D%0A)
 
 ---
 

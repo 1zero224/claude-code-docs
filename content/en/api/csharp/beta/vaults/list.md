@@ -17,7 +17,7 @@ List Vaults
 
   - `bool includeArchived` (query parameter)
 
-    Whether to include archived vaults in the results.
+    Whether to include archived vaults in the results. Defaults to `false`.
 
   - `int limit` (query parameter)
 
@@ -27,11 +27,11 @@ List Vaults
 
   - `string page` (query parameter)
 
-    Opaque pagination token from a previous `list_vaults` response.
+    The `next_page` value from a previous [List Vaults](https://platform.claude.com/docs/en/api/beta/vaults/list?sdk_languages=csharp) response, to get the next page. Leave it out to get the first page.
 
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
 
@@ -133,6 +133,18 @@ List Vaults
 
     - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `string workspaceID` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -145,11 +157,11 @@ List Vaults
 
   A vault that stores credentials for use by agents during sessions.
 
-  - `required Type Type`
+  - `JsonElement Type = "vault"`
 
   - `required string ID`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
   - `required DateTimeOffset? ArchivedAt`
 
@@ -180,6 +192,9 @@ List Vaults
 ## Example
 
 ```csharp
+using System;
+using Anthropic.Models.Beta.Vaults;
+
 VaultListParams parameters = new();
 
 var page = await client.Beta.Vaults.List(parameters);

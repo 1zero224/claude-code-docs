@@ -6,15 +6,15 @@
 
 > Make OAuth sign-in work for MCP servers reached through an MCP tunnel when the authorization server or identity provider is inside your network.
 
-<Note>
-  MCP tunnels are in research preview and are available to organizations on the Claude Enterprise plan by request. To request access, [submit the MCP tunnels interest form](https://claude.com/form/mcp-tunnels) or contact your Anthropic account team.
-</Note>
+> [!NOTE]
+>
+> MCP tunnels are in research preview and are available to organizations on the Claude Enterprise plan by request. To request access, [submit the MCP tunnels interest form](https://claude.com/form/mcp-tunnels) or contact your Anthropic account team.
 
 An MCP tunnel carries Claude's requests to an MCP server inside your network, but it does not authenticate to that server. Each tunneled server should still require OAuth, as the [MCP authorization specification](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization) describes, so that a member signs in with their own account before Claude can call the server's tools. This page is for the administrator adding a tunneled server as a custom connector, and explains what to configure when the OAuth authorization server is itself only reachable inside your network.
 
-<Note>
-  If your authorization server is reachable from the public internet and its metadata advertises public URLs, you don't need anything on this page. Add the connector as described in [Set up an MCP tunnel](/docs/connectors/mcp-tunnels/setup#add-tunneled-servers-as-connectors), and members sign in as they would for any other connector.
-</Note>
+> [!NOTE]
+>
+> If your authorization server is reachable from the public internet and its metadata advertises public URLs, you don't need anything on this page. Add the connector as described in [Set up an MCP tunnel](https://claude.com/docs/connectors/mcp-tunnels/setup.md#add-tunneled-servers-as-connectors), and members sign in as they would for any other connector.
 
 ## Understand how OAuth works through a tunnel
 
@@ -29,7 +29,7 @@ You fix this sign-in failure by routing Claude's server-to-server calls through 
 
 ## Route the authorization server through the tunnel
 
-Add a route for the authorization server to the proxy configuration, next to the routes for your MCP servers, and apply it as described in [Add more servers later](/docs/connectors/mcp-tunnels/setup#add-more-servers-later).
+Add a route for the authorization server to the proxy configuration, next to the routes for your MCP servers, and apply it as described in [Add more servers later](https://claude.com/docs/connectors/mcp-tunnels/setup.md#add-more-servers-later).
 
 ```yaml theme={null}
 routes:
@@ -41,7 +41,7 @@ With a tunnel domain of `abc123.tunnel.anthropic.com`, Claude can now reach the 
 
 ## Set the Tunnel OAuth configuration
 
-When you add the tunneled MCP server as a custom connector in [**Organization settings > Connectors**](https://claude.ai/admin-settings/connectors), turn on **Tunnel OAuth configuration** in the connector dialog. The values you enter replace the ones Claude would otherwise read from the authorization server's metadata. Anthropic enables this option for each organization in the research preview on request, so if the toggle does not appear in the dialog, contact your Anthropic account team.
+When you add the tunneled MCP server as a custom connector in [**Organization settings > Connectors**](https://claude.ai/admin-settings/connectors), turn on **Tunnel OAuth configuration** in the connector dialog. The values you enter replace the ones Claude would otherwise read from the authorization server's metadata.
 
 | Field | What to enter | Example |
 | - | - | - |
@@ -53,7 +53,7 @@ When you add the tunneled MCP server as a custom connector in [**Organization se
 
 The paths after the hostname (`/authorize`, `/oauth/token`, and so on) are whatever your authorization server uses. Copy them from its metadata document, usually served at `/.well-known/oauth-authorization-server` or `/.well-known/openid-configuration`, and change only the scheme and host.
 
-After you save the connector, connect it yourself from your own connector settings. Your browser should open your sign-in page, and after you approve access the connector should show as connected. If either step fails, see [Troubleshooting](/docs/connectors/mcp-tunnels/troubleshooting#sign-in-redirects-to-a-tunnel-address-that-does-not-load).
+After you save the connector, connect it yourself from your own connector settings. Your browser should open your sign-in page, and after you approve access the connector should show as connected. If either step fails, see [Troubleshooting](https://claude.com/docs/connectors/mcp-tunnels/troubleshooting.md#sign-in-redirects-to-a-tunnel-address-that-does-not-load).
 
 ## Publish split metadata instead
 
@@ -84,5 +84,5 @@ Use **Tunnel OAuth configuration** when the authorization server is a product wh
 
 ## Next steps
 
-* [Add tunneled servers as connectors](/docs/connectors/mcp-tunnels/setup#add-tunneled-servers-as-connectors): where you add the connector and turn on **Tunnel OAuth configuration**
-* [Troubleshoot OAuth sign-in](/docs/connectors/mcp-tunnels/troubleshooting#oauth-sign-in): fix sign-in redirects that don't load and token exchanges that fail
+* [Add tunneled servers as connectors](https://claude.com/docs/connectors/mcp-tunnels/setup.md#add-tunneled-servers-as-connectors): where you add the connector and turn on **Tunnel OAuth configuration**
+* [Troubleshoot OAuth sign-in](https://claude.com/docs/connectors/mcp-tunnels/troubleshooting.md#oauth-sign-in): fix sign-in redirects that don't load and token exchanges that fail

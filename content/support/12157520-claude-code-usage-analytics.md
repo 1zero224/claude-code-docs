@@ -26,11 +26,7 @@ Claude Code usage analytics are available to:
 
 1. Log in to your **[Claude Console account](https://platform.claude.com)**.
 
-2. Expand the left side panel.
-
-3. Click “Claude Code” under **Analytics**.
-
-4. View Claude Code usage analytics on **[Settings > Claude Code](https://platform.claude.com/claude-code)**.
+2. Go to the **Claude Code** page (platform.claude.com/claude-code).
 
 ---
 
@@ -50,7 +46,7 @@ The **Usage** tab displays the following metrics for your organization. Data on 
 
 - **Top commands**: The Claude Code commands used most often across your organization.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1717579277/46c512f4b3ed05c359cecd78ed5c/e0ce2c19-39e2-411f-9a1f-cb1d46439a42?expires=1792008900&amp;signature=995114786fc1b97417b57dcd5cf32c7081ec714ff46b3940cace085e9f601359&amp;req=dScmEcx5lINYXvMW1HO4zfiEPqRQj3HHCX9h5MbdDjPgqPdL30uXLWGONfVc%0AYhwaBc4GjOKV4ch4N5U%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1717579277/46c512f4b3ed05c359cecd78ed5c/e0ce2c19-39e2-411f-9a1f-cb1d46439a42?expires=1794298500&amp;signature=e989343522085a535b3051c4582733d8cb25d6ced7f38ddd50159ada62361b83&amp;req=dScmEcx5lINYXvMW1HO4zfiEPqJShnHLCX9h5MbdDjPGdiGclxnygIhfEfrU%0AYBkV52XLjLFGm7wbQXo%3D%0A)
 
 ### User-level metrics
 
@@ -76,7 +72,7 @@ Every formula used on this tab is shown inline. Click any input to adjust it to 
 
 Contribution metrics are a new feature in public beta that helps Team and Enterprise organizations measure how Claude Code affects engineering velocity. By connecting to your organization's GitHub account, these metrics track code shipping activity with and without Claude Code, so you can see where it's making a difference.
 
-Contribution metrics require GitHub Cloud and are not available to Console users at this time.
+Contribution metrics require GitHub Cloud. They aren't available to Console users or to organizations with zero data retention (ZDR) enabled for Claude Code.
 
 For a more in-depth look at contribution metrics, see **[our Claude Code docs](https://code.claude.com/docs/en/analytics#enable-contribution-metrics)**.
 
@@ -132,7 +128,7 @@ Track activity trends to understand when your team uses Claude Code most effecti
 
 ### I'm using an individual paid plan; how can I access usage analytics for Claude Code?
 
-Claude Code usage analytics are not available to individual Pro or Max plans at this time.
+Claude Code usage analytics are not available to individual Pro, Max, or Ultra plans at this time.
 
 ### I'm looking for a specific user but they're missing from the reports.
 

@@ -7,11 +7,11 @@
 The Model Context Protocol uses string-based version identifiers following the format
 `YYYY-MM-DD`, to indicate the last date backwards incompatible changes were made.
 
-<Info>
-  The protocol version will *not* be incremented when the
-  protocol is updated, as long as the changes maintain backwards compatibility. This allows
-  for incremental improvements while preserving interoperability.
-</Info>
+> [!NOTE]
+>
+> The protocol version will *not* be incremented when the
+> protocol is updated, as long as the changes maintain backwards compatibility. This allows
+> for incremental improvements while preserving interoperability.
 
 ## Revisions
 
@@ -22,25 +22,25 @@ Revisions may be marked as:
   receive backwards compatible changes.
 * **Final**: past, complete specifications that will not be changed.
 
-The **current** protocol version is [**2025-11-25**](/specification/2025-11-25/).
+The **current** protocol version is [**2025-11-25**](https://modelcontextprotocol.io/specification/2025-11-25.md).
 
 ## Feature States
 
 Individual features of the specification may additionally be marked as
 **Deprecated** under the
-[feature lifecycle and deprecation policy](/community/feature-lifecycle):
+[feature lifecycle and deprecation policy](https://modelcontextprotocol.io/community/feature-lifecycle.md):
 the feature remains part of the specification, but is scheduled for removal.
 Deprecated features document a migration path (or state that none is required)
 and remain in the specification for at least twelve months, or at least
 ninety days under the policy's
-[expedited-removal exception](/community/feature-lifecycle#expedited-removal),
+[expedited-removal exception](https://modelcontextprotocol.io/community/feature-lifecycle.md#expedited-removal),
 before they become eligible for removal, after which they may be **Removed**
 in a future revision.
 
 ## Negotiation
 
 Version negotiation happens during
-[initialization](/specification/2025-03-26/basic/lifecycle#initialization). Clients and
+[initialization](https://modelcontextprotocol.io/specification/2025-03-26/basic/lifecycle.md#initialization). Clients and
 servers **MAY** support multiple protocol versions simultaneously, but they **MUST**
 agree on a single version to use for the session.
 

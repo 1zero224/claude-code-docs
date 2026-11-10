@@ -4,8 +4,6 @@
 
 # Cancellation
 
-<div id="enable-section-numbers" />
-
 The Model Context Protocol (MCP) supports optional cancellation of in-progress requests
 through notification messages. Either side can send a cancellation notification to
 indicate that a previously-issued request should be terminated.
@@ -35,7 +33,7 @@ notification containing:
    * Were previously issued in the same direction
    * Are believed to still be in-progress
 2. The `initialize` request **MUST NOT** be cancelled by clients
-3. For [task-augmented requests](./tasks), the `tasks/cancel` request **MUST** be used instead of the `notifications/cancelled` notification. Tasks have their own dedicated cancellation mechanism that returns the final task state.
+3. For [task-augmented requests](https://modelcontextprotocol.io/specification/2025-11-25/basic/utilities/tasks.md), the `tasks/cancel` request **MUST** be used instead of the `notifications/cancelled` notification. Tasks have their own dedicated cancellation mechanism that returns the final task state.
 4. Receivers of cancellation notifications **SHOULD**:
    * Stop processing the cancelled request
    * Free associated resources

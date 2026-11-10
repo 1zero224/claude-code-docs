@@ -1,15 +1,15 @@
 ---
-title: Update Credential
+title: Update a Credential
 url: https://platform.claude.com/docs/en/api/go/beta/vaults/credentials/update
 ---
 
-# Update Credential
+# Update a Credential
 
 `client.Beta.Vaults.Credentials.Update(ctx, credentialID, params) (*BetaManagedAgentsCredential, error)`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Update Credential
+Update a Credential
 
 ## Parameters
 
@@ -25,23 +25,27 @@ Update Credential
 
   - `Auth BetaVaultCredentialUpdateParamsAuthUnion Optional`
 
-    Updated authentication configuration. The `type` is immutable; the variant sent must match the stored credential's type.
+    New authentication settings for the credential. The `type` must match the credential's current type, which can't be changed.
 
     - `type BetaManagedAgentsMCPOAuthUpdateParams`
 
       Parameters for updating an MCP OAuth credential. The `mcp_server_url` is immutable.
 
-      - `Type BetaManagedAgentsMCPOAuthUpdateParamsType`
+      - `Type MCPOAuth`
 
       - `AccessToken string Optional`
 
-        Updated OAuth access token.
+        The new OAuth access token to replace the stored one.
 
-        minLength: 1, maxLength: 8192
+        minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
       - `ExpiresAt Time Optional`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Leave it out to keep the stored expiry.
+
+        If you send a new `access_token`, send its `expires_at` too, or the new token keeps the old expiry.
+
+        Must be in the future.
 
         format: date-time
 
@@ -51,13 +55,13 @@ Update Credential
 
         - `RefreshToken string Optional`
 
-          Updated OAuth refresh token.
+          The new OAuth refresh token to replace the stored one.
 
           minLength: 1, maxLength: 8192
 
         - `Scope string Optional`
 
-          Updated OAuth scope for the refresh request.
+          The new OAuth scope for refresh requests. Send an empty string to clear the stored scope.
 
           maxLength: 8192
 
@@ -67,11 +71,13 @@ Update Credential
 
             Updated HTTP Basic authentication parameters for the token endpoint.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthBasicUpdateParamType`
+            - `Type ClientSecretBasic`
 
             - `ClientSecret string Optional`
 
-              Updated OAuth client secret.
+              A new OAuth client secret to replace the stored one.
+
+              The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
               minLength: 1, maxLength: 512
 
@@ -79,11 +85,13 @@ Update Credential
 
             Updated POST body authentication parameters for the token endpoint.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthPostUpdateParamType`
+            - `Type ClientSecretPost`
 
             - `ClientSecret string Optional`
 
-              Updated OAuth client secret.
+              A new OAuth client secret to replace the stored one.
+
+              The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
               minLength: 1, maxLength: 512
 
@@ -91,19 +99,19 @@ Update Credential
 
       Parameters for updating a static bearer token credential. The `mcp_server_url` is immutable.
 
-      - `Type BetaManagedAgentsStaticBearerUpdateParamsType`
+      - `Type StaticBearer`
 
       - `Token string Optional`
 
-        Updated static bearer token value.
+        The new static bearer token to replace the stored one.
 
-        minLength: 1, maxLength: 8192
+        minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
     - `type BetaManagedAgentsEnvironmentVariableUpdateParams`
 
       Parameters for updating an environment variable credential. `secret_name` is immutable.
 
-      - `Type BetaManagedAgentsEnvironmentVariableUpdateParamsType`
+      - `Type EnvironmentVariable`
 
       - `InjectionLocation BetaManagedAgentsInjectionLocationUpdateParams Optional`
 
@@ -119,29 +127,31 @@ Update Credential
 
       - `Networking BetaManagedAgentsCredentialNetworkingParamsUnion Optional`
 
-        Updated networking scope. Full replacement.
+        The new networking scope, which replaces the stored one as a whole.
 
         - `type BetaManagedAgentsUnrestrictedCredentialNetworkingParams`
 
           Substitute the secret on any host the session's Environment network policy permits egress to. The Environment's network policy is the only boundary on where the secret can reach.
 
-          - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingParamsType`
+          - `Type Unrestricted`
 
         - `type BetaManagedAgentsLimitedCredentialNetworkingParams`
 
           Substitute the secret only on requests to the listed hosts.
 
-          - `Type BetaManagedAgentsLimitedCredentialNetworkingParamsType`
+          - `Type Limited`
 
           - `AllowedHosts []string`
 
-            Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
       - `SecretValue string Optional`
 
-        Updated secret value.
+        The new secret value to replace the stored one.
 
-        minLength: 1, maxLength: 4096
+        minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `DisplayName param.Opt[string] Optional`
 
@@ -149,13 +159,13 @@ Update Credential
 
     minLength: 1, maxLength: 255
 
-  - `Metadata map[string, string] Optional`
+  - `Metadata map[string]string Optional`
 
     Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omitted keys are preserved.
 
   - `Betas []AnthropicBeta Optional` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
 
@@ -257,6 +267,18 @@ Update Credential
 
     - `const AnthropicBetaSpendLimitReads2026_09_26 AnthropicBeta = "spend-limit-reads-2026-09-26"`
 
+    - `const AnthropicBetaTelemetryDestinations2026_08_11 AnthropicBeta = "telemetry-destinations-2026-08-11"`
+
+    - `const AnthropicBetaWebhooks2026_10_07 AnthropicBeta = "webhooks-2026-10-07"`
+
+    - `const AnthropicBetaAdminUserSignOut2026_10_08 AnthropicBeta = "admin-user-sign-out-2026-10-08"`
+
+    - `const AnthropicBetaMessageThreads2026_08_12 AnthropicBeta = "message-threads-2026-08-12"`
+
+    - `const AnthropicBetaAnalyticsUsageCost2026_08_24 AnthropicBeta = "analytics-usage-cost-2026-08-24"`
+
+    - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
+
   - `WorkspaceID param.Opt[string] Optional` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -269,11 +291,11 @@ Update Credential
 
   A credential stored in a vault. Sensitive fields are never returned in responses.
 
-  - `Type BetaManagedAgentsCredentialType`
+  - `Type VaultCredential`
 
   - `ID string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `ArchivedAt Time`
 
@@ -289,7 +311,7 @@ Update Credential
 
       OAuth credential details for an MCP server.
 
-      - `Type BetaManagedAgentsMCPOAuthAuthResponseType`
+      - `Type MCPOAuth`
 
       - `MCPServerURL string`
 
@@ -297,7 +319,7 @@ Update Credential
 
       - `ExpiresAt Time Optional`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -307,7 +329,7 @@ Update Credential
 
         - `ClientID string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `TokenEndpoint string`
 
@@ -319,19 +341,19 @@ Update Credential
 
             Token endpoint requires no client authentication.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthNoneResponseType`
+            - `Type None`
 
           - `type BetaManagedAgentsTokenEndpointAuthBasicResponse`
 
             Token endpoint uses HTTP Basic authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthBasicResponseType`
+            - `Type ClientSecretBasic`
 
           - `type BetaManagedAgentsTokenEndpointAuthPostResponse`
 
             Token endpoint uses POST body authentication with client credentials.
 
-            - `Type BetaManagedAgentsTokenEndpointAuthPostResponseType`
+            - `Type ClientSecretPost`
 
         - `Resource string Optional`
 
@@ -345,7 +367,7 @@ Update Credential
 
       Static bearer token credential details for an MCP server.
 
-      - `Type BetaManagedAgentsStaticBearerAuthResponseType`
+      - `Type StaticBearer`
 
       - `MCPServerURL string`
 
@@ -355,7 +377,7 @@ Update Credential
 
       Environment variable credential details. The secret value is never returned.
 
-      - `Type BetaManagedAgentsEnvironmentVariableAuthResponseType`
+      - `Type EnvironmentVariable`
 
       - `InjectionLocation BetaManagedAgentsInjectionLocationResponse`
 
@@ -377,17 +399,19 @@ Update Credential
 
           The secret is substituted on any host the session's Environment network policy permits egress to.
 
-          - `Type BetaManagedAgentsUnrestrictedCredentialNetworkingResponseType`
+          - `Type Unrestricted`
 
         - `type BetaManagedAgentsLimitedCredentialNetworkingResponse`
 
           The secret is substituted only on requests to the listed hosts.
 
-          - `Type BetaManagedAgentsLimitedCredentialNetworkingResponseType`
+          - `Type Limited`
 
           - `AllowedHosts []string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `SecretName string`
 
@@ -399,7 +423,7 @@ Update Credential
 
     format: date-time
 
-  - `Metadata map[string, string]`
+  - `Metadata map[string]string`
 
     Arbitrary key-value metadata attached to the credential.
 
@@ -426,8 +450,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/anthropics/anthropic-sdk-go/v2"
+	"github.com/anthropics/anthropic-sdk-go/v2/option"
 )
 
 func main() {

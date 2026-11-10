@@ -17,13 +17,19 @@ Get Agent
 
   Unique identifier of the agent to retrieve.
 
-- `version?:optional int` (query parameter)
+- `version?: optional int` (query parameter)
 
   Agent version. Omit for the most recent version. Must be at least 1 if specified.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -35,7 +41,7 @@ Get Agent
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -48,6 +54,10 @@ Get Agent
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -84,6 +94,9 @@ Get Agent
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsAgent = $client->beta->agents->retrieve(
@@ -104,6 +117,9 @@ var_dump($betaManagedAgentsAgent);
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",

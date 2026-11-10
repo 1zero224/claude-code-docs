@@ -13,7 +13,7 @@ The `ant` CLI provides access to the Claude API from your terminal. Every API re
   </video>
 </Frame>
 
-Compared to `curl`, `ant` builds request bodies from typed flags or piped YAML instead of hand-written JSON, and inlines file contents into string fields with an `@path` reference. It extracts response fields with a built-in `--transform` query, so you don't need a separate tool such as `jq`, and it paginates list endpoints automatically.
+Compared to `curl`, `ant` builds request bodies from typed flags or piped YAML instead of hand-written JSON, and inlines file contents into string fields with an `@path` reference. It extracts response fields with a built-in `--transform` query, so you don’t need a separate tool such as `jq`, and it paginates list endpoints automatically.
 
 <Info>
   For endpoint-specific parameters and response schemas, see the [API reference](https://platform.claude.com/docs/en/api/cli/messages/create). This page gets you to a working command. For everything else the CLI does, see [Using the CLI](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/using) and [CLI scripting and automation](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/scripting).
@@ -21,7 +21,7 @@ Compared to `curl`, `ant` builds request bodies from typed flags or piped YAML i
 
 ## Installation
 
-<Tabs>
+<Tabs noDeepLinks>
   <Tab title="Homebrew (macOS)">
     ```bash
     brew install anthropics/tap/ant
@@ -32,7 +32,7 @@ Compared to `curl`, `ant` builds request bodies from typed flags or piped YAML i
     For Linux environments, download the release binary directly.
 
     ```bash
-    VERSION=1.41.0
+    VERSION=2.8.0
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     case $(uname -m) in
       x86_64) ARCH=amd64 ;;
@@ -45,14 +45,14 @@ Compared to `curl`, `ant` builds request bodies from typed flags or piped YAML i
     You can find all releases on the [GitHub releases page](https://github.com/anthropics/anthropic-cli/releases).
   </Tab>
 
-  <Tab title="Go">
-    You can also install the CLI from source using `go install`. Requires Go 1.25 or later.
+  <Tab title="go install">
+    You can also install the CLI from source with `go install`, which requires Go 1.26.10 or later.
 
     ```bash
-    go install github.com/anthropics/anthropic-cli/cmd/ant@latest
+    go install github.com/anthropics/anthropic-cli/v2/cmd/ant@latest
     ```
 
-    The binary is placed in `$(go env GOPATH)/bin`. Add it to your `PATH` if it isn't already:
+    `go install` places the binary in `$(go env GOPATH)/bin`. Add that directory to your `PATH` if it isn’t already there:
 
     ```bash
     export PATH="$PATH:$(go env GOPATH)/bin"
@@ -153,6 +153,6 @@ The CLI ships completion scripts for bash, zsh, fish, and PowerShell. Generate a
   </Card>
 
   <Card title="CLI scripting and automation" icon="code" href="https://platform.claude.com/docs/en/cli-sdks-libraries/cli/scripting">
-    Version-control API resources, scripting patterns, and use from Claude Code
+    Version control for API resources, scripting patterns, and use from Claude Code
   </Card>
 </CardGroup>

@@ -1,8 +1,8 @@
 # Use Claude in Xcode
 
-Claude in Xcode is available for individuals with Pro and Max plans, and users with premium seats on Team and Enterprise plans.
+Claude in Xcode is available for individuals with Pro, Max, and Ultra plans, and users with premium seats on Team and Enterprise plans.
 
-Claude Sonnet 4 is now available in Xcode 26, bringing AI-powered coding assistance directly to Apple's integrated development environment (IDE).
+Claude Sonnet 4 is available in Xcode 26, bringing AI-powered coding assistance directly to Apple's integrated development environment (IDE).
 
 ## What you can do with Claude in Xcode
 
@@ -34,8 +34,8 @@ To start using Claude in Xcode:
 
 3. Log in with your Claude account.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1727371585/b18ca03a6357c52d12d10386f28e/dab2dcb2-f670-4173-b77d-38767a34cec1?expires=1792008900&amp;signature=847409522d48bc77e4374498d7feee93cd8a418e5443c6f53012d021f20311cb&amp;req=dSclEcp5nIRXXPMW1HO4zUAXIs4CUqDdFalhp3bugHL9hR6GVwcxtOTB4o0C%0AmZMHZtOgh9abjfNc4wE%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1727371585/b18ca03a6357c52d12d10386f28e/dab2dcb2-f670-4173-b77d-38767a34cec1?expires=1794298500&amp;signature=a0c03935792cb4abb240106c70b3a1598241b89b4ab719a397a2d8277193a454&amp;req=dSclEcp5nIRXXPMW1HO4zUAXIsgAW6DRFalhp3bugHI2dx7eRbEqlaAp5oAl%0AfpbLkzGKcKZo1nUCGfg%3D%0A)
 
 ## Usage limits
 
-Your Claude usage limits are shared across all platforms, so your chats with Claude and coding work in Xcode will draw from the same limits with a five-hour reset period, and will count towards your weekly usage limits. You will see the following message upon reaching either of your limits: “You've reached your rate limit, please try again later.”
+Your Claude usage limits are shared across all platforms, so your chats with Claude and coding work in Xcode will draw from the same limits, including any five-hour session limit, and will count towards your weekly usage limits. You will see the following message upon reaching any of your limits: “You've reached your rate limit, please try again later.”

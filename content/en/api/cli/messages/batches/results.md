@@ -558,7 +558,13 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `encrypted_code_execution_result_block: object`
 
-                Code execution result with encrypted stdout for PFC + web_search results.
+                The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form.
+
+                The API returns this block in place of `code_execution_result` when the code called the web search tool.
+
+                See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=cli) to learn more about programmatic tool calling.
+
+                - `type: "encrypted_code_execution_result"`
 
                 - `type: "encrypted_code_execution_result"`
 
@@ -744,6 +750,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `cache_miss_model_changed: object`
 
+              A `cache_miss_reason` for a request whose `model` or `speed` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=cli#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "model_changed"`
 
               - `cache_missed_input_tokens: number`
@@ -751,6 +761,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `cache_miss_system_changed: object`
+
+              A `cache_miss_reason` for a request whose `system` differs from the previous request's.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=cli#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "system_changed"`
 
@@ -760,6 +774,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `cache_miss_tools_changed: object`
 
+              A `cache_miss_reason` for a request whose `tools` differ from the previous request's, for example because tools were added, removed, or reordered.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=cli#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "tools_changed"`
 
               - `cache_missed_input_tokens: number`
@@ -767,6 +785,10 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 Approximate number of input tokens that would have been read from cache had the prefix matched the previous request.
 
             - `cache_miss_messages_changed: object`
+
+              A `cache_miss_reason` for a request whose `messages` differ from the previous request's in an earlier entry, instead of only having entries appended. The `model`, `system`, and `tools` match.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=cli#cache-miss-reason-types) to learn what to change for each reason.
 
               - `type: "messages_changed"`
 
@@ -776,17 +798,37 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `cache_miss_previous_message_not_found: object`
 
+              A `cache_miss_reason` for when the API doesn't have a stored record of the request that `diagnostics.previous_message_id` references.
+
+              This doesn't mean that this request changed.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=cli#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "previous_message_not_found"`
 
             - `cache_miss_unavailable: object`
 
+              A `cache_miss_reason` for when the API can't give a diagnosis. The request itself was processed normally.
+
+              This includes a request whose `model`, `system`, and `tools` match the previous request's but whose other prompt-affecting parameters, such as `thinking` or `tool_choice`, differ.
+
+              See the [cache diagnostics guide](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics?sdk_languages=cli#cache-miss-reason-types) to learn what to change for each reason.
+
               - `type: "unavailable"`
 
-        - `model: "claude-haiku-5-5" or "claude-sonnet-5-5" or "claude-fable-5-1" or 17 more or string`
+        - `model: "claude-fable-5-2" or "claude-mythos-5-2" or "claude-haiku-5-5" or 19 more or string`
 
           The model that will complete your prompt.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
+
+          - `"claude-mythos-5-2"`
+
+            Built for the most demanding cybersecurity and life sciences research, available through verification programs
 
           - `"claude-haiku-5-5"`
 
@@ -1023,8 +1065,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               the thinking-block delimiter tokens.
 
               Reflects the raw reasoning the model produced, not the (possibly shorter)
-              summarized thinking text returned in the response body. Computed by
-              re-tokenizing the raw reasoning text, so it may differ from the model's exact
+              summarized thinking text returned in the response body. It may differ from the model's exact
               generation count by a small number of tokens. Always ≤ `output_tokens`;
               `output_tokens - thinking_tokens` approximates the non-reasoning output.
 
@@ -1056,6 +1097,14 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `"batch"`
 
+          - `speed: "standard" or "fast"`
+
+            The inference speed mode used for this request.
+
+            - `"standard"`
+
+            - `"fast"`
+
     - `message_batch_errored_result: object`
 
       - `type: "errored"`
@@ -1070,11 +1119,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "invalid_request_error"`
 
+              The broad category of the error.
+
+            - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
+
             - `message: string`
 
           - `authentication_error: object`
 
             - `type: "authentication_error"`
+
+              The broad category of the error.
+
+            - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             - `message: string`
 
@@ -1082,11 +1143,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "billing_error"`
 
+              The broad category of the error.
+
+            - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
+
             - `message: string`
 
           - `permission_error: object`
 
             - `type: "permission_error"`
+
+              The broad category of the error.
+
+            - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             - `message: string`
 
@@ -1094,11 +1167,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "not_found_error"`
 
+              The broad category of the error.
+
+            - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
+
             - `message: string`
 
           - `rate_limit_error: object`
 
             - `type: "rate_limit_error"`
+
+              The broad category of the error.
+
+            - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             - `message: string`
 
@@ -1106,11 +1191,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "timeout_error"`
 
+              The broad category of the error.
+
+            - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
+
             - `message: string`
 
           - `api_error_object: object`
 
             - `type: "api_error"`
+
+              The broad category of the error.
+
+            - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
             - `message: string`
 
@@ -1118,7 +1215,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `type: "overloaded_error"`
 
+              The broad category of the error.
+
             - `message: string`
+
+              A human-readable explanation of the error. Its wording can change, so don't match on it.
 
         - `request_id: string`
 
@@ -1134,6 +1235,5 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
 ```bash
 ant messages:batches results \
-  --api-key my-anthropic-api-key \
   --message-batch-id message_batch_id
 ```

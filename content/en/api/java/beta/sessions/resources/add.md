@@ -19,7 +19,7 @@ Add Session Resource
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -121,6 +121,18 @@ Add Session Resource
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -135,11 +147,11 @@ Add Session Resource
 
 - `class BetaManagedAgentsFileResource`
 
-  - `Type type`
+  - `JsonValue type = "file"`
 
   - `String id`
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -149,7 +161,7 @@ Add Session Resource
 
   - `String mountPath`
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -174,10 +186,7 @@ public final class Main {
 
         ResourceAddParams params = ResourceAddParams.builder()
             .sessionId("sesn_011CZkZAtmR3yMPDzynEDxu7")
-            .betaManagedAgentsFileResourceParams(BetaManagedAgentsFileResourceParams.builder()
-                .fileId("file_011CNha8iCJcU1wXNR6q4V8w")
-                .type(BetaManagedAgentsFileResourceParams.Type.FILE)
-                .build())
+            .betaManagedAgentsFileResourceParams(BetaManagedAgentsFileResourceParams.of("file_011CNha8iCJcU1wXNR6q4V8w"))
             .build();
         BetaManagedAgentsFileResource betaManagedAgentsFileResource = client.beta().sessions().resources().add(params);
     }

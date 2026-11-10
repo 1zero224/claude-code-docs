@@ -1,14 +1,14 @@
 ---
 title: Server tools
 url: https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools
-description: "Work with Anthropic-executed tools: server_tool_use blocks, pause_turn continuation, mixed server and client tool turns, and domain filtering."
+description: "Work with tools that Anthropic runs: server_tool_use blocks, pause_turn continuation, mixed server and client tool turns, and domain filtering."
 ---
 
-Server-executed tools share these mechanics: the `server_tool_use` block, `pause_turn` continuation, turns that mix server and client tools, Zero Data Retention (ZDR) eligibility, and domain filtering. For individual tools, see the [tool reference](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-reference).
+Server-executed tools share these mechanics: the `server_tool_use` block, `pause_turn` continuation, turns that mix server and client tools, Zero Data Retention (ZDR) eligibility, and domain filtering. For individual tools, see the [Tool reference](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-reference).
 
 ## The server\_tool\_use block
 
-The `server_tool_use` block appears in Claude's response when a server-executed tool runs. Its `id` field uses the `srvtoolu_` prefix to distinguish it from client tool calls:
+The `server_tool_use` block appears in Claude’s response when a server-executed tool runs. Its `id` field uses the `srvtoolu_` prefix to distinguish it from client tool calls:
 
 ```json
 {
@@ -19,13 +19,13 @@ The `server_tool_use` block appears in Claude's response when a server-executed 
 }
 ```
 
-The API executes the tool internally. You see the call and its result in the response, but you don't handle execution. Unlike client `tool_use` blocks, you don't need to respond with a `tool_result`. The tool's result block (for example, `web_search_tool_result` for web search) follows the `server_tool_use` block in the same assistant turn, paired by `tool_use_id`. If Claude calls one of your client tools at the same time, the `server_tool_use` block appears without its result, and the response ends with `stop_reason: "tool_use"`. The API runs the tool when you return the client `tool_result` blocks in your next request.
+The API runs the tool internally. You see the call and its result in the response, but you don’t handle execution. Unlike client `tool_use` blocks, you don’t need to respond with a `tool_result`. The tool’s result block (for example, `web_search_tool_result` for web search) follows the `server_tool_use` block in the same assistant turn, paired by `tool_use_id`. If Claude calls one of your client tools at the same time, the `server_tool_use` block appears without its result, and the response ends with `stop_reason: "tool_use"`. The API runs the tool when you return the client `tool_result` blocks in your next request.
 
 ## The server-side loop and pause\_turn
 
 When using server tools such as web search, the API executes tool calls in a server-side agentic loop. On a long-running turn, the API might pause that loop and return a `pause_turn` stop reason.
 
-Here's how to handle the `pause_turn` stop reason:
+Here’s how to handle the `pause_turn` stop reason:
 
 <CodeGroup>
   ```bash cURL
@@ -33,11 +33,11 @@ Here's how to handle the `pause_turn` stop reason:
   # the turn by re-sending the request with the assistant content appended to messages.
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
-      "max_tokens": 1024,
+      "max_tokens": 4096,
       "messages": [
         {
           "role": "user",
@@ -50,10 +50,10 @@ Here's how to handle the `pause_turn` stop reason:
 
   ```bash CLI
   # Initial request. If "stop_reason" in the output is "pause_turn", re-run with
-  # the assistant content appended to messages (see the SDK tabs).
+  # the assistant content appended to messages.
   ant messages create <<'YAML'
   model: claude-opus-5-5
-  max_tokens: 1024
+  max_tokens: 4096
   tools:
     - {type: web_search_20250305, name: web_search, max_uses: 10}
   messages:
@@ -67,7 +67,7 @@ Here's how to handle the `pause_turn` stop reason:
   # Initial request with web search
   response = client.messages.create(
       model="claude-opus-5-5",
-      max_tokens=1024,
+      max_tokens=4096,
       messages=[
           {
               "role": "user",
@@ -77,7 +77,7 @@ Here's how to handle the `pause_turn` stop reason:
       tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 10}],
   )
 
-  # Check if the response has pause_turn stop reason
+  # Check if the response has a pause_turn stop reason
   if response.stop_reason == "pause_turn":
       # Continue the conversation with the paused content
       messages = [
@@ -91,7 +91,7 @@ Here's how to handle the `pause_turn` stop reason:
       # Send the continuation request
       continuation = client.messages.create(
           model="claude-opus-5-5",
-          max_tokens=1024,
+          max_tokens=4096,
           messages=messages,
           tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 10}],
       )
@@ -107,7 +107,7 @@ Here's how to handle the `pause_turn` stop reason:
   // Initial request with web search
   const response = await client.messages.create({
     model: "claude-opus-5-5",
-    max_tokens: 1024,
+    max_tokens: 4096,
     messages: [
       {
         role: "user",
@@ -124,7 +124,7 @@ Here's how to handle the `pause_turn` stop reason:
     ]
   });
 
-  // Check if the response has pause_turn stop reason
+  // Check if the response has a pause_turn stop reason
   if (response.stop_reason === "pause_turn") {
     // Continue the conversation with the paused content
     const messages: Anthropic.MessageParam[] = [
@@ -139,7 +139,7 @@ Here's how to handle the `pause_turn` stop reason:
     // Send the continuation request
     const continuation = await client.messages.create({
       model: "claude-opus-5-5",
-      max_tokens: 1024,
+      max_tokens: 4096,
       messages,
       tools: [
         {
@@ -162,10 +162,10 @@ Here's how to handle the `pause_turn` stop reason:
   var parameters = new MessageCreateParams
   {
       Model = Model.ClaudeOpus5_5,
-      MaxTokens = 1024,
+      MaxTokens = 4096,
       Messages = [
-          new() {
-              Role = Role.User,
+          new UserMessageParam
+          {
               Content = "Search for comprehensive information about quantum computing breakthroughs in 2025"
           }
       ],
@@ -180,14 +180,14 @@ Here's how to handle the `pause_turn` stop reason:
       var continuationParams = new MessageCreateParams
       {
           Model = Model.ClaudeOpus5_5,
-          MaxTokens = 1024,
+          MaxTokens = 4096,
           Messages = [
-              new() {
-                  Role = Role.User,
+              new UserMessageParam
+              {
                   Content = "Search for comprehensive information about quantum computing breakthroughs in 2025"
               },
-              new() {
-                  Role = Role.Assistant,
+              new AssistantMessageParam
+              {
                   Content = response.Content.Select(block => new ContentBlockParam(block.Json)).ToList()
               }
           ],
@@ -214,7 +214,7 @@ Here's how to handle the `pause_turn` stop reason:
 
   response, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
   	Model:     anthropic.ModelClaudeOpus5_5,
-  	MaxTokens: 1024,
+  	MaxTokens: 4096,
   	Messages: []anthropic.MessageParam{
   		anthropic.NewUserMessage(anthropic.NewTextBlock("Search for comprehensive information about quantum computing breakthroughs in 2025")),
   	},
@@ -228,7 +228,7 @@ Here's how to handle the `pause_turn` stop reason:
   	// Pass the paused response back as-is so Claude can continue the turn
   	continuation, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
   		Model:     anthropic.ModelClaudeOpus5_5,
-  		MaxTokens: 1024,
+  		MaxTokens: 4096,
   		Messages: []anthropic.MessageParam{
   			anthropic.NewUserMessage(anthropic.NewTextBlock("Search for comprehensive information about quantum computing breakthroughs in 2025")),
   			response.ToParam(),
@@ -253,7 +253,7 @@ Here's how to handle the `pause_turn` stop reason:
 
       MessageCreateParams params = MessageCreateParams.builder()
           .model(Model.CLAUDE_OPUS_5_5)
-          .maxTokens(1024L)
+          .maxTokens(4096L)
           .addUserMessage("Search for comprehensive information about quantum computing breakthroughs in 2025")
           .addTool(WebSearchTool20250305.builder()
               .maxUses(10L)
@@ -266,7 +266,7 @@ Here's how to handle the `pause_turn` stop reason:
               && response.stopReason().get().equals(StopReason.PAUSE_TURN)) {
           MessageCreateParams continuationParams = MessageCreateParams.builder()
               .model(Model.CLAUDE_OPUS_5_5)
-              .maxTokens(1024L)
+              .maxTokens(4096L)
               .addUserMessage("Search for comprehensive information about quantum computing breakthroughs in 2025")
               .addMessage(response)
               .addTool(WebSearchTool20250305.builder()
@@ -286,7 +286,7 @@ Here's how to handle the `pause_turn` stop reason:
   $client = new Client();
 
   $response = $client->messages->create(
-      maxTokens: 1024,
+      maxTokens: 4096,
       messages: [
           [
               'role' => 'user',
@@ -316,7 +316,7 @@ Here's how to handle the `pause_turn` stop reason:
       ];
 
       $continuation = $client->messages->create(
-          maxTokens: 1024,
+          maxTokens: 4096,
           messages: $messages,
           model: 'claude-opus-5-5',
           tools: [
@@ -338,8 +338,8 @@ Here's how to handle the `pause_turn` stop reason:
   client = Anthropic::Client.new
 
   response = client.messages.create(
-    model: "claude-opus-5-5",
-    max_tokens: 1024,
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
+    max_tokens: 4096,
     messages: [
       {
         role: "user",
@@ -369,8 +369,8 @@ Here's how to handle the `pause_turn` stop reason:
     ]
 
     continuation = client.messages.create(
-      model: "claude-opus-5-5",
-      max_tokens: 1024,
+      model: Anthropic::Model::CLAUDE_OPUS_5_5,
+      max_tokens: 4096,
       messages: messages,
       tools: [
         {
@@ -392,20 +392,21 @@ When handling `pause_turn`:
 
 * **Continue the conversation:** Pass the paused response back as-is in a subsequent request to let Claude continue its turn.
 * **Preserve tool state:** Include the same tools in the continuation request. A paused turn can end with a `server_tool_use` block whose tool has not run yet, and the API returns a validation error if that tool is missing from the continuation.
-* **Repeat as needed:** A continued turn can pause again. Check `stop_reason` on each response and continue until you get a different stop reason, capping the number of continuations as you would any retry loop.
+* **Keep the container:** If the response includes a `container`, as it does with the [code execution tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool), send its ID back in the continuation request. Without it, the request runs in a new container, and files from earlier in the turn are lost.
+* **Repeat as needed:** A continued turn can pause again. Check `stop_reason` on each response and continue until you get a different stop reason, capping the number of continuations as you would any retry loop. Keep every paused response in `messages`, in order. A continuation holds only new content, so a request that leaves out an earlier paused response loses that work and can return a 400 error.
 
 For the other `stop_reason` values and general handling patterns, see [Stop reasons and fallback](https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons).
 
 ## Mixing server tools and client tools in one turn
 
-Claude can call a server tool and a client tool in the same group of parallel tool calls, for example, `web_fetch` together with a user-defined tool. A client tool is any tool that your code executes and that produces a `tool_use` block, whether it is user-defined or an Anthropic-schema client tool such as the [Bash tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/bash-tool). When that happens, the API does not run the server tool. It returns immediately so that you can run the client tool first:
+Claude can call a server tool and a client tool in the same group of parallel tool calls, for example, `web_fetch` together with a user-defined tool. A client tool is any tool that your code runs and that produces a `tool_use` block, whether it is user-defined or an Anthropic-schema client tool such as the [Bash tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/bash-tool). When that occurs, the API does not run the server tool. It returns immediately so that you can run the client tool first:
 
 * `stop_reason` is `"tool_use"`, not `"pause_turn"`.
-* `content` contains the `server_tool_use` block and the client `tool_use` block, but no result block for the server tool: that call is not finished.
+* `content` contains the `server_tool_use` block and the client `tool_use` block, but no result block for the server tool: that call is not complete.
 * There is no other marker. Detect the state by looking for a `server_tool_use` block whose `id` has no matching result block in the response. An `mcp_tool_use` block from the [MCP connector](https://platform.claude.com/docs/en/agents-and-tools/mcp-connector) behaves the same way. Server tool calls that already have their result block in the same response are complete and need nothing from you.
 
 <Note>
-  With [programmatic tool calling](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling), the same response shape means something different. The client `tool_use` block comes from code that is running in the `code_execution` tool rather than from Claude directly, and its `caller` field names the `code_execution` block that called it. That code has already started: it is paused waiting for your `tool_result` blocks, and sending them resumes the execution instead of starting a deferred tool. The `code_execution` block's own result block arrives once the code finishes, which can take more than one round of tool results. The follow-up user message itself is the same in both cases; with programmatic tool calling, also pass back the `id` from the response's `container` field, as that page shows.
+  With [programmatic tool calling](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling), the same response shape means something different. The client `tool_use` block comes from code that is running in the `code_execution` tool rather than from Claude directly, and its `caller` field names the `code_execution` block that called it. That code has already started: it is paused waiting for your `tool_result` blocks, and sending them resumes the execution instead of starting a deferred tool. The `code_execution` block’s own result block arrives once the code completes, which can take more than one round of tool results. The follow-up user message itself is the same in both cases; with programmatic tool calling, also pass back the `id` from the response’s `container` field, as that page shows.
 </Note>
 
 ```json
@@ -447,7 +448,7 @@ To continue the turn, run the client tools and send a user message whose content
 }
 ```
 
-The API attaches your results to the still-open assistant turn, runs the deferred server tool (for paused code execution, resumes it), and then lets Claude continue. For a server tool Claude called directly, the next response begins with the result block that answers the previous response's `server_tool_use` `id`, followed by the newly generated content and a fresh `stop_reason`:
+The API attaches your results to the still-open assistant turn, runs the deferred server tool (for paused code execution, resumes it), and then lets Claude continue. For a server tool Claude called directly, the next response starts with the result block that answers the previous response’s `server_tool_use` `id`, followed by the newly generated content and a fresh `stop_reason`:
 
 ```json
 {
@@ -495,7 +496,7 @@ A `server_tool_use` block and its result block pair up by `tool_use_id`, not by 
   To give Claude more input, send it as a separate user message after the turn completes.
 </Warning>
 
-**How this differs from `pause_turn`:** A [`pause_turn` response](https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools#the-server-side-loop-and-pause-turn) can also end with a `server_tool_use` block that has not run, but it never leaves a client `tool_use` block waiting on you, so you continue it by re-sending the assistant content as-is. A response that leaves a client `tool_use` block waiting on you never has a `stop_reason` of `pause_turn`: when Claude stops to call your tools, `stop_reason` is `tool_use`, and you continue it by sending the client `tool_result` blocks rather than by re-sending the response. In both cases the API runs the pending server tool at the start of the next request.
+**How this differs from `pause_turn`:** A [`pause_turn` response](https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools#the-server-side-loop-and-pause-turn) can also end with a `server_tool_use` block that has not run, but it never leaves a client `tool_use` block waiting on you, so you continue it by re-sending the assistant content as-is. A response that leaves a client `tool_use` block waiting on you never has a `stop_reason` of `pause_turn`: when Claude stops to call your tools, `stop_reason` is `tool_use`, and you continue it by sending the response back with a new user message that holds the client `tool_result` blocks. In both cases the API runs the pending server tool at the start of the next request.
 
 The following example enables web fetch together with a user-defined `run_command` tool and handles the mixed response:
 
@@ -503,15 +504,15 @@ The following example enables web fetch together with a user-defined `run_comman
   ```bash cURL
   # If "stop_reason" is "tool_use" and a server_tool_use block has no matching
   # result block, that call is not finished. Run the client tools, then POST
-  # again with one more user message containing only their tool_result blocks
-  # and the same tools array (see the SDK tabs).
+  # again with the assistant content, one more user message containing only their
+  # tool_result blocks, and the same tools array.
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
-      "max_tokens": 1024,
+      "max_tokens": 4096,
       "messages": [
         {
           "role": "user",
@@ -535,11 +536,11 @@ The following example enables web fetch together with a user-defined `run_comman
 
   ```bash CLI
   # If "stop_reason" is "tool_use" and a server_tool_use block has no matching
-  # result block, run the client tools and re-run with a user message of only
-  # their tool_result blocks appended (see the SDK tabs).
+  # result block, run the client tools and re-run with the assistant content and
+  # a user message of only their tool_result blocks appended.
   ant messages create <<'YAML'
   model: claude-opus-5-5
-  max_tokens: 1024
+  max_tokens: 4096
   messages:
     - role: user
       content: "Summarize https://example.com/article and run uname -a to tell me what system this is on."
@@ -580,7 +581,7 @@ The following example enables web fetch together with a user-defined `run_comman
   ]
 
   response = client.messages.create(
-      model="claude-opus-5-5", max_tokens=1024, tools=tools, messages=messages
+      model="claude-opus-5-5", max_tokens=4096, tools=tools, messages=messages
   )
 
   tool_results = [
@@ -599,7 +600,7 @@ The following example enables web fetch together with a user-defined `run_comman
       # Send back only the client tool_result blocks, with the same tools.
       continuation = client.messages.create(
           model="claude-opus-5-5",
-          max_tokens=1024,
+          max_tokens=4096,
           tools=tools,
           messages=[
               *messages,
@@ -643,7 +644,7 @@ The following example enables web fetch together with a user-defined `run_comman
 
   const response = await client.messages.create({
     model: "claude-opus-5-5",
-    max_tokens: 1024,
+    max_tokens: 4096,
     tools: [webFetchTool, runCommandTool],
     messages
   });
@@ -665,7 +666,7 @@ The following example enables web fetch together with a user-defined `run_comman
     // Send back only the client tool_result blocks, with the same tools.
     const continuation = await client.messages.create({
       model: "claude-opus-5-5",
-      max_tokens: 1024,
+      max_tokens: 4096,
       tools: [webFetchTool, runCommandTool],
       messages: [
         ...messages,
@@ -703,16 +704,15 @@ The following example enables web fetch together with a user-defined `run_comman
           },
       }),
   ];
-  MessageParam userMessage = new()
+  MessageParam userMessage = new UserMessageParam
   {
-      Role = Role.User,
       Content = "Summarize https://example.com/article and run uname -a to tell me what system this is on."
   };
 
   var response = await client.Messages.Create(new MessageCreateParams
   {
       Model = Model.ClaudeOpus5_5,
-      MaxTokens = 1024,
+      MaxTokens = 4096,
       Tools = tools,
       Messages = [userMessage]
   });
@@ -738,17 +738,16 @@ The following example enables web fetch together with a user-defined `run_comman
       var continuation = await client.Messages.Create(new MessageCreateParams
       {
           Model = Model.ClaudeOpus5_5,
-          MaxTokens = 1024,
+          MaxTokens = 4096,
           Tools = tools,
           Messages =
           [
               userMessage,
-              new()
+              new AssistantMessageParam
               {
-                  Role = Role.Assistant,
                   Content = response.Content.Select(block => new ContentBlockParam(block.Json)).ToList()
               },
-              new() { Role = Role.User, Content = new MessageParamContent(toolResults) }
+              new UserMessageParam { Content = toolResults }
           ]
       });
       // If a web_fetch was deferred, it runs on this request and its
@@ -786,7 +785,7 @@ The following example enables web fetch together with a user-defined `run_comman
 
   response, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
   	Model:     anthropic.ModelClaudeOpus5_5,
-  	MaxTokens: 1024,
+  	MaxTokens: 4096,
   	Tools:     tools,
   	Messages:  []anthropic.MessageParam{userMessage},
   })
@@ -808,7 +807,7 @@ The following example enables web fetch together with a user-defined `run_comman
   	// Send back only the client tool_result blocks, with the same tools.
   	continuation, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
   		Model:     anthropic.ModelClaudeOpus5_5,
-  		MaxTokens: 1024,
+  		MaxTokens: 4096,
   		Tools:     tools,
   		Messages: []anthropic.MessageParam{
   			userMessage,
@@ -845,8 +844,10 @@ The following example enables web fetch together with a user-defined `run_comman
 
       Message response = client.messages().create(MessageCreateParams.builder()
           .model(Model.CLAUDE_OPUS_5_5)
-          .maxTokens(1024L)
-          .addTool(WebFetchTool20250910.builder().maxUses(5L).build())
+          .maxTokens(4096L)
+          .addTool(WebFetchTool20250910.builder()
+              .maxUses(5L)
+              .build())
           .addTool(runCommandTool)
           .addUserMessage(prompt)
           .build());
@@ -870,12 +871,14 @@ The following example enables web fetch together with a user-defined `run_comman
           // Send back only the client tool_result blocks, with the same tools.
           Message continuation = client.messages().create(MessageCreateParams.builder()
               .model(Model.CLAUDE_OPUS_5_5)
-              .maxTokens(1024L)
-              .addTool(WebFetchTool20250910.builder().maxUses(5L).build())
+              .maxTokens(4096L)
+              .addTool(WebFetchTool20250910.builder()
+                  .maxUses(5L)
+                  .build())
               .addTool(runCommandTool)
               .addUserMessage(prompt)
               .addMessage(response)
-              .addUserMessageOfBlockParams(toolResults)
+              .addUserMessageOfContentBlockParams(toolResults)
               .build());
           // If a web_fetch was deferred, it runs on this request and its
           // web_fetch_tool_result is the first block of continuation.content().
@@ -906,7 +909,7 @@ The following example enables web fetch together with a user-defined `run_comman
   $userMessage = ['role' => 'user', 'content' => 'Summarize https://example.com/article and run uname -a to tell me what system this is on.'];
 
   $response = $client->messages->create(
-      maxTokens: 1024,
+      maxTokens: 4096,
       messages: [$userMessage],
       model: 'claude-opus-5-5',
       tools: $tools,
@@ -928,7 +931,7 @@ The following example enables web fetch together with a user-defined `run_comman
       // A server_tool_use block with no result block in this response is not finished; its result arrives in a later response.
       // Send back only the client tool_result blocks, with the same tools.
       $continuation = $client->messages->create(
-          maxTokens: 1024,
+          maxTokens: 4096,
           messages: [
               $userMessage,
               ['role' => 'assistant', 'content' => $response->content],
@@ -968,8 +971,8 @@ The following example enables web fetch together with a user-defined `run_comman
   }
 
   response = client.messages.create(
-    model: "claude-opus-5-5",
-    max_tokens: 1024,
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
+    max_tokens: 4096,
     tools: tools,
     messages: [user_message]
   )
@@ -990,8 +993,8 @@ The following example enables web fetch together with a user-defined `run_comman
     # A server_tool_use block with no result block in this response is not finished; its result arrives in a later response.
     # Send back only the client tool_result blocks, with the same tools.
     continuation = client.messages.create(
-      model: "claude-opus-5-5",
-      max_tokens: 1024,
+      model: Anthropic::Model::CLAUDE_OPUS_5_5,
+      max_tokens: 4096,
       tools: tools,
       messages: [
         user_message,
@@ -1008,7 +1011,7 @@ The following example enables web fetch together with a user-defined `run_comman
   ```
 </CodeGroup>
 
-This code is also correct when Claude does not mix the two kinds of call. A turn with only client `tool_use` blocks takes the same continuation path, and a turn with only server tool calls needs no client `tool_result` blocks from you: its result blocks are normally already present, and one that comes back suspended, such as a [`pause_turn` response](https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools#the-server-side-loop-and-pause-turn), is re-sent as-is instead.
+This code is also correct when Claude does not mix the two kinds of call. A turn with only client `tool_use` blocks takes the same continuation path. A turn with only server tool calls needs no client `tool_result` blocks from you, because its result blocks are normally already present. If that turn comes back suspended, for example as a [`pause_turn` response](https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools#the-server-side-loop-and-pause-turn), re-send it as-is instead.
 
 ## ZDR and allowed\_callers
 
@@ -1026,9 +1029,9 @@ To use a `_20260209` or later server tool with ZDR, disable dynamic filtering by
 }
 ```
 
-This restricts the tool to direct invocation only, bypassing the internal code execution step.
+This restricts the tool to direct calls only, bypassing the internal code execution step.
 
-`allowed_callers` controls how a tool can be invoked: directly by Claude (`"direct"`), from inside a code execution container (for example, `"code_execution_20260120"`), or both. The `_20260209` versions of the web tools default to the code execution caller only; earlier versions default to `["direct"]`. On models that don't support programmatic tool calling, these versions require `allowed_callers: ["direct"]`; without it the API returns a validation error that says to set it.
+`allowed_callers` controls how a tool can be called: directly by Claude (`"direct"`), from inside a code execution container (for example, `"code_execution_20260120"`), or both. The `_20260209` versions of the web tools default to the code execution caller only; earlier versions default to `["direct"]`. On models that don’t support programmatic tool calling, these versions require `allowed_callers: ["direct"]`; without it the API returns a validation error that says to set it.
 
 <Note>
   Even when web fetch is used in a ZDR-eligible configuration, website publishers might retain any parameters passed to the URL if Claude fetches content from their site.
@@ -1064,30 +1067,28 @@ When using domain filters:
 Invalid domain formats are rejected at request time with a 400 `invalid_request_error`.
 
 <Note>
-  Request-level domain restrictions work together with any organization-level domain restrictions configured in Claude Console. Request-level `allowed_domains` must be a subset of the organization-level allowed list; entries outside it cause the API to return a validation error. A request-level allowed list that includes a domain your organization blocks is rejected with a `400` error that names the conflicting entries.
+  Request-level domain restrictions work together with any organization-level domain restrictions configured in the Claude Console. Request-level `allowed_domains` must be a subset of the organization-level allowed list; entries outside it cause the API to return a validation error. A request-level allowed list that includes a domain your organization blocks is rejected with a `400` error that names the conflicting entries.
 </Note>
 
 <Warning>
   Unicode characters in domain names can bypass domain filters through homograph attacks: `аmazon.com` (with a Cyrillic `а`) looks identical to `amazon.com` but is a different domain. Use ASCII-only domain names in allow and block lists, and audit existing entries for non-ASCII characters.
 </Warning>
 
-[Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview) uses the same `allowed_domains` and `blocked_domains` fields on the `web_search` and `web_fetch` entries of the agent toolset. On Managed Agents, each list holds at most 64 entries, domains listed for `web_fetch` cannot include a path, and fields specific to the Messages API tools, such as `max_uses`, `citations`, and `cache_control`, are not available. See [Domain list rules](https://platform.claude.com/docs/en/managed-agents/tools-web-restrictions#domain-list-rules) for the full rules.
-
-Organization-level web search and web fetch settings in the Claude Console apply to Messages API requests only. They do not apply to Managed Agents sessions, which use the per-tool lists on the agent toolset instead. For a session in a cloud environment with `limited` networking, the environment's `allowed_hosts` also applies to `web_search` and `web_fetch`; see [Networking](https://platform.claude.com/docs/en/managed-agents/environments#networking). The per-tool lists restrict these tools further, within the hosts that `allowed_hosts` allows.
+For domain lists and your organization’s settings in Claude Managed Agents sessions, see [Restrict web search and web fetch domains](https://platform.claude.com/docs/en/managed-agents/tools-web-restrictions).
 
 ## Dynamic filtering with code execution
 
 The `_20260209` and later versions of web search and web fetch use code execution internally to apply dynamic filters against search results.
 
 <Note>
-  You don't need to add a `code_execution` tool for these versions: when dynamic filtering runs, the API provisions code execution for the request automatically, and both tools share a single execution container. If you do include one, use `code_execution_20260120` or later; the API rejects older code execution versions alongside these web tool versions.
+  You don’t need to add a `code_execution` tool for these versions: when dynamic filtering runs, the API provisions code execution for the request automatically, and both tools share a single execution container. If you do include one, use `code_execution_20260120` or later; the API rejects older code execution versions alongside these web tool versions.
 </Note>
 
 ## Streaming server-tool events
 
 Server-tool events stream as part of the normal server-sent events (SSE) flow. A `server_tool_use` block that Claude calls directly streams like a client `tool_use` block: a `content_block_start` event followed by `input_json_delta` events. The result block arrives complete in a single `content_block_start` event, with no deltas.
 
-See [Streaming](https://platform.claude.com/docs/en/build-with-claude/streaming) for the full event reference. Individual tool pages document tool-specific event names where they differ.
+See [Streaming messages](https://platform.claude.com/docs/en/build-with-claude/streaming) for the full event reference. Individual tool pages document tool-specific event names where they differ.
 
 ## Batch requests
 
@@ -1107,11 +1108,11 @@ Common batch workloads include enriching a dataset with information from the web
   </Card>
 
   <Card title="Web fetch tool" icon="download" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool">
-    Fetch and read content from specific URLs to augment Claude's context with live web content.
+    Fetch and read content from specific URLs to augment Claude’s context with live web content.
   </Card>
 
   <Card title="Code execution tool" icon="terminal" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool">
-    Run Python and bash code in a sandboxed container to analyze data, generate files, and iterate on solutions.
+    Run Python and Bash code in a sandboxed container to analyze data, generate files, and iterate on solutions.
   </Card>
 
   <Card title="Tool search tool" icon="compass" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool">

@@ -19,7 +19,7 @@ Create a new environment with the specified configuration.
 
   minLength: 1, maxLength: 256
 
-- `config: BetaCloudConfigParams | BetaSelfHostedConfigParams`
+- `config: optional BetaCloudConfigParams | BetaSelfHostedConfigParams | nil`
 
   Environment configuration
 
@@ -34,7 +34,7 @@ Create a new environment with the specified configuration.
 
       Environment type
 
-    - `networking: BetaUnrestrictedNetwork | BetaLimitedNetworkParams`
+    - `networking: optional BetaUnrestrictedNetwork | BetaLimitedNetworkParams | nil`
 
       Network configuration policy. Omit on update to preserve the existing value.
 
@@ -57,47 +57,47 @@ Create a new environment with the specified configuration.
 
           Network policy type
 
-        - `allow_mcp_servers: bool`
+        - `allow_mcp_servers: optional bool | nil`
 
           Permits outbound access to MCP server endpoints configured on the agent, beyond those listed in the `allowed_hosts` array. Defaults to `false`.
 
-        - `allow_package_managers: bool`
+        - `allow_package_managers: optional bool | nil`
 
           Permits outbound access to public package registries (PyPI, npm, etc.) beyond those listed in the `allowed_hosts` array. Defaults to `false` on creation. Must be `true` when `packages` are specified.
 
-        - `allowed_hosts: Array[String]`
+        - `allowed_hosts: optional Array[String] | nil`
 
           Specifies domains the container can reach.
 
-    - `packages: BetaPackagesParams`
+    - `packages: optional BetaPackagesParams | nil`
 
       Package manager configuration. Under `limited` networking, requires `networking.allow_package_managers` to be `true`. Omit on update to preserve the existing value.
 
-      - `type: :packages`
+      - `type: optional :packages`
 
         Package configuration type
 
-      - `apt: Array[String]`
+      - `apt: optional Array[String] | nil`
 
         Ubuntu/Debian packages to install
 
-      - `cargo: Array[String]`
+      - `cargo: optional Array[String] | nil`
 
         Rust packages to install
 
-      - `gem_: Array[String]`
+      - `gem_: optional Array[String] | nil`
 
         Ruby packages to install
 
-      - `go: Array[String]`
+      - `go: optional Array[String] | nil`
 
         Go packages to install
 
-      - `npm: Array[String]`
+      - `npm: optional Array[String] | nil`
 
         Node.js packages to install
 
-      - `pip: Array[String]`
+      - `pip: optional Array[String] | nil`
 
         Python packages to install
 
@@ -109,17 +109,17 @@ Create a new environment with the specified configuration.
 
       Environment type
 
-- `description: String`
+- `description: optional String | nil`
 
   Optional description of the environment
 
   maxLength: 1024
 
-- `metadata: Hash[Symbol, String]`
+- `metadata: optional Hash[Symbol, String]`
 
   User-provided metadata key-value pairs
 
-- `scope: :organization | :account`
+- `scope: optional :organization | :account | nil`
 
   The visibility scope for this environment. 'organization' makes the environment visible to all accounts. 'account' restricts visibility to the owning account only. API organizations support only 'organization'; 'account' is rejected. If not specified, defaults based on organization type.
 
@@ -127,7 +127,7 @@ Create a new environment with the specified configuration.
 
   - `:account`
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -233,7 +233,19 @@ Create a new environment with the specified configuration.
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -253,7 +265,7 @@ Create a new environment with the specified configuration.
 
     Environment identifier (e.g., 'env_...')
 
-  - `archived_at: String`
+  - `archived_at: String | nil`
 
     RFC 3339 timestamp when environment was archived, or null if not archived
 
@@ -305,7 +317,7 @@ Create a new environment with the specified configuration.
 
         Package manager configuration.
 
-        - `type: :packages`
+        - `type: optional :packages`
 
           Package configuration type
 
@@ -345,7 +357,7 @@ Create a new environment with the specified configuration.
 
     RFC 3339 timestamp when environment was created
 
-  - `description: String`
+  - `description: String | nil`
 
     User-provided description for the environment; null when unset
 
@@ -361,7 +373,7 @@ Create a new environment with the specified configuration.
 
     RFC 3339 timestamp when environment was last updated
 
-  - `scope: :organization | :account`
+  - `scope: optional :organization | :account`
 
     The visibility scope for this environment. 'organization' means visible to all accounts. 'account' means visible only to the owning account.
 

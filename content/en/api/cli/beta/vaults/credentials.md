@@ -5,13 +5,13 @@ url: https://platform.claude.com/docs/en/api/cli/beta/vaults/credentials
 
 # Credentials
 
-## Create Credential
+## Create a Credential
 
 `$ ant beta:vaults:credentials create`
 
 **POST** `/v1/vaults/{vault_id}/credentials`
 
-Create Credential
+Create a Credential
 
 ### Parameters
 
@@ -22,6 +22,168 @@ Create Credential
 - `--auth: BetaManagedAgentsMCPOAuthCreateParams or BetaManagedAgentsStaticBearerCreateParams or BetaManagedAgentsEnvironmentVariableCreateParams`
 
   Authentication configuration for the credential.
+
+  - `beta_managed_agents_mcp_oauth_create_params: object`
+
+    Parameters for creating an MCP OAuth credential.
+
+    - `type: "mcp_oauth"`
+
+    - `access_token: string`
+
+      The OAuth access token to send to the MCP server.
+
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
+
+    - `mcp_server_url: string`
+
+      URL of the MCP server this credential authenticates against.
+
+      minLength: 1, maxLength: 2047
+
+    - `expires_at: optional string`
+
+      When `access_token` expires, in RFC 3339.
+
+      Must be in the future.
+
+      format: date-time
+
+    - `refresh: optional object`
+
+      Refresh token configuration, if the credential supports token refresh.
+
+      - `client_id: string`
+
+        The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
+
+        minLength: 1, maxLength: 1024
+
+      - `refresh_token: string`
+
+        The OAuth refresh token that the API uses to get a new access token when the current one expires.
+
+        minLength: 1, maxLength: 8192
+
+      - `token_endpoint: string`
+
+        Token endpoint URL used to refresh the access token.
+
+        minLength: 1, maxLength: 2047
+
+      - `token_endpoint_auth: BetaManagedAgentsTokenEndpointAuthNoneParam or BetaManagedAgentsTokenEndpointAuthBasicParam or BetaManagedAgentsTokenEndpointAuthPostParam`
+
+        - `beta_managed_agents_token_endpoint_auth_none_param: object`
+
+          Token endpoint requires no client authentication.
+
+          - `type: "none"`
+
+        - `beta_managed_agents_token_endpoint_auth_basic_param: object`
+
+          Token endpoint uses HTTP Basic authentication with client credentials.
+
+          - `type: "client_secret_basic"`
+
+          - `client_secret: string`
+
+            The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
+
+            minLength: 1, maxLength: 512
+
+        - `beta_managed_agents_token_endpoint_auth_post_param: object`
+
+          Token endpoint uses POST body authentication with client credentials.
+
+          - `type: "client_secret_post"`
+
+          - `client_secret: string`
+
+            The OAuth client secret, sent to `token_endpoint` in the POST body.
+
+            minLength: 1, maxLength: 512
+
+      - `resource: optional string`
+
+        OAuth resource indicator.
+
+        minLength: 1, maxLength: 2047
+
+      - `scope: optional string`
+
+        OAuth scope for the refresh request.
+
+        minLength: 1, maxLength: 8192
+
+  - `beta_managed_agents_static_bearer_create_params: object`
+
+    Parameters for creating a static bearer token credential.
+
+    - `type: "static_bearer"`
+
+    - `token: string`
+
+      The static bearer token to send to the MCP server, such as an API key or personal access token.
+
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
+
+    - `mcp_server_url: string`
+
+      URL of the MCP server this credential authenticates against.
+
+      minLength: 1, maxLength: 2047
+
+  - `beta_managed_agents_environment_variable_create_params: object`
+
+    Parameters for creating an environment variable credential.
+
+    - `type: "environment_variable"`
+
+    - `networking: BetaManagedAgentsUnrestrictedCredentialNetworkingParams or BetaManagedAgentsLimitedCredentialNetworkingParams`
+
+      Outbound hosts the secret value is substituted on.
+
+      - `beta_managed_agents_unrestricted_credential_networking_params: object`
+
+        Substitute the secret on any host the session's Environment network policy permits egress to. The Environment's network policy is the only boundary on where the secret can reach.
+
+        - `type: "unrestricted"`
+
+      - `beta_managed_agents_limited_credential_networking_params: object`
+
+        Substitute the secret only on requests to the listed hosts.
+
+        - `type: "limited"`
+
+        - `allowed_hosts: array of string`
+
+          The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+          Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
+
+    - `secret_name: string`
+
+      Name of the environment variable. Immutable after create.
+
+      minLength: 1, maxLength: 255, pattern: ^[A-Z_][A-Z0-9_]*$
+
+    - `secret_value: string`
+
+      The secret to substitute into the agent's outbound requests. It's write-only and never returned in responses.
+
+      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
+
+    - `injection_location: optional object`
+
+      Where in the outbound request the secret value may be substituted.
+
+      - `body: optional boolean`
+
+        Substitute when the placeholder appears in the request body.
+
+      - `header: optional boolean`
+
+        Substitute when the placeholder appears in a request header value.
 
 - `--display-name: optional string`
 
@@ -35,7 +197,119 @@ Create Credential
 
 - `--beta: optional array of AnthropicBeta` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+  - `"message-batches-2024-09-24"`
+
+  - `"prompt-caching-2024-07-31"`
+
+  - `"computer-use-2024-10-22"`
+
+  - `"computer-use-2025-01-24"`
+
+  - `"pdfs-2024-09-25"`
+
+  - `"token-counting-2024-11-01"`
+
+  - `"token-efficient-tools-2025-02-19"`
+
+  - `"output-128k-2025-02-19"`
+
+  - `"files-api-2025-04-14"`
+
+  - `"mcp-client-2025-04-04"`
+
+  - `"mcp-client-2025-11-20"`
+
+  - `"dev-full-thinking-2025-05-14"`
+
+  - `"interleaved-thinking-2025-05-14"`
+
+  - `"code-execution-2025-05-22"`
+
+  - `"extended-cache-ttl-2025-04-11"`
+
+  - `"context-1m-2025-08-07"`
+
+  - `"context-management-2025-06-27"`
+
+  - `"model-context-window-exceeded-2025-08-26"`
+
+  - `"skills-2025-10-02"`
+
+  - `"fast-mode-2026-02-01"`
+
+  - `"output-300k-2026-03-24"`
+
+  - `"user-profiles-2026-03-24"`
+
+  - `"user-profiles-2026-08-18"`
+
+  - `"user-profiles-2026-09-04"`
+
+  - `"advisor-tool-2026-03-01"`
+
+  - `"managed-agents-2026-04-01"`
+
+  - `"cache-diagnosis-2026-04-07"`
+
+  - `"dreaming-2026-04-21"`
+
+  - `"thinking-token-count-2026-05-13"`
+
+  - `"server-side-fallback-2026-06-01"`
+
+  - `"server-side-fallback-2026-07-01"`
+
+  - `"fallback-credit-2026-06-01"`
+
+  - `"fallback-credit-2026-07-01"`
+
+  - `"agent-memory-2026-07-22"`
+
+  - `"mid-conversation-tool-changes-2026-07-01"`
+
+  - `"compact-2026-01-12"`
+
+  - `"computer-use-2025-11-24"`
+
+  - `"mcp-tunnels-2026-06-22"`
+
+  - `"structured-outputs-2025-11-13"`
+
+  - `"task-budgets-2026-03-13"`
+
+  - `"thinking-display-updates-2026-08-18"`
+
+  - `"ce-user-management-2026-07-13"`
+
+  - `"mid-conversation-output-config-2026-07-01"`
+
+  - `"thinking-binding-controls-2026-08-01"`
+
+  - `"mid-conversation-system-clear-at-2026-08-21"`
+
+  - `"compact-2026-09-04"`
+
+  - `"inline-tools-2026-09-15"`
+
+  - `"mcp-client-2026-09-15"`
+
+  - `"ce-plugins-2026-09-01"`
+
+  - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -53,7 +327,7 @@ Create Credential
 
   - `id: string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `archived_at: string`
 
@@ -77,7 +351,7 @@ Create Credential
 
       - `expires_at: optional string`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -87,7 +361,7 @@ Create Credential
 
         - `client_id: string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: string`
 
@@ -167,7 +441,9 @@ Create Credential
 
           - `allowed_hosts: array of string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: string`
 
@@ -201,7 +477,6 @@ Create Credential
 
 ```bash
 ant beta:vaults:credentials create \
-  --api-key my-anthropic-api-key \
   --vault-id vlt_011CZkZDLs7fYzm1hXNPeRjv \
   --auth '{token: bearer_exampletoken, mcp_server_url: https://example-server.modelcontextprotocol.io/sse, type: static_bearer}'
 ```
@@ -243,7 +518,7 @@ List Credentials
 
 - `--include-archived: optional boolean` (query parameter)
 
-  Whether to include archived credentials in the results.
+  Whether to include archived credentials in the results. Defaults to `false`.
 
 - `--limit: optional number` (query parameter)
 
@@ -253,11 +528,123 @@ List Credentials
 
 - `--page: optional string` (query parameter)
 
-  Opaque pagination token from a previous `list_credentials` response.
+  The `next_page` value from a previous [List Credentials](https://platform.claude.com/docs/en/api/beta/vaults/credentials/list?sdk_languages=cli) response, to get the next page. Leave it out to get the first page.
 
 - `--beta: optional array of AnthropicBeta` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+  - `"message-batches-2024-09-24"`
+
+  - `"prompt-caching-2024-07-31"`
+
+  - `"computer-use-2024-10-22"`
+
+  - `"computer-use-2025-01-24"`
+
+  - `"pdfs-2024-09-25"`
+
+  - `"token-counting-2024-11-01"`
+
+  - `"token-efficient-tools-2025-02-19"`
+
+  - `"output-128k-2025-02-19"`
+
+  - `"files-api-2025-04-14"`
+
+  - `"mcp-client-2025-04-04"`
+
+  - `"mcp-client-2025-11-20"`
+
+  - `"dev-full-thinking-2025-05-14"`
+
+  - `"interleaved-thinking-2025-05-14"`
+
+  - `"code-execution-2025-05-22"`
+
+  - `"extended-cache-ttl-2025-04-11"`
+
+  - `"context-1m-2025-08-07"`
+
+  - `"context-management-2025-06-27"`
+
+  - `"model-context-window-exceeded-2025-08-26"`
+
+  - `"skills-2025-10-02"`
+
+  - `"fast-mode-2026-02-01"`
+
+  - `"output-300k-2026-03-24"`
+
+  - `"user-profiles-2026-03-24"`
+
+  - `"user-profiles-2026-08-18"`
+
+  - `"user-profiles-2026-09-04"`
+
+  - `"advisor-tool-2026-03-01"`
+
+  - `"managed-agents-2026-04-01"`
+
+  - `"cache-diagnosis-2026-04-07"`
+
+  - `"dreaming-2026-04-21"`
+
+  - `"thinking-token-count-2026-05-13"`
+
+  - `"server-side-fallback-2026-06-01"`
+
+  - `"server-side-fallback-2026-07-01"`
+
+  - `"fallback-credit-2026-06-01"`
+
+  - `"fallback-credit-2026-07-01"`
+
+  - `"agent-memory-2026-07-22"`
+
+  - `"mid-conversation-tool-changes-2026-07-01"`
+
+  - `"compact-2026-01-12"`
+
+  - `"computer-use-2025-11-24"`
+
+  - `"mcp-tunnels-2026-06-22"`
+
+  - `"structured-outputs-2025-11-13"`
+
+  - `"task-budgets-2026-03-13"`
+
+  - `"thinking-display-updates-2026-08-18"`
+
+  - `"ce-user-management-2026-07-13"`
+
+  - `"mid-conversation-output-config-2026-07-01"`
+
+  - `"thinking-binding-controls-2026-08-01"`
+
+  - `"mid-conversation-system-clear-at-2026-08-21"`
+
+  - `"compact-2026-09-04"`
+
+  - `"inline-tools-2026-09-15"`
+
+  - `"mcp-client-2026-09-15"`
+
+  - `"ce-plugins-2026-09-01"`
+
+  - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -273,13 +660,15 @@ List Credentials
 
   - `data: optional array of BetaManagedAgentsCredential`
 
-    List of credentials.
+    The credentials on this page, newest first.
+
+    - `type: "vault_credential"`
 
     - `type: "vault_credential"`
 
     - `id: string`
 
-      Unique identifier for the credential.
+      The unique ID of the credential (`vcrd_...`).
 
     - `archived_at: string`
 
@@ -303,7 +692,7 @@ List Credentials
 
         - `expires_at: optional string`
 
-          A timestamp in RFC 3339 format
+          When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
           format: date-time
 
@@ -313,7 +702,7 @@ List Credentials
 
           - `client_id: string`
 
-            OAuth client ID.
+            The OAuth client ID used when refreshing the access token.
 
           - `token_endpoint: string`
 
@@ -393,7 +782,9 @@ List Credentials
 
             - `allowed_hosts: array of string`
 
-              Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+              The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+              An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
         - `secret_name: string`
 
@@ -431,7 +822,6 @@ List Credentials
 
 ```bash
 ant beta:vaults:credentials list \
-  --api-key my-anthropic-api-key \
   --vault-id vlt_011CZkZDLs7fYzm1hXNPeRjv
 ```
 
@@ -461,13 +851,13 @@ ant beta:vaults:credentials list \
 }
 ```
 
-## Get Credential
+## Retrieve a Credential
 
 `$ ant beta:vaults:credentials retrieve`
 
 **GET** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Get Credential
+Retrieve a Credential
 
 ### Parameters
 
@@ -481,7 +871,119 @@ Get Credential
 
 - `--beta: optional array of AnthropicBeta` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+  - `"message-batches-2024-09-24"`
+
+  - `"prompt-caching-2024-07-31"`
+
+  - `"computer-use-2024-10-22"`
+
+  - `"computer-use-2025-01-24"`
+
+  - `"pdfs-2024-09-25"`
+
+  - `"token-counting-2024-11-01"`
+
+  - `"token-efficient-tools-2025-02-19"`
+
+  - `"output-128k-2025-02-19"`
+
+  - `"files-api-2025-04-14"`
+
+  - `"mcp-client-2025-04-04"`
+
+  - `"mcp-client-2025-11-20"`
+
+  - `"dev-full-thinking-2025-05-14"`
+
+  - `"interleaved-thinking-2025-05-14"`
+
+  - `"code-execution-2025-05-22"`
+
+  - `"extended-cache-ttl-2025-04-11"`
+
+  - `"context-1m-2025-08-07"`
+
+  - `"context-management-2025-06-27"`
+
+  - `"model-context-window-exceeded-2025-08-26"`
+
+  - `"skills-2025-10-02"`
+
+  - `"fast-mode-2026-02-01"`
+
+  - `"output-300k-2026-03-24"`
+
+  - `"user-profiles-2026-03-24"`
+
+  - `"user-profiles-2026-08-18"`
+
+  - `"user-profiles-2026-09-04"`
+
+  - `"advisor-tool-2026-03-01"`
+
+  - `"managed-agents-2026-04-01"`
+
+  - `"cache-diagnosis-2026-04-07"`
+
+  - `"dreaming-2026-04-21"`
+
+  - `"thinking-token-count-2026-05-13"`
+
+  - `"server-side-fallback-2026-06-01"`
+
+  - `"server-side-fallback-2026-07-01"`
+
+  - `"fallback-credit-2026-06-01"`
+
+  - `"fallback-credit-2026-07-01"`
+
+  - `"agent-memory-2026-07-22"`
+
+  - `"mid-conversation-tool-changes-2026-07-01"`
+
+  - `"compact-2026-01-12"`
+
+  - `"computer-use-2025-11-24"`
+
+  - `"mcp-tunnels-2026-06-22"`
+
+  - `"structured-outputs-2025-11-13"`
+
+  - `"task-budgets-2026-03-13"`
+
+  - `"thinking-display-updates-2026-08-18"`
+
+  - `"ce-user-management-2026-07-13"`
+
+  - `"mid-conversation-output-config-2026-07-01"`
+
+  - `"thinking-binding-controls-2026-08-01"`
+
+  - `"mid-conversation-system-clear-at-2026-08-21"`
+
+  - `"compact-2026-09-04"`
+
+  - `"inline-tools-2026-09-15"`
+
+  - `"mcp-client-2026-09-15"`
+
+  - `"ce-plugins-2026-09-01"`
+
+  - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -499,7 +1001,7 @@ Get Credential
 
   - `id: string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `archived_at: string`
 
@@ -523,7 +1025,7 @@ Get Credential
 
       - `expires_at: optional string`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -533,7 +1035,7 @@ Get Credential
 
         - `client_id: string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: string`
 
@@ -613,7 +1115,9 @@ Get Credential
 
           - `allowed_hosts: array of string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: string`
 
@@ -647,7 +1151,6 @@ Get Credential
 
 ```bash
 ant beta:vaults:credentials retrieve \
-  --api-key my-anthropic-api-key \
   --vault-id vlt_011CZkZDLs7fYzm1hXNPeRjv \
   --credential-id vcrd_011CZkZEMt8gZan2iYPQfSkw
 ```
@@ -673,13 +1176,13 @@ ant beta:vaults:credentials retrieve \
 }
 ```
 
-## Update Credential
+## Update a Credential
 
 `$ ant beta:vaults:credentials update`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Update Credential
+Update a Credential
 
 ### Parameters
 
@@ -693,7 +1196,133 @@ Update Credential
 
 - `--auth: optional BetaManagedAgentsMCPOAuthUpdateParams or BetaManagedAgentsStaticBearerUpdateParams or BetaManagedAgentsEnvironmentVariableUpdateParams`
 
-  Updated authentication configuration. The `type` is immutable; the variant sent must match the stored credential's type.
+  New authentication settings for the credential. The `type` must match the credential's current type, which can't be changed.
+
+  - `beta_managed_agents_mcp_oauth_update_params: object`
+
+    Parameters for updating an MCP OAuth credential. The `mcp_server_url` is immutable.
+
+    - `type: "mcp_oauth"`
+
+    - `access_token: optional string`
+
+      The new OAuth access token to replace the stored one.
+
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
+
+    - `expires_at: optional string`
+
+      When the credential's access token expires, in RFC 3339. Leave it out to keep the stored expiry.
+
+      If you send a new `access_token`, send its `expires_at` too, or the new token keeps the old expiry.
+
+      Must be in the future.
+
+      format: date-time
+
+    - `refresh: optional object`
+
+      Updated refresh token configuration.
+
+      - `refresh_token: optional string`
+
+        The new OAuth refresh token to replace the stored one.
+
+        minLength: 1, maxLength: 8192
+
+      - `scope: optional string`
+
+        The new OAuth scope for refresh requests. Send an empty string to clear the stored scope.
+
+        maxLength: 8192
+
+      - `token_endpoint_auth: optional BetaManagedAgentsTokenEndpointAuthBasicUpdateParam or BetaManagedAgentsTokenEndpointAuthPostUpdateParam`
+
+        - `beta_managed_agents_token_endpoint_auth_basic_update_param: object`
+
+          Updated HTTP Basic authentication parameters for the token endpoint.
+
+          - `type: "client_secret_basic"`
+
+          - `client_secret: optional string`
+
+            A new OAuth client secret to replace the stored one.
+
+            The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
+
+            minLength: 1, maxLength: 512
+
+        - `beta_managed_agents_token_endpoint_auth_post_update_param: object`
+
+          Updated POST body authentication parameters for the token endpoint.
+
+          - `type: "client_secret_post"`
+
+          - `client_secret: optional string`
+
+            A new OAuth client secret to replace the stored one.
+
+            The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
+
+            minLength: 1, maxLength: 512
+
+  - `beta_managed_agents_static_bearer_update_params: object`
+
+    Parameters for updating a static bearer token credential. The `mcp_server_url` is immutable.
+
+    - `type: "static_bearer"`
+
+    - `token: optional string`
+
+      The new static bearer token to replace the stored one.
+
+      minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
+
+  - `beta_managed_agents_environment_variable_update_params: object`
+
+    Parameters for updating an environment variable credential. `secret_name` is immutable.
+
+    - `type: "environment_variable"`
+
+    - `injection_location: optional object`
+
+      Updated injection location.
+
+      - `body: optional boolean`
+
+        Substitute when the placeholder appears in the request body.
+
+      - `header: optional boolean`
+
+        Substitute when the placeholder appears in a request header value.
+
+    - `networking: optional BetaManagedAgentsUnrestrictedCredentialNetworkingParams or BetaManagedAgentsLimitedCredentialNetworkingParams`
+
+      The new networking scope, which replaces the stored one as a whole.
+
+      - `beta_managed_agents_unrestricted_credential_networking_params: object`
+
+        Substitute the secret on any host the session's Environment network policy permits egress to. The Environment's network policy is the only boundary on where the secret can reach.
+
+        - `type: "unrestricted"`
+
+      - `beta_managed_agents_limited_credential_networking_params: object`
+
+        Substitute the secret only on requests to the listed hosts.
+
+        - `type: "limited"`
+
+        - `allowed_hosts: array of string`
+
+          The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+          Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
+
+    - `secret_value: optional string`
+
+      The new secret value to replace the stored one.
+
+      minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
 - `--display-name: optional string`
 
@@ -707,7 +1336,119 @@ Update Credential
 
 - `--beta: optional array of AnthropicBeta` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+  - `"message-batches-2024-09-24"`
+
+  - `"prompt-caching-2024-07-31"`
+
+  - `"computer-use-2024-10-22"`
+
+  - `"computer-use-2025-01-24"`
+
+  - `"pdfs-2024-09-25"`
+
+  - `"token-counting-2024-11-01"`
+
+  - `"token-efficient-tools-2025-02-19"`
+
+  - `"output-128k-2025-02-19"`
+
+  - `"files-api-2025-04-14"`
+
+  - `"mcp-client-2025-04-04"`
+
+  - `"mcp-client-2025-11-20"`
+
+  - `"dev-full-thinking-2025-05-14"`
+
+  - `"interleaved-thinking-2025-05-14"`
+
+  - `"code-execution-2025-05-22"`
+
+  - `"extended-cache-ttl-2025-04-11"`
+
+  - `"context-1m-2025-08-07"`
+
+  - `"context-management-2025-06-27"`
+
+  - `"model-context-window-exceeded-2025-08-26"`
+
+  - `"skills-2025-10-02"`
+
+  - `"fast-mode-2026-02-01"`
+
+  - `"output-300k-2026-03-24"`
+
+  - `"user-profiles-2026-03-24"`
+
+  - `"user-profiles-2026-08-18"`
+
+  - `"user-profiles-2026-09-04"`
+
+  - `"advisor-tool-2026-03-01"`
+
+  - `"managed-agents-2026-04-01"`
+
+  - `"cache-diagnosis-2026-04-07"`
+
+  - `"dreaming-2026-04-21"`
+
+  - `"thinking-token-count-2026-05-13"`
+
+  - `"server-side-fallback-2026-06-01"`
+
+  - `"server-side-fallback-2026-07-01"`
+
+  - `"fallback-credit-2026-06-01"`
+
+  - `"fallback-credit-2026-07-01"`
+
+  - `"agent-memory-2026-07-22"`
+
+  - `"mid-conversation-tool-changes-2026-07-01"`
+
+  - `"compact-2026-01-12"`
+
+  - `"computer-use-2025-11-24"`
+
+  - `"mcp-tunnels-2026-06-22"`
+
+  - `"structured-outputs-2025-11-13"`
+
+  - `"task-budgets-2026-03-13"`
+
+  - `"thinking-display-updates-2026-08-18"`
+
+  - `"ce-user-management-2026-07-13"`
+
+  - `"mid-conversation-output-config-2026-07-01"`
+
+  - `"thinking-binding-controls-2026-08-01"`
+
+  - `"mid-conversation-system-clear-at-2026-08-21"`
+
+  - `"compact-2026-09-04"`
+
+  - `"inline-tools-2026-09-15"`
+
+  - `"mcp-client-2026-09-15"`
+
+  - `"ce-plugins-2026-09-01"`
+
+  - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -725,7 +1466,7 @@ Update Credential
 
   - `id: string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `archived_at: string`
 
@@ -749,7 +1490,7 @@ Update Credential
 
       - `expires_at: optional string`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -759,7 +1500,7 @@ Update Credential
 
         - `client_id: string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: string`
 
@@ -839,7 +1580,9 @@ Update Credential
 
           - `allowed_hosts: array of string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: string`
 
@@ -873,7 +1616,6 @@ Update Credential
 
 ```bash
 ant beta:vaults:credentials update \
-  --api-key my-anthropic-api-key \
   --vault-id vlt_011CZkZDLs7fYzm1hXNPeRjv \
   --credential-id vcrd_011CZkZEMt8gZan2iYPQfSkw
 ```
@@ -899,13 +1641,13 @@ ant beta:vaults:credentials update \
 }
 ```
 
-## Delete Credential
+## Delete a Credential
 
 `$ ant beta:vaults:credentials delete`
 
 **DELETE** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Delete Credential
+Delete a Credential
 
 ### Parameters
 
@@ -919,7 +1661,119 @@ Delete Credential
 
 - `--beta: optional array of AnthropicBeta` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+  - `"message-batches-2024-09-24"`
+
+  - `"prompt-caching-2024-07-31"`
+
+  - `"computer-use-2024-10-22"`
+
+  - `"computer-use-2025-01-24"`
+
+  - `"pdfs-2024-09-25"`
+
+  - `"token-counting-2024-11-01"`
+
+  - `"token-efficient-tools-2025-02-19"`
+
+  - `"output-128k-2025-02-19"`
+
+  - `"files-api-2025-04-14"`
+
+  - `"mcp-client-2025-04-04"`
+
+  - `"mcp-client-2025-11-20"`
+
+  - `"dev-full-thinking-2025-05-14"`
+
+  - `"interleaved-thinking-2025-05-14"`
+
+  - `"code-execution-2025-05-22"`
+
+  - `"extended-cache-ttl-2025-04-11"`
+
+  - `"context-1m-2025-08-07"`
+
+  - `"context-management-2025-06-27"`
+
+  - `"model-context-window-exceeded-2025-08-26"`
+
+  - `"skills-2025-10-02"`
+
+  - `"fast-mode-2026-02-01"`
+
+  - `"output-300k-2026-03-24"`
+
+  - `"user-profiles-2026-03-24"`
+
+  - `"user-profiles-2026-08-18"`
+
+  - `"user-profiles-2026-09-04"`
+
+  - `"advisor-tool-2026-03-01"`
+
+  - `"managed-agents-2026-04-01"`
+
+  - `"cache-diagnosis-2026-04-07"`
+
+  - `"dreaming-2026-04-21"`
+
+  - `"thinking-token-count-2026-05-13"`
+
+  - `"server-side-fallback-2026-06-01"`
+
+  - `"server-side-fallback-2026-07-01"`
+
+  - `"fallback-credit-2026-06-01"`
+
+  - `"fallback-credit-2026-07-01"`
+
+  - `"agent-memory-2026-07-22"`
+
+  - `"mid-conversation-tool-changes-2026-07-01"`
+
+  - `"compact-2026-01-12"`
+
+  - `"computer-use-2025-11-24"`
+
+  - `"mcp-tunnels-2026-06-22"`
+
+  - `"structured-outputs-2025-11-13"`
+
+  - `"task-budgets-2026-03-13"`
+
+  - `"thinking-display-updates-2026-08-18"`
+
+  - `"ce-user-management-2026-07-13"`
+
+  - `"mid-conversation-output-config-2026-07-01"`
+
+  - `"thinking-binding-controls-2026-08-01"`
+
+  - `"mid-conversation-system-clear-at-2026-08-21"`
+
+  - `"compact-2026-09-04"`
+
+  - `"inline-tools-2026-09-15"`
+
+  - `"mcp-client-2026-09-15"`
+
+  - `"ce-plugins-2026-09-01"`
+
+  - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -937,13 +1791,12 @@ Delete Credential
 
   - `id: string`
 
-    Unique identifier of the deleted credential.
+    The unique ID of the deleted credential (`vcrd_...`).
 
 ### Example
 
 ```bash
 ant beta:vaults:credentials delete \
-  --api-key my-anthropic-api-key \
   --vault-id vlt_011CZkZDLs7fYzm1hXNPeRjv \
   --credential-id vcrd_011CZkZEMt8gZan2iYPQfSkw
 ```
@@ -957,13 +1810,13 @@ ant beta:vaults:credentials delete \
 }
 ```
 
-## Archive Credential
+## Archive a Credential
 
 `$ ant beta:vaults:credentials archive`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/archive`
 
-Archive Credential
+Archive a Credential
 
 ### Parameters
 
@@ -977,7 +1830,119 @@ Archive Credential
 
 - `--beta: optional array of AnthropicBeta` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+  - `"message-batches-2024-09-24"`
+
+  - `"prompt-caching-2024-07-31"`
+
+  - `"computer-use-2024-10-22"`
+
+  - `"computer-use-2025-01-24"`
+
+  - `"pdfs-2024-09-25"`
+
+  - `"token-counting-2024-11-01"`
+
+  - `"token-efficient-tools-2025-02-19"`
+
+  - `"output-128k-2025-02-19"`
+
+  - `"files-api-2025-04-14"`
+
+  - `"mcp-client-2025-04-04"`
+
+  - `"mcp-client-2025-11-20"`
+
+  - `"dev-full-thinking-2025-05-14"`
+
+  - `"interleaved-thinking-2025-05-14"`
+
+  - `"code-execution-2025-05-22"`
+
+  - `"extended-cache-ttl-2025-04-11"`
+
+  - `"context-1m-2025-08-07"`
+
+  - `"context-management-2025-06-27"`
+
+  - `"model-context-window-exceeded-2025-08-26"`
+
+  - `"skills-2025-10-02"`
+
+  - `"fast-mode-2026-02-01"`
+
+  - `"output-300k-2026-03-24"`
+
+  - `"user-profiles-2026-03-24"`
+
+  - `"user-profiles-2026-08-18"`
+
+  - `"user-profiles-2026-09-04"`
+
+  - `"advisor-tool-2026-03-01"`
+
+  - `"managed-agents-2026-04-01"`
+
+  - `"cache-diagnosis-2026-04-07"`
+
+  - `"dreaming-2026-04-21"`
+
+  - `"thinking-token-count-2026-05-13"`
+
+  - `"server-side-fallback-2026-06-01"`
+
+  - `"server-side-fallback-2026-07-01"`
+
+  - `"fallback-credit-2026-06-01"`
+
+  - `"fallback-credit-2026-07-01"`
+
+  - `"agent-memory-2026-07-22"`
+
+  - `"mid-conversation-tool-changes-2026-07-01"`
+
+  - `"compact-2026-01-12"`
+
+  - `"computer-use-2025-11-24"`
+
+  - `"mcp-tunnels-2026-06-22"`
+
+  - `"structured-outputs-2025-11-13"`
+
+  - `"task-budgets-2026-03-13"`
+
+  - `"thinking-display-updates-2026-08-18"`
+
+  - `"ce-user-management-2026-07-13"`
+
+  - `"mid-conversation-output-config-2026-07-01"`
+
+  - `"thinking-binding-controls-2026-08-01"`
+
+  - `"mid-conversation-system-clear-at-2026-08-21"`
+
+  - `"compact-2026-09-04"`
+
+  - `"inline-tools-2026-09-15"`
+
+  - `"mcp-client-2026-09-15"`
+
+  - `"ce-plugins-2026-09-01"`
+
+  - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -995,7 +1960,7 @@ Archive Credential
 
   - `id: string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `archived_at: string`
 
@@ -1019,7 +1984,7 @@ Archive Credential
 
       - `expires_at: optional string`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -1029,7 +1994,7 @@ Archive Credential
 
         - `client_id: string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: string`
 
@@ -1109,7 +2074,9 @@ Archive Credential
 
           - `allowed_hosts: array of string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: string`
 
@@ -1143,7 +2110,6 @@ Archive Credential
 
 ```bash
 ant beta:vaults:credentials archive \
-  --api-key my-anthropic-api-key \
   --vault-id vlt_011CZkZDLs7fYzm1hXNPeRjv \
   --credential-id vcrd_011CZkZEMt8gZan2iYPQfSkw
 ```
@@ -1169,13 +2135,13 @@ ant beta:vaults:credentials archive \
 }
 ```
 
-## Validate Credential
+## Validate an MCP OAuth Credential
 
 `$ ant beta:vaults:credentials mcp-oauth-validate`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/mcp_oauth_validate`
 
-Validate Credential
+Validate an MCP OAuth Credential
 
 ### Parameters
 
@@ -1189,7 +2155,119 @@ Validate Credential
 
 - `--beta: optional array of AnthropicBeta` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+  - `"message-batches-2024-09-24"`
+
+  - `"prompt-caching-2024-07-31"`
+
+  - `"computer-use-2024-10-22"`
+
+  - `"computer-use-2025-01-24"`
+
+  - `"pdfs-2024-09-25"`
+
+  - `"token-counting-2024-11-01"`
+
+  - `"token-efficient-tools-2025-02-19"`
+
+  - `"output-128k-2025-02-19"`
+
+  - `"files-api-2025-04-14"`
+
+  - `"mcp-client-2025-04-04"`
+
+  - `"mcp-client-2025-11-20"`
+
+  - `"dev-full-thinking-2025-05-14"`
+
+  - `"interleaved-thinking-2025-05-14"`
+
+  - `"code-execution-2025-05-22"`
+
+  - `"extended-cache-ttl-2025-04-11"`
+
+  - `"context-1m-2025-08-07"`
+
+  - `"context-management-2025-06-27"`
+
+  - `"model-context-window-exceeded-2025-08-26"`
+
+  - `"skills-2025-10-02"`
+
+  - `"fast-mode-2026-02-01"`
+
+  - `"output-300k-2026-03-24"`
+
+  - `"user-profiles-2026-03-24"`
+
+  - `"user-profiles-2026-08-18"`
+
+  - `"user-profiles-2026-09-04"`
+
+  - `"advisor-tool-2026-03-01"`
+
+  - `"managed-agents-2026-04-01"`
+
+  - `"cache-diagnosis-2026-04-07"`
+
+  - `"dreaming-2026-04-21"`
+
+  - `"thinking-token-count-2026-05-13"`
+
+  - `"server-side-fallback-2026-06-01"`
+
+  - `"server-side-fallback-2026-07-01"`
+
+  - `"fallback-credit-2026-06-01"`
+
+  - `"fallback-credit-2026-07-01"`
+
+  - `"agent-memory-2026-07-22"`
+
+  - `"mid-conversation-tool-changes-2026-07-01"`
+
+  - `"compact-2026-01-12"`
+
+  - `"computer-use-2025-11-24"`
+
+  - `"mcp-tunnels-2026-06-22"`
+
+  - `"structured-outputs-2025-11-13"`
+
+  - `"task-budgets-2026-03-13"`
+
+  - `"thinking-display-updates-2026-08-18"`
+
+  - `"ce-user-management-2026-07-13"`
+
+  - `"mid-conversation-output-config-2026-07-01"`
+
+  - `"thinking-binding-controls-2026-08-01"`
+
+  - `"mid-conversation-system-clear-at-2026-08-21"`
+
+  - `"compact-2026-09-04"`
+
+  - `"inline-tools-2026-09-15"`
+
+  - `"mcp-client-2026-09-15"`
+
+  - `"ce-plugins-2026-09-01"`
+
+  - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -1215,11 +2293,11 @@ Validate Credential
 
   - `mcp_probe: object`
 
-    Details of the failing MCP probe step. Null when the probe succeeded.
+    Details of the MCP probe step that failed, or `null` if the probe succeeded or there was no access token to test.
 
     - `http_response: object`
 
-      The captured HTTP error response. Null when no HTTP response was received (timeout, DNS, TLS).
+      The HTTP error response from the MCP server, or `null` if the MCP server didn't return one for the failing step, for example after a timeout or a DNS or TLS failure.
 
       - `body: string`
 
@@ -1251,24 +2329,6 @@ Validate Credential
 
       The captured HTTP error response from the token endpoint. Populated only when `status` is `failed`.
 
-      - `body: string`
-
-        Response body. May be truncated and has sensitive values scrubbed.
-
-      - `body_truncated: boolean`
-
-        Whether `body` was truncated.
-
-      - `content_type: string`
-
-        Value of the `Content-Type` response header.
-
-      - `status_code: number`
-
-        HTTP status code.
-
-        format: int32
-
     - `status: "succeeded" or "failed" or "connect_error" or "no_refresh_token"`
 
       Outcome of the refresh attempt.
@@ -1299,11 +2359,11 @@ Validate Credential
 
     - `"invalid"`
 
-      The probe reached the MCP server and was rejected, and a refresh (if attempted) did not recover it.
+      The probe reached the MCP server and the server rejected the credential, or no access token is stored. A refresh, if one was tried, didn't recover it. Usually the end user needs to authorize again.
 
     - `"unknown"`
 
-      The probe could not determine validity — for example, a transport error or a successful refresh that was not re-probed.
+      The probe couldn't tell whether the credential works, for example because of a network error or because a refresh succeeded but the new access token wasn't tested. Validate the credential again to find out.
 
   - `validated_at: string`
 
@@ -1319,7 +2379,6 @@ Validate Credential
 
 ```bash
 ant beta:vaults:credentials mcp-oauth-validate \
-  --api-key my-anthropic-api-key \
   --vault-id vlt_011CZkZDLs7fYzm1hXNPeRjv \
   --credential-id vcrd_011CZkZEMt8gZan2iYPQfSkw
 ```
@@ -1367,7 +2426,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `id: string`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `archived_at: string`
 
@@ -1391,7 +2450,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
       - `expires_at: optional string`
 
-        A timestamp in RFC 3339 format
+        When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
         format: date-time
 
@@ -1401,7 +2460,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
         - `client_id: string`
 
-          OAuth client ID.
+          The OAuth client ID used when refreshing the access token.
 
         - `token_endpoint: string`
 
@@ -1481,7 +2540,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
           - `allowed_hosts: array of string`
 
-            Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+            The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+            An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
       - `secret_name: string`
 
@@ -1529,7 +2590,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
     - `allowed_hosts: array of string`
 
-      Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+      The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+      Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
 ### Beta Managed Agents Credential Validation
 
@@ -1549,11 +2612,11 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `mcp_probe: object`
 
-    Details of the failing MCP probe step. Null when the probe succeeded.
+    Details of the MCP probe step that failed, or `null` if the probe succeeded or there was no access token to test.
 
     - `http_response: object`
 
-      The captured HTTP error response. Null when no HTTP response was received (timeout, DNS, TLS).
+      The HTTP error response from the MCP server, or `null` if the MCP server didn't return one for the failing step, for example after a timeout or a DNS or TLS failure.
 
       - `body: string`
 
@@ -1585,24 +2648,6 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
       The captured HTTP error response from the token endpoint. Populated only when `status` is `failed`.
 
-      - `body: string`
-
-        Response body. May be truncated and has sensitive values scrubbed.
-
-      - `body_truncated: boolean`
-
-        Whether `body` was truncated.
-
-      - `content_type: string`
-
-        Value of the `Content-Type` response header.
-
-      - `status_code: number`
-
-        HTTP status code.
-
-        format: int32
-
     - `status: "succeeded" or "failed" or "connect_error" or "no_refresh_token"`
 
       Outcome of the refresh attempt.
@@ -1633,11 +2678,11 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
     - `"invalid"`
 
-      The probe reached the MCP server and was rejected, and a refresh (if attempted) did not recover it.
+      The probe reached the MCP server and the server rejected the credential, or no access token is stored. A refresh, if one was tried, didn't recover it. Usually the end user needs to authorize again.
 
     - `"unknown"`
 
-      The probe could not determine validity — for example, a transport error or a successful refresh that was not re-probed.
+      The probe couldn't tell whether the credential works, for example because of a network error or because a refresh succeeded but the new access token wasn't tested. Validate the credential again to find out.
 
   - `validated_at: string`
 
@@ -1661,11 +2706,11 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `"invalid"`
 
-    The probe reached the MCP server and was rejected, and a refresh (if attempted) did not recover it.
+    The probe reached the MCP server and the server rejected the credential, or no access token is stored. A refresh, if one was tried, didn't recover it. Usually the end user needs to authorize again.
 
   - `"unknown"`
 
-    The probe could not determine validity — for example, a transport error or a successful refresh that was not re-probed.
+    The probe couldn't tell whether the credential works, for example because of a network error or because a refresh succeeded but the new access token wasn't tested. Validate the credential again to find out.
 
 ### Beta Managed Agents Deleted Credential
 
@@ -1677,7 +2722,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `id: string`
 
-    Unique identifier of the deleted credential.
+    The unique ID of the deleted credential (`vcrd_...`).
 
 ### Beta Managed Agents Environment Variable Auth Response
 
@@ -1717,7 +2762,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
       - `allowed_hosts: array of string`
 
-        Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+        The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+        An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
   - `secret_name: string`
 
@@ -1749,19 +2796,21 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
       - `allowed_hosts: array of string`
 
-        Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+        The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+        Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
   - `secret_name: string`
 
     Name of the environment variable. Immutable after create.
 
-    minLength: 1, maxLength: 255
+    minLength: 1, maxLength: 255, pattern: ^[A-Z_][A-Z0-9_]*$
 
   - `secret_value: string`
 
-    Secret value. Write-only; never returned in responses.
+    The secret to substitute into the agent's outbound requests. It's write-only and never returned in responses.
 
-    minLength: 1, maxLength: 4096
+    minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `injection_location: optional object`
 
@@ -1797,7 +2846,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `networking: optional BetaManagedAgentsUnrestrictedCredentialNetworkingParams or BetaManagedAgentsLimitedCredentialNetworkingParams`
 
-    Updated networking scope. Full replacement.
+    The new networking scope, which replaces the stored one as a whole.
 
     - `beta_managed_agents_unrestricted_credential_networking_params: object`
 
@@ -1813,13 +2862,15 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
       - `allowed_hosts: array of string`
 
-        Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+        The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+        Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
   - `secret_value: optional string`
 
-    Updated secret value.
+    The new secret value to replace the stored one.
 
-    minLength: 1, maxLength: 4096
+    minLength: 1, maxLength: 4096, pattern: ^[^\x00-\x1f\x7f]*$
 
 ### Beta Managed Agents Injection Location Params
 
@@ -1853,7 +2904,11 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
 - `beta_managed_agents_injection_location_update_params: object`
 
-  Updated injection location.
+  Changes which parts of an outbound request the secret is substituted into. A location you leave out keeps its current setting.
+
+  After the change, at least one location must be enabled.
+
+  See [Authenticate with vaults](https://platform.claude.com/docs/en/managed-agents/vaults?sdk_languages=cli#add-a-credential) to learn more about injection locations.
 
   - `body: optional boolean`
 
@@ -1873,7 +2928,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `allowed_hosts: array of string`
 
-    Hostnames on which the secret will be substituted. Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At most 16 entries.
+    The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+    Each entry is a bare hostname (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.` wildcard (`*.example.com`). URLs, ports, paths, and IPv6 addresses aren't accepted. The list can have up to 16 entries.
 
 ### Beta Managed Agents Limited Credential Networking Response
 
@@ -1885,7 +2942,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `allowed_hosts: array of string`
 
-    Hostnames on which the secret will be substituted. An entry matches the request host exactly; a `*.`-prefixed entry matches any subdomain of the named domain but not the domain itself.
+    The destination hosts of the outbound requests that the credential's secret is substituted into.
+
+    An entry matches the request host exactly. An entry such as `*.example.com` matches any subdomain of `example.com` but not `example.com` itself.
 
 ### Beta Managed Agents MCP OAuth Auth Response
 
@@ -1901,7 +2960,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `expires_at: optional string`
 
-    A timestamp in RFC 3339 format
+    When the credential's access token expires, in RFC 3339. Absent if the expiry isn't known.
 
     format: date-time
 
@@ -1911,7 +2970,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
     - `client_id: string`
 
-      OAuth client ID.
+      The OAuth client ID used when refreshing the access token.
 
     - `token_endpoint: string`
 
@@ -1955,9 +3014,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `access_token: string`
 
-    OAuth access token.
+    The OAuth access token to send to the MCP server.
 
-    minLength: 1, maxLength: 8192
+    minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `mcp_server_url: string`
 
@@ -1967,7 +3026,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `expires_at: optional string`
 
-    A timestamp in RFC 3339 format
+    When `access_token` expires, in RFC 3339.
+
+    Must be in the future.
 
     format: date-time
 
@@ -1977,13 +3038,13 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
     - `client_id: string`
 
-      OAuth client ID.
+      The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
 
       minLength: 1, maxLength: 1024
 
     - `refresh_token: string`
 
-      OAuth refresh token.
+      The OAuth refresh token that the API uses to get a new access token when the current one expires.
 
       minLength: 1, maxLength: 8192
 
@@ -2009,7 +3070,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
         - `client_secret: string`
 
-          OAuth client secret.
+          The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
           minLength: 1, maxLength: 512
 
@@ -2021,7 +3082,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
         - `client_secret: string`
 
-          OAuth client secret.
+          The OAuth client secret, sent to `token_endpoint` in the POST body.
 
           minLength: 1, maxLength: 512
 
@@ -2045,13 +3106,13 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `client_id: string`
 
-    OAuth client ID.
+    The OAuth client ID to use when refreshing the access token. It can't be changed after the credential is created.
 
     minLength: 1, maxLength: 1024
 
   - `refresh_token: string`
 
-    OAuth refresh token.
+    The OAuth refresh token that the API uses to get a new access token when the current one expires.
 
     minLength: 1, maxLength: 8192
 
@@ -2077,7 +3138,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
       - `client_secret: string`
 
-        OAuth client secret.
+        The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
         minLength: 1, maxLength: 512
 
@@ -2089,7 +3150,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
       - `client_secret: string`
 
-        OAuth client secret.
+        The OAuth client secret, sent to `token_endpoint` in the POST body.
 
         minLength: 1, maxLength: 512
 
@@ -2113,7 +3174,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `client_id: string`
 
-    OAuth client ID.
+    The OAuth client ID used when refreshing the access token.
 
   - `token_endpoint: string`
 
@@ -2155,13 +3216,13 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `refresh_token: optional string`
 
-    Updated OAuth refresh token.
+    The new OAuth refresh token to replace the stored one.
 
     minLength: 1, maxLength: 8192
 
   - `scope: optional string`
 
-    Updated OAuth scope for the refresh request.
+    The new OAuth scope for refresh requests. Send an empty string to clear the stored scope.
 
     maxLength: 8192
 
@@ -2175,7 +3236,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
       - `client_secret: optional string`
 
-        Updated OAuth client secret.
+        A new OAuth client secret to replace the stored one.
+
+        The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
         minLength: 1, maxLength: 512
 
@@ -2187,7 +3250,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
       - `client_secret: optional string`
 
-        Updated OAuth client secret.
+        A new OAuth client secret to replace the stored one.
+
+        The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
         minLength: 1, maxLength: 512
 
@@ -2201,13 +3266,17 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `access_token: optional string`
 
-    Updated OAuth access token.
+    The new OAuth access token to replace the stored one.
 
-    minLength: 1, maxLength: 8192
+    minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `expires_at: optional string`
 
-    A timestamp in RFC 3339 format
+    When the credential's access token expires, in RFC 3339. Leave it out to keep the stored expiry.
+
+    If you send a new `access_token`, send its `expires_at` too, or the new token keeps the old expiry.
+
+    Must be in the future.
 
     format: date-time
 
@@ -2217,13 +3286,13 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
     - `refresh_token: optional string`
 
-      Updated OAuth refresh token.
+      The new OAuth refresh token to replace the stored one.
 
       minLength: 1, maxLength: 8192
 
     - `scope: optional string`
 
-      Updated OAuth scope for the refresh request.
+      The new OAuth scope for refresh requests. Send an empty string to clear the stored scope.
 
       maxLength: 8192
 
@@ -2237,7 +3306,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
         - `client_secret: optional string`
 
-          Updated OAuth client secret.
+          A new OAuth client secret to replace the stored one.
+
+          The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
           minLength: 1, maxLength: 512
 
@@ -2249,7 +3320,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
         - `client_secret: optional string`
 
-          Updated OAuth client secret.
+          A new OAuth client secret to replace the stored one.
+
+          The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
           minLength: 1, maxLength: 512
 
@@ -2261,7 +3334,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `http_response: object`
 
-    The captured HTTP error response. Null when no HTTP response was received (timeout, DNS, TLS).
+    The HTTP error response from the MCP server, or `null` if the MCP server didn't return one for the failing step, for example after a timeout or a DNS or TLS failure.
 
     - `body: string`
 
@@ -2379,9 +3452,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `token: string`
 
-    Static bearer token value.
+    The static bearer token to send to the MCP server, such as an API key or personal access token.
 
-    minLength: 1, maxLength: 8192
+    minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
   - `mcp_server_url: string`
 
@@ -2399,9 +3472,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `token: optional string`
 
-    Updated static bearer token value.
+    The new static bearer token to replace the stored one.
 
-    minLength: 1, maxLength: 8192
+    minLength: 1, maxLength: 8192, pattern: ^[^\x00-\x1f\x7f]*$
 
 ### Beta Managed Agents Token Endpoint Auth Basic Param
 
@@ -2413,7 +3486,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `client_secret: string`
 
-    OAuth client secret.
+    The OAuth client secret, sent to `token_endpoint` with HTTP Basic authentication.
 
     minLength: 1, maxLength: 512
 
@@ -2435,7 +3508,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `client_secret: optional string`
 
-    Updated OAuth client secret.
+    A new OAuth client secret to replace the stored one.
+
+    The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
     minLength: 1, maxLength: 512
 
@@ -2465,7 +3540,7 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `client_secret: string`
 
-    OAuth client secret.
+    The OAuth client secret, sent to `token_endpoint` in the POST body.
 
     minLength: 1, maxLength: 512
 
@@ -2487,7 +3562,9 @@ ant beta:vaults:credentials mcp-oauth-validate \
 
   - `client_secret: optional string`
 
-    Updated OAuth client secret.
+    A new OAuth client secret to replace the stored one.
+
+    The credential must already use `client_secret_basic` or `client_secret_post`. It keeps its current `token_endpoint_auth` type, even if the `type` sent with this secret is the other one.
 
     minLength: 1, maxLength: 512
 

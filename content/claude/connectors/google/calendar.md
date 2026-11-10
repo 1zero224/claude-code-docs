@@ -6,35 +6,33 @@
 
 > Connect the Google Calendar connector so Claude can answer questions about your meetings, attendees, and availability.
 
-The Google Calendar connector lets Claude read your calendar so it can answer questions about your meetings, attendees, and availability. It's available on Pro, Max, Team, and Enterprise plans. On Team and Enterprise plans, an Owner or Primary Owner enables it for the organization before members can connect.
+The Google Calendar connector lets Claude read your calendar so it can answer questions about your meetings, attendees, and availability. It's available on Pro, Max, Ultra, Team, and Enterprise plans. On Team and Enterprise plans, an Owner or Primary Owner enables it for the organization before members can connect.
 
 By the end of this page you have connected your Google account and asked Claude a first question about your schedule. Claude reads your calendar only; it can't create or change events or send invitations.
 
-<Note>
-  If your organization uses Outlook or Teams calendars, see [Microsoft 365](/docs/connectors/microsoft/365) instead.
-</Note>
+> [!NOTE]
+>
+> If your organization uses Outlook or Teams calendars, see [Microsoft 365](https://claude.com/docs/connectors/microsoft/365.md) instead.
 
 ## Connect Google Calendar
 
 You connect Google Calendar once from your connector settings, and Claude can then read your calendar in any conversation where you turn the connector on.
 
-<Steps>
-  <Step title="Open your connectors">
-    Go to [**Customize > Connectors**](https://claude.ai/customize/connectors) in claude.ai. **Customize** is the page that holds your connectors, skills, and plugins.
-  </Step>
+**1. Open your connectors**
 
-  <Step title="Connect Google Calendar">
-    Find **Google Calendar** in the list and select **Connect**.
-  </Step>
+Go to [**Customize > Connectors**](https://claude.ai/customize/connectors) in claude.ai. **Customize** is the page that holds your connectors, skills, and plugins.
 
-  <Step title="Sign in to Google">
-    Sign in to your Google account and grant the requested permissions.
-  </Step>
-</Steps>
+**2. Connect Google Calendar**
+
+Find **Google Calendar** in the list and select **Connect**.
+
+**3. Sign in to Google**
+
+Sign in to your Google account and grant the requested permissions.
 
 When the connection succeeds, the **Connect** button on the Google Calendar connector changes to **Disconnect**.
 
-On Team and Enterprise plans, Google Calendar doesn't appear in your connector list until an Owner or Primary Owner enables it for your organization. For the full walkthrough, including troubleshooting, see [Get started with connectors](/docs/connectors/getting-started).
+On Team and Enterprise plans, Google Calendar doesn't appear in your connector list until an Owner or Primary Owner enables it for your organization. For the full walkthrough, including troubleshooting, see [Get started with connectors](https://claude.com/docs/connectors/getting-started.md).
 
 ## Try the connector
 
@@ -66,7 +64,7 @@ The connector is read-only:
 
 ## Next steps
 
-* [Gmail](/docs/connectors/google/gmail): search and analyze your emails
-* [Google Drive](/docs/connectors/google/drive): search and read your Drive files
-* [Add a connector from the directory](/docs/connectors/getting-started#add-a-connector-from-the-directory): find a connector for another service in the directory and connect it
-* [Connectors directory](/docs/connectors/directory): browse verified and community integrations
+* [Gmail](https://claude.com/docs/connectors/google/gmail.md): search and analyze your emails
+* [Google Drive](https://claude.com/docs/connectors/google/drive.md): search and read your Drive files
+* [Add a connector from the directory](https://claude.com/docs/connectors/getting-started.md#add-a-connector-from-the-directory): find a connector for another service in the directory and connect it
+* [Connectors directory](https://claude.com/docs/connectors/directory.md): browse verified and community integrations

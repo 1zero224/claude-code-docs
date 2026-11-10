@@ -6,7 +6,7 @@
 
 > Diagnose and resolve common connection, authorization, and tool-call failures for custom and directory MCP connectors
 
-These errors appear in Claude, on claude.ai or in the desktop app, when someone uses your MCP server as a connector: either when they select **Connect** and sign in, or later when Claude calls one of your tools in a conversation. You usually meet them first yourself while [testing your server as a custom connector](/docs/connectors/building/testing#test-in-claude-as-a-custom-connector) before you submit it, and the same messages are what your users see after it's listed. Each message covers several causes on your side.
+These errors appear in Claude, on claude.ai or in the desktop app, when someone uses your MCP server as a connector: either when they select **Connect** and sign in, or later when Claude calls one of your tools in a conversation. You usually meet them first yourself while [testing your server as a custom connector](https://claude.com/docs/connectors/building/testing.md#test-in-claude-as-a-custom-connector) before you submit it, and the same messages are what your users see after it's listed. Each message covers several causes on your side.
 
 This page is for the developer of the MCP server. Start with the section for the message Claude showed:
 
@@ -40,7 +40,7 @@ These setups commonly produce a non-routable address:
 
 **How to check:** Run `dig +short your-server.example.com` from a machine outside your network, or use a public DNS lookup service. Every returned address must be globally routable.
 
-**How to fix:** Expose your server through a publicly routable endpoint, such as a cloud host with a public IP, a public reverse proxy, or a tunnel. See [test a local server](/docs/connectors/building/testing#test-a-local-server) for the recommended tunnel setup.
+**How to fix:** Expose your server through a publicly routable endpoint, such as a cloud host with a public IP, a public reverse proxy, or a tunnel. See [test a local server](https://claude.com/docs/connectors/building/testing.md#test-a-local-server) for the recommended tunnel setup.
 
 ### Firewall or WAF blocks traffic from Anthropic
 
@@ -65,8 +65,8 @@ The dropped `Authorization` header on a redirect also explains the common report
 If your server requires authentication, Claude performs OAuth discovery before it can connect. A discovery failure can surface as "Couldn't reach" even though your MCP endpoint itself is reachable, or as a sign-in that redirects to `/authorize` on your MCP server's host and fails there. The redirect happens when Claude can't read your [RFC 9728](https://www.rfc-editor.org/rfc/rfc9728) protected resource metadata and falls back to treating your MCP server's origin as the authorization server, so the browser opens a sign-in page that doesn't exist on your server. These are the most common causes:
 
 * **Discovery metadata returns 404**: if your `401` response doesn't include a `WWW-Authenticate` header with a `resource_metadata` pointer, Claude looks for protected resource metadata and authorization server metadata at the standard `/.well-known/` paths on your MCP server's origin. If those paths return `404` and you haven't pointed Claude elsewhere, Claude can't locate your authorization server
-* **No way to register a client**: Claude needs one of [RFC 7591 dynamic client registration](https://www.rfc-editor.org/rfc/rfc7591) (a `registration_endpoint` in your authorization server metadata), [Client ID Metadata Documents](/docs/connectors/building/authentication#dcr-and-cimd-details) (`"client_id_metadata_document_supported": true`), or a pre-registered client. Without any of these, Claude can't obtain a client identity. See [supported authentication types](/docs/connectors/building/authentication#supported-authentication-types)
-* **Authorization server is on a different host than the MCP server**: Claude discovers protected resource metadata from your MCP server, then makes a second round of discovery requests against the authorization server host listed in `authorization_servers`. If that host is behind a different CDN or WAF, it must also be reachable from Anthropic's egress range. See [Serve discovery metadata](/docs/connectors/building/authentication#serve-discovery-metadata)
+* **No way to register a client**: Claude needs one of [RFC 7591 dynamic client registration](https://www.rfc-editor.org/rfc/rfc7591) (a `registration_endpoint` in your authorization server metadata), [Client ID Metadata Documents](https://claude.com/docs/connectors/building/authentication.md#dcr-and-cimd-details) (`"client_id_metadata_document_supported": true`), or a pre-registered client. Without any of these, Claude can't obtain a client identity. See [supported authentication types](https://claude.com/docs/connectors/building/authentication.md#supported-authentication-types)
+* **Authorization server is on a different host than the MCP server**: Claude discovers protected resource metadata from your MCP server, then makes a second round of discovery requests against the authorization server host listed in `authorization_servers`. If that host is behind a different CDN or WAF, it must also be reachable from Anthropic's egress range. See [Serve discovery metadata](https://claude.com/docs/connectors/building/authentication.md#serve-discovery-metadata)
 * **A proxy or hosting platform alters the discovery response**: a layer in front of your server can rename or drop the `WWW-Authenticate` header, or answer `403` on the `/.well-known/` paths before the request reaches your application. Check the response at the deployed edge with `curl` from a public network, not with a tool that runs inside your platform
 
 **How to check:** From a public network, request each discovery document:
@@ -90,37 +90,53 @@ This error usually appears after the OAuth flow has started. These are the most 
 * **Issuer mismatch**: the `issuer` value in your authorization server metadata must match the issuer that signs your tokens. If your tokens come from a third-party identity provider but your metadata advertises a different issuer URL, validation can fail
 * **Audience mismatch**: the [MCP authorization spec](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization#token-handling) requires your server to verify each access token was issued for it. Claude sends the [RFC 8707](https://www.rfc-editor.org/rfc/rfc8707) `resource` parameter on authorization and token requests, set to the canonical form of your MCP server URL, including any path component. The canonical form has a lowercase scheme and host, no trailing slash, no fragment, and no default port. Your authorization server should issue tokens with that audience, and your MCP server should accept the canonical value when checking `aud` rather than doing a strict byte-for-byte comparison against what the user typed. Or use whatever audience-binding mechanism your token format supports, as long as it confirms the token was minted for your server and not another service
 * **PKCE not supported**: Claude includes a PKCE `code_challenge` with `code_challenge_method=S256` in every authorization request. If your authorization server doesn't implement S256 PKCE, the flow fails at the token endpoint. The [MCP authorization spec](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization#authorization-code-protection) also requires authorization servers to advertise `"code_challenge_methods_supported": ["S256"]` so spec-compliant clients can verify support before starting the flow
-* **Refresh failures**: use RFC 6749-compliant error codes when a refresh token expires. See [token refresh](/docs/connectors/building/authentication#token-refresh)
-* **Slow token endpoint**: Claude waits up to 10 seconds for your `/token` response. If no response bytes arrive in that window, the flow fails here even if your server eventually issues the token. Check the end-to-end latency of your token handler and any proxy or gateway in front of it. See [endpoint latency](/docs/connectors/building/authentication#endpoint-latency)
+* **Refresh failures**: use RFC 6749-compliant error codes when a refresh token expires. See [token refresh](https://claude.com/docs/connectors/building/authentication.md#token-refresh)
+* **Slow token endpoint**: Claude waits up to 10 seconds for your `/token` response. If no response bytes arrive in that window, the flow fails here even if your server eventually issues the token. Check the end-to-end latency of your token handler and any proxy or gateway in front of it. See [endpoint latency](https://claude.com/docs/connectors/building/authentication.md#endpoint-latency)
 * **Your server URL redirects to a different host**: when the URL you registered redirects to another hostname, Claude drops the `Authorization` header as it follows the redirect, the redirect target returns `401`, and the connection fails with this message. See [Your server URL redirects to a different host](#your-server-url-redirects-to-a-different-host) for how to find and fix the redirect
 
 ### Microsoft Entra ID rejects the resource value
 
 If your authorization server is Microsoft Entra ID and the token request fails with `AADSTS9010010`, sometimes surfaced as `invalid_target`, Entra is rejecting the `resource` value Claude sends because it doesn't match any Application ID URI registered on your app. Claude sets `resource` to your MCP server URL, including the path. Entra issues a token when that value is listed under **Expose an API > Application ID URI**, which is `identifierUris` in the manifest, on the app registration that represents your protected API. The default `api://{client-id}` URI alone isn't sufficient here, because Claude sends the full MCP server URL as the resource value.
 
+> [!NOTE]
+>
+> If your organization runs Claude Desktop on third-party inference, an administrator can [omit the resource parameter](https://claude.com/docs/third-party/claude-desktop/mcp-sign-in.md#omit-the-resource-parameter) instead of registering the URL.
+
 **How to fix:** Register the MCP server URL on the API app registration:
 
-<Steps>
-  <Step title="Open the API app registration">
-    In the [Microsoft Entra admin center](https://entra.microsoft.com), open the app registration that represents your protected API. If you have separate registrations for the OAuth client and the API, this is the API registration, not the client.
-  </Step>
+**1. Open the API app registration**
 
-  <Step title="Add the MCP server URL as an Application ID URI">
-    Under **Expose an API**, add your MCP server URL as an additional [Application ID URI](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-configure-app-expose-web-apis). The value must match exactly, including the path, without a trailing slash.
-  </Step>
+In the [Microsoft Entra admin center](https://entra.microsoft.com), open the app registration that represents your protected API. If you have separate registrations for the OAuth client and the API, this is the API registration, not the client.
 
-  <Step title="Allow the API's token audiences">
-    If your server validates the token audience, such as through Azure App Service Authentication, add the API app's Application (client) ID and its `api://` URI to the allowed token audiences so your server accepts tokens issued for the API. This is the **Allowed token audiences** setting, not **Allowed client applications**, which is a different list.
-  </Step>
+**2. Set the access token version**
 
-  <Step title="Confirm the client's API permission">
-    If the OAuth client and the API are separate app registrations, confirm the client has an admin-consented API permission for the scope your API exposes.
-  </Step>
-</Steps>
+If your MCP server URL is on a domain that your tenant hasn't verified, such as a vendor's hostname or `*.azurewebsites.net`, do this step. Entra by default rejects such a URL while the app registration issues v1.0 access tokens, as described in [Microsoft's identifier URI restrictions](https://learn.microsoft.com/en-us/entra/identity-platform/identifier-uri-restrictions).
 
-<Note>
-  By default, Microsoft Entra accepts a new Application ID URI only if it contains your tenant ID, your app ID, or a domain verified in your tenant, as described in [Microsoft's identifier URI restrictions](https://learn.microsoft.com/en-us/entra/identity-platform/identifier-uri-restrictions). If your MCP server runs on a platform hostname, such as `*.azurewebsites.net`, Entra rejects that URL when you add it under **Expose an API**, so serve the server from a custom domain that your tenant has verified and register that URL instead. A tenant administrator can also exempt your app registration from this policy so that Entra accepts a noncompliant URI. Microsoft notes that an `https://` URI can require a verified domain even then, which makes the custom domain the dependable fix.
-</Note>
+> [!WARNING]
+>
+> Setting the version to `2` changes the access tokens that every calling app gets for this API. First confirm that every service that validates them accepts v2.0 tokens, including your MCP server, whoever runs it. Among the differences in [Microsoft's access token claims reference](https://learn.microsoft.com/en-us/entra/identity-platform/access-token-claims-reference), `iss` changes and ends in `/v2.0`, `aud` is the API app's Application (client) ID, and `upn` is absent by default. If a service can't accept them, use a separate app registration, a custom domain, or `use_guid` instead. While the URL is registered, you can't return to v1.0 tokens without a tenant administrator's exemption from Microsoft's identifier URI restrictions.
+
+Select **Manifest**, set `requestedAccessTokenVersion` in the `api` object to `2`, and select **Save** before you add the URL.
+
+**3. Add the MCP server URL as an Application ID URI**
+
+Under **Expose an API**, add your MCP server URL as an additional [Application ID URI](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-configure-app-expose-web-apis). The value must match exactly, including the path, without a trailing slash.
+
+**4. Allow the API's token audiences**
+
+If your server validates the token audience, such as through Azure App Service Authentication, add the API app's Application (client) ID and its `api://` URI to the allowed token audiences so your server accepts tokens issued for the API. If the app registration issues v1.0 tokens, also add the MCP server URL, because `aud` can then be that URL. This is the **Allowed token audiences** setting, not **Allowed client applications**, which is a different list.
+
+**5. Confirm the client's API permission**
+
+If the OAuth client and the API are separate app registrations, confirm the client has an admin-consented API permission for the scope your API exposes.
+
+> [!NOTE]
+>
+> To keep the API app registration on v1.0 tokens, use one of these options instead:
+>
+> * **Separate app registration**: if your MCP server accepts v2.0 tokens, create an app registration for it alone, expose a scope on it, follow these steps there, and have clients request that scope
+> * **Custom domain**: serve the MCP server from a custom domain verified in your tenant and register that URL
+> * **`use_guid`**: add the `aud` optional claim with the `use_guid` property before you add the URL, as described in Microsoft's [Secure a Model Context Protocol (MCP) server with Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/agent-id/secure-mcp-server-with-entra-id). `aud` then becomes the API app's Application (client) ID in every access token, so first confirm that every service that validates these tokens accepts that ID.
 
 If the OAuth flow completes successfully on your server, meaning you see the token issued in your logs, but the connection still fails, file a [GitHub issue](https://github.com/anthropics/claude-ai-mcp/issues) with the `ofid_` reference ID and the timestamps from your server's OAuth logs.
 
@@ -130,15 +146,13 @@ This error, followed by the name of the tool, appears when your connector shows 
 
 **How to check:** Compare the failing call inside and outside Claude:
 
-<Steps>
-  <Step title="Run the call in MCP Inspector">
-    Run the same tool call against your server in [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) and compare the result with the error Claude reports.
-  </Step>
+**1. Run the call in MCP Inspector**
 
-  <Step title="Check your server's logs">
-    Check your server's logs for the tool handler's error at the time of the failure, and whether the failure affects every user of your connector or one account.
-  </Step>
-</Steps>
+Run the same tool call against your server in [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) and compare the result with the error Claude reports.
+
+**2. Check your server's logs**
+
+Check your server's logs for the tool handler's error at the time of the failure, and whether the failure affects every user of your connector or one account.
 
 If none of these is the cause, [report the problem](#report-the-problem-to-anthropic) with the tool name and the time of the failure.
 
@@ -146,35 +160,33 @@ If none of these is the cause, [report the problem](#report-the-problem-to-anthr
 
 The checklist covers every cause on this page in the order Claude encounters them during a connection. Run through it before filing an issue.
 
-<Steps>
-  <Step title="Public DNS resolution">
-    From a network outside your own, confirm `dig +short your-server.example.com` returns a globally routable address.
-  </Step>
+**1. Public DNS resolution**
 
-  <Step title="Public reachability">
-    From a public network, confirm `curl -i https://your-server.example.com/your-mcp-path` returns a response. A `401` or `405` is fine, and a timeout or connection refused is not.
-  </Step>
+From a network outside your own, confirm `dig +short your-server.example.com` returns a globally routable address.
 
-  <Step title="No redirect">
-    Run `curl -sI https://your-server.example.com/your-mcp-path` and confirm the response is not a `3xx` redirect to a different host. If it is, register the redirect target instead.
-  </Step>
+**2. Public reachability**
 
-  <Step title="No WAF block">
-    Check your edge logs for `403` or `429` responses. Allowlist Anthropic's published egress range if needed. See the [IP address reference](https://platform.claude.com/docs/en/api/ip-addresses).
-  </Step>
+From a public network, confirm `curl -i https://your-server.example.com/your-mcp-path` returns a response. A `401` or `405` is fine, and a timeout or connection refused is not.
 
-  <Step title="Discovery metadata">
-    Confirm `/.well-known/oauth-protected-resource` returns `200` with valid JSON, and that one of `/.well-known/oauth-authorization-server` or `/.well-known/openid-configuration` does the same. Only one is needed. The authorization server metadata should include a `registration_endpoint` (DCR) or advertise `"client_id_metadata_document_supported": true` (CIMD), or you should be using pre-registered credentials, and it should advertise `"code_challenge_methods_supported": ["S256"]`.
-  </Step>
+**3. No redirect**
 
-  <Step title="Cross-host hint">
-    If your authorization server is on a different host than your MCP server, confirm your protected resource metadata's `authorization_servers` field points at it, and that the authorization server's host is reachable from Anthropic's egress range and answers `/.well-known/openid-configuration` or `/.well-known/oauth-authorization-server`. See [Serve discovery metadata](/docs/connectors/building/authentication#serve-discovery-metadata).
-  </Step>
+Run `curl -sI https://your-server.example.com/your-mcp-path` and confirm the response is not a `3xx` redirect to a different host. If it is, register the redirect target instead.
 
-  <Step title="Collect the reference ID">
-    Reproduce the failure and copy the `ofid_` value from the error URL, then [report the problem](#report-the-problem-to-anthropic) with it.
-  </Step>
-</Steps>
+**4. No WAF block**
+
+Check your edge logs for `403` or `429` responses. Allowlist Anthropic's published egress range if needed. See the [IP address reference](https://platform.claude.com/docs/en/api/ip-addresses).
+
+**5. Discovery metadata**
+
+Confirm `/.well-known/oauth-protected-resource` returns `200` with valid JSON, and that one of `/.well-known/oauth-authorization-server` or `/.well-known/openid-configuration` does the same. Only one is needed. The authorization server metadata should include a `registration_endpoint` (DCR) or advertise `"client_id_metadata_document_supported": true` (CIMD), or you should be using pre-registered credentials, and it should advertise `"code_challenge_methods_supported": ["S256"]`.
+
+**6. Cross-host hint**
+
+If your authorization server is on a different host than your MCP server, confirm your protected resource metadata's `authorization_servers` field points at it, and that the authorization server's host is reachable from Anthropic's egress range and answers `/.well-known/openid-configuration` or `/.well-known/oauth-authorization-server`. See [Serve discovery metadata](https://claude.com/docs/connectors/building/authentication.md#serve-discovery-metadata).
+
+**7. Collect the reference ID**
+
+Reproduce the failure and copy the `ofid_` value from the error URL, then [report the problem](#report-the-problem-to-anthropic) with it.
 
 ## Report the problem to Anthropic
 
@@ -188,7 +200,7 @@ Include that ID, your server URL, and what your server-side logs show during the
 
 ## Related resources
 
-* [Authentication for connectors](/docs/connectors/building/authentication): OAuth requirements and supported auth types
-* [Lazy authentication](/docs/connectors/building/lazy-authentication): the `401` and `WWW-Authenticate` discovery handshake
-* [Test your connector](/docs/connectors/building/testing): how to test your server before publishing
+* [Authentication for connectors](https://claude.com/docs/connectors/building/authentication.md): OAuth requirements and supported auth types
+* [Lazy authentication](https://claude.com/docs/connectors/building/lazy-authentication.md): the `401` and `WWW-Authenticate` discovery handshake
+* [Test your connector](https://claude.com/docs/connectors/building/testing.md): how to test your server before publishing
 * [IP address reference](https://platform.claude.com/docs/en/api/ip-addresses): Anthropic's published IP ranges for allowlisting

@@ -5,6 +5,111 @@ url: https://platform.claude.com/docs/en/api/php/beta/webhooks
 
 # Webhooks
 
+## Unwrap
+
+`$client->beta->webhooks->unwrap(string body, array<string,string | list<string>> headers, ?string secret): BetaWebhookEvent`
+
+Verifies the webhook signature from the `webhook-id`, `webhook-timestamp` and `webhook-signature`
+headers using your webhook signing key, then parses the payload into an event. Fails if the
+signature is missing or invalid.
+
+### Parameters
+
+- `body: string`
+
+  The body of the incoming webhook request, exactly as received: the signature is computed over these bytes.
+
+- `headers: array<string,string | list<string>>`
+
+  The HTTP headers of the incoming webhook request. Verification reads `webhook-id`, `webhook-timestamp` and `webhook-signature`.
+
+- `secret: optional string`
+
+  The webhook signing key. Defaults to the client's `webhookKey` option.
+
+### Returns
+
+- `class BetaWebhookEvent`
+
+  - `"event" type`
+
+    Object type. Always `event` for webhook payloads.
+
+  - `string id`
+
+    Unique event identifier for idempotency.
+
+  - `\Datetime createdAt`
+
+    RFC 3339 timestamp when the event occurred.
+
+  - `BetaWebhookEventData data`
+
+### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+// $body is the raw body of the incoming webhook request and $headers are its HTTP headers.
+$event = $client->beta->webhooks->unwrap($body, $headers);
+
+var_dump($event);
+```
+
+## Parse Unverified
+
+`$client->beta->webhooks->parseUnverified(string body): BetaWebhookEvent`
+
+Parses a webhook payload into an event without verifying its signature. Prefer `unwrap()` unless
+you have already verified the signature yourself.
+
+### Parameters
+
+- `body: string`
+
+  The raw JSON body of the incoming webhook request.
+
+### Returns
+
+- `class BetaWebhookEvent`
+
+  - `"event" type`
+
+    Object type. Always `event` for webhook payloads.
+
+  - `string id`
+
+    Unique event identifier for idempotency.
+
+  - `\Datetime createdAt`
+
+    RFC 3339 timestamp when the event occurred.
+
+  - `BetaWebhookEventData data`
+
+### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+// $body is the raw body of the incoming webhook request.
+$event = $client->beta->webhooks->parseUnverified($body);
+
+var_dump($event);
+```
+
 ## Domain types
 
 ### Beta Webhook Agent Archived Event Data
@@ -823,6 +928,44 @@ url: https://platform.claude.com/docs/en/api/php/beta/webhooks
 
     - `string workspaceID`
 
+  - `class BetaWebhookUserProfileEnforcementActionOpenedEventData`
+
+    - `"user_profile.enforcement_action_opened" type`
+
+    - `string id`
+
+      ID of the user profile the enforcement action is on.
+
+    - `string enforcementActionID`
+
+      ID (`enac_...`) of the enforcement action that was opened or resolved.
+
+    - `string organizationID`
+
+  - `class BetaWebhookUserProfileEnforcementActionResolvedEventData`
+
+    - `"user_profile.enforcement_action_resolved" type`
+
+    - `string id`
+
+      ID of the user profile the enforcement action is on.
+
+    - `string enforcementActionID`
+
+      ID (`enac_...`) of the enforcement action that was opened or resolved.
+
+    - `string organizationID`
+
+  - `class BetaWebhookUserProfileProgramStatusUpdatedEventData`
+
+    - `"user_profile.program_status_updated" type`
+
+    - `string id`
+
+      ID of the user profile that triggered the event.
+
+    - `string organizationID`
+
 ### Beta Webhook Memory Store Archived Event Data
 
 - `class BetaWebhookMemoryStoreArchivedEventData`
@@ -1114,6 +1257,50 @@ url: https://platform.claude.com/docs/en/api/php/beta/webhooks
   - `string organizationID`
 
   - `string workspaceID`
+
+### Beta Webhook User Profile Enforcement Action Opened Event Data
+
+- `class BetaWebhookUserProfileEnforcementActionOpenedEventData`
+
+  - `"user_profile.enforcement_action_opened" type`
+
+  - `string id`
+
+    ID of the user profile the enforcement action is on.
+
+  - `string enforcementActionID`
+
+    ID (`enac_...`) of the enforcement action that was opened or resolved.
+
+  - `string organizationID`
+
+### Beta Webhook User Profile Enforcement Action Resolved Event Data
+
+- `class BetaWebhookUserProfileEnforcementActionResolvedEventData`
+
+  - `"user_profile.enforcement_action_resolved" type`
+
+  - `string id`
+
+    ID of the user profile the enforcement action is on.
+
+  - `string enforcementActionID`
+
+    ID (`enac_...`) of the enforcement action that was opened or resolved.
+
+  - `string organizationID`
+
+### Beta Webhook User Profile Program Status Updated Event Data
+
+- `class BetaWebhookUserProfileProgramStatusUpdatedEventData`
+
+  - `"user_profile.program_status_updated" type`
+
+  - `string id`
+
+    ID of the user profile that triggered the event.
+
+  - `string organizationID`
 
 ### Beta Webhook Vault Archived Event Data
 

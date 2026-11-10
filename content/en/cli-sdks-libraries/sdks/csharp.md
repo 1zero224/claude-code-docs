@@ -38,14 +38,7 @@ AnthropicClient client = new();
 MessageCreateParams parameters = new()
 {
     MaxTokens = 1024,
-    Messages =
-    [
-        new()
-        {
-            Role = Role.User,
-            Content = "Hello, Claude",
-        },
-    ],
+    Messages = [new UserMessageParam { Content = "Hello, Claude" }],
     Model = Model.ClaudeOpus5_5,
 };
 
@@ -60,7 +53,7 @@ foreach (var block in message.Content)
 }
 ```
 
-For authentication options including Workload Identity Federation, see [Authentication](https://platform.claude.com/docs/en/manage-claude/authentication). If your API key is a [personal or service account key](https://platform.claude.com/docs/en/manage-claude/authentication#key-types) with access to multiple workspaces, set the workspace ID in the `anthropic-workspace-id` request header; [Select a workspace](https://platform.claude.com/docs/en/manage-claude/authentication#select-a-workspace) shows the per-request option for this SDK.
+For authentication options including Workload Identity Federation, see [Authentication](https://platform.claude.com/docs/en/manage-claude/authentication). If your API key is a [personal or service account key](https://platform.claude.com/docs/en/manage-claude/authentication#key-types) that isn’t scoped to a workspace, set the workspace ID in the `anthropic-workspace-id` request header; [Select a workspace](https://platform.claude.com/docs/en/manage-claude/authentication#select-a-workspace) shows the per-request option for this SDK.
 
 ## Client configuration
 
@@ -69,7 +62,7 @@ Configure the client using environment variables:
 ```csharp
 using Anthropic;
 
-// Configured using the ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN and ANTHROPIC_BASE_URL environment variables
+// Configured using the ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN, and ANTHROPIC_BASE_URL environment variables
 AnthropicClient client = new();
 ```
 
@@ -111,33 +104,29 @@ var message = await client
 Console.WriteLine(message);
 ```
 
-Using a [`with` expression](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/with-expression) makes it easy to construct the modified options.
+You can use a [`with` expression](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/with-expression) to construct the modified options.
 
 The `WithOptions` method does not affect the original client or service.
 
 ## Streaming
 
-The SDK defines methods that return response "chunk" streams, where each chunk can be individually processed as soon as it arrives instead of waiting on the full response. Streaming methods generally correspond to [SSE](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) or [JSONL](https://jsonlines.org) responses.
+The SDK defines methods that return response “chunk” streams, where each chunk can be individually processed as soon as it arrives instead of waiting on the full response. Streaming methods generally correspond to [SSE](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) or [JSONL](https://jsonlines.org) responses.
 
-A streaming method always has a `Streaming` suffix in its name, even if it doesn't have a non-streaming variant.
+A streaming method always has a `Streaming` suffix in its name, even if it doesn’t have a non-streaming variant.
 
 These streaming methods return [`IAsyncEnumerable`](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.iasyncenumerable-1):
 
 ```csharp
 using System;
+using Anthropic;
 using Anthropic.Models.Messages;
+
+AnthropicClient client = new();
 
 MessageCreateParams parameters = new()
 {
     MaxTokens = 1024,
-    Messages =
-    [
-        new()
-        {
-            Role = Role.User,
-            Content = "Hello, Claude",
-        },
-    ],
+    Messages = [new UserMessageParam { Content = "Hello, Claude" }],
     Model = Model.ClaudeOpus5_5,
 };
 
@@ -166,11 +155,11 @@ The SDK throws custom unchecked exception types:
 
 Additionally, all 4xx errors inherit from `Anthropic4xxException`.
 
-* `AnthropicSseException`: thrown for errors encountered during SSE streaming after a successful initial HTTP response.
+* `AnthropicSseException`: Errors encountered during SSE streaming after a successful initial HTTP response.
 
 * `AnthropicIOException`: I/O networking errors.
 
-* `AnthropicInvalidDataException`: Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
+* `AnthropicInvalidDataException`: Failure to interpret successfully parsed data. For example, when accessing a property that’s supposed to be required, but the API unexpectedly omitted it from the response.
 
 * `AnthropicException`: Base class for all exceptions.
 
@@ -186,7 +175,7 @@ Only the following error types are retried:
 * 429 Rate Limit
 * 5xx Internal
 
-The API may also explicitly instruct the SDK to retry or not retry a request.
+The API might also explicitly instruct the SDK to retry or not retry a request.
 
 To set a custom number of retries, configure the client using the `MaxRetries` property:
 
@@ -277,7 +266,7 @@ while (true)
 
 ## Response validation
 
-In rare cases, the API may return a response that doesn't match the expected type. By default, the SDK does not throw an exception in this case. It throws `AnthropicInvalidDataException` only if you directly access the property.
+In rare cases, the API might return a response that doesn’t match the expected type. By default, the SDK does not throw an exception in this case. It throws `AnthropicInvalidDataException` only if you directly access the property.
 
 If you would prefer to check that the response is completely well-typed upfront, then either call `Validate`:
 
@@ -310,14 +299,14 @@ Console.WriteLine(message);
 
 ## IChatClient integration
 
-The SDK provides an implementation of the `IChatClient` interface from the `Microsoft.Extensions.AI.Abstractions` library. This enables `AnthropicClient` (and `Anthropic.Services.IBetaService`) to be used with other libraries that integrate with these core abstractions. For example, tools in the MCP C# SDK (`ModelContextProtocol`) library can be used directly with an `AnthropicClient` exposed through `IChatClient`.
+The SDK provides an implementation of the `IChatClient` interface from the `Microsoft.Extensions.AI.Abstractions` library. This allows `AnthropicClient` (and `Anthropic.Services.IBetaService`) to be used with other libraries that integrate with these core abstractions. For example, tools in the MCP C# SDK (`ModelContextProtocol`) library can be used directly with an `AnthropicClient` exposed through `IChatClient`.
 
 ```csharp
 using Anthropic;
 using Microsoft.Extensions.AI;
 using ModelContextProtocol.Client;
 
-// Configured using the ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN and ANTHROPIC_BASE_URL environment variables
+// Configured using the ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN, and ANTHROPIC_BASE_URL environment variables
 AnthropicClient client = new();
 
 IChatClient chatClient = client.AsIChatClient("claude-opus-5-5")
@@ -336,15 +325,15 @@ Console.WriteLine(await chatClient.GetResponseAsync("Tell me about IChatClient",
 
 ## Requests and responses
 
-To send a request to the Claude API, build an instance of a `Params` class and pass it to the corresponding client method. When the response is received, it's deserialized into an instance of a C# class.
+To send a request to the Claude API, build an instance of a `Params` class and pass it to the corresponding client method. When the response is received, it’s deserialized into an instance of a C# class.
 
-For example, `client.Messages.Create` should be called with an instance of `MessageCreateParams`, and it will return an instance of `Task<Message>`.
+For example, `client.Messages.Create` takes an instance of `MessageCreateParams` and returns an instance of `Task<Message>`.
 
 ## Advanced usage
 
 ### Binary responses
 
-The SDK defines methods that return binary responses, which are used for API responses that shouldn't necessarily be parsed, like non-JSON data.
+The SDK defines methods that return binary responses, which are used for API responses that shouldn’t necessarily be parsed, such as non-JSON data.
 
 These methods return `HttpResponse`:
 
@@ -417,6 +406,10 @@ Enable debug logging by setting an environment variable:
 export ANTHROPIC_LOG=debug
 ```
 
+### OpenTelemetry tracing
+
+When your application adds the SDK’s sources to its OpenTelemetry tracer provider with `AddSource("com.anthropic.sdk.csharp*")`, the SDK emits a span for each request that it sends. To send the spans to your observability platform, see [Set up OpenTelemetry with the Claude SDK](https://platform.claude.com/docs/en/manage-claude/opentelemetry/sdk).
+
 ### Undocumented API functionality
 
 The SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.
@@ -429,27 +422,33 @@ The SDK is typed for convenient usage of the documented API. However, it also su
   * [Amazon Bedrock](https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock)
   * [Amazon Bedrock (Opus 4.6 and earlier)](https://platform.claude.com/docs/en/build-with-claude/claude-on-amazon-bedrock-legacy)
   * [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws)
-  * [Google Cloud](https://platform.claude.com/docs/en/build-with-claude/claude-on-vertex-ai)
+  * [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/google-managed)
   * [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry)
+
+  See also [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed).
 </Note>
 
 The C# SDK supports the following platforms through separate NuGet packages:
 
-* **Agent Platform:** `Anthropic.Vertex`. See [Claude on Google Cloud](https://platform.claude.com/docs/en/build-with-claude/claude-on-vertex-ai) for client setup.
+* **Claude Models on Google Cloud (Google managed):** `Anthropic.Vertex`. See [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/google-managed) for client setup.
 * **Bedrock:** `Anthropic.Bedrock`. Use `AnthropicBedrockMantleClient` for the Messages-API Bedrock endpoint, or `AnthropicBedrockClient` (`bedrock-runtime` path). `AnthropicBedrockMantleClient` takes an optional `MantleAwsClientOptions` config object; `AnthropicBedrockClient` accepts `AnthropicBedrockCredentialsHelper.FromEnv()` or explicit credentials.
 * **Claude Platform on AWS:** `Anthropic.Aws`. Use `AnthropicAwsClient`; set `WorkspaceId` on the client or the `ANTHROPIC_AWS_WORKSPACE_ID` environment variable (see [Workspaces](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws#workspaces)). Available in beta.
 * **Foundry:** `Anthropic.Foundry`. Use `AnthropicFoundryClient` with `DefaultAnthropicFoundryCredentials.FromEnv()` or explicit credentials.
 
 Use `AnthropicBedrockMantleClient` for new projects; `AnthropicBedrockClient` remains for existing applications using the Bedrock `InvokeModel` API.
 
+The C# SDK also supports Claude Models on Google Cloud (Anthropic managed) through `AnthropicGoogleCloudClient`, from the `Anthropic.GoogleCloud` package. This client is in beta. Set `WorkspaceId` on an optional `GoogleCloudClientOptions` value, or set the `ANTHROPIC_GOOGLE_CLOUD_WORKSPACE_ID` environment variable. See [Project, location, and workspace resolution](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed#project-location-and-workspace-resolution).
+
 ## Semantic versioning
 
 This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backward-incompatible changes may be released as minor versions:
 
 1. Changes to library internals that are technically public but not intended or documented for external use.
-2. Changes that aren't expected to impact the vast majority of users in practice.
+2. Changes that aren’t expected to impact the vast majority of users in practice.
 
 Backward compatibility is taken seriously to ensure you can rely on a smooth upgrade experience.
+
+Every request to the Claude API uses an API version. With this SDK, your requests use the API version that was current when your SDK’s major version was released, so you move to a new API version by upgrading to a new major version. Version 13.0.0 is the first to use `2026-10-21`. See [Migrating to API version 2026-10-21](https://platform.claude.com/docs/en/api/migration-2026-10-21#upgrade) for how to upgrade.
 
 ## Additional resources
 

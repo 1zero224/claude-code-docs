@@ -4,21 +4,19 @@
 
 # Prompts
 
-<div id="enable-section-numbers" />
-
 The Model Context Protocol (MCP) provides a standardized way for servers to expose prompt
 templates to clients. Prompts allow servers to provide structured messages and
 instructions for interacting with language models. Clients can discover available
 prompts, retrieve their contents, and provide arguments to customize them.
 
-<Note>
-  For brevity, the request examples on this page omit the `_meta` request
-  metadata (`io.modelcontextprotocol/protocolVersion`,
-  `io.modelcontextprotocol/clientInfo`, and
-  `io.modelcontextprotocol/clientCapabilities`). Every request **MUST** include
-  the required `_meta` fields; see
-  [`_meta`](/specification/2026-07-28/basic/index#meta).
-</Note>
+> [!NOTE]
+>
+> For brevity, the request examples on this page omit the `_meta` request
+> metadata (`io.modelcontextprotocol/protocolVersion`,
+> `io.modelcontextprotocol/clientInfo`, and
+> `io.modelcontextprotocol/clientCapabilities`). Every request **MUST** include
+> the required `_meta` fields; see
+> [`_meta`](https://modelcontextprotocol.io/specification/2026-07-28/basic/index#meta).
 
 ## User Interaction Model
 
@@ -32,7 +30,7 @@ interface, which allows users to naturally discover and invoke available prompts
 
 For example, as slash commands:
 
-<img src="https://mintcdn.com/mcp/UAHvrCg8SwnAZwI3/specification/2026-07-28/server/slash-command.png?fit=max&auto=format&n=UAHvrCg8SwnAZwI3&q=85&s=7ed7762fc5e3b4b32cba2a71ede48000" alt="Example of prompt exposed as slash command" width="293" height="106" data-path="specification/2026-07-28/server/slash-command.png" />
+![Example of prompt exposed as slash command](https://mintcdn.com/mcp/UAHvrCg8SwnAZwI3/specification/2026-07-28/server/slash-command.png?fit=max\&auto=format\&n=UAHvrCg8SwnAZwI3\&q=85\&s=7ed7762fc5e3b4b32cba2a71ede48000)
 
 However, implementors are free to expose prompts through any interface pattern that suits
 their needs—the protocol itself does not mandate any specific user interaction
@@ -41,7 +39,7 @@ model.
 ## Capabilities
 
 Servers that support prompts **MUST** declare the `prompts` capability in their
-[`DiscoverResult`](/specification/2026-07-28/schema#discoverresult):
+[`DiscoverResult`](https://modelcontextprotocol.io/specification/2026-07-28/schema#discoverresult):
 
 ```json theme={null}
 {
@@ -70,7 +68,7 @@ per-request input, not connection state.
 ### Listing Prompts
 
 To retrieve available prompts, clients send a `prompts/list` request. This operation
-supports [pagination](/specification/2026-07-28/server/utilities/pagination) and [caching](/specification/2026-07-28/server/utilities/caching).
+supports [pagination](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/pagination.md) and [caching](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/caching.md).
 
 **Request:**
 
@@ -124,7 +122,7 @@ supports [pagination](/specification/2026-07-28/server/utilities/pagination) and
 ### Getting a Prompt
 
 To retrieve a specific prompt, clients send a `prompts/get` request. Arguments may be
-auto-completed through [the completion API](/specification/2026-07-28/server/utilities/completion).
+auto-completed through [the completion API](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/completion.md).
 
 **Request:**
 
@@ -164,13 +162,13 @@ auto-completed through [the completion API](/specification/2026-07-28/server/uti
 }
 ```
 
-Servers **MAY** also respond to `prompts/get` with an [`InputRequiredResult`](/specification/2026-07-28/basic/patterns/mrtr#inputrequiredresult) to indicate that additional input is needed before the prompt can be resolved. This follows the [multi round-trip requests](/specification/2026-07-28/basic/patterns/mrtr#multi-round-trip-requests) mechanism. When retrying the request, clients include `inputResponses` and, if provided by the server, `requestState` in the request parameters.
+Servers **MAY** also respond to `prompts/get` with an [`InputRequiredResult`](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr#inputrequiredresult) to indicate that additional input is needed before the prompt can be resolved. This follows the [multi round-trip requests](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr.md#multi-round-trip-requests) mechanism. When retrying the request, clients include `inputResponses` and, if provided by the server, `requestState` in the request parameters.
 
 ### List Changed Notification
 
 When the list of available prompts changes, servers that declared the `listChanged`
 capability **SHOULD** send a notification to clients that have opened a
-[`subscriptions/listen`](/specification/2026-07-28/basic/patterns/subscriptions) stream with
+[`subscriptions/listen`](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/subscriptions) stream with
 `promptsListChanged: true`:
 
 ```json theme={null}
@@ -224,11 +222,11 @@ Messages in a prompt can contain:
 * `role`: Either "user" or "assistant" to indicate the speaker
 * `content`: One of the following content types:
 
-<Note>
-  All content types in prompt messages support optional
-  [annotations](/specification/2026-07-28/server/resources#annotations) for
-  metadata about audience, priority, and modification times.
-</Note>
+> [!NOTE]
+>
+> All content types in prompt messages support optional
+> [annotations](https://modelcontextprotocol.io/specification/2026-07-28/server/resources.md#annotations) for
+> metadata about audience, priority, and modification times.
 
 #### Text Content
 
@@ -276,7 +274,7 @@ multi-modal interactions where audio context is important.
 #### Resource Links
 
 Prompt messages **MAY** include links to
-[Resources](/specification/2026-07-28/server/resources), to provide additional context or
+[Resources](https://modelcontextprotocol.io/specification/2026-07-28/server/resources.md), to provide additional context or
 data without embedding the resource contents directly. In this case, the prompt message
 returns a URI that can be fetched by the client:
 
@@ -290,7 +288,7 @@ returns a URI that can be fetched by the client:
 }
 ```
 
-Resource links support the same [Resource annotations](/specification/2026-07-28/server/resources#annotations)
+Resource links support the same [Resource annotations](https://modelcontextprotocol.io/specification/2026-07-28/server/resources.md#annotations)
 as regular resources to help clients understand how to use them.
 
 #### Embedded Resources

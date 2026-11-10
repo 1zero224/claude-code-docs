@@ -7,7 +7,9 @@ url: https://platform.claude.com/docs/en/api/beta/organization/cost_report/retri
 
 **GET** `/v1/organizations/cost_report`
 
-Get Cost Report
+[Legacy] Get a report of your organization's Claude API costs in USD, aggregated into daily buckets.
+
+This endpoint is part of the legacy Usage and Cost API. For new integrations, use [`GET /v1/organizations/analytics/cost`](https://platform.claude.com/docs/en/api/beta/organization/analytics/cost/list?sdk_languages=http) in the Usage and Cost Analytics API instead. To move an existing integration, see [Migrate from the Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api?sdk_languages=http#migrate-from-usage-cost-api).
 
 ## Query parameters
 
@@ -162,6 +164,18 @@ Get Cost Report
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 ## Returns
 
 - `BetaCostReport object`
@@ -225,7 +239,7 @@ Get Cost Report
 
       - `model: string or null`
 
-        Model name used. `null` if not grouping by description or for non-token costs.
+        Model name used. `null` if not grouping by description, for non-token costs, or for token costs with no model ID.
 
       - `service_tier: "batch" or "standard" or null`
 
@@ -234,6 +248,14 @@ Get Cost Report
         - `"batch"`
 
         - `"standard"`
+
+      - `speed: "standard" or "fast" or null`
+
+        Speed used. `null` if not grouping by description, or for non-token costs.
+
+        - `"standard"`
+
+        - `"fast"`
 
       - `token_type: BetaAnalyticsTokenType or null`
 
@@ -271,8 +293,8 @@ Get Cost Report
 
 ```bash
 curl https://api.anthropic.com/v1/organizations/cost_report \
-    -H 'anthropic-version: 2023-06-01' \
-    -H "X-Api-Key: $ANTHROPIC_API_KEY"
+    -H 'anthropic-version: 2026-10-21' \
+    -H "Authorization: Bearer $ANTHROPIC_API_KEY"
 ```
 
 ### Response (200)
@@ -292,6 +314,7 @@ curl https://api.anthropic.com/v1/organizations/cost_report \
           "inference_geo": "global",
           "model": "claude-opus-5-5",
           "service_tier": "standard",
+          "speed": "standard",
           "token_type": "cache_creation.ephemeral_1h_input_tokens",
           "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
         }

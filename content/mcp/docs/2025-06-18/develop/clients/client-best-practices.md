@@ -14,7 +14,7 @@ Two patterns address these challenges: **progressive discovery**, which controls
 
 Naive MCP host implementations pass the tool definitions of every connected server directly to the model at the start of each conversation. For a handful of tools, this is perfectly reasonable. But when a host has access to dozens of servers exposing hundreds of tools, those definitions alone can consume the majority of the context window before the model has even read the user's message.
 
-<img src="https://mintcdn.com/mcp/JXfd5cBmEUh_qPUI/images/progressive-discovery.svg?fit=max&auto=format&n=JXfd5cBmEUh_qPUI&q=85&s=db39f47006107f04af43b5eeae2d6022" alt="Comparison of loading all tools upfront versus discovering tools on demand. The upfront approach consumes ~150,000 tokens on definitions alone, while progressive discovery uses ~2,000 tokens by loading only what the task requires." width="760" height="440" data-path="images/progressive-discovery.svg" />
+![Comparison of loading all tools upfront versus discovering tools on demand. The upfront approach consumes \~150,000 tokens on definitions alone, while progressive discovery uses \~2,000 tokens by loading only what the task requires.](https://mintcdn.com/mcp/JXfd5cBmEUh_qPUI/images/progressive-discovery.svg?fit=max\&auto=format\&n=JXfd5cBmEUh_qPUI\&q=85\&s=db39f47006107f04af43b5eeae2d6022)
 
 Progressive discovery avoids this:
 
@@ -126,7 +126,7 @@ sequenceDiagram
     Host-->>Model: Server disconnected, context freed
 ```
 
-This works especially well for general-purpose agents, where the user's intent isn't known upfront. The agent starts with a minimal set of always-on servers and connects others as needed. Combined with [agent skills](/docs/2025-06-18/develop/build-with-agent-skills), a skill file can declare which MCP servers it needs, and the host connects them only when that skill is invoked.
+This works especially well for general-purpose agents, where the user's intent isn't known upfront. The agent starts with a minimal set of always-on servers and connects others as needed. Combined with [agent skills](https://modelcontextprotocol.io/docs/2025-06-18/develop/build-with-agent-skills.md), a skill file can declare which MCP servers it needs, and the host connects them only when that skill is invoked.
 
 ### Implementation Guidelines
 
@@ -160,7 +160,7 @@ Programmatic tool calling (sometimes called "code mode") provides a way for clie
 Programmatic tool calling is powerful and allows for more efficient use of MCP tools and resources, but requires
 clients to implement a sandbox environment.
 
-<img src="https://mintcdn.com/mcp/JXfd5cBmEUh_qPUI/images/programmatic-tool-calling.svg?fit=max&auto=format&n=JXfd5cBmEUh_qPUI&q=85&s=a2be82d097bb7cd7c7fd415918b1571d" alt="Comparison of direct tool calling versus programmatic tool calling. Direct calling passes every intermediate result through the model (~100K+ tokens). Programmatic calling sends a ~200-token script to a sandbox, which executes the tool calls and returns a ~15-token summary." width="900" height="900" data-path="images/programmatic-tool-calling.svg" />
+![Comparison of direct tool calling versus programmatic tool calling. Direct calling passes every intermediate result through the model (\~100K+ tokens). Programmatic calling sends a \~200-token script to a sandbox, which executes the tool calls and returns a \~15-token summary.](https://mintcdn.com/mcp/JXfd5cBmEUh_qPUI/images/programmatic-tool-calling.svg?fit=max\&auto=format\&n=JXfd5cBmEUh_qPUI\&q=85\&s=a2be82d097bb7cd7c7fd415918b1571d)
 
 ### How It Works
 
@@ -193,7 +193,7 @@ function ticketing_createIssue(input: {
 }
 ```
 
-MCP Servers can provide an optional [`outputSchema`](/specification/2025-06-18/server/tools#output-schema) for each tool. When an output schema is present, the host can produce precise return types (like `LogEntry` above).
+MCP Servers can provide an optional [`outputSchema`](https://modelcontextprotocol.io/specification/2025-06-18/server/tools#output-schema) for each tool. When an output schema is present, the host can produce precise return types (like `LogEntry` above).
 
 When an output schema is absent, prefer the simple path:
 
@@ -275,7 +275,7 @@ flowchart LR
 
 Programmatic tool calling introduces a code execution surface that requires careful sandboxing:
 
-* **Per-call authorization**: The broker is still the MCP host for spec purposes. Apply the same human-in-the-loop confirmation policy to sandbox-originated calls that you apply to direct calls (see [Tools: Security](/specification/2025-06-18/server/tools#security-considerations)). Approving the script does not grant blanket approval for every tool call it makes at runtime; hosts may grant categorical approval (for example, "allow `ticketing_createIssue` for this script run") rather than prompting per iteration, but the broker must still evaluate each call against that grant.
+* **Per-call authorization**: The broker is still the MCP host for spec purposes. Apply the same human-in-the-loop confirmation policy to sandbox-originated calls that you apply to direct calls (see [Tools: Security](https://modelcontextprotocol.io/specification/2025-06-18/server/tools.md#security-considerations)). Approving the script does not grant blanket approval for every tool call it makes at runtime; hosts may grant categorical approval (for example, "allow `ticketing_createIssue` for this script run") rather than prompting per iteration, but the broker must still evaluate each call against that grant.
 * **Cross-server data flow**: Tool results from one server are untrusted input to another. The broker should apply the same input-review policy to brokered calls as to direct ones; output truncation alone does not prevent exfiltration.
 * **Network isolation**: The sandbox should have no direct network access. All external communication flows through the host broker, which enforces authorization and access control.
 * **No credential exposure**: API keys and tokens are held by the host. The generated code calls typed functions; the host adds authentication when forwarding to servers.
@@ -285,7 +285,7 @@ Programmatic tool calling introduces a code execution surface that requires care
 ### Error Handling
 
 MCP tool errors arrive as a successful response with
-[`isError: true`](/specification/2025-06-18/server/tools#error-handling) rather than a transport
+[`isError: true`](https://modelcontextprotocol.io/specification/2025-06-18/server/tools#error-handling) rather than a transport
 failure. Generated wrappers should convert this into a thrown exception so model-authored code
 can use `try`/`catch`. If an uncaught error terminates the script, surface it as the script's
 result so the model can self-correct; the model is responsible for reporting any partial side

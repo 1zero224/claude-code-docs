@@ -1,15 +1,15 @@
 ---
-title: Get Vault
+title: Retrieve a Vault
 url: https://platform.claude.com/docs/en/api/ruby/beta/vaults/retrieve
 ---
 
-# Get Vault
+# Retrieve a Vault
 
 `beta.vaults.retrieve(vault_id, **kwargs) -> BetaManagedAgentsVault`
 
 **GET** `/v1/vaults/{vault_id}`
 
-Get Vault
+Retrieve a Vault
 
 ## Parameters
 
@@ -17,9 +17,9 @@ Get Vault
 
   Unique identifier of the vault to retrieve.
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -123,7 +123,19 @@ Get Vault
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -139,9 +151,9 @@ Get Vault
 
   - `id: String`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the vault was archived. Null if not archived.
 

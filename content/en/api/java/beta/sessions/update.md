@@ -19,7 +19,7 @@ Update Session
 
   - `Optional<List<AnthropicBeta>> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
 
@@ -121,6 +121,18 @@ Update Session
 
     - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
+    - `TELEMETRY_DESTINATIONS_2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `WEBHOOKS_2026_10_07("webhooks-2026-10-07")`
+
+    - `ADMIN_USER_SIGN_OUT_2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MESSAGE_THREADS_2026_08_12("message-threads-2026-08-12")`
+
+    - `ANALYTICS_USAGE_COST_2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
+
   - `Optional<String> workspaceId` (header parameter)
 
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -155,7 +167,7 @@ Update Session
 
   A Managed Agents `session`.
 
-  - `Type type`
+  - `JsonValue type = "session"`
 
   - `String id`
 
@@ -163,15 +175,37 @@ Update Session
 
     Resolved `agent` definition for a `session`. Snapshot of the `agent` at `session` creation time.
 
-    - `Type type`
+    - `JsonValue type = "agent"`
 
     - `String id`
 
     - `Optional<String> description`
 
+    - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+      Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+      - `class BetaManagedAgentsAwsRoleExecutionIdentity`
+
+        An AWS IAM role principal as returned in API responses.
+
+        - `JsonValue type = "aws_role"`
+
+        - `String roleArn`
+
+          The IAM role's ARN.
+
+      - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        The Anthropic-managed service account as returned in API responses.
+
+        - `JsonValue type = "service_account"`
+
     - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-      - `Type type`
+      - `JsonValue type = "url"`
+
+      - `String name`
 
       - `String name`
 
@@ -186,6 +220,10 @@ Update Session
         The model that will power your agent.
 
         See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+        - `CLAUDE_FABLE_5_2("claude-fable-5-2")`
+
+          Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
         - `CLAUDE_HAIKU_5_5("claude-haiku-5-5")`
 
@@ -263,31 +301,31 @@ Update Session
 
           Low effort. Favors latency over reasoning depth.
 
-          - `Type type`
+          - `JsonValue type = "low"`
 
         - `class BetaManagedAgentsEffortMedium`
 
           Medium effort. Balances latency and reasoning depth.
 
-          - `Type type`
+          - `JsonValue type = "medium"`
 
         - `class BetaManagedAgentsEffortHigh`
 
           High effort. Favors reasoning depth.
 
-          - `Type type`
+          - `JsonValue type = "high"`
 
         - `class BetaManagedAgentsEffortXhigh`
 
           Extra-high effort. Not all models accept this level.
 
-          - `Type type`
+          - `JsonValue type = "xhigh"`
 
         - `class BetaManagedAgentsEffortMax`
 
           Maximum effort. Favors reasoning depth over latency.
 
-          - `Type type`
+          - `JsonValue type = "max"`
 
       - `Optional<String> inferenceGeo`
 
@@ -309,7 +347,7 @@ Update Session
 
         Resolved coordinator topology with full agent definitions for each roster member.
 
-        - `Type type`
+        - `JsonValue type = "coordinator"`
 
         - `List<Agent> agents`
 
@@ -319,15 +357,19 @@ Update Session
 
             Resolved `agent` definition for a single `session_thread`. Snapshot of the agent at thread creation time. The multiagent roster is not repeated here; read it from `Session.agent`.
 
-            - `Type type`
+            - `JsonValue type = "agent"`
 
             - `String id`
 
             - `Optional<String> description`
 
+            - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+              Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
             - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
-              - `Type type`
+              - `JsonValue type = "url"`
 
               - `String name`
 
@@ -345,7 +387,7 @@ Update Session
 
                 A resolved Anthropic-managed skill.
 
-                - `Type type`
+                - `JsonValue type = "anthropic"`
 
                 - `String skillId`
 
@@ -355,7 +397,7 @@ Update Session
 
                 A resolved user-created custom skill.
 
-                - `Type type`
+                - `JsonValue type = "custom"`
 
                 - `String skillId`
 
@@ -367,7 +409,7 @@ Update Session
 
               - `class BetaManagedAgentsAgentToolset20260401`
 
-                - `Type type`
+                - `JsonValue type = "agent_toolset_20260401"`
 
                 - `List<BetaManagedAgentsAgentToolConfig> configs`
 
@@ -389,13 +431,13 @@ Update Session
 
                         Tool calls are automatically approved without user confirmation.
 
-                        - `Type type`
+                        - `JsonValue type = "always_allow"`
 
                       - `class BetaManagedAgentsAlwaysAskPolicy`
 
                         Tool calls require user confirmation before execution.
 
-                        - `Type type`
+                        - `JsonValue type = "always_ask"`
 
                       - `class BetaManagedAgentsAutoPolicy`
 
@@ -639,7 +681,7 @@ Update Session
 
                     - `Optional<List<String>> blockedDomains`
 
-                    - `Optional<Long> maxContentTokens`
+                    - `Optional<Integer> maxContentTokens`
 
                       format: int32
 
@@ -691,6 +733,8 @@ Update Session
 
                         Two-letter ISO 3166-1 country code, uppercase.
 
+                        pattern: ^[A-Z]{2}$
+
                       - `Optional<String> region`
 
                         Region or state name.
@@ -727,7 +771,7 @@ Update Session
 
               - `class BetaManagedAgentsMcpToolset`
 
-                - `Type type`
+                - `JsonValue type = "mcp_toolset"`
 
                 - `List<BetaManagedAgentsMcpToolConfig> configs`
 
@@ -779,7 +823,7 @@ Update Session
 
                 A custom tool as returned in API responses.
 
-                - `Type type`
+                - `JsonValue type = "custom"`
 
                 - `String description`
 
@@ -795,7 +839,7 @@ Update Session
 
                 - `String name`
 
-            - `long version`
+            - `int version`
 
               format: int32
 
@@ -803,7 +847,7 @@ Update Session
 
             Platform advisor roster entry: a model the session's primary thread may consult mid-turn.
 
-            - `Type type`
+            - `JsonValue type = "advisor"`
 
             - `String model`
 
@@ -865,11 +909,15 @@ Update Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-              - `Type type`
+              - `JsonValue type = "agent"`
 
               - `String id`
 
               - `Optional<String> description`
+
+              - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -885,7 +933,7 @@ Update Session
 
               - `List<Tool> tools`
 
-              - `long version`
+              - `int version`
 
                 format: int32
 
@@ -913,11 +961,15 @@ Update Session
 
               Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
 
-              - `Type type`
+              - `JsonValue type = "agent"`
 
               - `String id`
 
               - `Optional<String> description`
+
+              - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
               - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
@@ -933,7 +985,7 @@ Update Session
 
               - `List<Tool> tools`
 
-              - `long version`
+              - `int version`
 
                 format: int32
 
@@ -967,11 +1019,11 @@ Update Session
 
         A custom tool as returned in API responses.
 
-    - `long version`
+    - `int version`
 
       format: int32
 
-  - `Optional<LocalDateTime> archivedAt`
+  - `Optional<OffsetDateTime> archivedAt`
 
     When the session was archived. Null if not archived.
 
@@ -981,7 +1033,7 @@ Update Session
 
     The session's enforced spend ceiling, or null when no budget is set.
 
-    - `Type type`
+    - `JsonValue type = "limit"`
 
     - `BetaMonetaryAmount maxListCost`
 
@@ -991,11 +1043,13 @@ Update Session
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `BetaCurrency currency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-  - `LocalDateTime createdAt`
+  - `OffsetDateTime createdAt`
 
     A timestamp in RFC 3339 format
 
@@ -1009,9 +1063,9 @@ Update Session
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
-    - `Type type`
+    - `JsonValue type = "outcome_evaluation"`
 
-    - `Optional<LocalDateTime> completedAt`
+    - `Optional<OffsetDateTime> completedAt`
 
       When the outcome reached a terminal result. Null while `pending`/`running`/`evaluating`.
 
@@ -1025,7 +1079,7 @@ Update Session
 
       Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
-    - `long iteration`
+    - `int iteration`
 
       0-indexed revision cycle the outcome is currently on.
 
@@ -1043,11 +1097,11 @@ Update Session
 
     - `class BetaManagedAgentsGitHubRepositoryResource`
 
-      - `Type type`
+      - `JsonValue type = "github_repository"`
 
       - `String id`
 
-      - `LocalDateTime createdAt`
+      - `OffsetDateTime createdAt`
 
         A timestamp in RFC 3339 format
 
@@ -1055,7 +1109,7 @@ Update Session
 
       - `String mountPath`
 
-      - `LocalDateTime updatedAt`
+      - `OffsetDateTime updatedAt`
 
         A timestamp in RFC 3339 format
 
@@ -1067,7 +1121,7 @@ Update Session
 
         - `class BetaManagedAgentsBranchCheckout`
 
-          - `Type type`
+          - `JsonValue type = "branch"`
 
           - `String name`
 
@@ -1077,21 +1131,21 @@ Update Session
 
         - `class BetaManagedAgentsCommitCheckout`
 
-          - `Type type`
+          - `JsonValue type = "commit"`
 
           - `String sha`
 
             Full commit SHA to check out.
 
-            minLength: 7, maxLength: 64
+            minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
     - `class BetaManagedAgentsFileResource`
 
-      - `Type type`
+      - `JsonValue type = "file"`
 
       - `String id`
 
-      - `LocalDateTime createdAt`
+      - `OffsetDateTime createdAt`
 
         A timestamp in RFC 3339 format
 
@@ -1101,7 +1155,7 @@ Update Session
 
       - `String mountPath`
 
-      - `LocalDateTime updatedAt`
+      - `OffsetDateTime updatedAt`
 
         A timestamp in RFC 3339 format
 
@@ -1111,11 +1165,13 @@ Update Session
 
       A memory store attached to an agent session.
 
-      - `Type type`
+      - `JsonValue type = "memory_store"`
 
       - `String memoryStoreId`
 
         The memory store ID (memstore_...). Must belong to the caller's organization and workspace.
+
+        pattern: ^memstore_[a-zA-Z0-9_]+$
 
       - `Optional<Access> access`
 
@@ -1179,7 +1235,7 @@ Update Session
 
   - `Optional<String> title`
 
-  - `LocalDateTime updatedAt`
+  - `OffsetDateTime updatedAt`
 
     A timestamp in RFC 3339 format
 
@@ -1199,25 +1255,25 @@ Update Session
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `Optional<Long> ephemeral1hInputTokens`
+      - `Optional<Integer> ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
         format: int32
 
-      - `Optional<Long> ephemeral5mInputTokens`
+      - `Optional<Integer> ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
         format: int32
 
-    - `Optional<Long> cacheReadInputTokens`
+    - `Optional<Integer> cacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
       format: int32
 
-    - `Optional<Long> inputTokens`
+    - `Optional<Integer> inputTokens`
 
       Total input tokens consumed across all turns.
 
@@ -1227,7 +1283,7 @@ Update Session
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `Optional<Long> outputTokens`
+    - `Optional<Integer> outputTokens`
 
       Total output tokens generated across all turns.
 
@@ -1237,13 +1293,13 @@ Update Session
 
       Cumulative server-executed tool usage across all turns. Absent until server-tool tracking is available for the session.
 
-      - `Optional<Long> webFetchRequests`
+      - `Optional<Integer> webFetchRequests`
 
         Number of server-executed web fetch requests.
 
         format: int32
 
-      - `Optional<Long> webSearchRequests`
+      - `Optional<Integer> webSearchRequests`
 
         Number of server-executed web search requests.
 
@@ -1286,6 +1342,9 @@ public final class Main {
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -1306,6 +1365,9 @@ public final class Main {
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",

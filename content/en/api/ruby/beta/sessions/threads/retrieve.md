@@ -17,9 +17,9 @@ Get Session Thread
 
 - `thread_id: String` (path parameter)
 
-- `betas: Array[AnthropicBeta]` (header parameter)
+- `betas: optional Array[AnthropicBeta]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `String = String`
 
@@ -123,7 +123,19 @@ Get Session Thread
 
   - `:"spend-limit-reads-2026-09-26"`
 
-- `workspace_id: String` (header parameter)
+  - `:"telemetry-destinations-2026-08-11"`
+
+  - `:"webhooks-2026-10-07"`
+
+  - `:"admin-user-sign-out-2026-10-08"`
+
+  - `:"message-threads-2026-08-12"`
+
+  - `:"analytics-usage-cost-2026-08-24"`
+
+  - `:"experimental-claude-tag-2026-10-21"`
+
+- `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -153,7 +165,27 @@ Get Session Thread
 
       - `id: String`
 
-      - `description: String`
+      - `description: String | nil`
+
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: :aws_role`
+
+          - `role_arn: String`
+
+            The IAM role's ARN.
+
+        - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: :service_account`
 
       - `mcp_servers: Array[BetaManagedAgentsMCPServerURLDefinition]`
 
@@ -172,6 +204,10 @@ Get Session Thread
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `:"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `:"claude-haiku-5-5"`
 
@@ -243,7 +279,7 @@ Get Session Thread
 
           - `String = String`
 
-        - `effort: BetaManagedAgentsEffortLow | BetaManagedAgentsEffortMedium | BetaManagedAgentsEffortHigh | 2 more`
+        - `effort: optional BetaManagedAgentsEffortLow | BetaManagedAgentsEffortMedium | BetaManagedAgentsEffortHigh | 2 more`
 
           How hard Claude works on each inference call. One of `low`, `medium`, `high`, `xhigh`, `max`. Always present; resolved to the per-model default at save time when not supplied.
 
@@ -277,11 +313,11 @@ Get Session Thread
 
             - `type: :max`
 
-        - `inference_geo: String`
+        - `inference_geo: optional String`
 
           Geographic region for model inference. When unset, requests fall through to the workspace's default_inference_geo.
 
-        - `speed: :standard | :fast`
+        - `speed: optional :standard | :fast`
 
           Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
@@ -313,7 +349,7 @@ Get Session Thread
 
           - `version: String`
 
-      - `system_: String`
+      - `system_: String | nil`
 
       - `tools: Array[BetaManagedAgentsAgentToolset20260401 | BetaManagedAgentsMCPToolset | BetaManagedAgentsCustomTool]`
 
@@ -511,11 +547,11 @@ Get Session Thread
 
                   The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
 
-              - `url_sources: BetaManagedAgentsWebFetchURLSources`
+              - `url_sources: BetaManagedAgentsWebFetchURLSources | nil`
 
                 Which sources contribute URLs the tool may fetch, always in the object form. Null when not set, which allows every source.
 
-                - `client_tool_results: BetaManagedAgentsWebFetchURLSourceToolFilter`
+                - `client_tool_results: BetaManagedAgentsWebFetchURLSourceToolFilter | nil`
 
                   Which custom tools' results contribute URLs that may be fetched. Null when not set, which allows every custom tool's results.
 
@@ -571,11 +607,11 @@ Get Session Thread
 
                         minLength: 1, maxLength: 128
 
-                - `server_tool_results: BetaManagedAgentsWebFetchURLSourceToolFilter`
+                - `server_tool_results: BetaManagedAgentsWebFetchURLSourceToolFilter | nil`
 
                   Which of the web_search and web_fetch tools' results contribute URLs that may be fetched. Null when not set, which allows both.
 
-                - `user_input: BetaManagedAgentsWebFetchURLSourceUserInput`
+                - `user_input: BetaManagedAgentsWebFetchURLSourceUserInput | nil`
 
                   Whether URLs in the text of user messages may be fetched. Null when not set, which allows them.
 
@@ -587,11 +623,11 @@ Get Session Thread
 
                     This source contributes no URLs that may be fetched.
 
-              - `allowed_domains: Array[String]`
+              - `allowed_domains: optional Array[String]`
 
-              - `blocked_domains: Array[String]`
+              - `blocked_domains: optional Array[String]`
 
-              - `max_content_tokens: Integer`
+              - `max_content_tokens: optional Integer | nil`
 
                 format: int32
 
@@ -621,11 +657,11 @@ Get Session Thread
 
                   The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
 
-              - `allowed_domains: Array[String]`
+              - `allowed_domains: optional Array[String]`
 
-              - `blocked_domains: Array[String]`
+              - `blocked_domains: optional Array[String]`
 
-              - `user_location: BetaManagedAgentsUserLocation`
+              - `user_location: optional BetaManagedAgentsUserLocation | nil`
 
                 Approximate user location for search result localization.
 
@@ -633,23 +669,25 @@ Get Session Thread
 
                   Location precision. Only "approximate" is supported.
 
-                - `city: String`
+                - `city: optional String | nil`
 
                   City name.
 
                   minLength: 1, maxLength: 255
 
-                - `country: String`
+                - `country: optional String | nil`
 
                   Two-letter ISO 3166-1 country code, uppercase.
 
-                - `region: String`
+                  pattern: ^[A-Z]{2}$
+
+                - `region: optional String | nil`
 
                   Region or state name.
 
                   minLength: 1, maxLength: 255
 
-                - `timezone: String`
+                - `timezone: optional String | nil`
 
                   IANA timezone identifier, e.g. "America/Los_Angeles".
 
@@ -741,9 +779,9 @@ Get Session Thread
 
             - `type: :object`
 
-            - `properties: Hash[Symbol, untyped]`
+            - `properties: optional Hash[Symbol, untyped] | nil`
 
-            - `required: Array[String]`
+            - `required: optional Array[String] | nil`
 
           - `name: String`
 
@@ -767,7 +805,11 @@ Get Session Thread
 
       - `type: :inline`
 
-      - `description: String`
+      - `description: String | nil`
+
+      - `execution_identity: BetaManagedAgentsExecutionIdentity`
+
+        The session's execution principal.
 
       - `mcp_servers: Array[BetaManagedAgentsMCPServerURLDefinition]`
 
@@ -795,7 +837,7 @@ Get Session Thread
 
           A resolved user-created custom skill.
 
-      - `system_: String`
+      - `system_: String | nil`
 
       - `tools: Array[BetaManagedAgentsAgentToolset20260401 | BetaManagedAgentsMCPToolset | BetaManagedAgentsCustomTool]`
 
@@ -807,7 +849,7 @@ Get Session Thread
 
           A custom tool as returned in API responses.
 
-  - `archived_at: Time`
+  - `archived_at: Time | nil`
 
     When the thread was archived. Null if not archived.
 
@@ -819,7 +861,7 @@ Get Session Thread
 
     format: date-time
 
-  - `parent_thread_id: String`
+  - `parent_thread_id: String | nil`
 
     Parent thread that spawned this thread. Null for the primary thread.
 
@@ -827,23 +869,23 @@ Get Session Thread
 
     The session this thread belongs to.
 
-  - `stats: BetaManagedAgentsSessionThreadStats`
+  - `stats: BetaManagedAgentsSessionThreadStats | nil`
 
     Timing statistics for this thread. Null until the thread's first status transition.
 
-    - `active_seconds: Float`
+    - `active_seconds: optional Float`
 
       Cumulative time in seconds the thread spent actively running. Excludes idle time.
 
       format: double
 
-    - `duration_seconds: Float`
+    - `duration_seconds: optional Float`
 
       Elapsed time since thread creation in seconds. For archived threads, frozen at the final update.
 
       format: double
 
-    - `startup_seconds: Float`
+    - `startup_seconds: optional Float`
 
       Time in seconds for the thread to begin running. Zero for child threads, which start immediately.
 
@@ -867,45 +909,45 @@ Get Session Thread
 
     format: date-time
 
-  - `usage: BetaManagedAgentsSessionThreadUsage`
+  - `usage: BetaManagedAgentsSessionThreadUsage | nil`
 
     Cumulative token usage for this thread. Null until the thread's first idle transition.
 
-    - `active_seconds: Float`
+    - `active_seconds: optional Float`
 
       Cumulative time in seconds this thread spent in running status. Equal to `stats.active_seconds`; surfaced here so a thread's usage carries every quantity its cost is priced on.
 
       format: double
 
-    - `cache_creation: BetaManagedAgentsCacheCreationUsage`
+    - `cache_creation: optional BetaManagedAgentsCacheCreationUsage`
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `ephemeral_1h_input_tokens: Integer`
+      - `ephemeral_1h_input_tokens: optional Integer`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
         format: int32
 
-      - `ephemeral_5m_input_tokens: Integer`
+      - `ephemeral_5m_input_tokens: optional Integer`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
         format: int32
 
-    - `cache_read_input_tokens: Integer`
+    - `cache_read_input_tokens: optional Integer`
 
       Total tokens read from prompt cache.
 
       format: int32
 
-    - `input_tokens: Integer`
+    - `input_tokens: optional Integer`
 
       Total input tokens consumed across all turns.
 
       format: int32
 
-    - `list_cost: BetaMonetaryAmount`
+    - `list_cost: optional BetaMonetaryAmount | nil`
 
       Cumulative list cost of this thread across all turns, priced at public list rates. Absent until cost tracking is available for the thread. Each figure is rounded to the nearest cent independently and the session's aggregate `usage.list_cost` additionally includes session runtime, so per-thread costs do not sum exactly to the session figure; the session figure is authoritative and is what a budget is enforced against.
 
@@ -913,33 +955,35 @@ Get Session Thread
 
         Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+        pattern: ^(0|[1-9]\d*)$
+
       - `currency: BetaCurrency`
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `output_tokens: Integer`
+    - `output_tokens: optional Integer`
 
       Total output tokens generated across all turns.
 
       format: int32
 
-    - `server_tool_use: BetaManagedAgentsServerToolUsage`
+    - `server_tool_use: optional BetaManagedAgentsServerToolUsage | nil`
 
       Cumulative server-executed tool usage across all turns of this thread. Absent until server-tool tracking is available for the thread.
 
-      - `web_fetch_requests: Integer`
+      - `web_fetch_requests: optional Integer`
 
         Number of server-executed web fetch requests.
 
         format: int32
 
-      - `web_search_requests: Integer`
+      - `web_search_requests: optional Integer`
 
         Number of server-executed web search requests.
 
         format: int32
 
-  - `workflow_run_id: String`
+  - `workflow_run_id: String | nil`
 
     Identifier of the workflow run that created the thread, or `null` for any other thread.
 
@@ -966,6 +1010,9 @@ puts(beta_managed_agents_session_thread)
   "agent": {
     "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
     "description": "A focused research subagent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",

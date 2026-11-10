@@ -8,9 +8,36 @@ featureMetadata:
     url: https://platform.claude.com/docs/en/managed-agents/overview
   status: beta
   betaHeader: managed-agents-2026-04-01
+  zdr:
+    eligibility: not-eligible
+    note: Sessions are stateful resources; transcripts persist until you delete them. Applies to all Managed Agents sub-features, including Self-hosted sandboxes.
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: beta
+    Claude Platform on AWS: beta
+    Claude Models on Google Cloud (Anthropic managed): beta
 ---
 
-[Custom tools](https://platform.claude.com/docs/en/managed-agents/tools#custom-tools) are tools your own code executes: the agent emits an `agent.custom_tool_use` event and waits for a matching `user.custom_tool_result`. Your worker can be that code. Because it runs inside your sandbox, the tool reaches the internal services, credentials, and network egress you configured for the sandbox, and nothing more.
+[Custom tools](https://platform.claude.com/docs/en/managed-agents/tools#custom-tools) are tools your own code runs: the agent emits an `agent.custom_tool_use` event and waits for a matching `user.custom_tool_result`. Your worker can be that code. Because it runs inside your sandbox, the tool reaches the internal services, credentials, and network egress you configured for the sandbox, and nothing more.
 
 The environment key authorizes posting custom tool results, so your Claude API key stays off the worker host.
 
@@ -22,7 +49,7 @@ The environment key authorizes posting custom tool results, so your Claude API k
 
 <Steps>
   <Step title="Declare the tool on the agent">
-    Add a `custom` entry to the agent's `tools` whose `name` matches the tool your worker registers. See [Custom tools](https://platform.claude.com/docs/en/managed-agents/tools#custom-tools) for the full declaration shape.
+    Add a `custom` entry to the agent’s `tools` whose `name` matches the tool your worker registers. See [Custom tools](https://platform.claude.com/docs/en/managed-agents/tools#custom-tools) for the full declaration shape.
 
     ```json
     {
@@ -41,9 +68,9 @@ The environment key authorizes posting custom tool results, so your Claude API k
   </Step>
 
   <Step title="Register the implementation with the worker">
-    Pass the tool through the worker's `tools` (go: `ToolsFunc`) factory (see [`EnvironmentWorker`](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-reference#environment-worker)), alongside the built-in toolset:
+    Pass the tool through the worker’s `tools` (go: `ToolsFunc`) factory (see [`EnvironmentWorker`](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-reference#environment-worker)), alongside the built-in toolset:
 
-    <CodeGroup exclude="shell">
+    <CodeGroup exclude="shell, csharp, java, php, ruby">
       ```python Python
       import asyncio
       import os
@@ -109,10 +136,9 @@ The environment key authorizes posting custom tool results, so your Claude API k
       }).run();
       ```
 
-      ```csharp C#
-      // EnvironmentWorker is not currently available in the C# SDK.
-      // To answer custom tool calls directly, see the session event stream.
-      ```
+      <CodeGroupItem language="C#">
+        The C# SDK does not have `EnvironmentWorker`. To answer custom tool calls from your own code, send each result on the session’s event stream, as in [Return a custom tool result](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#return-a-custom-tool-result).
+      </CodeGroupItem>
 
       ```go Go
       package main
@@ -124,11 +150,11 @@ The environment key authorizes posting custom tool results, so your Claude API k
       	"os/signal"
       	"syscall"
 
-      	"github.com/anthropics/anthropic-sdk-go"
-      	"github.com/anthropics/anthropic-sdk-go/lib/environments"
-      	"github.com/anthropics/anthropic-sdk-go/option"
-      	"github.com/anthropics/anthropic-sdk-go/toolrunner"
-      	"github.com/anthropics/anthropic-sdk-go/tools/agenttoolset"
+      	"github.com/anthropics/anthropic-sdk-go/v2"
+      	"github.com/anthropics/anthropic-sdk-go/v2/lib/environments"
+      	"github.com/anthropics/anthropic-sdk-go/v2/option"
+      	"github.com/anthropics/anthropic-sdk-go/v2/toolrunner"
+      	"github.com/anthropics/anthropic-sdk-go/v2/tools/agenttoolset"
       )
 
       type orderStatusInput struct {
@@ -173,23 +199,19 @@ The environment key authorizes posting custom tool results, so your Claude API k
       		log.Fatalf("worker: %v", err)
       	}
       }
-
       ```
 
-      ```java Java
-      // EnvironmentWorker is not currently available in the Java SDK.
-      // To answer custom tool calls directly, see the session event stream.
-      ```
+      <CodeGroupItem language="Java">
+        The Java SDK does not have `EnvironmentWorker`. To answer custom tool calls from your own code, send each result on the session’s event stream, as in [Return a custom tool result](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#return-a-custom-tool-result).
+      </CodeGroupItem>
 
-      ```php PHP
-      // EnvironmentWorker is not currently available in the PHP SDK.
-      // To answer custom tool calls directly, see the session event stream.
-      ```
+      <CodeGroupItem language="PHP">
+        The PHP SDK does not have `EnvironmentWorker`. To answer custom tool calls from your own code, send each result on the session’s event stream, as in [Return a custom tool result](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#return-a-custom-tool-result).
+      </CodeGroupItem>
 
-      ```ruby Ruby
-      # EnvironmentWorker is not currently available in the Ruby SDK.
-      # To answer custom tool calls directly, see the session event stream.
-      ```
+      <CodeGroupItem language="Ruby">
+        The Ruby SDK does not have `EnvironmentWorker`. To answer custom tool calls from your own code, send each result on the session’s event stream, as in [Return a custom tool result](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#return-a-custom-tool-result).
+      </CodeGroupItem>
     </CodeGroup>
   </Step>
 </Steps>
@@ -198,27 +220,27 @@ The worker answers only the tools registered with it. If a tool is declared on t
 
 ## Wrap an MCP server as custom tools
 
-The [MCP connector](https://platform.claude.com/docs/en/managed-agents/mcp-connector) connects to MCP servers from Anthropic's side. A server must therefore expose an HTTP endpoint that Anthropic can reach, directly or through an [MCP tunnel](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/overview).
+The [MCP connector](https://platform.claude.com/docs/en/managed-agents/mcp-connector) connects to MCP servers from Anthropic’s side. A server must therefore expose an HTTP endpoint that Anthropic can reach, directly or through an [MCP tunnel](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/overview).
 
-To use a server that only your network can reach, make the worker the MCP client instead and declare the server's tools as custom tools. The MCP server needs no inbound connectivity from outside your network. Anthropic receives the tool definitions you declare on the agent, each call's input, and the result your worker posts back.
+To use a server that only your network can reach, make the worker the MCP client instead and declare the server’s tools as custom tools. The MCP server needs no inbound connectivity from outside your network. Anthropic receives the tool definitions you declare on the agent, each call’s input, and the result your worker posts back.
 
 At runtime the model calls a wrapped tool like any other custom tool:
 
 1. The agent emits an `agent.custom_tool_use` event.
 2. The worker, inside your sandbox, forwards the call over its open MCP session to the server on your network.
-3. The worker posts the server's response as the `user.custom_tool_result`.
+3. The worker posts the server’s response as the `user.custom_tool_result`.
 
 ### Install an MCP SDK
 
-The SDK's [Client-side MCP helpers](https://platform.claude.com/docs/en/agents-and-tools/mcp-connector#client-side-mcp-helpers) convert the server's tools into the runnable tools the worker accepts. Install an MCP SDK alongside the Anthropic SDK: `pip install "anthropic[mcp]" "mcp>=1.24"` (typescript: `npm install @modelcontextprotocol/sdk`; go: `go get github.com/modelcontextprotocol/go-sdk`).
+The SDK’s [Client-side MCP helpers](https://platform.claude.com/docs/en/agents-and-tools/mcp-connector#client-side-mcp-helpers) convert the server’s tools into the runnable tools the worker accepts. Install an MCP SDK alongside the Anthropic SDK: `pip install "anthropic[mcp]" "mcp>=1.24"` (typescript: `npm install @modelcontextprotocol/sdk`; go: `go get github.com/modelcontextprotocol/go-sdk`; csharp: `dotnet add package ModelContextProtocol`; java: `com.anthropic:anthropic-java-mcp`; php: `composer require mcp/sdk`; ruby: `bundle add mcp faraday event_stream_parser`).
 
-The examples connect without authentication. To send credentials, configure the `http_client` (typescript: `requestInit`; go: `HTTPClient`) you hand to the MCP transport.
+The examples connect without authentication. To send credentials, configure the `http_client` (typescript: `requestInit`; go: `HTTPClient`; csharp: `AdditionalHeaders`; java: `.customizeRequest()`; php, ruby: `headers`) you hand to the MCP transport.
 
 ### Declare and serve the tools
 
 <Steps>
-  <Step title="Declare the server's tools on the agent">
-    List the MCP server's tools and declare each one as a `custom` tool. The MCP `name`, `description`, and `inputSchema` map one to one onto the custom tool's fields. If the server paginates its tool list, declare every page; the worker must list the same pages.
+  <Step title="Declare the server’s tools on the agent">
+    List the MCP server’s tools and declare each one as a `custom` tool. The MCP `name`, `description`, and `inputSchema` map one to one onto the custom tool’s fields. If the server paginates its tool list, declare every page; the worker must list the same pages.
 
     <CodeGroup exclude="shell">
       ```python Python
@@ -227,6 +249,7 @@ The examples connect without authentication. To send credentials, configure the 
       from anthropic import AsyncAnthropic
       from anthropic.types.beta import BetaManagedAgentsCustomToolParams
       from mcp import ClientSession, types
+
       # Requires mcp >= 1.24, which renamed streamablehttp_client to streamable_http_client.
       from mcp.client.streamable_http import streamable_http_client
 
@@ -258,7 +281,13 @@ The examples connect without authentication. To send credentials, configure the 
                   name="Internal tools agent",
                   model="claude-opus-5-5",
                   tools=[
-                      {"type": "agent_toolset_20260401"},
+                      {
+                          "type": "agent_toolset_20260401",
+                          "configs": [
+                              {"name": "web_search", "enabled": False},
+                              {"name": "web_fetch", "enabled": False},
+                          ],
+                      },
                       *[to_custom_tool(tool) for tool in listed.tools],
                   ],
               )
@@ -287,7 +316,13 @@ The examples connect without authentication. To send credentials, configure the 
         name: "Internal tools agent",
         model: "claude-opus-5-5",
         tools: [
-          { type: "agent_toolset_20260401" },
+          {
+            type: "agent_toolset_20260401",
+            configs: [
+              { name: "web_search", enabled: false },
+              { name: "web_fetch", enabled: false }
+            ]
+          },
           // The MCP fields map one to one onto a custom tool declaration.
           ...tools.map((tool) => ({
             type: "custom" as const,
@@ -303,8 +338,62 @@ The examples connect without authentication. To send credentials, configure the 
       ```
 
       ```csharp C#
-      // See the Python, TypeScript, and Go tabs. Declaring custom tools from
-      // C# works the same way once you list the server's tools with an MCP client.
+      using System.Text.Json;
+      using Anthropic;
+      using Anthropic.Models.Beta.Agents;
+      using ModelContextProtocol.Client;
+
+      const string McpServerUrl = "http://mcp.internal.example.com:8000/mcp";
+
+      // Run this wherever you create agents, not on the worker host: it
+      // authenticates with your Claude API key (ANTHROPIC_API_KEY).
+      var client = new AnthropicClient();
+
+      await using var mcpClient = await McpClient.CreateAsync(
+          new HttpClientTransport(new HttpClientTransportOptions { Endpoint = new Uri(McpServerUrl) })
+      );
+      var mcpTools = await mcpClient.ListToolsAsync();
+
+      List<Tool> tools =
+      [
+          new BetaManagedAgentsAgentToolset20260401Params
+          {
+              Configs =
+              [
+                  new BetaManagedAgentsWebSearchToolConfigParams { Enabled = false },
+                  new BetaManagedAgentsWebFetchToolConfigParams { Enabled = false },
+              ],
+          },
+      ];
+      foreach (var tool in mcpTools)
+      {
+          var description = tool.Description;
+          if (string.IsNullOrEmpty(description))
+          {
+              description = tool.Name;
+          }
+
+          // The MCP fields map one to one onto a custom tool declaration. The
+          // schema's keywords pass to the SDK unchanged.
+          tools.Add(
+              new BetaManagedAgentsCustomToolParams
+              {
+                  Name = tool.Name,
+                  Description = description,
+                  InputSchema = new(
+                      tool.ProtocolTool.InputSchema.Deserialize<Dictionary<string, JsonElement>>()!
+                  ),
+              }
+          );
+      }
+
+      var agent = await client.Beta.Agents.Create(new()
+      {
+          Name = "Internal tools agent",
+          Model = BetaManagedAgentsModel.ClaudeOpus5_5,
+          Tools = tools,
+      });
+      Console.WriteLine(agent.ID);
       ```
 
       ```go Go
@@ -316,7 +405,7 @@ The examples connect without authentication. To send credentials, configure the 
       	"fmt"
       	"log"
 
-      	"github.com/anthropics/anthropic-sdk-go"
+      	"github.com/anthropics/anthropic-sdk-go/v2"
       	mcpsdk "github.com/modelcontextprotocol/go-sdk/mcp"
       )
 
@@ -362,7 +451,6 @@ The examples connect without authentication. To send credentials, configure the 
       	}
       	return anthropic.BetaAgentNewParamsToolUnion{
       		OfCustom: &anthropic.BetaManagedAgentsCustomToolParams{
-      			Type:        anthropic.BetaManagedAgentsCustomToolParamsTypeCustom,
       			Name:        tool.Name,
       			Description: description,
       			InputSchema: inputSchema,
@@ -391,7 +479,14 @@ The examples connect without authentication. To send credentials, configure the 
 
       	tools := []anthropic.BetaAgentNewParamsToolUnion{
       		{OfAgentToolset20260401: &anthropic.BetaManagedAgentsAgentToolset20260401Params{
-      			Type: anthropic.BetaManagedAgentsAgentToolset20260401ParamsTypeAgentToolset20260401,
+      			Configs: []anthropic.BetaManagedAgentsAgentToolConfigParamsUnion{
+      				{OfWebSearch: &anthropic.BetaManagedAgentsWebSearchToolConfigParams{
+      					Enabled: anthropic.Bool(false),
+      				}},
+      				{OfWebFetch: &anthropic.BetaManagedAgentsWebFetchToolConfigParams{
+      					Enabled: anthropic.Bool(false),
+      				}},
+      			},
       		}},
       	}
       	for _, tool := range listed.Tools {
@@ -412,30 +507,174 @@ The examples connect without authentication. To send credentials, configure the 
       	}
       	fmt.Println(agent.ID)
       }
-
       ```
 
       ```java Java
-      // See the Python, TypeScript, and Go tabs. Declaring custom tools from
-      // Java works the same way once you list the server's tools with an MCP client.
+      import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+      import com.anthropic.core.JsonValue;
+      import com.anthropic.models.beta.agents.AgentCreateParams;
+      import com.anthropic.models.beta.agents.BetaManagedAgentsAgentToolset20260401Params;
+      import com.anthropic.models.beta.agents.BetaManagedAgentsCustomToolInputSchema;
+      import com.anthropic.models.beta.agents.BetaManagedAgentsCustomToolParams;
+      import com.anthropic.models.beta.agents.BetaManagedAgentsModel;
+      import com.anthropic.models.beta.agents.BetaManagedAgentsWebFetchToolConfigParams;
+      import com.anthropic.models.beta.agents.BetaManagedAgentsWebSearchToolConfigParams;
+      import io.modelcontextprotocol.client.McpClient;
+      import io.modelcontextprotocol.client.transport.HttpClientStreamableHttpTransport;
+      import io.modelcontextprotocol.spec.McpSchema;
+
+      // The MCP fields map one to one onto a custom tool declaration. The MCP Java
+      // SDK keeps only these top-level keywords of a tool's input schema: type,
+      // properties, required, additionalProperties, $defs, and definitions.
+      BetaManagedAgentsCustomToolParams toCustomTool(McpSchema.Tool tool) {
+          var description = tool.description();
+          if (description == null || description.isEmpty()) {
+              description = tool.name();
+          }
+
+          return BetaManagedAgentsCustomToolParams.builder()
+              .name(tool.name())
+              .description(description)
+              .inputSchema(JsonValue.from(tool.inputSchema())
+                  .convert(BetaManagedAgentsCustomToolInputSchema.class))
+              .build();
+      }
+
+      void main() {
+          // Run this wherever you create agents, not on the worker host: it
+          // authenticates with your Claude API key (ANTHROPIC_API_KEY).
+          var client = AnthropicOkHttpClient.fromEnv();
+
+          // The MCP server's address, then the path of its MCP endpoint.
+          var transport = HttpClientStreamableHttpTransport.builder("http://mcp.internal.example.com:8000")
+              .endpoint("/mcp")
+              .build();
+          try (var mcpClient = McpClient.sync(transport)
+                  .clientInfo(new McpSchema.Implementation("declare-agent-tools", "1.0.0"))
+                  .build()) {
+              mcpClient.initialize();
+
+              var params = AgentCreateParams.builder()
+                  .name("Internal tools agent")
+                  .model(BetaManagedAgentsModel.CLAUDE_OPUS_5_5)
+                  .addTool(BetaManagedAgentsAgentToolset20260401Params.builder()
+                      .addConfig(BetaManagedAgentsWebSearchToolConfigParams.builder()
+                          .enabled(false)
+                          .build())
+                      .addConfig(BetaManagedAgentsWebFetchToolConfigParams.builder()
+                          .enabled(false)
+                          .build())
+                      .build());
+              for (var tool : mcpClient.listTools().tools()) {
+                  params.addTool(toCustomTool(tool));
+              }
+
+              var agent = client.beta().agents().create(params.build());
+              IO.println(agent.id());
+          }
+      }
       ```
 
       ```php PHP
-      // See the Python, TypeScript, and Go tabs. Declaring custom tools from
-      // PHP works the same way once you list the server's tools with an MCP client.
+      use Anthropic\Beta\Agents\BetaManagedAgentsAgentToolset20260401Params;
+      use Anthropic\Beta\Agents\BetaManagedAgentsModel;
+      use Anthropic\Beta\Agents\BetaManagedAgentsWebFetchToolConfigParams;
+      use Anthropic\Beta\Agents\BetaManagedAgentsWebSearchToolConfigParams;
+      use Anthropic\Client as Anthropic;
+      use Mcp\Client as McpClient;
+      use Mcp\Client\Transport\HttpTransport;
+
+      $mcpServerUrl = 'http://mcp.internal.example.com:8000/mcp';
+
+      // Run this wherever you create agents, not on the worker host: it
+      // authenticates with your Claude API key (ANTHROPIC_API_KEY).
+      $client = new Anthropic();
+
+      $mcpClient = McpClient::builder()->build();
+      $mcpClient->connect(new HttpTransport($mcpServerUrl));
+
+      $tools = [
+          BetaManagedAgentsAgentToolset20260401Params::with(
+              configs: [
+                  BetaManagedAgentsWebSearchToolConfigParams::with(enabled: false),
+                  BetaManagedAgentsWebFetchToolConfigParams::with(enabled: false),
+              ],
+          ),
+      ];
+      foreach ($mcpClient->listTools()->tools as $tool) {
+          // The MCP fields map one to one onto a custom tool declaration. The
+          // schema's keywords pass to the SDK unchanged.
+          $tools[] = [
+              'type' => 'custom',
+              'name' => $tool->name,
+              'description' => $tool->description ?: $tool->name,
+              'inputSchema' => $tool->inputSchema,
+          ];
+      }
+
+      $agent = $client->beta->agents->create(
+          name: 'Internal tools agent',
+          model: BetaManagedAgentsModel::CLAUDE_OPUS_5_5,
+          tools: $tools,
+      );
+      echo $agent->id, "\n";
+
+      $mcpClient->disconnect();
       ```
 
       ```ruby Ruby
-      # See the Python, TypeScript, and Go tabs. Declaring custom tools from
-      # Ruby works the same way once you list the server's tools with an MCP client.
+      require "anthropic"
+      require "mcp"
+
+      MCP_SERVER_URL = "http://mcp.internal.example.com:8000/mcp"
+
+      # Run this wherever you create agents, not on the worker host: it
+      # authenticates with your Claude API key (ANTHROPIC_API_KEY).
+      client = Anthropic::Client.new
+
+      transport = MCP::Client::HTTP.new(url: MCP_SERVER_URL)
+      mcp_client = MCP::Client.new(transport: transport)
+      mcp_client.connect
+
+      custom_tools = mcp_client.tools.map do |tool|
+        description = tool.description
+        description = tool.name if description.nil? || description.empty?
+
+        # The MCP fields map one to one onto a custom tool declaration. The
+        # schema's keywords pass to the SDK unchanged.
+        {
+          type: :custom,
+          name: tool.name,
+          description: description,
+          input_schema: tool.input_schema
+        }
+      end
+
+      agent = client.beta.agents.create(
+        name: "Internal tools agent",
+        model: Anthropic::Beta::BetaManagedAgentsModel::CLAUDE_OPUS_5_5,
+        tools: [
+          {
+            type: :agent_toolset_20260401,
+            configs: [
+              {name: :web_search, enabled: false},
+              {name: :web_fetch, enabled: false}
+            ]
+          },
+          *custom_tools
+        ]
+      )
+      puts agent.id
+
+      transport.close
       ```
     </CodeGroup>
   </Step>
 
   <Step title="Serve the tools from the worker">
-    Connect to the same MCP server at startup, convert its tools with `async_mcp_tool` (typescript: `mcpTools`; go: `mcp.NewBetaTools`), and register them alongside `beta_agent_toolset_20260401` (typescript: `betaAgentToolset20260401`; go: `agenttoolset.BetaAgentToolset20260401`). Keep one MCP session open for the life of the worker.
+    Connect to the same MCP server at startup, convert its tools with `async_mcp_tool()` (typescript: `mcpTools()`; go: `mcp.NewBetaTools()`), and register them alongside `beta_agent_toolset_20260401()` (typescript: `betaAgentToolset20260401()`; go: `agenttoolset.BetaAgentToolset20260401()`). Keep one MCP session open for the life of the worker.
 
-    <CodeGroup exclude="shell">
+    <CodeGroup exclude="shell, csharp, java, php, ruby">
       ```python Python
       import asyncio
       import os
@@ -445,6 +684,7 @@ The examples connect without authentication. To send credentials, configure the 
       from anthropic.lib.tools.agent_toolset import beta_agent_toolset_20260401
       from anthropic.lib.tools.mcp import async_mcp_tool
       from mcp import ClientSession
+
       # Requires mcp >= 1.24, which renamed streamablehttp_client to streamable_http_client.
       from mcp.client.streamable_http import streamable_http_client
 
@@ -459,7 +699,9 @@ The examples connect without authentication. To send credentials, configure the 
           # result instead of a stalled call.
           async with (
               streamable_http_client(MCP_SERVER_URL) as (read, write, _),
-              ClientSession(read, write, read_timeout_seconds=timedelta(seconds=60)) as mcp_session,
+              ClientSession(
+                  read, write, read_timeout_seconds=timedelta(seconds=60)
+              ) as mcp_session,
               AsyncAnthropic(auth_token=environment_key) as client,
           ):
               await mcp_session.initialize()
@@ -519,9 +761,9 @@ The examples connect without authentication. To send credentials, configure the 
       }).run();
       ```
 
-      ```csharp C#
-      // EnvironmentWorker is not currently available in the C# SDK.
-      ```
+      <CodeGroupItem language="C#">
+        The C# SDK does not have `EnvironmentWorker`.
+      </CodeGroupItem>
 
       ```go Go
       package main
@@ -533,11 +775,11 @@ The examples connect without authentication. To send credentials, configure the 
       	"os/signal"
       	"syscall"
 
-      	"github.com/anthropics/anthropic-sdk-go"
-      	"github.com/anthropics/anthropic-sdk-go/lib/environments"
-      	"github.com/anthropics/anthropic-sdk-go/mcp"
-      	"github.com/anthropics/anthropic-sdk-go/option"
-      	"github.com/anthropics/anthropic-sdk-go/tools/agenttoolset"
+      	"github.com/anthropics/anthropic-sdk-go/v2"
+      	"github.com/anthropics/anthropic-sdk-go/v2/lib/environments"
+      	"github.com/anthropics/anthropic-sdk-go/v2/mcp"
+      	"github.com/anthropics/anthropic-sdk-go/v2/option"
+      	"github.com/anthropics/anthropic-sdk-go/v2/tools/agenttoolset"
       	mcpsdk "github.com/modelcontextprotocol/go-sdk/mcp"
       )
 
@@ -582,20 +824,19 @@ The examples connect without authentication. To send credentials, configure the 
       		log.Fatalf("worker: %v", err)
       	}
       }
-
       ```
 
-      ```java Java
-      // EnvironmentWorker is not currently available in the Java SDK.
-      ```
+      <CodeGroupItem language="Java">
+        The Java SDK does not have `EnvironmentWorker`.
+      </CodeGroupItem>
 
-      ```php PHP
-      // EnvironmentWorker is not currently available in the PHP SDK.
-      ```
+      <CodeGroupItem language="PHP">
+        The PHP SDK does not have `EnvironmentWorker`.
+      </CodeGroupItem>
 
-      ```ruby Ruby
-      # EnvironmentWorker is not currently available in the Ruby SDK.
-      ```
+      <CodeGroupItem language="Ruby">
+        The Ruby SDK does not have `EnvironmentWorker`.
+      </CodeGroupItem>
     </CodeGroup>
   </Step>
 </Steps>
@@ -604,37 +845,37 @@ The examples connect without authentication. To send credentials, configure the 
 
 ### Tools are declared, not discovered at runtime
 
-The worker lists the MCP server's tools once at startup and cannot add tools to a running session. When the server's tools change:
+The worker lists the MCP server’s tools once at startup and cannot add tools to a running session. When the server’s tools change:
 
 1. Declare them again, on the agent or on an idle session through [Updating the agent configuration](https://platform.claude.com/docs/en/managed-agents/session-operations#updating-the-agent-configuration).
 2. Restart the worker.
 
 ### Declarations must fit the Managed Agents API
 
-The MCP helpers keep the server's names and descriptions, and most schemas pass through unchanged. Rename, trim, or inline where a declaration breaks one of these rules:
+The MCP helpers keep the server’s names and descriptions, and most schemas pass through unchanged. Rename, trim, or inline where a declaration breaks one of these rules:
 
 | Field                     | Rule                                                                                                                                                                                                                                                                                          |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `name`                    | Unique per agent. Letters, digits, underscores, and hyphens, 1–128 characters. Cannot match a built-in agent tool such as `bash` or `read`, or use the reserved `mcp__` prefix or `ant__` prefix.                                                                                             |
 | `description`             | Required and non-empty.                                                                                                                                                                                                                                                                       |
 | `input_schema`            | Accepts the JSON Schema keywords MCP servers commonly emit, such as `additionalProperties` and `title`. Rejects reference keywords such as `$ref` anywhere, and top-level `oneOf`, `anyOf`, and `allOf`. Property names use letters, digits, underscores, dots, and hyphens, 1–64 characters. |
-| The agent's `tools` array | At most 256 entries. Each wrapped tool is one entry, and the built-in toolset is one more.                                                                                                                                                                                                    |
+| The agent’s `tools` array | At most 256 entries. Each wrapped tool is one entry, and the built-in toolset is one more.                                                                                                                                                                                                    |
 
 Two cases need extra work:
 
-* **Two servers expose the same tool name:** Define the wrapper yourself under a prefixed name and have it call the server's original tool name.
-* **A generator such as pydantic factors schemas into `$defs`:** Inline those schemas before you declare the tool.
+* **Two servers expose the same tool name:** Define the wrapper yourself under a prefixed name and have it call the server’s original tool name.
+* **A generator such as Pydantic factors schemas into `$defs`:** Inline those schemas before you declare the tool.
 
 ### Tool failures surface as error tool results
 
 When the MCP server reports a tool error, the worker posts an error tool result the model can react to. MCP content with no tool result equivalent, such as audio blocks and resource links, also surfaces as an error.
 
-Set a timeout on the MCP client for a faster and clearer failure, as the Python worker example does with `read_timeout_seconds`. See [A wrapped MCP tool call hangs](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-operations#a-wrapped-mcp-tool-call-hangs) for what happens without one.
+Set a timeout on the MCP client for a faster and clearer failure, as the Python worker example does with `read_timeout_seconds`. See [A wrapped MCP tool call hangs](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-operations#a-wrapped-mcp-tool-call-hangs) for what occurs without one.
 
 ### Wrap only servers you operate or trust
 
-A wrapped tool's name, description, and results enter the model's context like any other tool's. They are untrusted input that can influence what the agent does with its other tools, including `bash` on the worker host. Declare only the tools you intend the agent to use.
+A wrapped tool’s name, description, and results enter the model’s context like any other tool’s. They are untrusted input that can influence what the agent does with its other tools, including `bash` on the worker host. Declare only the tools you intend the agent to use.
 
 ### Permission policies do not apply
 
-[Permission policies](https://platform.claude.com/docs/en/managed-agents/permission-policies#custom-tools) govern the built-in and MCP toolsets. The worker executes every wrapped tool call the model makes, so put any approval step in your own tool code.
+[Permission policies](https://platform.claude.com/docs/en/managed-agents/permission-policies#custom-tools) govern the built-in and MCP toolsets. The worker runs every wrapped tool call the model makes, so put any approval step in your own tool code.

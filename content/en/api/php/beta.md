@@ -113,13 +113,29 @@ url: https://platform.claude.com/docs/en/api/php/beta
 
   - `"spend-limit-reads-2026-09-26"`
 
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
+
 ### Beta API Error
 
 - `class BetaAPIError`
 
   - `"api_error" type`
 
+    The broad category of the error.
+
   - `string message`
+
+    A human-readable explanation of the error. Its wording can change, so don't match on it.
 
 ### Beta Authentication Error
 
@@ -127,7 +143,11 @@ url: https://platform.claude.com/docs/en/api/php/beta
 
   - `"authentication_error" type`
 
+    The broad category of the error.
+
   - `string message`
+
+    A human-readable explanation of the error. Its wording can change, so don't match on it.
 
 ### Beta Billing Error
 
@@ -135,7 +155,11 @@ url: https://platform.claude.com/docs/en/api/php/beta
 
   - `"billing_error" type`
 
+    The broad category of the error.
+
   - `string message`
+
+    A human-readable explanation of the error. Its wording can change, so don't match on it.
 
 ### Beta Currency
 
@@ -149,55 +173,91 @@ url: https://platform.claude.com/docs/en/api/php/beta
 
     - `"invalid_request_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaAuthenticationError`
 
     - `"authentication_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaBillingError`
 
     - `"billing_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaPermissionError`
 
     - `"permission_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaNotFoundError`
 
     - `"not_found_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaRateLimitError`
 
     - `"rate_limit_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaGatewayTimeoutError`
 
     - `"timeout_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaAPIError`
 
     - `"api_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
   - `class BetaOverloadedError`
 
     - `"overloaded_error" type`
 
+      The broad category of the error.
+
     - `string message`
+
+      A human-readable explanation of the error. Its wording can change, so don't match on it.
 
 ### Beta Error Response
 
@@ -215,7 +275,11 @@ url: https://platform.claude.com/docs/en/api/php/beta
 
   - `"timeout_error" type`
 
+    The broad category of the error.
+
   - `string message`
+
+    A human-readable explanation of the error. Its wording can change, so don't match on it.
 
 ### Beta Invalid Request Error
 
@@ -223,7 +287,11 @@ url: https://platform.claude.com/docs/en/api/php/beta
 
   - `"invalid_request_error" type`
 
+    The broad category of the error.
+
   - `string message`
+
+    A human-readable explanation of the error. Its wording can change, so don't match on it.
 
 ### Beta Monetary Amount
 
@@ -243,7 +311,17 @@ url: https://platform.claude.com/docs/en/api/php/beta
 
   - `"not_found_error" type`
 
+    The broad category of the error.
+
   - `string message`
+
+    A human-readable explanation of the error. Its wording can change, so don't match on it.
+
+### Beta Organization Not Enrolled In Beta Error Details
+
+- `class BetaOrganizationNotEnrolledInBetaErrorDetails`
+
+  - `"organization_not_enrolled_in_beta" errorCode`
 
 ### Beta Overloaded Error
 
@@ -251,7 +329,11 @@ url: https://platform.claude.com/docs/en/api/php/beta
 
   - `"overloaded_error" type`
 
+    The broad category of the error.
+
   - `string message`
+
+    A human-readable explanation of the error. Its wording can change, so don't match on it.
 
 ### Beta Permission Error
 
@@ -259,7 +341,11 @@ url: https://platform.claude.com/docs/en/api/php/beta
 
   - `"permission_error" type`
 
+    The broad category of the error.
+
   - `string message`
+
+    A human-readable explanation of the error. Its wording can change, so don't match on it.
 
 ### Beta Rate Limit Error
 
@@ -267,7 +353,17 @@ url: https://platform.claude.com/docs/en/api/php/beta
 
   - `"rate_limit_error" type`
 
+    The broad category of the error.
+
   - `string message`
+
+    A human-readable explanation of the error. Its wording can change, so don't match on it.
+
+### Beta Unsupported Charset Error Details
+
+- `class BetaUnsupportedCharsetErrorDetails`
+
+  - `"unsupported_charset" errorCode`
 
 ## Beta › Models
 
@@ -283,19 +379,19 @@ The Models API response can be used to determine which models are available for 
 
 #### Parameters
 
-- `afterID?:optional string` (query parameter)
+- `afterID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
 
-- `beforeID?:optional string` (query parameter)
+- `beforeID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
 
-- `lifecycle?:optional list<Lifecycle>` (query parameter)
+- `lifecycle?: optional list<Lifecycle>` (query parameter)
 
   Filter the list to models in any of the given lifecycle stages (`active`, `deprecated`, or `retired`). Up to 3 values. When omitted, the list contains the `active` and `deprecated` models; `retired` models appear only when `retired` is requested explicitly.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -303,11 +399,11 @@ The Models API response can be used to determine which models are available for 
 
   default: 20
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -377,6 +473,9 @@ The Models API response can be used to determine which models are available for 
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -472,6 +571,9 @@ var_dump($page);
             "adaptive": {
               "supported": true
             },
+            "between_tools": {
+              "supported": true
+            },
             "disabled": {
               "supported": true
             },
@@ -485,7 +587,7 @@ var_dump($page);
       "deprecated_at": "2019-12-27T18:11:19.117Z",
       "display_name": "Claude Opus 5.5",
       "lifecycle": "active",
-      "line": "haiku",
+      "line": "opus",
       "max_input_tokens": 0,
       "max_tokens": 0,
       "retires_at": "2019-12-27T18:11:19.117Z",
@@ -514,11 +616,11 @@ The Models API response can be used to determine information about a specific mo
 
   Model identifier or alias.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -588,6 +690,9 @@ The Models API response can be used to determine information about a specific mo
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -678,6 +783,9 @@ var_dump($betaModelInfo);
         "adaptive": {
           "supported": true
         },
+        "between_tools": {
+          "supported": true
+        },
         "disabled": {
           "supported": true
         },
@@ -691,7 +799,7 @@ var_dump($betaModelInfo);
   "deprecated_at": "2019-12-27T18:11:19.117Z",
   "display_name": "Claude Opus 5.5",
   "lifecycle": "active",
-  "line": "haiku",
+  "line": "opus",
   "max_input_tokens": 0,
   "max_tokens": 0,
   "retires_at": "2019-12-27T18:11:19.117Z",
@@ -703,7 +811,7 @@ var_dump($betaModelInfo);
 
 ### Create a Message
 
-`$client->beta->messages->create(int maxTokens, list<BetaMessageParam> messages, Model model, ?BetaCacheControlEphemeral cacheControl, ?BetaCompactionConfig compaction, ?Container container, ?BetaContextManagementConfig contextManagement, ?BetaDiagnosticsParam diagnostics, ?FallbackCreditToken fallbackCreditToken, ?BetaFallbacksParam fallbacks, ?string inferenceGeo, ?list<BetaRequestMCPServerURLDefinition> mcpServers, ?BetaMetadata metadata, ?BetaOutputConfig outputConfig, ?BetaJSONOutputFormat outputFormat, ?ServiceTier serviceTier, ?Speed speed, ?list<string> stopSequences, ?System system, ?float temperature, ?BetaThinkingConfigParam thinking, ?BetaToolChoice toolChoice, ?list<BetaToolUnion> tools, ?int topK, ?float topP, ?list<AnthropicBeta> betas, ?string userProfileID, ?string workspaceID): BetaMessage`
+`$client->beta->messages->create(int maxTokens, list<BetaMessageParam> messages, Model model, ?BetaCacheControlEphemeral cacheControl, ?BetaCompactionConfig compaction, ?Container container, ?BetaContextManagementConfig contextManagement, ?BetaDiagnosticsParam diagnostics, ?FallbackCreditToken fallbackCreditToken, ?BetaFallbacksParam fallbacks, ?string inferenceGeo, ?list<BetaRequestMCPServerURLDefinition> mcpServers, ?BetaMetadata metadata, ?BetaOutputConfig outputConfig, ?BetaJSONOutputFormat outputFormat, ?ServiceTier serviceTier, ?Speed speed, ?list<string> stopSequences, ?System system, ?BetaThinkingConfigParam thinking, ?BetaMessageThreadParam thread, ?BetaToolChoice toolChoice, ?list<BetaToolUnion> tools, ?list<AnthropicBeta> betas, ?string userProfileID, ?string workspaceID): BetaMessage`
 
 **POST** `/v1/messages`
 
@@ -772,7 +880,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   See [input examples](https://platform.claude.com/docs/en/build-with-claude/working-with-messages?sdk_languages=php).
 
-  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
+  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role), you can use the top-level `system` parameter.
 
   There is a limit of 100,000 messages in a single request.
 
@@ -782,31 +890,31 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-- `cacheControl?:optional BetaCacheControlEphemeral`
+- `cacheControl?: optional BetaCacheControlEphemeral`
 
   Top-level cache control automatically applies a cache_control marker to the last cacheable block in the request.
 
-- `compaction?:optional BetaCompactionConfig`
+- `compaction?: optional BetaCompactionConfig`
 
   Compaction configuration.
 
   When set on `POST /v1/messages`, the request is a compaction request: the conversation in `messages` is summarized and the response holds only the resulting `compaction` block (`stop_reason` `"compaction"`), which later requests send first in `messages` in place of the messages it summarizes. `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the count it returns is for the conversation in `messages` as sent. Cannot be combined with `context_management`.
 
-- `container?:optional Container`
+- `container?: optional Container`
 
   Container identifier for reuse across requests.
 
-- `contextManagement?:optional BetaContextManagementConfig`
+- `contextManagement?: optional BetaContextManagementConfig`
 
   Context management configuration.
 
   This allows you to control how Claude manages context across multiple requests, such as whether to clear function results or not.
 
-- `diagnostics?:optional BetaDiagnosticsParam`
+- `diagnostics?: optional BetaDiagnosticsParam`
 
   Request-level diagnostics. Supply `previous_message_id` to have the response include `diagnostics.cache_miss_reason` explaining any prompt-cache divergence from that prior request.
 
-- `fallbackCreditToken?:optional FallbackCreditToken`
+- `fallbackCreditToken?: optional FallbackCreditToken`
 
   The `fallback_credit_token` from a prior refusal's `stop_details`.
 
@@ -829,37 +937,39 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
   When the appended-assistant form is used on a model that otherwise disallows
   assistant-turn prefill, this token also authorizes that one prefill.
 
-- `fallbacks?:optional BetaFallbacksParam`
+- `fallbacks?: optional BetaFallbacksParam`
 
   Opt-in server-side retry on one or more substitute models when the requested model declines for policy reasons. Tried in order: if the first entry also declines, the second is tried, and so on. Some models don't support fallbacks; on those models, a list of fallback models returns a 400 error. See [Server-side fallback](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback?sdk_languages=php#server-side-fallback). The string "default" requests the requested model's server-defined default fallback configuration. On a model that doesn't support fallbacks, the request runs on the requested model alone, so a declined request stays declined.
 
-- `inferenceGeo?:optional string`
+- `inferenceGeo?: optional string`
 
   Specifies the geographic region for inference processing. If not specified, the workspace's `default_inference_geo` is used.
 
-- `mcpServers?:optional list<BetaRequestMCPServerURLDefinition>`
+- `mcpServers?: optional list<BetaRequestMCPServerURLDefinition>`
 
   MCP servers to be utilized in this request
 
-- `metadata?:optional BetaMetadata`
+- `metadata?: optional BetaMetadata`
 
   An object describing metadata about the request.
 
-- `outputConfig?:optional BetaOutputConfig`
+- `outputConfig?: optional BetaOutputConfig`
 
   Configuration options for the model's output, such as the output format.
 
-- `serviceTier?:optional ServiceTier`
+- `serviceTier?: optional ServiceTier`
 
   Determines whether to use priority capacity (if available) or standard capacity for this request.
 
   Anthropic offers different levels of service for your API requests. See [service-tiers](https://platform.claude.com/docs/en/api/service-tiers?sdk_languages=php) for details.
 
-- `speed?:optional Speed`
+- `speed?: optional Speed`
 
   The inference speed mode for this request. `"fast"` enables high output-tokens-per-second inference.
 
-- `stopSequences?:optional list<string>`
+  Some models require the `fast-mode-2026-02-01` beta header for any `speed` value. See [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode?sdk_languages=php) for which models.
+
+- `stopSequences?: optional list<string>`
 
   Custom text sequences that will cause the model to stop generating.
 
@@ -867,19 +977,13 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   If you want the model to stop generating when it encounters custom strings of text, you can use the `stop_sequences` parameter. If the model encounters one of the custom sequences, the response `stop_reason` value will be `"stop_sequence"` and the response `stop_sequence` value will contain the matched stop sequence.
 
-- `stream?:optional bool`
-
-  Whether to incrementally stream the response using server-sent events. When `true`, SDKs return a raw event stream.
-
-  In the TypeScript, Python and Ruby SDKs, the recommended way to stream is `messages.stream()`. It sets `stream` for you and accumulates the events into the final message. See [Streaming with SDKs](https://platform.claude.com/docs/en/build-with-claude/streaming?sdk_languages=php#streaming-with-sdks) for an example in each language.
-
-- `system?:optional System`
+- `system?: optional System`
 
   System prompt.
 
   A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role. See our [guide to system prompts](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role).
 
-- `thinking?:optional BetaThinkingConfigParam`
+- `thinking?: optional BetaThinkingConfigParam`
 
   Configuration for Claude's thinking.
 
@@ -887,11 +991,15 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   Which `type` values are accepted, and what happens when you omit `thinking`, depend on the model. See [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking?sdk_languages=php#configuring-thinking) for each model's behavior.
 
-- `toolChoice?:optional BetaToolChoice`
+- `thread?: optional BetaMessageThreadParam`
+
+  Server-held conversation state (a Thread). `{"type": "create"}` asks the server to hold this conversation's state under the response's `id`; `{"type": "continue", "previous_message_id": ...}` resumes from a previous response so only the new turn's messages are sent. The response shape is unchanged.
+
+- `toolChoice?: optional BetaToolChoice`
 
   How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
 
-- `tools?:optional list<BetaToolUnion>`
+- `tools?: optional list<BetaToolUnion>`
 
   Definitions of tools that the model may use.
 
@@ -955,57 +1063,27 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   See our [guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview?sdk_languages=php) for more details.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `userProfileID?:optional string` (header parameter)
+- `userProfileID?: optional string` (header parameter)
 
-  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header.
+  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `outputFormat?:optional BetaJSONOutputFormat`
+- `outputFormat?: optional BetaJSONOutputFormat`
 
   **Deprecated**
 
   Deprecated: Use `output_config.format` instead. See [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs?sdk_languages=php)
 
   A schema to specify Claude's output format in responses. This parameter will be removed in a future release.
-
-- `temperature?:optional float`
-
-  **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting temperature. A value of 1.0 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-  Amount of randomness injected into the response.
-
-  Defaults to `1.0`. Ranges from `0.0` to `1.0`. Use `temperature` closer to `0.0` for analytical / multiple choice, and closer to `1.0` for creative and generative tasks.
-
-  Note that even with `temperature` of `0.0`, the results will not be fully deterministic.
-
-- `topK?:optional int`
-
-  **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not accept top_k; any value will be rejected with a 400 error.
-
-  Only sample from the top K options for each subsequent token.
-
-  Used to remove "long tail" low probability responses. [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-
-  Recommended for advanced use cases only.
-
-- `topP?:optional float`
-
-  **Deprecated**: Deprecated. Models released after Claude Opus 4.6 do not support setting top_p. A value >= 0.99 will be accepted for backwards compatibility, all other values will be rejected with a 400 error.
-
-  Use nucleus sampling.
-
-  In nucleus sampling, we compute the cumulative distribution over all the options for each subsequent token in decreasing probability order and cut it off once it reaches a particular probability specified by `top_p`.
-
-  Recommended for advanced use cases only.
 
 #### Returns
 
@@ -1231,18 +1309,16 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Messages\BetaThinkingPrefixMismatchBehavior;
+use Anthropic\Messages\Model;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaMessage = $client->beta->messages->create(
   maxTokens: 1024,
-  messages: [
-    [
-      'content' => 'Hello, world',
-      'role' => 'user',
-      'clearAt' => 'next_user_message',
-      'outputConfig' => ['effort' => 'low'],
-    ],
-  ],
+  messages: [['content' => 'Hello, world', 'role' => 'user']],
   model: Model::CLAUDE_OPUS_5_5,
   cacheControl: ['type' => 'ephemeral', 'ttl' => '5m'],
   compaction: ['type' => 'summarize', 'instructions' => 'instructions'],
@@ -1304,7 +1380,6 @@ $betaMessage = $client->beta->messages->create(
       ],
     ],
   ],
-  temperature: 1,
   thinking: [
     'type' => 'adaptive',
     'blockBinding' => [
@@ -1312,6 +1387,7 @@ $betaMessage = $client->beta->messages->create(
     ],
     'display' => 'summarized',
   ],
+  thread: ['type' => 'create'],
   toolChoice: ['type' => 'auto', 'disableParallelToolUse' => true],
   tools: [
     [
@@ -1331,8 +1407,6 @@ $betaMessage = $client->beta->messages->create(
       'type' => 'custom',
     ],
   ],
-  topK: 5,
-  topP: 0.7,
   betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
   userProfileID: 'anthropic-user-profile-id',
   workspaceID: 'wrkspc_011CZkZaBF1tNoB5wlCeusgy',
@@ -1425,7 +1499,7 @@ var_dump($betaMessage);
         "cache_creation_input_tokens": 0,
         "cache_read_input_tokens": 0,
         "input_tokens": 0,
-        "model": "claude-haiku-5-5",
+        "model": "claude-fable-5-2",
         "output_tokens": 0,
         "type": "message"
       }
@@ -1512,7 +1586,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   See [input examples](https://platform.claude.com/docs/en/build-with-claude/working-with-messages?sdk_languages=php).
 
-  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
+  Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role), you can use the top-level `system` parameter.
 
   There is a limit of 100,000 messages in a single request.
 
@@ -1522,41 +1596,43 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
-- `cacheControl?:optional BetaCacheControlEphemeral`
+- `cacheControl?: optional BetaCacheControlEphemeral`
 
   Top-level cache control automatically applies a cache_control marker to the last cacheable block in the request.
 
-- `compaction?:optional BetaCompactionConfig`
+- `compaction?: optional BetaCompactionConfig`
 
   Compaction configuration.
 
   When set on `POST /v1/messages`, the request is a compaction request: the conversation in `messages` is summarized and the response holds only the resulting `compaction` block (`stop_reason` `"compaction"`), which later requests send first in `messages` in place of the messages it summarizes. `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the count it returns is for the conversation in `messages` as sent. Cannot be combined with `context_management`.
 
-- `contextManagement?:optional BetaContextManagementConfig`
+- `contextManagement?: optional BetaContextManagementConfig`
 
   Context management configuration.
 
   This allows you to control how Claude manages context across multiple requests, such as whether to clear function results or not.
 
-- `mcpServers?:optional list<BetaRequestMCPServerURLDefinition>`
+- `mcpServers?: optional list<BetaRequestMCPServerURLDefinition>`
 
   MCP servers to be utilized in this request
 
-- `outputConfig?:optional BetaOutputConfig`
+- `outputConfig?: optional BetaOutputConfig`
 
   Configuration options for the model's output, such as the output format.
 
-- `speed?:optional Speed`
+- `speed?: optional Speed`
 
   The inference speed mode for this request. `"fast"` enables high output-tokens-per-second inference.
 
-- `system?:optional System`
+  Some models require the `fast-mode-2026-02-01` beta header for any `speed` value. See [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode?sdk_languages=php) for which models.
+
+- `system?: optional System`
 
   System prompt.
 
   A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role. See our [guide to system prompts](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices?sdk_languages=php#give-claude-a-role).
 
-- `thinking?:optional BetaThinkingConfigParam`
+- `thinking?: optional BetaThinkingConfigParam`
 
   Configuration for Claude's thinking.
 
@@ -1564,11 +1640,11 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   Which `type` values are accepted, and what happens when you omit `thinking`, depend on the model. See [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking?sdk_languages=php#configuring-thinking) for each model's behavior.
 
-- `toolChoice?:optional BetaToolChoice`
+- `toolChoice?: optional BetaToolChoice`
 
   How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
 
-- `tools?:optional list<Tool>`
+- `tools?: optional list<Tool>`
 
   Definitions of tools that the model may use.
 
@@ -1632,21 +1708,21 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   See our [guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview?sdk_languages=php) for more details.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `userProfileID?:optional string` (header parameter)
+- `userProfileID?: optional string` (header parameter)
 
-  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header.
+  The user profile ID to attribute this request to. Use when acting on behalf of a party other than your organization.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `outputFormat?:optional BetaJSONOutputFormat`
+- `outputFormat?: optional BetaJSONOutputFormat`
 
   **Deprecated**
 
@@ -1673,17 +1749,15 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Messages\BetaThinkingPrefixMismatchBehavior;
+use Anthropic\Messages\Model;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaMessageTokensCount = $client->beta->messages->countTokens(
-  messages: [
-    [
-      'content' => 'Hello, world',
-      'role' => 'user',
-      'clearAt' => 'next_user_message',
-      'outputConfig' => ['effort' => 'low'],
-    ],
-  ],
+  messages: [['content' => 'Hello, world', 'role' => 'user']],
   model: Model::CLAUDE_OPUS_5_5,
   cacheControl: ['type' => 'ephemeral', 'ttl' => '5m'],
   compaction: ['type' => 'summarize', 'instructions' => 'instructions'],
@@ -1797,13 +1871,19 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   List of requests for prompt completion. Each is an individual request to create a Message.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `userProfileID?:optional string` (header parameter)
+- `userProfileID?: optional string` (header parameter)
 
-  The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Requires the `user-profiles` beta header. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
+  The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -1872,6 +1952,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Messages\BetaThinkingPrefixMismatchBehavior;
+use Anthropic\Messages\Model;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaMessageBatch = $client->beta->messages->batches->create(
@@ -1880,14 +1965,7 @@ $betaMessageBatch = $client->beta->messages->batches->create(
       'customID' => 'my-custom-id-1',
       'params' => [
         'maxTokens' => 1024,
-        'messages' => [
-          [
-            'content' => 'Hello, world',
-            'role' => 'user',
-            'clearAt' => 'next_user_message',
-            'outputConfig' => ['effort' => 'low'],
-          ],
-        ],
+        'messages' => [['content' => 'Hello, world', 'role' => 'user']],
         'model' => Model::CLAUDE_OPUS_5_5,
         'cacheControl' => ['type' => 'ephemeral', 'ttl' => '5m'],
         'compaction' => [
@@ -1958,7 +2036,6 @@ $betaMessageBatch = $client->beta->messages->batches->create(
             ],
           ],
         ],
-        'temperature' => 1,
         'thinking' => [
           'type' => 'adaptive',
           'blockBinding' => [
@@ -1966,6 +2043,7 @@ $betaMessageBatch = $client->beta->messages->batches->create(
           ],
           'display' => 'summarized',
         ],
+        'thread' => ['type' => 'create'],
         'toolChoice' => ['type' => 'auto', 'disableParallelToolUse' => true],
         'tools' => [
           [
@@ -1985,8 +2063,6 @@ $betaMessageBatch = $client->beta->messages->batches->create(
             'type' => 'custom',
           ],
         ],
-        'topK' => 5,
-        'topP' => 0.7,
       ],
     ],
   ],
@@ -2037,11 +2113,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   ID of the Message Batch.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -2107,6 +2183,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -2154,15 +2233,15 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
 #### Parameters
 
-- `afterID?:optional string` (query parameter)
+- `afterID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
 
-- `beforeID?:optional string` (query parameter)
+- `beforeID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -2170,11 +2249,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   default: 20
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -2240,6 +2319,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -2302,11 +2384,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   ID of the Message Batch.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -2373,6 +2455,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaMessageBatch = $client->beta->messages->batches->cancel(
@@ -2425,11 +2510,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   ID of the Message Batch.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -2455,6 +2540,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -2494,11 +2582,11 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   ID of the Message Batch.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -2527,6 +2615,9 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaMessageBatchIndividualResponse = $client
@@ -2546,7 +2637,7 @@ var_dump($betaMessageBatchIndividualResponse);
 
 ### Create Agent
 
-`$client->beta->agents->create(Model model, string name, ?string description, ?list<BetaManagedAgentsURLMCPServerParams> mcpServers, ?array<string,string> metadata, ?BetaManagedAgentsMultiagentParams multiagent, ?list<BetaManagedAgentsSkillParams> skills, ?string system, ?list<Tool> tools, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsAgent`
+`$client->beta->agents->create(Model model, string name, ?string description, ?BetaManagedAgentsExecutionIdentityParams executionIdentity, ?list<BetaManagedAgentsURLMCPServerParams> mcpServers, ?array<string,string> metadata, ?BetaManagedAgentsMultiagentParams multiagent, ?list<BetaManagedAgentsSkillParams> skills, ?string system, ?list<Tool> tools, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsAgent`
 
 **POST** `/v1/agents`
 
@@ -2562,37 +2653,47 @@ Create Agent
 
   Human-readable name for the agent.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Description of what the agent does.
 
-- `mcpServers?:optional list<BetaManagedAgentsURLMCPServerParams>`
+- `executionIdentity?: optional BetaManagedAgentsExecutionIdentityParams`
+
+  Execution principal for runs of this agent. Omitting it, sending null, or sending `{"type": "service_account"}` stores the default.
+
+- `mcpServers?: optional list<BetaManagedAgentsURLMCPServerParams>`
 
   MCP servers this agent connects to. Maximum 20. Names must be unique within the array. Every server must be referenced by an `mcp_toolset` in `tools`; unreferenced servers are rejected. See the [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector?sdk_languages=php).
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `multiagent?:optional BetaManagedAgentsMultiagentParams`
+- `multiagent?: optional BetaManagedAgentsMultiagentParams`
 
   Multiagent orchestration configuration.
 
-- `skills?:optional list<BetaManagedAgentsSkillParams>`
+- `skills?: optional list<BetaManagedAgentsSkillParams>`
 
   Skills available to the agent.
 
-- `system?:optional string`
+- `system?: optional string`
 
   System prompt for the agent.
 
-- `tools?:optional list<Tool>`
+- `tools?: optional list<Tool>`
 
   Tool configurations available to the agent. Maximum of 256 tools across all toolsets allowed.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -2604,7 +2705,7 @@ Create Agent
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -2617,6 +2718,10 @@ Create Agent
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -2653,12 +2758,19 @@ Create Agent
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Agents\BetaManagedAgentsModel;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsAgent = $client->beta->agents->create(
   model: BetaManagedAgentsModel::CLAUDE_OPUS_5_5,
   name: 'My First Agent',
   description: 'A general-purpose starter agent.',
+  executionIdentity: [
+    'roleARN' => 'arn:aws:iam::228601553692:role/T', 'type' => 'aws_role'
+  ],
   mcpServers: [
     [
       'name' => 'example-mcp',
@@ -2668,8 +2780,24 @@ $betaManagedAgentsAgent = $client->beta->agents->create(
   ],
   metadata: ['foo' => 'bar'],
   multiagent: [
-    'agents' => ['agent_011CZkYqphY8vELVzwCUpqiQ', ['type' => 'self']],
-    'type' => 'coordinator',
+    'type' => 'multiagent_20261001',
+    'advisor' => ['type' => 'disabled'],
+    'subagents' => [
+      'type' => 'enabled',
+      'inlineAgents' => ['type' => 'disabled'],
+      'predefinedAgents' => ['agent_011CZkYqphY8vELVzwCUpqiQ'],
+    ],
+    'workflows' => [
+      'type' => 'enabled',
+      'inlineAgents' => ['type' => 'disabled'],
+      'predefinedAgents' => [
+        [
+          'id' => 'agent_011CZkYqphY8vELVzwCUpqiQ',
+          'type' => 'agent',
+          'version' => 1,
+        ],
+      ],
+    ],
   ],
   skills: [['skillID' => 'xlsx', 'type' => 'anthropic', 'version' => '1']],
   system: 'You are a general-purpose agent that can research, write code, run commands, and use connected tools to complete the user\'s task end to end.',
@@ -2704,6 +2832,9 @@ var_dump($betaManagedAgentsAgent);
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -2805,29 +2936,35 @@ List Agents
 
 #### Parameters
 
-- `createdAtGte?:optional \Datetime` (query parameter)
+- `createdAtGte?: optional \Datetime` (query parameter)
 
   Return agents created at or after this time (inclusive).
 
-- `createdAtLte?:optional \Datetime` (query parameter)
+- `createdAtLte?: optional \Datetime` (query parameter)
 
   Return agents created at or before this time (inclusive).
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   Include archived agents in results. Defaults to false.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum results per page. Default 20, maximum 100.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor from a previous response.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -2839,7 +2976,7 @@ List Agents
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -2852,6 +2989,10 @@ List Agents
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -2888,6 +3029,9 @@ List Agents
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->agents->list(
@@ -2913,6 +3057,9 @@ var_dump($page);
       "archived_at": null,
       "created_at": "2026-03-15T10:00:00Z",
       "description": "A general-purpose starter agent.",
+      "execution_identity": {
+        "type": "service_account"
+      },
       "mcp_servers": [
         {
           "name": "example-mcp",
@@ -3021,13 +3168,19 @@ Get Agent
 
   Unique identifier of the agent to retrieve.
 
-- `version?:optional int` (query parameter)
+- `version?: optional int` (query parameter)
 
   Agent version. Omit for the most recent version. Must be at least 1 if specified.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -3039,7 +3192,7 @@ Get Agent
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -3052,6 +3205,10 @@ Get Agent
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -3088,6 +3245,9 @@ Get Agent
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsAgent = $client->beta->agents->retrieve(
@@ -3108,6 +3268,9 @@ var_dump($betaManagedAgentsAgent);
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -3201,7 +3364,7 @@ var_dump($betaManagedAgentsAgent);
 
 ### Update Agent
 
-`$client->beta->agents->update(string agentID, ?string description, ?list<BetaManagedAgentsURLMCPServerParams> mcpServers, ?array<string,string> metadata, ?Model model, ?BetaManagedAgentsMultiagentParams multiagent, ?string name, ?list<BetaManagedAgentsSkillParams> skills, ?string system, ?list<Tool> tools, ?int version, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsAgent`
+`$client->beta->agents->update(string agentID, ?string description, ?BetaManagedAgentsExecutionIdentityParams executionIdentity, ?list<BetaManagedAgentsURLMCPServerParams> mcpServers, ?array<string,string> metadata, ?Model model, ?BetaManagedAgentsMultiagentParams multiagent, ?string name, ?list<BetaManagedAgentsSkillParams> skills, ?string system, ?list<Tool> tools, ?int version, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsAgent`
 
 **POST** `/v1/agents/{agent_id}`
 
@@ -3213,49 +3376,59 @@ Update Agent
 
   Unique identifier of the agent to update.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Description. Omit to preserve; send empty string or null to clear.
 
-- `mcpServers?:optional list<BetaManagedAgentsURLMCPServerParams>`
+- `executionIdentity?: optional BetaManagedAgentsExecutionIdentityParams`
+
+  Execution principal for runs of this agent. Full replacement. Omit to preserve; send null or `{"type": "service_account"}` to restore the default.
+
+- `mcpServers?: optional list<BetaManagedAgentsURLMCPServerParams>`
 
   MCP servers. Full replacement. Omit to preserve; send empty array or `null` to clear. Names must be unique. Maximum 20. Every server must be referenced by an `mcp_toolset` in the agent's resulting `tools`; unreferenced servers are rejected. See the [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector?sdk_languages=php).
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve. The stored bag is limited to 16 keys (up to 64 chars each) with values up to 512 chars.
 
-- `model?:optional Model`
+- `model?: optional Model`
 
   Model identifier. Accepts the [model string](https://platform.claude.com/docs/en/about-claude/models/overview?sdk_languages=php#latest-models-comparison), e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration control. Omit to preserve. Cannot be cleared.
 
-- `multiagent?:optional BetaManagedAgentsMultiagentParams`
+- `multiagent?: optional BetaManagedAgentsMultiagentParams`
 
   Multiagent orchestration configuration. Full replacement. Omit to preserve; send null to clear.
 
-- `name?:optional string`
+- `name?: optional string`
 
   Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
 
-- `skills?:optional list<BetaManagedAgentsSkillParams>`
+- `skills?: optional list<BetaManagedAgentsSkillParams>`
 
   Skills. Full replacement. Omit to preserve; send empty array or null to clear.
 
-- `system?:optional string`
+- `system?: optional string`
 
   System prompt. Omit to preserve; send empty string or null to clear.
 
-- `tools?:optional list<Tool>`
+- `tools?: optional list<Tool>`
 
   Tool configurations available to the agent. Full replacement. Omit to preserve; send empty array or null to clear. Maximum of 256 tools across all toolsets allowed.
 
-- `version?:optional int`
+- `version?: optional int`
 
   The agent's current version, used to prevent concurrent overwrites. Obtain this value from a create or retrieve response. Must be at least 1 if specified. When supplied, the request fails if it does not match the server's current version; omit to apply the update unconditionally.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -3267,7 +3440,7 @@ Update Agent
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -3280,6 +3453,10 @@ Update Agent
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -3316,11 +3493,18 @@ Update Agent
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Agents\BetaManagedAgentsModel;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsAgent = $client->beta->agents->update(
   'agent_011CZkYpogX7uDKUyvBTophP',
   description: 'updated',
+  executionIdentity: [
+    'roleARN' => 'arn:aws:iam::228601553692:role/T', 'type' => 'aws_role'
+  ],
   mcpServers: [
     [
       'name' => 'example-mcp',
@@ -3374,6 +3558,9 @@ var_dump($betaManagedAgentsAgent);
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -3479,9 +3666,15 @@ Archive Agent
 
   Unique identifier of the agent to archive.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -3493,7 +3686,7 @@ Archive Agent
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -3506,6 +3699,10 @@ Archive Agent
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -3542,6 +3739,9 @@ Archive Agent
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsAgent = $client->beta->agents->archive(
@@ -3561,6 +3761,9 @@ var_dump($betaManagedAgentsAgent);
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -3668,17 +3871,23 @@ List Agent Versions
 
   Agent ID to list versions for.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum results per page. Default 20, maximum 100.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -3690,7 +3899,7 @@ List Agent Versions
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -3703,6 +3912,10 @@ List Agent Versions
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -3739,6 +3952,9 @@ List Agent Versions
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->agents->versions->list(
@@ -3762,6 +3978,9 @@ var_dump($page);
       "archived_at": null,
       "created_at": "2026-03-15T10:00:00Z",
       "description": "A general-purpose starter agent.",
+      "execution_identity": {
+        "type": "service_account"
+      },
       "mcp_servers": [
         {
           "name": "example-mcp",
@@ -3872,27 +4091,27 @@ Create a new environment with the specified configuration.
 
   Human-readable name for the environment
 
-- `config?:optional Config`
+- `config?: optional Config`
 
   Environment configuration
 
-- `description?:optional string`
+- `description?: optional string`
 
   Optional description of the environment
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   User-provided metadata key-value pairs
 
-- `scope?:optional Scope`
+- `scope?: optional Scope`
 
   The visibility scope for this environment. 'organization' makes the environment visible to all accounts. 'account' restricts visibility to the owning account only. API organizations support only 'organization'; 'account' is rejected. If not specified, defaults based on organization type.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -3948,6 +4167,9 @@ Create a new environment with the specified configuration.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -4040,27 +4262,27 @@ List environments with pagination support.
 
 #### Parameters
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   Include archived environments in the response
 
   default: false
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of environments to return
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from previous response for pagination. Pass the `next_page` value from the previous response.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -4116,6 +4338,9 @@ List environments with pagination support.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -4196,11 +4421,11 @@ Retrieve a specific environment by ID.
 
 - `environmentID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -4256,6 +4481,9 @@ Retrieve a specific environment by ID.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -4329,31 +4557,31 @@ Update an existing environment's configuration.
 
 - `environmentID: string` (path parameter)
 
-- `config?:optional Config`
+- `config?: optional Config`
 
   Updated environment configuration
 
-- `description?:optional string`
+- `description?: optional string`
 
   Updated description of the environment. Omit to preserve; null clears to null; an empty string is stored as an empty string.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   User-provided metadata key-value pairs. Set a value to null or empty string to delete the key.
 
-- `name?:optional string`
+- `name?: optional string`
 
   Updated name for the environment
 
-- `scope?:optional Scope`
+- `scope?: optional Scope`
 
   The visibility scope for this environment. 'organization' makes the environment visible to all accounts. 'account' restricts visibility to the owning account only.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -4409,6 +4637,9 @@ Update an existing environment's configuration.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -4504,11 +4735,11 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
 - `environmentID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -4518,7 +4749,7 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
 - `class BetaEnvironmentDeleteResponse`
 
-  - `Type type`
+  - `"environment_deleted" type`
 
     The type of response
 
@@ -4532,6 +4763,9 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -4565,11 +4799,11 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
 - `environmentID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -4625,6 +4859,9 @@ Archive an environment by ID. Archived environments cannot be used to create new
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -4704,11 +4941,11 @@ Retrieve detailed information about a specific work item.
 
 - `workID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -4777,6 +5014,9 @@ Retrieve detailed information about a specific work item.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSelfHostedWork = $client->beta->environments->work->retrieve(
@@ -4828,19 +5068,19 @@ Long poll for work items in the queue.
 
 - `environmentID: string` (path parameter)
 
-- `blockMs?:optional int` (query parameter)
+- `blockMs?: optional int` (query parameter)
 
   How long to wait for work to arrive before returning. Must be 1-999 in milliseconds. Defaults to non-blocking (returns immediately if no work is available).
 
-- `reclaimOlderThanMs?:optional int` (query parameter)
+- `reclaimOlderThanMs?: optional int` (query parameter)
 
   Reclaim unacknowledged work items older than this many milliseconds. If omitted, uses the default (5000ms).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `anthropicWorkerID?:optional string` (header parameter)
+- `anthropicWorkerID?: optional string` (header parameter)
 
   Unique identifier for the specific worker polling, used to track aggregated environment-level work metrics in Console
 
@@ -4907,6 +5147,9 @@ Long poll for work items in the queue.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSelfHostedWork = $client->beta->environments->work->poll(
@@ -4961,7 +5204,7 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
 - `workID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -5028,6 +5271,9 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSelfHostedWork = $client->beta->environments->work->ack(
@@ -5080,15 +5326,15 @@ Record a heartbeat for a work item to maintain the lease.
 
 - `workID: string` (path parameter)
 
-- `desiredTTLSeconds?:optional int` (query parameter)
+- `desiredTTLSeconds?: optional int` (query parameter)
 
   Desired TTL in seconds
 
-- `expectedLastHeartbeat?:optional string` (query parameter)
+- `expectedLastHeartbeat?: optional string` (query parameter)
 
-  Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match.
+  Expected last_heartbeat for conditional update (optimistic concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat value exactly. Returns 412 Precondition Failed if the actual value doesn't match. The server does not compare the value when the work item is 'stopping' or 'stopped'.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -5102,7 +5348,7 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `string lastHeartbeat`
 
-    RFC 3339 timestamp of the actual heartbeat from DB
+    RFC 3339 timestamp of the most recent heartbeat recorded for this work item, or an empty string if none has been recorded
 
   - `bool leaseExtended`
 
@@ -5122,6 +5368,9 @@ Record a heartbeat for a work item to maintain the lease.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -5168,17 +5417,17 @@ Stop a work item, initiating graceful or forced shutdown.
 
 - `workID: string` (path parameter)
 
-- `force?:optional bool`
+- `force?: optional bool`
 
   If true, immediately stop work without graceful shutdown
 
   default: false
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -5247,6 +5496,9 @@ Stop a work item, initiating graceful or forced shutdown.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSelfHostedWork = $client->beta->environments->work->stop(
@@ -5299,17 +5551,17 @@ List work items in an environment.
 
 - `environmentID: string` (path parameter)
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of work items to return
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from previous response for pagination
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -5375,6 +5627,9 @@ List work items in an environment.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -5438,11 +5693,11 @@ Update work item metadata with merge semantics.
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve existing metadata.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -5511,6 +5766,9 @@ Update work item metadata with merge semantics.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSelfHostedWork = $client->beta->environments->work->update(
@@ -5561,11 +5819,11 @@ Get statistics about the work queue for an environment.
 
 - `environmentID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -5581,7 +5839,7 @@ Get statistics about the work queue for an environment.
 
   - `int depth`
 
-    Number of work items waiting to be picked up (lag from consumer group)
+    Number of work items waiting to be picked up
 
   - `?string oldestQueuedAt`
 
@@ -5601,6 +5859,9 @@ Get statistics about the work queue for an environment.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -5645,33 +5906,39 @@ Create Session
 
   ID of the `environment` defining the container configuration for this session.
 
-- `budget?:optional BetaManagedAgentsBudgetLimit`
+- `budget?: optional BetaManagedAgentsBudgetLimit`
 
   Enforced spend ceiling for the session. Omit to create an uncapped session. Every model the session can run — the agent's model and each callable agent's model — must have a public list price, or the request is rejected with reason `model_not_budgetable`.
 
-- `initialEvents?:optional list<InitialEvent>`
+- `initialEvents?: optional list<InitialEvent>`
 
   Initial events to send to the `session` at creation, processed in order. Supports `user.message` and `user.define_outcome` events. Maximum 50 events.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Arbitrary key-value metadata attached to the session. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `resources?:optional list<Resource>`
+- `resources?: optional list<Resource>`
 
   Resources (e.g. repositories, files) to mount into the session's container.
 
-- `title?:optional string`
+- `title?: optional string`
 
   Human-readable session title.
 
-- `vaultIDs?:optional list<string>`
+- `vaultIDs?: optional list<string>`
 
   Vault IDs for stored credentials the agent can use during the session.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -5683,7 +5950,7 @@ Create Session
 
 - `class BetaManagedAgentsSession`
 
-  - `Type type`
+  - `"session" type`
 
   - `string id`
 
@@ -5744,6 +6011,10 @@ Create Session
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\BetaCurrency;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsSession = $client->beta->sessions->create(
@@ -5784,6 +6055,9 @@ var_dump($betaManagedAgentsSession);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -5804,6 +6078,9 @@ var_dump($betaManagedAgentsSession);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -5980,61 +6257,67 @@ List Sessions
 
 #### Parameters
 
-- `agentID?:optional string` (query parameter)
+- `agentID?: optional string` (query parameter)
 
   Filter sessions created with this agent ID.
 
-- `agentVersion?:optional int` (query parameter)
+- `agentVersion?: optional int` (query parameter)
 
   Filter by agent version. Only applies when `agent_id` is also set.
 
-- `createdAtGt?:optional \Datetime` (query parameter)
+- `createdAtGt?: optional \Datetime` (query parameter)
 
   Return sessions created after this time (exclusive).
 
-- `createdAtGte?:optional \Datetime` (query parameter)
+- `createdAtGte?: optional \Datetime` (query parameter)
 
   Return sessions created at or after this time (inclusive).
 
-- `createdAtLt?:optional \Datetime` (query parameter)
+- `createdAtLt?: optional \Datetime` (query parameter)
 
   Return sessions created before this time (exclusive).
 
-- `createdAtLte?:optional \Datetime` (query parameter)
+- `createdAtLte?: optional \Datetime` (query parameter)
 
   Return sessions created at or before this time (inclusive).
 
-- `deploymentID?:optional string` (query parameter)
+- `deploymentID?: optional string` (query parameter)
 
   Filter sessions created by this deployment ID.
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   When true, includes archived sessions. Default: false (exclude archived).
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of results to return.
 
-- `memoryStoreID?:optional string` (query parameter)
+- `memoryStoreID?: optional string` (query parameter)
 
   Filter sessions whose resources contain a `memory_store` with this memory store ID.
 
-- `order?:optional Order` (query parameter)
+- `order?: optional Order` (query parameter)
 
   Sort direction for results, ordered by `created_at`. Defaults to `desc` (newest first).
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor from a previous response.
 
-- `statuses?:optional list<Status>` (query parameter)
+- `statuses?: optional list<Status>` (query parameter)
 
   Filter by session status. Repeat the parameter to match any of multiple statuses.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -6046,7 +6329,7 @@ List Sessions
 
 - `class BetaManagedAgentsSession`
 
-  - `Type type`
+  - `"session" type`
 
   - `string id`
 
@@ -6107,6 +6390,9 @@ List Sessions
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->sessions->list(
@@ -6140,6 +6426,9 @@ var_dump($page);
       "agent": {
         "id": "agent_011CZkYpogX7uDKUyvBTophP",
         "description": "A general-purpose starter agent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",
@@ -6160,6 +6449,9 @@ var_dump($page);
             {
               "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
               "description": "A focused research subagent.",
+              "execution_identity": {
+                "type": "service_account"
+              },
               "mcp_servers": [
                 {
                   "name": "example-mcp",
@@ -6342,9 +6634,15 @@ Get Session
 
 - `sessionID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -6356,7 +6654,7 @@ Get Session
 
 - `class BetaManagedAgentsSession`
 
-  - `Type type`
+  - `"session" type`
 
   - `string id`
 
@@ -6417,6 +6715,9 @@ Get Session
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsSession = $client->beta->sessions->retrieve(
@@ -6436,6 +6737,9 @@ var_dump($betaManagedAgentsSession);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -6456,6 +6760,9 @@ var_dump($betaManagedAgentsSession);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -6634,29 +6941,35 @@ Update Session
 
 - `sessionID: string` (path parameter)
 
-- `agent?:optional BetaManagedAgentsSessionAgentUpdate`
+- `agent?: optional BetaManagedAgentsSessionAgentUpdate`
 
   Agent configuration update. Only `tools` and `mcp_servers` are updatable mid-session. Only valid for sessions created from an agent or deployment reference. The session must not be running.
 
-- `budget?:optional BetaManagedAgentsBudgetLimit`
+- `budget?: optional BetaManagedAgentsBudgetLimit`
 
   Enforced spend ceiling for the session. Set an object to replace the budget of a session that was created with one, or `null` to remove it; omit to preserve. A budget cannot be added to a session created without one (rejected with reason `budget_create_only`), and a removed budget cannot be re-added. Allowed in any non-terminated status. Lowering `max_list_cost` to at or below the session's consumed list cost is rejected with reason `budget_not_raised`, and every model the session can run must have a public list price or the request is rejected with reason `model_not_budgetable`.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve.
 
-- `title?:optional string`
+- `title?: optional string`
 
   Human-readable session title.
 
-- `vaultIDs?:optional list<string>`
+- `vaultIDs?: optional list<string>`
 
   Vault IDs (`vlt_*`) to attach to the session. Not yet supported; requests setting this field are rejected. Reserved for future use.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -6668,7 +6981,7 @@ Update Session
 
 - `class BetaManagedAgentsSession`
 
-  - `Type type`
+  - `"session" type`
 
   - `string id`
 
@@ -6729,6 +7042,10 @@ Update Session
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\BetaCurrency;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsSession = $client->beta->sessions->update(
@@ -6780,6 +7097,9 @@ var_dump($betaManagedAgentsSession);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -6800,6 +7120,9 @@ var_dump($betaManagedAgentsSession);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -6978,9 +7301,15 @@ Delete Session
 
 - `sessionID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -6992,7 +7321,7 @@ Delete Session
 
 - `class BetaManagedAgentsDeletedSession`
 
-  - `Type type`
+  - `"session_deleted" type`
 
   - `string id`
 
@@ -7002,6 +7331,9 @@ Delete Session
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -7035,9 +7367,15 @@ Archive Session
 
 - `sessionID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -7049,7 +7387,7 @@ Archive Session
 
 - `class BetaManagedAgentsSession`
 
-  - `Type type`
+  - `"session" type`
 
   - `string id`
 
@@ -7110,6 +7448,9 @@ Archive Session
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsSession = $client->beta->sessions->archive(
@@ -7129,6 +7470,9 @@ var_dump($betaManagedAgentsSession);
   "agent": {
     "id": "agent_011CZkYpogX7uDKUyvBTophP",
     "description": "A general-purpose starter agent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -7149,6 +7493,9 @@ var_dump($betaManagedAgentsSession);
         {
           "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
           "description": "A focused research subagent.",
+          "execution_identity": {
+            "type": "service_account"
+          },
           "mcp_servers": [
             {
               "name": "example-mcp",
@@ -7329,39 +7676,45 @@ List Events
 
 - `sessionID: string` (path parameter)
 
-- `createdAtGt?:optional \Datetime` (query parameter)
+- `createdAtGt?: optional \Datetime` (query parameter)
 
   Return events created after this time (exclusive). Compared against the event's `processed_at` value.
 
-- `createdAtGte?:optional \Datetime` (query parameter)
+- `createdAtGte?: optional \Datetime` (query parameter)
 
   Return events created at or after this time (inclusive). Compared against the event's `processed_at` value.
 
-- `createdAtLt?:optional \Datetime` (query parameter)
+- `createdAtLt?: optional \Datetime` (query parameter)
 
   Return events created before this time (exclusive). Compared against the event's `processed_at` value.
 
-- `createdAtLte?:optional \Datetime` (query parameter)
+- `createdAtLte?: optional \Datetime` (query parameter)
 
   Return events created at or before this time (inclusive). Compared against the event's `processed_at` value.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
-- `order?:optional Order` (query parameter)
+- `order?: optional Order` (query parameter)
 
   Sort direction for results, ordered by the event's `processed_at`. Defaults to `asc` (chronological).
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor from a previous response's `next_page`.
 
-- `types?:optional list<ManagedAgentsSessionEventType>` (query parameter)
+- `types?: optional list<ManagedAgentsSessionEventType>` (query parameter)
 
   Filter by event type. Values match the `type` field on returned events (for example, `user.message` or `agent.tool_use`). Omit to return all event types.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -7375,7 +7728,7 @@ List Events
 
   - `class ManagedAgentsUserMessageEvent`
 
-    - `Type type`
+    - `"user.message" type`
 
     - `string id`
 
@@ -7391,7 +7744,7 @@ List Events
 
   - `class ManagedAgentsUserInterruptEvent`
 
-    - `Type type`
+    - `"user.interrupt" type`
 
     - `string id`
 
@@ -7407,7 +7760,7 @@ List Events
 
   - `class ManagedAgentsUserToolConfirmationEvent`
 
-    - `Type type`
+    - `"user.tool_confirmation" type`
 
     - `string id`
 
@@ -7435,7 +7788,7 @@ List Events
 
   - `class ManagedAgentsUserCustomToolResultEvent`
 
-    - `Type type`
+    - `"user.custom_tool_result" type`
 
     - `string id`
 
@@ -7463,7 +7816,7 @@ List Events
 
   - `class ManagedAgentsAgentCustomToolUseEvent`
 
-    - `Type type`
+    - `"agent.custom_tool_use" type`
 
     - `string id`
 
@@ -7487,7 +7840,7 @@ List Events
 
   - `class ManagedAgentsAgentMessageEvent`
 
-    - `Type type`
+    - `"agent.message" type`
 
     - `string id`
 
@@ -7503,7 +7856,7 @@ List Events
 
   - `class ManagedAgentsAgentThinkingEvent`
 
-    - `Type type`
+    - `"agent.thinking" type`
 
     - `string id`
 
@@ -7515,7 +7868,7 @@ List Events
 
   - `class ManagedAgentsAgentMCPToolUseEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_use" type`
 
     - `string id`
 
@@ -7551,7 +7904,7 @@ List Events
 
   - `class ManagedAgentsAgentMCPToolResultEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_result" type`
 
     - `string id`
 
@@ -7575,7 +7928,7 @@ List Events
 
   - `class ManagedAgentsAgentToolUseEvent`
 
-    - `Type type`
+    - `"agent.tool_use" type`
 
     - `string id`
 
@@ -7607,7 +7960,7 @@ List Events
 
   - `class ManagedAgentsAgentToolResultEvent`
 
-    - `Type type`
+    - `"agent.tool_result" type`
 
     - `string id`
 
@@ -7631,7 +7984,7 @@ List Events
 
   - `class ManagedAgentsAgentThreadMessageReceivedEvent`
 
-    - `Type type`
+    - `"agent.thread_message_received" type`
 
     - `string id`
 
@@ -7655,7 +8008,7 @@ List Events
 
   - `class ManagedAgentsAgentThreadMessageSentEvent`
 
-    - `Type type`
+    - `"agent.thread_message_sent" type`
 
     - `string id`
 
@@ -7679,7 +8032,7 @@ List Events
 
   - `class ManagedAgentsAgentThreadContextCompactedEvent`
 
-    - `Type type`
+    - `"agent.thread_context_compacted" type`
 
     - `string id`
 
@@ -7691,7 +8044,7 @@ List Events
 
   - `class ManagedAgentsSessionErrorEvent`
 
-    - `Type type`
+    - `"session.error" type`
 
     - `string id`
 
@@ -7705,7 +8058,7 @@ List Events
 
   - `class ManagedAgentsSessionStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.status_rescheduled" type`
 
     - `string id`
 
@@ -7717,7 +8070,7 @@ List Events
 
   - `class ManagedAgentsSessionStatusRunningEvent`
 
-    - `Type type`
+    - `"session.status_running" type`
 
     - `string id`
 
@@ -7729,7 +8082,7 @@ List Events
 
   - `class ManagedAgentsSessionStatusIdleEvent`
 
-    - `Type type`
+    - `"session.status_idle" type`
 
     - `string id`
 
@@ -7747,7 +8100,7 @@ List Events
 
   - `class ManagedAgentsSessionStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.status_terminated" type`
 
     - `string id`
 
@@ -7759,7 +8112,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadCreatedEvent`
 
-    - `Type type`
+    - `"session.thread_created" type`
 
     - `string id`
 
@@ -7783,7 +8136,7 @@ List Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationStartEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_start" type`
 
     - `string id`
 
@@ -7803,7 +8156,7 @@ List Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationEndEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_end" type`
 
     - `string id`
 
@@ -7839,7 +8192,7 @@ List Events
 
   - `class ManagedAgentsSpanModelRequestStartEvent`
 
-    - `Type type`
+    - `"span.model_request_start" type`
 
     - `string id`
 
@@ -7851,7 +8204,7 @@ List Events
 
   - `class ManagedAgentsSpanModelRequestEndEvent`
 
-    - `Type type`
+    - `"span.model_request_end" type`
 
     - `string id`
 
@@ -7875,7 +8228,7 @@ List Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationOngoingEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_ongoing" type`
 
     - `string id`
 
@@ -7895,7 +8248,7 @@ List Events
 
   - `class ManagedAgentsUserDefineOutcomeEvent`
 
-    - `Type type`
+    - `"user.define_outcome" type`
 
     - `string id`
 
@@ -7923,7 +8276,7 @@ List Events
 
   - `class ManagedAgentsSessionDeletedEvent`
 
-    - `Type type`
+    - `"session.deleted" type`
 
     - `string id`
 
@@ -7935,7 +8288,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadStatusRunningEvent`
 
-    - `Type type`
+    - `"session.thread_status_running" type`
 
     - `string id`
 
@@ -7955,7 +8308,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadStatusIdleEvent`
 
-    - `Type type`
+    - `"session.thread_status_idle" type`
 
     - `string id`
 
@@ -7981,7 +8334,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.thread_status_terminated" type`
 
     - `string id`
 
@@ -8001,7 +8354,7 @@ List Events
 
   - `class BetaManagedAgentsUserToolResultEvent`
 
-    - `Type type`
+    - `"user.tool_result" type`
 
     - `string id`
 
@@ -8029,7 +8382,7 @@ List Events
 
   - `class ManagedAgentsSessionThreadStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.thread_status_rescheduled" type`
 
     - `string id`
 
@@ -8049,7 +8402,7 @@ List Events
 
   - `class BetaManagedAgentsSessionUpdatedEvent`
 
-    - `Type type`
+    - `"session.updated" type`
 
     - `string id`
 
@@ -8077,7 +8430,7 @@ List Events
 
   - `class BetaManagedAgentsSystemMessageEvent`
 
-    - `Type type`
+    - `"system.message" type`
 
     - `string id`
 
@@ -8093,7 +8446,7 @@ List Events
 
   - `class BetaManagedAgentsSessionUsageEvent`
 
-    - `Type type`
+    - `"session.usage" type`
 
     - `string id`
 
@@ -8261,6 +8614,10 @@ List Events
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Sessions\Events\ManagedAgentsSessionEventType;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -8329,9 +8686,15 @@ Send Events
 
   Events to send to the `session`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -8353,6 +8716,9 @@ Send Events
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -8403,13 +8769,19 @@ Stream Events
 
 - `sessionID: string` (path parameter)
 
-- `eventDeltas?:optional list<BetaManagedAgentsDeltaType>` (query parameter)
+- `eventDeltas?: optional list<BetaManagedAgentsDeltaType>` (query parameter)
 
   When set, this connection also receives streaming deltas (`event_start`, `event_delta`) while an event is being produced, before the event itself arrives. Deltas are best-effort; when the final event is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no final event — its terminal `span.model_request_end` closes the preview. Accepts one or more event types to preview and may be repeated: `agent.message` streams `content_delta` fragments; `agent.thinking` is start-only — a signal that the agent has begun extended thinking, concluded by the `agent.thinking` event itself. Only previews of the requested event types are sent.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -8423,7 +8795,7 @@ Stream Events
 
   - `class ManagedAgentsUserMessageEvent`
 
-    - `Type type`
+    - `"user.message" type`
 
     - `string id`
 
@@ -8439,7 +8811,7 @@ Stream Events
 
   - `class ManagedAgentsUserInterruptEvent`
 
-    - `Type type`
+    - `"user.interrupt" type`
 
     - `string id`
 
@@ -8455,7 +8827,7 @@ Stream Events
 
   - `class ManagedAgentsUserToolConfirmationEvent`
 
-    - `Type type`
+    - `"user.tool_confirmation" type`
 
     - `string id`
 
@@ -8483,7 +8855,7 @@ Stream Events
 
   - `class ManagedAgentsUserCustomToolResultEvent`
 
-    - `Type type`
+    - `"user.custom_tool_result" type`
 
     - `string id`
 
@@ -8511,7 +8883,7 @@ Stream Events
 
   - `class ManagedAgentsAgentCustomToolUseEvent`
 
-    - `Type type`
+    - `"agent.custom_tool_use" type`
 
     - `string id`
 
@@ -8535,7 +8907,7 @@ Stream Events
 
   - `class ManagedAgentsAgentMessageEvent`
 
-    - `Type type`
+    - `"agent.message" type`
 
     - `string id`
 
@@ -8551,7 +8923,7 @@ Stream Events
 
   - `class ManagedAgentsAgentThinkingEvent`
 
-    - `Type type`
+    - `"agent.thinking" type`
 
     - `string id`
 
@@ -8563,7 +8935,7 @@ Stream Events
 
   - `class ManagedAgentsAgentMCPToolUseEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_use" type`
 
     - `string id`
 
@@ -8599,7 +8971,7 @@ Stream Events
 
   - `class ManagedAgentsAgentMCPToolResultEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_result" type`
 
     - `string id`
 
@@ -8623,7 +8995,7 @@ Stream Events
 
   - `class ManagedAgentsAgentToolUseEvent`
 
-    - `Type type`
+    - `"agent.tool_use" type`
 
     - `string id`
 
@@ -8655,7 +9027,7 @@ Stream Events
 
   - `class ManagedAgentsAgentToolResultEvent`
 
-    - `Type type`
+    - `"agent.tool_result" type`
 
     - `string id`
 
@@ -8679,7 +9051,7 @@ Stream Events
 
   - `class ManagedAgentsAgentThreadMessageReceivedEvent`
 
-    - `Type type`
+    - `"agent.thread_message_received" type`
 
     - `string id`
 
@@ -8703,7 +9075,7 @@ Stream Events
 
   - `class ManagedAgentsAgentThreadMessageSentEvent`
 
-    - `Type type`
+    - `"agent.thread_message_sent" type`
 
     - `string id`
 
@@ -8727,7 +9099,7 @@ Stream Events
 
   - `class ManagedAgentsAgentThreadContextCompactedEvent`
 
-    - `Type type`
+    - `"agent.thread_context_compacted" type`
 
     - `string id`
 
@@ -8739,7 +9111,7 @@ Stream Events
 
   - `class ManagedAgentsSessionErrorEvent`
 
-    - `Type type`
+    - `"session.error" type`
 
     - `string id`
 
@@ -8753,7 +9125,7 @@ Stream Events
 
   - `class ManagedAgentsSessionStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.status_rescheduled" type`
 
     - `string id`
 
@@ -8765,7 +9137,7 @@ Stream Events
 
   - `class ManagedAgentsSessionStatusRunningEvent`
 
-    - `Type type`
+    - `"session.status_running" type`
 
     - `string id`
 
@@ -8777,7 +9149,7 @@ Stream Events
 
   - `class ManagedAgentsSessionStatusIdleEvent`
 
-    - `Type type`
+    - `"session.status_idle" type`
 
     - `string id`
 
@@ -8795,7 +9167,7 @@ Stream Events
 
   - `class ManagedAgentsSessionStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.status_terminated" type`
 
     - `string id`
 
@@ -8807,7 +9179,7 @@ Stream Events
 
   - `class ManagedAgentsSessionThreadCreatedEvent`
 
-    - `Type type`
+    - `"session.thread_created" type`
 
     - `string id`
 
@@ -8831,7 +9203,7 @@ Stream Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationStartEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_start" type`
 
     - `string id`
 
@@ -8851,7 +9223,7 @@ Stream Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationEndEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_end" type`
 
     - `string id`
 
@@ -8887,7 +9259,7 @@ Stream Events
 
   - `class ManagedAgentsSpanModelRequestStartEvent`
 
-    - `Type type`
+    - `"span.model_request_start" type`
 
     - `string id`
 
@@ -8899,7 +9271,7 @@ Stream Events
 
   - `class ManagedAgentsSpanModelRequestEndEvent`
 
-    - `Type type`
+    - `"span.model_request_end" type`
 
     - `string id`
 
@@ -8923,7 +9295,7 @@ Stream Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationOngoingEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_ongoing" type`
 
     - `string id`
 
@@ -8943,7 +9315,7 @@ Stream Events
 
   - `class ManagedAgentsUserDefineOutcomeEvent`
 
-    - `Type type`
+    - `"user.define_outcome" type`
 
     - `string id`
 
@@ -8971,7 +9343,7 @@ Stream Events
 
   - `class ManagedAgentsSessionDeletedEvent`
 
-    - `Type type`
+    - `"session.deleted" type`
 
     - `string id`
 
@@ -8983,7 +9355,7 @@ Stream Events
 
   - `class ManagedAgentsSessionThreadStatusRunningEvent`
 
-    - `Type type`
+    - `"session.thread_status_running" type`
 
     - `string id`
 
@@ -9003,7 +9375,7 @@ Stream Events
 
   - `class ManagedAgentsSessionThreadStatusIdleEvent`
 
-    - `Type type`
+    - `"session.thread_status_idle" type`
 
     - `string id`
 
@@ -9029,7 +9401,7 @@ Stream Events
 
   - `class ManagedAgentsSessionThreadStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.thread_status_terminated" type`
 
     - `string id`
 
@@ -9049,7 +9421,7 @@ Stream Events
 
   - `class BetaManagedAgentsUserToolResultEvent`
 
-    - `Type type`
+    - `"user.tool_result" type`
 
     - `string id`
 
@@ -9077,7 +9449,7 @@ Stream Events
 
   - `class ManagedAgentsSessionThreadStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.thread_status_rescheduled" type`
 
     - `string id`
 
@@ -9097,7 +9469,7 @@ Stream Events
 
   - `class BetaManagedAgentsSessionUpdatedEvent`
 
-    - `Type type`
+    - `"session.updated" type`
 
     - `string id`
 
@@ -9125,7 +9497,7 @@ Stream Events
 
   - `class BetaManagedAgentsStartEvent`
 
-    - `Type type`
+    - `"event_start" type`
 
     - `BetaManagedAgentsStartEventPreview event`
 
@@ -9133,7 +9505,7 @@ Stream Events
 
   - `class BetaManagedAgentsDeltaEvent`
 
-    - `Type type`
+    - `"event_delta" type`
 
     - `BetaManagedAgentsDeltaContent delta`
 
@@ -9145,7 +9517,7 @@ Stream Events
 
   - `class BetaManagedAgentsSystemMessageEvent`
 
-    - `Type type`
+    - `"system.message" type`
 
     - `string id`
 
@@ -9161,7 +9533,7 @@ Stream Events
 
   - `class BetaManagedAgentsSessionUsageEvent`
 
-    - `Type type`
+    - `"session.usage" type`
 
     - `string id`
 
@@ -9330,6 +9702,10 @@ Stream Events
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Sessions\BetaManagedAgentsDeltaType;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsStreamSessionEvents = $client
@@ -9366,7 +9742,7 @@ var_dump($betaManagedAgentsStreamSessionEvents);
 
 ### Add Session Resource
 
-`$client->beta->sessions->resources->add(string sessionID, string fileID, Type type, ?string mountPath, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsFileResource`
+`$client->beta->sessions->resources->add(string sessionID, string fileID, "file" type, ?string mountPath, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsFileResource`
 
 **POST** `/v1/sessions/{session_id}/resources`
 
@@ -9380,15 +9756,21 @@ Add Session Resource
 
   ID of a previously uploaded file.
 
-- `type: Type`
+- `type: "file"`
 
-- `mountPath?:optional string`
+- `mountPath?: optional string`
 
   Mount path in the container. Defaults to `/mnt/session/uploads/<file_id>`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -9400,7 +9782,7 @@ Add Session Resource
 
 - `class ManagedAgentsFileResource`
 
-  - `Type type`
+  - `"file" type`
 
   - `string id`
 
@@ -9422,6 +9804,9 @@ Add Session Resource
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -9462,17 +9847,23 @@ List Session Resources
 
 - `sessionID: string` (path parameter)
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of resources to return per page (max 1000). If omitted, returns all resources.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -9486,7 +9877,7 @@ List Session Resources
 
   - `class ManagedAgentsGitHubRepositoryResource`
 
-    - `Type type`
+    - `"github_repository" type`
 
     - `string id`
 
@@ -9506,7 +9897,7 @@ List Session Resources
 
   - `class ManagedAgentsFileResource`
 
-    - `Type type`
+    - `"file" type`
 
     - `string id`
 
@@ -9524,7 +9915,7 @@ List Session Resources
 
   - `class ManagedAgentsMemoryStoreResource`
 
-    - `Type type`
+    - `"memory_store" type`
 
     - `string memoryStoreID`
 
@@ -9556,6 +9947,9 @@ List Session Resources
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -9614,9 +10008,15 @@ Get Session Resource
 
 - `resourceID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -9630,7 +10030,7 @@ Get Session Resource
 
   - `class ManagedAgentsGitHubRepositoryResource`
 
-    - `Type type`
+    - `"github_repository" type`
 
     - `string id`
 
@@ -9650,7 +10050,7 @@ Get Session Resource
 
   - `class ManagedAgentsFileResource`
 
-    - `Type type`
+    - `"file" type`
 
     - `string id`
 
@@ -9668,7 +10068,7 @@ Get Session Resource
 
   - `class ManagedAgentsMemoryStoreResource`
 
-    - `Type type`
+    - `"memory_store" type`
 
     - `string memoryStoreID`
 
@@ -9700,6 +10100,9 @@ Get Session Resource
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -9748,9 +10151,15 @@ Update Session Resource
 
   New authorization token for the resource. Currently only `github_repository` resources support token rotation.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -9764,7 +10173,7 @@ Update Session Resource
 
   - `class ManagedAgentsGitHubRepositoryResource`
 
-    - `Type type`
+    - `"github_repository" type`
 
     - `string id`
 
@@ -9784,7 +10193,7 @@ Update Session Resource
 
   - `class ManagedAgentsFileResource`
 
-    - `Type type`
+    - `"file" type`
 
     - `string id`
 
@@ -9802,7 +10211,7 @@ Update Session Resource
 
   - `class ManagedAgentsMemoryStoreResource`
 
-    - `Type type`
+    - `"memory_store" type`
 
     - `string memoryStoreID`
 
@@ -9834,6 +10243,9 @@ Update Session Resource
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -9879,9 +10291,15 @@ Delete Session Resource
 
 - `resourceID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -9893,7 +10311,7 @@ Delete Session Resource
 
 - `class ManagedAgentsDeleteSessionResource`
 
-  - `Type type`
+  - `"session_resource_deleted" type`
 
   - `string id`
 
@@ -9903,6 +10321,9 @@ Delete Session Resource
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -9943,23 +10364,29 @@ List Session Threads
 
 - `sessionID: string` (path parameter)
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum results per page. Defaults to 1000.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor from a previous response's `next_page`. Forward-only.
 
-- `statuses?:optional list<ManagedAgentsSessionThreadStatus>` (query parameter)
+- `statuses?: optional list<ManagedAgentsSessionThreadStatus>` (query parameter)
 
   Return only threads that have one of these statuses.
 
   Repeat the parameter to give more than one status. Leave it out to return threads of every status.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -9971,7 +10398,7 @@ List Session Threads
 
 - `class ManagedAgentsSessionThread`
 
-  - `Type type`
+  - `"session_thread" type`
 
   - `string id`
 
@@ -10024,6 +10451,10 @@ List Session Threads
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Sessions\Threads\ManagedAgentsSessionThreadStatus;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->sessions->threads->list(
@@ -10048,6 +10479,9 @@ var_dump($page);
       "agent": {
         "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
         "description": "A focused research subagent.",
+        "execution_identity": {
+          "type": "service_account"
+        },
         "mcp_servers": [
           {
             "name": "example-mcp",
@@ -10147,9 +10581,15 @@ Get Session Thread
 
 - `threadID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -10161,7 +10601,7 @@ Get Session Thread
 
 - `class ManagedAgentsSessionThread`
 
-  - `Type type`
+  - `"session_thread" type`
 
   - `string id`
 
@@ -10214,6 +10654,9 @@ Get Session Thread
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsSessionThread = $client->beta->sessions->threads->retrieve(
@@ -10234,6 +10677,9 @@ var_dump($betaManagedAgentsSessionThread);
   "agent": {
     "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
     "description": "A focused research subagent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -10330,9 +10776,15 @@ Archive Session Thread
 
 - `threadID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -10344,7 +10796,7 @@ Archive Session Thread
 
 - `class ManagedAgentsSessionThread`
 
-  - `Type type`
+  - `"session_thread" type`
 
   - `string id`
 
@@ -10397,6 +10849,9 @@ Archive Session Thread
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsSessionThread = $client->beta->sessions->threads->archive(
@@ -10417,6 +10872,9 @@ var_dump($betaManagedAgentsSessionThread);
   "agent": {
     "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
     "description": "A focused research subagent.",
+    "execution_identity": {
+      "type": "service_account"
+    },
     "mcp_servers": [
       {
         "name": "example-mcp",
@@ -10515,13 +10973,19 @@ List Session Thread Events
 
 - `threadID: string` (path parameter)
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -10535,7 +10999,7 @@ List Session Thread Events
 
   - `class ManagedAgentsUserMessageEvent`
 
-    - `Type type`
+    - `"user.message" type`
 
     - `string id`
 
@@ -10551,7 +11015,7 @@ List Session Thread Events
 
   - `class ManagedAgentsUserInterruptEvent`
 
-    - `Type type`
+    - `"user.interrupt" type`
 
     - `string id`
 
@@ -10567,7 +11031,7 @@ List Session Thread Events
 
   - `class ManagedAgentsUserToolConfirmationEvent`
 
-    - `Type type`
+    - `"user.tool_confirmation" type`
 
     - `string id`
 
@@ -10595,7 +11059,7 @@ List Session Thread Events
 
   - `class ManagedAgentsUserCustomToolResultEvent`
 
-    - `Type type`
+    - `"user.custom_tool_result" type`
 
     - `string id`
 
@@ -10623,7 +11087,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentCustomToolUseEvent`
 
-    - `Type type`
+    - `"agent.custom_tool_use" type`
 
     - `string id`
 
@@ -10647,7 +11111,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentMessageEvent`
 
-    - `Type type`
+    - `"agent.message" type`
 
     - `string id`
 
@@ -10663,7 +11127,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentThinkingEvent`
 
-    - `Type type`
+    - `"agent.thinking" type`
 
     - `string id`
 
@@ -10675,7 +11139,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentMCPToolUseEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_use" type`
 
     - `string id`
 
@@ -10711,7 +11175,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentMCPToolResultEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_result" type`
 
     - `string id`
 
@@ -10735,7 +11199,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentToolUseEvent`
 
-    - `Type type`
+    - `"agent.tool_use" type`
 
     - `string id`
 
@@ -10767,7 +11231,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentToolResultEvent`
 
-    - `Type type`
+    - `"agent.tool_result" type`
 
     - `string id`
 
@@ -10791,7 +11255,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentThreadMessageReceivedEvent`
 
-    - `Type type`
+    - `"agent.thread_message_received" type`
 
     - `string id`
 
@@ -10815,7 +11279,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentThreadMessageSentEvent`
 
-    - `Type type`
+    - `"agent.thread_message_sent" type`
 
     - `string id`
 
@@ -10839,7 +11303,7 @@ List Session Thread Events
 
   - `class ManagedAgentsAgentThreadContextCompactedEvent`
 
-    - `Type type`
+    - `"agent.thread_context_compacted" type`
 
     - `string id`
 
@@ -10851,7 +11315,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionErrorEvent`
 
-    - `Type type`
+    - `"session.error" type`
 
     - `string id`
 
@@ -10865,7 +11329,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.status_rescheduled" type`
 
     - `string id`
 
@@ -10877,7 +11341,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionStatusRunningEvent`
 
-    - `Type type`
+    - `"session.status_running" type`
 
     - `string id`
 
@@ -10889,7 +11353,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionStatusIdleEvent`
 
-    - `Type type`
+    - `"session.status_idle" type`
 
     - `string id`
 
@@ -10907,7 +11371,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.status_terminated" type`
 
     - `string id`
 
@@ -10919,7 +11383,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionThreadCreatedEvent`
 
-    - `Type type`
+    - `"session.thread_created" type`
 
     - `string id`
 
@@ -10943,7 +11407,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationStartEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_start" type`
 
     - `string id`
 
@@ -10963,7 +11427,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationEndEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_end" type`
 
     - `string id`
 
@@ -10999,7 +11463,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSpanModelRequestStartEvent`
 
-    - `Type type`
+    - `"span.model_request_start" type`
 
     - `string id`
 
@@ -11011,7 +11475,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSpanModelRequestEndEvent`
 
-    - `Type type`
+    - `"span.model_request_end" type`
 
     - `string id`
 
@@ -11035,7 +11499,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationOngoingEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_ongoing" type`
 
     - `string id`
 
@@ -11055,7 +11519,7 @@ List Session Thread Events
 
   - `class ManagedAgentsUserDefineOutcomeEvent`
 
-    - `Type type`
+    - `"user.define_outcome" type`
 
     - `string id`
 
@@ -11083,7 +11547,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionDeletedEvent`
 
-    - `Type type`
+    - `"session.deleted" type`
 
     - `string id`
 
@@ -11095,7 +11559,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusRunningEvent`
 
-    - `Type type`
+    - `"session.thread_status_running" type`
 
     - `string id`
 
@@ -11115,7 +11579,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusIdleEvent`
 
-    - `Type type`
+    - `"session.thread_status_idle" type`
 
     - `string id`
 
@@ -11141,7 +11605,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.thread_status_terminated" type`
 
     - `string id`
 
@@ -11161,7 +11625,7 @@ List Session Thread Events
 
   - `class BetaManagedAgentsUserToolResultEvent`
 
-    - `Type type`
+    - `"user.tool_result" type`
 
     - `string id`
 
@@ -11189,7 +11653,7 @@ List Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.thread_status_rescheduled" type`
 
     - `string id`
 
@@ -11209,7 +11673,7 @@ List Session Thread Events
 
   - `class BetaManagedAgentsSessionUpdatedEvent`
 
-    - `Type type`
+    - `"session.updated" type`
 
     - `string id`
 
@@ -11237,7 +11701,7 @@ List Session Thread Events
 
   - `class BetaManagedAgentsSystemMessageEvent`
 
-    - `Type type`
+    - `"system.message" type`
 
     - `string id`
 
@@ -11253,7 +11717,7 @@ List Session Thread Events
 
   - `class BetaManagedAgentsSessionUsageEvent`
 
-    - `Type type`
+    - `"session.usage" type`
 
     - `string id`
 
@@ -11421,6 +11885,9 @@ List Session Thread Events
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -11482,13 +11949,19 @@ Stream Session Thread Events
 
 - `threadID: string` (path parameter)
 
-- `eventDeltas?:optional list<BetaManagedAgentsDeltaType>` (query parameter)
+- `eventDeltas?: optional list<BetaManagedAgentsDeltaType>` (query parameter)
 
   When set, this connection also receives streaming deltas (`event_start`, `event_delta`) while an event is being produced, before the event itself arrives. Deltas are best-effort; when the final event is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no final event — its terminal `span.model_request_end` closes the preview. Accepts one or more event types to preview and may be repeated: `agent.message` streams `content_delta` fragments; `agent.thinking` is start-only — a signal that the agent has begun extended thinking, concluded by the `agent.thinking` event itself. Only previews of the requested event types are sent.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -11502,7 +11975,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserMessageEvent`
 
-    - `Type type`
+    - `"user.message" type`
 
     - `string id`
 
@@ -11518,7 +11991,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserInterruptEvent`
 
-    - `Type type`
+    - `"user.interrupt" type`
 
     - `string id`
 
@@ -11534,7 +12007,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserToolConfirmationEvent`
 
-    - `Type type`
+    - `"user.tool_confirmation" type`
 
     - `string id`
 
@@ -11562,7 +12035,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserCustomToolResultEvent`
 
-    - `Type type`
+    - `"user.custom_tool_result" type`
 
     - `string id`
 
@@ -11590,7 +12063,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentCustomToolUseEvent`
 
-    - `Type type`
+    - `"agent.custom_tool_use" type`
 
     - `string id`
 
@@ -11614,7 +12087,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentMessageEvent`
 
-    - `Type type`
+    - `"agent.message" type`
 
     - `string id`
 
@@ -11630,7 +12103,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentThinkingEvent`
 
-    - `Type type`
+    - `"agent.thinking" type`
 
     - `string id`
 
@@ -11642,7 +12115,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentMCPToolUseEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_use" type`
 
     - `string id`
 
@@ -11678,7 +12151,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentMCPToolResultEvent`
 
-    - `Type type`
+    - `"agent.mcp_tool_result" type`
 
     - `string id`
 
@@ -11702,7 +12175,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentToolUseEvent`
 
-    - `Type type`
+    - `"agent.tool_use" type`
 
     - `string id`
 
@@ -11734,7 +12207,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentToolResultEvent`
 
-    - `Type type`
+    - `"agent.tool_result" type`
 
     - `string id`
 
@@ -11758,7 +12231,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentThreadMessageReceivedEvent`
 
-    - `Type type`
+    - `"agent.thread_message_received" type`
 
     - `string id`
 
@@ -11782,7 +12255,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentThreadMessageSentEvent`
 
-    - `Type type`
+    - `"agent.thread_message_sent" type`
 
     - `string id`
 
@@ -11806,7 +12279,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsAgentThreadContextCompactedEvent`
 
-    - `Type type`
+    - `"agent.thread_context_compacted" type`
 
     - `string id`
 
@@ -11818,7 +12291,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionErrorEvent`
 
-    - `Type type`
+    - `"session.error" type`
 
     - `string id`
 
@@ -11832,7 +12305,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.status_rescheduled" type`
 
     - `string id`
 
@@ -11844,7 +12317,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionStatusRunningEvent`
 
-    - `Type type`
+    - `"session.status_running" type`
 
     - `string id`
 
@@ -11856,7 +12329,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionStatusIdleEvent`
 
-    - `Type type`
+    - `"session.status_idle" type`
 
     - `string id`
 
@@ -11874,7 +12347,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.status_terminated" type`
 
     - `string id`
 
@@ -11886,7 +12359,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadCreatedEvent`
 
-    - `Type type`
+    - `"session.thread_created" type`
 
     - `string id`
 
@@ -11910,7 +12383,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationStartEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_start" type`
 
     - `string id`
 
@@ -11930,7 +12403,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationEndEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_end" type`
 
     - `string id`
 
@@ -11966,7 +12439,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanModelRequestStartEvent`
 
-    - `Type type`
+    - `"span.model_request_start" type`
 
     - `string id`
 
@@ -11978,7 +12451,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanModelRequestEndEvent`
 
-    - `Type type`
+    - `"span.model_request_end" type`
 
     - `string id`
 
@@ -12002,7 +12475,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSpanOutcomeEvaluationOngoingEvent`
 
-    - `Type type`
+    - `"span.outcome_evaluation_ongoing" type`
 
     - `string id`
 
@@ -12022,7 +12495,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsUserDefineOutcomeEvent`
 
-    - `Type type`
+    - `"user.define_outcome" type`
 
     - `string id`
 
@@ -12050,7 +12523,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionDeletedEvent`
 
-    - `Type type`
+    - `"session.deleted" type`
 
     - `string id`
 
@@ -12062,7 +12535,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusRunningEvent`
 
-    - `Type type`
+    - `"session.thread_status_running" type`
 
     - `string id`
 
@@ -12082,7 +12555,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusIdleEvent`
 
-    - `Type type`
+    - `"session.thread_status_idle" type`
 
     - `string id`
 
@@ -12108,7 +12581,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusTerminatedEvent`
 
-    - `Type type`
+    - `"session.thread_status_terminated" type`
 
     - `string id`
 
@@ -12128,7 +12601,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsUserToolResultEvent`
 
-    - `Type type`
+    - `"user.tool_result" type`
 
     - `string id`
 
@@ -12156,7 +12629,7 @@ Stream Session Thread Events
 
   - `class ManagedAgentsSessionThreadStatusRescheduledEvent`
 
-    - `Type type`
+    - `"session.thread_status_rescheduled" type`
 
     - `string id`
 
@@ -12176,7 +12649,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsSessionUpdatedEvent`
 
-    - `Type type`
+    - `"session.updated" type`
 
     - `string id`
 
@@ -12204,7 +12677,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsStartEvent`
 
-    - `Type type`
+    - `"event_start" type`
 
     - `BetaManagedAgentsStartEventPreview event`
 
@@ -12212,7 +12685,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsDeltaEvent`
 
-    - `Type type`
+    - `"event_delta" type`
 
     - `BetaManagedAgentsDeltaContent delta`
 
@@ -12224,7 +12697,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsSystemMessageEvent`
 
-    - `Type type`
+    - `"system.message" type`
 
     - `string id`
 
@@ -12240,7 +12713,7 @@ Stream Session Thread Events
 
   - `class BetaManagedAgentsSessionUsageEvent`
 
-    - `Type type`
+    - `"session.usage" type`
 
     - `string id`
 
@@ -12408,6 +12881,10 @@ Stream Session Thread Events
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Sessions\BetaManagedAgentsDeltaType;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -12471,33 +12948,39 @@ Create Deployment
 
   Human-readable name for the deployment.
 
-- `budget?:optional BetaManagedAgentsBudgetLimit`
+- `budget?: optional BetaManagedAgentsBudgetLimit`
 
   Enforced spend ceiling stamped onto each session created from this deployment, copied at session-creation time. Omit to leave sessions uncapped. The deployment agent's model must have a public list price, or the request is rejected; a multiagent roster is re-validated in full when each fire copies the cap, which fails closed the same way.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Description of what the deployment does.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `resources?:optional list<Resource>`
+- `resources?: optional list<Resource>`
 
   Resources (e.g. repositories, files) to mount into each session's container. Maximum 500.
 
-- `schedule?:optional BetaManagedAgentsScheduleParams`
+- `schedule?: optional BetaManagedAgentsScheduleParams`
 
   Optional recurring cron schedule. When present, the deployment fires automatically. Both expression and timezone are required when schedule is set.
 
-- `vaultIDs?:optional list<string>`
+- `vaultIDs?: optional list<string>`
 
   Vault IDs for stored credentials the agent can use during sessions created from this deployment. Maximum 50.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -12509,7 +12992,7 @@ Create Deployment
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -12581,6 +13064,10 @@ Create Deployment
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\BetaCurrency;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -12697,37 +13184,43 @@ List Deployments
 
 #### Parameters
 
-- `agentID?:optional string` (query parameter)
+- `agentID?: optional string` (query parameter)
 
   Filter by agent ID.
 
-- `createdAtGte?:optional \Datetime` (query parameter)
+- `createdAtGte?: optional \Datetime` (query parameter)
 
   Return deployments created at or after this time (inclusive).
 
-- `createdAtLte?:optional \Datetime` (query parameter)
+- `createdAtLte?: optional \Datetime` (query parameter)
 
   Return deployments created at or before this time (inclusive).
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   When true, includes archived deployments. Default: false (exclude archived).
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum results per page. Default 20, maximum 100.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor.
 
-- `status?:optional BetaManagedAgentsDeploymentStatus` (query parameter)
+- `status?: optional BetaManagedAgentsDeploymentStatus` (query parameter)
 
   Filter by status: `active` or `paused`. Omit for both. To include archived deployments, use `include_archived` instead; the two cannot be combined.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -12739,7 +13232,7 @@ List Deployments
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -12811,6 +13304,10 @@ List Deployments
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Deployments\BetaManagedAgentsDeploymentStatus;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -12915,9 +13412,15 @@ Get Deployment
 
   Unique identifier of the deployment.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -12929,7 +13432,7 @@ Get Deployment
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -13001,6 +13504,9 @@ Get Deployment
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -13094,49 +13600,55 @@ Update Deployment
 
   Unique identifier of the deployment to update.
 
-- `agent?:optional Agent`
+- `agent?: optional Agent`
 
   Agent to deploy. Accepts the `agent` ID string, which re-pins to the latest version, or an `agent` object with both id and version specified. Omit to preserve. Cannot be cleared.
 
-- `budget?:optional BetaManagedAgentsBudgetLimit`
+- `budget?: optional BetaManagedAgentsBudgetLimit`
 
   Spend ceiling for future sessions. Full replacement. Omit to preserve; send null to clear (sessions created afterwards are uncapped). The deployment agent's model must have a public list price, or the request is rejected; a multiagent roster is re-validated in full when each fire copies the cap, which fails closed the same way.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Description. Omit to preserve; send empty string or null to clear.
 
-- `environmentID?:optional string`
+- `environmentID?: optional string`
 
   ID of the `environment` where sessions run. Omit to preserve. Cannot be cleared.
 
-- `initialEvents?:optional list<BetaManagedAgentsDeploymentInitialEventParams>`
+- `initialEvents?: optional list<BetaManagedAgentsDeploymentInitialEventParams>`
 
   Initial events. Full replacement. Omit to preserve. Cannot be cleared. At least 1, maximum 50.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve. The stored bag is limited to 16 keys (up to 64 chars each) with values up to 512 chars.
 
-- `name?:optional string`
+- `name?: optional string`
 
   Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
 
-- `resources?:optional list<Resource>`
+- `resources?: optional list<Resource>`
 
   Session resources. Full replacement. Omit to preserve; send empty array or null to clear. Maximum 500.
 
-- `schedule?:optional BetaManagedAgentsScheduleParams`
+- `schedule?: optional BetaManagedAgentsScheduleParams`
 
   Cron schedule. Full replacement. Omit to preserve; send null to clear (revert to manual-only).
 
-- `vaultIDs?:optional list<string>`
+- `vaultIDs?: optional list<string>`
 
   Vault IDs. Full replacement. Omit to preserve; send empty array or null to clear. Maximum 50.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -13148,7 +13660,7 @@ Update Deployment
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -13220,6 +13732,10 @@ Update Deployment
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\BetaCurrency;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -13341,9 +13857,15 @@ Archive Deployment
 
   Unique identifier of the deployment to archive.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -13355,7 +13877,7 @@ Archive Deployment
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -13427,6 +13949,9 @@ Archive Deployment
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -13520,9 +14045,15 @@ Run Deployment Now
 
   Unique identifier of the deployment to run.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -13534,7 +14065,7 @@ Run Deployment Now
 
 - `class BetaManagedAgentsDeploymentRun`
 
-  - `Type type`
+  - `"deployment_run" type`
 
   - `string id`
 
@@ -13570,6 +14101,9 @@ Run Deployment Now
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -13621,9 +14155,15 @@ Pause Deployment
 
   Unique identifier of the deployment to pause.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -13635,7 +14175,7 @@ Pause Deployment
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -13707,6 +14247,9 @@ Pause Deployment
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -13800,9 +14343,15 @@ Unpause Deployment
 
   Unique identifier of the deployment to unpause.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -13814,7 +14363,7 @@ Unpause Deployment
 
 - `class BetaManagedAgentsDeployment`
 
-  - `Type type`
+  - `"deployment" type`
 
   - `string id`
 
@@ -13886,6 +14435,9 @@ Unpause Deployment
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -13977,45 +14529,51 @@ List Deployment Runs
 
 #### Parameters
 
-- `createdAtGt?:optional \Datetime` (query parameter)
+- `createdAtGt?: optional \Datetime` (query parameter)
 
   Return runs created strictly after this time (exclusive).
 
-- `createdAtGte?:optional \Datetime` (query parameter)
+- `createdAtGte?: optional \Datetime` (query parameter)
 
   Return runs created at or after this time (inclusive).
 
-- `createdAtLt?:optional \Datetime` (query parameter)
+- `createdAtLt?: optional \Datetime` (query parameter)
 
   Return runs created strictly before this time (exclusive).
 
-- `createdAtLte?:optional \Datetime` (query parameter)
+- `createdAtLte?: optional \Datetime` (query parameter)
 
   Return runs created at or before this time (inclusive).
 
-- `deploymentID?:optional string` (query parameter)
+- `deploymentID?: optional string` (query parameter)
 
   Filter to a specific deployment. Omit to list across all deployments in the workspace. Filtering by a non-existent `deployment_id` returns 200 with empty data.
 
-- `hasError?:optional bool` (query parameter)
+- `hasError?: optional bool` (query parameter)
 
   Filter: true for runs with non-null `error`, false for runs with non-null `session_id`. Omit for all.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum results per page. Default 20, maximum 1000.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor. Pass `next_page` from the previous response. Invalid or expired cursors return 400.
 
-- `triggerType?:optional BetaManagedAgentsTriggerType` (query parameter)
+- `triggerType?: optional BetaManagedAgentsTriggerType` (query parameter)
 
   Filter runs by what triggered them. Omit to return all runs.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -14027,7 +14585,7 @@ List Deployment Runs
 
 - `class BetaManagedAgentsDeploymentRun`
 
-  - `Type type`
+  - `"deployment_run" type`
 
   - `string id`
 
@@ -14063,6 +14621,10 @@ List Deployment Runs
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\DeploymentRuns\BetaManagedAgentsTriggerType;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -14127,9 +14689,15 @@ Get Deployment Run
 
   Unique identifier of the deployment run.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -14141,7 +14709,7 @@ Get Deployment Run
 
 - `class BetaManagedAgentsDeploymentRun`
 
-  - `Type type`
+  - `"deployment_run" type`
 
   - `string id`
 
@@ -14177,6 +14745,9 @@ Get Deployment Run
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -14216,13 +14787,13 @@ var_dump($betaManagedAgentsDeploymentRun);
 
 ## Beta › Vaults
 
-### Create Vault
+### Create a Vault
 
 `$client->beta->vaults->create(string displayName, ?array<string,string> metadata, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsVault`
 
 **POST** `/v1/vaults`
 
-Create Vault
+Create a Vault
 
 #### Parameters
 
@@ -14230,13 +14801,19 @@ Create Vault
 
   Human-readable name for the vault. 1-255 characters.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Arbitrary key-value metadata to attach to the vault. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -14248,11 +14825,11 @@ Create Vault
 
 - `class BetaManagedAgentsVault`
 
-  - `Type type`
+  - `"vault" type`
 
   - `string id`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
   - `?\Datetime archivedAt`
 
@@ -14280,6 +14857,9 @@ Create Vault
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -14319,21 +14899,27 @@ List Vaults
 
 #### Parameters
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
-  Whether to include archived vaults in the results.
+  Whether to include archived vaults in the results. Defaults to `false`.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of vaults to return per page. Defaults to 20, maximum 100.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
-  Opaque pagination token from a previous `list_vaults` response.
+  The `next_page` value from a previous [List Vaults](https://platform.claude.com/docs/en/api/beta/vaults/list?sdk_languages=php) response, to get the next page. Leave it out to get the first page.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -14345,11 +14931,11 @@ List Vaults
 
 - `class BetaManagedAgentsVault`
 
-  - `Type type`
+  - `"vault" type`
 
   - `string id`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
   - `?\Datetime archivedAt`
 
@@ -14377,6 +14963,9 @@ List Vaults
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -14412,13 +15001,13 @@ var_dump($page);
 }
 ```
 
-### Get Vault
+### Retrieve a Vault
 
 `$client->beta->vaults->retrieve(string vaultID, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsVault`
 
 **GET** `/v1/vaults/{vault_id}`
 
-Get Vault
+Retrieve a Vault
 
 #### Parameters
 
@@ -14426,9 +15015,15 @@ Get Vault
 
   Unique identifier of the vault to retrieve.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -14440,11 +15035,11 @@ Get Vault
 
 - `class BetaManagedAgentsVault`
 
-  - `Type type`
+  - `"vault" type`
 
   - `string id`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
   - `?\Datetime archivedAt`
 
@@ -14472,6 +15067,9 @@ Get Vault
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -14500,13 +15098,13 @@ var_dump($betaManagedAgentsVault);
 }
 ```
 
-### Update Vault
+### Update a Vault
 
 `$client->beta->vaults->update(string vaultID, ?string displayName, ?array<string,string> metadata, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsVault`
 
 **POST** `/v1/vaults/{vault_id}`
 
-Update Vault
+Update a Vault
 
 #### Parameters
 
@@ -14514,17 +15112,23 @@ Update Vault
 
   Unique identifier of the vault to update.
 
-- `displayName?:optional string`
+- `displayName?: optional string`
 
   Updated human-readable name for the vault. 1-255 characters.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omitted keys are preserved.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -14536,11 +15140,11 @@ Update Vault
 
 - `class BetaManagedAgentsVault`
 
-  - `Type type`
+  - `"vault" type`
 
   - `string id`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
   - `?\Datetime archivedAt`
 
@@ -14568,6 +15172,9 @@ Update Vault
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -14598,13 +15205,13 @@ var_dump($betaManagedAgentsVault);
 }
 ```
 
-### Delete Vault
+### Delete a Vault
 
 `$client->beta->vaults->delete(string vaultID, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsDeletedVault`
 
 **DELETE** `/v1/vaults/{vault_id}`
 
-Delete Vault
+Delete a Vault
 
 #### Parameters
 
@@ -14612,9 +15219,15 @@ Delete Vault
 
   Unique identifier of the vault to delete.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -14626,11 +15239,11 @@ Delete Vault
 
 - `class BetaManagedAgentsDeletedVault`
 
-  - `Type type`
+  - `"vault_deleted" type`
 
   - `string id`
 
-    Unique identifier of the deleted vault.
+    The unique ID of the deleted vault (`vlt_...`).
 
 #### Example
 
@@ -14638,6 +15251,9 @@ Delete Vault
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -14659,13 +15275,13 @@ var_dump($betaManagedAgentsDeletedVault);
 }
 ```
 
-### Archive Vault
+### Archive a Vault
 
 `$client->beta->vaults->archive(string vaultID, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsVault`
 
 **POST** `/v1/vaults/{vault_id}/archive`
 
-Archive Vault
+Archive a Vault
 
 #### Parameters
 
@@ -14673,9 +15289,15 @@ Archive Vault
 
   Unique identifier of the vault to archive.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -14687,11 +15309,11 @@ Archive Vault
 
 - `class BetaManagedAgentsVault`
 
-  - `Type type`
+  - `"vault" type`
 
   - `string id`
 
-    Unique identifier for the vault.
+    The unique ID of the vault (`vlt_...`).
 
   - `?\Datetime archivedAt`
 
@@ -14719,6 +15341,9 @@ Archive Vault
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -14749,13 +15374,13 @@ var_dump($betaManagedAgentsVault);
 
 ## Beta › Vaults › Credentials
 
-### Create Credential
+### Create a Credential
 
 `$client->beta->vaults->credentials->create(string vaultID, Auth auth, ?string displayName, ?array<string,string> metadata, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsCredential`
 
 **POST** `/v1/vaults/{vault_id}/credentials`
 
-Create Credential
+Create a Credential
 
 #### Parameters
 
@@ -14767,17 +15392,23 @@ Create Credential
 
   Authentication configuration for the credential.
 
-- `displayName?:optional string`
+- `displayName?: optional string`
 
   Human-readable name for the credential. Up to 255 characters.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Arbitrary key-value metadata to attach to the credential. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -14789,11 +15420,11 @@ Create Credential
 
 - `class ManagedAgentsCredential`
 
-  - `Type type`
+  - `"vault_credential" type`
 
   - `string id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `?\Datetime archivedAt`
 
@@ -14829,6 +15460,9 @@ Create Credential
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -14883,21 +15517,27 @@ List Credentials
 
   Identifier of the vault to list credentials for.
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
-  Whether to include archived credentials in the results.
+  Whether to include archived credentials in the results. Defaults to `false`.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of credentials to return per page. Defaults to 20, maximum 100.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
-  Opaque pagination token from a previous `list_credentials` response.
+  The `next_page` value from a previous [List Credentials](https://platform.claude.com/docs/en/api/beta/vaults/credentials/list?sdk_languages=php) response, to get the next page. Leave it out to get the first page.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -14909,11 +15549,11 @@ List Credentials
 
 - `class ManagedAgentsCredential`
 
-  - `Type type`
+  - `"vault_credential" type`
 
   - `string id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `?\Datetime archivedAt`
 
@@ -14949,6 +15589,9 @@ List Credentials
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -14990,13 +15633,13 @@ var_dump($page);
 }
 ```
 
-### Get Credential
+### Retrieve a Credential
 
 `$client->beta->vaults->credentials->retrieve(string credentialID, string vaultID, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsCredential`
 
 **GET** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Get Credential
+Retrieve a Credential
 
 #### Parameters
 
@@ -15008,9 +15651,15 @@ Get Credential
 
   Unique identifier of the credential to retrieve.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -15022,11 +15671,11 @@ Get Credential
 
 - `class ManagedAgentsCredential`
 
-  - `Type type`
+  - `"vault_credential" type`
 
   - `string id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `?\Datetime archivedAt`
 
@@ -15062,6 +15711,9 @@ Get Credential
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -15096,13 +15748,13 @@ var_dump($betaManagedAgentsCredential);
 }
 ```
 
-### Update Credential
+### Update a Credential
 
 `$client->beta->vaults->credentials->update(string credentialID, string vaultID, ?Auth auth, ?string displayName, ?array<string,string> metadata, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsCredential`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Update Credential
+Update a Credential
 
 #### Parameters
 
@@ -15114,21 +15766,27 @@ Update Credential
 
   Unique identifier of the credential to update.
 
-- `auth?:optional Auth`
+- `auth?: optional Auth`
 
-  Updated authentication configuration. The `type` is immutable; the variant sent must match the stored credential's type.
+  New authentication settings for the credential. The `type` must match the credential's current type, which can't be changed.
 
-- `displayName?:optional string`
+- `displayName?: optional string`
 
   Updated human-readable name for the credential. 1-255 characters.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omitted keys are preserved.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -15140,11 +15798,11 @@ Update Credential
 
 - `class ManagedAgentsCredential`
 
-  - `Type type`
+  - `"vault_credential" type`
 
   - `string id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `?\Datetime archivedAt`
 
@@ -15181,6 +15839,9 @@ Update Credential
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsCredential = $client->beta->vaults->credentials->update(
@@ -15188,7 +15849,7 @@ $betaManagedAgentsCredential = $client->beta->vaults->credentials->update(
   vaultID: 'vlt_011CZkZDLs7fYzm1hXNPeRjv',
   auth: [
     'type' => 'mcp_oauth',
-    'accessToken' => 'x',
+    'accessToken' => 'access_token',
     'expiresAt' => new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
     'refresh' => [
       'refreshToken' => 'x',
@@ -15228,13 +15889,13 @@ var_dump($betaManagedAgentsCredential);
 }
 ```
 
-### Delete Credential
+### Delete a Credential
 
 `$client->beta->vaults->credentials->delete(string credentialID, string vaultID, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsDeletedCredential`
 
 **DELETE** `/v1/vaults/{vault_id}/credentials/{credential_id}`
 
-Delete Credential
+Delete a Credential
 
 #### Parameters
 
@@ -15246,9 +15907,15 @@ Delete Credential
 
   Unique identifier of the credential to delete.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -15260,11 +15927,11 @@ Delete Credential
 
 - `class ManagedAgentsDeletedCredential`
 
-  - `Type type`
+  - `"vault_credential_deleted" type`
 
   - `string id`
 
-    Unique identifier of the deleted credential.
+    The unique ID of the deleted credential (`vcrd_...`).
 
 #### Example
 
@@ -15272,6 +15939,9 @@ Delete Credential
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -15298,13 +15968,13 @@ var_dump($betaManagedAgentsDeletedCredential);
 }
 ```
 
-### Archive Credential
+### Archive a Credential
 
 `$client->beta->vaults->credentials->archive(string credentialID, string vaultID, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsCredential`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/archive`
 
-Archive Credential
+Archive a Credential
 
 #### Parameters
 
@@ -15316,9 +15986,15 @@ Archive Credential
 
   Unique identifier of the credential to archive.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -15330,11 +16006,11 @@ Archive Credential
 
 - `class ManagedAgentsCredential`
 
-  - `Type type`
+  - `"vault_credential" type`
 
   - `string id`
 
-    Unique identifier for the credential.
+    The unique ID of the credential (`vcrd_...`).
 
   - `?\Datetime archivedAt`
 
@@ -15371,6 +16047,9 @@ Archive Credential
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsCredential = $client->beta->vaults->credentials->archive(
@@ -15404,13 +16083,13 @@ var_dump($betaManagedAgentsCredential);
 }
 ```
 
-### Validate Credential
+### Validate an MCP OAuth Credential
 
 `$client->beta->vaults->credentials->mcpOAuthValidate(string credentialID, string vaultID, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsCredentialValidation`
 
 **POST** `/v1/vaults/{vault_id}/credentials/{credential_id}/mcp_oauth_validate`
 
-Validate Credential
+Validate an MCP OAuth Credential
 
 #### Parameters
 
@@ -15422,9 +16101,15 @@ Validate Credential
 
   Unique identifier of the credential to validate.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -15436,7 +16121,7 @@ Validate Credential
 
 - `class ManagedAgentsCredentialValidation`
 
-  - `Type type`
+  - `"vault_credential_validation" type`
 
   - `string credentialID`
 
@@ -15448,7 +16133,7 @@ Validate Credential
 
   - `?ManagedAgentsMCPProbe mcpProbe`
 
-    Details of the failing MCP probe step. Null when the probe succeeded.
+    Details of the MCP probe step that failed, or `null` if the probe succeeded or there was no access token to test.
 
   - `?ManagedAgentsRefreshObject refresh`
 
@@ -15472,6 +16157,9 @@ Validate Credential
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -15522,31 +16210,43 @@ var_dump($betaManagedAgentsCredentialValidation);
 
 ## Beta › Memory Stores
 
-### Create a memory store
+### Create a Memory Store
 
 `$client->beta->memoryStores->create(string name, ?string description, ?array<string,string> metadata, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsMemoryStore`
 
 **POST** `/v1/memory_stores`
 
-Create a memory store
+Create a Memory Store
 
 #### Parameters
 
 - `name: string`
 
-  Human-readable name for the store. Required; 1–255 characters; no control characters. The mount-path slug under `/mnt/memory/` is derived from this name (lowercased, non-alphanumeric runs collapsed to a hyphen). Names need not be unique within a workspace.
+  The name of the memory store, 1 to 255 characters long, without control characters. Names don't have to be unique in a workspace.
 
-- `description?:optional string`
+  In a session, the store's directory under `/mnt/memory/` is based on this name. The name is lowercased and every run of characters other than ASCII letters and digits becomes one hyphen. The session's memory store resource gives the exact path in `mount_path`.
 
-  Free-text description of what the store contains, up to 1024 characters. Included in the agent's system prompt when the store is attached, so word it to be useful to the agent.
+  See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#how-the-agent-accesses-memory) to learn more about how agents access memory stores.
 
-- `metadata?:optional array<string,string>`
+- `description?: optional string`
 
-  Arbitrary key-value tags for your own bookkeeping (such as the end user a store belongs to). Up to 16 pairs; keys 1–64 characters; values up to 512 characters. Not visible to the agent.
+  Free-text description of what the store contains, up to 1,024 characters. Included in the agent's system prompt when the store is attached, so word it to be useful to the agent.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `metadata?: optional array<string,string>`
 
-  Optional header to specify the beta version(s) you want to use.
+  Key-value pairs for your own use, such as the end user that the store belongs to. The agent doesn't see them.
+
+  A store has at most 16 pairs. Keys are 1 to 64 characters long and values at most 512 characters.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -15558,11 +16258,19 @@ Create a memory store
 
 - `class BetaManagedAgentsMemoryStore`
 
-  - `Type type`
+  - `"memory_store" type`
 
   - `string id`
 
-    Unique identifier for the memory store (a `memstore_...` tagged ID). Use this when attaching the store to a session, or in the `{memory_store_id}` path parameter of subsequent calls.
+    The unique ID of the memory store (`memstore_...`). Use it to attach the store to a session.
+
+  - `?\Datetime archivedAt`
+
+    When the memory store was archived, in RFC 3339, or `null` if it hasn't been.
+
+    Archiving can't be undone. An archived store can't be attached to new sessions. You can't create or update its memories or update the store. You can still read and delete its memories, redact their versions, and delete the store.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#archive-a-store) to learn more about archiving.
 
   - `?\Datetime archivedAt`
 
@@ -15570,15 +16278,17 @@ Create a memory store
 
   - `\Datetime createdAt`
 
-    Timestamp when the store was created.
+    When the memory store was created, in RFC 3339.
 
   - `string description`
 
-    Free-text description of what the store contains, up to 1024 characters. Included in the agent's system prompt when the store is attached, so word it to be useful to the agent. Empty string when unset.
+    Free-text description of what the store contains, up to 1,024 characters. Included in the agent's system prompt when the store is attached, so word it to be useful to the agent. Empty string when unset.
 
   - `array<string,string> metadata`
 
-    Arbitrary key-value tags for your own bookkeeping (such as the end user a store belongs to). Up to 16 pairs; keys 1–64 characters; values up to 512 characters. Returned on retrieve/list but not filterable.
+    Key-value pairs for your own use, such as the end user that the store belongs to.
+
+    A store has at most 16 pairs. Keys are 1 to 64 characters long and values at most 512 characters. You can't filter lists by metadata.
 
   - `string name`
 
@@ -15586,7 +16296,9 @@ Create a memory store
 
   - `\Datetime updatedAt`
 
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
+    When the memory store was last changed, in RFC 3339.
+
+    Changing its `name`, `description`, or `metadata` updates it. Archiving the store does too. Changes to the store's memories don't.
 
 #### Example
 
@@ -15594,6 +16306,9 @@ Create a memory store
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -15625,39 +16340,45 @@ var_dump($betaManagedAgentsMemoryStore);
 }
 ```
 
-### List memory stores
+### List Memory Stores
 
 `$client->beta->memoryStores->list(?\Datetime createdAtGte, ?\Datetime createdAtLte, ?bool includeArchived, ?int limit, ?string page, ?list<AnthropicBeta> betas, ?string workspaceID): PageCursor<BetaManagedAgentsMemoryStore>`
 
 **GET** `/v1/memory_stores`
 
-List memory stores
+List Memory Stores
 
 #### Parameters
 
-- `createdAtGte?:optional \Datetime` (query parameter)
+- `createdAtGte?: optional \Datetime` (query parameter)
 
-  Return only stores whose `created_at` is at or after this time (inclusive). Sent on the wire as `created_at[gte]`.
+  Return only memory stores created at or after this time (inclusive).
 
-- `createdAtLte?:optional \Datetime` (query parameter)
+- `createdAtLte?: optional \Datetime` (query parameter)
 
-  Return only stores whose `created_at` is at or before this time (inclusive). Sent on the wire as `created_at[lte]`.
+  Return only memory stores created at or before this time (inclusive).
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   When `true`, archived stores are included in the results. Defaults to `false` (archived stores are excluded).
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of stores to return per page. Must be between 1 and 100. Defaults to 20 when omitted.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
-  Opaque pagination cursor (a `page_...` value). Pass the `next_page` value from a previous response to fetch the next page; omit for the first page.
+  The `next_page` value from a previous response, to get the next page. Omit it to get the first page.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -15669,11 +16390,19 @@ List memory stores
 
 - `class BetaManagedAgentsMemoryStore`
 
-  - `Type type`
+  - `"memory_store" type`
 
   - `string id`
 
-    Unique identifier for the memory store (a `memstore_...` tagged ID). Use this when attaching the store to a session, or in the `{memory_store_id}` path parameter of subsequent calls.
+    The unique ID of the memory store (`memstore_...`). Use it to attach the store to a session.
+
+  - `?\Datetime archivedAt`
+
+    When the memory store was archived, in RFC 3339, or `null` if it hasn't been.
+
+    Archiving can't be undone. An archived store can't be attached to new sessions. You can't create or update its memories or update the store. You can still read and delete its memories, redact their versions, and delete the store.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#archive-a-store) to learn more about archiving.
 
   - `?\Datetime archivedAt`
 
@@ -15681,15 +16410,17 @@ List memory stores
 
   - `\Datetime createdAt`
 
-    Timestamp when the store was created.
+    When the memory store was created, in RFC 3339.
 
   - `string description`
 
-    Free-text description of what the store contains, up to 1024 characters. Included in the agent's system prompt when the store is attached, so word it to be useful to the agent. Empty string when unset.
+    Free-text description of what the store contains, up to 1,024 characters. Included in the agent's system prompt when the store is attached, so word it to be useful to the agent. Empty string when unset.
 
   - `array<string,string> metadata`
 
-    Arbitrary key-value tags for your own bookkeeping (such as the end user a store belongs to). Up to 16 pairs; keys 1–64 characters; values up to 512 characters. Returned on retrieve/list but not filterable.
+    Key-value pairs for your own use, such as the end user that the store belongs to.
+
+    A store has at most 16 pairs. Keys are 1 to 64 characters long and values at most 512 characters. You can't filter lists by metadata.
 
   - `string name`
 
@@ -15697,7 +16428,9 @@ List memory stores
 
   - `\Datetime updatedAt`
 
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
+    When the memory store was last changed, in RFC 3339.
+
+    Changing its `name`, `description`, or `metadata` updates it. Archiving the store does too. Changes to the store's memories don't.
 
 #### Example
 
@@ -15705,6 +16438,9 @@ List memory stores
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -15741,23 +16477,29 @@ var_dump($page);
 }
 ```
 
-### Retrieve a memory store
+### Retrieve a Memory Store
 
 `$client->beta->memoryStores->retrieve(string memoryStoreID, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsMemoryStore`
 
 **GET** `/v1/memory_stores/{memory_store_id}`
 
-Retrieve a memory store
+Retrieve a Memory Store
 
 #### Parameters
 
 - `memoryStoreID: string` (path parameter)
 
-  ID of the memory store to retrieve (a `memstore_...` identifier). Required. Enumerate IDs via `GET /v1/memory_stores`.
+  The ID of the memory store to retrieve (`memstore_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -15769,11 +16511,19 @@ Retrieve a memory store
 
 - `class BetaManagedAgentsMemoryStore`
 
-  - `Type type`
+  - `"memory_store" type`
 
   - `string id`
 
-    Unique identifier for the memory store (a `memstore_...` tagged ID). Use this when attaching the store to a session, or in the `{memory_store_id}` path parameter of subsequent calls.
+    The unique ID of the memory store (`memstore_...`). Use it to attach the store to a session.
+
+  - `?\Datetime archivedAt`
+
+    When the memory store was archived, in RFC 3339, or `null` if it hasn't been.
+
+    Archiving can't be undone. An archived store can't be attached to new sessions. You can't create or update its memories or update the store. You can still read and delete its memories, redact their versions, and delete the store.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#archive-a-store) to learn more about archiving.
 
   - `?\Datetime archivedAt`
 
@@ -15781,15 +16531,17 @@ Retrieve a memory store
 
   - `\Datetime createdAt`
 
-    Timestamp when the store was created.
+    When the memory store was created, in RFC 3339.
 
   - `string description`
 
-    Free-text description of what the store contains, up to 1024 characters. Included in the agent's system prompt when the store is attached, so word it to be useful to the agent. Empty string when unset.
+    Free-text description of what the store contains, up to 1,024 characters. Included in the agent's system prompt when the store is attached, so word it to be useful to the agent. Empty string when unset.
 
   - `array<string,string> metadata`
 
-    Arbitrary key-value tags for your own bookkeeping (such as the end user a store belongs to). Up to 16 pairs; keys 1–64 characters; values up to 512 characters. Returned on retrieve/list but not filterable.
+    Key-value pairs for your own use, such as the end user that the store belongs to.
+
+    A store has at most 16 pairs. Keys are 1 to 64 characters long and values at most 512 characters. You can't filter lists by metadata.
 
   - `string name`
 
@@ -15797,7 +16549,9 @@ Retrieve a memory store
 
   - `\Datetime updatedAt`
 
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
+    When the memory store was last changed, in RFC 3339.
+
+    Changing its `name`, `description`, or `metadata` updates it. Archiving the store does too. Changes to the store's memories don't.
 
 #### Example
 
@@ -15805,6 +16559,9 @@ Retrieve a memory store
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -15834,35 +16591,47 @@ var_dump($betaManagedAgentsMemoryStore);
 }
 ```
 
-### Update a memory store
+### Update a Memory Store
 
 `$client->beta->memoryStores->update(string memoryStoreID, ?string description, ?array<string,string> metadata, ?string name, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsMemoryStore`
 
 **POST** `/v1/memory_stores/{memory_store_id}`
 
-Update a memory store
+Update a Memory Store
 
 #### Parameters
 
 - `memoryStoreID: string` (path parameter)
 
-  ID of the memory store to update (a `memstore_...` identifier). Required. Enumerate IDs via `GET /v1/memory_stores`. Updating an archived store returns 400.
+  The ID of the memory store to update (`memstore_...`).
 
-- `description?:optional string`
+  The request fails with HTTP status 400 if the store is archived.
 
-  New description for the store, up to 1024 characters. Pass an empty string to clear it.
+- `description?: optional string`
 
-- `metadata?:optional array<string,string>`
+  New description for the store, up to 1,024 characters. Pass an empty string to clear it.
 
-  Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve. The stored bag is limited to 16 keys (up to 64 chars each) with values up to 512 chars.
+- `metadata?: optional array<string,string>`
 
-- `name?:optional string`
+  Changes to apply to the memory store's metadata. Keys you leave out keep their values.
 
-  New human-readable name for the store. 1–255 characters; no control characters. Renaming changes the slug used for the store's `mount_path` in sessions created after the update.
+  Set a key to a string to add or replace it, or to `null` to remove it. After the change, the metadata can hold at most 16 key-value pairs. Keys are 1 to 64 characters long and values at most 512 characters.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `name?: optional string`
 
-  Optional header to specify the beta version(s) you want to use.
+  The new name of the memory store, 1 to 255 characters long, without control characters.
+
+  Sessions created after the change use the new name for the store's directory under `/mnt/memory/`.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -15874,11 +16643,19 @@ Update a memory store
 
 - `class BetaManagedAgentsMemoryStore`
 
-  - `Type type`
+  - `"memory_store" type`
 
   - `string id`
 
-    Unique identifier for the memory store (a `memstore_...` tagged ID). Use this when attaching the store to a session, or in the `{memory_store_id}` path parameter of subsequent calls.
+    The unique ID of the memory store (`memstore_...`). Use it to attach the store to a session.
+
+  - `?\Datetime archivedAt`
+
+    When the memory store was archived, in RFC 3339, or `null` if it hasn't been.
+
+    Archiving can't be undone. An archived store can't be attached to new sessions. You can't create or update its memories or update the store. You can still read and delete its memories, redact their versions, and delete the store.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#archive-a-store) to learn more about archiving.
 
   - `?\Datetime archivedAt`
 
@@ -15886,15 +16663,17 @@ Update a memory store
 
   - `\Datetime createdAt`
 
-    Timestamp when the store was created.
+    When the memory store was created, in RFC 3339.
 
   - `string description`
 
-    Free-text description of what the store contains, up to 1024 characters. Included in the agent's system prompt when the store is attached, so word it to be useful to the agent. Empty string when unset.
+    Free-text description of what the store contains, up to 1,024 characters. Included in the agent's system prompt when the store is attached, so word it to be useful to the agent. Empty string when unset.
 
   - `array<string,string> metadata`
 
-    Arbitrary key-value tags for your own bookkeeping (such as the end user a store belongs to). Up to 16 pairs; keys 1–64 characters; values up to 512 characters. Returned on retrieve/list but not filterable.
+    Key-value pairs for your own use, such as the end user that the store belongs to.
+
+    A store has at most 16 pairs. Keys are 1 to 64 characters long and values at most 512 characters. You can't filter lists by metadata.
 
   - `string name`
 
@@ -15902,7 +16681,9 @@ Update a memory store
 
   - `\Datetime updatedAt`
 
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
+    When the memory store was last changed, in RFC 3339.
+
+    Changing its `name`, `description`, or `metadata` updates it. Archiving the store does too. Changes to the store's memories don't.
 
 #### Example
 
@@ -15910,6 +16691,9 @@ Update a memory store
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -15942,23 +16726,31 @@ var_dump($betaManagedAgentsMemoryStore);
 }
 ```
 
-### Delete a memory store
+### Delete a Memory Store
 
 `$client->beta->memoryStores->delete(string memoryStoreID, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsDeletedMemoryStore`
 
 **DELETE** `/v1/memory_stores/{memory_store_id}`
 
-Delete a memory store
+Delete a Memory Store
 
 #### Parameters
 
 - `memoryStoreID: string` (path parameter)
 
-  ID of the memory store to permanently delete (a `memstore_...` identifier). Required. Deletion cascades to all memories and memory versions in the store and cannot be undone.
+  The ID of the memory store to delete (`memstore_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+  Deleting a store also deletes all its memories and memory versions. It can't be undone.
 
-  Optional header to specify the beta version(s) you want to use.
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -15970,7 +16762,7 @@ Delete a memory store
 
 - `class BetaManagedAgentsDeletedMemoryStore`
 
-  - `Type type`
+  - `"memory_store_deleted" type`
 
   - `string id`
 
@@ -15982,6 +16774,9 @@ Delete a memory store
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -16003,23 +16798,31 @@ var_dump($betaManagedAgentsDeletedMemoryStore);
 }
 ```
 
-### Archive a memory store
+### Archive a Memory Store
 
 `$client->beta->memoryStores->archive(string memoryStoreID, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsMemoryStore`
 
 **POST** `/v1/memory_stores/{memory_store_id}/archive`
 
-Archive a memory store
+Archive a Memory Store
 
 #### Parameters
 
 - `memoryStoreID: string` (path parameter)
 
-  ID of the memory store to archive (a `memstore_...` identifier). Required. Archiving is one-way and idempotent; archived stores cannot be unarchived. Enumerate IDs via `GET /v1/memory_stores`.
+  The ID of the memory store to archive (`memstore_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+  Archiving can't be undone. Archiving a store that is already archived returns it unchanged.
 
-  Optional header to specify the beta version(s) you want to use.
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -16031,11 +16834,19 @@ Archive a memory store
 
 - `class BetaManagedAgentsMemoryStore`
 
-  - `Type type`
+  - `"memory_store" type`
 
   - `string id`
 
-    Unique identifier for the memory store (a `memstore_...` tagged ID). Use this when attaching the store to a session, or in the `{memory_store_id}` path parameter of subsequent calls.
+    The unique ID of the memory store (`memstore_...`). Use it to attach the store to a session.
+
+  - `?\Datetime archivedAt`
+
+    When the memory store was archived, in RFC 3339, or `null` if it hasn't been.
+
+    Archiving can't be undone. An archived store can't be attached to new sessions. You can't create or update its memories or update the store. You can still read and delete its memories, redact their versions, and delete the store.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#archive-a-store) to learn more about archiving.
 
   - `?\Datetime archivedAt`
 
@@ -16043,15 +16854,17 @@ Archive a memory store
 
   - `\Datetime createdAt`
 
-    Timestamp when the store was created.
+    When the memory store was created, in RFC 3339.
 
   - `string description`
 
-    Free-text description of what the store contains, up to 1024 characters. Included in the agent's system prompt when the store is attached, so word it to be useful to the agent. Empty string when unset.
+    Free-text description of what the store contains, up to 1,024 characters. Included in the agent's system prompt when the store is attached, so word it to be useful to the agent. Empty string when unset.
 
   - `array<string,string> metadata`
 
-    Arbitrary key-value tags for your own bookkeeping (such as the end user a store belongs to). Up to 16 pairs; keys 1–64 characters; values up to 512 characters. Returned on retrieve/list but not filterable.
+    Key-value pairs for your own use, such as the end user that the store belongs to.
+
+    A store has at most 16 pairs. Keys are 1 to 64 characters long and values at most 512 characters. You can't filter lists by metadata.
 
   - `string name`
 
@@ -16059,7 +16872,9 @@ Archive a memory store
 
   - `\Datetime updatedAt`
 
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
+    When the memory store was last changed, in RFC 3339.
+
+    Changing its `name`, `description`, or `metadata` updates it. Archiving the store does too. Changes to the store's memories don't.
 
 #### Example
 
@@ -16067,6 +16882,9 @@ Archive a memory store
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -16098,13 +16916,13 @@ var_dump($betaManagedAgentsMemoryStore);
 
 ## Beta › Memory Stores › Memories
 
-### Create a memory
+### Create a Memory
 
 `$client->beta->memoryStores->memories->create(string memoryStoreID, ?string content, string path, ?ManagedAgentsMemoryView view, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsMemory`
 
 **POST** `/v1/memory_stores/{memory_store_id}/memories`
 
-Create a memory
+Create a Memory
 
 #### Parameters
 
@@ -16114,19 +16932,31 @@ Create a memory
 
 - `content: string`
 
-  UTF-8 text content for the new memory. Maximum 100 kB (102,400 bytes). Required; pass `""` explicitly to create an empty memory.
+  The UTF-8 text content of the new memory. Pass `""` to create an empty memory.
+
+  The maximum size is 100 kB (102,400 bytes).
 
 - `path: string`
 
-  Hierarchical path for the new memory, e.g. `/projects/foo/notes.md`. Must start with `/`, contain at least one non-empty segment, and be at most 1,024 bytes. Must not contain empty segments, `.` or `..` segments, control or format characters, or the Unicode line and paragraph separators (U+2028, U+2029), and must be NFC-normalized. Paths are case-sensitive.
+  The path of the new memory, such as `/projects/foo/notes.md`. Paths are case-sensitive.
 
-- `view?:optional ManagedAgentsMemoryView` (query parameter)
+  A path starts with `/` and has 1 to 20 segments. A segment can't be empty and can't be `.` or `..`. A path can't contain control characters, format characters, or the line and paragraph separators U+2028 and U+2029. It must be in Unicode Normalization Form C and at most 1,024 bytes long.
 
-  Selects which projection of a `memory` or `memory_version` the server returns. `basic` returns the object with `content` set to `null`; `full` populates `content`. When omitted, the default is endpoint-specific: retrieve operations default to `full`; list, create, and update operations default to `basic`. Listing with `view=full` caps `limit` at 20.
+- `view?: optional ManagedAgentsMemoryView` (query parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+  Whether a `memory` or `memory_version` in the response includes its `content`. Defaults to `full` on retrieve operations and to `basic` on list, create, and update operations.
 
-  Optional header to specify the beta version(s) you want to use.
+  With `full`, list operations return at most 20 items per page.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -16138,11 +16968,13 @@ Create a memory
 
 - `class ManagedAgentsMemory`
 
-  - `Type type`
+  - `"memory" type`
 
   - `string id`
 
-    Unique identifier for this memory (a `mem_...` value). Stable across renames; use this ID, not the path, to read, update, or delete the memory.
+    The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
+
+    To retrieve, update, or delete the memory, pass this ID.
 
   - `string contentSha256`
 
@@ -16150,7 +16982,7 @@ Create a memory
 
   - `int contentSizeBytes`
 
-    Size of `content` in bytes (the UTF-8 plaintext length). Always populated, regardless of `view`.
+    The size of the memory's `content` in UTF-8 bytes. It is set regardless of `view`.
 
   - `\Datetime createdAt`
 
@@ -16162,7 +16994,11 @@ Create a memory
 
   - `string memoryVersionID`
 
-    ID of the `memory_version` representing this memory's current content (a `memver_...` value). This is the authoritative head pointer; `memory_version` objects do not carry an `is_latest` flag, so compare against this field instead. Enumerate the history via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    The ID of the memory version that holds the memory's current content (`memver_...`).
+
+    Memory versions don't have a flag that marks the latest one. Compare their IDs with this field instead.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#audit-memory-changes) to learn more about memory versions.
 
   - `string path`
 
@@ -16170,11 +17006,15 @@ Create a memory
 
   - `\Datetime updatedAt`
 
-    When this memory was last modified, in RFC 3339 format. Use this as a cheap freshness signal; for who made the change, look up the head version's `created_by` via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    When the memory was last changed, in RFC 3339.
+
+    To find out who made the change, look at `created_by` on the memory version that `memory_version_id` references.
 
   - `?string content`
 
-    The memory's UTF-8 text content. Populated when `view=full`; `null` when `view=basic`. Maximum 100 kB (102,400 bytes).
+    The memory's UTF-8 text content, or `null` when the response uses `view=basic`.
+
+    The maximum size is 100 kB (102,400 bytes).
 
 #### Example
 
@@ -16183,12 +17023,16 @@ Create a memory
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\MemoryStores\Memories\ManagedAgentsMemoryView;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsMemory = $client->beta->memoryStores->memories->create(
   'memory_store_id',
   content: 'content',
-  path: 'xx',
+  path: '/P',
   view: ManagedAgentsMemoryView::BASIC,
   betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
   workspaceID: 'wrkspc_011CZkZaBF1tNoB5wlCeusgy',
@@ -16214,13 +17058,13 @@ var_dump($betaManagedAgentsMemory);
 }
 ```
 
-### List memories
+### List Memories
 
 `$client->beta->memoryStores->memories->list(string memoryStoreID, ?int depth, ?int limit, ?string page, ?string pathPrefix, ?ManagedAgentsMemoryView view, ?list<AnthropicBeta> betas, ?string workspaceID): PageCursor<ManagedAgentsMemoryListItem>`
 
 **GET** `/v1/memory_stores/{memory_store_id}/memories`
 
-List memories
+List Memories
 
 #### Parameters
 
@@ -16228,29 +17072,43 @@ List memories
 
   The ID of the memory store to list memories from (`memstore_...`).
 
-- `depth?:optional int` (query parameter)
+- `depth?: optional int` (query parameter)
 
-  `0` (or omitted) returns all descendants below `path_prefix` (recursive). `1` returns immediate children only; deeper entries roll up as `memory_prefix` items. `depth=1` behaves like `ls`; omitting `depth` behaves like `find`.
+  How far below `path_prefix` to list. Defaults to `0`, which lists every memory below the prefix.
 
-- `limit?:optional int` (query parameter)
+  Pass `1` to list only the direct children. Deeper memories are then grouped into `memory_prefix` items.
 
-  Maximum number of items to return per page. Must be between 1 and 100. Defaults to 20 when omitted. Capped at 20 when `view=full`. Both `memory` and `memory_prefix` items count toward the limit.
+- `limit?: optional int` (query parameter)
 
-- `page?:optional string` (query parameter)
+  The maximum number of items to return per page, from 1 to 100. Defaults to 20.
 
-  Opaque pagination cursor (a `page_...` value). Pass the `next_page` value from a previous response to fetch the next page; omit for the first page.
+  With `view=full`, a page holds at most 20 items. `memory` and `memory_prefix` items both count toward the limit.
 
-- `pathPrefix?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
-  Optional path prefix filter. Must end with `/` (segment-aligned), e.g., `/notes/`. This value appears in request URLs. Do not include secrets or personally identifiable information.
+  The `next_page` value from a previous response, to get the next page. Omit it to get the first page.
 
-- `view?:optional ManagedAgentsMemoryView` (query parameter)
+- `pathPrefix?: optional string` (query parameter)
 
-  Which projection of each `memory` to return. Defaults to `basic` (content omitted). `full` populates `content` on each item and caps `limit` at 20; use this as the bulk-read path for export and sync.
+  Return only memories whose path starts with this prefix, such as `/notes/`. This value appears in request URLs. Do not include secrets or personally identifiable information.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+  Omit it to list the whole store. The prefix must end with `/` and matches whole segments, so `/notes/` matches `/notes/todo.md` but not `/notes-archive/todo.md`.
 
-  Optional header to specify the beta version(s) you want to use.
+- `view?: optional ManagedAgentsMemoryView` (query parameter)
+
+  Whether each memory in the response includes `content`. Defaults to `basic`, which sets it to `null`.
+
+  With `full`, a page holds at most 20 items.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -16264,11 +17122,13 @@ List memories
 
   - `class ManagedAgentsMemory`
 
-    - `Type type`
+    - `"memory" type`
 
     - `string id`
 
-      Unique identifier for this memory (a `mem_...` value). Stable across renames; use this ID, not the path, to read, update, or delete the memory.
+      The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
+
+      To retrieve, update, or delete the memory, pass this ID.
 
     - `string contentSha256`
 
@@ -16276,7 +17136,7 @@ List memories
 
     - `int contentSizeBytes`
 
-      Size of `content` in bytes (the UTF-8 plaintext length). Always populated, regardless of `view`.
+      The size of the memory's `content` in UTF-8 bytes. It is set regardless of `view`.
 
     - `\Datetime createdAt`
 
@@ -16288,7 +17148,11 @@ List memories
 
     - `string memoryVersionID`
 
-      ID of the `memory_version` representing this memory's current content (a `memver_...` value). This is the authoritative head pointer; `memory_version` objects do not carry an `is_latest` flag, so compare against this field instead. Enumerate the history via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+      The ID of the memory version that holds the memory's current content (`memver_...`).
+
+      Memory versions don't have a flag that marks the latest one. Compare their IDs with this field instead.
+
+      See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#audit-memory-changes) to learn more about memory versions.
 
     - `string path`
 
@@ -16296,15 +17160,19 @@ List memories
 
     - `\Datetime updatedAt`
 
-      When this memory was last modified, in RFC 3339 format. Use this as a cheap freshness signal; for who made the change, look up the head version's `created_by` via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+      When the memory was last changed, in RFC 3339.
+
+      To find out who made the change, look at `created_by` on the memory version that `memory_version_id` references.
 
     - `?string content`
 
-      The memory's UTF-8 text content. Populated when `view=full`; `null` when `view=basic`. Maximum 100 kB (102,400 bytes).
+      The memory's UTF-8 text content, or `null` when the response uses `view=basic`.
+
+      The maximum size is 100 kB (102,400 bytes).
 
   - `class ManagedAgentsMemoryPrefix`
 
-    - `Type type`
+    - `"memory_prefix" type`
 
     - `string path`
 
@@ -16316,6 +17184,10 @@ List memories
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\MemoryStores\Memories\ManagedAgentsMemoryView;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -16355,13 +17227,13 @@ var_dump($page);
 }
 ```
 
-### Retrieve a memory
+### Retrieve a Memory
 
 `$client->beta->memoryStores->memories->retrieve(string memoryID, string memoryStoreID, ?ManagedAgentsMemoryView view, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsMemory`
 
 **GET** `/v1/memory_stores/{memory_store_id}/memories/{memory_id}`
 
-Retrieve a memory
+Retrieve a Memory
 
 #### Parameters
 
@@ -16373,13 +17245,21 @@ Retrieve a memory
 
   The ID of the memory to retrieve (`mem_...`).
 
-- `view?:optional ManagedAgentsMemoryView` (query parameter)
+- `view?: optional ManagedAgentsMemoryView` (query parameter)
 
-  Selects which projection of a `memory` or `memory_version` the server returns. `basic` returns the object with `content` set to `null`; `full` populates `content`. When omitted, the default is endpoint-specific: retrieve operations default to `full`; list, create, and update operations default to `basic`. Listing with `view=full` caps `limit` at 20.
+  Whether a `memory` or `memory_version` in the response includes its `content`. Defaults to `full` on retrieve operations and to `basic` on list, create, and update operations.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+  With `full`, list operations return at most 20 items per page.
 
-  Optional header to specify the beta version(s) you want to use.
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -16391,11 +17271,13 @@ Retrieve a memory
 
 - `class ManagedAgentsMemory`
 
-  - `Type type`
+  - `"memory" type`
 
   - `string id`
 
-    Unique identifier for this memory (a `mem_...` value). Stable across renames; use this ID, not the path, to read, update, or delete the memory.
+    The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
+
+    To retrieve, update, or delete the memory, pass this ID.
 
   - `string contentSha256`
 
@@ -16403,7 +17285,7 @@ Retrieve a memory
 
   - `int contentSizeBytes`
 
-    Size of `content` in bytes (the UTF-8 plaintext length). Always populated, regardless of `view`.
+    The size of the memory's `content` in UTF-8 bytes. It is set regardless of `view`.
 
   - `\Datetime createdAt`
 
@@ -16415,7 +17297,11 @@ Retrieve a memory
 
   - `string memoryVersionID`
 
-    ID of the `memory_version` representing this memory's current content (a `memver_...` value). This is the authoritative head pointer; `memory_version` objects do not carry an `is_latest` flag, so compare against this field instead. Enumerate the history via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    The ID of the memory version that holds the memory's current content (`memver_...`).
+
+    Memory versions don't have a flag that marks the latest one. Compare their IDs with this field instead.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#audit-memory-changes) to learn more about memory versions.
 
   - `string path`
 
@@ -16423,11 +17309,15 @@ Retrieve a memory
 
   - `\Datetime updatedAt`
 
-    When this memory was last modified, in RFC 3339 format. Use this as a cheap freshness signal; for who made the change, look up the head version's `created_by` via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    When the memory was last changed, in RFC 3339.
+
+    To find out who made the change, look at `created_by` on the memory version that `memory_version_id` references.
 
   - `?string content`
 
-    The memory's UTF-8 text content. Populated when `view=full`; `null` when `view=basic`. Maximum 100 kB (102,400 bytes).
+    The memory's UTF-8 text content, or `null` when the response uses `view=basic`.
+
+    The maximum size is 100 kB (102,400 bytes).
 
 #### Example
 
@@ -16435,6 +17325,10 @@ Retrieve a memory
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\MemoryStores\Memories\ManagedAgentsMemoryView;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -16466,13 +17360,13 @@ var_dump($betaManagedAgentsMemory);
 }
 ```
 
-### Update a memory
+### Update a Memory
 
 `$client->beta->memoryStores->memories->update(string memoryID, string memoryStoreID, ?ManagedAgentsMemoryView view, ?string content, ?string path, ?ManagedAgentsPrecondition precondition, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsMemory`
 
 **POST** `/v1/memory_stores/{memory_store_id}/memories/{memory_id}`
 
-Update a memory
+Update a Memory
 
 #### Parameters
 
@@ -16484,25 +17378,37 @@ Update a memory
 
   The ID of the memory to update (`mem_...`).
 
-- `view?:optional ManagedAgentsMemoryView` (query parameter)
+- `view?: optional ManagedAgentsMemoryView` (query parameter)
 
-  Selects which projection of a `memory` or `memory_version` the server returns. `basic` returns the object with `content` set to `null`; `full` populates `content`. When omitted, the default is endpoint-specific: retrieve operations default to `full`; list, create, and update operations default to `basic`. Listing with `view=full` caps `limit` at 20.
+  Whether a `memory` or `memory_version` in the response includes its `content`. Defaults to `full` on retrieve operations and to `basic` on list, create, and update operations.
 
-- `content?:optional string`
+  With `full`, list operations return at most 20 items per page.
+
+- `content?: optional string`
 
   New UTF-8 text content for the memory. Maximum 100 kB (102,400 bytes). Omit to leave the content unchanged (e.g., for a rename-only update).
 
-- `path?:optional string`
+- `path?: optional string`
 
-  New path for the memory (a rename). Must start with `/`, contain at least one non-empty segment, and be at most 1,024 bytes. Must not contain empty segments, `.` or `..` segments, control or format characters, or the Unicode line and paragraph separators (U+2028, U+2029), and must be NFC-normalized. Paths are case-sensitive. The memory's `id` is preserved across renames. Omit to leave the path unchanged.
+  The new path of the memory, which renames it. Omit it to keep the current path.
 
-- `precondition?:optional ManagedAgentsPrecondition`
+  The memory keeps its `id`. A path starts with `/` and has 1 to 20 segments. A segment can't be empty and can't be `.` or `..`. A path can't contain control characters, format characters, or the line and paragraph separators U+2028 and U+2029. It must be in Unicode Normalization Form C and at most 1,024 bytes long. Paths are case-sensitive.
 
-  Optional optimistic-concurrency precondition. When supplied, the update applies only if the memory's current state matches; on mismatch the request returns `memory_precondition_failed_error` (HTTP 409). When omitted, the update is unconditional.
+- `precondition?: optional ManagedAgentsPrecondition`
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+  The condition that the memory must meet for the update to apply. Omit it to update unconditionally.
 
-  Optional header to specify the beta version(s) you want to use.
+  If the condition fails, the request fails with HTTP status 409.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -16514,11 +17420,13 @@ Update a memory
 
 - `class ManagedAgentsMemory`
 
-  - `Type type`
+  - `"memory" type`
 
   - `string id`
 
-    Unique identifier for this memory (a `mem_...` value). Stable across renames; use this ID, not the path, to read, update, or delete the memory.
+    The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
+
+    To retrieve, update, or delete the memory, pass this ID.
 
   - `string contentSha256`
 
@@ -16526,7 +17434,7 @@ Update a memory
 
   - `int contentSizeBytes`
 
-    Size of `content` in bytes (the UTF-8 plaintext length). Always populated, regardless of `view`.
+    The size of the memory's `content` in UTF-8 bytes. It is set regardless of `view`.
 
   - `\Datetime createdAt`
 
@@ -16538,7 +17446,11 @@ Update a memory
 
   - `string memoryVersionID`
 
-    ID of the `memory_version` representing this memory's current content (a `memver_...` value). This is the authoritative head pointer; `memory_version` objects do not carry an `is_latest` flag, so compare against this field instead. Enumerate the history via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    The ID of the memory version that holds the memory's current content (`memver_...`).
+
+    Memory versions don't have a flag that marks the latest one. Compare their IDs with this field instead.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#audit-memory-changes) to learn more about memory versions.
 
   - `string path`
 
@@ -16546,11 +17458,15 @@ Update a memory
 
   - `\Datetime updatedAt`
 
-    When this memory was last modified, in RFC 3339 format. Use this as a cheap freshness signal; for who made the change, look up the head version's `created_by` via [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php).
+    When the memory was last changed, in RFC 3339.
+
+    To find out who made the change, look at `created_by` on the memory version that `memory_version_id` references.
 
   - `?string content`
 
-    The memory's UTF-8 text content. Populated when `view=full`; `null` when `view=basic`. Maximum 100 kB (102,400 bytes).
+    The memory's UTF-8 text content, or `null` when the response uses `view=basic`.
+
+    The maximum size is 100 kB (102,400 bytes).
 
 #### Example
 
@@ -16559,6 +17475,10 @@ Update a memory
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\MemoryStores\Memories\ManagedAgentsMemoryView;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsMemory = $client->beta->memoryStores->memories->update(
@@ -16566,9 +17486,10 @@ $betaManagedAgentsMemory = $client->beta->memoryStores->memories->update(
   memoryStoreID: 'memory_store_id',
   view: ManagedAgentsMemoryView::BASIC,
   content: 'content',
-  path: 'xx',
+  path: '/P',
   precondition: [
-    'type' => 'content_sha256', 'contentSha256' => 'content_sha256'
+    'type' => 'content_sha256',
+    'contentSha256' => '210b9798eb53baa4e69d31c1071cf03d212b8ad0ca30cf321e0ea82e120aac26',
   ],
   betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
   workspaceID: 'wrkspc_011CZkZaBF1tNoB5wlCeusgy',
@@ -16594,13 +17515,13 @@ var_dump($betaManagedAgentsMemory);
 }
 ```
 
-### Delete a memory
+### Delete a Memory
 
 `$client->beta->memoryStores->memories->delete(string memoryID, string memoryStoreID, ?string expectedContentSha256, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsDeletedMemory`
 
 **DELETE** `/v1/memory_stores/{memory_store_id}/memories/{memory_id}`
 
-Delete a memory
+Delete a Memory
 
 #### Parameters
 
@@ -16612,15 +17533,21 @@ Delete a memory
 
   The ID of the memory to delete (`mem_...`).
 
-- `expectedContentSha256?:optional string` (query parameter)
+- `expectedContentSha256?: optional string` (query parameter)
 
   Delete the memory only if its current `content_sha256` equals this value, given as 64 lowercase hexadecimal characters. Omit it to delete unconditionally.
 
   If the hashes differ, the request fails with HTTP status 409 and nothing is deleted.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -16632,7 +17559,7 @@ Delete a memory
 
 - `class ManagedAgentsDeletedMemory`
 
-  - `Type type`
+  - `"memory_deleted" type`
 
   - `string id`
 
@@ -16644,6 +17571,9 @@ Delete a memory
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -16669,13 +17599,13 @@ var_dump($betaManagedAgentsDeletedMemory);
 
 ## Beta › Memory Stores › Memory Versions
 
-### List memory versions
+### List Memory Versions
 
 `$client->beta->memoryStores->memoryVersions->list(string memoryStoreID, ?string apiKeyID, ?\Datetime createdAtGte, ?\Datetime createdAtLte, ?int limit, ?string memoryID, ?ManagedAgentsMemoryVersionOperation operation, ?string page, ?string serviceAccountID, ?string sessionID, ?ManagedAgentsMemoryView view, ?list<AnthropicBeta> betas, ?string workspaceID): PageCursor<ManagedAgentsMemoryVersion>`
 
 **GET** `/v1/memory_stores/{memory_store_id}/memory_versions`
 
-List memory versions
+List Memory Versions
 
 #### Parameters
 
@@ -16683,51 +17613,61 @@ List memory versions
 
   The ID of the memory store whose version history to list (`memstore_...`).
 
-- `apiKeyID?:optional string` (query parameter)
+- `apiKeyID?: optional string` (query parameter)
 
   Return only versions written with the API key that has this ID.
 
-- `createdAtGte?:optional \Datetime` (query parameter)
+- `createdAtGte?: optional \Datetime` (query parameter)
 
   Return versions created at or after this time (inclusive).
 
-- `createdAtLte?:optional \Datetime` (query parameter)
+- `createdAtLte?: optional \Datetime` (query parameter)
 
   Return versions created at or before this time (inclusive).
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
-  The maximum number of versions to return per page. Defaults to 20.
+  The maximum number of versions to return per page, from 1 to 100. Defaults to 20.
 
-- `memoryID?:optional string` (query parameter)
+  With `view=full`, a page holds at most 20 versions.
+
+- `memoryID?: optional string` (query parameter)
 
   Return only versions of the memory with this ID (`mem_...`).
 
-  The filter still works after the memory is deleted. The results then include the version whose `operation` is `deleted`.
+  The filter still works after the memory is deleted. While that memory's versions are retained, the results include the version whose `operation` is `deleted`.
 
-- `operation?:optional ManagedAgentsMemoryVersionOperation` (query parameter)
+- `operation?: optional ManagedAgentsMemoryVersionOperation` (query parameter)
 
   Return only versions that record this kind of change.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   The `next_page` value from a previous response, to get the next page. Omit it to get the first page.
 
-- `serviceAccountID?:optional string` (query parameter)
+- `serviceAccountID?: optional string` (query parameter)
 
   Return only versions written by the service account with this ID (`svac_...`).
 
-- `sessionID?:optional string` (query parameter)
+- `sessionID?: optional string` (query parameter)
 
   Return only versions written by the session with this ID.
 
-- `view?:optional ManagedAgentsMemoryView` (query parameter)
+- `view?: optional ManagedAgentsMemoryView` (query parameter)
 
-  Selects which projection of a `memory` or `memory_version` the server returns. `basic` returns the object with `content` set to `null`; `full` populates `content`. When omitted, the default is endpoint-specific: retrieve operations default to `full`; list, create, and update operations default to `basic`. Listing with `view=full` caps `limit` at 20.
+  Whether a `memory` or `memory_version` in the response includes its `content`. Defaults to `full` on retrieve operations and to `basic` on list, create, and update operations.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+  With `full`, list operations return at most 20 items per page.
 
-  Optional header to specify the beta version(s) you want to use.
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -16739,7 +17679,7 @@ List memory versions
 
 - `class ManagedAgentsMemoryVersion`
 
-  - `Type type`
+  - `"memory_version" type`
 
   - `string id`
 
@@ -16751,7 +17691,9 @@ List memory versions
 
   - `string memoryID`
 
-    ID of the memory this version snapshots (a `mem_...` value). Remains valid after the memory is deleted; pass it as `memory_id` to [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php) to retrieve the memory's retained versions, including the `deleted` row while the lineage is retained.
+    The ID of the memory that this version belongs to (`mem_...`).
+
+    The ID stays valid after the memory is deleted. Pass it as `memory_id` to [List Memory Versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php) to get the memory's retained versions, including its `deleted` version while the lineage is retained.
 
   - `string memoryStoreID`
 
@@ -16775,7 +17717,11 @@ List memory versions
 
   - `?ManagedAgentsActor createdBy`
 
-    Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or `service_account_actor`; `null` when no writer is recorded. Captured at write time and preserved through redaction. A `session_actor` is an agent writing through the store's mounted filesystem at `/mnt/memory/`. The API key that created that session is not recorded on agent writes, so attribution names who made the write, not who is ultimately responsible; look up session provenance via the [Sessions API](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=php).
+    Who made this change to the memory, or `null` if the author wasn't recorded.
+
+    Redacting the version doesn't change this field. A `session_actor` here is an agent that wrote through the store's mounted filesystem at `/mnt/memory/`. The version doesn't record the API key that created that session. So the author in `created_by` is who made the change, not who is ultimately responsible for it.
+
+    You can [retrieve the session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=php) to learn more about where the change came from.
 
   - `?string path`
 
@@ -16783,7 +17729,11 @@ List memory versions
 
   - `?\Datetime redactedAt`
 
-    When this version was redacted, in RFC 3339 format, or `null` if it has not been redacted. When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are all `null`. See [Redact a memory version](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/redact?sdk_languages=php).
+    When the version was redacted, in RFC 3339, or `null` if it hasn't been.
+
+    When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are `null`.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#redact-a-version) to learn more about redaction.
 
   - `?ManagedAgentsActor redactedBy`
 
@@ -16795,6 +17745,11 @@ List memory versions
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\MemoryStores\Memories\ManagedAgentsMemoryView;
+use Anthropic\Beta\MemoryStores\MemoryVersions\ManagedAgentsMemoryVersionOperation;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -16848,13 +17803,13 @@ var_dump($page);
 }
 ```
 
-### Retrieve a memory version
+### Retrieve a Memory Version
 
 `$client->beta->memoryStores->memoryVersions->retrieve(string memoryVersionID, string memoryStoreID, ?ManagedAgentsMemoryView view, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsMemoryVersion`
 
 **GET** `/v1/memory_stores/{memory_store_id}/memory_versions/{memory_version_id}`
 
-Retrieve a memory version
+Retrieve a Memory Version
 
 #### Parameters
 
@@ -16866,13 +17821,21 @@ Retrieve a memory version
 
   The ID of the memory version to retrieve (`memver_...`).
 
-- `view?:optional ManagedAgentsMemoryView` (query parameter)
+- `view?: optional ManagedAgentsMemoryView` (query parameter)
 
-  Selects which projection of a `memory` or `memory_version` the server returns. `basic` returns the object with `content` set to `null`; `full` populates `content`. When omitted, the default is endpoint-specific: retrieve operations default to `full`; list, create, and update operations default to `basic`. Listing with `view=full` caps `limit` at 20.
+  Whether a `memory` or `memory_version` in the response includes its `content`. Defaults to `full` on retrieve operations and to `basic` on list, create, and update operations.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+  With `full`, list operations return at most 20 items per page.
 
-  Optional header to specify the beta version(s) you want to use.
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -16884,7 +17847,7 @@ Retrieve a memory version
 
 - `class ManagedAgentsMemoryVersion`
 
-  - `Type type`
+  - `"memory_version" type`
 
   - `string id`
 
@@ -16896,7 +17859,9 @@ Retrieve a memory version
 
   - `string memoryID`
 
-    ID of the memory this version snapshots (a `mem_...` value). Remains valid after the memory is deleted; pass it as `memory_id` to [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php) to retrieve the memory's retained versions, including the `deleted` row while the lineage is retained.
+    The ID of the memory that this version belongs to (`mem_...`).
+
+    The ID stays valid after the memory is deleted. Pass it as `memory_id` to [List Memory Versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php) to get the memory's retained versions, including its `deleted` version while the lineage is retained.
 
   - `string memoryStoreID`
 
@@ -16920,7 +17885,11 @@ Retrieve a memory version
 
   - `?ManagedAgentsActor createdBy`
 
-    Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or `service_account_actor`; `null` when no writer is recorded. Captured at write time and preserved through redaction. A `session_actor` is an agent writing through the store's mounted filesystem at `/mnt/memory/`. The API key that created that session is not recorded on agent writes, so attribution names who made the write, not who is ultimately responsible; look up session provenance via the [Sessions API](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=php).
+    Who made this change to the memory, or `null` if the author wasn't recorded.
+
+    Redacting the version doesn't change this field. A `session_actor` here is an agent that wrote through the store's mounted filesystem at `/mnt/memory/`. The version doesn't record the API key that created that session. So the author in `created_by` is who made the change, not who is ultimately responsible for it.
+
+    You can [retrieve the session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=php) to learn more about where the change came from.
 
   - `?string path`
 
@@ -16928,7 +17897,11 @@ Retrieve a memory version
 
   - `?\Datetime redactedAt`
 
-    When this version was redacted, in RFC 3339 format, or `null` if it has not been redacted. When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are all `null`. See [Redact a memory version](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/redact?sdk_languages=php).
+    When the version was redacted, in RFC 3339, or `null` if it hasn't been.
+
+    When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are `null`.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#redact-a-version) to learn more about redaction.
 
   - `?ManagedAgentsActor redactedBy`
 
@@ -16940,6 +17913,10 @@ Retrieve a memory version
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\MemoryStores\Memories\ManagedAgentsMemoryView;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -16984,13 +17961,13 @@ var_dump($betaManagedAgentsMemoryVersion);
 }
 ```
 
-### Redact a memory version
+### Redact a Memory Version
 
 `$client->beta->memoryStores->memoryVersions->redact(string memoryVersionID, string memoryStoreID, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsMemoryVersion`
 
 **POST** `/v1/memory_stores/{memory_store_id}/memory_versions/{memory_version_id}/redact`
 
-Redact a memory version
+Redact a Memory Version
 
 #### Parameters
 
@@ -17002,9 +17979,15 @@ Redact a memory version
 
   The ID of the memory version to redact (`memver_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -17016,7 +17999,7 @@ Redact a memory version
 
 - `class ManagedAgentsMemoryVersion`
 
-  - `Type type`
+  - `"memory_version" type`
 
   - `string id`
 
@@ -17028,7 +18011,9 @@ Redact a memory version
 
   - `string memoryID`
 
-    ID of the memory this version snapshots (a `mem_...` value). Remains valid after the memory is deleted; pass it as `memory_id` to [List memory versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php) to retrieve the memory's retained versions, including the `deleted` row while the lineage is retained.
+    The ID of the memory that this version belongs to (`mem_...`).
+
+    The ID stays valid after the memory is deleted. Pass it as `memory_id` to [List Memory Versions](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/list?sdk_languages=php) to get the memory's retained versions, including its `deleted` version while the lineage is retained.
 
   - `string memoryStoreID`
 
@@ -17052,7 +18037,11 @@ Redact a memory version
 
   - `?ManagedAgentsActor createdBy`
 
-    Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or `service_account_actor`; `null` when no writer is recorded. Captured at write time and preserved through redaction. A `session_actor` is an agent writing through the store's mounted filesystem at `/mnt/memory/`. The API key that created that session is not recorded on agent writes, so attribution names who made the write, not who is ultimately responsible; look up session provenance via the [Sessions API](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=php).
+    Who made this change to the memory, or `null` if the author wasn't recorded.
+
+    Redacting the version doesn't change this field. A `session_actor` here is an agent that wrote through the store's mounted filesystem at `/mnt/memory/`. The version doesn't record the API key that created that session. So the author in `created_by` is who made the change, not who is ultimately responsible for it.
+
+    You can [retrieve the session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=php) to learn more about where the change came from.
 
   - `?string path`
 
@@ -17060,7 +18049,11 @@ Redact a memory version
 
   - `?\Datetime redactedAt`
 
-    When this version was redacted, in RFC 3339 format, or `null` if it has not been redacted. When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are all `null`. See [Redact a memory version](https://platform.claude.com/docs/en/api/beta/memory_stores/memory_versions/redact?sdk_languages=php).
+    When the version was redacted, in RFC 3339, or `null` if it hasn't been.
+
+    When set, `content`, `path`, `content_size_bytes`, and `content_sha256` are `null`.
+
+    See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#redact-a-version) to learn more about redaction.
 
   - `?ManagedAgentsActor redactedBy`
 
@@ -17072,6 +18065,9 @@ Redact a memory version
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -17119,7 +18115,7 @@ var_dump($betaManagedAgentsMemoryVersion);
 
 ### Upload File
 
-`$client->beta->files->upload(string file, ?int expiresInSeconds, ?list<AnthropicBeta> betas, ?string workspaceID): BetaFileMetadata`
+`$client->beta->files->upload(FileParam | string file, ?int expiresInSeconds, ?list<AnthropicBeta> betas, ?string workspaceID): BetaFileMetadata`
 
 **POST** `/v1/files`
 
@@ -17127,19 +18123,19 @@ Upload File
 
 #### Parameters
 
-- `file: string`
+- `file: FileParam | string`
 
   The file to upload. Only the final path component of the part's `filename` is kept; an absent or empty `filename` is replaced with `unnamed` plus the extension for the file's stored `mime_type`, when known.
 
-- `expiresInSeconds?:optional int`
+- `expiresInSeconds?: optional int`
 
   Seconds from upload until the file expires and its bytes become permanently unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -17195,6 +18191,10 @@ Upload File
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Core\FileParam;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -17237,11 +18237,11 @@ List Files
 
 #### Parameters
 
-- `ids?:optional list<string>` (query parameter)
+- `ids?: optional list<string>` (query parameter)
 
   Restrict the result set to Files whose `id` is in this list. At most 100 entries (after de-duplication). Mutually exclusive with `page` and `limit`. When supplied, the response is always a single page (`next_page` is null). IDs that do not resolve to a visible File — including deleted Files — are silently omitted.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -17249,19 +18249,19 @@ List Files
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque page cursor returned in a prior list response's `next_page`. Prefixed `page_`.
 
-- `scopeID?:optional string` (query parameter)
+- `scopeID?: optional string` (query parameter)
 
   Filter by scope ID. Only returns files associated with the specified scope (e.g., a session ID).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -17317,6 +18317,9 @@ List Files
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -17370,11 +18373,11 @@ Download File
 
   ID of the File.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -17390,6 +18393,9 @@ Download File
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -17416,11 +18422,11 @@ Get File Metadata
 
   ID of the File.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -17477,6 +18483,9 @@ Get File Metadata
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaFileMetadata = $client->beta->files->retrieveMetadata(
@@ -17521,11 +18530,11 @@ Delete File
 
   ID of the File.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -17552,6 +18561,9 @@ Delete File
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaDeletedFile = $client->beta->files->delete(
@@ -17576,7 +18588,7 @@ var_dump($betaDeletedFile);
 
 ### Create Skill
 
-`$client->beta->skills->create(list<string> files, ?string displayName, ?list<AnthropicBeta> betas, ?string workspaceID): BetaSkill`
+`$client->beta->skills->create(list<FileParam | string> files, ?string displayName, ?list<AnthropicBeta> betas, ?string workspaceID): BetaSkill`
 
 **POST** `/v1/skills`
 
@@ -17584,23 +18596,23 @@ Create Skill
 
 #### Parameters
 
-- `files: list<string>`
+- `files: list<FileParam | string>`
 
   Files to upload for the skill.
 
   All files must be in the same top-level directory and must include a SKILL.md file at the root of that directory.
 
-- `displayName?:optional string`
+- `displayName?: optional string`
 
   Human-readable, single-line label for the Skill. Maximum 255 characters.
   Always set: derived from the SKILL.md frontmatter `name` when omitted at
   creation. Not unique.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -17657,6 +18669,10 @@ Create Skill
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Core\FileParam;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -17698,7 +18714,7 @@ List Skills
 
 #### Parameters
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results to return per page.
 
@@ -17706,13 +18722,13 @@ List Skills
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Pagination token for fetching a specific page of results.
 
   Pass the value from a previous response's `next_page` field to get the next page of results.
 
-- `source?:optional string` (query parameter)
+- `source?: optional string` (query parameter)
 
   Filter skills by source.
 
@@ -17721,11 +18737,11 @@ List Skills
   * `"custom"`: only return user-created skills
   * `"anthropic"`: only return Anthropic-created skills
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -17782,6 +18798,9 @@ List Skills
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -17833,11 +18852,11 @@ Get Skill
 
   The format and length of IDs may change over time.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -17895,6 +18914,9 @@ Get Skill
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSkill = $client->beta->skills->retrieve(
@@ -17938,11 +18960,11 @@ Delete Skill
 
   The format and length of IDs may change over time.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -17971,6 +18993,9 @@ Delete Skill
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaDeletedSkill = $client->beta->skills->delete(
@@ -17995,7 +19020,7 @@ var_dump($betaDeletedSkill);
 
 ### Create Skill Version
 
-`$client->beta->skills->versions->create(string skillID, list<string> files, ?list<AnthropicBeta> betas, ?string workspaceID): SkillVersion`
+`$client->beta->skills->versions->create(string skillID, list<FileParam | string> files, ?list<AnthropicBeta> betas, ?string workspaceID): SkillVersion`
 
 **POST** `/v1/skills/{skill_id}/versions`
 
@@ -18009,17 +19034,17 @@ Create Skill Version
 
   The format and length of IDs may change over time.
 
-- `files: list<string>`
+- `files: list<FileParam | string>`
 
   Files to upload for the skill.
 
   All files must be in the same top-level directory and must include a SKILL.md file at the root of that directory.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -18069,6 +19094,10 @@ Create Skill Version
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Core\FileParam;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -18113,7 +19142,7 @@ List Skill Versions
 
   The format and length of IDs may change over time.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results to return per page.
 
@@ -18121,15 +19150,15 @@ List Skill Versions
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Optionally set to the `next_page` token from the previous response.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -18179,6 +19208,9 @@ List Skill Versions
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -18233,11 +19265,11 @@ Download a skill version's content as a zip archive.
 
   Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -18253,6 +19285,9 @@ Download a skill version's content as a zip archive.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -18288,11 +19323,11 @@ Get Skill Version
 
   Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -18343,6 +19378,9 @@ Get Skill Version
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSkillVersion = $client->beta->skills->versions->retrieve(
@@ -18390,11 +19428,11 @@ Delete Skill Version
 
   Requests carrying the `skills-2025-10-02` beta header address versions by their Unix epoch timestamp instead (e.g., "1759178010641129").
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -18422,6 +19460,9 @@ Delete Skill Version
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaDeletedSkillVersion = $client->beta->skills->versions->delete(
@@ -18443,6 +19484,113 @@ var_dump($betaDeletedSkillVersion);
 }
 ```
 
+## Beta › Webhooks
+
+### Unwrap
+
+`$client->beta->webhooks->unwrap(string body, array<string,string | list<string>> headers, ?string secret): BetaWebhookEvent`
+
+Verifies the webhook signature from the `webhook-id`, `webhook-timestamp` and `webhook-signature`
+headers using your webhook signing key, then parses the payload into an event. Fails if the
+signature is missing or invalid.
+
+#### Parameters
+
+- `body: string`
+
+  The body of the incoming webhook request, exactly as received: the signature is computed over these bytes.
+
+- `headers: array<string,string | list<string>>`
+
+  The HTTP headers of the incoming webhook request. Verification reads `webhook-id`, `webhook-timestamp` and `webhook-signature`.
+
+- `secret: optional string`
+
+  The webhook signing key. Defaults to the client's `webhookKey` option.
+
+#### Returns
+
+- `class BetaWebhookEvent`
+
+  - `"event" type`
+
+    Object type. Always `event` for webhook payloads.
+
+  - `string id`
+
+    Unique event identifier for idempotency.
+
+  - `\Datetime createdAt`
+
+    RFC 3339 timestamp when the event occurred.
+
+  - `BetaWebhookEventData data`
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+// $body is the raw body of the incoming webhook request and $headers are its HTTP headers.
+$event = $client->beta->webhooks->unwrap($body, $headers);
+
+var_dump($event);
+```
+
+### Parse Unverified
+
+`$client->beta->webhooks->parseUnverified(string body): BetaWebhookEvent`
+
+Parses a webhook payload into an event without verifying its signature. Prefer `unwrap()` unless
+you have already verified the signature yourself.
+
+#### Parameters
+
+- `body: string`
+
+  The raw JSON body of the incoming webhook request.
+
+#### Returns
+
+- `class BetaWebhookEvent`
+
+  - `"event" type`
+
+    Object type. Always `event` for webhook payloads.
+
+  - `string id`
+
+    Unique event identifier for idempotency.
+
+  - `\Datetime createdAt`
+
+    RFC 3339 timestamp when the event occurred.
+
+  - `BetaWebhookEventData data`
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+// $body is the raw body of the incoming webhook request.
+$event = $client->beta->webhooks->parseUnverified($body);
+
+var_dump($event);
+```
+
 ## Beta › User Profiles
 
 ### Create User Profile
@@ -18455,35 +19603,35 @@ Create User Profile
 
 #### Parameters
 
-- `accessType?:optional AccessType`
+- `accessType?: optional AccessType`
 
   How the platform uses the API for this entity. `application` (default): the profile represents an individual end-user of the platform's product. `passthrough`: the profile identifies a company the platform resells Claude access to.
 
-- `externalID?:optional string`
+- `externalID?: optional string`
 
-  Platform's own identifier for this user. Not enforced unique. Maximum 255 characters. Accepted under the `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` send `external_user_details.reference_id` instead.
+  Platform's own identifier for this user. Not enforced unique. Maximum 255 characters. Legacy field, accepted only under the `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; without one of them, send `external_user_details.reference_id`.
 
-- `externalUserDetails?:optional BetaUserProfileExternalUserDetailsParams`
+- `externalUserDetails?: optional BetaUserProfileExternalUserDetailsParams`
 
-  Details about the entity this profile represents, as the platform states them. Every field is optional. Accepted under the `user-profiles-2026-09-04` beta header only.
+  Details about the entity this profile represents, as the platform states them. Every field is optional. Not accepted under the legacy `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers, which take the top-level `external_id` (and, under `user-profiles-2026-08-18`, `external_user_onboarded_at`) instead.
 
-- `externalUserOnboardedAt?:optional \Datetime`
+- `externalUserOnboardedAt?: optional \Datetime`
 
-  When the entity this profile represents opened its account with the platform, in RFC 3339 format: for an `application` profile, when the end-user signed up; for a `passthrough` profile, when the company became the platform's customer. Must be a complete timestamp no more than 1 minute in the future. Optional. Accepted under the `user-profiles-2026-08-18` beta header; under `user-profiles-2026-09-04` send `external_user_details.onboarded_at` instead.
+  When the entity this profile represents opened its account with the platform, in RFC 3339 format: for an `application` profile, when the end-user signed up; for a `passthrough` profile, when the company became the platform's customer. Must be a complete timestamp no more than 1 minute in the future. Optional. Legacy field, accepted only under the `user-profiles-2026-08-18` beta header; without a legacy header, send `external_user_details.onboarded_at`.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Free-form key-value data to attach to this user profile. Maximum 16 keys, with keys up to 64 characters and values up to 512 characters. Values must be non-empty strings.
 
-- `name?:optional string`
+- `name?: optional string`
 
   Optional for all profiles. Real-world name of the entity this profile represents (company or individual); for a company the platform resells Claude access to (`access_type` `passthrough`), that company's name where known. Maximum 255 characters.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -18493,7 +19641,7 @@ Create User Profile
 
 - `class BetaUserProfile`
 
-  - `Type type`
+  - `"user_profile" type`
 
     Object type. Always `user_profile`.
 
@@ -18509,33 +19657,33 @@ Create User Profile
 
     Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
+  - `?string name`
+
+    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name. `null` until the platform supplies one.
+
   - `array<string,BetaUserProfileTrustGrant> trustGrants`
 
     Trust grants for this profile, keyed by grant name. Key omitted when no grant is active or in flight.
 
   - `\Datetime updatedAt`
 
-    When this user profile was last modified, in RFC 3339 format. Trust-grant status changes also bump this timestamp.
+    When this user profile was last modified, in RFC 3339 format. It normally also updates shortly after Anthropic gives the profile an approval or withdraws one. Other changes to the statuses that Anthropic reports do not always update it, so read the status itself rather than watching this timestamp.
 
   - `?AccessType accessType`
 
-    How the platform uses the API for this entity: `application` (default) or `passthrough`. Present under the `user-profiles-2026-08-18` and later beta headers.
+    How the platform uses the API for this entity: `application` (default) or `passthrough`. Absent under the legacy `user-profiles-2026-03-24` beta header.
 
   - `?string externalID`
 
-    Platform's own identifier for this user. Not enforced unique. Present under the `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` the value is `external_user_details.reference_id`.
+    Platform's own identifier for this user. Not enforced unique. Legacy field, present only under the `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; without one of them, the value is `external_user_details.reference_id`.
 
   - `?BetaUserProfileExternalUserDetails externalUserDetails`
 
-    Details about the entity this profile represents, as the platform states them; not verified by Anthropic. Present under the `user-profiles-2026-09-04` beta header, with every field present and `null` until the platform supplies a value; the earlier beta headers serve `reference_id` as the top-level `external_id`, and `user-profiles-2026-08-18` serves `onboarded_at` as `external_user_onboarded_at`.
+    Details about the entity this profile represents, as the platform states them; not verified by Anthropic. Every field is present, `null` until the platform supplies a value. Absent under the legacy `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers, which serve `reference_id` as the top-level `external_id` and, under `user-profiles-2026-08-18`, `onboarded_at` as `external_user_onboarded_at`.
 
   - `?\Datetime externalUserOnboardedAt`
 
-    When the entity this profile represents opened its account with the platform, as stated by the platform, in RFC 3339 format (UTC). `null` until the platform supplies one. Present under the `user-profiles-2026-08-18` beta header; under `user-profiles-2026-09-04` the value is `external_user_details.onboarded_at`.
-
-  - `?string name`
-
-    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name.
+    When the entity this profile represents opened its account with the platform, as stated by the platform, in RFC 3339 format (UTC). `null` until the platform supplies one. Legacy field, present only under the `user-profiles-2026-08-18` beta header; without a legacy header, the value is `external_user_details.onboarded_at`.
 
 #### Example
 
@@ -18544,23 +19692,26 @@ Create User Profile
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaUserProfile = $client->beta->userProfiles->create(
   accessType: 'application',
-  externalID: 'user_12345',
+  externalID: 'x',
   externalUserDetails: [
     'accountStatus' => 'active',
-    'country' => 'country',
+    'country' => 'US',
     'emailHash' => 'x',
-    'entityType' => 'individual',
+    'entityType' => 'business',
     'nameHash' => 'x',
-    'onboardedAt' => new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
-    'referenceID' => 'x',
+    'onboardedAt' => new \DateTimeImmutable('2024-11-02T08:15:00Z'),
+    'referenceID' => 'user_12345',
   ],
-  externalUserOnboardedAt: new \DateTimeImmutable('2024-11-02T08:15:00Z'),
+  externalUserOnboardedAt: new \DateTimeImmutable('2019-12-27T18:11:19.117Z'),
   metadata: [],
-  name: 'x',
+  name: 'Example User',
   betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
   workspaceID: 'wrkspc_011CZkZaBF1tNoB5wlCeusgy',
 );
@@ -18575,6 +19726,7 @@ var_dump($betaUserProfile);
   "id": "uprof_011CZkZCu8hGbp5mYRQgUmz9",
   "created_at": "2026-03-15T10:00:00Z",
   "metadata": {},
+  "name": "Example User",
   "trust_grants": {
     "cyber": {
       "status": "active"
@@ -18586,15 +19738,14 @@ var_dump($betaUserProfile);
   "external_id": "user_12345",
   "external_user_details": {
     "account_status": "active",
-    "country": "country",
-    "email_hash": "email_hash",
-    "entity_type": "individual",
-    "name_hash": "name_hash",
-    "onboarded_at": "2019-12-27T18:11:19.117Z",
-    "reference_id": "reference_id"
+    "country": "US",
+    "email_hash": null,
+    "entity_type": "business",
+    "name_hash": null,
+    "onboarded_at": "2024-11-02T08:15:00Z",
+    "reference_id": "user_12345"
   },
-  "external_user_onboarded_at": "2024-11-02T08:15:00Z",
-  "name": "Example User"
+  "external_user_onboarded_at": "2024-11-02T08:15:00Z"
 }
 ```
 
@@ -18608,29 +19759,29 @@ List User Profiles
 
 #### Parameters
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   The maximum number of user profiles to return, from 1 to 100. Defaults to 20.
 
-- `order?:optional Order` (query parameter)
+- `order?: optional Order` (query parameter)
 
   The sort direction, applied to the field that `order_by` selects. Defaults to `desc`.
 
-- `orderBy?:optional OrderBy` (query parameter)
+- `orderBy?: optional OrderBy` (query parameter)
 
   The field to sort user profiles by, in the direction that `order` sets. Defaults to `created_at`.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   The cursor for the page to return, taken from `next_page` in a previous response.
 
   Leave it out to get the first page.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -18640,7 +19791,7 @@ List User Profiles
 
 - `class BetaUserProfile`
 
-  - `Type type`
+  - `"user_profile" type`
 
     Object type. Always `user_profile`.
 
@@ -18656,33 +19807,33 @@ List User Profiles
 
     Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
+  - `?string name`
+
+    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name. `null` until the platform supplies one.
+
   - `array<string,BetaUserProfileTrustGrant> trustGrants`
 
     Trust grants for this profile, keyed by grant name. Key omitted when no grant is active or in flight.
 
   - `\Datetime updatedAt`
 
-    When this user profile was last modified, in RFC 3339 format. Trust-grant status changes also bump this timestamp.
+    When this user profile was last modified, in RFC 3339 format. It normally also updates shortly after Anthropic gives the profile an approval or withdraws one. Other changes to the statuses that Anthropic reports do not always update it, so read the status itself rather than watching this timestamp.
 
   - `?AccessType accessType`
 
-    How the platform uses the API for this entity: `application` (default) or `passthrough`. Present under the `user-profiles-2026-08-18` and later beta headers.
+    How the platform uses the API for this entity: `application` (default) or `passthrough`. Absent under the legacy `user-profiles-2026-03-24` beta header.
 
   - `?string externalID`
 
-    Platform's own identifier for this user. Not enforced unique. Present under the `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` the value is `external_user_details.reference_id`.
+    Platform's own identifier for this user. Not enforced unique. Legacy field, present only under the `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; without one of them, the value is `external_user_details.reference_id`.
 
   - `?BetaUserProfileExternalUserDetails externalUserDetails`
 
-    Details about the entity this profile represents, as the platform states them; not verified by Anthropic. Present under the `user-profiles-2026-09-04` beta header, with every field present and `null` until the platform supplies a value; the earlier beta headers serve `reference_id` as the top-level `external_id`, and `user-profiles-2026-08-18` serves `onboarded_at` as `external_user_onboarded_at`.
+    Details about the entity this profile represents, as the platform states them; not verified by Anthropic. Every field is present, `null` until the platform supplies a value. Absent under the legacy `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers, which serve `reference_id` as the top-level `external_id` and, under `user-profiles-2026-08-18`, `onboarded_at` as `external_user_onboarded_at`.
 
   - `?\Datetime externalUserOnboardedAt`
 
-    When the entity this profile represents opened its account with the platform, as stated by the platform, in RFC 3339 format (UTC). `null` until the platform supplies one. Present under the `user-profiles-2026-08-18` beta header; under `user-profiles-2026-09-04` the value is `external_user_details.onboarded_at`.
-
-  - `?string name`
-
-    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name.
+    When the entity this profile represents opened its account with the platform, as stated by the platform, in RFC 3339 format (UTC). `null` until the platform supplies one. Legacy field, present only under the `user-profiles-2026-08-18` beta header; without a legacy header, the value is `external_user_details.onboarded_at`.
 
 #### Example
 
@@ -18690,6 +19841,9 @@ List User Profiles
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -18714,6 +19868,7 @@ var_dump($page);
       "id": "uprof_011CZkZCu8hGbp5mYRQgUmz9",
       "created_at": "2026-03-15T10:00:00Z",
       "metadata": {},
+      "name": "Example User",
       "trust_grants": {
         "cyber": {
           "status": "active"
@@ -18725,15 +19880,14 @@ var_dump($page);
       "external_id": "user_12345",
       "external_user_details": {
         "account_status": "active",
-        "country": "country",
-        "email_hash": "email_hash",
-        "entity_type": "individual",
-        "name_hash": "name_hash",
-        "onboarded_at": "2019-12-27T18:11:19.117Z",
-        "reference_id": "reference_id"
+        "country": "US",
+        "email_hash": null,
+        "entity_type": "business",
+        "name_hash": null,
+        "onboarded_at": "2024-11-02T08:15:00Z",
+        "reference_id": "user_12345"
       },
-      "external_user_onboarded_at": "2024-11-02T08:15:00Z",
-      "name": "Example User"
+      "external_user_onboarded_at": "2024-11-02T08:15:00Z"
     }
   ],
   "next_page": "page_MjAyNS0wNS0xNFQwMDowMDowMFo="
@@ -18754,11 +19908,11 @@ Get User Profile
 
   The ID of the user profile to get (`uprof_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -18768,7 +19922,7 @@ Get User Profile
 
 - `class BetaUserProfile`
 
-  - `Type type`
+  - `"user_profile" type`
 
     Object type. Always `user_profile`.
 
@@ -18784,33 +19938,33 @@ Get User Profile
 
     Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
+  - `?string name`
+
+    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name. `null` until the platform supplies one.
+
   - `array<string,BetaUserProfileTrustGrant> trustGrants`
 
     Trust grants for this profile, keyed by grant name. Key omitted when no grant is active or in flight.
 
   - `\Datetime updatedAt`
 
-    When this user profile was last modified, in RFC 3339 format. Trust-grant status changes also bump this timestamp.
+    When this user profile was last modified, in RFC 3339 format. It normally also updates shortly after Anthropic gives the profile an approval or withdraws one. Other changes to the statuses that Anthropic reports do not always update it, so read the status itself rather than watching this timestamp.
 
   - `?AccessType accessType`
 
-    How the platform uses the API for this entity: `application` (default) or `passthrough`. Present under the `user-profiles-2026-08-18` and later beta headers.
+    How the platform uses the API for this entity: `application` (default) or `passthrough`. Absent under the legacy `user-profiles-2026-03-24` beta header.
 
   - `?string externalID`
 
-    Platform's own identifier for this user. Not enforced unique. Present under the `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` the value is `external_user_details.reference_id`.
+    Platform's own identifier for this user. Not enforced unique. Legacy field, present only under the `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; without one of them, the value is `external_user_details.reference_id`.
 
   - `?BetaUserProfileExternalUserDetails externalUserDetails`
 
-    Details about the entity this profile represents, as the platform states them; not verified by Anthropic. Present under the `user-profiles-2026-09-04` beta header, with every field present and `null` until the platform supplies a value; the earlier beta headers serve `reference_id` as the top-level `external_id`, and `user-profiles-2026-08-18` serves `onboarded_at` as `external_user_onboarded_at`.
+    Details about the entity this profile represents, as the platform states them; not verified by Anthropic. Every field is present, `null` until the platform supplies a value. Absent under the legacy `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers, which serve `reference_id` as the top-level `external_id` and, under `user-profiles-2026-08-18`, `onboarded_at` as `external_user_onboarded_at`.
 
   - `?\Datetime externalUserOnboardedAt`
 
-    When the entity this profile represents opened its account with the platform, as stated by the platform, in RFC 3339 format (UTC). `null` until the platform supplies one. Present under the `user-profiles-2026-08-18` beta header; under `user-profiles-2026-09-04` the value is `external_user_details.onboarded_at`.
-
-  - `?string name`
-
-    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name.
+    When the entity this profile represents opened its account with the platform, as stated by the platform, in RFC 3339 format (UTC). `null` until the platform supplies one. Legacy field, present only under the `user-profiles-2026-08-18` beta header; without a legacy header, the value is `external_user_details.onboarded_at`.
 
 #### Example
 
@@ -18818,6 +19972,9 @@ Get User Profile
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -18837,6 +19994,7 @@ var_dump($betaUserProfile);
   "id": "uprof_011CZkZCu8hGbp5mYRQgUmz9",
   "created_at": "2026-03-15T10:00:00Z",
   "metadata": {},
+  "name": "Example User",
   "trust_grants": {
     "cyber": {
       "status": "active"
@@ -18848,15 +20006,14 @@ var_dump($betaUserProfile);
   "external_id": "user_12345",
   "external_user_details": {
     "account_status": "active",
-    "country": "country",
-    "email_hash": "email_hash",
-    "entity_type": "individual",
-    "name_hash": "name_hash",
-    "onboarded_at": "2019-12-27T18:11:19.117Z",
-    "reference_id": "reference_id"
+    "country": "US",
+    "email_hash": null,
+    "entity_type": "business",
+    "name_hash": null,
+    "onboarded_at": "2024-11-02T08:15:00Z",
+    "reference_id": "user_12345"
   },
-  "external_user_onboarded_at": "2024-11-02T08:15:00Z",
-  "name": "Example User"
+  "external_user_onboarded_at": "2024-11-02T08:15:00Z"
 }
 ```
 
@@ -18874,35 +20031,35 @@ Update User Profile
 
   The ID of the user profile to update (`uprof_...`).
 
-- `accessType?:optional AccessType`
+- `accessType?: optional AccessType`
 
   If present, replaces the stored access type. Omit to leave unchanged.
 
-- `externalID?:optional string`
+- `externalID?: optional string`
 
-  If present, replaces the stored external_id. Omit to leave unchanged. Maximum 255 characters. Accepted under the `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` send `external_user_details.reference_id` instead.
+  If present, replaces the stored external_id. Omit to leave unchanged. Maximum 255 characters. Legacy field, accepted only under the `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; without one of them, send `external_user_details.reference_id`.
 
-- `externalUserDetails?:optional BetaUserProfileExternalUserDetailsParams`
+- `externalUserDetails?: optional BetaUserProfileExternalUserDetailsParams`
 
-  Details about the entity this profile represents, as the platform states them. Each field sent replaces the stored value; omit a field to leave it unchanged. Once set, a value cannot be cleared and `null` is rejected. Accepted under the `user-profiles-2026-09-04` beta header only.
+  Details about the entity this profile represents, as the platform states them. Each field sent replaces the stored value; omit a field to leave it unchanged. Once set, a value cannot be cleared and `null` is rejected. Not accepted under the legacy `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers.
 
-- `externalUserOnboardedAt?:optional \Datetime`
+- `externalUserOnboardedAt?: optional \Datetime`
 
-  If present, replaces the stored account creation time. Omit to leave unchanged; once set, the value cannot be cleared and `null` is rejected. Must be a complete RFC 3339 timestamp no more than 1 minute in the future. Accepted under the `user-profiles-2026-08-18` beta header; under `user-profiles-2026-09-04` send `external_user_details.onboarded_at` instead.
+  If present, replaces the stored account creation time. Omit to leave unchanged; once set, the value cannot be cleared and `null` is rejected. Must be a complete RFC 3339 timestamp no more than 1 minute in the future. Legacy field, accepted only under the `user-profiles-2026-08-18` beta header; without a legacy header, send `external_user_details.onboarded_at`.
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Key-value pairs to merge into the stored metadata. Keys provided overwrite existing values. To remove a key, set its value to an empty string. Keys not provided are left unchanged. Maximum 16 keys, with keys up to 64 characters and values up to 512 characters.
 
-- `name?:optional string`
+- `name?: optional string`
 
   If present, replaces the stored name. Omit to leave unchanged. Maximum 255 characters.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -18912,7 +20069,7 @@ Update User Profile
 
 - `class BetaUserProfile`
 
-  - `Type type`
+  - `"user_profile" type`
 
     Object type. Always `user_profile`.
 
@@ -18928,33 +20085,33 @@ Update User Profile
 
     Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
+  - `?string name`
+
+    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name. `null` until the platform supplies one.
+
   - `array<string,BetaUserProfileTrustGrant> trustGrants`
 
     Trust grants for this profile, keyed by grant name. Key omitted when no grant is active or in flight.
 
   - `\Datetime updatedAt`
 
-    When this user profile was last modified, in RFC 3339 format. Trust-grant status changes also bump this timestamp.
+    When this user profile was last modified, in RFC 3339 format. It normally also updates shortly after Anthropic gives the profile an approval or withdraws one. Other changes to the statuses that Anthropic reports do not always update it, so read the status itself rather than watching this timestamp.
 
   - `?AccessType accessType`
 
-    How the platform uses the API for this entity: `application` (default) or `passthrough`. Present under the `user-profiles-2026-08-18` and later beta headers.
+    How the platform uses the API for this entity: `application` (default) or `passthrough`. Absent under the legacy `user-profiles-2026-03-24` beta header.
 
   - `?string externalID`
 
-    Platform's own identifier for this user. Not enforced unique. Present under the `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` the value is `external_user_details.reference_id`.
+    Platform's own identifier for this user. Not enforced unique. Legacy field, present only under the `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; without one of them, the value is `external_user_details.reference_id`.
 
   - `?BetaUserProfileExternalUserDetails externalUserDetails`
 
-    Details about the entity this profile represents, as the platform states them; not verified by Anthropic. Present under the `user-profiles-2026-09-04` beta header, with every field present and `null` until the platform supplies a value; the earlier beta headers serve `reference_id` as the top-level `external_id`, and `user-profiles-2026-08-18` serves `onboarded_at` as `external_user_onboarded_at`.
+    Details about the entity this profile represents, as the platform states them; not verified by Anthropic. Every field is present, `null` until the platform supplies a value. Absent under the legacy `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers, which serve `reference_id` as the top-level `external_id` and, under `user-profiles-2026-08-18`, `onboarded_at` as `external_user_onboarded_at`.
 
   - `?\Datetime externalUserOnboardedAt`
 
-    When the entity this profile represents opened its account with the platform, as stated by the platform, in RFC 3339 format (UTC). `null` until the platform supplies one. Present under the `user-profiles-2026-08-18` beta header; under `user-profiles-2026-09-04` the value is `external_user_details.onboarded_at`.
-
-  - `?string name`
-
-    Real-world name of the entity this profile represents (company or individual). For a company the platform resells Claude access to (`access_type` `passthrough`) this is that company's name.
+    When the entity this profile represents opened its account with the platform, as stated by the platform, in RFC 3339 format (UTC). `null` until the platform supplies one. Legacy field, present only under the `user-profiles-2026-08-18` beta header; without a legacy header, the value is `external_user_details.onboarded_at`.
 
 #### Example
 
@@ -18963,15 +20120,18 @@ Update User Profile
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaUserProfile = $client->beta->userProfiles->update(
   'uprof_011CZkZCu8hGbp5mYRQgUmz9',
   accessType: 'application',
-  externalID: 'user_12345',
+  externalID: 'x',
   externalUserDetails: [
-    'accountStatus' => 'active',
-    'country' => 'country',
+    'accountStatus' => 'suspended',
+    'country' => 'SE',
     'emailHash' => 'x',
     'entityType' => 'individual',
     'nameHash' => 'x',
@@ -18995,6 +20155,7 @@ var_dump($betaUserProfile);
   "id": "uprof_011CZkZCu8hGbp5mYRQgUmz9",
   "created_at": "2026-03-15T10:00:00Z",
   "metadata": {},
+  "name": "Example User",
   "trust_grants": {
     "cyber": {
       "status": "active"
@@ -19006,15 +20167,80 @@ var_dump($betaUserProfile);
   "external_id": "user_12345",
   "external_user_details": {
     "account_status": "active",
-    "country": "country",
-    "email_hash": "email_hash",
-    "entity_type": "individual",
-    "name_hash": "name_hash",
-    "onboarded_at": "2019-12-27T18:11:19.117Z",
-    "reference_id": "reference_id"
+    "country": "US",
+    "email_hash": null,
+    "entity_type": "business",
+    "name_hash": null,
+    "onboarded_at": "2024-11-02T08:15:00Z",
+    "reference_id": "user_12345"
   },
-  "external_user_onboarded_at": "2024-11-02T08:15:00Z",
-  "name": "Example User"
+  "external_user_onboarded_at": "2024-11-02T08:15:00Z"
+}
+```
+
+### Delete User Profile
+
+`$client->beta->userProfiles->delete(string userProfileID, ?list<AnthropicBeta> betas, ?string workspaceID): BetaDeletedUserProfile`
+
+**DELETE** `/v1/user_profiles/{user_profile_id}`
+
+Delete User Profile
+
+#### Parameters
+
+- `userProfileID: string` (path parameter)
+
+  The ID of the user profile to delete (`uprof_...`).
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  Optional header to specify the beta version(s) you want to use.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
+
+#### Returns
+
+- `class BetaDeletedUserProfile`
+
+  - `"user_profile_deleted" type`
+
+    Object type. Always `user_profile_deleted`.
+
+  - `string id`
+
+    Identifier of the deleted user profile, prefixed `uprof_`.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaDeletedUserProfile = $client->beta->userProfiles->delete(
+  'uprof_011CZkZCu8hGbp5mYRQgUmz9',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+  workspaceID: 'wrkspc_011CZkZaBF1tNoB5wlCeusgy',
+);
+
+var_dump($betaDeletedUserProfile);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "uprof_011CZkZCu8hGbp5mYRQgUmz9",
+  "type": "user_profile_deleted"
 }
 ```
 
@@ -19032,11 +20258,11 @@ Create Enrollment URL
 
   The ID of the user profile to create an enrollment URL for (`uprof_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -19046,9 +20272,13 @@ Create Enrollment URL
 
 - `class BetaUserProfileEnrollmentURL`
 
-  - `Type type`
+  - `"enrollment_url" type`
 
     Object type. Always `enrollment_url`.
+
+  - `\Datetime expiresAt`
+
+    When this enrollment URL expires, in RFC 3339 format.
 
   - `\Datetime expiresAt`
 
@@ -19064,6 +20294,9 @@ Create Enrollment URL
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -19085,6 +20318,84 @@ var_dump($betaUserProfileEnrollmentURL);
 {
   "expires_at": "2026-03-15T10:15:00Z",
   "type": "enrollment_url",
+  "url": "https://platform.claude.com/user-profiles/enrollment/M3J0bGJxZ2ppMnptbnB1"
+}
+```
+
+## Beta › User Profiles › Action URLs
+
+### Create Action URL
+
+`$client->beta->userProfiles->actionURLs->create(string userProfileID, UserProfileEnrollEndUserAction action, ?list<AnthropicBeta> betas, ?string workspaceID): UserProfileActionURL`
+
+**POST** `/v1/user_profiles/{user_profile_id}/action_urls`
+
+Create Action URL
+
+#### Parameters
+
+- `userProfileID: string` (path parameter)
+
+  The ID of the user profile the action is for (`uprof_...`).
+
+- `action: UserProfileEnrollEndUserAction`
+
+  The action that the person who opens the URL takes.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  Optional header to specify the beta version(s) you want to use.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
+
+#### Returns
+
+- `class UserProfileActionURL`
+
+  - `"user_profile_action_url" type`
+
+    Object type. Always `user_profile_action_url`.
+
+  - `\Datetime expiresAt`
+
+    When the URL stops working, in RFC 3339 format.
+
+  - `string url`
+
+    The URL to give to the person who takes the action. Anyone who holds it can open it until `expires_at`.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaUserProfileActionURL = $client->beta->userProfiles->actionURLs->create(
+  'uprof_011CZkZCu8hGbp5mYRQgUmz9',
+  action: ['type' => 'enroll_end_user'],
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+  workspaceID: 'wrkspc_011CZkZaBF1tNoB5wlCeusgy',
+);
+
+var_dump($betaUserProfileActionURL);
+```
+
+##### Response (200)
+
+```json
+{
+  "expires_at": "2026-03-15T10:15:00Z",
+  "type": "user_profile_action_url",
   "url": "https://platform.claude.com/user-profiles/enrollment/M3J0bGJxZ2ppMnptbnB1"
 }
 ```
@@ -19115,23 +20426,23 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   In the object form, `speed` can only be `standard`.
 
-  The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#limits) lists the supported models.
+  The [Availability section of the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#feature-availability) lists the supported models.
 
-- `instructions?:optional string`
+- `instructions?: optional string`
 
   Guidance that steers how the dream reads the sessions and organizes the output memory store, from 1 to 4,096 characters.
 
   See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#steer-with-instructions) for what kinds of instructions work well.
 
-- `outputBehavior?:optional BetaOutputBehavior`
+- `outputBehavior?: optional BetaOutputBehavior`
 
   Which memory store a dream writes its result to. Defaults to `create_new` when left out of a create request.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `dreaming-2026-04-21` in this header.
 
-- `workspaceID?:optional string` (header parameter)
+- `workspaceID?: optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -19141,7 +20452,7 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 - `class BetaDream`
 
-  - `Type type`
+  - `"dream" type`
 
   - `string id`
 
@@ -19217,6 +20528,9 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -19290,37 +20604,43 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 #### Parameters
 
-- `createdAtGt?:optional \Datetime` (query parameter)
+- `createdAtGt?: optional \Datetime` (query parameter)
 
   Return only dreams created after this time (exclusive), in RFC 3339.
 
-- `createdAtLt?:optional \Datetime` (query parameter)
+- `createdAtLt?: optional \Datetime` (query parameter)
 
   Return only dreams created before this time (exclusive), in RFC 3339.
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   Whether to include archived dreams. Defaults to `false`.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   The maximum number of dreams to return, from 1 to 100. Defaults to 20.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   The cursor for the page to return, taken from `next_page` in a previous response.
 
   Leave it out to get the first page.
 
-- `statuses?:optional list<BetaDreamStatus>` (query parameter)
+- `statuses?: optional list<BetaDreamStatus>` (query parameter)
 
   Return only dreams that have one of these statuses.
 
   Repeat the parameter to give more than one status. Leave it out to return dreams of every status.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `dreaming-2026-04-21` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -19332,7 +20652,71 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 - `class BetaDream`
 
-  - `Type type`
+  - `"dream" type`
+
+  - `string id`
+
+    The unique ID of the dream (`drm_...`).
+
+  - `?\Datetime archivedAt`
+
+    When the dream was archived, in RFC 3339, or `null` if it hasn't been archived.
+
+  - `\Datetime createdAt`
+
+    When the dream was created, in RFC 3339.
+
+    Lists of dreams are sorted by this time, newest first.
+
+  - `?\Datetime endedAt`
+
+    When the dream reached `completed`, `failed`, or `canceled`, in RFC 3339, or `null` if it is still `pending` or `running`.
+
+  - `?BetaDreamError error`
+
+    Why the dream failed, or `null` if `status` isn't `failed`.
+
+  - `list<BetaDreamInput> inputs`
+
+    The sources that the dream reads, from the request that created it.
+
+  - `?string instructions`
+
+    The guidance given when the dream was created, or `null` if none was given.
+
+  - `BetaDreamModelConfig model`
+
+    The model that runs a dream, from the request that created it.
+
+    The dream uses this model for all of its work. The response always gives the model as an object, even if the request gave only a model ID.
+
+  - `BetaOutputBehavior outputBehavior`
+
+    Where the dream writes its result, as set in the request that created the dream. If that request left out `output_behavior`, the dream used the `create_new` behavior.
+
+  - `list<BetaDreamOutput> outputs`
+
+    The memory store that holds the dream's result, as a one-item array, or an empty array until the dream records that memory store.
+
+    The array is empty while the dream is `pending` and for a short time after it starts `running`. It can stay empty if the dream fails or is canceled before then. The memory store holds the complete result only once `status` is `completed`.
+
+    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#use-the-output) for how to review and use the result.
+
+  - `?string sessionID`
+
+    The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
+
+    Stream that session's events to follow what the dream reads and writes.
+
+    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#watch-the-pipeline-run) for how to watch a running dream.
+
+  - `BetaDreamStatus status`
+
+    Where a dream is in its lifecycle.
+
+    `completed`, `failed`, and `canceled` are final: once a dream has one of these statuses, its status doesn't change again.
+
+    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#lifecycle) for what each status means.
 
   - `string id`
 
@@ -19408,6 +20792,10 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Dreams\BetaDreamStatus;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -19492,9 +20880,15 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   The ID of the dream to get (`drm_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `dreaming-2026-04-21` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -19506,7 +20900,71 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 - `class BetaDream`
 
-  - `Type type`
+  - `"dream" type`
+
+  - `string id`
+
+    The unique ID of the dream (`drm_...`).
+
+  - `?\Datetime archivedAt`
+
+    When the dream was archived, in RFC 3339, or `null` if it hasn't been archived.
+
+  - `\Datetime createdAt`
+
+    When the dream was created, in RFC 3339.
+
+    Lists of dreams are sorted by this time, newest first.
+
+  - `?\Datetime endedAt`
+
+    When the dream reached `completed`, `failed`, or `canceled`, in RFC 3339, or `null` if it is still `pending` or `running`.
+
+  - `?BetaDreamError error`
+
+    Why the dream failed, or `null` if `status` isn't `failed`.
+
+  - `list<BetaDreamInput> inputs`
+
+    The sources that the dream reads, from the request that created it.
+
+  - `?string instructions`
+
+    The guidance given when the dream was created, or `null` if none was given.
+
+  - `BetaDreamModelConfig model`
+
+    The model that runs a dream, from the request that created it.
+
+    The dream uses this model for all of its work. The response always gives the model as an object, even if the request gave only a model ID.
+
+  - `BetaOutputBehavior outputBehavior`
+
+    Where the dream writes its result, as set in the request that created the dream. If that request left out `output_behavior`, the dream used the `create_new` behavior.
+
+  - `list<BetaDreamOutput> outputs`
+
+    The memory store that holds the dream's result, as a one-item array, or an empty array until the dream records that memory store.
+
+    The array is empty while the dream is `pending` and for a short time after it starts `running`. It can stay empty if the dream fails or is canceled before then. The memory store holds the complete result only once `status` is `completed`.
+
+    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#use-the-output) for how to review and use the result.
+
+  - `?string sessionID`
+
+    The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
+
+    Stream that session's events to follow what the dream reads and writes.
+
+    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#watch-the-pipeline-run) for how to watch a running dream.
+
+  - `BetaDreamStatus status`
+
+    Where a dream is in its lifecycle.
+
+    `completed`, `failed`, and `canceled` are final: once a dream has one of these statuses, its status doesn't change again.
+
+    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#lifecycle) for what each status means.
 
   - `string id`
 
@@ -19582,6 +21040,9 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -19656,9 +21117,15 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   The ID of the dream to cancel (`drm_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `dreaming-2026-04-21` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -19670,7 +21137,71 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 - `class BetaDream`
 
-  - `Type type`
+  - `"dream" type`
+
+  - `string id`
+
+    The unique ID of the dream (`drm_...`).
+
+  - `?\Datetime archivedAt`
+
+    When the dream was archived, in RFC 3339, or `null` if it hasn't been archived.
+
+  - `\Datetime createdAt`
+
+    When the dream was created, in RFC 3339.
+
+    Lists of dreams are sorted by this time, newest first.
+
+  - `?\Datetime endedAt`
+
+    When the dream reached `completed`, `failed`, or `canceled`, in RFC 3339, or `null` if it is still `pending` or `running`.
+
+  - `?BetaDreamError error`
+
+    Why the dream failed, or `null` if `status` isn't `failed`.
+
+  - `list<BetaDreamInput> inputs`
+
+    The sources that the dream reads, from the request that created it.
+
+  - `?string instructions`
+
+    The guidance given when the dream was created, or `null` if none was given.
+
+  - `BetaDreamModelConfig model`
+
+    The model that runs a dream, from the request that created it.
+
+    The dream uses this model for all of its work. The response always gives the model as an object, even if the request gave only a model ID.
+
+  - `BetaOutputBehavior outputBehavior`
+
+    Where the dream writes its result, as set in the request that created the dream. If that request left out `output_behavior`, the dream used the `create_new` behavior.
+
+  - `list<BetaDreamOutput> outputs`
+
+    The memory store that holds the dream's result, as a one-item array, or an empty array until the dream records that memory store.
+
+    The array is empty while the dream is `pending` and for a short time after it starts `running`. It can stay empty if the dream fails or is canceled before then. The memory store holds the complete result only once `status` is `completed`.
+
+    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#use-the-output) for how to review and use the result.
+
+  - `?string sessionID`
+
+    The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
+
+    Stream that session's events to follow what the dream reads and writes.
+
+    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#watch-the-pipeline-run) for how to watch a running dream.
+
+  - `BetaDreamStatus status`
+
+    Where a dream is in its lifecycle.
+
+    `completed`, `failed`, and `canceled` are final: once a dream has one of these statuses, its status doesn't change again.
+
+    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#lifecycle) for what each status means.
 
   - `string id`
 
@@ -19746,6 +21277,9 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -19820,9 +21354,15 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   The ID of the dream to archive (`drm_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `dreaming-2026-04-21` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -19834,7 +21374,71 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 - `class BetaDream`
 
-  - `Type type`
+  - `"dream" type`
+
+  - `string id`
+
+    The unique ID of the dream (`drm_...`).
+
+  - `?\Datetime archivedAt`
+
+    When the dream was archived, in RFC 3339, or `null` if it hasn't been archived.
+
+  - `\Datetime createdAt`
+
+    When the dream was created, in RFC 3339.
+
+    Lists of dreams are sorted by this time, newest first.
+
+  - `?\Datetime endedAt`
+
+    When the dream reached `completed`, `failed`, or `canceled`, in RFC 3339, or `null` if it is still `pending` or `running`.
+
+  - `?BetaDreamError error`
+
+    Why the dream failed, or `null` if `status` isn't `failed`.
+
+  - `list<BetaDreamInput> inputs`
+
+    The sources that the dream reads, from the request that created it.
+
+  - `?string instructions`
+
+    The guidance given when the dream was created, or `null` if none was given.
+
+  - `BetaDreamModelConfig model`
+
+    The model that runs a dream, from the request that created it.
+
+    The dream uses this model for all of its work. The response always gives the model as an object, even if the request gave only a model ID.
+
+  - `BetaOutputBehavior outputBehavior`
+
+    Where the dream writes its result, as set in the request that created the dream. If that request left out `output_behavior`, the dream used the `create_new` behavior.
+
+  - `list<BetaDreamOutput> outputs`
+
+    The memory store that holds the dream's result, as a one-item array, or an empty array until the dream records that memory store.
+
+    The array is empty while the dream is `pending` and for a short time after it starts `running`. It can stay empty if the dream fails or is canceled before then. The memory store holds the complete result only once `status` is `completed`.
+
+    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#use-the-output) for how to review and use the result.
+
+  - `?string sessionID`
+
+    The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
+
+    Stream that session's events to follow what the dream reads and writes.
+
+    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#watch-the-pipeline-run) for how to watch a running dream.
+
+  - `BetaDreamStatus status`
+
+    Where a dream is in its lifecycle.
+
+    `completed`, `failed`, and `canceled` are final: once a dream has one of these statuses, its status doesn't change again.
+
+    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#lifecycle) for what each status means.
 
   - `string id`
 
@@ -19911,6 +21515,9 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaDream = $client->beta->dreams->archive(
@@ -19980,13 +21587,19 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
 #### Parameters
 
-- `displayName?:optional string`
+- `displayName?: optional string`
 
   Optional human-readable name for the tunnel (1-255 characters).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -20026,6 +21639,9 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -20067,9 +21683,15 @@ Fetches a tunnel by ID.
 
   ID of the tunnel (`tnl_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -20109,6 +21731,9 @@ Fetches a tunnel by ID.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -20146,21 +21771,27 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
 #### Parameters
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   Whether to include archived tunnels in the results. Defaults to false.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of tunnels to return per page. Defaults to 20, maximum 1000.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor from a previous `list_tunnels` response.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -20200,6 +21831,9 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -20248,9 +21882,15 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
   ID of the tunnel (`tnl_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -20290,6 +21930,9 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -20331,9 +21974,15 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
 
   ID of the tunnel (`tnl_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -20361,6 +22010,9 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -20399,13 +22051,19 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
 
   ID of the tunnel (`tnl_...`).
 
-- `reason?:optional string`
+- `reason?: optional string`
 
   Optional free-text reason for the rotation, recorded for audit.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -20433,6 +22091,9 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -20478,9 +22139,15 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 
   PEM-encoded X.509 CA certificate. Must contain exactly one certificate and no private-key material. Maximum 8KB.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -20524,6 +22191,9 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -20571,9 +22241,15 @@ Fetches a tunnel certificate by ID.
 
   ID of the certificate (`tcrt_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -20617,6 +22293,9 @@ Fetches a tunnel certificate by ID.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -20660,21 +22339,27 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
   ID of the tunnel (`tnl_...`).
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   Whether to include archived certificates in the results. Defaults to false.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of certificates to return per page. Defaults to 20, maximum 1000.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor from a previous `list_tunnel_certificates` response.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -20718,6 +22403,9 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -20772,9 +22460,15 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 
   ID of the certificate to archive (`tcrt_...`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -20818,6 +22512,9 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -20880,6 +22577,8 @@ Retrieve information about the organization associated with the authenticated AP
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaOrganization = $client->beta->organization->retrieve();
@@ -20909,19 +22608,19 @@ List API Keys
 
 #### Parameters
 
-- `afterID?:optional string` (query parameter)
+- `afterID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
 
-- `beforeID?:optional string` (query parameter)
+- `beforeID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
 
-- `createdByUserID?:optional string` (query parameter)
+- `createdByUserID?: optional string` (query parameter)
 
   Filter by the ID of the User who created the object.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -20929,11 +22628,11 @@ List API Keys
 
   default: 20
 
-- `status?:optional Status` (query parameter)
+- `status?: optional Status` (query parameter)
 
   Filter by API key status.
 
-- `workspaceID?:optional string` (query parameter)
+- `workspaceID?: optional string` (query parameter)
 
   Filter by Workspace ID.
 
@@ -20985,18 +22684,14 @@ List API Keys
 
     Status of the API key.
 
-  - `?string workspaceID`
-
-    **Deprecated**: Use `scope` instead. `workspace_id` is `null` both for an API key in the default Workspace and for a principal-bound API key that has no Workspace.
-
-    Deprecated: use `scope` instead. ID of the Workspace associated with the API key, or `null` if the API key belongs to the default Workspace. Also `null` for a principal-bound API key that has no Workspace; `scope` tells the two apart.
-
 #### Example
 
 ```php
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -21021,7 +22716,7 @@ var_dump($page);
       "id": "apikey_01Rj2N8SVvo6BePZj99NhmiT",
       "created_at": "2024-10-30T23:58:27.427722Z",
       "created_by": {
-        "id": "user_01WCz1FkmYMm4gnmykNKUu3Q",
+        "id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
         "type": "user"
       },
       "expires_at": "2024-10-30T23:58:27.427722Z",
@@ -21029,15 +22724,14 @@ var_dump($page);
       "partial_key_hint": "sk-ant-api03-R2D...igAA",
       "principal": {
         "type": "user_actor",
-        "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+        "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
       },
       "scope": {
         "type": "workspace",
         "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
       },
       "status": "active",
-      "type": "api_key",
-      "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
+      "type": "api_key"
     }
   ],
   "first_id": "first_id",
@@ -21108,18 +22802,14 @@ Retrieve information about a single API key in your organization, looked up by i
 
     Status of the API key.
 
-  - `?string workspaceID`
-
-    **Deprecated**: Use `scope` instead. `workspace_id` is `null` both for an API key in the default Workspace and for a principal-bound API key that has no Workspace.
-
-    Deprecated: use `scope` instead. ID of the Workspace associated with the API key, or `null` if the API key belongs to the default Workspace. Also `null` for a principal-bound API key that has no Workspace; `scope` tells the two apart.
-
 #### Example
 
 ```php
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -21135,7 +22825,7 @@ var_dump($betaAPIKey);
   "id": "apikey_01Rj2N8SVvo6BePZj99NhmiT",
   "created_at": "2024-10-30T23:58:27.427722Z",
   "created_by": {
-    "id": "user_01WCz1FkmYMm4gnmykNKUu3Q",
+    "id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
     "type": "user"
   },
   "expires_at": "2024-10-30T23:58:27.427722Z",
@@ -21143,15 +22833,14 @@ var_dump($betaAPIKey);
   "partial_key_hint": "sk-ant-api03-R2D...igAA",
   "principal": {
     "type": "user_actor",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "scope": {
     "type": "workspace",
     "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
   },
   "status": "active",
-  "type": "api_key",
-  "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
+  "type": "api_key"
 }
 ```
 
@@ -21169,11 +22858,11 @@ Update API Key
 
   ID of the API key.
 
-- `name?:optional string`
+- `name?: optional string`
 
   Name of the API key.
 
-- `status?:optional Status`
+- `status?: optional Status`
 
   Status of the API key.
 
@@ -21225,18 +22914,14 @@ Update API Key
 
     Status of the API key.
 
-  - `?string workspaceID`
-
-    **Deprecated**: Use `scope` instead. `workspace_id` is `null` both for an API key in the default Workspace and for a principal-bound API key that has no Workspace.
-
-    Deprecated: use `scope` instead. ID of the Workspace associated with the API key, or `null` if the API key belongs to the default Workspace. Also `null` for a principal-bound API key that has no Workspace; `scope` tells the two apart.
-
 #### Example
 
 ```php
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -21254,7 +22939,7 @@ var_dump($betaAPIKey);
   "id": "apikey_01Rj2N8SVvo6BePZj99NhmiT",
   "created_at": "2024-10-30T23:58:27.427722Z",
   "created_by": {
-    "id": "user_01WCz1FkmYMm4gnmykNKUu3Q",
+    "id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
     "type": "user"
   },
   "expires_at": "2024-10-30T23:58:27.427722Z",
@@ -21262,15 +22947,14 @@ var_dump($betaAPIKey);
   "partial_key_hint": "sk-ant-api03-R2D...igAA",
   "principal": {
     "type": "user_actor",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "scope": {
     "type": "workspace",
     "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
   },
   "status": "active",
-  "type": "api_key",
-  "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
+  "type": "api_key"
 }
 ```
 
@@ -21278,7 +22962,7 @@ var_dump($betaAPIKey);
 
 ### Create External Key
 
-`$client->beta->organization->externalKeys->create(ProviderConfig providerConfig, ?string displayName, ?Geo geo): ExternalKey`
+`$client->beta->organization->externalKeys->create(ProviderConfig providerConfig, ?string displayName, ?Geo geo, ?string userProfileID): ExternalKey`
 
 **POST** `/v1/organizations/external_keys`
 
@@ -21290,13 +22974,17 @@ Create an external key config owned by the caller's organization.
 
   KMS provider identity and auth coordinates.
 
-- `displayName?:optional string`
+- `displayName?: optional string`
 
   Human-friendly display name.
 
-- `geo?:optional Geo`
+- `geo?: optional Geo`
 
   Data residency geo. Only `us` is supported.
+
+- `userProfileID?: optional string`
+
+  ID of a user profile to bind the key to. A user profile represents one of your customers: bind a customer's key to that customer's user profile. A key bound to a user profile can only be attached to a Workspace that has the same user profile, and the binding cannot be changed later. Omit this field only for your organization's own key, because a key created without a user profile ID can be attached to any Workspace, including another customer's.
 
 #### Returns
 
@@ -21306,7 +22994,7 @@ Create an external key config owned by the caller's organization.
 
   - `string id`
 
-    Identifier of the external key config. A tagged ID prefixed `ekey_`, or — for organizations on the Claude Platform on AWS — the AWS KMS key ARN.
+    Identifier of the external key config: a tagged ID prefixed `ekey_`, or, on Claude Platform on AWS, an AWS KMS key's ARN.
 
   - `Attachment attachment`
 
@@ -21320,7 +23008,7 @@ Create an external key config owned by the caller's organization.
 
   - `string geo`
 
-    Data residency geo. Selects which regional validator handles this key's encrypt/decrypt roundtrips.
+    Data residency geo. Selects the region this key is used in.
 
   - `ProviderConfig providerConfig`
 
@@ -21328,12 +23016,18 @@ Create an external key config owned by the caller's organization.
 
   - `\Datetime updatedAt`
 
+  - `?string userProfileID`
+
+    ID of the user profile the key is bound to, or null if the key is not bound to one. A key bound to a user profile can only be attached to a Workspace that has the same user profile. A key that isn't bound can be attached to a Workspace whatever its user profile.
+
 #### Example
 
 ```php
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -21346,6 +23040,7 @@ $betaExternalKey = $client->beta->organization->externalKeys->create(
   ],
   displayName: 'x',
   geo: 'us',
+  userProfileID: 'uprof_01SDCCSbTxrXDpWc1phhtcfK',
 );
 
 var_dump($betaExternalKey);
@@ -21369,7 +23064,8 @@ var_dump($betaExternalKey);
     "role_arn": "arn:aws:iam::111122223333:role/anthropic-cmek"
   },
   "type": "external_key",
-  "updated_at": "2024-10-30T23:58:27.427722Z"
+  "updated_at": "2024-10-30T23:58:27.427722Z",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
 }
 ```
 
@@ -21386,13 +23082,13 @@ Results are ordered by creation time (newest first). Use the
 
 #### Parameters
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results per page.
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page`.
 
@@ -21404,7 +23100,7 @@ Results are ordered by creation time (newest first). Use the
 
   - `string id`
 
-    Identifier of the external key config. A tagged ID prefixed `ekey_`, or — for organizations on the Claude Platform on AWS — the AWS KMS key ARN.
+    Identifier of the external key config: a tagged ID prefixed `ekey_`, or, on Claude Platform on AWS, an AWS KMS key's ARN.
 
   - `Attachment attachment`
 
@@ -21418,7 +23114,7 @@ Results are ordered by creation time (newest first). Use the
 
   - `string geo`
 
-    Data residency geo. Selects which regional validator handles this key's encrypt/decrypt roundtrips.
+    Data residency geo. Selects the region this key is used in.
 
   - `ProviderConfig providerConfig`
 
@@ -21426,12 +23122,18 @@ Results are ordered by creation time (newest first). Use the
 
   - `\Datetime updatedAt`
 
+  - `?string userProfileID`
+
+    ID of the user profile the key is bound to, or null if the key is not bound to one. A key bound to a user profile can only be attached to a Workspace that has the same user profile. A key that isn't bound can be attached to a Workspace whatever its user profile.
+
 #### Example
 
 ```php
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -21460,7 +23162,8 @@ var_dump($page);
         "role_arn": "arn:aws:iam::111122223333:role/anthropic-cmek"
       },
       "type": "external_key",
-      "updated_at": "2024-10-30T23:58:27.427722Z"
+      "updated_at": "2024-10-30T23:58:27.427722Z",
+      "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
     }
   ],
   "next_page": "next_page"
@@ -21489,7 +23192,7 @@ Retrieve a single external key config in the caller's organization by ID.
 
   - `string id`
 
-    Identifier of the external key config. A tagged ID prefixed `ekey_`, or — for organizations on the Claude Platform on AWS — the AWS KMS key ARN.
+    Identifier of the external key config: a tagged ID prefixed `ekey_`, or, on Claude Platform on AWS, an AWS KMS key's ARN.
 
   - `Attachment attachment`
 
@@ -21503,7 +23206,7 @@ Retrieve a single external key config in the caller's organization by ID.
 
   - `string geo`
 
-    Data residency geo. Selects which regional validator handles this key's encrypt/decrypt roundtrips.
+    Data residency geo. Selects the region this key is used in.
 
   - `ProviderConfig providerConfig`
 
@@ -21511,12 +23214,18 @@ Retrieve a single external key config in the caller's organization by ID.
 
   - `\Datetime updatedAt`
 
+  - `?string userProfileID`
+
+    ID of the user profile the key is bound to, or null if the key is not bound to one. A key bound to a user profile can only be attached to a Workspace that has the same user profile. A key that isn't bound can be attached to a Workspace whatever its user profile.
+
 #### Example
 
 ```php
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -21545,7 +23254,8 @@ var_dump($betaExternalKey);
     "role_arn": "arn:aws:iam::111122223333:role/anthropic-cmek"
   },
   "type": "external_key",
-  "updated_at": "2024-10-30T23:58:27.427722Z"
+  "updated_at": "2024-10-30T23:58:27.427722Z",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
 }
 ```
 
@@ -21567,15 +23277,15 @@ encrypted data requires the original key identity to decrypt.
 
   ID of the External Key.
 
-- `displayName?:optional string`
+- `displayName?: optional string`
 
   Human-friendly display name.
 
-- `geo?:optional Geo`
+- `geo?: optional Geo`
 
   Data residency geo. Only `us` is supported.
 
-- `providerConfig?:optional ProviderConfig`
+- `providerConfig?: optional ProviderConfig`
 
   KMS provider identity and auth coordinates.
 
@@ -21587,7 +23297,7 @@ encrypted data requires the original key identity to decrypt.
 
   - `string id`
 
-    Identifier of the external key config. A tagged ID prefixed `ekey_`, or — for organizations on the Claude Platform on AWS — the AWS KMS key ARN.
+    Identifier of the external key config: a tagged ID prefixed `ekey_`, or, on Claude Platform on AWS, an AWS KMS key's ARN.
 
   - `Attachment attachment`
 
@@ -21601,7 +23311,7 @@ encrypted data requires the original key identity to decrypt.
 
   - `string geo`
 
-    Data residency geo. Selects which regional validator handles this key's encrypt/decrypt roundtrips.
+    Data residency geo. Selects the region this key is used in.
 
   - `ProviderConfig providerConfig`
 
@@ -21609,12 +23319,18 @@ encrypted data requires the original key identity to decrypt.
 
   - `\Datetime updatedAt`
 
+  - `?string userProfileID`
+
+    ID of the user profile the key is bound to, or null if the key is not bound to one. A key bound to a user profile can only be attached to a Workspace that has the same user profile. A key that isn't bound can be attached to a Workspace whatever its user profile.
+
 #### Example
 
 ```php
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -21651,7 +23367,8 @@ var_dump($betaExternalKey);
     "role_arn": "arn:aws:iam::111122223333:role/anthropic-cmek"
   },
   "type": "external_key",
-  "updated_at": "2024-10-30T23:58:27.427722Z"
+  "updated_at": "2024-10-30T23:58:27.427722Z",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
 }
 ```
 
@@ -21687,6 +23404,8 @@ The request is rejected if any workspace still references this config.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -21746,6 +23465,8 @@ message if it failed or timed out.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $response = $client->beta->organization->externalKeys->validate(
@@ -21797,19 +23518,19 @@ matched as the JWT's `iss` claim and is not fetched.
 
   Slug identifier (lowercase, digits, hyphens). Unique within the organization; a duplicate name returns 409.
 
-- `checkJTI?:optional bool`
+- `checkJTI?: optional bool`
 
   Whether the jwt-bearer exchange enforces JTI single-use (replay protection) for tokens from this issuer. Defaults to true. Applies only to assertions carrying a `jti` claim; tokens without one are accepted without single-use enforcement.
 
-- `jwks?:optional JWKS`
+- `jwks?: optional JWKS`
 
   How signing keys are obtained. Defaults to OIDC discovery.
 
-- `maxJWTLifetimeSeconds?:optional int`
+- `maxJWTLifetimeSeconds?: optional int`
 
   Maximum allowed iat→exp spread for assertions from this issuer (1-176400 seconds, i.e. up to 49h). Defaults to 3600 (1h). Assertions must carry both `iat` and `exp`; a missing `iat` is rejected.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -21881,6 +23602,9 @@ matched as the JWT's `iss` claim and is not fetched.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -21949,23 +23673,23 @@ Archived issuers are excluded unless `include_archived=true`.
 
 #### Parameters
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   Include archived resources. Defaults to false.
 
   default: false
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results per page.
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -22037,6 +23761,9 @@ Archived issuers are excluded unless `include_archived=true`.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -22101,7 +23828,7 @@ Retrieve a federation issuer by its ID (`fdis_...`).
 
   ID of the federation issuer.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -22173,6 +23900,9 @@ Retrieve a federation issuer by its ID (`fdis_...`).
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -22241,31 +23971,31 @@ session.
 
   ID of the federation issuer to update.
 
-- `checkJTI?:optional bool`
+- `checkJTI?: optional bool`
 
   Whether the jwt-bearer exchange enforces JTI single-use (replay protection) for tokens from this issuer. Applies only to assertions carrying a `jti` claim; tokens without one are accepted without single-use enforcement.
 
-- `issuerURL?:optional string`
+- `issuerURL?: optional string`
 
   Replaces the `iss` claim value to match against. For discovery-mode issuers without a `discovery_base`, this is also the URL Anthropic fetches the OIDC discovery document and signing keys from, so changing it repoints the JWKS source. Changing the issuer URL to a well-known shared platform is rejected while any live rule under this issuer would not constrain tenant identity.
 
-- `jwks?:optional JWKS`
+- `jwks?: optional JWKS`
 
   Replaces the entire JWKS configuration.
 
-- `jwksPollingDisabled?:optional bool`
+- `jwksPollingDisabled?: optional bool`
 
   Only `false` is accepted, to re-enable polling after the system pauses it. Polling is paused automatically; sending `true` is rejected.
 
-- `maxJWTLifetimeSeconds?:optional int`
+- `maxJWTLifetimeSeconds?: optional int`
 
   Maximum allowed iat→exp spread for assertions from this issuer (1-176400 seconds, i.e. up to 49h). Assertions must carry both `iat` and `exp`; a missing `iat` is rejected.
 
-- `name?:optional string`
+- `name?: optional string`
 
   Replaces the slug identifier (lowercase, digits, hyphens). Unique within the organization; a duplicate name returns 409.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -22337,6 +24067,9 @@ session.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -22414,7 +24147,7 @@ issuer cannot be changed), or recreate them against another issuer.
 
   ID of the federation issuer to archive.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -22486,6 +24219,9 @@ issuer cannot be changed), or recreate them against another issuer.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -22579,27 +24315,27 @@ manage rules whose `oauth_scope` is `workspace:developer` or
 
   Identity that tokens minted via this rule act as. Currently always a `service_account` target.
 
-- `appliesToAllWorkspaces?:optional bool`
+- `appliesToAllWorkspaces?: optional bool`
 
   When true, enable this rule for every workspace in the org (including workspaces created later).
 
-- `attributes?:optional array<string,string>`
+- `attributes?: optional array<string,string>`
 
   CEL expressions `{name: expr}` extracting named values from claims. Not yet supported; any non-empty value is rejected with 400.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Optional free-text description.
 
-- `tokenLifetimeSeconds?:optional int`
+- `tokenLifetimeSeconds?: optional int`
 
   Lifetime in seconds for access tokens minted via this rule (60-86400). Defaults to 3600 (1h). Minted tokens are capped at `max(60, min(this value, 2 × remaining assertion validity))` seconds.
 
-- `workspaceID?:optional string`
+- `workspaceID?: optional string`
 
   Tagged ID of the workspace to enable this rule for. Required unless `applies_to_all_workspaces` is true. Additional workspaces can be added via the `/federation_rules/{federation_rule_id}/workspaces` sub-resource.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -22691,6 +24427,9 @@ manage rules whose `oauth_scope` is `workspace:developer` or
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -22777,27 +24516,27 @@ unless `include_archived=true`.
 
 #### Parameters
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   Include archived resources. Defaults to false.
 
   default: false
 
-- `issuerID?:optional string` (query parameter)
+- `issuerID?: optional string` (query parameter)
 
   Filter to rules referencing this federation issuer.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results per page.
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -22889,6 +24628,9 @@ unless `include_archived=true`.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -22966,7 +24708,7 @@ Retrieve a federation rule by its ID (`fdrl_...`).
 
   ID of the federation rule.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -23058,6 +24800,9 @@ Retrieve a federation rule by its ID (`fdrl_...`).
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -23142,43 +24887,43 @@ Console session.
 
   ID of the federation rule to update.
 
-- `appliesToAllWorkspaces?:optional bool`
+- `appliesToAllWorkspaces?: optional bool`
 
   When true, enables this rule for every workspace in the org (including workspaces created later). Setting `false` is rejected with 400 if no workspace would remain enabled; a rule with only a legacy `workspace_id` binding continues to mint.
 
-- `attributes?:optional array<string,string>`
+- `attributes?: optional array<string,string>`
 
   Replaces the CEL expressions `{name: expr}` extracting named values from claims. Send null to clear them. Not yet supported; any non-empty value is rejected with 400.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Replaces the description. Omit to leave unchanged; send `null` to clear (the field is stored as an empty string).
 
-- `match?:optional BetaFederationRuleMatch`
+- `match?: optional BetaFederationRuleMatch`
 
   Replaces the entire match object. All populated matcher fields must pass.
 
-- `name?:optional string`
+- `name?: optional string`
 
   Replaces the slug identifier (lowercase, digits, hyphens). Unique within the organization; a duplicate name returns 409.
 
-- `oauthScope?:optional string`
+- `oauthScope?: optional string`
 
   Replaces the space-separated OAuth scopes granted on minted tokens. OAuth callers may only set `workspace:developer` or `workspace:inference`; other scopes (such as `org:admin`) require a Console session.
 
-- `target?:optional BetaServiceAccountTarget`
+- `target?: optional BetaServiceAccountTarget`
 
   Replaces the entire target object. Currently always a `service_account` target.
 
-- `tokenLifetimeSeconds?:optional int`
+- `tokenLifetimeSeconds?: optional int`
 
   Replaces the lifetime in seconds for access tokens minted via this rule (60-86400). Minted tokens are capped at `max(60, min(this value, 2 × remaining assertion validity))` seconds.
 
-- `workspaceID?:optional string`
+- `workspaceID?: optional string`
 
   Replaces the existing single workspace enablement (the previous one is removed). Rejected with 400 if the rule is enabled for more than one workspace; use the `/federation_rules/{federation_rule_id}/workspaces` sub-resource instead.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -23270,6 +25015,9 @@ Console session.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -23365,7 +25113,7 @@ other scopes require a Console session.
 
   ID of the federation rule to archive.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -23458,6 +25206,9 @@ other scopes require a Console session.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaFederationRule = $client->beta->organization->federation->rules->archive(
@@ -23540,7 +25291,7 @@ other scopes require a Console session.
 
   Tagged ID of the workspace to enable this rule for.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -23576,6 +25327,9 @@ other scopes require a Console session.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -23629,17 +25383,17 @@ rules with `applies_to_all_workspaces` or a legacy single
 
   ID of the federation rule.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results per page.
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -23675,6 +25429,9 @@ rules with `applies_to_all_workspaces` or a legacy single
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -23731,7 +25488,7 @@ Console session.
 
   ID of the workspace to disable for.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -23755,6 +25512,9 @@ Console session.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -23799,9 +25559,9 @@ On plans that draw members from a finite pool of purchased seats, the invite aut
 
   Role for the invited User.
 
-  The accepted values depend on the organization type. Console and API organizations accept `user`, `developer`, `billing`, and `claude_code_user`; `admin` cannot be assigned through the API. Claude Enterprise organizations accept `user` and `managed`.
+  The accepted values depend on the organization type. Console and API organizations accept `user`, `developer`, `billing`, and `claude_code_user`; `admin` cannot be assigned through the API. Claude Enterprise organizations accept `user` and `managed`; inviting with the `managed` role requires the `write:rbac_groups` scope in addition to `write:members`.
 
-- `rbacGroupIDs?:optional list<string>`
+- `rbacGroupIDs?: optional list<string>`
 
   RBAC group IDs to assign to the User when the Invite is accepted. A non-empty array is accepted only for a Claude Enterprise organization with RBAC groups, and requires the key to carry the `write:rbac_groups` scope.
 
@@ -23854,6 +25614,8 @@ On plans that draw members from a finite pool of purchased seats, the invite aut
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaOrganizationInvite = $client->beta->organization->invites->create(
@@ -23891,19 +25653,19 @@ List the organization's invites.
 
 #### Parameters
 
-- `afterID?:optional string` (query parameter)
+- `afterID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
 
-- `beforeID?:optional string` (query parameter)
+- `beforeID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
 
-- `email?:optional string` (query parameter)
+- `email?: optional string` (query parameter)
 
   Filter by the email address the Invite was sent to. Matches the same way as the Users list's `email` filter (normalized, case-insensitive).
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -23911,13 +25673,13 @@ List the organization's invites.
 
   default: 20
 
-- `roles?:optional list<string>` (query parameter)
+- `roles?: optional list<string>` (query parameter)
 
   Filter to items whose `role` equals one of the supplied values. Repeatable; values are OR'ed together.
 
   Accepted values depend on the organization type: Console and API organizations accept `user`, `developer`, `billing`, `admin`, and `claude_code_user`; Claude Enterprise organizations accept `user`, `owner`, `primary_owner`, `membership_admin`, and `managed`.
 
-- `statuses?:optional list<Status>` (query parameter)
+- `statuses?: optional list<Status>` (query parameter)
 
   Filter by Invite status. Repeatable; values are OR'ed together. Omit to return `pending`, `accepted`, and `expired` Invites alike.
 
@@ -23969,6 +25731,8 @@ List the organization's invites.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -24072,6 +25836,8 @@ Retrieve an invite by ID.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaOrganizationInvite = $client->beta->organization->invites->retrieve(
@@ -24134,6 +25900,8 @@ Delete a pending invite.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $invite = $client->beta->organization->invites->delete('invite_id');
@@ -24176,15 +25944,15 @@ accounts.
 
   Slug identifier (lowercase, digits, hyphens). Unique within the organization; a duplicate name returns 409.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Optional free-text description.
 
-- `organizationRole?:optional OrganizationRole`
+- `organizationRole?: optional OrganizationRole`
 
   Org-level role. Defaults to `developer`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -24240,6 +26008,9 @@ accounts.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -24287,23 +26058,23 @@ archived service accounts.
 
 #### Parameters
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   Include archived resources. Defaults to false.
 
   default: false
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results per page.
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -24359,6 +26130,9 @@ archived service accounts.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -24411,7 +26185,7 @@ Retrieve a service account by its ID (`svac_...`).
 
   ID of the service account.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -24467,6 +26241,9 @@ Retrieve a service account by its ID (`svac_...`).
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -24516,15 +26293,15 @@ interactive credential (a user OAuth token or a Console session).
 
   ID of the service account to update.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Replaces the description. Omit to leave unchanged; send `null` to clear (the field is stored as an empty string).
 
-- `organizationRole?:optional OrganizationRole`
+- `organizationRole?: optional OrganizationRole`
 
   Replaces the org-level role. Omit or send `null` to leave unchanged.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -24580,6 +26357,9 @@ interactive credential (a user OAuth token or a Console session).
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -24632,7 +26412,7 @@ those rules first or change their target to another service account.
 
   ID of the service account to archive.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -24688,6 +26468,9 @@ those rules first or change their target to another service account.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -24749,7 +26532,7 @@ rejected.
 
   Role to assign to the service account in this workspace.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -24785,6 +26568,10 @@ rejected.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Organization\Workspaces\NoBillingWorkspaceRole;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -24846,17 +26633,17 @@ page to recover.
 
   ID of the service account.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results per page.
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -24892,6 +26679,9 @@ page to recover.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -24951,7 +26741,7 @@ to the implicit `workspace_user` membership. Archived workspaces return
 
   ID of the workspace.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -24975,6 +26765,9 @@ to the implicit `workspace_user` membership. Archived workspaces return
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -25009,19 +26802,19 @@ List the organization's members.
 
 #### Parameters
 
-- `afterID?:optional string` (query parameter)
+- `afterID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
 
-- `beforeID?:optional string` (query parameter)
+- `beforeID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
 
-- `email?:optional string` (query parameter)
+- `email?: optional string` (query parameter)
 
   Filter by user email.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -25029,7 +26822,7 @@ List the organization's members.
 
   default: 20
 
-- `roles?:optional list<string>` (query parameter)
+- `roles?: optional list<string>` (query parameter)
 
   Filter to items whose `role` equals one of the supplied values. Repeatable; values are OR'ed together.
 
@@ -25072,6 +26865,8 @@ List the organization's members.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->users->list(
@@ -25091,7 +26886,7 @@ var_dump($page);
 {
   "data": [
     {
-      "id": "user_01WCz1FkmYMm4gnmykNKUu3Q",
+      "id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
       "added_at": "2024-10-30T23:58:27.427722Z",
       "email": "user@emaildomain.com",
       "name": "Jane Doe",
@@ -25156,6 +26951,8 @@ Retrieve a member of the organization by user ID.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaOrganizationUser = $client->beta->organization->users->retrieve('user_id');
@@ -25167,7 +26964,7 @@ var_dump($betaOrganizationUser);
 
 ```json
 {
-  "id": "user_01WCz1FkmYMm4gnmykNKUu3Q",
+  "id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
   "added_at": "2024-10-30T23:58:27.427722Z",
   "email": "user@emaildomain.com",
   "name": "Jane Doe",
@@ -25194,7 +26991,7 @@ Update a member's organization role.
 
   New role for the User.
 
-  The accepted values depend on the organization type. Console and API organizations accept `user`, `developer`, `billing`, and `claude_code_user`; `admin` cannot be assigned through the API. Claude Enterprise organizations accept `user` and `managed`.
+  The accepted values depend on the organization type. Console and API organizations accept `user`, `developer`, `billing`, and `claude_code_user`; `admin` cannot be assigned through the API. Claude Enterprise organizations accept `user` and `managed`; changing a User's role to `managed` requires the `write:rbac_groups` scope in addition to `write:members`.
 
 #### Returns
 
@@ -25233,6 +27030,8 @@ Update a member's organization role.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaOrganizationUser = $client->beta->organization->users->update(
@@ -25246,7 +27045,7 @@ var_dump($betaOrganizationUser);
 
 ```json
 {
-  "id": "user_01WCz1FkmYMm4gnmykNKUu3Q",
+  "id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
   "added_at": "2024-10-30T23:58:27.427722Z",
   "email": "user@emaildomain.com",
   "name": "Jane Doe",
@@ -25290,6 +27089,8 @@ Remove a member from the organization.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $user = $client->beta->organization->users->remove('user_id');
@@ -25301,8 +27102,94 @@ var_dump($user);
 
 ```json
 {
-  "id": "user_01WCz1FkmYMm4gnmykNKUu3Q",
+  "id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
   "type": "user_deleted"
+}
+```
+
+### Sign Out User
+
+`$client->beta->organization->users->signOut(string userID, ?list<AnthropicBeta> betas): OrganizationUser`
+
+**POST** `/v1/organizations/users/{user_id}/sign_out`
+
+Sign a member out of Claude everywhere, without removing them from the organization. This ends their sign-in sessions and removes their trusted devices wherever they use Claude, including other organizations and individual plans. It also ends the OAuth tokens issued to them for this organization, so apps such as Claude Code must sign in again.
+
+A token can take up to an hour to stop working, though it almost always stops at once. The member keeps their role and can sign in again right away. To keep them out, remove them from the organization or, if your organization uses single sign-on, block them in your identity provider. Signing out does not end API keys, OAuth tokens that were not issued for this organization, or the member's Claude Code cloud sessions and routines.
+
+You cannot sign out the organization's primary owner or the person your API key or token acts for, and a request to sign out another owner, a member with owner permissions, or a membership admin may be refused. A refused request returns a `400` or `403` error that says why. If the request returns `503`, send it again to finish; anything already ended stays ended.
+
+Every request must include the beta header `anthropic-beta: admin-user-sign-out-2026-10-08`. A request without it returns `400`. Sign-out is in beta for Claude Enterprise organizations. In an organization where it is not enabled, a request returns `400` with `error_code` `organization_not_enrolled_in_beta`. In a Claude Enterprise organization, an API key needs the `write:members` scope; a key without it gets `403`.
+
+#### Parameters
+
+- `userID: string` (path parameter)
+
+  ID of the User.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `admin-user-sign-out-2026-10-08` in this header.
+
+#### Returns
+
+- `class OrganizationUser`
+
+  - `"user" type`
+
+    Object type.
+
+    For Users, this is always `"user"`.
+
+  - `string id`
+
+    ID of the User.
+
+  - `\Datetime addedAt`
+
+    RFC 3339 datetime string indicating when the User joined the Organization.
+
+  - `string email`
+
+    Email of the User.
+
+  - `string name`
+
+    Name of the User.
+
+  - `BetaOrganizationRole role`
+
+    Organization role of the User.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaOrganizationUser = $client->beta->organization->users->signOut(
+  'user_id', betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24]
+);
+
+var_dump($betaOrganizationUser);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
+  "added_at": "2024-10-30T23:58:27.427722Z",
+  "email": "user@emaildomain.com",
+  "name": "Jane Doe",
+  "role": "admin",
+  "type": "user"
 }
 ```
 
@@ -25310,7 +27197,7 @@ var_dump($user);
 
 ### List Workspaces
 
-`$client->beta->organization->workspaces->list(?string afterID, ?string beforeID, ?bool includeArchived, ?bool includeDefault, ?int limit): Page<Workspace>`
+`$client->beta->organization->workspaces->list(?string afterID, ?string beforeID, ?list<string> ids, ?bool includeArchived, ?bool includeDefault, ?int limit): Page<Workspace>`
 
 **GET** `/v1/organizations/workspaces`
 
@@ -25318,27 +27205,31 @@ List Workspaces
 
 #### Parameters
 
-- `afterID?:optional string` (query parameter)
+- `afterID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
 
-- `beforeID?:optional string` (query parameter)
+- `beforeID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
 
-- `includeArchived?:optional bool` (query parameter)
+- `ids?: optional list<string>` (query parameter)
+
+  Only the Workspaces with these IDs, at most 100. `include_archived` and `include_default` still apply, and IDs of Workspaces the caller can't list are left out.
+
+- `includeArchived?: optional bool` (query parameter)
 
   Whether to include Workspaces that have been archived in the response
 
   default: false
 
-- `includeDefault?:optional bool` (query parameter)
+- `includeDefault?: optional bool` (query parameter)
 
   Whether to include the organization's default Workspace in the response
 
   default: false
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -25366,17 +27257,17 @@ List Workspaces
 
   - `string compartmentID`
 
-    Identifier for this Workspace's encryption compartment. When you configure a
-    customer-managed encryption key (CMEK) on AWS, reference this value in your
-    KMS key-policy condition so the key is scoped to this compartment. On GCP and
-    Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK
-    integration guide for the required key configuration; unless your organization
-    is on Claude Platform on AWS, it includes a separate value used during key
-    validation. On Claude Platform on AWS there is no separate validation value:
-    the key is validated against this Workspace's own value when it is attached, so
-    if your key policy uses the compartment condition, add this value to it before
-    attaching the key.
+    Identifier for this Workspace's encryption compartment. When you configure an
+    AWS KMS customer-managed encryption key (CMEK) that isn't bound to a user
+    profile, reference this value in your KMS key-policy condition so the key is
+    scoped to this compartment. On GCP and Azure, Anthropic enforces the compartment
+    binding automatically; you do not need to reference this value in your key
+    configuration. See the CMEK integration guide for the required key
+    configuration; unless your organization is on Claude Platform on AWS, it
+    includes a separate value used during key validation. On Claude Platform on AWS
+    there is no separate validation value: your organization's own key is validated
+    against this Workspace's own value when it is attached, so if its key policy
+    uses the compartment condition, add this value to it before attaching the key.
 
   - `\Datetime createdAt`
 
@@ -25396,13 +27287,13 @@ List Workspaces
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
     referenced key. Create key configurations with the External Keys API. On
-    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
-    single-Region key in the same AWS account and Region as the Workspace. On that
-    platform the key is validated against this Workspace when it is attached, so a
-    key-policy problem is reported as an error on this request. This field is write-once:
-    once a key is attached to a Workspace it cannot be detached or replaced. To
-    rotate key material, rotate the underlying key on your cloud KMS; the
-    `external_key_id` stays the same.
+    Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your
+    organization's own key must be a single-Region key in the same AWS account and
+    Region as the Workspace. On that platform the key is validated against this
+    Workspace when it is attached, so a key-policy problem is reported as an error
+    on this request. This field is write-once: once a key is attached to a Workspace
+    it cannot be detached or replaced. To rotate key material, rotate the underlying
+    key on your cloud KMS; the `external_key_id` stays the same.
 
   - `string name`
 
@@ -25412,6 +27303,10 @@ List Workspaces
 
     User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
 
+  - `?string userProfileID`
+
+    ID of the user profile attached to the Workspace, or null if it has none. Every inference request through a Workspace that has a user profile must name that profile.
+
 #### Example
 
 ```php
@@ -25419,11 +27314,14 @@ List Workspaces
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->workspaces->list(
   afterID: 'after_id',
   beforeID: 'before_id',
+  ids: ['string'],
   includeArchived: true,
   includeDefault: true,
   limit: 1,
@@ -25454,7 +27352,8 @@ var_dump($page);
         "env": "prod",
         "team": "platform"
       },
-      "type": "workspace"
+      "type": "workspace",
+      "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
     }
   ],
   "first_id": "first_id",
@@ -25465,7 +27364,7 @@ var_dump($page);
 
 ### Create Workspace
 
-`$client->beta->organization->workspaces->create(string name, ?DataResidencyCreateConfig dataResidency, ?string displayColor, ?string externalKeyID, ?array<string,string> tags, ?list<AnthropicBeta> betas): Workspace`
+`$client->beta->organization->workspaces->create(string name, ?DataResidencyCreateConfig dataResidency, ?string displayColor, ?string externalKeyID, ?array<string,string> tags, ?string userProfileID, ?list<AnthropicBeta> betas): Workspace`
 
 **POST** `/v1/organizations/workspaces`
 
@@ -25477,33 +27376,37 @@ Create Workspace
 
   Name of the Workspace.
 
-- `dataResidency?:optional DataResidencyCreateConfig`
+- `dataResidency?: optional DataResidencyCreateConfig`
 
   Data residency configuration for the workspace. If omitted, defaults to `workspace_geo: "us"`, `allowed_inference_geos: "unrestricted"`, and `default_inference_geo: "global"`.
 
-- `displayColor?:optional string`
+- `displayColor?: optional string`
 
   Hex color code representing the Workspace in the Anthropic Console.
 
-- `externalKeyID?:optional string`
+- `externalKeyID?: optional string`
 
   ID of the customer-managed encryption key (CMEK) configuration to use for this
   Workspace. Setting this field requires CMEK to be enabled for your
   organization. When set, data stored for this Workspace is encrypted with the
   referenced key. Create key configurations with the External Keys API. On
-  Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
-  single-Region key in the same AWS account and Region as the Workspace. On that
-  platform the key is validated against this Workspace when it is attached, so a
-  key-policy problem is reported as an error on this request. This field is write-once:
-  once a key is attached to a Workspace it cannot be detached or replaced. To
-  rotate key material, rotate the underlying key on your cloud KMS; the
-  `external_key_id` stays the same.
+  Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your
+  organization's own key must be a single-Region key in the same AWS account and
+  Region as the Workspace. On that platform the key is validated against this
+  Workspace when it is attached, so a key-policy problem is reported as an error
+  on this request. This field is write-once: once a key is attached to a Workspace
+  it cannot be detached or replaced. To rotate key material, rotate the underlying
+  key on your cloud KMS; the `external_key_id` stays the same.
 
-- `tags?:optional array<string,string>`
+- `tags?: optional array<string,string>`
 
   User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `userProfileID?: optional string`
+
+  ID of a user profile to attach to the Workspace. Every inference request through the Workspace must then name this user profile; the API rejects a request that names none or a different one. The user profile can't be replaced or removed later; only deleting the user profile clears it.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -25527,17 +27430,17 @@ Create Workspace
 
   - `string compartmentID`
 
-    Identifier for this Workspace's encryption compartment. When you configure a
-    customer-managed encryption key (CMEK) on AWS, reference this value in your
-    KMS key-policy condition so the key is scoped to this compartment. On GCP and
-    Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK
-    integration guide for the required key configuration; unless your organization
-    is on Claude Platform on AWS, it includes a separate value used during key
-    validation. On Claude Platform on AWS there is no separate validation value:
-    the key is validated against this Workspace's own value when it is attached, so
-    if your key policy uses the compartment condition, add this value to it before
-    attaching the key.
+    Identifier for this Workspace's encryption compartment. When you configure an
+    AWS KMS customer-managed encryption key (CMEK) that isn't bound to a user
+    profile, reference this value in your KMS key-policy condition so the key is
+    scoped to this compartment. On GCP and Azure, Anthropic enforces the compartment
+    binding automatically; you do not need to reference this value in your key
+    configuration. See the CMEK integration guide for the required key
+    configuration; unless your organization is on Claude Platform on AWS, it
+    includes a separate value used during key validation. On Claude Platform on AWS
+    there is no separate validation value: your organization's own key is validated
+    against this Workspace's own value when it is attached, so if its key policy
+    uses the compartment condition, add this value to it before attaching the key.
 
   - `\Datetime createdAt`
 
@@ -25557,13 +27460,13 @@ Create Workspace
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
     referenced key. Create key configurations with the External Keys API. On
-    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
-    single-Region key in the same AWS account and Region as the Workspace. On that
-    platform the key is validated against this Workspace when it is attached, so a
-    key-policy problem is reported as an error on this request. This field is write-once:
-    once a key is attached to a Workspace it cannot be detached or replaced. To
-    rotate key material, rotate the underlying key on your cloud KMS; the
-    `external_key_id` stays the same.
+    Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your
+    organization's own key must be a single-Region key in the same AWS account and
+    Region as the Workspace. On that platform the key is validated against this
+    Workspace when it is attached, so a key-policy problem is reported as an error
+    on this request. This field is write-once: once a key is attached to a Workspace
+    it cannot be detached or replaced. To rotate key material, rotate the underlying
+    key on your cloud KMS; the `external_key_id` stays the same.
 
   - `string name`
 
@@ -25573,12 +27476,19 @@ Create Workspace
 
     User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
 
+  - `?string userProfileID`
+
+    ID of the user profile attached to the Workspace, or null if it has none. Every inference request through a Workspace that has a user profile must name that profile.
+
 #### Example
 
 ```php
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -25592,6 +27502,7 @@ $betaWorkspace = $client->beta->organization->workspaces->create(
   displayColor: '#6C5BB9',
   externalKeyID: 'ekey_01SDCCSbTxrXDpWc1phhtcfK',
   tags: ['env' => 'prod', 'team' => 'platform'],
+  userProfileID: 'uprof_01SDCCSbTxrXDpWc1phhtcfK',
   betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
 );
 
@@ -25618,7 +27529,8 @@ var_dump($betaWorkspace);
     "env": "prod",
     "team": "platform"
   },
-  "type": "workspace"
+  "type": "workspace",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
 }
 ```
 
@@ -25656,17 +27568,17 @@ Get Workspace
 
   - `string compartmentID`
 
-    Identifier for this Workspace's encryption compartment. When you configure a
-    customer-managed encryption key (CMEK) on AWS, reference this value in your
-    KMS key-policy condition so the key is scoped to this compartment. On GCP and
-    Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK
-    integration guide for the required key configuration; unless your organization
-    is on Claude Platform on AWS, it includes a separate value used during key
-    validation. On Claude Platform on AWS there is no separate validation value:
-    the key is validated against this Workspace's own value when it is attached, so
-    if your key policy uses the compartment condition, add this value to it before
-    attaching the key.
+    Identifier for this Workspace's encryption compartment. When you configure an
+    AWS KMS customer-managed encryption key (CMEK) that isn't bound to a user
+    profile, reference this value in your KMS key-policy condition so the key is
+    scoped to this compartment. On GCP and Azure, Anthropic enforces the compartment
+    binding automatically; you do not need to reference this value in your key
+    configuration. See the CMEK integration guide for the required key
+    configuration; unless your organization is on Claude Platform on AWS, it
+    includes a separate value used during key validation. On Claude Platform on AWS
+    there is no separate validation value: your organization's own key is validated
+    against this Workspace's own value when it is attached, so if its key policy
+    uses the compartment condition, add this value to it before attaching the key.
 
   - `\Datetime createdAt`
 
@@ -25686,13 +27598,13 @@ Get Workspace
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
     referenced key. Create key configurations with the External Keys API. On
-    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
-    single-Region key in the same AWS account and Region as the Workspace. On that
-    platform the key is validated against this Workspace when it is attached, so a
-    key-policy problem is reported as an error on this request. This field is write-once:
-    once a key is attached to a Workspace it cannot be detached or replaced. To
-    rotate key material, rotate the underlying key on your cloud KMS; the
-    `external_key_id` stays the same.
+    Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your
+    organization's own key must be a single-Region key in the same AWS account and
+    Region as the Workspace. On that platform the key is validated against this
+    Workspace when it is attached, so a key-policy problem is reported as an error
+    on this request. This field is write-once: once a key is attached to a Workspace
+    it cannot be detached or replaced. To rotate key material, rotate the underlying
+    key on your cloud KMS; the `external_key_id` stays the same.
 
   - `string name`
 
@@ -25702,12 +27614,18 @@ Get Workspace
 
     User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
 
+  - `?string userProfileID`
+
+    ID of the user profile attached to the Workspace, or null if it has none. Every inference request through a Workspace that has a user profile must name that profile.
+
 #### Example
 
 ```php
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -25738,13 +27656,14 @@ var_dump($betaWorkspace);
     "env": "prod",
     "team": "platform"
   },
-  "type": "workspace"
+  "type": "workspace",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
 }
 ```
 
 ### Update Workspace
 
-`$client->beta->organization->workspaces->update(string workspaceID, ?DataResidencyUpdateConfig dataResidency, ?string displayColor, ?string externalKeyID, ?string name, ?array<string,string> tags): Workspace`
+`$client->beta->organization->workspaces->update(string workspaceID, ?DataResidencyUpdateConfig dataResidency, ?string displayColor, ?string externalKeyID, ?string name, ?array<string,string> tags, ?string userProfileID): Workspace`
 
 **POST** `/v1/organizations/workspaces/{workspace_id}`
 
@@ -25754,35 +27673,39 @@ Update Workspace
 
 - `workspaceID: string` (path parameter)
 
-- `dataResidency?:optional DataResidencyUpdateConfig`
+- `dataResidency?: optional DataResidencyUpdateConfig`
 
   Data residency configuration for the workspace.
 
-- `displayColor?:optional string`
+- `displayColor?: optional string`
 
   Hex color code representing the Workspace in the Anthropic Console.
 
-- `externalKeyID?:optional string`
+- `externalKeyID?: optional string`
 
   ID of the customer-managed encryption key (CMEK) configuration to use for this
   Workspace. Setting this field requires CMEK to be enabled for your
   organization. When set, data stored for this Workspace is encrypted with the
   referenced key. Create key configurations with the External Keys API. On
-  Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
-  single-Region key in the same AWS account and Region as the Workspace. On that
-  platform the key is validated against this Workspace when it is attached, so a
-  key-policy problem is reported as an error on this request. This field is write-once:
-  once a key is attached to a Workspace it cannot be detached or replaced. To
-  rotate key material, rotate the underlying key on your cloud KMS; the
-  `external_key_id` stays the same.
+  Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your
+  organization's own key must be a single-Region key in the same AWS account and
+  Region as the Workspace. On that platform the key is validated against this
+  Workspace when it is attached, so a key-policy problem is reported as an error
+  on this request. This field is write-once: once a key is attached to a Workspace
+  it cannot be detached or replaced. To rotate key material, rotate the underlying
+  key on your cloud KMS; the `external_key_id` stays the same.
 
-- `name?:optional string`
+- `name?: optional string`
 
   Name of the Workspace.
 
-- `tags?:optional array<string,string>`
+- `tags?: optional array<string,string>`
 
   User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
+
+- `userProfileID?: optional string`
+
+  ID of a user profile to attach to the Workspace. Every inference request through the Workspace must then name this user profile; the API rejects a request that names none or a different one. Once set, it can't be replaced or removed (sending the same ID again changes nothing); only deleting the user profile clears it. The default Workspace can't have a user profile.
 
 #### Returns
 
@@ -25804,17 +27727,17 @@ Update Workspace
 
   - `string compartmentID`
 
-    Identifier for this Workspace's encryption compartment. When you configure a
-    customer-managed encryption key (CMEK) on AWS, reference this value in your
-    KMS key-policy condition so the key is scoped to this compartment. On GCP and
-    Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK
-    integration guide for the required key configuration; unless your organization
-    is on Claude Platform on AWS, it includes a separate value used during key
-    validation. On Claude Platform on AWS there is no separate validation value:
-    the key is validated against this Workspace's own value when it is attached, so
-    if your key policy uses the compartment condition, add this value to it before
-    attaching the key.
+    Identifier for this Workspace's encryption compartment. When you configure an
+    AWS KMS customer-managed encryption key (CMEK) that isn't bound to a user
+    profile, reference this value in your KMS key-policy condition so the key is
+    scoped to this compartment. On GCP and Azure, Anthropic enforces the compartment
+    binding automatically; you do not need to reference this value in your key
+    configuration. See the CMEK integration guide for the required key
+    configuration; unless your organization is on Claude Platform on AWS, it
+    includes a separate value used during key validation. On Claude Platform on AWS
+    there is no separate validation value: your organization's own key is validated
+    against this Workspace's own value when it is attached, so if its key policy
+    uses the compartment condition, add this value to it before attaching the key.
 
   - `\Datetime createdAt`
 
@@ -25834,13 +27757,13 @@ Update Workspace
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
     referenced key. Create key configurations with the External Keys API. On
-    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
-    single-Region key in the same AWS account and Region as the Workspace. On that
-    platform the key is validated against this Workspace when it is attached, so a
-    key-policy problem is reported as an error on this request. This field is write-once:
-    once a key is attached to a Workspace it cannot be detached or replaced. To
-    rotate key material, rotate the underlying key on your cloud KMS; the
-    `external_key_id` stays the same.
+    Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your
+    organization's own key must be a single-Region key in the same AWS account and
+    Region as the Workspace. On that platform the key is validated against this
+    Workspace when it is attached, so a key-policy problem is reported as an error
+    on this request. This field is write-once: once a key is attached to a Workspace
+    it cannot be detached or replaced. To rotate key material, rotate the underlying
+    key on your cloud KMS; the `external_key_id` stays the same.
 
   - `string name`
 
@@ -25850,12 +27773,18 @@ Update Workspace
 
     User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
 
+  - `?string userProfileID`
+
+    ID of the user profile attached to the Workspace, or null if it has none. Every inference request through a Workspace that has a user profile must name that profile.
+
 #### Example
 
 ```php
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -25868,6 +27797,7 @@ $betaWorkspace = $client->beta->organization->workspaces->update(
   externalKeyID: 'ekey_01SDCCSbTxrXDpWc1phhtcfK',
   name: 'x',
   tags: ['env' => 'prod', 'team' => 'platform'],
+  userProfileID: 'uprof_01SDCCSbTxrXDpWc1phhtcfK',
 );
 
 var_dump($betaWorkspace);
@@ -25893,7 +27823,8 @@ var_dump($betaWorkspace);
     "env": "prod",
     "team": "platform"
   },
-  "type": "workspace"
+  "type": "workspace",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
 }
 ```
 
@@ -25929,17 +27860,17 @@ Archive Workspace
 
   - `string compartmentID`
 
-    Identifier for this Workspace's encryption compartment. When you configure a
-    customer-managed encryption key (CMEK) on AWS, reference this value in your
-    KMS key-policy condition so the key is scoped to this compartment. On GCP and
-    Azure, Anthropic enforces the compartment binding automatically; you do not
-    need to reference this value in your key configuration. See the CMEK
-    integration guide for the required key configuration; unless your organization
-    is on Claude Platform on AWS, it includes a separate value used during key
-    validation. On Claude Platform on AWS there is no separate validation value:
-    the key is validated against this Workspace's own value when it is attached, so
-    if your key policy uses the compartment condition, add this value to it before
-    attaching the key.
+    Identifier for this Workspace's encryption compartment. When you configure an
+    AWS KMS customer-managed encryption key (CMEK) that isn't bound to a user
+    profile, reference this value in your KMS key-policy condition so the key is
+    scoped to this compartment. On GCP and Azure, Anthropic enforces the compartment
+    binding automatically; you do not need to reference this value in your key
+    configuration. See the CMEK integration guide for the required key
+    configuration; unless your organization is on Claude Platform on AWS, it
+    includes a separate value used during key validation. On Claude Platform on AWS
+    there is no separate validation value: your organization's own key is validated
+    against this Workspace's own value when it is attached, so if its key policy
+    uses the compartment condition, add this value to it before attaching the key.
 
   - `\Datetime createdAt`
 
@@ -25959,13 +27890,13 @@ Archive Workspace
     Workspace. Setting this field requires CMEK to be enabled for your
     organization. When set, data stored for this Workspace is encrypted with the
     referenced key. Create key configurations with the External Keys API. On
-    Claude Platform on AWS the value is the AWS KMS key ARN, and the key must be a
-    single-Region key in the same AWS account and Region as the Workspace. On that
-    platform the key is validated against this Workspace when it is attached, so a
-    key-policy problem is reported as an error on this request. This field is write-once:
-    once a key is attached to a Workspace it cannot be detached or replaced. To
-    rotate key material, rotate the underlying key on your cloud KMS; the
-    `external_key_id` stays the same.
+    Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your
+    organization's own key must be a single-Region key in the same AWS account and
+    Region as the Workspace. On that platform the key is validated against this
+    Workspace when it is attached, so a key-policy problem is reported as an error
+    on this request. This field is write-once: once a key is attached to a Workspace
+    it cannot be detached or replaced. To rotate key material, rotate the underlying
+    key on your cloud KMS; the `external_key_id` stays the same.
 
   - `string name`
 
@@ -25975,12 +27906,18 @@ Archive Workspace
 
     User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
 
+  - `?string userProfileID`
+
+    ID of the user profile attached to the Workspace, or null if it has none. Every inference request through a Workspace that has a user profile must name that profile.
+
 #### Example
 
 ```php
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -26011,7 +27948,8 @@ var_dump($betaWorkspace);
     "env": "prod",
     "team": "platform"
   },
-  "type": "workspace"
+  "type": "workspace",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
 }
 ```
 
@@ -26041,23 +27979,23 @@ the remaining entries.
 
   The ID of the workspace.
 
-- `groupType?:optional GroupType` (query parameter)
+- `groupType?: optional GroupType` (query parameter)
 
   Filter by group type.
 
-- `includeInherited?:optional bool` (query parameter)
+- `includeInherited?: optional bool` (query parameter)
 
   Also list the limiter values the workspace inherits from the organization, including groups with no workspace-level override.
 
   default: false
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of items to return per page. Ranges from `1` to `1000`.
 
   When omitted, every remaining entry is returned in a single page and `next_page` is `null`.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page`.
 
@@ -26071,7 +28009,7 @@ the remaining entries.
 
   - `Group group`
 
-    The rate-limit group this entry's limits apply to. Its `type` equals `group_type`.
+    The rate-limit group this entry's limits apply to.
 
   - `list<BetaWorkspaceRateLimitValue> limits`
 
@@ -26079,7 +28017,7 @@ the remaining entries.
 
   - `?list<string> models`
 
-    Model names this entry's limits apply to, including aliases. `null` when `group_type` is not `"model_group"`.
+    Model names this entry's limits apply to, including aliases. `null` when `group.type` is not `"model_group"`. The list covers the models this workspace has access to, so it can differ between workspaces.
 
   - `string rateLimitID`
 
@@ -26089,18 +28027,14 @@ the remaining entries.
 
     ID of the Workspace this entry applies to.
 
-  - `GroupType groupType`
-
-    **Deprecated**: Use `group.type` instead. `group_type` is still returned and always equals `group.type`.
-
-    Deprecated: use `group.type` instead. The kind of rate-limit group this entry represents. `model_group` entries apply to a family of models (listed in `models`); other values apply to an API-surface category and have `models` set to `null`. Always equal to `group.type`.
-
 #### Example
 
 ```php
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -26126,7 +28060,6 @@ var_dump($page);
         "display_name": "display_name",
         "type": "model_group"
       },
-      "group_type": "batch",
       "limits": [
         {
           "org_limit": 0,
@@ -26149,6 +28082,120 @@ var_dump($page);
 }
 ```
 
+### Set Workspace Rate Limits
+
+`$client->beta->organization->workspaces->rateLimits->update(string rateLimitID, string workspaceID, list<BetaWorkspaceRateLimitUpdateValue> limits): BetaWorkspaceRateLimit`
+
+**POST** `/v1/organizations/workspaces/{workspace_id}/rate_limits/{rate_limit_id}`
+
+Set or clear rate-limit overrides for one rate-limit group in a workspace.
+
+Only the limiter types named in `limits` change: an integer `value` sets
+that type's override and `null` clears it. Types not named keep their
+current value. A value above the organization's own limit is stored, but
+the organization limit still applies, so the lower of the two is
+enforced.
+
+Returns the targeted group's entry with this request applied, in the shape
+`GET /v1/organizations/workspaces/{workspace_id}/rate_limits` returns.
+Changes take effect within about an hour.
+
+#### Parameters
+
+- `workspaceID: string` (path parameter)
+
+  The ID of the workspace.
+
+- `rateLimitID: string` (path parameter)
+
+  The `id` of the organization's rate-limit entry to set overrides for.
+
+- `limits: list<BetaWorkspaceRateLimitUpdateValue>`
+
+  Limits to set or clear. Unspecified limit types are unchanged.
+
+#### Returns
+
+- `class BetaWorkspaceRateLimit`
+
+  - `"workspace_rate_limit" type`
+
+    Object type. Always `workspace_rate_limit` for workspace rate-limit entries.
+
+  - `Group group`
+
+    The rate-limit group this entry's limits apply to.
+
+  - `list<BetaWorkspaceRateLimitValue> limits`
+
+    The workspace's limiter values for this group. By default only the limiter types with a workspace-level override are listed. With `include_inherited` set to `true`, the limiter types the workspace inherits from the organization are listed too, each marked by `source`.
+
+  - `?list<string> models`
+
+    Model names this entry's limits apply to, including aliases. `null` when `group.type` is not `"model_group"`. The list covers the models this workspace has access to, so it can differ between workspaces.
+
+  - `string rateLimitID`
+
+    The `id` of the organization's RateLimit entry this entry applies to.
+
+  - `string workspaceID`
+
+    ID of the Workspace this entry applies to.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\Organization\Workspaces\RateLimits\BetaWorkspaceRateLimitType;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaWorkspaceRateLimit = $client
+  ->beta
+  ->organization
+  ->workspaces
+  ->rateLimits
+  ->update(
+  'rate_limit_id',
+  workspaceID: 'workspace_id',
+  limits: [['type' => BetaWorkspaceRateLimitType::FAST_ITPMCA, 'value' => 0]],
+);
+
+var_dump($betaWorkspaceRateLimit);
+```
+
+##### Response (200)
+
+```json
+{
+  "group": {
+    "id": "id",
+    "display_name": "display_name",
+    "type": "model_group"
+  },
+  "limits": [
+    {
+      "org_limit": 0,
+      "source": {
+        "type": "workspace"
+      },
+      "type": "type",
+      "value": 0
+    }
+  ],
+  "models": [
+    "string"
+  ],
+  "rate_limit_id": "rate_limit_id",
+  "type": "workspace_rate_limit",
+  "workspace_id": "workspace_id"
+}
+```
+
 ## Beta › Organization › Workspaces › Members
 
 ### List Workspace Members
@@ -26165,15 +28212,15 @@ List Workspace Members
 
   ID of the Workspace.
 
-- `afterID?:optional string` (query parameter)
+- `afterID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
 
-- `beforeID?:optional string` (query parameter)
+- `beforeID?: optional string` (query parameter)
 
   ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -26210,6 +28257,8 @@ List Workspace Members
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->workspaces->members->list(
@@ -26226,7 +28275,7 @@ var_dump($page);
   "data": [
     {
       "type": "workspace_member",
-      "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q",
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
       "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
       "workspace_role": "workspace_admin"
     }
@@ -26288,11 +28337,14 @@ Create Workspace Member
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\Organization\Workspaces\NoBillingWorkspaceRole;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaWorkspaceMember = $client->beta->organization->workspaces->members->add(
   'workspace_id',
-  userID: 'user_01WCz1FkmYMm4gnmykNKUu3Q',
+  userID: 'user_01WxYzAbCdEfGhJkMnPqRsTu',
   workspaceRole: NoBillingWorkspaceRole::WORKSPACE_ADMIN,
 );
 
@@ -26304,7 +28356,7 @@ var_dump($betaWorkspaceMember);
 ```json
 {
   "type": "workspace_member",
-  "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q",
+  "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
   "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
   "workspace_role": "workspace_admin"
 }
@@ -26357,6 +28409,8 @@ Get Workspace Member
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaWorkspaceMember = $client
@@ -26374,7 +28428,7 @@ var_dump($betaWorkspaceMember);
 ```json
 {
   "type": "workspace_member",
-  "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q",
+  "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
   "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
   "workspace_role": "workspace_admin"
 }
@@ -26431,6 +28485,9 @@ Update Workspace Member
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\Organization\Workspaces\WorkspaceRole;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaWorkspaceMember = $client->beta->organization->workspaces->members->update(
@@ -26447,7 +28504,7 @@ var_dump($betaWorkspaceMember);
 ```json
 {
   "type": "workspace_member",
-  "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q",
+  "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
   "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
   "workspace_role": "workspace_admin"
 }
@@ -26496,6 +28553,8 @@ Delete Workspace Member
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $member = $client->beta->organization->workspaces->members->remove(
@@ -26510,7 +28569,7 @@ var_dump($member);
 ```json
 {
   "type": "workspace_member_deleted",
-  "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q",
+  "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
   "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
 }
 ```
@@ -26540,17 +28599,17 @@ omitted from the results.
 
   ID of the workspace.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results per page.
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -26586,6 +28645,9 @@ omitted from the results.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -26650,7 +28712,7 @@ accounts cannot be added and are rejected.
 
   Role to assign to the service account in this workspace.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -26686,6 +28748,10 @@ accounts cannot be added and are rejected.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Organization\Workspaces\NoBillingWorkspaceRole;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -26744,7 +28810,7 @@ account returns 404.
 
   ID of the service account.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -26780,6 +28846,9 @@ account returns 404.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -26841,7 +28910,7 @@ rejected.
 
   New role for the service account in this workspace.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -26877,6 +28946,10 @@ rejected.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Organization\Workspaces\NoBillingWorkspaceRole;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -26934,7 +29007,7 @@ membership. Archived workspaces return 400.
 
   ID of the service account.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -26958,6 +29031,9 @@ membership. Archived workspaces return 400.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -27005,21 +29081,21 @@ the remaining entries.
 
 #### Parameters
 
-- `groupType?:optional GroupType` (query parameter)
+- `groupType?: optional GroupType` (query parameter)
 
   Filter by group type.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of items to return per page. Ranges from `1` to `1000`.
 
   When omitted, every remaining entry is returned in a single page and `next_page` is `null`.
 
-- `model?:optional string` (query parameter)
+- `model?: optional string` (query parameter)
 
   Filter to the single entry containing this model. Accepts full model names and aliases. Returns 404 if the model is not found or has no rate limits for this organization.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page`.
 
@@ -27033,11 +29109,11 @@ the remaining entries.
 
   - `string id`
 
-    Identifier of this rate-limit entry. It is stable within the organization and differs between organizations; the group's own identifier is `group.id`.
+    Identifier of this rate-limit entry. It is stable within the organization and differs between organizations; the group's own identifier is `group.id`. Pass it as `rate_limit_id` to set a workspace's overrides for this group.
 
   - `Group group`
 
-    The rate-limit group this entry's limits apply to. Its `type` equals `group_type`.
+    The rate-limit group this entry's limits apply to.
 
   - `list<OrganizationRateLimitValue> limits`
 
@@ -27045,13 +29121,7 @@ the remaining entries.
 
   - `?list<string> models`
 
-    Model names this entry's limits apply to, including aliases. `null` when `group_type` is not `"model_group"`.
-
-  - `GroupType groupType`
-
-    **Deprecated**: Use `group.type` instead. `group_type` is still returned and always equals `group.type`.
-
-    Deprecated: use `group.type` instead. The kind of rate-limit group this entry represents. `model_group` entries apply to a family of models (listed in `models`); other values apply to an API-surface category and have `models` set to `null`. Always equal to `group.type`.
+    Model names this entry's limits apply to, including aliases. `null` when `group.type` is not `"model_group"`. The list covers the models your organization has access to, so it can differ between organizations.
 
 #### Example
 
@@ -27059,6 +29129,8 @@ the remaining entries.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -27081,7 +29153,6 @@ var_dump($page);
         "display_name": "display_name",
         "type": "model_group"
       },
-      "group_type": "batch",
       "limits": [
         {
           "type": "type",
@@ -27130,6 +29201,8 @@ organization reads the state inherited from the parent's configuration.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaComplianceSettings = $client
@@ -27162,7 +29235,10 @@ Update your organization's Compliance Settings.
 
 Setting `state` to `enabled` turns on the Compliance API and begins
 capturing organization activity events. Setting it to `disabled` turns
-both off. `state` reflects whether the Compliance API is enabled.
+both off. Access Transparency events are an exception: they are still
+captured while the Compliance API is disabled, and the Compliance API
+activity feed returns them once it is enabled again. `state` reflects
+whether the Compliance API is enabled.
 
 A request that sets `state` to its current value succeeds and leaves the
 resource unchanged. A `disabled` request stays in effect until a later
@@ -27195,6 +29271,8 @@ compliance settings.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -27245,19 +29323,19 @@ Enterprise plan. Requires an API key with the `read:analytics` scope.
 
   UTC date in YYYY-MM-DD format. Start of the date range (inclusive). Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day) and may be revised by a few percent over the following days. No earlier than 2026-01-01.
 
-- `endingDate?:optional \Datetime` (query parameter)
+- `endingDate?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. End of the date range (exclusive). Data is typically available with a 1-day lag, so this can be at most today — which is also the default when omitted, making the last entry cover the most recent available day. Data may be revised by a few percent over the following days. The range may span at most 366 days.
 
-- `filter?:optional list<string>` (query parameter)
+- `filter?: optional list<string>` (query parameter)
 
   Filters as `dimension:value`. Only `rbac_group_id` is supported (e.g. `filter[]=rbac_group_id:{id}`); repeat the param to OR across groups. Scopes the whole day series to members of the matching group(s), re-aggregated from member-level activity — org-wide seat/invite fields and the adoption rates derived from them are null on scoped rows. `rbac_group_id` accepts the tagged id (`rbac_group_...`, as emitted in responses and by the spend-limits API) or a bare group UUID, and matches users who held the group at any point during each UTC day (time-of-usage attribution). At most 100 entries.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results per page (1-1000, default 100). The day series (at most 366 entries) is currently returned in full in a single page, so `limit` does not yet shorten it.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field. `next_page` is currently always null, so there is never a cursor to send.
 
@@ -27319,15 +29397,15 @@ Enterprise plan. Requires an API key with the `read:analytics` scope.
 
   - `?int chatCoworkUnifiedDailyActiveUserCount`
 
-    Number of users with activity in Chat and Cowork unified on the requested day. Omitted from the response on deployments that do not offer Chat and Cowork unified.
+    Number of users with activity in Chat and Cowork unified on the requested day. Omitted from the response where Chat and Cowork unified is not available.
 
   - `?int chatCoworkUnifiedMonthlyActiveUserCount`
 
-    Number of users with activity in Chat and Cowork unified in the 28-day rolling window (30 days when the request filters by `rbac_group_id`). Omitted from the response on deployments that do not offer Chat and Cowork unified.
+    Number of users with activity in Chat and Cowork unified in the 28-day rolling window (30 days when the request filters by `rbac_group_id`). Omitted from the response where Chat and Cowork unified is not available.
 
   - `?int chatCoworkUnifiedWeeklyActiveUserCount`
 
-    Number of users with activity in Chat and Cowork unified in the 7-day rolling window. Omitted from the response on deployments that do not offer Chat and Cowork unified.
+    Number of users with activity in Chat and Cowork unified in the 7-day rolling window. Omitted from the response where Chat and Cowork unified is not available.
 
   - `?int chatDailyActiveUserCount`
 
@@ -27400,6 +29478,8 @@ Enterprise plan. Requires an API key with the `read:analytics` scope.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->analytics->summaries->list(
@@ -27453,43 +29533,7 @@ var_dump($page);
       "science_weekly_active_user_count": 0
     }
   ],
-  "next_page": "next_page",
-  "summaries": [
-    {
-      "assigned_seat_count": 0,
-      "cowork_daily_active_user_count": 0,
-      "cowork_monthly_active_user_count": 0,
-      "cowork_weekly_active_user_count": 0,
-      "daily_active_user_count": 0,
-      "daily_adoption_rate": 0,
-      "ending_at": "2019-12-27T18:11:19.117Z",
-      "monthly_active_user_count": 0,
-      "monthly_adoption_rate": 0,
-      "pending_invite_count": 0,
-      "starting_at": "2019-12-27T18:11:19.117Z",
-      "weekly_active_user_count": 0,
-      "weekly_adoption_rate": 0,
-      "chat_cowork_unified_daily_active_user_count": 0,
-      "chat_cowork_unified_monthly_active_user_count": 0,
-      "chat_cowork_unified_weekly_active_user_count": 0,
-      "chat_daily_active_user_count": 0,
-      "chat_monthly_active_user_count": 0,
-      "chat_weekly_active_user_count": 0,
-      "claude_code_daily_active_user_count": 0,
-      "claude_code_monthly_active_user_count": 0,
-      "claude_code_weekly_active_user_count": 0,
-      "claude_design_daily_active_user_count": 0,
-      "claude_design_monthly_active_user_count": 0,
-      "claude_design_weekly_active_user_count": 0,
-      "office_agent_daily_active_user_count": 0,
-      "office_agent_monthly_active_user_count": 0,
-      "office_agent_weekly_active_user_count": 0,
-      "science_daily_active_user_count": 0,
-      "science_entitled_user_count": 0,
-      "science_monthly_active_user_count": 0,
-      "science_weekly_active_user_count": 0
-    }
-  ]
+  "next_page": "next_page"
 }
 ```
 
@@ -27497,7 +29541,7 @@ var_dump($page);
 
 ### List User Activity
 
-`$client->beta->organization->analytics->users->list(?\Datetime date, ?\Datetime endingDate, ?list<string> filter, ?list<GroupBy> groupBy, ?int limit, ?Order order, ?string orderBy, ?string page, ?\Datetime startingDate): PageCursor<AnalyticsUserActivity>`
+`$client->beta->organization->analytics->users->list(?\Datetime date, ?\Datetime endingDate, ?list<string> filter, ?list<AnalyticsUserGroupBy> groupBy, ?int limit, ?AnalyticsOrder order, ?string orderBy, ?string page, ?\Datetime startingDate): PageCursor<AnalyticsUserActivity>`
 
 **GET** `/v1/organizations/analytics/users`
 
@@ -27511,39 +29555,39 @@ the `read:analytics` scope.
 
 #### Parameters
 
-- `date?:optional \Datetime` (query parameter)
+- `date?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. The day to get user activity for. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day) and may be revised by a few percent over the following days. No earlier than 2026-01-01.
 
-- `endingDate?:optional \Datetime` (query parameter)
+- `endingDate?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. End of the date range (exclusive); only valid with `starting_date`. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day), so this can be at most today — which is also the default when omitted, resolved once when the first page is served and reused for the rest of the pagination sequence. At most 366 days after `starting_date`.
 
-- `filter?:optional list<string>` (query parameter)
+- `filter?: optional list<string>` (query parameter)
 
   Filters as `dimension:value`, e.g. `filter[]=rbac_group_id:{id}`. Repeat the param for OR within a dimension and across dimensions for AND. Supported dimensions on this endpoint: `project_id`, `rbac_group_id`, `user_id`. Value forms: `project_id` takes a tagged project id (`claude_proj_...`); `rbac_group_id` takes the tagged id (`rbac_group_...`, as emitted in responses and by the spend-limits API) or a bare group UUID, and matches users who held the group at any point during each covered UTC day (time-of-usage attribution); `user_id` takes a tagged user id (`user_...`), as emitted in responses. An unsupported dimension returns 400. At most 100 entries. A `project_id` filter limits each member's row to their claude.ai chat activity in that project and cannot be combined with `group_by[]` or an `rbac_group_id` filter. On these rows, every count in `chat_cowork_unified_metrics.sessions` is 0, because sessions are not measured per project. On any day a member sent a chat message in Chat and Cowork unified, all of that member's project activity for the day is counted in `chat_cowork_unified_metrics.chat` instead of `chat_metrics`.
 
-- `groupBy?:optional list<GroupBy>` (query parameter)
+- `groupBy?: optional list<AnalyticsUserGroupBy>` (query parameter)
 
   Dimensions to break results out by (e.g. `group_by[]=rbac_group_id`). Supported on this endpoint: `rbac_group_id`. Rows are already per-member, so the one supported grouping aggregates them per RBAC group instead. Grouped rows carry the requested dimension values as additional fields and paginate like ungrouped responses via `next_page`; an unsupported dimension returns 400. `rbac_group_id` attributes a user to every group they held at any point during each covered UTC day, so grouped rows are not an exclusive partition and can sum above org-level totals. At most 100 entries.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results per page (1-1000, default 100).
 
-- `order?:optional Order` (query parameter)
+- `order?: optional AnalyticsOrder` (query parameter)
 
   Sort direction: `asc` or `desc`. Defaults to `asc` for the endpoint's sort column and to `desc` when `order_by` names a metric (a top-N ranking). Applies to `order_by`, or to the endpoint's default sort field when `order_by` is omitted.
 
-- `orderBy?:optional string` (query parameter)
+- `orderBy?: optional string` (query parameter)
 
   Sort field. Restricted to the endpoint's sort column plus its rankable metrics (metrics default to descending; a few metrics rank in date-range mode only, per the endpoint's documented orderable set).
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `startingDate?:optional \Datetime` (query parameter)
+- `startingDate?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. Start of a date range (inclusive). Enables rollup mode: one row per entity aggregated over the whole range — addable counters are summed across days, and a distinct count is never summed where summing could double-count (a field's range value is recomputed exactly over the window, approximate via HLL with typical error under 2%, null, or — for the creation-event counts, whose per-day values cannot overlap — a per-day sum that is itself exact; each field's own description says which). Use either `date` or `starting_date`, not both. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day) and may be revised by a few percent over the following days. No earlier than 2026-01-01.
 
@@ -27567,6 +29611,10 @@ the `read:analytics` scope.
 
     Claude Design activity metrics for a single user on a given day.
 
+  - `?int distinctUserCount`
+
+    Number of distinct active users represented by this row. Only set for grouped rollups (`group_by[]`); null for per-user rows. In date-range mode, recomputed as an exact distinct count of the group's active members over the requested window, never a sum of per-day values.
+
   - `AnalyticsOfficeMetrics officeMetrics`
 
     Office Agent activity metrics for a single user on a given day, broken out by Office product.
@@ -27575,17 +29623,17 @@ the `read:analytics` scope.
 
     Claude Science activity metrics for a single user on a given day.
 
+  - `?AnalyticsUser user`
+
+    The user this row describes. Null on rows aggregated across users.
+
   - `int webSearchCount`
 
     Number of web searches performed
 
-  - `?ChatCoworkUnifiedMetrics chatCoworkUnifiedMetrics`
+  - `?AnalyticsChatCoworkUnifiedMetrics chatCoworkUnifiedMetrics`
 
-    Activity recorded while the member had Chat and Cowork unified (Cowork's features inside claude.ai chat) turned on, split into `chat` (chat activity) and `sessions` (Cowork activity). Omitted from the response on deployments that do not offer Chat and Cowork unified.
-
-  - `?int distinctUserCount`
-
-    Number of distinct active users represented by this row. Only set for grouped rollups (`group_by[]`); null for per-user rows. In date-range mode, recomputed as an exact distinct count of the group's active members over the requested window, never a sum of per-day values.
+    Activity recorded while the member had Chat and Cowork unified (Cowork's features inside claude.ai chat) turned on, split into `chat` (chat activity) and `sessions` (Cowork activity). Omitted from the response where Chat and Cowork unified is not available.
 
   - `?\Datetime lastActivityDate`
 
@@ -27599,10 +29647,6 @@ the `read:analytics` scope.
 
     Resolved RBAC group display name, alongside `rbac_group_id` when name resolution is available. Null if the group has been deleted or its name could not be resolved; `rbac_group_id` remains the stable key.
 
-  - `?AnalyticsUser user`
-
-    The user this row describes. Null on rows aggregated across users.
-
 #### Example
 
 ```php
@@ -27610,15 +29654,19 @@ the `read:analytics` scope.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\Organization\Analytics\AnalyticsUserGroupBy;
+use Anthropic\Beta\Organization\Analytics\AnalyticsOrder;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->analytics->users->list(
   date: '2019-12-27',
   endingDate: '2019-12-27',
   filter: ['string'],
-  groupBy: ['rbac_group_id'],
+  groupBy: [AnalyticsUserGroupBy::RBAC_GROUP_ID],
   limit: 1,
-  order: 'asc',
+  order: AnalyticsOrder::ASC,
   orderBy: 'order_by',
   page: 'page',
   startingDate: '2019-12-27',
@@ -27683,17 +29731,17 @@ var_dump($page);
         "connectors_used_count": 0,
         "dispatch_turn_count": 0,
         "distinct_connectors_used_count": 0,
+        "distinct_plugins_used_count": 0,
         "distinct_session_count": 0,
         "distinct_skills_used_count": 0,
-        "message_count": 0,
-        "skills_used_count": 0,
-        "distinct_plugins_used_count": 0,
         "edit_tool_count": 0,
         "file_edit_count": 0,
+        "message_count": 0,
         "multi_edit_tool_count": 0,
         "notebook_edit_tool_count": 0,
         "plugins_used_count": 0,
         "sessions_with_file_edits_count": 0,
+        "skills_used_count": 0,
         "write_tool_count": 0
       },
       "design_metrics": {
@@ -27702,6 +29750,7 @@ var_dump($page);
         "distinct_session_count": 0,
         "message_count": 0
       },
+      "distinct_user_count": 0,
       "office_metrics": {
         "excel": {
           "connectors_used_count": 0,
@@ -27743,6 +29792,11 @@ var_dump($page);
         "remote_compute_job_count": 0,
         "skills_used_count": 0
       },
+      "user": {
+        "id": "id",
+        "email_address": "email_address",
+        "type": "user"
+      },
       "web_search_count": 0,
       "chat_cowork_unified_metrics": {
         "chat": {
@@ -27779,15 +29833,9 @@ var_dump($page);
           "write_tool_count": 0
         }
       },
-      "distinct_user_count": 0,
       "last_activity_date": "2019-12-27",
       "rbac_group_id": "rbac_group_id",
-      "rbac_group_name": "rbac_group_name",
-      "user": {
-        "id": "id",
-        "email_address": "email_address",
-        "type": "user"
-      }
+      "rbac_group_name": "rbac_group_name"
     }
   ],
   "next_page": "next_page"
@@ -27798,7 +29846,7 @@ var_dump($page);
 
 ### Get Chat Project Usage
 
-`$client->beta->organization->analytics->apps->chat->projects->list(?\Datetime date, ?\Datetime endingDate, ?list<string> filter, ?list<GroupBy> groupBy, ?int limit, ?Order order, ?string orderBy, ?string page, ?\Datetime startingDate): PageCursor<AnalyticsProjectActivity>`
+`$client->beta->organization->analytics->apps->chat->projects->list(?\Datetime date, ?\Datetime endingDate, ?list<string> filter, ?list<AnalyticsProjectGroupBy> groupBy, ?int limit, ?AnalyticsOrder order, ?string orderBy, ?string page, ?\Datetime startingDate): PageCursor<AnalyticsProjectActivity>`
 
 **GET** `/v1/organizations/analytics/apps/chat/projects`
 
@@ -27812,45 +29860,57 @@ plan. Requires an API key with the `read:analytics` scope.
 
 #### Parameters
 
-- `date?:optional \Datetime` (query parameter)
+- `date?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. The day to get project activity for. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day) and may be revised by a few percent over the following days. No earlier than 2026-01-01.
 
-- `endingDate?:optional \Datetime` (query parameter)
+- `endingDate?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. End of the date range (exclusive); only valid with `starting_date`. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day), so this can be at most today — which is also the default when omitted, resolved once when the first page is served and reused for the rest of the pagination sequence. At most 366 days after `starting_date`.
 
-- `filter?:optional list<string>` (query parameter)
+- `filter?: optional list<string>` (query parameter)
 
   Filters as `dimension:value`, e.g. `filter[]=rbac_group_id:{id}`. Repeat the param for OR within a dimension and across dimensions for AND. Supported dimensions on this endpoint: `project_id`, `rbac_group_id`, `user_id`. Value forms: `project_id` takes a tagged project id (`claude_proj_...`); `rbac_group_id` takes the tagged id (`rbac_group_...`, as emitted in responses and by the spend-limits API) or a bare group UUID, and matches users who held the group at any point during each covered UTC day (time-of-usage attribution); `user_id` takes a tagged user id (`user_...`), as emitted in responses. An unsupported dimension returns 400. At most 100 entries.
 
-- `groupBy?:optional list<GroupBy>` (query parameter)
+- `groupBy?: optional list<AnalyticsProjectGroupBy>` (query parameter)
 
   Dimensions to break results out by (e.g. `group_by[]=user_id`). Supported on this endpoint: `rbac_group_id`, `user_id`. Grouped rows carry the requested dimension values as additional fields and paginate like ungrouped responses via `next_page`; an unsupported dimension returns 400. `rbac_group_id` attributes a user to every group they held at any point during each covered UTC day, so grouped rows are not an exclusive partition and can sum above org-level totals. At most 100 entries.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results per page (1-1000, default 100).
 
-- `order?:optional Order` (query parameter)
+- `order?: optional AnalyticsOrder` (query parameter)
 
   Sort direction: `asc` or `desc`. Defaults to `asc` for the endpoint's sort column and to `desc` when `order_by` names a metric (a top-N ranking). Applies to `order_by`, or to the endpoint's default sort field when `order_by` is omitted.
 
-- `orderBy?:optional string` (query parameter)
+- `orderBy?: optional string` (query parameter)
 
   Sort field. Restricted to the endpoint's sort column plus its rankable metrics (metrics default to descending; a few metrics rank in date-range mode only, per the endpoint's documented orderable set).
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `startingDate?:optional \Datetime` (query parameter)
+- `startingDate?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. Start of a date range (inclusive). Enables rollup mode: one row per entity aggregated over the whole range — addable counters are summed across days, and a distinct count is never summed where summing could double-count (a field's range value is recomputed exactly over the window, approximate via HLL with typical error under 2%, null, or — for the creation-event counts, whose per-day values cannot overlap — a per-day sum that is itself exact; each field's own description says which). Use either `date` or `starting_date`, not both. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day) and may be revised by a few percent over the following days. No earlier than 2026-01-01.
 
 #### Returns
 
 - `class AnalyticsProjectActivity`
+
+  - `?\Datetime createdAt`
+
+    Project creation timestamp in RFC 3339 format. Null if the project was deleted before attribution was recorded.
+
+  - `?AnalyticsUser createdBy`
+
+    User who created the project. Null if the project was deleted before attribution was recorded, or if the creator's account no longer exists.
+
+  - `?int distinctConversationCount`
+
+    Number of distinct conversations in the project. Null on aggregated rows where a distinct count cannot be computed.
 
   - `int distinctUserCount`
 
@@ -27868,22 +29928,6 @@ plan. Requires an API key with the `read:analytics` scope.
 
     Name of the project
 
-  - `?\Datetime createdAt`
-
-    Project creation timestamp in RFC 3339 format. Null if the project was deleted before attribution was recorded.
-
-  - `?AnalyticsUser createdBy`
-
-    User who created the project. Null if the project was deleted before attribution was recorded, or if the creator's account no longer exists.
-
-  - `?int distinctConversationCount`
-
-    Number of distinct conversations in the project. Null on aggregated rows where a distinct count cannot be computed.
-
-  - `?string product`
-
-    Product that produced this row's activity: one of `chat`, `claude_code`, `cowork`, `office_agent`, or `chat_cowork_unified` (Chat and Cowork unified). These are the canonical Cost & Usage product names; an `office_agent` row's per-surface breakdown is in its `office_metrics`. On `/plugins` only `cowork`, `claude_code` and `chat_cowork_unified` occur (the only surfaces with plugin attribution); on `/artifacts` only `chat`, `claude_code`, `cowork` and `chat_cowork_unified` occur (the surfaces that create artifacts); `/apps/chat/projects` does not support the product dimension (a `product` entry in `group_by[]` or `filter[]` there is rejected). Present only when the request grouped by `product`.
-
   - `?string rbacGroupID`
 
     Tagged RBAC group identifier (`rbac_group_...`), matching the spend-limits API spelling. Present only when the request grouped by `rbac_group_id`.
@@ -27903,15 +29947,19 @@ plan. Requires an API key with the `read:analytics` scope.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\Organization\Analytics\AnalyticsProjectGroupBy;
+use Anthropic\Beta\Organization\Analytics\AnalyticsOrder;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->analytics->apps->chat->projects->list(
   date: '2019-12-27',
   endingDate: '2019-12-27',
   filter: ['string'],
-  groupBy: ['rbac_group_id'],
+  groupBy: [AnalyticsProjectGroupBy::RBAC_GROUP_ID],
   limit: 1,
-  order: 'asc',
+  order: AnalyticsOrder::ASC,
   orderBy: 'order_by',
   page: 'page',
   startingDate: '2019-12-27',
@@ -27926,10 +29974,6 @@ var_dump($page);
 {
   "data": [
     {
-      "distinct_user_count": 0,
-      "message_count": 0,
-      "project_id": "project_id",
-      "project_name": "project_name",
       "created_at": "2019-12-27T18:11:19.117Z",
       "created_by": {
         "id": "id",
@@ -27937,7 +29981,10 @@ var_dump($page);
         "type": "user"
       },
       "distinct_conversation_count": 0,
-      "product": "product",
+      "distinct_user_count": 0,
+      "message_count": 0,
+      "project_id": "project_id",
+      "project_name": "project_name",
       "rbac_group_id": "rbac_group_id",
       "rbac_group_name": "rbac_group_name",
       "user_id": "user_id"
@@ -27951,7 +29998,7 @@ var_dump($page);
 
 ### Get Connector Usage
 
-`$client->beta->organization->analytics->connectors->list(?\Datetime date, ?\Datetime endingDate, ?list<string> filter, ?list<GroupBy> groupBy, ?int limit, ?Order order, ?string orderBy, ?string page, ?\Datetime startingDate): PageCursor<AnalyticsConnectorActivity>`
+`$client->beta->organization->analytics->connectors->list(?\Datetime date, ?\Datetime endingDate, ?list<string> filter, ?list<AnalyticsConnectorGroupBy> groupBy, ?int limit, ?AnalyticsOrder order, ?string orderBy, ?string page, ?\Datetime startingDate): PageCursor<AnalyticsConnectorActivity>`
 
 **GET** `/v1/organizations/analytics/connectors`
 
@@ -27968,39 +30015,39 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
 #### Parameters
 
-- `date?:optional \Datetime` (query parameter)
+- `date?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. The day to get connector usage for. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day) and may be revised by a few percent over the following days. No earlier than 2026-01-01.
 
-- `endingDate?:optional \Datetime` (query parameter)
+- `endingDate?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. End of the date range (exclusive); only valid with `starting_date`. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day), so this can be at most today — which is also the default when omitted, resolved once when the first page is served and reused for the rest of the pagination sequence. At most 366 days after `starting_date`.
 
-- `filter?:optional list<string>` (query parameter)
+- `filter?: optional list<string>` (query parameter)
 
-  Filters as `dimension:value`, e.g. `filter[]=rbac_group_id:{id}`. Repeat the param for OR within a dimension and across dimensions for AND. Supported dimensions on this endpoint: `connector_name`, `product`, `rbac_group_id`, `user_id`. Value forms: `connector_name` matches case-insensitively, a display name such as 'GitHub MCP' also matches its normalized stored form ('github'), and for rows whose `connector_name` is an opaque connector id the connector's display name (`connector_display_name`) also matches; `product` is one of `chat_cowork_unified`, `chat`, `claude_code`, `cowork`, or `office_agent`; `rbac_group_id` takes the tagged id (`rbac_group_...`, as emitted in responses and by the spend-limits API) or a bare group UUID, and matches users who held the group at any point during each covered UTC day (time-of-usage attribution); `user_id` takes a tagged user id (`user_...`), as emitted in responses. An unsupported dimension returns 400. At most 100 entries. `chat_cowork_unified` is accepted as a `product` value only on deployments that offer Chat and Cowork unified.
+  Filters as `dimension:value`, e.g. `filter[]=rbac_group_id:{id}`. Repeat the param for OR within a dimension and across dimensions for AND. Supported dimensions on this endpoint: `connector_name`, `product`, `rbac_group_id`, `user_id`. Value forms: `connector_name` matches case-insensitively, a display name such as 'GitHub MCP' also matches its normalized stored form ('github'), and for rows whose `connector_name` is an opaque connector id the connector's display name (`connector_display_name`) also matches; `product` is one of `chat_cowork_unified`, `chat`, `claude_code`, `cowork`, or `office_agent`; `rbac_group_id` takes the tagged id (`rbac_group_...`, as emitted in responses and by the spend-limits API) or a bare group UUID, and matches users who held the group at any point during each covered UTC day (time-of-usage attribution); `user_id` takes a tagged user id (`user_...`), as emitted in responses. An unsupported dimension returns 400. At most 100 entries. `chat_cowork_unified` is accepted as a `product` value only where Chat and Cowork unified is available.
 
-- `groupBy?:optional list<GroupBy>` (query parameter)
+- `groupBy?: optional list<AnalyticsConnectorGroupBy>` (query parameter)
 
   Dimensions to break results out by (e.g. `group_by[]=user_id`). Supported on this endpoint: `product`, `rbac_group_id`, `user_id`. Grouped rows carry the requested dimension values as additional fields and paginate like ungrouped responses via `next_page`; an unsupported dimension returns 400. `rbac_group_id` attributes a user to every group they held at any point during each covered UTC day, so grouped rows are not an exclusive partition and can sum above org-level totals. At most 100 entries.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results per page (1-1000, default 100).
 
-- `order?:optional Order` (query parameter)
+- `order?: optional AnalyticsOrder` (query parameter)
 
   Sort direction: `asc` or `desc`. Defaults to `asc` for the endpoint's sort column and to `desc` when `order_by` names a metric (a top-N ranking). Applies to `order_by`, or to the endpoint's default sort field when `order_by` is omitted.
 
-- `orderBy?:optional string` (query parameter)
+- `orderBy?: optional string` (query parameter)
 
   Sort field. Restricted to the endpoint's sort column plus its rankable metrics (metrics default to descending; a few metrics rank in date-range mode only, per the endpoint's documented orderable set).
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `startingDate?:optional \Datetime` (query parameter)
+- `startingDate?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. Start of a date range (inclusive). Enables rollup mode: one row per entity aggregated over the whole range — addable counters are summed across days, and a distinct count is never summed where summing could double-count (a field's range value is recomputed exactly over the window, approximate via HLL with typical error under 2%, null, or — for the creation-event counts, whose per-day values cannot overlap — a per-day sum that is itself exact; each field's own description says which). Use either `date` or `starting_date`, not both. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day) and may be revised by a few percent over the following days. No earlier than 2026-01-01.
 
@@ -28016,6 +30063,10 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
     Claude Code activity metrics for a single connector on a given day.
 
+  - `?string connectorDisplayName`
+
+    Human-readable display name for rows whose `connector_name` is an opaque connector id rather than a readable name, resolved at request time from the organization's connectors (including connectors that have since been removed). `connector_name` remains the row's stable key for sorting and pagination, and `filter[]=connector_name:{value}` also matches these rows by display name. Display names are not unique, and the same connector's claude.ai usage can appear under a separate row with a readable `connector_name`. Null when `connector_name` is already a readable name, when the id cannot be resolved to one of the organization's connectors, or when display-name resolution is not enabled for this organization.
+
   - `string connectorName`
 
     Name of the connector. Some rows carry an opaque connector id here instead of a readable name; `connector_display_name` holds the resolved name for those rows.
@@ -28028,18 +30079,6 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
     Number of distinct users who used the connector on the requested day, or, in date-range mode, over the requested window — recomputed as an exact distinct count over the window's per-member daily rows, never a sum of per-day values.
 
-  - `AnalyticsConnectorOfficeMetrics officeMetrics`
-
-    Office Agent activity metrics for a single connector on a given day, broken out by Office product.
-
-  - `?ChatCoworkUnifiedMetrics chatCoworkUnifiedMetrics`
-
-    Connector use recorded while members had Chat and Cowork unified (Cowork's features inside claude.ai chat) turned on, split into chat conversations and Cowork sessions. A count is null in date-range mode where it cannot be computed. Omitted from the response on deployments that do not offer Chat and Cowork unified.
-
-  - `?string connectorDisplayName`
-
-    Human-readable display name for rows whose `connector_name` is an opaque connector id rather than a readable name, resolved at request time from the organization's connectors (including connectors that have since been removed). `connector_name` remains the row's stable key for sorting and pagination, and `filter[]=connector_name:{value}` also matches these rows by display name. Display names are not unique, and the same connector's claude.ai usage can appear under a separate row with a readable `connector_name`. Null when `connector_name` is already a readable name, when the id cannot be resolved to one of the organization's connectors, or when display-name resolution is not enabled for this organization.
-
   - `?int individualAuthDistinctUserCount`
 
     Number of distinct users whose use of this connector on the requested day ran on their own individual credential, connected through their own consent flow. Companion bucket to `managed_auth_distinct_user_count`, which carries the measurement, attribution, and null rules. Users whose requests used no stored credential count in neither bucket.
@@ -28047,6 +30086,26 @@ organizations on a Claude Enterprise plan. Requires an API key with the
   - `?int managedAuthDistinctUserCount`
 
     Number of distinct users whose use of this connector on the requested day ran on Enterprise Managed Auth (an organization-managed credential provisioned through the organization's identity provider), read from the token record each request used. Null, never 0, when managed-auth reporting is not enabled for the organization, the value cannot be attributed to the row, no credentialed requests and no managed-token mint events (a managed credential being provisioned for a user's use of the connector) were observed that day, or the day predates 2026-07-01, the first day the backing data exists (forward-only data, no backfill). When credentialed requests or mint events were observed and attributed, both managed-auth fields populate, reporting 0 for a bucket with no users; the two counts are independent, not a partition — a user whose requests that day used both kinds of credential counts in both. Mint events carry user but not surface attribution, so they count as observed auth activity on `user_id` and `rbac_group_id` cuts — attributed to the user the credential was provisioned for — but never on a cut that references `product` (group or filter). Date-range rollup mode (`starting_date`/`ending_date`) computes both fields exactly over the window — distinct users with at least one qualifying day — when the whole window starts on or after 2026-07-01, with the null-versus-0 and mint-event rules applying with the window in place of the day; a range starting earlier reports every managed-auth field as null, never a partial-window value.
+
+  - `AnalyticsConnectorOfficeMetrics officeMetrics`
+
+    Office Agent activity metrics for a single connector on a given day, broken out by Office product.
+
+  - `?int readCallCount`
+
+    Number of connector tool calls on the requested day whose trusted read-only annotation marked them read-only. Call count, not distinct users. Every call recorded on a classified surface lands in exactly one of `read_call_count`, `write_call_count`, or `unclassified_call_count`, so the three sum to the day's classified calls. Classification is forward-only per surface: claude.ai from 2026-06-01, Claude Code from 2026-05-30, Claude in Office from 2026-05-29, Cowork from 2026-06-02 (Cowork clients predating annotation forwarding land in `unclassified_call_count`). Null, never 0, when the value cannot be stated: the read/write split is not enabled for this organization, or the day predates 2026-05-29. For a date-range total, sum the per-day values, but treat a window that extends before 2026-05-29 as null rather than summing only its covered days — date-range rollup mode (`starting_date`/`ending_date`) applies both rules server-side.
+
+  - `?int unclassifiedCallCount`
+
+    Number of connector tool calls on the requested day with no trusted read-only annotation — the annotation is optional in the MCP spec and is discarded when connector access controls are active, so unclassified calls are common. This field shows how much of the day's classified activity the read/write split actually covers. Call count, not distinct users. One of the three call-classification buckets; see `read_call_count` for the per-surface data-start dates, null conditions, and date-range guidance.
+
+  - `?int writeCallCount`
+
+    Number of connector tool calls on the requested day whose trusted read-only annotation marked them not read-only. Call count, not distinct users. One of the three call-classification buckets; see `read_call_count` for the per-surface data-start dates, null conditions, and date-range guidance.
+
+  - `?AnalyticsConnectorChatCoworkUnifiedMetrics chatCoworkUnifiedMetrics`
+
+    Connector use recorded while members had Chat and Cowork unified (Cowork's features inside claude.ai chat) turned on, split into chat conversations and Cowork sessions. A count is null in date-range mode where it cannot be computed. Omitted from the response where Chat and Cowork unified is not available.
 
   - `?string product`
 
@@ -28060,21 +30119,9 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
     Resolved RBAC group display name, alongside `rbac_group_id` when name resolution is available. Null if the group has been deleted or its name could not be resolved; `rbac_group_id` remains the stable key.
 
-  - `?int readCallCount`
-
-    Number of connector tool calls on the requested day whose trusted read-only annotation marked them read-only. Call count, not distinct users. Every call recorded on a classified surface lands in exactly one of `read_call_count`, `write_call_count`, or `unclassified_call_count`, so the three sum to the day's classified calls. Classification is forward-only per surface: claude.ai from 2026-06-01, Claude Code from 2026-05-30, Claude in Office from 2026-05-29, Cowork from 2026-06-02 (Cowork clients predating annotation forwarding land in `unclassified_call_count`). Null, never 0, when the value cannot be stated: the read/write split is not enabled for this organization, or the day predates 2026-05-29. For a date-range total, sum the per-day values, but treat a window that extends before 2026-05-29 as null rather than summing only its covered days — date-range rollup mode (`starting_date`/`ending_date`) applies both rules server-side.
-
-  - `?int unclassifiedCallCount`
-
-    Number of connector tool calls on the requested day with no trusted read-only annotation — the annotation is optional in the MCP spec and is discarded when connector access controls are active, so unclassified calls are common. This field shows how much of the day's classified activity the read/write split actually covers. Call count, not distinct users. One of the three call-classification buckets; see `read_call_count` for the per-surface data-start dates, null conditions, and date-range guidance.
-
   - `?string userID`
 
     Tagged user identifier (e.g. `user_...`). Present only when the request grouped by `user_id`.
-
-  - `?int writeCallCount`
-
-    Number of connector tool calls on the requested day whose trusted read-only annotation marked them not read-only. Call count, not distinct users. One of the three call-classification buckets; see `read_call_count` for the per-surface data-start dates, null conditions, and date-range guidance.
 
 #### Example
 
@@ -28083,15 +30130,19 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\Organization\Analytics\AnalyticsConnectorGroupBy;
+use Anthropic\Beta\Organization\Analytics\AnalyticsOrder;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->analytics->connectors->list(
   date: '2019-12-27',
   endingDate: '2019-12-27',
   filter: ['string'],
-  groupBy: ['product'],
+  groupBy: [AnalyticsConnectorGroupBy::PRODUCT],
   limit: 1,
-  order: 'asc',
+  order: AnalyticsOrder::ASC,
   orderBy: 'order_by',
   page: 'page',
   startingDate: '2019-12-27',
@@ -28112,11 +30163,14 @@ var_dump($page);
       "claude_code_metrics": {
         "distinct_session_connector_used_count": 0
       },
+      "connector_display_name": "connector_display_name",
       "connector_name": "connector_name",
       "cowork_metrics": {
         "distinct_session_connector_used_count": 0
       },
       "distinct_user_count": 0,
+      "individual_auth_distinct_user_count": 0,
+      "managed_auth_distinct_user_count": 0,
       "office_metrics": {
         "excel": {
           "distinct_session_connector_used_count": 0
@@ -28131,6 +30185,9 @@ var_dump($page);
           "distinct_session_connector_used_count": 0
         }
       },
+      "read_call_count": 0,
+      "unclassified_call_count": 0,
+      "write_call_count": 0,
       "chat_cowork_unified_metrics": {
         "chat": {
           "distinct_conversation_connector_used_count": 0
@@ -28139,16 +30196,10 @@ var_dump($page);
           "distinct_session_connector_used_count": 0
         }
       },
-      "connector_display_name": "connector_display_name",
-      "individual_auth_distinct_user_count": 0,
-      "managed_auth_distinct_user_count": 0,
       "product": "product",
       "rbac_group_id": "rbac_group_id",
       "rbac_group_name": "rbac_group_name",
-      "read_call_count": 0,
-      "unclassified_call_count": 0,
-      "user_id": "user_id",
-      "write_call_count": 0
+      "user_id": "user_id"
     }
   ],
   "next_page": "next_page"
@@ -28159,7 +30210,7 @@ var_dump($page);
 
 ### Get Plugin Usage
 
-`$client->beta->organization->analytics->plugins->list(?\Datetime date, ?\Datetime endingDate, ?list<string> filter, ?list<GroupBy> groupBy, ?int limit, ?Order order, ?string orderBy, ?string page, ?\Datetime startingDate): PageCursor<AnalyticsPluginActivity>`
+`$client->beta->organization->analytics->plugins->list(?\Datetime date, ?\Datetime endingDate, ?list<string> filter, ?list<AnalyticsPluginGroupBy> groupBy, ?int limit, ?AnalyticsOrder order, ?string orderBy, ?string page, ?\Datetime startingDate): PageCursor<AnalyticsPluginActivity>`
 
 **GET** `/v1/organizations/analytics/plugins`
 
@@ -28179,39 +30230,39 @@ range-rollup mode like `/skills`.
 
 #### Parameters
 
-- `date?:optional \Datetime` (query parameter)
+- `date?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. The day to get plugin usage for. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day) and may be revised by a few percent over the following days. No earlier than 2026-01-01.
 
-- `endingDate?:optional \Datetime` (query parameter)
+- `endingDate?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. End of the date range (exclusive); only valid with `starting_date`. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day), so this can be at most today — which is also the default when omitted, resolved once when the first page is served and reused for the rest of the pagination sequence. At most 366 days after `starting_date`.
 
-- `filter?:optional list<string>` (query parameter)
+- `filter?: optional list<string>` (query parameter)
 
-  Filters as `dimension:value`, e.g. `filter[]=rbac_group_id:{id}`. Repeat the param for OR within a dimension and across dimensions for AND. Supported dimensions on this endpoint: `plugin_name`, `product`, `rbac_group_id`, `user_id`. Value forms: `plugin_name` matches case-insensitively; `product` is `chat_cowork_unified`, `claude_code`, or `cowork` (the only surfaces with plugin attribution); `rbac_group_id` takes the tagged id (`rbac_group_...`, as emitted in responses and by the spend-limits API) or a bare group UUID, and matches users who held the group at any point during each covered UTC day (time-of-usage attribution); `user_id` takes a tagged user id (`user_...`), as emitted in responses. An unsupported dimension returns 400. At most 100 entries. `chat_cowork_unified` is accepted as a `product` value only on deployments that offer Chat and Cowork unified.
+  Filters as `dimension:value`, e.g. `filter[]=rbac_group_id:{id}`. Repeat the param for OR within a dimension and across dimensions for AND. Supported dimensions on this endpoint: `plugin_name`, `product`, `rbac_group_id`, `user_id`. Value forms: `plugin_name` matches case-insensitively; `product` is `chat_cowork_unified`, `claude_code`, or `cowork` (the only surfaces with plugin attribution); `rbac_group_id` takes the tagged id (`rbac_group_...`, as emitted in responses and by the spend-limits API) or a bare group UUID, and matches users who held the group at any point during each covered UTC day (time-of-usage attribution); `user_id` takes a tagged user id (`user_...`), as emitted in responses. An unsupported dimension returns 400. At most 100 entries. `chat_cowork_unified` is accepted as a `product` value only where Chat and Cowork unified is available.
 
-- `groupBy?:optional list<GroupBy>` (query parameter)
+- `groupBy?: optional list<AnalyticsPluginGroupBy>` (query parameter)
 
   Dimensions to break results out by (e.g. `group_by[]=user_id`). Supported on this endpoint: `product`, `rbac_group_id`, `user_id`. On this endpoint `product` takes the values `chat_cowork_unified`, `claude_code`, or `cowork` only (the surfaces with plugin attribution). Grouped rows carry the requested dimension values as additional fields and paginate like ungrouped responses via `next_page`; an unsupported dimension returns 400. `rbac_group_id` attributes a user to every group they held at any point during each covered UTC day, so grouped rows are not an exclusive partition and can sum above org-level totals. At most 100 entries.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results per page (1-1000, default 100).
 
-- `order?:optional Order` (query parameter)
+- `order?: optional AnalyticsOrder` (query parameter)
 
   Sort direction: `asc` or `desc`. Defaults to `asc` for the endpoint's sort column and to `desc` when `order_by` names a metric (a top-N ranking). Applies to `order_by`, or to the endpoint's default sort field when `order_by` is omitted.
 
-- `orderBy?:optional string` (query parameter)
+- `orderBy?: optional string` (query parameter)
 
   Sort field. Restricted to the endpoint's sort column plus its rankable metrics (metrics default to descending; a few metrics rank in date-range mode only, per the endpoint's documented orderable set).
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `startingDate?:optional \Datetime` (query parameter)
+- `startingDate?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. Start of a date range (inclusive). Enables rollup mode: one row per entity aggregated over the whole range — addable counters are summed across days, and a distinct count is never summed where summing could double-count (a field's range value is recomputed exactly over the window, approximate via HLL with typical error under 2%, null, or — for the creation-event counts, whose per-day values cannot overlap — a per-day sum that is itself exact; each field's own description says which). Use either `date` or `starting_date`, not both. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day) and may be revised by a few percent over the following days. No earlier than 2026-01-01.
 
@@ -28239,17 +30290,17 @@ range-rollup mode like `/skills`.
 
     Number of plugin invocations on the requested day
 
+  - `?string pluginID`
+
+    Stable plugin identifier when available (e.g. `serena@claude-plugins-official`). Null for third-party Claude Code plugins (redacted at the source) and Cowork slash commands that carry only a hashed id.
+
   - `string pluginName`
 
     Name of the plugin
 
-  - `?ChatCoworkUnifiedMetrics chatCoworkUnifiedMetrics`
+  - `?AnalyticsPluginChatCoworkUnifiedMetrics chatCoworkUnifiedMetrics`
 
-    Plugin use recorded while members had Chat and Cowork unified (Cowork's features inside claude.ai chat) turned on. A count is null in date-range mode where it cannot be computed. Omitted from the response on deployments that do not offer Chat and Cowork unified.
-
-  - `?string pluginID`
-
-    Stable plugin identifier when available (e.g. `serena@claude-plugins-official`). Null for third-party Claude Code plugins (redacted at the source) and Cowork slash commands that carry only a hashed id.
+    Plugin use recorded while members had Chat and Cowork unified (Cowork's features inside claude.ai chat) turned on. A count is null in date-range mode where it cannot be computed. Omitted from the response where Chat and Cowork unified is not available.
 
   - `?string product`
 
@@ -28274,15 +30325,19 @@ range-rollup mode like `/skills`.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\Organization\Analytics\AnalyticsPluginGroupBy;
+use Anthropic\Beta\Organization\Analytics\AnalyticsOrder;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->analytics->plugins->list(
   date: '2019-12-27',
   endingDate: '2019-12-27',
   filter: ['string'],
-  groupBy: ['product'],
+  groupBy: [AnalyticsPluginGroupBy::PRODUCT],
   limit: 1,
-  order: 'asc',
+  order: AnalyticsOrder::ASC,
   orderBy: 'order_by',
   page: 'page',
   startingDate: '2019-12-27',
@@ -28306,11 +30361,11 @@ var_dump($page);
       "distinct_user_count": 0,
       "install_count": 0,
       "invocation_count": 0,
+      "plugin_id": "plugin_id",
       "plugin_name": "plugin_name",
       "chat_cowork_unified_metrics": {
         "distinct_session_plugin_used_count": 0
       },
-      "plugin_id": "plugin_id",
       "product": "product",
       "rbac_group_id": "rbac_group_id",
       "rbac_group_name": "rbac_group_name",
@@ -28325,7 +30380,7 @@ var_dump($page);
 
 ### Get Skill Usage
 
-`$client->beta->organization->analytics->skills->list(?\Datetime date, ?\Datetime endingDate, ?list<string> filter, ?list<GroupBy> groupBy, ?int limit, ?Order order, ?string orderBy, ?string page, ?\Datetime startingDate): PageCursor<AnalyticsSkillActivity>`
+`$client->beta->organization->analytics->skills->list(?\Datetime date, ?\Datetime endingDate, ?list<string> filter, ?list<AnalyticsSkillGroupBy> groupBy, ?int limit, ?AnalyticsOrder order, ?string orderBy, ?string page, ?\Datetime startingDate): PageCursor<AnalyticsSkillActivity>`
 
 **GET** `/v1/organizations/analytics/skills`
 
@@ -28340,45 +30395,49 @@ on a Claude Enterprise plan. Requires an API key with the
 
 #### Parameters
 
-- `date?:optional \Datetime` (query parameter)
+- `date?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. The day to get skill usage for. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day) and may be revised by a few percent over the following days. No earlier than 2026-01-01.
 
-- `endingDate?:optional \Datetime` (query parameter)
+- `endingDate?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. End of the date range (exclusive); only valid with `starting_date`. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day), so this can be at most today — which is also the default when omitted, resolved once when the first page is served and reused for the rest of the pagination sequence. At most 366 days after `starting_date`.
 
-- `filter?:optional list<string>` (query parameter)
+- `filter?: optional list<string>` (query parameter)
 
-  Filters as `dimension:value`, e.g. `filter[]=rbac_group_id:{id}`. Repeat the param for OR within a dimension and across dimensions for AND. Supported dimensions on this endpoint: `product`, `rbac_group_id`, `share_status`, `skill_name`, `user_id`. Value forms: `product` is one of `chat_cowork_unified`, `chat`, `claude_code`, `cowork`, or `office_agent`; `rbac_group_id` takes the tagged id (`rbac_group_...`, as emitted in responses and by the spend-limits API) or a bare group UUID, and matches users who held the group at any point during each covered UTC day (time-of-usage attribution); `share_status` is one of `organization`, `private`, or `public`; `skill_name` matches case-insensitively; `user_id` takes a tagged user id (`user_...`), as emitted in responses. An unsupported dimension returns 400. At most 100 entries. `chat_cowork_unified` is accepted as a `product` value only on deployments that offer Chat and Cowork unified.
+  Filters as `dimension:value`, e.g. `filter[]=rbac_group_id:{id}`. Repeat the param for OR within a dimension and across dimensions for AND. Supported dimensions on this endpoint: `product`, `rbac_group_id`, `share_status`, `skill_name`, `user_id`. Value forms: `product` is one of `chat_cowork_unified`, `chat`, `claude_code`, `cowork`, or `office_agent`; `rbac_group_id` takes the tagged id (`rbac_group_...`, as emitted in responses and by the spend-limits API) or a bare group UUID, and matches users who held the group at any point during each covered UTC day (time-of-usage attribution); `share_status` is one of `organization`, `private`, or `public`; `skill_name` matches case-insensitively; `user_id` takes a tagged user id (`user_...`), as emitted in responses. An unsupported dimension returns 400. At most 100 entries. `chat_cowork_unified` is accepted as a `product` value only where Chat and Cowork unified is available.
 
-- `groupBy?:optional list<GroupBy>` (query parameter)
+- `groupBy?: optional list<AnalyticsSkillGroupBy>` (query parameter)
 
   Dimensions to break results out by (e.g. `group_by[]=user_id`). Supported on this endpoint: `product`, `rbac_group_id`, `user_id`. Grouped rows carry the requested dimension values as additional fields and paginate like ungrouped responses via `next_page`; an unsupported dimension returns 400. `rbac_group_id` attributes a user to every group they held at any point during each covered UTC day, so grouped rows are not an exclusive partition and can sum above org-level totals. At most 100 entries.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of results per page (1-1000, default 100).
 
-- `order?:optional Order` (query parameter)
+- `order?: optional AnalyticsOrder` (query parameter)
 
   Sort direction: `asc` or `desc`. Defaults to `asc` for the endpoint's sort column and to `desc` when `order_by` names a metric (a top-N ranking). Applies to `order_by`, or to the endpoint's default sort field when `order_by` is omitted.
 
-- `orderBy?:optional string` (query parameter)
+- `orderBy?: optional string` (query parameter)
 
   Sort field. Restricted to the endpoint's sort column plus its rankable metrics (metrics default to descending; a few metrics rank in date-range mode only, per the endpoint's documented orderable set).
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `startingDate?:optional \Datetime` (query parameter)
+- `startingDate?: optional \Datetime` (query parameter)
 
   UTC date in YYYY-MM-DD format. Start of a date range (inclusive). Enables rollup mode: one row per entity aggregated over the whole range — addable counters are summed across days, and a distinct count is never summed where summing could double-count (a field's range value is recomputed exactly over the window, approximate via HLL with typical error under 2%, null, or — for the creation-event counts, whose per-day values cannot overlap — a per-day sum that is itself exact; each field's own description says which). Use either `date` or `starting_date`, not both. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day) and may be revised by a few percent over the following days. No earlier than 2026-01-01.
 
 #### Returns
 
 - `class AnalyticsSkillActivity`
+
+  - `?string attributedListPrice`
+
+    List-price (rate-card) value of the member requests attributed to this skill, as a decimal string in the minor unit of `currency` (cents for USD), from Claude Code, Cowork, and Office Agent request-level attribution — the value of requests that involved the skill, not the skill's incremental cost. Unlike `estimated_overage_spend` this reflects usage value regardless of how it was funded — seat-covered usage counts — but it is undiscounted and does not tie to billed spend or the organization's spend reporting. claude.ai chat usage carries no request-level attribution and contributes nothing: the field is null on `chat` product rows and on `office_agent` product cuts dated before 2026-06-18 (the Office Agent attribution data-start), and on ungrouped rows it covers the Claude Code + Cowork + Office Agent share only (null when no attributable usage exists). Also null under the same conditions as `estimated_overage_spend` (spend reporting not enabled for this organization, `office_agent` product cuts before the 2026-06-18 data-start). "0" means attributable usage existed but none was attributed to this skill. Addable across days: date-range rollup mode returns the window's sum. On `group_by[]` and `filter[]` shapes both amounts can total below the ungrouped value for the same skill over the same date or range: spend attributed to a member–skill pair with no counted usage on that day is excluded from those cuts.
 
   - `AnalyticsSkillChatMetrics chatMetrics`
 
@@ -28392,29 +30451,13 @@ on a Claude Enterprise plan. Requires an API key with the
 
     Cowork activity metrics for a single skill on a given day.
 
-  - `int distinctUserCount`
-
-    Number of distinct users who used the skill on the requested day, or, in date-range mode, over the requested window — recomputed as an exact distinct count over the window's per-member daily rows, never a sum of per-day values. A skill counts as used only when it is explicitly activated — the model (or the user, via the skill's slash command) invokes it, reading its instructions into context as part of that activation. Skills that are merely installed or listed as available, or whose content reaches the context without an activation (preloaded, hook-injected, or read as a plain file), are not counted.
-
-  - `AnalyticsSkillOfficeMetrics officeMetrics`
-
-    Office Agent activity metrics for a single skill on a given day, broken out by Office product.
-
-  - `string skillName`
-
-    Name of the skill
-
-  - `?string attributedListPrice`
-
-    List-price (rate-card) value of the member requests attributed to this skill, as a decimal string in the minor unit of `currency` (cents for USD), from Claude Code, Cowork, and Office Agent request-level attribution — the value of requests that involved the skill, not the skill's incremental cost. Unlike `estimated_overage_spend` this reflects usage value regardless of how it was funded — seat-covered usage counts — but it is undiscounted and does not tie to billed spend or the organization's spend reporting. claude.ai chat usage carries no request-level attribution and contributes nothing: the field is null on `chat` product rows and on `office_agent` product cuts dated before 2026-06-18 (the Office Agent attribution data-start), and on ungrouped rows it covers the Claude Code + Cowork + Office Agent share only (null when no attributable usage exists). Also null under the same conditions as `estimated_overage_spend` (spend reporting not enabled for this organization, `office_agent` product cuts before the 2026-06-18 data-start). "0" means attributable usage existed but none was attributed to this skill. Addable across days: date-range rollup mode returns the window's sum. On `group_by[]` and `filter[]` shapes both amounts can total below the ungrouped value for the same skill over the same date or range: spend attributed to a member–skill pair with no counted usage on that day is excluded from those cuts.
-
-  - `?ChatCoworkUnifiedMetrics chatCoworkUnifiedMetrics`
-
-    Skill use recorded while members had Chat and Cowork unified (Cowork's features inside claude.ai chat) turned on, split into chat conversations and Cowork sessions. A count is null in date-range mode where it cannot be computed. Omitted from the response on deployments that do not offer Chat and Cowork unified.
-
   - `?string currency`
 
     Currency for this row's monetary fields (`estimated_overage_spend` and `attributed_list_price`), as an uppercase ISO-4217 code. Always "USD" when either amount is populated; null whenever both amounts are null.
+
+  - `int distinctUserCount`
+
+    Number of distinct users who used the skill on the requested day, or, in date-range mode, over the requested window — recomputed as an exact distinct count over the window's per-member daily rows, never a sum of per-day values. A skill counts as used only when it is explicitly activated — the model (or the user, via the skill's slash command) invokes it, reading its instructions into context as part of that activation. Skills that are merely installed or listed as available, or whose content reaches the context without an activation (preloaded, hook-injected, or read as a plain file), are not counted.
 
   - `?int enableCount`
 
@@ -28428,6 +30471,26 @@ on a Claude Enterprise plan. Requires an API key with the
 
     Total number of times this skill was invoked on the requested day (the skill analog of plugin `invocation_count`). Unlike `distinct_user_count` — which answers '\# of users' — this is the true '# of uses'. A skill counts as used only when it is explicitly activated — the model (or the user, via the skill's slash command) invokes it, reading its instructions into context as part of that activation. Skills that are merely installed or listed as available, or whose content reaches the context without an activation (preloaded, hook-injected, or read as a plain file), are not counted. Null when invocation reporting is not enabled for this organization. Sum across a date range for total uses in the window — date-range rollup mode (`starting_date`/`ending_date`) returns this sum directly.
 
+  - `AnalyticsSkillOfficeMetrics officeMetrics`
+
+    Office Agent activity metrics for a single skill on a given day, broken out by Office product.
+
+  - `?ShareStatus shareStatus`
+
+    Skill share status (claude.ai only): one of `private`, `organization`, or `public`. Null for skills used only in Claude Code or Office (no per-skill share-status concept) and when share-status reporting is not yet available for the organization. Filterable via `filter[]=share_status:{value}`.
+
+  - `?string skillDisplayName`
+
+    Human-readable display name for rows whose `skill_name` is an opaque skill id (user/organization skill types and plugin-delivered skills, whose user-defined names usage reports generally withhold). Organization-shared skills and skills delivered by the organization's own plugins (its plugin marketplaces and its library) resolve; plugin skill names are shown without their 'plugin:' prefix. The literal 'unknown' bucket row gets a fixed 'Unknown skill' label. For a member's own skill (private or personal-plugin) it is null, except when the skill's owner used it from Claude Code or Cowork in the requested period: then it shows the name that client reported at the time. Apart from that, the names of members' own skills are not disclosed to analytics-key holders. Also null for Anthropic-provided plugin skills (not resolved), for an organization skill or plugin whose name can no longer be found (for example, one since deleted), when `skill_name` is already a display name, or when display-name resolution is not enabled for this organization.
+
+  - `string skillName`
+
+    Name of the skill
+
+  - `?AnalyticsSkillChatCoworkUnifiedMetrics chatCoworkUnifiedMetrics`
+
+    Skill use recorded while members had Chat and Cowork unified (Cowork's features inside claude.ai chat) turned on, split into chat conversations and Cowork sessions. A count is null in date-range mode where it cannot be computed. Omitted from the response where Chat and Cowork unified is not available.
+
   - `?string product`
 
     Product that produced this row's activity: one of `chat`, `claude_code`, `cowork`, `office_agent`, or `chat_cowork_unified` (Chat and Cowork unified). These are the canonical Cost & Usage product names; an `office_agent` row's per-surface breakdown is in its `office_metrics`. On `/plugins` only `cowork`, `claude_code` and `chat_cowork_unified` occur (the only surfaces with plugin attribution); on `/artifacts` only `chat`, `claude_code`, `cowork` and `chat_cowork_unified` occur (the surfaces that create artifacts); `/apps/chat/projects` does not support the product dimension (a `product` entry in `group_by[]` or `filter[]` there is rejected). Present only when the request grouped by `product`.
@@ -28440,14 +30503,6 @@ on a Claude Enterprise plan. Requires an API key with the
 
     Resolved RBAC group display name, alongside `rbac_group_id` when name resolution is available. Null if the group has been deleted or its name could not be resolved; `rbac_group_id` remains the stable key.
 
-  - `?ShareStatus shareStatus`
-
-    Skill share status (claude.ai only): one of `private`, `organization`, or `public`. Null for skills used only in Claude Code or Office (no per-skill share-status concept) and when share-status reporting is not yet available for the organization. Filterable via `filter[]=share_status:{value}`.
-
-  - `?string skillDisplayName`
-
-    Human-readable display name for rows whose `skill_name` is an opaque skill id (user/organization skill types and plugin-delivered skills, whose user-defined names usage reports generally withhold). Organization-shared skills and skills delivered by the organization's own plugins (its plugin marketplaces and its library) resolve; plugin skill names are shown without their 'plugin:' prefix. The literal 'unknown' bucket row gets a fixed 'Unknown skill' label. For a member's own skill (private or personal-plugin) it is null, except when the skill's owner used it from Claude Code or Cowork in the requested period: then it shows the name that client reported at the time. Apart from that, the names of members' own skills are not disclosed to analytics-key holders. Also null for Anthropic-provided plugin skills (not resolved), for an organization skill or plugin whose name can no longer be found (for example, one since deleted), when `skill_name` is already a display name, or when display-name resolution is not enabled for this organization.
-
   - `?string userID`
 
     Tagged user identifier (e.g. `user_...`). Present only when the request grouped by `user_id`.
@@ -28459,15 +30514,19 @@ on a Claude Enterprise plan. Requires an API key with the
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\Organization\Analytics\AnalyticsSkillGroupBy;
+use Anthropic\Beta\Organization\Analytics\AnalyticsOrder;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->analytics->skills->list(
   date: '2019-12-27',
   endingDate: '2019-12-27',
   filter: ['string'],
-  groupBy: ['product'],
+  groupBy: [AnalyticsSkillGroupBy::PRODUCT],
   limit: 1,
-  order: 'asc',
+  order: AnalyticsOrder::ASC,
   orderBy: 'order_by',
   page: 'page',
   startingDate: '2019-12-27',
@@ -28482,6 +30541,7 @@ var_dump($page);
 {
   "data": [
     {
+      "attributed_list_price": "attributed_list_price",
       "chat_metrics": {
         "distinct_conversation_skill_used_count": 0
       },
@@ -28491,7 +30551,11 @@ var_dump($page);
       "cowork_metrics": {
         "distinct_session_skill_used_count": 0
       },
+      "currency": "currency",
       "distinct_user_count": 0,
+      "enable_count": 0,
+      "estimated_overage_spend": "estimated_overage_spend",
+      "invocation_count": 0,
       "office_metrics": {
         "excel": {
           "distinct_session_skill_used_count": 0
@@ -28506,8 +30570,9 @@ var_dump($page);
           "distinct_session_skill_used_count": 0
         }
       },
+      "share_status": "organization",
+      "skill_display_name": "skill_display_name",
       "skill_name": "skill_name",
-      "attributed_list_price": "attributed_list_price",
       "chat_cowork_unified_metrics": {
         "chat": {
           "distinct_conversation_skill_used_count": 0
@@ -28516,15 +30581,9 @@ var_dump($page);
           "distinct_session_skill_used_count": 0
         }
       },
-      "currency": "currency",
-      "enable_count": 0,
-      "estimated_overage_spend": "estimated_overage_spend",
-      "invocation_count": 0,
       "product": "product",
       "rbac_group_id": "rbac_group_id",
       "rbac_group_name": "rbac_group_name",
-      "share_status": "organization",
-      "skill_display_name": "skill_display_name",
       "user_id": "user_id"
     }
   ],
@@ -28536,7 +30595,7 @@ var_dump($page);
 
 ### Get Artifact Activity
 
-`$client->beta->organization->analytics->artifacts->list(\Datetime date, ?list<string> filter, ?list<GroupBy> groupBy, ?int limit, ?string page): PageCursor<AnalyticsArtifactActivity>`
+`$client->beta->organization->analytics->artifacts->list(\Datetime date, ?list<string> filter, ?list<AnalyticsArtifactGroupBy> groupBy, ?int limit, ?string page): PageCursor<AnalyticsArtifactActivity>`
 
 **GET** `/v1/organizations/analytics/artifacts`
 
@@ -28554,19 +30613,19 @@ can be broken out per product, per member, or per RBAC group via
 
   UTC date in YYYY-MM-DD format. The day to get artifact activity for. Data is typically available with a 1-day lag (varies by query; the error for a too-recent date names the latest available day) and may be revised by a few percent over the following days. No earlier than 2026-01-01.
 
-- `filter?:optional list<string>` (query parameter)
+- `filter?: optional list<string>` (query parameter)
 
-  Filters as `dimension:value`, e.g. `filter[]=rbac_group_id:{id}`. Repeat the param for OR within a dimension and across dimensions for AND. Supported dimensions on this endpoint: `artifact_type`, `is_shared`, `product`, `rbac_group_id`, `user_id`. Value forms: `artifact_type` is a canonical artifact MIME type (e.g. `text/markdown`) or `other`; `is_shared` is `true` or `false`; `product` is `chat_cowork_unified`, `chat`, `claude_code`, or `cowork` (the surfaces that create artifacts); `rbac_group_id` takes the tagged id (`rbac_group_...`, as emitted in responses and by the spend-limits API) or a bare group UUID, and matches users who held the group at any point during each covered UTC day (time-of-usage attribution); `user_id` takes a tagged user id (`user_...`), as emitted in responses. An unsupported dimension returns 400. At most 100 entries. `chat_cowork_unified` is accepted as a `product` value only on deployments that offer Chat and Cowork unified.
+  Filters as `dimension:value`, e.g. `filter[]=rbac_group_id:{id}`. Repeat the param for OR within a dimension and across dimensions for AND. Supported dimensions on this endpoint: `artifact_type`, `is_shared`, `product`, `rbac_group_id`, `user_id`. Value forms: `artifact_type` is a canonical artifact MIME type (e.g. `text/markdown`) or `other`; `is_shared` is `true` or `false`; `product` is `chat_cowork_unified`, `chat`, `claude_code`, or `cowork` (the surfaces that create artifacts); `rbac_group_id` takes the tagged id (`rbac_group_...`, as emitted in responses and by the spend-limits API) or a bare group UUID, and matches users who held the group at any point during each covered UTC day (time-of-usage attribution); `user_id` takes a tagged user id (`user_...`), as emitted in responses. An unsupported dimension returns 400. At most 100 entries. `chat_cowork_unified` is accepted as a `product` value only where Chat and Cowork unified is available.
 
-- `groupBy?:optional list<GroupBy>` (query parameter)
+- `groupBy?: optional list<AnalyticsArtifactGroupBy>` (query parameter)
 
   Dimensions to break results out by: `product`, `user_id` and/or `rbac_group_id`. The ungrouped artifact-type cube is finite and returned in full; grouped queries multiply the cube and paginate via `next_page`. `product` takes the values `chat_cowork_unified`, `chat`, `claude_code`, or `cowork` (the surfaces that create artifacts). `rbac_group_id` attributes a user to every group they held at any point during the requested UTC day, so grouped rows are not an exclusive partition. At most 100 entries.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum rows to return (1-1000, default 100). The ungrouped artifact-type cube is finite and returned in full; `limit` is the page size only when `group_by[]` multiplies the cube.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field. Only valid with `group_by[]` — the ungrouped cube is never paginated.
 
@@ -28617,12 +30676,15 @@ can be broken out per product, per member, or per RBAC group via
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\Organization\Analytics\AnalyticsArtifactGroupBy;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->analytics->artifacts->list(
   date: '2019-12-27',
   filter: ['string'],
-  groupBy: ['product'],
+  groupBy: [AnalyticsArtifactGroupBy::PRODUCT],
   limit: 1,
   page: 'page',
 );
@@ -28651,20 +30713,23 @@ var_dump($page);
 }
 ```
 
-## Beta › Organization › Analytics › Usage Report
+## Beta › Organization › Analytics › Usage
 
-### Get Token Usage Over Time
+### Get Token Usage By Dimension
 
-`$client->beta->organization->analytics->usageReport->list(\Datetime startingAt, ?BucketWidth bucketWidth, ?list<AnalyticsClaudeTagCategory> claudeTagCategories, ?list<string> claudeTagUserIDs, ?list<AnalyticsContextWindow> contextWindows, ?\Datetime endingAt, ?list<GroupBy> groupBy, ?list<AnalyticsInferenceGeoFilter> inferenceGeos, ?int limit, ?list<string> models, ?string page, ?list<AnalyticsProductFilter> products, ?list<string> rbacGroupIDs, ?list<string> slackChannelIDs, ?list<Speed> speeds, ?list<string> userIDs): PageCursor<AnalyticsUsageReportTimeBucket>`
+`$client->beta->organization->analytics->usage->list(\Datetime startingAt, ?list<string> actorIDs, ?list<AnalyticsActorType> actorTypes, ?list<string> agentIDs, ?list<string> apiKeyIDs, ?list<AnalyticsClaudeTagCategory> claudeTagCategories, ?list<string> claudeTagUserIDs, ?list<AnalyticsContextWindow> contextWindows, ?list<string> deploymentIDs, ?\Datetime endingAt, ?list<string> environmentIDs, ?bool excludeDeletedUsers, ?list<BetaAnalyticsUsageGroupBy> groupBy, ?list<AnalyticsInferenceGeoFilter> inferenceGeos, ?int limit, ?list<string> models, ?AnalyticsUsageCostSortOrder order, ?BetaAnalyticsUsageOrderBy orderBy, ?list<string> organizationIDs, ?string page, ?list<AnalyticsUsageCostProductFilter> products, ?list<string> rbacGroupIDs, ?list<AnalyticsServiceTier> serviceTiers, ?list<string> sessionIDs, ?list<string> slackChannelIDs, ?list<AnalyticsSpeed> speeds, ?AnalyticsTimeBucketWidth timeBucketWidth, ?list<string> userProfileIDs, ?list<string> workspaceIDs, ?list<AnthropicBeta> betas): ReportPageCursor<BetaAnalyticsUsageItem>`
 
-**GET** `/v1/organizations/analytics/usage_report`
+**GET** `/v1/organizations/analytics/usage`
 
-Get token usage over time across a date range.
+Get token usage across a date range, broken out by dimension.
 
-Returns token usage bucketed by minute, hour, or day, optionally broken
-down by product, model, context window, inference region, or speed.
-Available to organizations on a Claude Enterprise plan. Requires an API
-key with the `read:analytics` scope.
+Returns one row per combination of the requested `group_by[]`
+dimensions (and time bucket, when `time_bucket_width` is set) that has
+usage in the range, ranked by the `order_by` metric or ordered by time
+bucket; every combination is returned across pages. With no `group_by[]`
+and no `time_bucket_width`, a single row aggregates the whole range.
+Includes all usage, whether or not it is attributable to a seat user.
+Requires an API key with the `read:analytics` scope, or an Admin API key.
 
 #### Parameters
 
@@ -28672,65 +30737,617 @@ key with the `read:analytics` scope.
 
   Start of range, inclusive. RFC 3339 tz-aware. Must be within the last 365 days and no earlier than 2026-01-01T00:00:00Z.
 
-- `bucketWidth?:optional BucketWidth` (query parameter)
+- `actorIDs?: optional list<string>` (query parameter)
+
+  Filter to usage attributed to specific identities, by tagged ID: a `user_...`, `svac_...` (service account), or `apikey_...` ID. An `apikey_` entry matches only usage attributed to the key itself, not usage on that key attributed to a user or service account (use `api_key_ids[]` for every request a key authenticated). Federated identities have no tagged ID; select them with `actor_types[]`. Use `group_by[]=actor` to break out per-identity values.
+
+- `actorTypes?: optional list<AnalyticsActorType>` (query parameter)
+
+  Filter to usage attributed to specific kinds of identity. Use `group_by[]=actor_type` to break out per-kind values.
+
+- `agentIDs?: optional list<string>` (query parameter)
+
+  Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values. Claude Platform organizations only.
+
+- `apiKeyIDs?: optional list<string>` (query parameter)
+
+  Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`. Claude Platform organizations only.
+
+- `claudeTagCategories?: optional list<AnalyticsClaudeTagCategory>` (query parameter)
+
+  Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. Use `group_by[]=claude_tag_category` to break out per-category values.
+
+- `claudeTagUserIDs?: optional list<string>` (query parameter)
+
+  Filter to Claude Tag (Claude in Slack) usage attributed to specific Slack users, by Slack user ID (for example `U0123ABCDEF`), not claude.ai user ID. Usage that is not Claude Tag, and Claude Tag usage not attributed to a single user, never matches. Use `group_by[]=claude_tag_user_id` to break out per-user values.
+
+- `contextWindows?: optional list<AnalyticsContextWindow>` (query parameter)
+
+  Filter to specific context-window pricing tiers. Use `group_by[]=context_window` to break out per-tier values.
+
+- `deploymentIDs?: optional list<string>` (query parameter)
+
+  Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values. Claude Platform organizations only.
+
+- `endingAt?: optional \Datetime` (query parameter)
+
+  End of range, exclusive. Required when `time_bucket_width` is set. Without `time_bucket_width`, defaults to the earlier of now and `starting_at` + 31 days. The range may span at most 31 days.
+
+- `environmentIDs?: optional list<string>` (query parameter)
+
+  Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values. Claude Platform organizations only.
+
+- `excludeDeletedUsers?: optional bool` (query parameter)
+
+  If true, omit rows whose `actor` is a `user_actor` with `deleted: true`. Requires `group_by[]=actor`. Rows for other actor types, and rows whose `actor` is null, are always kept. A page may contain fewer than `limit` rows; use `has_more` and `next_page` to paginate as usual.
+
+  default: false
+
+- `groupBy?: optional list<BetaAnalyticsUsageGroupBy>` (query parameter)
+
+  Dimensions to break usage out by (at most 5): one row per combination of their values with usage in the range (and per time bucket, when `time_bucket_width` is set), every combination returned across pages rather than a capped top set. When omitted, a single row aggregates the whole range.
+
+- `inferenceGeos?: optional list<AnalyticsInferenceGeoFilter>` (query parameter)
+
+  Filter to specific inference regions. `not_available` matches rows where the region is unset. Use `group_by[]=inference_geo` to break out per-region values.
+
+- `limit?: optional int` (query parameter)
+
+  Number of rows per page (1-1000, default 20). `cost_type`/`token_type` fan-out rows (cost endpoint only) do not count toward this limit, so `data` can exceed it.
+
+  default: 20
+
+- `models?: optional list<string>` (query parameter)
+
+  Models to include. Defaults to all models. Use `group_by[]=model` to break out per-model values.
+
+- `order?: optional AnalyticsUsageCostSortOrder` (query parameter)
+
+  Sort direction of the `order_by` metric, or of the time buckets when `order_by` is `time` and `time_bucket_width` is set. Defaults to `desc`.
+
+- `orderBy?: optional BetaAnalyticsUsageOrderBy` (query parameter)
+
+  Row order. A metric ranks rows by that metric in the `order` direction. `time` orders rows by time bucket in the `order` direction (newest first by default) and, within a bucket, by `total_tokens`, highest first. `time` takes effect only with `time_bucket_width`; without it, `time` is the same as `total_tokens`. Defaults to `total_tokens`.
+
+- `organizationIDs?: optional list<string>` (query parameter)
+
+  Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values.
+
+- `page?: optional string` (query parameter)
+
+  Opaque cursor from a previous response's `next_page` field.
+
+- `products?: optional list<AnalyticsUsageCostProductFilter>` (query parameter)
+
+  Product surfaces to include. Defaults to all products.
+
+- `rbacGroupIDs?: optional list<string>` (query parameter)
+
+  Filter to usage attributed to specific RBAC groups. Accepts tagged RBAC group IDs (`rbac_group_...`) or bare group UUIDs. A row matches when the user belonged to any of the listed groups on the (UTC) day the usage occurred; usage with no group attribution never matches.
+
+- `serviceTiers?: optional list<AnalyticsServiceTier>` (query parameter)
+
+  Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization.
+
+- `sessionIDs?: optional list<string>` (query parameter)
+
+  Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values. Claude Platform organizations only.
+
+- `slackChannelIDs?: optional list<string>` (query parameter)
+
+  Filter to usage originating from specific Slack channels. Use `group_by[]=slack_channel_id` to break out per-channel values.
+
+- `speeds?: optional list<AnalyticsSpeed>` (query parameter)
+
+  Filter to fast or standard inference mode. Use `group_by[]=speed` to break out per-mode values.
+
+- `timeBucketWidth?: optional AnalyticsTimeBucketWidth` (query parameter)
+
+  Time-bucket granularity. When set, rows are returned per time bucket (one per bucket and dimension combination with usage) and each row's `starting_at` and `ending_at` are that bucket's bounds; the time bucket counts toward `limit`. `ending_at` is required when `time_bucket_width` is set, and with `time_bucket_width="1m"` the range may span at most 24 hours. When omitted, each row aggregates the requested range with `starting_at` and `ending_at` each rounded down to the hour.
+
+- `userProfileIDs?: optional list<string>` (query parameter)
+
+  Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values. Claude Platform organizations only.
+
+- `workspaceIDs?: optional list<string>` (query parameter)
+
+  Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `analytics-usage-cost-2026-08-24` in this header.
+
+#### Returns
+
+- `class BetaAnalyticsUsageItem`
+
+  - `\Datetime endingAt`
+
+    End of the period this row covers (exclusive), as an RFC 3339 UTC timestamp: the end of the row's time bucket when a time-bucket width is set; otherwise the requested `ending_at` (or, when omitted, the earlier of now and `starting_at` plus 31 days) rounded down to the hour, because without a time bucket the report covers whole hours.
+
+  - `BetaAnalyticsUsageGroup group`
+
+    The dimension values this row's usage is broken out by.
+
+  - `\Datetime startingAt`
+
+    Start of the period this row covers (inclusive), as an RFC 3339 UTC timestamp: the start of the row's time bucket when a time-bucket width is set, otherwise the requested `starting_at` rounded down to the hour.
+
+  - `BetaAnalyticsUsageMetrics usage`
+
+    Token usage for this row.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Organization\Analytics\AnalyticsActorType;
+use Anthropic\Beta\Organization\Analytics\AnalyticsClaudeTagCategory;
+use Anthropic\Beta\Organization\Analytics\AnalyticsContextWindow;
+use Anthropic\Beta\Organization\Analytics\AnalyticsInferenceGeoFilter;
+use Anthropic\Beta\Organization\Analytics\AnalyticsUsageCostSortOrder;
+use Anthropic\Beta\Organization\Analytics\AnalyticsUsageCostProductFilter;
+use Anthropic\Beta\Organization\Analytics\AnalyticsServiceTier;
+use Anthropic\Beta\Organization\Analytics\AnalyticsSpeed;
+use Anthropic\Beta\Organization\Analytics\AnalyticsTimeBucketWidth;
+use Anthropic\Beta\Organization\Analytics\Usage\BetaAnalyticsUsageGroupBy;
+use Anthropic\Beta\Organization\Analytics\Usage\BetaAnalyticsUsageOrderBy;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$page = $client->beta->organization->analytics->usage->list(
+  startingAt: new \DateTimeImmutable('2026-09-01T00:00:00Z'),
+  actorIDs: ['user_01WxYzAbCdEfGhJkMnPqRsTu'],
+  actorTypes: [AnalyticsActorType::SERVICE_ACCOUNT_ACTOR],
+  agentIDs: ['agent_01VHd3EAGJ6PLkP9LM7DDu3f'],
+  apiKeyIDs: ['apikey_01Rj2N8SVvo6BePZj99NhmiT'],
+  claudeTagCategories: [AnalyticsClaudeTagCategory::ENGAGED],
+  claudeTagUserIDs: ['U0123ABCDEF'],
+  contextWindows: [AnalyticsContextWindow::FROM_0_TO_200K],
+  deploymentIDs: ['depl_01JFC6ihzZHtAuyHsaENdJhY'],
+  endingAt: new \DateTimeImmutable('2026-10-01T00:00:00Z'),
+  environmentIDs: ['env_017oTjuGedHtjhJauVC5xGJD'],
+  excludeDeletedUsers: true,
+  groupBy: [BetaAnalyticsUsageGroupBy::ACTOR],
+  inferenceGeos: [AnalyticsInferenceGeoFilter::GLOBAL],
+  limit: 1,
+  models: ['string'],
+  order: AnalyticsUsageCostSortOrder::ASC,
+  orderBy: BetaAnalyticsUsageOrderBy::OUTPUT_TOKENS,
+  organizationIDs: ['12345678-1234-5678-1234-567812345678'],
+  page: 'page',
+  products: [AnalyticsUsageCostProductFilter::CHAT],
+  rbacGroupIDs: ['rbac_group_012rppKaSVsmTo6NqRDXQXNF'],
+  serviceTiers: [AnalyticsServiceTier::BATCH],
+  sessionIDs: ['sesn_0187kPDyNCwibNNvfaPEApCJ'],
+  slackChannelIDs: ['C0123ABCDEF'],
+  speeds: [AnalyticsSpeed::FAST],
+  timeBucketWidth: AnalyticsTimeBucketWidth::DAY,
+  userProfileIDs: ['uprof_01M33NeYUQK2WV9PpYcsPHLi'],
+  workspaceIDs: ['wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ'],
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($page);
+```
+
+##### Response (200)
+
+```json
+{
+  "data": [
+    {
+      "ending_at": "2026-10-01T00:00:00Z",
+      "group": {
+        "actor": {
+          "deleted": false,
+          "email_address": "user@emaildomain.com",
+          "name": "Jane Doe",
+          "type": "user_actor",
+          "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
+        },
+        "actor_type": "user_actor",
+        "agent_id": "agent_01VHd3EAGJ6PLkP9LM7DDu3f",
+        "api_key_id": "apikey_01Rj2N8SVvo6BePZj99NhmiT",
+        "claude_tag_category": "dm",
+        "claude_tag_user_id": "U0123ABCDEF",
+        "context_window": "0-200k",
+        "deployment_id": "depl_01JFC6ihzZHtAuyHsaENdJhY",
+        "environment_id": "env_017oTjuGedHtjhJauVC5xGJD",
+        "inference_geo": "global",
+        "model": "claude-opus-5-5",
+        "organization_id": "12345678-1234-5678-1234-567812345678",
+        "product": "chat",
+        "rbac_group_id": "rbac_group_012rppKaSVsmTo6NqRDXQXNF",
+        "service_tier": "standard",
+        "session_id": "sesn_0187kPDyNCwibNNvfaPEApCJ",
+        "slack_channel_id": "C0123ABCDEF",
+        "speed": "fast",
+        "user_profile_id": "uprof_01M33NeYUQK2WV9PpYcsPHLi",
+        "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
+      },
+      "starting_at": "2026-09-01T00:00:00Z",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_read_input_tokens": 3200000,
+        "output_tokens": 891000,
+        "requests": 128,
+        "server_tool_use": {
+          "web_search_requests": 10
+        },
+        "total_tokens": 5375500,
+        "uncached_input_tokens": 1284500
+      }
+    }
+  ],
+  "data_refreshed_at": "2026-10-01T04:02:11Z",
+  "has_more": true,
+  "next_page": "next_page"
+}
+```
+
+## Beta › Organization › Analytics › Cost
+
+### Get Cost By Dimension
+
+`$client->beta->organization->analytics->cost->list(\Datetime startingAt, ?list<string> actorIDs, ?list<AnalyticsActorType> actorTypes, ?list<string> agentIDs, ?list<string> apiKeyIDs, ?list<AnalyticsClaudeTagCategory> claudeTagCategories, ?list<string> claudeTagUserIDs, ?list<AnalyticsContextWindow> contextWindows, ?list<string> deploymentIDs, ?\Datetime endingAt, ?list<string> environmentIDs, ?bool excludeDeletedUsers, ?list<BetaAnalyticsCostGroupBy> groupBy, ?list<AnalyticsInferenceGeoFilter> inferenceGeos, ?int limit, ?list<string> models, ?AnalyticsUsageCostSortOrder order, ?BetaAnalyticsCostOrderBy orderBy, ?list<string> organizationIDs, ?string page, ?list<AnalyticsUsageCostProductFilter> products, ?list<string> rbacGroupIDs, ?list<AnalyticsServiceTier> serviceTiers, ?list<string> sessionIDs, ?list<string> slackChannelIDs, ?list<AnalyticsSpeed> speeds, ?AnalyticsTimeBucketWidth timeBucketWidth, ?list<string> userProfileIDs, ?list<string> workspaceIDs, ?list<AnthropicBeta> betas): ReportPageCursor<BetaAnalyticsCostItem>`
+
+**GET** `/v1/organizations/analytics/cost`
+
+Get cost in USD across a date range, broken out by dimension.
+
+Returns one row per combination of the requested `group_by[]`
+dimensions (and time bucket, when `time_bucket_width` is set) that has
+cost in the range, ranked by spend or ordered by time bucket; every
+combination is returned across pages. With no `group_by[]` and no
+`time_bucket_width`, a single row aggregates the whole range. Includes
+all cost, whether or not it is attributable to a seat user. Requires an
+API key with the `read:analytics` scope, or an Admin API key.
+
+#### Parameters
+
+- `startingAt: \Datetime` (query parameter)
+
+  Start of range, inclusive. RFC 3339 tz-aware. Must be within the last 365 days and no earlier than 2026-01-01T00:00:00Z.
+
+- `actorIDs?: optional list<string>` (query parameter)
+
+  Filter to usage attributed to specific identities, by tagged ID: a `user_...`, `svac_...` (service account), or `apikey_...` ID. An `apikey_` entry matches only usage attributed to the key itself, not usage on that key attributed to a user or service account (use `api_key_ids[]` for every request a key authenticated). Federated identities have no tagged ID; select them with `actor_types[]`. Use `group_by[]=actor` to break out per-identity values.
+
+- `actorTypes?: optional list<AnalyticsActorType>` (query parameter)
+
+  Filter to usage attributed to specific kinds of identity. Use `group_by[]=actor_type` to break out per-kind values.
+
+- `agentIDs?: optional list<string>` (query parameter)
+
+  Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values. Claude Platform organizations only.
+
+- `apiKeyIDs?: optional list<string>` (query parameter)
+
+  Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`. Claude Platform organizations only.
+
+- `claudeTagCategories?: optional list<AnalyticsClaudeTagCategory>` (query parameter)
+
+  Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. Use `group_by[]=claude_tag_category` to break out per-category values.
+
+- `claudeTagUserIDs?: optional list<string>` (query parameter)
+
+  Filter to Claude Tag (Claude in Slack) usage attributed to specific Slack users, by Slack user ID (for example `U0123ABCDEF`), not claude.ai user ID. Usage that is not Claude Tag, and Claude Tag usage not attributed to a single user, never matches. Use `group_by[]=claude_tag_user_id` to break out per-user values.
+
+- `contextWindows?: optional list<AnalyticsContextWindow>` (query parameter)
+
+  Filter to specific context-window pricing tiers. Use `group_by[]=context_window` to break out per-tier values.
+
+- `deploymentIDs?: optional list<string>` (query parameter)
+
+  Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values. Claude Platform organizations only.
+
+- `endingAt?: optional \Datetime` (query parameter)
+
+  End of range, exclusive. Required when `time_bucket_width` is set. Without `time_bucket_width`, defaults to the earlier of now and `starting_at` + 31 days. The range may span at most 31 days.
+
+- `environmentIDs?: optional list<string>` (query parameter)
+
+  Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values. Claude Platform organizations only.
+
+- `excludeDeletedUsers?: optional bool` (query parameter)
+
+  If true, omit rows whose `actor` is a `user_actor` with `deleted: true`. Requires `group_by[]=actor`. Rows for other actor types, and rows whose `actor` is null, are always kept. A page may contain fewer than `limit` rows; use `has_more` and `next_page` to paginate as usual.
+
+  default: false
+
+- `groupBy?: optional list<BetaAnalyticsCostGroupBy>` (query parameter)
+
+  Dimensions to break cost out by (at most 5, not counting `cost_type` and `token_type`): one row per combination of their values with cost in the range (and per time bucket, when `time_bucket_width` is set), every combination returned across pages rather than a capped top set. `cost_type` and `token_type` do not count toward `limit`: `cost_type` returns one row per cost component (tokens, web search, code execution, and `session_usage`, Claude Managed Agents session time); `token_type` returns one row per token type, each with `cost_type: "tokens"`; combining both returns the per-token-type rows plus the web-search, code-execution and session-usage rows. When omitted, a single row aggregates the whole range.
+
+- `inferenceGeos?: optional list<AnalyticsInferenceGeoFilter>` (query parameter)
+
+  Filter to specific inference regions. `not_available` matches rows where the region is unset. Use `group_by[]=inference_geo` to break out per-region values.
+
+- `limit?: optional int` (query parameter)
+
+  Number of rows per page (1-1000, default 20). `cost_type`/`token_type` fan-out rows (cost endpoint only) do not count toward this limit, so `data` can exceed it.
+
+  default: 20
+
+- `models?: optional list<string>` (query parameter)
+
+  Models to include. Defaults to all models. Use `group_by[]=model` to break out per-model values.
+
+- `order?: optional AnalyticsUsageCostSortOrder` (query parameter)
+
+  Sort direction of the `order_by` metric, or of the time buckets when `order_by` is `time` and `time_bucket_width` is set. Defaults to `desc`.
+
+- `orderBy?: optional BetaAnalyticsCostOrderBy` (query parameter)
+
+  Row order. A metric ranks rows by that metric in the `order` direction. `time` orders rows by time bucket in the `order` direction (newest first by default) and, within a bucket, by `amount`, highest first. `time` takes effect only with `time_bucket_width`; without it, `time` is the same as `amount`. Defaults to `amount`.
+
+- `organizationIDs?: optional list<string>` (query parameter)
+
+  Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values.
+
+- `page?: optional string` (query parameter)
+
+  Opaque cursor from a previous response's `next_page` field.
+
+- `products?: optional list<AnalyticsUsageCostProductFilter>` (query parameter)
+
+  Product surfaces to include. Defaults to all products.
+
+- `rbacGroupIDs?: optional list<string>` (query parameter)
+
+  Filter to usage attributed to specific RBAC groups. Accepts tagged RBAC group IDs (`rbac_group_...`) or bare group UUIDs. A row matches when the user belonged to any of the listed groups on the (UTC) day the usage occurred; usage with no group attribution never matches.
+
+- `serviceTiers?: optional list<AnalyticsServiceTier>` (query parameter)
+
+  Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization.
+
+- `sessionIDs?: optional list<string>` (query parameter)
+
+  Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values. Claude Platform organizations only.
+
+- `slackChannelIDs?: optional list<string>` (query parameter)
+
+  Filter to usage originating from specific Slack channels. Use `group_by[]=slack_channel_id` to break out per-channel values.
+
+- `speeds?: optional list<AnalyticsSpeed>` (query parameter)
+
+  Filter to fast or standard inference mode. Use `group_by[]=speed` to break out per-mode values.
+
+- `timeBucketWidth?: optional AnalyticsTimeBucketWidth` (query parameter)
+
+  Time-bucket granularity. When set, rows are returned per time bucket (one per bucket and dimension combination with usage) and each row's `starting_at` and `ending_at` are that bucket's bounds; the time bucket counts toward `limit`. `ending_at` is required when `time_bucket_width` is set, and with `time_bucket_width="1m"` the range may span at most 24 hours. When omitted, each row aggregates the requested range with `starting_at` and `ending_at` each rounded down to the hour.
+
+- `userProfileIDs?: optional list<string>` (query parameter)
+
+  Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values. Claude Platform organizations only.
+
+- `workspaceIDs?: optional list<string>` (query parameter)
+
+  Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `analytics-usage-cost-2026-08-24` in this header.
+
+#### Returns
+
+- `class BetaAnalyticsCostItem`
+
+  - `BetaAnalyticsCostMetrics cost`
+
+    Cost for this row.
+
+  - `\Datetime endingAt`
+
+    End of the period this row covers (exclusive), as an RFC 3339 UTC timestamp: the end of the row's time bucket when a time-bucket width is set; otherwise the requested `ending_at` (or, when omitted, the earlier of now and `starting_at` plus 31 days) rounded down to the hour, because without a time bucket the report covers whole hours.
+
+  - `BetaAnalyticsCostGroup group`
+
+    The dimension values this row's cost is broken out by.
+
+  - `\Datetime startingAt`
+
+    Start of the period this row covers (inclusive), as an RFC 3339 UTC timestamp: the start of the row's time bucket when a time-bucket width is set, otherwise the requested `starting_at` rounded down to the hour.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Organization\Analytics\AnalyticsActorType;
+use Anthropic\Beta\Organization\Analytics\AnalyticsClaudeTagCategory;
+use Anthropic\Beta\Organization\Analytics\AnalyticsContextWindow;
+use Anthropic\Beta\Organization\Analytics\AnalyticsInferenceGeoFilter;
+use Anthropic\Beta\Organization\Analytics\AnalyticsUsageCostSortOrder;
+use Anthropic\Beta\Organization\Analytics\AnalyticsUsageCostProductFilter;
+use Anthropic\Beta\Organization\Analytics\AnalyticsServiceTier;
+use Anthropic\Beta\Organization\Analytics\AnalyticsSpeed;
+use Anthropic\Beta\Organization\Analytics\AnalyticsTimeBucketWidth;
+use Anthropic\Beta\Organization\Analytics\Cost\BetaAnalyticsCostGroupBy;
+use Anthropic\Beta\Organization\Analytics\Cost\BetaAnalyticsCostOrderBy;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$page = $client->beta->organization->analytics->cost->list(
+  startingAt: new \DateTimeImmutable('2026-09-01T00:00:00Z'),
+  actorIDs: ['user_01WxYzAbCdEfGhJkMnPqRsTu'],
+  actorTypes: [AnalyticsActorType::SERVICE_ACCOUNT_ACTOR],
+  agentIDs: ['agent_01VHd3EAGJ6PLkP9LM7DDu3f'],
+  apiKeyIDs: ['apikey_01Rj2N8SVvo6BePZj99NhmiT'],
+  claudeTagCategories: [AnalyticsClaudeTagCategory::ENGAGED],
+  claudeTagUserIDs: ['U0123ABCDEF'],
+  contextWindows: [AnalyticsContextWindow::FROM_0_TO_200K],
+  deploymentIDs: ['depl_01JFC6ihzZHtAuyHsaENdJhY'],
+  endingAt: new \DateTimeImmutable('2026-10-01T00:00:00Z'),
+  environmentIDs: ['env_017oTjuGedHtjhJauVC5xGJD'],
+  excludeDeletedUsers: true,
+  groupBy: [BetaAnalyticsCostGroupBy::ACTOR],
+  inferenceGeos: [AnalyticsInferenceGeoFilter::GLOBAL],
+  limit: 1,
+  models: ['string'],
+  order: AnalyticsUsageCostSortOrder::ASC,
+  orderBy: BetaAnalyticsCostOrderBy::AMOUNT,
+  organizationIDs: ['12345678-1234-5678-1234-567812345678'],
+  page: 'page',
+  products: [AnalyticsUsageCostProductFilter::CHAT],
+  rbacGroupIDs: ['rbac_group_012rppKaSVsmTo6NqRDXQXNF'],
+  serviceTiers: [AnalyticsServiceTier::BATCH],
+  sessionIDs: ['sesn_0187kPDyNCwibNNvfaPEApCJ'],
+  slackChannelIDs: ['C0123ABCDEF'],
+  speeds: [AnalyticsSpeed::FAST],
+  timeBucketWidth: AnalyticsTimeBucketWidth::DAY,
+  userProfileIDs: ['uprof_01M33NeYUQK2WV9PpYcsPHLi'],
+  workspaceIDs: ['wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ'],
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($page);
+```
+
+##### Response (200)
+
+```json
+{
+  "data": [
+    {
+      "cost": {
+        "amount": "41280.000000",
+        "currency": "USD",
+        "list_amount": "51600.000000",
+        "requests": 128
+      },
+      "ending_at": "2026-10-01T00:00:00Z",
+      "group": {
+        "actor": {
+          "deleted": false,
+          "email_address": "user@emaildomain.com",
+          "name": "Jane Doe",
+          "type": "user_actor",
+          "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
+        },
+        "actor_type": "user_actor",
+        "agent_id": "agent_01VHd3EAGJ6PLkP9LM7DDu3f",
+        "api_key_id": "apikey_01Rj2N8SVvo6BePZj99NhmiT",
+        "claude_tag_category": "dm",
+        "claude_tag_user_id": "U0123ABCDEF",
+        "context_window": "0-200k",
+        "cost_type": "tokens",
+        "deployment_id": "depl_01JFC6ihzZHtAuyHsaENdJhY",
+        "environment_id": "env_017oTjuGedHtjhJauVC5xGJD",
+        "inference_geo": "global",
+        "model": "claude-opus-5-5",
+        "organization_id": "12345678-1234-5678-1234-567812345678",
+        "product": "chat",
+        "rbac_group_id": "rbac_group_012rppKaSVsmTo6NqRDXQXNF",
+        "service_tier": "standard",
+        "session_id": "sesn_0187kPDyNCwibNNvfaPEApCJ",
+        "slack_channel_id": "C0123ABCDEF",
+        "speed": "fast",
+        "token_type": "cache_creation.ephemeral_1h_input_tokens",
+        "user_profile_id": "uprof_01M33NeYUQK2WV9PpYcsPHLi",
+        "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
+      },
+      "starting_at": "2026-09-01T00:00:00Z"
+    }
+  ],
+  "data_refreshed_at": "2026-10-01T04:02:11Z",
+  "has_more": true,
+  "next_page": "next_page"
+}
+```
+
+## Beta › Organization › Analytics › Usage Report
+
+### Get Token Usage Over Time
+
+`$client->beta->organization->analytics->usageReport->list(\Datetime startingAt, ?BucketWidth bucketWidth, ?list<AnalyticsClaudeTagCategory> claudeTagCategories, ?list<string> claudeTagUserIDs, ?list<AnalyticsContextWindow> contextWindows, ?\Datetime endingAt, ?list<GroupBy> groupBy, ?list<AnalyticsInferenceGeoFilter> inferenceGeos, ?int limit, ?list<string> models, ?string page, ?list<AnalyticsProductFilter> products, ?list<string> rbacGroupIDs, ?list<string> slackChannelIDs, ?list<Speed> speeds, ?list<string> userIDs): ReportPageCursor<AnalyticsUsageReportTimeBucket>`
+
+**GET** `/v1/organizations/analytics/usage_report`
+
+[Legacy] Get token usage over time across a date range.
+
+Returns token usage bucketed by minute, hour, or day, optionally broken down by one or more `group_by[]` dimensions, such as product or model. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+
+This endpoint is one of the legacy Claude Enterprise usage and cost reports. For new integrations, use [`GET /v1/organizations/analytics/usage`](https://platform.claude.com/docs/en/api/beta/organization/analytics/usage/list?sdk_languages=php) in the Usage and Cost Analytics API instead. To move an existing integration, see [Migrate from the Claude Enterprise usage and cost reports](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api?sdk_languages=php#migrate-from-enterprise-analytics-reports).
+
+#### Parameters
+
+- `startingAt: \Datetime` (query parameter)
+
+  Start of range, inclusive. RFC 3339 tz-aware. Must be within the last 365 days and no earlier than 2026-01-01T00:00:00Z.
+
+- `bucketWidth?: optional BucketWidth` (query parameter)
 
   Time bucket granularity.
 
   default: 1d
 
-- `claudeTagCategories?:optional list<AnalyticsClaudeTagCategory>` (query parameter)
+- `claudeTagCategories?: optional list<AnalyticsClaudeTagCategory>` (query parameter)
 
-  Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. `dm` usage is reported under the user's product rather than `claude-tag`, so combining this filter with `products[]=claude-tag` excludes it. Use `group_by[]=claude_tag_category` to break out per-category values.
+  Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. Use `group_by[]=claude_tag_category` to break out per-category values.
 
-- `claudeTagUserIDs?:optional list<string>` (query parameter)
+- `claudeTagUserIDs?: optional list<string>` (query parameter)
 
   Filter to Claude Tag (Claude in Slack) usage attributed to specific Slack users, by Slack user ID (for example `U0123ABCDEF`), not claude.ai user ID. Usage that is not Claude Tag, and Claude Tag usage not attributed to a single user, never matches. Use `group_by[]=claude_tag_user_id` to break out per-user values.
 
-- `contextWindows?:optional list<AnalyticsContextWindow>` (query parameter)
+- `contextWindows?: optional list<AnalyticsContextWindow>` (query parameter)
 
   Filter to specific context-window pricing tiers. Use `group_by[]=context_window` to break out per-tier values.
 
-- `endingAt?:optional \Datetime` (query parameter)
+- `endingAt?: optional \Datetime` (query parameter)
 
   End of range, exclusive. When omitted, defaults to the earlier of now and `starting_at` + 31 days. The range may span at most 31 days.
 
-- `groupBy?:optional list<GroupBy>` (query parameter)
+- `groupBy?: optional list<GroupBy>` (query parameter)
 
   Dimensions to break each time bucket out by. Defaults to no grouping (one total per bucket). Each bucket reports at most its top 100 groups; a group beyond that cap has no row in that bucket (there is no remainder row), so grouped buckets are not exhaustive when a dimension has more than 100 distinct values.
 
-- `inferenceGeos?:optional list<AnalyticsInferenceGeoFilter>` (query parameter)
+- `inferenceGeos?: optional list<AnalyticsInferenceGeoFilter>` (query parameter)
 
   Filter to specific inference regions. `not_available` matches rows where the region is unset. Use `group_by[]=inference_geo` to break out per-region values.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of time buckets per page. Defaults and caps vary by `bucket_width` (`1d`: default 7, max 31; `1h`: default 24, max 168; `1m`: default 60, max 256).
 
-- `models?:optional list<string>` (query parameter)
+- `models?: optional list<string>` (query parameter)
 
   Models to include. Defaults to all models. Use `group_by[]=model` to break out per-model values.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `products?:optional list<AnalyticsProductFilter>` (query parameter)
+- `products?: optional list<AnalyticsProductFilter>` (query parameter)
 
   Product surfaces to include. Defaults to all products. Use `group_by[]=product` to break out per-product values.
 
-- `rbacGroupIDs?:optional list<string>` (query parameter)
+- `rbacGroupIDs?: optional list<string>` (query parameter)
 
   Filter to usage attributed to specific RBAC groups. Accepts tagged RBAC group IDs (`rbac_group_...`) or bare group UUIDs. A row matches when the user belonged to any of the listed groups on the (UTC) day the usage occurred; usage with no group attribution never matches.
 
-- `slackChannelIDs?:optional list<string>` (query parameter)
+- `slackChannelIDs?: optional list<string>` (query parameter)
 
   Filter to usage originating from specific Slack channels. Use `group_by[]=slack_channel_id` to break out per-channel values.
 
-- `speeds?:optional list<Speed>` (query parameter)
+- `speeds?: optional list<Speed>` (query parameter)
 
   Filter to fast or standard inference mode. Use `group_by[]=speed` to break out per-mode values.
 
-- `userIDs?:optional list<string>` (query parameter)
+- `userIDs?: optional list<string>` (query parameter)
 
   Filter to specific users by tagged user ID.
 
@@ -28756,6 +31373,12 @@ key with the `read:analytics` scope.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\Organization\Analytics\AnalyticsClaudeTagCategory;
+use Anthropic\Beta\Organization\Analytics\AnalyticsContextWindow;
+use Anthropic\Beta\Organization\Analytics\AnalyticsInferenceGeoFilter;
+use Anthropic\Beta\Organization\Analytics\AnalyticsProductFilter;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -28826,19 +31449,15 @@ var_dump($page);
 
 ### Get Per-User Token Usage
 
-`$client->beta->organization->analytics->userUsageReport->list(\Datetime startingAt, ?BucketWidth bucketWidth, ?list<AnalyticsClaudeTagCategory> claudeTagCategories, ?list<string> claudeTagUserIDs, ?list<AnalyticsContextWindow> contextWindows, ?\Datetime endingAt, ?bool excludeDeletedUsers, ?list<GroupBy> groupBy, ?list<AnalyticsInferenceGeoFilter> inferenceGeos, ?int limit, ?list<string> models, ?Order order, ?OrderBy orderBy, ?string page, ?list<AnalyticsProductFilter> products, ?list<string> rbacGroupIDs, ?list<string> slackChannelIDs, ?list<Speed> speeds, ?list<string> userIDs): PageCursor<AnalyticsUsageUsersItem>`
+`$client->beta->organization->analytics->userUsageReport->list(\Datetime startingAt, ?BucketWidth bucketWidth, ?list<AnalyticsClaudeTagCategory> claudeTagCategories, ?list<string> claudeTagUserIDs, ?list<AnalyticsContextWindow> contextWindows, ?\Datetime endingAt, ?bool excludeDeletedUsers, ?list<GroupBy> groupBy, ?list<AnalyticsInferenceGeoFilter> inferenceGeos, ?int limit, ?list<string> models, ?Order order, ?OrderBy orderBy, ?string page, ?list<AnalyticsProductFilter> products, ?list<string> rbacGroupIDs, ?list<string> slackChannelIDs, ?list<Speed> speeds, ?list<string> userIDs): ReportPageCursor<AnalyticsUsageUsersItem>`
 
 **GET** `/v1/organizations/analytics/user_usage_report`
 
-Get per-user token usage across a date range.
+[Legacy] Get per-user token usage across a date range.
 
-Returns one row per user, ranked by the chosen token metric. Use this to
-see which users consume the most tokens. Only usage attributable to a
-seat user is included; for organization-wide totals including direct
-API-key and automation traffic, use the bucketed
-`/v1/organizations/analytics/usage_report` endpoint. Available to
-organizations on a Claude Enterprise plan. Requires an API key with the
-`read:analytics` scope.
+Returns usage per user, ranked by the chosen token metric; `group_by[]` or `bucket_width` splits a user across several rows. Use this to see which users consume the most tokens. Only usage attributed to a user account is included, so usage with no user account, such as Code Review usage and Claude Tag usage in Slack channels, is left out. Claude Tag one-to-one direct messages are included, with product `claude-tag`, only for members who have connected a Claude account. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+
+This endpoint is one of the legacy Claude Enterprise usage and cost reports. For new integrations, use [`GET /v1/organizations/analytics/usage`](https://platform.claude.com/docs/en/api/beta/organization/analytics/usage/list?sdk_languages=php) in the Usage and Cost Analytics API instead. To move an existing integration, see [Migrate from the Claude Enterprise usage and cost reports](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api?sdk_languages=php#migrate-from-enterprise-analytics-reports).
 
 #### Parameters
 
@@ -28846,83 +31465,83 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
   Start of range, inclusive. RFC 3339 tz-aware. Must be within the last 365 days and no earlier than 2026-01-01T00:00:00Z.
 
-- `bucketWidth?:optional BucketWidth` (query parameter)
+- `bucketWidth?: optional BucketWidth` (query parameter)
 
   Time-bucket granularity. When set, each row's `starting_at` and `ending_at` are populated and one actor may span several rows (one per time bucket with usage). The time bucket counts toward `limit`, so one page can return multiple rows for the same actor. `ending_at` is required when `bucket_width` is set, and with `bucket_width="1m"` the range may span at most 24 hours. When omitted, each row aggregates the full `[starting_at, ending_at)` range.
 
-- `claudeTagCategories?:optional list<AnalyticsClaudeTagCategory>` (query parameter)
+- `claudeTagCategories?: optional list<AnalyticsClaudeTagCategory>` (query parameter)
 
-  Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. `dm` usage is reported under the user's product rather than `claude-tag`, so combining this filter with `products[]=claude-tag` excludes it. Use `group_by[]=claude_tag_category` to break out per-category values.
+  Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. Use `group_by[]=claude_tag_category` to break out per-category values.
 
-- `claudeTagUserIDs?:optional list<string>` (query parameter)
+- `claudeTagUserIDs?: optional list<string>` (query parameter)
 
   Filter to Claude Tag (Claude in Slack) usage attributed to specific Slack users, by Slack user ID (for example `U0123ABCDEF`), not claude.ai user ID. Usage that is not Claude Tag, and Claude Tag usage not attributed to a single user, never matches. Use `group_by[]=claude_tag_user_id` to break out per-user values.
 
-- `contextWindows?:optional list<AnalyticsContextWindow>` (query parameter)
+- `contextWindows?: optional list<AnalyticsContextWindow>` (query parameter)
 
   Filter to specific context-window pricing tiers. Use `group_by[]=context_window` to break out per-tier values.
 
-- `endingAt?:optional \Datetime` (query parameter)
+- `endingAt?: optional \Datetime` (query parameter)
 
   End of range, exclusive. When omitted, defaults to the earlier of now and `starting_at` + 31 days. The range may span at most 31 days.
 
-- `excludeDeletedUsers?:optional bool` (query parameter)
+- `excludeDeletedUsers?: optional bool` (query parameter)
 
   If true, omit rows for users who are deleted (`deleted: true`). A page may contain fewer than `limit` rows; use `has_more` and `next_page` to paginate as usual.
 
   default: false
 
-- `groupBy?:optional list<GroupBy>` (query parameter)
+- `groupBy?: optional list<GroupBy>` (query parameter)
 
   Break each actor's row out by the given dimensions. Accepts the same values as the bucketed `/usage_report` endpoint. `limit` bounds (actor × time bucket × dimension) rows — with dimensions or `bucket_width` present, one actor may span several rows.
 
-- `inferenceGeos?:optional list<AnalyticsInferenceGeoFilter>` (query parameter)
+- `inferenceGeos?: optional list<AnalyticsInferenceGeoFilter>` (query parameter)
 
   Filter to specific inference regions. `not_available` matches rows where the region is unset. Use `group_by[]=inference_geo` to break out per-region values.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of rows per page (1-1000, default 20). One row per actor unless `group_by[]` or `bucket_width` splits an actor across rows; `cost_type`/`token_type` fan-out rows (cost endpoint only) are the exception — they do not count toward this limit, so `data` can exceed it.
 
   default: 20
 
-- `models?:optional list<string>` (query parameter)
+- `models?: optional list<string>` (query parameter)
 
   Models to include. Defaults to all models. Use `group_by[]=model` to break out per-model values.
 
-- `order?:optional Order` (query parameter)
+- `order?: optional Order` (query parameter)
 
   Sort direction. Defaults to `desc`.
 
   default: desc
 
-- `orderBy?:optional OrderBy` (query parameter)
+- `orderBy?: optional OrderBy` (query parameter)
 
   Metric to rank actors by. Defaults to `total_tokens`.
 
   default: total_tokens
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `products?:optional list<AnalyticsProductFilter>` (query parameter)
+- `products?: optional list<AnalyticsProductFilter>` (query parameter)
 
   Product surfaces to include. Defaults to all products.
 
-- `rbacGroupIDs?:optional list<string>` (query parameter)
+- `rbacGroupIDs?: optional list<string>` (query parameter)
 
   Filter to usage attributed to specific RBAC groups. Accepts tagged RBAC group IDs (`rbac_group_...`) or bare group UUIDs. A row matches when the user belonged to any of the listed groups on the (UTC) day the usage occurred; usage with no group attribution never matches.
 
-- `slackChannelIDs?:optional list<string>` (query parameter)
+- `slackChannelIDs?: optional list<string>` (query parameter)
 
   Filter to usage originating from specific Slack channels. Use `group_by[]=slack_channel_id` to break out per-channel values.
 
-- `speeds?:optional list<Speed>` (query parameter)
+- `speeds?: optional list<Speed>` (query parameter)
 
   Filter to fast or standard inference mode. Use `group_by[]=speed` to break out per-mode values.
 
-- `userIDs?:optional list<string>` (query parameter)
+- `userIDs?: optional list<string>` (query parameter)
 
   Filter to specific users by tagged user ID.
 
@@ -28944,7 +31563,7 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
   - `?AnalyticsClaudeTagCategory claudeTagCategory`
 
-    Claude Tag (Claude in Slack) spend category: `engaged` (a person addressed Claude in a channel or thread), `proactive` (Claude responded without being addressed), `scheduled` (a scheduled routine ran), `monitoring` (Claude watching a channel it was asked to monitor), or `dm` (direct messages with Claude). Populated only when `claude_tag_category` is in `group_by[]`; null for usage that is not Claude Tag. Direct-message usage is billed to the individual user and is reported under that user's product, not under `claude-tag`. New categories may be added over time.
+    Claude Tag (Claude in Slack) spend category: `engaged` (a person addressed Claude in a channel or thread), `proactive` (Claude responded without being addressed), `scheduled` (a scheduled routine ran), `monitoring` (Claude watching a channel it was asked to monitor), or `dm` (direct messages with Claude). Populated only when `claude_tag_category` is in `group_by[]`; null for usage that is not Claude Tag. New categories may be added over time.
 
   - `?string claudeTagUserID`
 
@@ -28972,7 +31591,7 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
   - `?string product`
 
-    Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude-tag`, and `chat_cowork_unified`. `claude-tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only on deployments that offer Chat and Cowork unified. Some unattributed usage is reported as "other".
+    Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude-tag`, and `chat_cowork_unified`. `claude-tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. Some unattributed usage is reported as "other".
 
   - `?string rbacGroupID`
 
@@ -28988,7 +31607,7 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
   - `?string slackChannelID`
 
-    Slack channel the usage originated from. Populated only when `slack_channel_id` is in `group_by[]`; null for usage outside Slack (and for rows recorded before channel attribution was enabled).
+    Slack channel the usage originated from. Populated only when `slack_channel_id` is in `group_by[]`; null for usage outside Slack, for some Claude Tag usage that has no channel recorded, and for usage recorded before channel attribution was enabled.
 
   - `?Speed speed`
 
@@ -29012,6 +31631,12 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\Organization\Analytics\AnalyticsClaudeTagCategory;
+use Anthropic\Beta\Organization\Analytics\AnalyticsContextWindow;
+use Anthropic\Beta\Organization\Analytics\AnalyticsInferenceGeoFilter;
+use Anthropic\Beta\Organization\Analytics\AnalyticsProductFilter;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -29048,7 +31673,6 @@ var_dump($page);
     {
       "actor": {
         "deleted": true,
-        "email": "jane@example.com",
         "email_address": "jane@example.com",
         "name": "Jane Smith",
         "type": "user_actor",
@@ -29090,16 +31714,15 @@ var_dump($page);
 
 ### Get Cost Over Time
 
-`$client->beta->organization->analytics->costReport->list(\Datetime startingAt, ?BucketWidth bucketWidth, ?list<AnalyticsClaudeTagCategory> claudeTagCategories, ?list<string> claudeTagUserIDs, ?list<AnalyticsContextWindow> contextWindows, ?\Datetime endingAt, ?list<GroupBy> groupBy, ?list<AnalyticsInferenceGeoFilter> inferenceGeos, ?int limit, ?list<string> models, ?string page, ?list<AnalyticsProductFilter> products, ?list<string> rbacGroupIDs, ?list<string> slackChannelIDs, ?list<Speed> speeds, ?list<string> userIDs): PageCursor<AnalyticsCostReportTimeBucket>`
+`$client->beta->organization->analytics->costReport->list(\Datetime startingAt, ?BucketWidth bucketWidth, ?list<AnalyticsClaudeTagCategory> claudeTagCategories, ?list<string> claudeTagUserIDs, ?list<AnalyticsContextWindow> contextWindows, ?\Datetime endingAt, ?list<GroupBy> groupBy, ?list<AnalyticsInferenceGeoFilter> inferenceGeos, ?int limit, ?list<string> models, ?string page, ?list<AnalyticsProductFilter> products, ?list<string> rbacGroupIDs, ?list<string> slackChannelIDs, ?list<Speed> speeds, ?list<string> userIDs): ReportPageCursor<AnalyticsCostReportTimeBucket>`
 
 **GET** `/v1/organizations/analytics/cost_report`
 
-Get cost in USD over time across a date range.
+[Legacy] Get cost in USD over time across a date range.
 
-Returns cost bucketed by minute, hour, or day, optionally broken down by
-product, model, context window, inference region, speed, cost type, or
-token type. Available to organizations on a Claude Enterprise plan.
-Requires an API key with the `read:analytics` scope.
+Returns cost bucketed by minute, hour, or day, optionally broken down by one or more `group_by[]` dimensions, such as model or cost type. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+
+This endpoint is one of the legacy Claude Enterprise usage and cost reports. For new integrations, use [`GET /v1/organizations/analytics/cost`](https://platform.claude.com/docs/en/api/beta/organization/analytics/cost/list?sdk_languages=php) in the Usage and Cost Analytics API instead. To move an existing integration, see [Migrate from the Claude Enterprise usage and cost reports](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api?sdk_languages=php#migrate-from-enterprise-analytics-reports).
 
 #### Parameters
 
@@ -29107,65 +31730,65 @@ Requires an API key with the `read:analytics` scope.
 
   Start of range, inclusive. RFC 3339 tz-aware. Must be within the last 365 days and no earlier than 2026-01-01T00:00:00Z.
 
-- `bucketWidth?:optional BucketWidth` (query parameter)
+- `bucketWidth?: optional BucketWidth` (query parameter)
 
   Time bucket granularity.
 
   default: 1d
 
-- `claudeTagCategories?:optional list<AnalyticsClaudeTagCategory>` (query parameter)
+- `claudeTagCategories?: optional list<AnalyticsClaudeTagCategory>` (query parameter)
 
-  Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. `dm` usage is reported under the user's product rather than `claude-tag`, so combining this filter with `products[]=claude-tag` excludes it. Use `group_by[]=claude_tag_category` to break out per-category values.
+  Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. Use `group_by[]=claude_tag_category` to break out per-category values.
 
-- `claudeTagUserIDs?:optional list<string>` (query parameter)
+- `claudeTagUserIDs?: optional list<string>` (query parameter)
 
   Filter to Claude Tag (Claude in Slack) usage attributed to specific Slack users, by Slack user ID (for example `U0123ABCDEF`), not claude.ai user ID. Usage that is not Claude Tag, and Claude Tag usage not attributed to a single user, never matches. Use `group_by[]=claude_tag_user_id` to break out per-user values.
 
-- `contextWindows?:optional list<AnalyticsContextWindow>` (query parameter)
+- `contextWindows?: optional list<AnalyticsContextWindow>` (query parameter)
 
   Filter to specific context-window pricing tiers. Use `group_by[]=context_window` to break out per-tier values.
 
-- `endingAt?:optional \Datetime` (query parameter)
+- `endingAt?: optional \Datetime` (query parameter)
 
   End of range, exclusive. When omitted, defaults to the earlier of now and `starting_at` + 31 days. The range may span at most 31 days.
 
-- `groupBy?:optional list<GroupBy>` (query parameter)
+- `groupBy?: optional list<GroupBy>` (query parameter)
 
   Dimensions to break each time bucket out by. Defaults to no grouping (one total per bucket). Each bucket reports at most its top 100 groups; a group beyond that cap has no row in that bucket (there is no remainder row), so grouped buckets are not exhaustive when a dimension has more than 100 distinct values.
 
-- `inferenceGeos?:optional list<AnalyticsInferenceGeoFilter>` (query parameter)
+- `inferenceGeos?: optional list<AnalyticsInferenceGeoFilter>` (query parameter)
 
   Filter to specific inference regions. `not_available` matches rows where the region is unset. Use `group_by[]=inference_geo` to break out per-region values.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of time buckets per page. Defaults and caps vary by `bucket_width` (`1d`: default 7, max 31; `1h`: default 24, max 168; `1m`: default 60, max 256).
 
-- `models?:optional list<string>` (query parameter)
+- `models?: optional list<string>` (query parameter)
 
   Models to include. Defaults to all models. Use `group_by[]=model` to break out per-model values.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `products?:optional list<AnalyticsProductFilter>` (query parameter)
+- `products?: optional list<AnalyticsProductFilter>` (query parameter)
 
   Product surfaces to include. Defaults to all products. Use `group_by[]=product` to break out per-product values.
 
-- `rbacGroupIDs?:optional list<string>` (query parameter)
+- `rbacGroupIDs?: optional list<string>` (query parameter)
 
   Filter to usage attributed to specific RBAC groups. Accepts tagged RBAC group IDs (`rbac_group_...`) or bare group UUIDs. A row matches when the user belonged to any of the listed groups on the (UTC) day the usage occurred; usage with no group attribution never matches.
 
-- `slackChannelIDs?:optional list<string>` (query parameter)
+- `slackChannelIDs?: optional list<string>` (query parameter)
 
   Filter to usage originating from specific Slack channels. Use `group_by[]=slack_channel_id` to break out per-channel values.
 
-- `speeds?:optional list<Speed>` (query parameter)
+- `speeds?: optional list<Speed>` (query parameter)
 
   Filter to fast or standard inference mode. Use `group_by[]=speed` to break out per-mode values.
 
-- `userIDs?:optional list<string>` (query parameter)
+- `userIDs?: optional list<string>` (query parameter)
 
   Filter to specific users by tagged user ID.
 
@@ -29191,6 +31814,12 @@ Requires an API key with the `read:analytics` scope.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\Organization\Analytics\AnalyticsClaudeTagCategory;
+use Anthropic\Beta\Organization\Analytics\AnalyticsContextWindow;
+use Anthropic\Beta\Organization\Analytics\AnalyticsInferenceGeoFilter;
+use Anthropic\Beta\Organization\Analytics\AnalyticsProductFilter;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -29256,19 +31885,15 @@ var_dump($page);
 
 ### Get Per-User Cost
 
-`$client->beta->organization->analytics->userCostReport->list(\Datetime startingAt, ?BucketWidth bucketWidth, ?list<AnalyticsClaudeTagCategory> claudeTagCategories, ?list<string> claudeTagUserIDs, ?list<AnalyticsContextWindow> contextWindows, ?\Datetime endingAt, ?bool excludeDeletedUsers, ?list<GroupBy> groupBy, ?list<AnalyticsInferenceGeoFilter> inferenceGeos, ?int limit, ?list<string> models, ?Order order, ?OrderBy orderBy, ?string page, ?list<AnalyticsProductFilter> products, ?list<string> rbacGroupIDs, ?list<string> slackChannelIDs, ?list<Speed> speeds, ?list<string> userIDs): PageCursor<AnalyticsCostUsersItem>`
+`$client->beta->organization->analytics->userCostReport->list(\Datetime startingAt, ?BucketWidth bucketWidth, ?list<AnalyticsClaudeTagCategory> claudeTagCategories, ?list<string> claudeTagUserIDs, ?list<AnalyticsContextWindow> contextWindows, ?\Datetime endingAt, ?bool excludeDeletedUsers, ?list<GroupBy> groupBy, ?list<AnalyticsInferenceGeoFilter> inferenceGeos, ?int limit, ?list<string> models, ?Order order, ?OrderBy orderBy, ?string page, ?list<AnalyticsProductFilter> products, ?list<string> rbacGroupIDs, ?list<string> slackChannelIDs, ?list<Speed> speeds, ?list<string> userIDs): ReportPageCursor<AnalyticsCostUsersItem>`
 
 **GET** `/v1/organizations/analytics/user_cost_report`
 
-Get per-user cost in USD across a date range.
+[Legacy] Get per-user cost in USD across a date range.
 
-Returns one row per user, ranked by spend. Use this to see which users
-account for the most cost. Only cost attributable to a seat user is
-included; for organization-wide totals including direct API-key and
-automation traffic, use the bucketed
-`/v1/organizations/analytics/cost_report` endpoint. Available to
-organizations on a Claude Enterprise plan. Requires an API key with the
-`read:analytics` scope.
+Returns cost per user, ranked by spend; `group_by[]` or `bucket_width` splits a user across several rows. Use this to see which users account for the most cost. Only cost attributed to a user account is included, so cost with no user account, such as Code Review usage and Claude Tag usage in Slack channels, is left out. Claude Tag one-to-one direct messages are included, with product `claude-tag`, only for members who have connected a Claude account. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope.
+
+This endpoint is one of the legacy Claude Enterprise usage and cost reports. For new integrations, use [`GET /v1/organizations/analytics/cost`](https://platform.claude.com/docs/en/api/beta/organization/analytics/cost/list?sdk_languages=php) in the Usage and Cost Analytics API instead. To move an existing integration, see [Migrate from the Claude Enterprise usage and cost reports](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api?sdk_languages=php#migrate-from-enterprise-analytics-reports).
 
 #### Parameters
 
@@ -29276,83 +31901,83 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
   Start of range, inclusive. RFC 3339 tz-aware. Must be within the last 365 days and no earlier than 2026-01-01T00:00:00Z.
 
-- `bucketWidth?:optional BucketWidth` (query parameter)
+- `bucketWidth?: optional BucketWidth` (query parameter)
 
   Time-bucket granularity. When set, each row's `starting_at` and `ending_at` are populated and one actor may span several rows (one per time bucket with usage). The time bucket counts toward `limit`, so one page can return multiple rows for the same actor. `ending_at` is required when `bucket_width` is set, and with `bucket_width="1m"` the range may span at most 24 hours. When omitted, each row aggregates the full `[starting_at, ending_at)` range.
 
-- `claudeTagCategories?:optional list<AnalyticsClaudeTagCategory>` (query parameter)
+- `claudeTagCategories?: optional list<AnalyticsClaudeTagCategory>` (query parameter)
 
-  Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. `dm` usage is reported under the user's product rather than `claude-tag`, so combining this filter with `products[]=claude-tag` excludes it. Use `group_by[]=claude_tag_category` to break out per-category values.
+  Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. Use `group_by[]=claude_tag_category` to break out per-category values.
 
-- `claudeTagUserIDs?:optional list<string>` (query parameter)
+- `claudeTagUserIDs?: optional list<string>` (query parameter)
 
   Filter to Claude Tag (Claude in Slack) usage attributed to specific Slack users, by Slack user ID (for example `U0123ABCDEF`), not claude.ai user ID. Usage that is not Claude Tag, and Claude Tag usage not attributed to a single user, never matches. Use `group_by[]=claude_tag_user_id` to break out per-user values.
 
-- `contextWindows?:optional list<AnalyticsContextWindow>` (query parameter)
+- `contextWindows?: optional list<AnalyticsContextWindow>` (query parameter)
 
   Filter to specific context-window pricing tiers. Use `group_by[]=context_window` to break out per-tier values.
 
-- `endingAt?:optional \Datetime` (query parameter)
+- `endingAt?: optional \Datetime` (query parameter)
 
   End of range, exclusive. When omitted, defaults to the earlier of now and `starting_at` + 31 days. The range may span at most 31 days.
 
-- `excludeDeletedUsers?:optional bool` (query parameter)
+- `excludeDeletedUsers?: optional bool` (query parameter)
 
   If true, omit rows for users who are deleted (`deleted: true`). A page may contain fewer than `limit` rows; use `has_more` and `next_page` to paginate as usual.
 
   default: false
 
-- `groupBy?:optional list<GroupBy>` (query parameter)
+- `groupBy?: optional list<GroupBy>` (query parameter)
 
   Break each actor's row out by the given dimensions. Accepts the same values as the bucketed `/cost_report` endpoint. The `product`, `model`, `context_window`, `inference_geo`, and `speed` dimensions — and the time bucket, when `bucket_width` is set — count toward `limit`. `cost_type` and `token_type` do not: `cost_type` returns one row per cost component (tokens, web search, code execution); `token_type` returns one row per token type, each with `cost_type: "tokens"`; combining both returns the per-token-type rows plus the web-search and code-execution rows. A page can therefore contain more rows than `limit` when `cost_type` or `token_type` is requested.
 
-- `inferenceGeos?:optional list<AnalyticsInferenceGeoFilter>` (query parameter)
+- `inferenceGeos?: optional list<AnalyticsInferenceGeoFilter>` (query parameter)
 
   Filter to specific inference regions. `not_available` matches rows where the region is unset. Use `group_by[]=inference_geo` to break out per-region values.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of rows per page (1-1000, default 20). One row per actor unless `group_by[]` or `bucket_width` splits an actor across rows; `cost_type`/`token_type` fan-out rows (cost endpoint only) are the exception — they do not count toward this limit, so `data` can exceed it.
 
   default: 20
 
-- `models?:optional list<string>` (query parameter)
+- `models?: optional list<string>` (query parameter)
 
   Models to include. Defaults to all models. Use `group_by[]=model` to break out per-model values.
 
-- `order?:optional Order` (query parameter)
+- `order?: optional Order` (query parameter)
 
   Sort direction. Defaults to `desc`.
 
   default: desc
 
-- `orderBy?:optional OrderBy` (query parameter)
+- `orderBy?: optional OrderBy` (query parameter)
 
   Metric to rank actors by. Defaults to `amount`.
 
   default: amount
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `products?:optional list<AnalyticsProductFilter>` (query parameter)
+- `products?: optional list<AnalyticsProductFilter>` (query parameter)
 
   Product surfaces to include. Defaults to all products.
 
-- `rbacGroupIDs?:optional list<string>` (query parameter)
+- `rbacGroupIDs?: optional list<string>` (query parameter)
 
   Filter to usage attributed to specific RBAC groups. Accepts tagged RBAC group IDs (`rbac_group_...`) or bare group UUIDs. A row matches when the user belonged to any of the listed groups on the (UTC) day the usage occurred; usage with no group attribution never matches.
 
-- `slackChannelIDs?:optional list<string>` (query parameter)
+- `slackChannelIDs?: optional list<string>` (query parameter)
 
   Filter to usage originating from specific Slack channels. Use `group_by[]=slack_channel_id` to break out per-channel values.
 
-- `speeds?:optional list<Speed>` (query parameter)
+- `speeds?: optional list<Speed>` (query parameter)
 
   Filter to fast or standard inference mode. Use `group_by[]=speed` to break out per-mode values.
 
-- `userIDs?:optional list<string>` (query parameter)
+- `userIDs?: optional list<string>` (query parameter)
 
   Filter to specific users by tagged user ID.
 
@@ -29370,7 +31995,7 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
   - `?AnalyticsClaudeTagCategory claudeTagCategory`
 
-    Claude Tag (Claude in Slack) spend category: `engaged` (a person addressed Claude in a channel or thread), `proactive` (Claude responded without being addressed), `scheduled` (a scheduled routine ran), `monitoring` (Claude watching a channel it was asked to monitor), or `dm` (direct messages with Claude). Populated only when `claude_tag_category` is in `group_by[]`; null for usage that is not Claude Tag. Direct-message usage is billed to the individual user and is reported under that user's product, not under `claude-tag`. New categories may be added over time.
+    Claude Tag (Claude in Slack) spend category: `engaged` (a person addressed Claude in a channel or thread), `proactive` (Claude responded without being addressed), `scheduled` (a scheduled routine ran), `monitoring` (Claude watching a channel it was asked to monitor), or `dm` (direct messages with Claude). Populated only when `claude_tag_category` is in `group_by[]`; null for usage that is not Claude Tag. New categories may be added over time.
 
   - `?string claudeTagUserID`
 
@@ -29406,7 +32031,7 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
   - `?string product`
 
-    Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude-tag`, and `chat_cowork_unified`. `claude-tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only on deployments that offer Chat and Cowork unified. Some unattributed usage is reported as "other".
+    Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude-tag`, and `chat_cowork_unified`. `claude-tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. Some unattributed usage is reported as "other".
 
   - `?string rbacGroupID`
 
@@ -29418,7 +32043,7 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 
   - `?string slackChannelID`
 
-    Slack channel the usage originated from. Populated only when `slack_channel_id` is in `group_by[]`; null for usage outside Slack (and for rows recorded before channel attribution was enabled).
+    Slack channel the usage originated from. Populated only when `slack_channel_id` is in `group_by[]`; null for usage outside Slack, for some Claude Tag usage that has no channel recorded, and for usage recorded before channel attribution was enabled.
 
   - `?Speed speed`
 
@@ -29438,6 +32063,12 @@ organizations on a Claude Enterprise plan. Requires an API key with the
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\Organization\Analytics\AnalyticsClaudeTagCategory;
+use Anthropic\Beta\Organization\Analytics\AnalyticsContextWindow;
+use Anthropic\Beta\Organization\Analytics\AnalyticsInferenceGeoFilter;
+use Anthropic\Beta\Organization\Analytics\AnalyticsProductFilter;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -29474,7 +32105,6 @@ var_dump($page);
     {
       "actor": {
         "deleted": true,
-        "email": "jane@example.com",
         "email_address": "jane@example.com",
         "name": "Jane Smith",
         "type": "user_actor",
@@ -29534,9 +32164,9 @@ Anthropic account team.
 
   What the limit applies to. Claude Enterprise organizations set `user` limits. Claude Console organizations set `organization` and `workspace` limits. Any other combination returns 400. Setting `organization` and `workspace` limits through the API is in an early access preview. To request access, contact your Anthropic account team.
 
-- `period?:optional SpendLimitPeriod`
+- `period?: optional SpendLimitPeriod`
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   Optional header to specify the beta version(s) you want to use.
 
@@ -29587,11 +32217,15 @@ Anthropic account team.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Organization\SpendLimits\SpendLimitPeriod;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSpendLimit = $client->beta->organization->spendLimits->set(
   amount: '50000',
-  scope: ['type' => 'user', 'userID' => 'user_01WCz1FkmYMm4gnmykNKUu3Q'],
+  scope: ['type' => 'user', 'userID' => 'user_01WxYzAbCdEfGhJkMnPqRsTu'],
   period: SpendLimitPeriod::MONTHLY,
   betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
 );
@@ -29611,7 +32245,7 @@ var_dump($betaSpendLimit);
   "period": "daily",
   "scope": {
     "type": "user",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "type": "spend_limit",
   "updated_at": "2019-12-27T18:11:19.117Z"
@@ -29679,6 +32313,8 @@ Retrieve a spend limit by ID.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaSpendLimit = $client->beta->organization->spendLimits->retrieve(
@@ -29700,7 +32336,7 @@ var_dump($betaSpendLimit);
   "period": "daily",
   "scope": {
     "type": "user",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "type": "spend_limit",
   "updated_at": "2019-12-27T18:11:19.117Z"
@@ -29719,7 +32355,8 @@ For a Claude Enterprise organization, this deletes a per-user override, and
 the member falls back to any inherited spend limit at that period. Its
 seat-tier, group, and organization-level rows cannot be deleted via this
 endpoint. A Claude Console organization deletes its organization and
-workspace limits. Deleting them through the API is in an early access preview.
+workspace limits, but not its `usage_tier` limit. Deleting organization and
+workspace limits through the API is in an early access preview.
 
 #### Parameters
 
@@ -29742,6 +32379,8 @@ workspace limits. Deleting them through the API is in an early access preview.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $spendLimit = $client->beta->organization->spendLimits->delete(
@@ -29762,34 +32401,40 @@ var_dump($spendLimit);
 
 ### List Spend Limits
 
-`$client->beta->organization->spendLimits->list(?int limit, ?string page, ?list<ScopeType> scopeType, ?list<AnthropicBeta> betas): PageCursor<SpendLimit>`
+`$client->beta->organization->spendLimits->list(?int limit, ?string page, ?list<ScopeType> scopeType, ?string workspaceID, ?list<AnthropicBeta> betas): PageCursor<SpendLimit>`
 
 **GET** `/v1/organizations/spend_limits`
 
 List the organization's spend limits.
 
-Limits are grouped by scope type, in the order `organization`, `seat_tier`,
-`rbac_group`, `organization_service`, `user`; within a type they come in a
-fixed order that is not creation order. Supported for Claude Enterprise
-organizations only, not for Claude Console organizations.
+A Claude Console organization's limits, including any read-only `usage_tier`
+limit, come newest first. Listing them is in an early access preview. To
+request access, contact your Anthropic account team. A Claude Enterprise
+organization's limits are grouped by scope type, in the order `organization`,
+`seat_tier`, `rbac_group`, `organization_service`, `user`; within a type they
+come in a fixed order that is not creation order.
 
 #### Parameters
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of limits per page. Defaults to `20`.
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `scopeType?:optional list<ScopeType>` (query parameter)
+- `scopeType?: optional list<ScopeType>` (query parameter)
 
-  Return only limits with these scope types. Omit for all.
+  Return only limits with these scope types. Omit for all. A scope type that doesn't apply to the organization gets a 400 error.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `workspaceID?: optional string` (query parameter)
+
+  Return only the limits whose `scope.workspace_id` is this workspace (`wrkspc_...`). Claude Console organizations only; other organizations get a 400 error.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `spend-limit-reads-2026-09-26` in this header.
 
@@ -29840,12 +32485,16 @@ organizations only, not for Claude Console organizations.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->spendLimits->list(
   limit: 1,
   page: 'page',
   scopeType: ['organization'],
+  workspaceID: 'workspace_id',
   betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
 );
 
@@ -29866,7 +32515,7 @@ var_dump($page);
       "period": "daily",
       "scope": {
         "type": "user",
-        "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+        "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
       },
       "type": "spend_limit",
       "updated_at": "2019-12-27T18:11:19.117Z"
@@ -29880,7 +32529,7 @@ var_dump($page);
 
 ### List Effective Spend Limits
 
-`$client->beta->organization->spendLimits->effective->list(?int limit, ?string page, ?list<Period> period, ?list<string> userIDs): PageCursor<SpendSummary>`
+`$client->beta->organization->spendLimits->effective->list(?int limit, ?string page, ?list<SpendLimitPeriod> period, ?list<string> userIDs): PageCursor<SpendSummary>`
 
 **GET** `/v1/organizations/spend_limits/effective`
 
@@ -29894,21 +32543,21 @@ organizations.
 
 #### Parameters
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of members per page. A member's period rows never split across pages, so a page may carry more rows than this. Defaults to `20`.
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `period?:optional list<Period>` (query parameter)
+- `period?: optional list<SpendLimitPeriod>` (query parameter)
 
   Restrict the report to these limit periods. Omit to return one row per period each member resolves a spend limit for.
 
-- `userIDs?:optional list<string>` (query parameter)
+- `userIDs?: optional list<string>` (query parameter)
 
   Restrict the report to these members, by tagged user ID (`user_...`). At most 100 entries.
 
@@ -29947,10 +32596,13 @@ organizations.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\Organization\SpendLimits\SpendLimitPeriod;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->spendLimits->effective->list(
-  limit: 1, page: 'page', period: ['daily'], userIDs: ['string']
+  limit: 1, page: 'page', period: [SpendLimitPeriod::DAILY], userIDs: ['string']
 );
 
 var_dump($page);
@@ -29967,7 +32619,7 @@ var_dump($page);
         "email_address": "email_address",
         "name": "name",
         "type": "user_actor",
-        "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+        "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
       },
       "amount": "50000",
       "currency": "USD",
@@ -29975,11 +32627,11 @@ var_dump($page);
       "period_to_date_spend": "12050.5",
       "scope": {
         "type": "user",
-        "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+        "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
       },
       "source": {
         "type": "user",
-        "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+        "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
       },
       "spend_limit_id": "spend_limit_id"
     }
@@ -30003,19 +32655,19 @@ Requests whose requester is no longer a member are excluded.
 
 #### Parameters
 
-- `actorIDs?:optional list<string>` (query parameter)
+- `actorIDs?: optional list<string>` (query parameter)
 
   Filter by requester, as `user_...` tagged IDs.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page`.
 
-- `status?:optional list<BetaSpendLimitIncreaseRequestStatus>` (query parameter)
+- `status?: optional list<BetaSpendLimitIncreaseRequestStatus>` (query parameter)
 
   Filter by status. Omit to return all.
 
@@ -30027,7 +32679,9 @@ Requests whose requester is no longer a member are excluded.
 
   - `string id`
 
-  - `Actor actor`
+  - `BetaSpendLimitIncreaseRequestActor actor`
+
+    Who submitted the increase request.
 
   - `\Datetime createdAt`
 
@@ -30035,7 +32689,9 @@ Requests whose requester is no longer a member are excluded.
 
   - `?\Datetime resolvedAt`
 
-  - `?ResolvedBy resolvedBy`
+  - `?BetaSpendLimitIncreaseRequestResolvedBy resolvedBy`
+
+    Who approved or denied the increase request.
 
   - `?SpendSummary spendSummary`
 
@@ -30049,6 +32705,9 @@ Requests whose requester is no longer a member are excluded.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\Organization\SpendLimits\IncreaseRequests\BetaSpendLimitIncreaseRequestStatus;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -30074,7 +32733,7 @@ var_dump($page);
         "email_address": "email_address",
         "name": "name",
         "type": "user_actor",
-        "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+        "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
       },
       "created_at": "2019-12-27T18:11:19.117Z",
       "period": "daily",
@@ -30084,7 +32743,7 @@ var_dump($page);
         "email_address": "email_address",
         "name": "name",
         "type": "user_actor",
-        "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+        "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
       },
       "spend_summary": {
         "actor": {
@@ -30092,7 +32751,7 @@ var_dump($page);
           "email_address": "email_address",
           "name": "name",
           "type": "user_actor",
-          "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+          "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
         },
         "amount": "50000",
         "currency": "USD",
@@ -30100,11 +32759,11 @@ var_dump($page);
         "period_to_date_spend": "12050.5",
         "scope": {
           "type": "user",
-          "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+          "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
         },
         "source": {
           "type": "user",
-          "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+          "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
         },
         "spend_limit_id": "spend_limit_id"
       },
@@ -30141,7 +32800,9 @@ requester at the request's period.
 
   - `string id`
 
-  - `Actor actor`
+  - `BetaSpendLimitIncreaseRequestActor actor`
+
+    Who submitted the increase request.
 
   - `\Datetime createdAt`
 
@@ -30149,7 +32810,9 @@ requester at the request's period.
 
   - `?\Datetime resolvedAt`
 
-  - `?ResolvedBy resolvedBy`
+  - `?BetaSpendLimitIncreaseRequestResolvedBy resolvedBy`
+
+    Who approved or denied the increase request.
 
   - `?SpendSummary spendSummary`
 
@@ -30163,6 +32826,8 @@ requester at the request's period.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -30186,7 +32851,7 @@ var_dump($betaSpendLimitIncreaseRequest);
     "email_address": "email_address",
     "name": "name",
     "type": "user_actor",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "created_at": "2019-12-27T18:11:19.117Z",
   "period": "daily",
@@ -30196,7 +32861,7 @@ var_dump($betaSpendLimitIncreaseRequest);
     "email_address": "email_address",
     "name": "name",
     "type": "user_actor",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "spend_summary": {
     "actor": {
@@ -30204,7 +32869,7 @@ var_dump($betaSpendLimitIncreaseRequest);
       "email_address": "email_address",
       "name": "name",
       "type": "user_actor",
-      "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
     },
     "amount": "50000",
     "currency": "USD",
@@ -30212,11 +32877,11 @@ var_dump($betaSpendLimitIncreaseRequest);
     "period_to_date_spend": "12050.5",
     "scope": {
       "type": "user",
-      "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
     },
     "source": {
       "type": "user",
-      "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
     },
     "spend_limit_id": "spend_limit_id"
   },
@@ -30248,9 +32913,9 @@ the member was blocked on. Anthropic emails the requester unless
 
   New per-user spend limit as a non-negative integer decimal string (minor units).
 
-- `period?:optional SpendLimitPeriod`
+- `period?: optional SpendLimitPeriod`
 
-- `suppressNotification?:optional bool`
+- `suppressNotification?: optional bool`
 
 #### Returns
 
@@ -30260,7 +32925,9 @@ the member was blocked on. Anthropic emails the requester unless
 
   - `string id`
 
-  - `Actor actor`
+  - `BetaSpendLimitIncreaseRequestActor actor`
+
+    Who submitted the increase request.
 
   - `\Datetime createdAt`
 
@@ -30268,9 +32935,11 @@ the member was blocked on. Anthropic emails the requester unless
 
   - `?\Datetime resolvedAt`
 
-  - `?ResolvedBy resolvedBy`
+  - `?BetaSpendLimitIncreaseRequestResolvedBy resolvedBy`
 
-  - `SpendLimit spendLimit`
+    Who approved or denied the increase request.
+
+  - `?SpendLimit spendLimit`
 
     A configured spend limit: a cap on metered spend for one scope and period.
 
@@ -30286,6 +32955,9 @@ the member was blocked on. Anthropic emails the requester unless
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\Organization\SpendLimits\SpendLimitPeriod;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -30309,7 +32981,7 @@ var_dump($response);
     "email_address": "email_address",
     "name": "name",
     "type": "user_actor",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "created_at": "2019-12-27T18:11:19.117Z",
   "period": "daily",
@@ -30319,7 +32991,7 @@ var_dump($response);
     "email_address": "email_address",
     "name": "name",
     "type": "user_actor",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "spend_limit": {
     "id": "id",
@@ -30330,7 +33002,7 @@ var_dump($response);
     "period": "daily",
     "scope": {
       "type": "user",
-      "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
     },
     "type": "spend_limit",
     "updated_at": "2019-12-27T18:11:19.117Z"
@@ -30341,7 +33013,7 @@ var_dump($response);
       "email_address": "email_address",
       "name": "name",
       "type": "user_actor",
-      "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
     },
     "amount": "50000",
     "currency": "USD",
@@ -30349,11 +33021,11 @@ var_dump($response);
     "period_to_date_spend": "12050.5",
     "scope": {
       "type": "user",
-      "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
     },
     "source": {
       "type": "user",
-      "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
     },
     "spend_limit_id": "spend_limit_id"
   },
@@ -30379,7 +33051,7 @@ Idempotent on `denied`; denying an already-`approved` request returns
 
   ID of the spend limit increase request.
 
-- `suppressNotification?:optional bool`
+- `suppressNotification?: optional bool`
 
 #### Returns
 
@@ -30389,7 +33061,9 @@ Idempotent on `denied`; denying an already-`approved` request returns
 
   - `string id`
 
-  - `Actor actor`
+  - `BetaSpendLimitIncreaseRequestActor actor`
+
+    Who submitted the increase request.
 
   - `\Datetime createdAt`
 
@@ -30397,7 +33071,9 @@ Idempotent on `denied`; denying an already-`approved` request returns
 
   - `?\Datetime resolvedAt`
 
-  - `?ResolvedBy resolvedBy`
+  - `?BetaSpendLimitIncreaseRequestResolvedBy resolvedBy`
+
+    Who approved or denied the increase request.
 
   - `?SpendSummary spendSummary`
 
@@ -30411,6 +33087,8 @@ Idempotent on `denied`; denying an already-`approved` request returns
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -30434,7 +33112,7 @@ var_dump($betaSpendLimitIncreaseRequest);
     "email_address": "email_address",
     "name": "name",
     "type": "user_actor",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "created_at": "2019-12-27T18:11:19.117Z",
   "period": "daily",
@@ -30444,7 +33122,7 @@ var_dump($betaSpendLimitIncreaseRequest);
     "email_address": "email_address",
     "name": "name",
     "type": "user_actor",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "spend_summary": {
     "actor": {
@@ -30452,7 +33130,7 @@ var_dump($betaSpendLimitIncreaseRequest);
       "email_address": "email_address",
       "name": "name",
       "type": "user_actor",
-      "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
     },
     "amount": "50000",
     "currency": "USD",
@@ -30460,11 +33138,11 @@ var_dump($betaSpendLimitIncreaseRequest);
     "period_to_date_spend": "12050.5",
     "scope": {
       "type": "user",
-      "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
     },
     "source": {
       "type": "user",
-      "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
     },
     "spend_limit_id": "spend_limit_id"
   },
@@ -30532,6 +33210,8 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaRBACGroup = $client->beta->organization->rbacGroups->create(
@@ -30549,9 +33229,6 @@ var_dump($betaRBACGroup);
   "created_at": "2024-10-30T23:58:27.427722Z",
   "name": "Engineering",
   "role_ids": [
-    "rbac_role_016J8xVtKpDq3Wy9ZmN2hR4s"
-  ],
-  "roles": [
     "rbac_role_016J8xVtKpDq3Wy9ZmN2hR4s"
   ],
   "source_type": "direct",
@@ -30572,7 +33249,7 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
 #### Parameters
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -30580,7 +33257,7 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Optionally set to the `next_page` token from the previous response.
 
@@ -30625,6 +33302,8 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->rbacGroups->list(
@@ -30644,9 +33323,6 @@ var_dump($page);
       "created_at": "2024-10-30T23:58:27.427722Z",
       "name": "Engineering",
       "role_ids": [
-        "rbac_role_016J8xVtKpDq3Wy9ZmN2hR4s"
-      ],
-      "roles": [
         "rbac_role_016J8xVtKpDq3Wy9ZmN2hR4s"
       ],
       "source_type": "direct",
@@ -30716,6 +33392,8 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaRBACGroup = $client->beta->organization->rbacGroups->retrieve(
@@ -30733,9 +33411,6 @@ var_dump($betaRBACGroup);
   "created_at": "2024-10-30T23:58:27.427722Z",
   "name": "Engineering",
   "role_ids": [
-    "rbac_role_016J8xVtKpDq3Wy9ZmN2hR4s"
-  ],
-  "roles": [
     "rbac_role_016J8xVtKpDq3Wy9ZmN2hR4s"
   ],
   "source_type": "direct",
@@ -30760,7 +33435,7 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
   ID of the RBAC Group.
 
-- `name?:optional string`
+- `name?: optional string`
 
   Name of the RBAC Group. Not uniqueness-enforced.
 
@@ -30805,6 +33480,8 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaRBACGroup = $client->beta->organization->rbacGroups->update(
@@ -30824,9 +33501,6 @@ var_dump($betaRBACGroup);
   "role_ids": [
     "rbac_role_016J8xVtKpDq3Wy9ZmN2hR4s"
   ],
-  "roles": [
-    "rbac_role_016J8xVtKpDq3Wy9ZmN2hR4s"
-  ],
   "source_type": "direct",
   "type": "rbac_group",
   "updated_at": "2024-10-30T23:58:27.427722Z"
@@ -30835,7 +33509,7 @@ var_dump($betaRBACGroup);
 
 ### Delete RBAC Group
 
-`$client->beta->organization->rbacGroups->delete(string rbacGroupID): RBACGroupDeleteResponse`
+`$client->beta->organization->rbacGroups->delete(string rbacGroupID): DeletedRBACGroup`
 
 **DELETE** `/v1/organizations/rbac_groups/{rbac_group_id}`
 
@@ -30851,7 +33525,7 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
 #### Returns
 
-- `class RBACGroupDeleteResponse`
+- `class DeletedRBACGroup`
 
   - `"rbac_group_deleted" type`
 
@@ -30870,11 +33544,15 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
-$rbacGroup = $client->beta->organization->rbacGroups->delete('rbac_group_id');
+$betaDeletedRBACGroup = $client->beta->organization->rbacGroups->delete(
+  'rbac_group_id'
+);
 
-var_dump($rbacGroup);
+var_dump($betaDeletedRBACGroup);
 ```
 
 ##### Response (200)
@@ -30904,7 +33582,7 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
   ID of the RBAC Group.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -30912,7 +33590,7 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Optionally set to the `next_page` token from the previous response.
 
@@ -30949,6 +33627,8 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->organization->rbacGroups->members->list(
@@ -30966,10 +33646,9 @@ var_dump($page);
     {
       "created_at": "2024-10-30T23:58:27.427722Z",
       "email": "user@emaildomain.com",
-      "group_id": "rbac_group_012rppKaSVsmTo6NqRDXQXNF",
       "rbac_group_id": "rbac_group_012rppKaSVsmTo6NqRDXQXNF",
       "type": "rbac_group_member",
-      "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+      "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
     }
   ],
   "has_more": false,
@@ -31030,10 +33709,12 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaRBACGroupMember = $client->beta->organization->rbacGroups->members->add(
-  'rbac_group_id', userID: 'user_01WCz1FkmYMm4gnmykNKUu3Q'
+  'rbac_group_id', userID: 'user_01WxYzAbCdEfGhJkMnPqRsTu'
 );
 
 var_dump($betaRBACGroupMember);
@@ -31045,16 +33726,15 @@ var_dump($betaRBACGroupMember);
 {
   "created_at": "2024-10-30T23:58:27.427722Z",
   "email": "user@emaildomain.com",
-  "group_id": "rbac_group_012rppKaSVsmTo6NqRDXQXNF",
   "rbac_group_id": "rbac_group_012rppKaSVsmTo6NqRDXQXNF",
   "type": "rbac_group_member",
-  "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+  "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
 }
 ```
 
 ### Remove RBAC Group Member
 
-`$client->beta->organization->rbacGroups->members->remove(string userID, string rbacGroupID): MemberRemoveResponse`
+`$client->beta->organization->rbacGroups->members->remove(string userID, string rbacGroupID): BetaDeletedRBACGroupMember`
 
 **DELETE** `/v1/organizations/rbac_groups/{rbac_group_id}/members/{user_id}`
 
@@ -31074,7 +33754,7 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
 #### Returns
 
-- `class MemberRemoveResponse`
+- `class BetaDeletedRBACGroupMember`
 
   - `"rbac_group_member_deleted" type`
 
@@ -31095,23 +33775,27 @@ The RBAC Groups API is available to Claude Enterprise organizations only.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
-$member = $client->beta->organization->rbacGroups->members->remove(
-  'user_id', rbacGroupID: 'rbac_group_id'
-);
+$betaDeletedRBACGroupMember = $client
+  ->beta
+  ->organization
+  ->rbacGroups
+  ->members
+  ->remove('user_id', rbacGroupID: 'rbac_group_id');
 
-var_dump($member);
+var_dump($betaDeletedRBACGroupMember);
 ```
 
 ##### Response (200)
 
 ```json
 {
-  "group_id": "rbac_group_012rppKaSVsmTo6NqRDXQXNF",
   "rbac_group_id": "rbac_group_012rppKaSVsmTo6NqRDXQXNF",
   "type": "rbac_group_member_deleted",
-  "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+  "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
 }
 ```
 
@@ -31129,7 +33813,7 @@ The RBAC Roles API is available to Claude Enterprise organizations only.
 
 #### Parameters
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -31137,7 +33821,7 @@ The RBAC Roles API is available to Claude Enterprise organizations only.
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Optionally set to the `next_page` token from the previous response.
 
@@ -31161,17 +33845,11 @@ The RBAC Roles API is available to Claude Enterprise organizations only.
 
   - `string displayName`
 
-    Name of the RBAC Role. For a role created by Anthropic, this name can differ from the label claude.ai shows, and Anthropic may change the name. To keep a lasting reference to a role, store its `id`.
+    Name of the RBAC Role. For a role created by Anthropic, this is Anthropic's name for the access that the role grants. Anthropic may change this name, so to keep a lasting reference to a role, store its `id`.
 
   - `\Datetime updatedAt`
 
     RFC 3339 datetime string indicating when the RBAC Role was last updated.
-
-  - `string name`
-
-    **Deprecated**: Use `display_name` instead; `name` always has the same value.
-
-    Deprecated: use `display_name` instead. Name of the RBAC Role; always the same value as `display_name`.
 
 #### Example
 
@@ -31179,6 +33857,8 @@ The RBAC Roles API is available to Claude Enterprise organizations only.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -31198,7 +33878,6 @@ var_dump($page);
       "id": "rbac_role_016J8xVtKpDq3Wy9ZmN2hR4s",
       "created_at": "2024-10-30T23:58:27.427722Z",
       "display_name": "Project Editor",
-      "name": "Project Editor",
       "type": "rbac_role",
       "updated_at": "2024-10-30T23:58:27.427722Z"
     }
@@ -31244,17 +33923,11 @@ The RBAC Roles API is available to Claude Enterprise organizations only.
 
   - `string displayName`
 
-    Name of the RBAC Role. For a role created by Anthropic, this name can differ from the label claude.ai shows, and Anthropic may change the name. To keep a lasting reference to a role, store its `id`.
+    Name of the RBAC Role. For a role created by Anthropic, this is Anthropic's name for the access that the role grants. Anthropic may change this name, so to keep a lasting reference to a role, store its `id`.
 
   - `\Datetime updatedAt`
 
     RFC 3339 datetime string indicating when the RBAC Role was last updated.
-
-  - `string name`
-
-    **Deprecated**: Use `display_name` instead; `name` always has the same value.
-
-    Deprecated: use `display_name` instead. Name of the RBAC Role; always the same value as `display_name`.
 
 #### Example
 
@@ -31262,6 +33935,8 @@ The RBAC Roles API is available to Claude Enterprise organizations only.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -31279,7 +33954,6 @@ var_dump($betaRBACRole);
   "id": "rbac_role_016J8xVtKpDq3Wy9ZmN2hR4s",
   "created_at": "2024-10-30T23:58:27.427722Z",
   "display_name": "Project Editor",
-  "name": "Project Editor",
   "type": "rbac_role",
   "updated_at": "2024-10-30T23:58:27.427722Z"
 }
@@ -31303,7 +33977,7 @@ The RBAC Roles API is available to Claude Enterprise organizations only.
 
   ID of the RBAC Role.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -31311,7 +33985,7 @@ The RBAC Roles API is available to Claude Enterprise organizations only.
 
   default: 20
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Optionally set to the `next_page` token from the previous response.
 
@@ -31332,10 +34006,11 @@ The RBAC Roles API is available to Claude Enterprise organizations only.
     The vocabulary follows the resource: an `organization` grant carries a
     product-feature entitlement (for example `chat`), an admin-panel
     permission entitlement (`permission_*`), or a blanket capability-access
-    mode — `capability_access_all` grants every product-feature entitlement,
-    and `capability_access_all_ga` grants the generally-available subset as
-    it stands at permission-check time; neither mode grants model-access
-    entitlements. A consumer enumerating a role's per-feature grants should
+    mode — `capability_access_all` grants every product-feature entitlement
+    except `inference_hooks_inspection`, which a role holds only through its
+    own row, and `capability_access_all_ga` grants the subset of those for
+    stable features as it stands at permission-check time; neither mode grants
+    model-access entitlements. A consumer enumerating a role's per-feature grants should
     treat a blanket row as granting every product-feature entitlement it
     covers, or it will under-report the role's effective access. A `connector_tool` grant carries
     a tool-access action (`use` or `always_allow`); a `connector_scope` grant
@@ -31357,6 +34032,8 @@ The RBAC Roles API is available to Claude Enterprise organizations only.
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -31390,7 +34067,7 @@ var_dump($page);
 
 ### Create Plugin
 
-`$client->beta->organization->plugins->create(list<string> files, ?string marketplaceID, ?string releaseNotes, ?list<AnthropicBeta> betas): Plugin`
+`$client->beta->organization->plugins->create(list<FileParam | string> files, ?string marketplaceID, ?string releaseNotes, ?list<AnthropicBeta> betas): Plugin`
 
 **POST** `/v1/organizations/plugins`
 
@@ -31410,10 +34087,9 @@ The `name` must be unique within the marketplace: a name already taken
 returns a 409 with `error_code` `plugin_name_taken` and, when a Plugin holds it,
 that Plugin's ID in `details.plugin_id`. A Plugin going into the organization's
 library marketplace is also refused with a 409 when one of its skills has the name of
-an organization skill (a skill an administrator uploaded for the whole organization
-in claude.ai): `error_code` `skill_name_taken`, with that name in
-`details.skill_name`; rename the skill, or remove the organization skill in
-claude.ai. A 503 with `error_code`
+an organization skill that this API does not list: `error_code`
+`skill_name_taken`, with that name in `details.skill_name`; rename the skill, or
+remove the organization skill in claude.ai. A 503 with `error_code`
 `registration_pending` means the Plugin and its version were stored (their IDs are
 in `details`) but are not yet usable in claude.ai: do not retry the create (the
 retry would return `plugin_name_taken`); create a version on the stored Plugin
@@ -31428,19 +34104,19 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
 #### Parameters
 
-- `files: list<string>`
+- `files: list<FileParam | string>`
 
   The version's files: one part per file, the part's filename being the file's path within the Plugin (for example `skills/review-pr/SKILL.md`), or a single `.zip` or `.plugin` archive holding them all. On the wire each part is named `files[]`, and a part named plain `files` is not read; with cURL, `-F 'files[]=@SKILL.md;filename=skills/review-pr/SKILL.md'`. The files must include the manifest, `.claude-plugin/plugin.json`.
 
-- `marketplaceID?:optional string`
+- `marketplaceID?: optional string`
 
   ID of the organization-owned plugin marketplace to create the Plugin in (prefixed `marketplace_`). It must be a `manual` marketplace, one whose Plugins are uploaded rather than synchronized from a repository. When omitted, the Plugin is created in the organization's library marketplace, an organization-owned `manual` marketplace created on first use.
 
-- `releaseNotes?:optional string`
+- `releaseNotes?: optional string`
 
   Release notes stored with the version and shown in its version history in claude.ai; up to 5,000 characters.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -31486,7 +34162,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?string manifestVersion`
 
-    The version string the served version's manifest declares.
+    The served version's manifest `version`, normalized for display, or `null` (the Plugin Version's `manifest_version` says how and when).
 
   - `string marketplaceID`
 
@@ -31510,7 +34186,11 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?Reach reach`
 
-    How far the served version reaches: `remote` when it declares an MCP server or a CLI, `privileged` when it declares a hook, monitor, language server or settings but nothing remote, `contained` otherwise; null when not classifiable.
+    How far the served version reaches, or `null` if it is not classified.
+
+    `remote` means it declares an MCP server or a CLI, or something that counts as one. `privileged` means it is not `remote`, but declares a hook (of any type, even one that posts to a URL), monitor, language server, Claude Code workflow (any file in a `workflows/` folder at its root counts as one), or settings, or has a skill, command, or other Markdown file whose frontmatter pre-approves tools (`allowed-tools` with any value other than an empty one or one that names only `AskUserQuestion`, `TodoWrite`, and `ToolSearch`). Otherwise it is `contained`.
+
+    If the frontmatter of a skill, command, or other Markdown file that could change the value could not be read, or was past a size limit, the version is `null` or `privileged` (or `remote`, if something else it declares makes it `remote`), not `contained`. The value is normally worked out when a version is stored, under the rules of that time, so an older version can be `null`, `contained` where the same files stored today would be `privileged`, `remote`, or `null`, or `privileged` where they would be `remote`.
 
   - `string servedVersionID`
 
@@ -31518,11 +34198,11 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `bool servedVersionPinned`
 
-    False while the served version follows each new version; true once it has been pinned to one.
+    True once the served version has been pinned, through Update Plugin or in claude.ai. While false, a new version normally becomes the served version when it is stored. While the newest version is not the served version, as when a version saved in claude.ai is waiting for its content scan, `served_version_id` differs from `latest_version_id`.
 
   - `\Datetime updatedAt`
 
-    RFC 3339. Moves on a new version and on a served-version change; a change to the Plugin's installation settings or shares does not move it.
+    RFC 3339. Moves on a served-version change (including pinning an unpinned Plugin to the version it already serves) and, normally, on a new version. A version saved in claude.ai that waits for its content scan moves it when it becomes the served version, and not necessarily when it is stored. A change to the Plugin's installation settings or shares does not move it.
 
 #### Example
 
@@ -31530,6 +34210,10 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Core\FileParam;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -31566,7 +34250,7 @@ var_dump($betaPlugin);
   "created_by": {
     "email_address": "user@example.com",
     "type": "user_actor",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "description": "Reviews pull requests against your team's conventions.",
   "display_name": "Code Review Helper",
@@ -31605,11 +34289,11 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   ID of the Plugin (prefixed `plugin_`).
 
-- `organizationID?:optional string` (query parameter)
+- `organizationID?: optional string` (query parameter)
 
   For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -31655,7 +34339,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?string manifestVersion`
 
-    The version string the served version's manifest declares.
+    The served version's manifest `version`, normalized for display, or `null` (the Plugin Version's `manifest_version` says how and when).
 
   - `string marketplaceID`
 
@@ -31679,7 +34363,11 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?Reach reach`
 
-    How far the served version reaches: `remote` when it declares an MCP server or a CLI, `privileged` when it declares a hook, monitor, language server or settings but nothing remote, `contained` otherwise; null when not classifiable.
+    How far the served version reaches, or `null` if it is not classified.
+
+    `remote` means it declares an MCP server or a CLI, or something that counts as one. `privileged` means it is not `remote`, but declares a hook (of any type, even one that posts to a URL), monitor, language server, Claude Code workflow (any file in a `workflows/` folder at its root counts as one), or settings, or has a skill, command, or other Markdown file whose frontmatter pre-approves tools (`allowed-tools` with any value other than an empty one or one that names only `AskUserQuestion`, `TodoWrite`, and `ToolSearch`). Otherwise it is `contained`.
+
+    If the frontmatter of a skill, command, or other Markdown file that could change the value could not be read, or was past a size limit, the version is `null` or `privileged` (or `remote`, if something else it declares makes it `remote`), not `contained`. The value is normally worked out when a version is stored, under the rules of that time, so an older version can be `null`, `contained` where the same files stored today would be `privileged`, `remote`, or `null`, or `privileged` where they would be `remote`.
 
   - `string servedVersionID`
 
@@ -31687,11 +34375,11 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `bool servedVersionPinned`
 
-    False while the served version follows each new version; true once it has been pinned to one.
+    True once the served version has been pinned, through Update Plugin or in claude.ai. While false, a new version normally becomes the served version when it is stored. While the newest version is not the served version, as when a version saved in claude.ai is waiting for its content scan, `served_version_id` differs from `latest_version_id`.
 
   - `\Datetime updatedAt`
 
-    RFC 3339. Moves on a new version and on a served-version change; a change to the Plugin's installation settings or shares does not move it.
+    RFC 3339. Moves on a served-version change (including pinning an unpinned Plugin to the version it already serves) and, normally, on a new version. A version saved in claude.ai that waits for its content scan moves it when it becomes the served version, and not necessarily when it is stored. A change to the Plugin's installation settings or shares does not move it.
 
 #### Example
 
@@ -31699,6 +34387,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -31732,7 +34423,7 @@ var_dump($betaPlugin);
   "created_by": {
     "email_address": "user@example.com",
     "type": "user_actor",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "description": "Reviews pull requests against your team's conventions.",
   "display_name": "Code Review Helper",
@@ -31768,15 +34459,17 @@ Pass the version as `served_version_id`: an earlier one to roll back, a later on
 start serving a version that was stored without being served, or the one already
 served to pin it without changing what is served. No new version is created.
 
-When the organization has content scanning enabled, a version whose scan is still
-running is refused with a 409 (`error_code` `scan_pending`; retry once the scan
-finishes) and one whose scan failed, errored or reached no verdict with a 400
-(`scan_failed`; a `warn` is accepted). When the Plugin is in the organization's
+When the organization has content scanning enabled, a version whose
+`content_scan.status` is `processing` is refused with a 409 (`error_code`
+`scan_pending`; retry once the scan finishes). A version whose `content_scan.status`
+is `errored`, or whose `content_scan.assessment` is `fail` or `unknown`, is refused
+with a 400 (`error_code` `scan_failed`); a `warn` is accepted. If the scan outcome
+cannot be read at that moment, the request fails with a retryable 503 instead.
+When the Plugin is in the organization's
 library marketplace, a version other than the one served is also refused with a 409
-when one of its skills has a name that an organization skill (one an administrator
-uploaded for the whole organization in claude.ai) has since taken: `error_code`
-`skill_name_taken`, with that name in `details.skill_name`. A member-owned Plugin
-cannot be updated here (403).
+when an organization skill that this API does not list has since taken the name of
+one of its skills: `error_code` `skill_name_taken`, with that name in
+`details.skill_name`. A member-owned Plugin cannot be updated here (403).
 
 This endpoint does not write installation settings; they are written at
 `/v1/organizations/plugins/{plugin_id}/installation_settings/{target}`.
@@ -31795,7 +34488,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   Serve this version of the Plugin (prefixed `pluginver_`) and pin the served version to it; `latest` is not accepted.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -31841,7 +34534,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?string manifestVersion`
 
-    The version string the served version's manifest declares.
+    The served version's manifest `version`, normalized for display, or `null` (the Plugin Version's `manifest_version` says how and when).
 
   - `string marketplaceID`
 
@@ -31865,7 +34558,11 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?Reach reach`
 
-    How far the served version reaches: `remote` when it declares an MCP server or a CLI, `privileged` when it declares a hook, monitor, language server or settings but nothing remote, `contained` otherwise; null when not classifiable.
+    How far the served version reaches, or `null` if it is not classified.
+
+    `remote` means it declares an MCP server or a CLI, or something that counts as one. `privileged` means it is not `remote`, but declares a hook (of any type, even one that posts to a URL), monitor, language server, Claude Code workflow (any file in a `workflows/` folder at its root counts as one), or settings, or has a skill, command, or other Markdown file whose frontmatter pre-approves tools (`allowed-tools` with any value other than an empty one or one that names only `AskUserQuestion`, `TodoWrite`, and `ToolSearch`). Otherwise it is `contained`.
+
+    If the frontmatter of a skill, command, or other Markdown file that could change the value could not be read, or was past a size limit, the version is `null` or `privileged` (or `remote`, if something else it declares makes it `remote`), not `contained`. The value is normally worked out when a version is stored, under the rules of that time, so an older version can be `null`, `contained` where the same files stored today would be `privileged`, `remote`, or `null`, or `privileged` where they would be `remote`.
 
   - `string servedVersionID`
 
@@ -31873,11 +34570,11 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `bool servedVersionPinned`
 
-    False while the served version follows each new version; true once it has been pinned to one.
+    True once the served version has been pinned, through Update Plugin or in claude.ai. While false, a new version normally becomes the served version when it is stored. While the newest version is not the served version, as when a version saved in claude.ai is waiting for its content scan, `served_version_id` differs from `latest_version_id`.
 
   - `\Datetime updatedAt`
 
-    RFC 3339. Moves on a new version and on a served-version change; a change to the Plugin's installation settings or shares does not move it.
+    RFC 3339. Moves on a served-version change (including pinning an unpinned Plugin to the version it already serves) and, normally, on a new version. A version saved in claude.ai that waits for its content scan moves it when it becomes the served version, and not necessarily when it is stored. A change to the Plugin's installation settings or shares does not move it.
 
 #### Example
 
@@ -31885,6 +34582,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -31918,7 +34618,7 @@ var_dump($betaPlugin);
   "created_by": {
     "email_address": "user@example.com",
     "type": "user_actor",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "description": "Reviews pull requests against your team's conventions.",
   "display_name": "Code Review Helper",
@@ -31959,23 +34659,23 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
 #### Parameters
 
-- `createdAtGt?:optional \Datetime` (query parameter)
+- `createdAtGt?: optional \Datetime` (query parameter)
 
   RFC 3339 timestamp bound; combine [gte], [gt], [lte], [lt].
 
-- `createdAtGte?:optional \Datetime` (query parameter)
+- `createdAtGte?: optional \Datetime` (query parameter)
 
   RFC 3339 timestamp bound; combine [gte], [gt], [lte], [lt].
 
-- `createdAtLt?:optional \Datetime` (query parameter)
+- `createdAtLt?: optional \Datetime` (query parameter)
 
   RFC 3339 timestamp bound; combine [gte], [gt], [lte], [lt].
 
-- `createdAtLte?:optional \Datetime` (query parameter)
+- `createdAtLte?: optional \Datetime` (query parameter)
 
   RFC 3339 timestamp bound; combine [gte], [gt], [lte], [lt].
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -31983,27 +34683,27 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   default: 20
 
-- `marketplaceID?:optional string` (query parameter)
+- `marketplaceID?: optional string` (query parameter)
 
   Only Plugins in this plugin marketplace (prefixed `marketplace_`).
 
-- `organizationID?:optional string` (query parameter)
+- `organizationID?: optional string` (query parameter)
 
   For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404.
 
-- `ownerType?:optional OwnerType` (query parameter)
+- `ownerType?: optional OwnerType` (query parameter)
 
   `organization` for Plugins in the organization's plugin marketplaces, `user` for Plugins in members' personal plugin marketplaces.
 
-- `ownerUserID?:optional string` (query parameter)
+- `ownerUserID?: optional string` (query parameter)
 
   Only Plugins in this member's personal plugin marketplaces (prefixed `user_`); a removed member's ID is accepted.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Optionally set to the `next_page` token from the previous response.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -32049,7 +34749,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?string manifestVersion`
 
-    The version string the served version's manifest declares.
+    The served version's manifest `version`, normalized for display, or `null` (the Plugin Version's `manifest_version` says how and when).
 
   - `string marketplaceID`
 
@@ -32073,7 +34773,11 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?Reach reach`
 
-    How far the served version reaches: `remote` when it declares an MCP server or a CLI, `privileged` when it declares a hook, monitor, language server or settings but nothing remote, `contained` otherwise; null when not classifiable.
+    How far the served version reaches, or `null` if it is not classified.
+
+    `remote` means it declares an MCP server or a CLI, or something that counts as one. `privileged` means it is not `remote`, but declares a hook (of any type, even one that posts to a URL), monitor, language server, Claude Code workflow (any file in a `workflows/` folder at its root counts as one), or settings, or has a skill, command, or other Markdown file whose frontmatter pre-approves tools (`allowed-tools` with any value other than an empty one or one that names only `AskUserQuestion`, `TodoWrite`, and `ToolSearch`). Otherwise it is `contained`.
+
+    If the frontmatter of a skill, command, or other Markdown file that could change the value could not be read, or was past a size limit, the version is `null` or `privileged` (or `remote`, if something else it declares makes it `remote`), not `contained`. The value is normally worked out when a version is stored, under the rules of that time, so an older version can be `null`, `contained` where the same files stored today would be `privileged`, `remote`, or `null`, or `privileged` where they would be `remote`.
 
   - `string servedVersionID`
 
@@ -32081,11 +34785,11 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `bool servedVersionPinned`
 
-    False while the served version follows each new version; true once it has been pinned to one.
+    True once the served version has been pinned, through Update Plugin or in claude.ai. While false, a new version normally becomes the served version when it is stored. While the newest version is not the served version, as when a version saved in claude.ai is waiting for its content scan, `served_version_id` differs from `latest_version_id`.
 
   - `\Datetime updatedAt`
 
-    RFC 3339. Moves on a new version and on a served-version change; a change to the Plugin's installation settings or shares does not move it.
+    RFC 3339. Moves on a served-version change (including pinning an unpinned Plugin to the version it already serves) and, normally, on a new version. A version saved in claude.ai that waits for its content scan moves it when it becomes the served version, and not necessarily when it is stored. A change to the Plugin's installation settings or shares does not move it.
 
 #### Example
 
@@ -32093,6 +34797,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -32136,7 +34843,7 @@ var_dump($page);
       "created_by": {
         "email_address": "user@example.com",
         "type": "user_actor",
-        "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+        "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
       },
       "description": "Reviews pull requests against your team's conventions.",
       "display_name": "Code Review Helper",
@@ -32168,7 +34875,9 @@ var_dump($page);
 
 Permanently delete a Plugin and every version it holds, exactly as when an
 administrator deletes it in claude.ai. The Plugin may belong to the organization or
-to a member, including a member who has since left the organization.
+to a member, including a member who has since left the organization. Do not delete a
+Plugin only because your pipeline did not create it: a member or an administrator
+might have added it in claude.ai.
 
 An organization-owned Plugin's installation settings go with it; a member-owned
 Plugin's shares are withdrawn and its owner no longer has it.
@@ -32189,7 +34898,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   ID of the Plugin (prefixed `plugin_`).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -32211,6 +34920,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -32234,7 +34946,7 @@ var_dump($betaDeletedPlugin);
 
 ### Create Plugin Version
 
-`$client->beta->organization->plugins->versions->create(string pluginID, list<string> files, ?string releaseNotes, ?list<AnthropicBeta> betas): BetaPluginVersion`
+`$client->beta->organization->plugins->versions->create(string pluginID, list<FileParam | string> files, ?string releaseNotes, ?list<AnthropicBeta> betas): BetaPluginVersion`
 
 **POST** `/v1/organizations/plugins/{plugin_id}/versions`
 
@@ -32250,9 +34962,8 @@ see which version it serves.
 Only a Plugin in a `manual` marketplace takes uploads; a Plugin synchronized from
 a repository gets its versions from the repository. When the Plugin is in the
 organization's library marketplace, a version that adds a skill with the name of an
-organization skill (a skill an administrator uploaded for the whole organization in
-claude.ai) is refused with a 409: `error_code` `skill_name_taken`, with that name in
-`details.skill_name`. A 503 with `error_code`
+organization skill that this API does not list is refused with a 409: `error_code`
+`skill_name_taken`, with that name in `details.skill_name`. A 503 with `error_code`
 `registration_pending` means the version was stored but is not yet usable; a later
 version create on the Plugin completes it.
 
@@ -32269,15 +34980,15 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   ID of the Plugin (prefixed `plugin_`).
 
-- `files: list<string>`
+- `files: list<FileParam | string>`
 
   The version's files: one part per file, the part's filename being the file's path within the Plugin (for example `skills/review-pr/SKILL.md`), or a single `.zip` or `.plugin` archive holding them all. On the wire each part is named `files[]`, and a part named plain `files` is not read; with cURL, `-F 'files[]=@SKILL.md;filename=skills/review-pr/SKILL.md'`. The files must include the manifest, `.claude-plugin/plugin.json`.
 
-- `releaseNotes?:optional string`
+- `releaseNotes?: optional string`
 
   Release notes stored with the version and shown in its version history in claude.ai; up to 5,000 characters.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -32311,7 +35022,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?string description`
 
-    The manifest's description; null when it declares none.
+    The manifest's description; null when it declares none. The value can be longer than 500 characters, the limit on `description` in an uploaded manifest. A description that the manifest takes from a `SKILL.md` is cut to its first 500 characters. So if the manifest's description is the first 500 characters of exactly one distinct skill `description` in `components`, that skill `description` is returned instead.
 
   - `?string displayName`
 
@@ -32319,7 +35030,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?string manifestVersion`
 
-    The version string the manifest declares; null when it declares none.
+    The manifest's `version`, normalized for display: one leading `v` or `V` is dropped, and the result is returned only if it is 1 to 64 characters, starts with a digit, and uses only ASCII letters, digits, `.`, `+`, and `-`; otherwise `null`. For example, `"v1.4.0"` is returned as `"1.4.0"`, and `"latest"` as `null`. For a synchronized plugin, the `version` of its `marketplace.json` entry can take the place of the manifest's `version`. It is also `null` for a version stored before claude.ai began recording this field (August 2026).
 
   - `string pluginID`
 
@@ -32327,7 +35038,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?Reach reach`
 
-    How far the version reaches: `remote`, `privileged` or `contained`, as on the Plugin; null when not classifiable.
+    How far the version reaches: `remote`, `privileged`, `contained`, or `null`, as defined on the Plugin's `reach`.
 
   - `?string releaseNotes`
 
@@ -32339,6 +35050,10 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Core\FileParam;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -32375,7 +35090,7 @@ var_dump($betaPluginVersion);
   "created_by": {
     "email_address": "user@example.com",
     "type": "user_actor",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "description": "Reviews pull requests against your team's conventions.",
   "display_name": "Code Review Helper",
@@ -32408,7 +35123,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   ID of the Plugin (prefixed `plugin_`).
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -32416,15 +35131,15 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   default: 20
 
-- `organizationID?:optional string` (query parameter)
+- `organizationID?: optional string` (query parameter)
 
   For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Optionally set to the `next_page` token from the previous response.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -32458,7 +35173,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?string description`
 
-    The manifest's description; null when it declares none.
+    The manifest's description; null when it declares none. The value can be longer than 500 characters, the limit on `description` in an uploaded manifest. A description that the manifest takes from a `SKILL.md` is cut to its first 500 characters. So if the manifest's description is the first 500 characters of exactly one distinct skill `description` in `components`, that skill `description` is returned instead.
 
   - `?string displayName`
 
@@ -32466,7 +35181,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?string manifestVersion`
 
-    The version string the manifest declares; null when it declares none.
+    The manifest's `version`, normalized for display: one leading `v` or `V` is dropped, and the result is returned only if it is 1 to 64 characters, starts with a digit, and uses only ASCII letters, digits, `.`, `+`, and `-`; otherwise `null`. For example, `"v1.4.0"` is returned as `"1.4.0"`, and `"latest"` as `null`. For a synchronized plugin, the `version` of its `marketplace.json` entry can take the place of the manifest's `version`. It is also `null` for a version stored before claude.ai began recording this field (August 2026).
 
   - `string pluginID`
 
@@ -32474,7 +35189,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?Reach reach`
 
-    How far the version reaches: `remote`, `privileged` or `contained`, as on the Plugin; null when not classifiable.
+    How far the version reaches: `remote`, `privileged`, `contained`, or `null`, as defined on the Plugin's `reach`.
 
   - `?string releaseNotes`
 
@@ -32486,6 +35201,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -32523,7 +35241,7 @@ var_dump($page);
       "created_by": {
         "email_address": "user@example.com",
         "type": "user_actor",
-        "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+        "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
       },
       "description": "Reviews pull requests against your team's conventions.",
       "display_name": "Code Review Helper",
@@ -32560,11 +35278,11 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   ID of the Plugin Version (prefixed `pluginver_`), or `latest` for the newest one.
 
-- `organizationID?:optional string` (query parameter)
+- `organizationID?: optional string` (query parameter)
 
   For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -32598,7 +35316,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?string description`
 
-    The manifest's description; null when it declares none.
+    The manifest's description; null when it declares none. The value can be longer than 500 characters, the limit on `description` in an uploaded manifest. A description that the manifest takes from a `SKILL.md` is cut to its first 500 characters. So if the manifest's description is the first 500 characters of exactly one distinct skill `description` in `components`, that skill `description` is returned instead.
 
   - `?string displayName`
 
@@ -32606,7 +35324,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?string manifestVersion`
 
-    The version string the manifest declares; null when it declares none.
+    The manifest's `version`, normalized for display: one leading `v` or `V` is dropped, and the result is returned only if it is 1 to 64 characters, starts with a digit, and uses only ASCII letters, digits, `.`, `+`, and `-`; otherwise `null`. For example, `"v1.4.0"` is returned as `"1.4.0"`, and `"latest"` as `null`. For a synchronized plugin, the `version` of its `marketplace.json` entry can take the place of the manifest's `version`. It is also `null` for a version stored before claude.ai began recording this field (August 2026).
 
   - `string pluginID`
 
@@ -32614,7 +35332,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   - `?Reach reach`
 
-    How far the version reaches: `remote`, `privileged` or `contained`, as on the Plugin; null when not classifiable.
+    How far the version reaches: `remote`, `privileged`, `contained`, or `null`, as defined on the Plugin's `reach`.
 
   - `?string releaseNotes`
 
@@ -32626,6 +35344,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -32660,7 +35381,7 @@ var_dump($betaPluginVersion);
   "created_by": {
     "email_address": "user@example.com",
     "type": "user_actor",
-    "user_id": "user_01WCz1FkmYMm4gnmykNKUu3Q"
+    "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu"
   },
   "description": "Reviews pull requests against your team's conventions.",
   "display_name": "Code Review Helper",
@@ -32710,11 +35431,11 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   ID of the Plugin Version (prefixed `pluginver_`). `latest` is not accepted here.
 
-- `organizationID?:optional string` (query parameter)
+- `organizationID?: optional string` (query parameter)
 
   For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -32728,6 +35449,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -32766,7 +35490,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   ID of the Plugin (prefixed `plugin_`).
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -32774,19 +35498,19 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   default: 20
 
-- `organizationID?:optional string` (query parameter)
+- `organizationID?: optional string` (query parameter)
 
   For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Optionally set to the `next_page` token from the previous response.
 
-- `targetType?:optional TargetType` (query parameter)
+- `targetType?: optional TargetType` (query parameter)
 
   Only settings for this kind of target: `organization` (the organization-wide setting) or `rbac_group` (an RBAC Group's).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -32824,6 +35548,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -32897,7 +35624,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   The installation setting the target is to hold for this Plugin: one of `required`, `auto_install`, `available`, `not_available`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -32935,6 +35662,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -33006,7 +35736,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   The target whose own setting is removed: the literal `organization` for the Plugin's organization-wide setting, or an RBAC Group's ID (prefixed `rbac_group_`) for that group's own setting. Removing the `organization` setting returns the Plugin to its marketplace's default.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -33032,6 +35762,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -33088,7 +35821,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   ID of the Plugin (prefixed `plugin_`).
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -33096,19 +35829,19 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   default: 20
 
-- `organizationID?:optional string` (query parameter)
+- `organizationID?: optional string` (query parameter)
 
   For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Optionally set to the `next_page` token from the previous response.
 
-- `targetType?:optional TargetType` (query parameter)
+- `targetType?: optional TargetType` (query parameter)
 
   Only shares with this kind of target: `organization` (every member), `rbac_group` (one RBAC Group), or `organization_member` (one member).
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -33138,6 +35871,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -33193,7 +35929,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
 #### Parameters
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Number of items to return per page.
 
@@ -33201,23 +35937,23 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   default: 20
 
-- `organizationID?:optional string` (query parameter)
+- `organizationID?: optional string` (query parameter)
 
   For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404.
 
-- `ownerType?:optional OwnerType` (query parameter)
+- `ownerType?: optional OwnerType` (query parameter)
 
   `organization` for the organization's plugin marketplaces, `user` for members' personal plugin marketplaces.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Optionally set to the `next_page` token from the previous response.
 
-- `source?:optional Source` (query parameter)
+- `source?: optional Source` (query parameter)
 
   Only plugin marketplaces with this `source`: `manual` for those whose Plugins are uploaded; `github`, `gitlab` or `public_git` for those synchronized from a Git repository. `directory` (Anthropic's catalog) is never listed here.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -33271,6 +36007,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -33328,11 +36067,11 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   ID of the plugin marketplace (prefixed `marketplace_`).
 
-- `organizationID?:optional string` (query parameter)
+- `organizationID?: optional string` (query parameter)
 
   For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -33386,6 +36125,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -33448,7 +36190,7 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
   The organization-wide installation setting every Plugin in the marketplace without one of its own gets: one of `required`, `auto_install`, `available`, `not_available`. Once set it can be changed but not removed.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -33503,6 +36245,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaPluginMarketplace = $client
@@ -33551,9 +36296,9 @@ To check a `.zip` of the marketplace directory instead, use Validate Plugin Mark
 The report says whether `marketplace.json` is well-formed, which plugins a
 synchronization would skip and why, and which plugins would synchronize only in
 part, with some files left out. A repository that is missing, private, or has no such branch or commit is reported, not refused: the response is a report with `valid: false`. Plugin sources outside the marketplace
-are fetched anonymously from GitHub, so a private one is reported as not found; a
-source on any other host is not fetched here, and the report notes that it will be
-checked when the marketplace actually synchronizes.
+are fetched anonymously from GitHub, so a private one is reported as not found or as
+needing a GitHub sign-in; a source on any other host is not fetched here, and the
+report notes that it will be checked when the marketplace actually synchronizes.
 
 Nothing is recorded on the Compliance API activity feed.
 
@@ -33568,13 +36313,13 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
 - `repositoryURL: string`
 
-  The `https://` URL of a public repository on github.com that holds the marketplace. Any other host, a URL with credentials in it, or one that does not name a repository is a 400.
+  The `https://` URL of a public repository on github.com that holds the marketplace. A URL longer than 2,048 characters, on any other host or scheme, with a port other than 443 or 80, with credentials in it, or that does not name exactly `owner/repo` (a trailing `.git` or `/` is accepted) is a 400. A private or missing repository is reported in the response, not refused.
 
-- `ref?:optional string`
+- `ref?: optional string`
 
-  The branch to validate the tip of, or the full 40-character SHA of the commit to validate. When omitted, the branch a synchronization would read (usually the repository's default branch); if that is not the default branch, the report's `ref` says which branch was read. An empty string, or a value that is neither a branch name nor a 40-character SHA, is a 400.
+  The branch to validate the tip of, or the full 40-character SHA of the commit to validate. When omitted, the branch a synchronization would read (usually the repository's default branch); if that is not the default branch, the report's `ref` says which branch was read. An empty string, a value longer than 255 characters, or one that contains `..` or a character other than ASCII letters, digits, `.`, `_`, `-`, `+`, and `/`, is a 400. Any other value that is not a 40-character SHA is read as a branch name; if the repository has no such branch, the response is a report with `valid: false`, not a 400.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -33624,6 +36369,9 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -33674,7 +36422,7 @@ var_dump($betaPluginMarketplaceValidationReport);
 
 ### Validate Plugin Marketplace Archive
 
-`$client->beta->organization->pluginMarketplaces->validateArchive(string archive, ?list<AnthropicBeta> betas): PluginMarketplaceValidationReport`
+`$client->beta->organization->pluginMarketplaces->validateArchive(FileParam | string archive, ?list<AnthropicBeta> betas): PluginMarketplaceValidationReport`
 
 **POST** `/v1/organizations/plugin_marketplaces/validate_archive`
 
@@ -33686,9 +36434,9 @@ To check a public GitHub repository instead, use Validate Plugin Marketplace Rep
 The report says whether `marketplace.json` is well-formed, which plugins a
 synchronization would skip and why, and which plugins would synchronize only in
 part, with some files left out. An archive that cannot be read as a marketplace is reported, not refused: the response is a report with `valid: false`. Plugin sources outside the marketplace
-are fetched anonymously from GitHub, so a private one is reported as not found; a
-source on any other host is not fetched here, and the report notes that it will be
-checked when the marketplace actually synchronizes.
+are fetched anonymously from GitHub, so a private one is reported as not found or as
+needing a GitHub sign-in; a source on any other host is not fetched here, and the
+report notes that it will be checked when the marketplace actually synchronizes.
 
 Nothing is recorded on the Compliance API activity feed.
 
@@ -33701,11 +36449,11 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
 #### Parameters
 
-- `archive: string`
+- `archive: FileParam | string`
 
   A .zip of the marketplace directory (its contents at the root, or wrapped in one folder as a Git host's download produces), sent as a file part with a filename; DEFLATE- or STORE-compressed, at most 32 MB. A part sent without a filename, a second archive part, or any other form field is a 400; a larger archive is a 413.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
   This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header.
 
@@ -33756,6 +36504,10 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Core\FileParam;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaPluginMarketplaceValidationReport = $client
@@ -33799,5 +36551,3166 @@ var_dump($betaPluginMarketplaceValidationReport);
   "total_plugin_count": 0,
   "type": "plugin_marketplace_validation_report",
   "valid": false
+}
+```
+
+## Beta › Organization › Telemetry Destinations
+
+### Create a Telemetry Destination
+
+`$client->beta->organization->telemetryDestinations->create(string endpointURL, TelemetryDestinationWorkspacesParams workspaces, ?string displayName, ?array<string,string> headers, ?TelemetryDestinationTracesParams traces, ?list<AnthropicBeta> betas): TelemetryDestination`
+
+**POST** `/v1/organizations/telemetry_destinations`
+
+Register an OpenTelemetry destination for the organization.
+
+The destination starts in state `enabled`. An organization can have at most 10 destinations, including disabled ones.
+
+See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry?sdk_languages=php#add-a-destination) to learn more about adding a destination.
+
+#### Parameters
+
+- `endpointURL: string`
+
+  The base URL of your collector's OTLP/HTTP endpoint, for example `https://gateway.example.com`.
+
+  The URL must use `https` and a hostname, not an IP address. The port, if given, must be 443. The URL must not contain a query string, a fragment, or a username and password. At most 2,048 characters.
+
+  A path prefix, such as `/otlp`, is allowed. Don't include the per-signal path (`/v1/traces`), because the API appends it on delivery. If your collector takes traces on another path, also set `traces.endpoint_url`.
+
+- `workspaces: TelemetryDestinationWorkspacesParams`
+
+  Which of the organization's workspaces the destination covers.
+
+- `displayName?: optional string`
+
+  Human-readable name for the destination. Optional. 1 to 255 characters.
+
+- `headers?: optional array<string,string>`
+
+  Request headers that the API sends with every delivery, typically your collector's authentication header (for example `authorization`).
+
+  The API never returns the values. Reads show only `header_names`.
+
+  At most 20 headers. Names are at most 128 characters. Two names can't differ only in case. Values are printable ASCII, at most 4,096 characters, and can't begin or end with a space. Names and values together are at most 16,384 bytes.
+
+  Reserved names are rejected, for example `host`, `cookie`, `user-agent`, and names that start with `content-`, `proxy-`, `x-forwarded-`, or `anthropic-`. For this check, `_` in a name counts as `-`.
+
+- `traces?: optional TelemetryDestinationTracesParams`
+
+  The settings for the traces that the destination receives. If you leave it out, every setting takes its default.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11` in this header.
+
+#### Returns
+
+- `class TelemetryDestination`
+
+  - `"telemetry_destination" type`
+
+  - `string id`
+
+    The unique ID of the destination (`tdst_...`).
+
+  - `\Datetime createdAt`
+
+    Time the destination was created.
+
+  - `TelemetryDestinationDeliveryHealth deliveryHealth`
+
+    The most recent delivery results for this destination.
+
+  - `?string displayName`
+
+    Human-readable name for the destination. Null when none was set.
+
+  - `string endpointURL`
+
+    The base URL of the destination's OTLP/HTTP endpoint, exactly as registered.
+
+    The API appends the per-signal path, such as `/v1/traces`, on delivery, unless `traces.endpoint_url` is set.
+
+  - `list<string> headerNames`
+
+    Names of the registered request headers. Header values are write-only and are never returned.
+
+  - `TelemetryDestinationState state`
+
+    Whether the destination receives deliveries.
+
+  - `TelemetryDestinationTraces traces`
+
+    The destination's settings for the traces it receives.
+
+  - `\Datetime updatedAt`
+
+    Time of the last change to the destination's configuration or state. Changes to `delivery_health` don't change it.
+
+    An update that sets a header value always changes it, even when the value is the same as before. Adding or removing a single workspace on the destination's list doesn't change it. An update that changes the list does.
+
+  - `TelemetryDestinationWorkspaces workspaces`
+
+    Which of the organization's workspaces the destination covers.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Organization\TelemetryDestinations\TelemetryDestinationContentMode;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaTelemetryDestination = $client
+  ->beta
+  ->organization
+  ->telemetryDestinations
+  ->create(
+  endpointURL: 'x',
+  workspaces: ['type' => 'all'],
+  displayName: 'display_name',
+  headers: ['foo' => 'string'],
+  traces: [
+    'contentMode' => TelemetryDestinationContentMode::METADATA_ONLY,
+    'enabled' => true,
+    'endpointURL' => 'endpoint_url',
+    'maxContentBytes' => 0,
+  ],
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaTelemetryDestination);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "delivery_health": {
+    "last_error": "last_error",
+    "last_error_at": "2019-12-27T18:11:19.117Z",
+    "last_success_at": "2019-12-27T18:11:19.117Z"
+  },
+  "display_name": "display_name",
+  "endpoint_url": "endpoint_url",
+  "header_names": [
+    "string"
+  ],
+  "state": {
+    "type": "enabled"
+  },
+  "traces": {
+    "content_mode": "metadata_only",
+    "enabled": true,
+    "endpoint_url": "endpoint_url",
+    "max_content_bytes": 0
+  },
+  "type": "telemetry_destination",
+  "updated_at": "2019-12-27T18:11:19.117Z",
+  "workspaces": {
+    "type": "all"
+  }
+}
+```
+
+### List Telemetry Destinations
+
+`$client->beta->organization->telemetryDestinations->list(?int limit, ?string page, ?list<string> workspaceIDs, ?list<AnthropicBeta> betas): PageCursor<TelemetryDestination>`
+
+**GET** `/v1/organizations/telemetry_destinations`
+
+List the organization's destinations, newest first, optionally only those that cover given workspaces.
+
+See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry?sdk_languages=php#set-up-api-tracing) to learn more about destinations.
+
+#### Parameters
+
+- `limit?: optional int` (query parameter)
+
+  Number of destinations to return per page, between 1 and 1,000. Defaults to 20.
+
+- `page?: optional string` (query parameter)
+
+  Opaque cursor from a previous response's `next_page`. Leave it out to get the first page.
+
+- `workspaceIDs?: optional list<string>` (query parameter)
+
+  Return only the destinations that cover at least one of these workspaces (`wrkspc_...`).
+
+  Send at most 100 IDs, as `workspace_ids[]`. A destination covers a workspace when its `workspaces.type` is `all`, when its `include` list has the workspace, or when its `exclude` list doesn't have it. Destinations in either state can match. An ID that isn't the ID of one of the organization's workspaces doesn't match any destination, not even one whose type is `all`.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11` in this header.
+
+#### Returns
+
+- `class TelemetryDestination`
+
+  - `"telemetry_destination" type`
+
+  - `string id`
+
+    The unique ID of the destination (`tdst_...`).
+
+  - `\Datetime createdAt`
+
+    Time the destination was created.
+
+  - `TelemetryDestinationDeliveryHealth deliveryHealth`
+
+    The most recent delivery results for this destination.
+
+  - `?string displayName`
+
+    Human-readable name for the destination. Null when none was set.
+
+  - `string endpointURL`
+
+    The base URL of the destination's OTLP/HTTP endpoint, exactly as registered.
+
+    The API appends the per-signal path, such as `/v1/traces`, on delivery, unless `traces.endpoint_url` is set.
+
+  - `list<string> headerNames`
+
+    Names of the registered request headers. Header values are write-only and are never returned.
+
+  - `TelemetryDestinationState state`
+
+    Whether the destination receives deliveries.
+
+  - `TelemetryDestinationTraces traces`
+
+    The destination's settings for the traces it receives.
+
+  - `\Datetime updatedAt`
+
+    Time of the last change to the destination's configuration or state. Changes to `delivery_health` don't change it.
+
+    An update that sets a header value always changes it, even when the value is the same as before. Adding or removing a single workspace on the destination's list doesn't change it. An update that changes the list does.
+
+  - `TelemetryDestinationWorkspaces workspaces`
+
+    Which of the organization's workspaces the destination covers.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$page = $client->beta->organization->telemetryDestinations->list(
+  limit: 0,
+  page: 'page',
+  workspaceIDs: ['string'],
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($page);
+```
+
+##### Response (200)
+
+```json
+{
+  "data": [
+    {
+      "id": "id",
+      "created_at": "2019-12-27T18:11:19.117Z",
+      "delivery_health": {
+        "last_error": "last_error",
+        "last_error_at": "2019-12-27T18:11:19.117Z",
+        "last_success_at": "2019-12-27T18:11:19.117Z"
+      },
+      "display_name": "display_name",
+      "endpoint_url": "endpoint_url",
+      "header_names": [
+        "string"
+      ],
+      "state": {
+        "type": "enabled"
+      },
+      "traces": {
+        "content_mode": "metadata_only",
+        "enabled": true,
+        "endpoint_url": "endpoint_url",
+        "max_content_bytes": 0
+      },
+      "type": "telemetry_destination",
+      "updated_at": "2019-12-27T18:11:19.117Z",
+      "workspaces": {
+        "type": "all"
+      }
+    }
+  ],
+  "next_page": "next_page"
+}
+```
+
+### Retrieve a Telemetry Destination
+
+`$client->beta->organization->telemetryDestinations->retrieve(string destinationID, ?list<AnthropicBeta> betas): TelemetryDestination`
+
+**GET** `/v1/organizations/telemetry_destinations/{destination_id}`
+
+Read a destination's configuration, state, and most recent delivery results.
+
+See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry?sdk_languages=php#delivery-and-health) to learn how the API delivers spans and when it disables a destination.
+
+#### Parameters
+
+- `destinationID: string` (path parameter)
+
+  ID of the destination (`tdst_...`).
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11` in this header.
+
+#### Returns
+
+- `class TelemetryDestination`
+
+  - `"telemetry_destination" type`
+
+  - `string id`
+
+    The unique ID of the destination (`tdst_...`).
+
+  - `\Datetime createdAt`
+
+    Time the destination was created.
+
+  - `TelemetryDestinationDeliveryHealth deliveryHealth`
+
+    The most recent delivery results for this destination.
+
+  - `?string displayName`
+
+    Human-readable name for the destination. Null when none was set.
+
+  - `string endpointURL`
+
+    The base URL of the destination's OTLP/HTTP endpoint, exactly as registered.
+
+    The API appends the per-signal path, such as `/v1/traces`, on delivery, unless `traces.endpoint_url` is set.
+
+  - `list<string> headerNames`
+
+    Names of the registered request headers. Header values are write-only and are never returned.
+
+  - `TelemetryDestinationState state`
+
+    Whether the destination receives deliveries.
+
+  - `TelemetryDestinationTraces traces`
+
+    The destination's settings for the traces it receives.
+
+  - `\Datetime updatedAt`
+
+    Time of the last change to the destination's configuration or state. Changes to `delivery_health` don't change it.
+
+    An update that sets a header value always changes it, even when the value is the same as before. Adding or removing a single workspace on the destination's list doesn't change it. An update that changes the list does.
+
+  - `TelemetryDestinationWorkspaces workspaces`
+
+    Which of the organization's workspaces the destination covers.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaTelemetryDestination = $client
+  ->beta
+  ->organization
+  ->telemetryDestinations
+  ->retrieve(
+  'destination_id', betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24]
+);
+
+var_dump($betaTelemetryDestination);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "delivery_health": {
+    "last_error": "last_error",
+    "last_error_at": "2019-12-27T18:11:19.117Z",
+    "last_success_at": "2019-12-27T18:11:19.117Z"
+  },
+  "display_name": "display_name",
+  "endpoint_url": "endpoint_url",
+  "header_names": [
+    "string"
+  ],
+  "state": {
+    "type": "enabled"
+  },
+  "traces": {
+    "content_mode": "metadata_only",
+    "enabled": true,
+    "endpoint_url": "endpoint_url",
+    "max_content_bytes": 0
+  },
+  "type": "telemetry_destination",
+  "updated_at": "2019-12-27T18:11:19.117Z",
+  "workspaces": {
+    "type": "all"
+  }
+}
+```
+
+### Update a Telemetry Destination
+
+`$client->beta->organization->telemetryDestinations->update(string destinationID, ?string displayName, ?string endpointURL, ?array<string,string> headers, ?TelemetryDestinationStateParams state, ?TelemetryDestinationTracesParams traces, ?TelemetryDestinationWorkspacesParams workspaces, ?list<AnthropicBeta> betas): TelemetryDestination`
+
+**POST** `/v1/organizations/telemetry_destinations/{destination_id}`
+
+Change a telemetry destination's settings, its state, or which workspaces it covers.
+
+Send at least one field. Omitted fields keep their stored values, except the registered headers, which a change of the endpoint's hostname or port removes. Only `display_name`, `traces`, `traces.endpoint_url`, `traces.content_mode`, `traces.max_content_bytes`, and individual `headers` values accept `null`.
+
+If another request changes the destination while the update runs, the API returns a 409 `conflict_error`. Read the destination again, then retry the update.
+
+See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry?sdk_languages=php#delivery-and-health) to learn more about changing a destination.
+
+#### Parameters
+
+- `destinationID: string` (path parameter)
+
+  ID of the destination (`tdst_...`).
+
+- `displayName?: optional string`
+
+  New human-readable name, 1 to 255 characters. Null clears it.
+
+- `endpointURL?: optional string`
+
+  The new base URL of the destination's OTLP/HTTP endpoint. The same rules as on create apply.
+
+  A change of hostname or port first removes every registered header, so send the headers for the new endpoint in the same request. When the destination has a `traces.endpoint_url`, such a change must also set `traces.endpoint_url` to a URL with the new hostname and port, or to `null`. A change of the path alone keeps the headers.
+
+- `headers?: optional array<string,string>`
+
+  Headers to set or remove. The API merges them into the destination's headers by name.
+
+  Names compare case-insensitively. A string value sets or replaces that header. A `null` value removes it. Headers that you omit don't change. The field itself can't be `null`.
+
+  A request that sets a header value must also include `endpoint_url`. The current URL is accepted.
+
+  The resulting set must stay within the same limits as on create. When the request sets a value, each stored value that it doesn't set counts as 4,096 bytes toward the 16,384-byte limit, because you can't read its real length. So to change one header of a destination that has four or more other headers, send the values of the others again in the same request.
+
+- `state?: optional TelemetryDestinationStateParams`
+
+  Whether the destination receives deliveries after the update. The field can't be `null`.
+
+- `traces?: optional TelemetryDestinationTracesParams`
+
+  The traces settings to change. Omitted settings keep their stored values.
+
+  `null` sets every traces setting to its create default.
+
+- `workspaces?: optional TelemetryDestinationWorkspacesParams`
+
+  The new workspace scope, in the same form as on create. The field can't be `null`.
+
+  The API refuses an update that changes the type or sends `workspace_ids` while the destination's list has more than 750 workspaces. Remove workspaces one at a time until 750 or fewer remain, then send the update again.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11` in this header.
+
+#### Returns
+
+- `class TelemetryDestination`
+
+  - `"telemetry_destination" type`
+
+  - `string id`
+
+    The unique ID of the destination (`tdst_...`).
+
+  - `\Datetime createdAt`
+
+    Time the destination was created.
+
+  - `TelemetryDestinationDeliveryHealth deliveryHealth`
+
+    The most recent delivery results for this destination.
+
+  - `?string displayName`
+
+    Human-readable name for the destination. Null when none was set.
+
+  - `string endpointURL`
+
+    The base URL of the destination's OTLP/HTTP endpoint, exactly as registered.
+
+    The API appends the per-signal path, such as `/v1/traces`, on delivery, unless `traces.endpoint_url` is set.
+
+  - `list<string> headerNames`
+
+    Names of the registered request headers. Header values are write-only and are never returned.
+
+  - `TelemetryDestinationState state`
+
+    Whether the destination receives deliveries.
+
+  - `TelemetryDestinationTraces traces`
+
+    The destination's settings for the traces it receives.
+
+  - `\Datetime updatedAt`
+
+    Time of the last change to the destination's configuration or state. Changes to `delivery_health` don't change it.
+
+    An update that sets a header value always changes it, even when the value is the same as before. Adding or removing a single workspace on the destination's list doesn't change it. An update that changes the list does.
+
+  - `TelemetryDestinationWorkspaces workspaces`
+
+    Which of the organization's workspaces the destination covers.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Organization\TelemetryDestinations\TelemetryDestinationContentMode;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaTelemetryDestination = $client
+  ->beta
+  ->organization
+  ->telemetryDestinations
+  ->update(
+  'destination_id',
+  displayName: 'display_name',
+  endpointURL: 'endpoint_url',
+  headers: ['foo' => 'string'],
+  state: ['type' => 'enabled'],
+  traces: [
+    'contentMode' => TelemetryDestinationContentMode::METADATA_ONLY,
+    'enabled' => true,
+    'endpointURL' => 'endpoint_url',
+    'maxContentBytes' => 0,
+  ],
+  workspaces: ['type' => 'all'],
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaTelemetryDestination);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "delivery_health": {
+    "last_error": "last_error",
+    "last_error_at": "2019-12-27T18:11:19.117Z",
+    "last_success_at": "2019-12-27T18:11:19.117Z"
+  },
+  "display_name": "display_name",
+  "endpoint_url": "endpoint_url",
+  "header_names": [
+    "string"
+  ],
+  "state": {
+    "type": "enabled"
+  },
+  "traces": {
+    "content_mode": "metadata_only",
+    "enabled": true,
+    "endpoint_url": "endpoint_url",
+    "max_content_bytes": 0
+  },
+  "type": "telemetry_destination",
+  "updated_at": "2019-12-27T18:11:19.117Z",
+  "workspaces": {
+    "type": "all"
+  }
+}
+```
+
+### Delete a Telemetry Destination
+
+`$client->beta->organization->telemetryDestinations->delete(string destinationID, ?list<AnthropicBeta> betas): DeletedTelemetryDestination`
+
+**DELETE** `/v1/organizations/telemetry_destinations/{destination_id}`
+
+Delete a destination and its workspace list.
+
+The API stops sending spans to the destination. The spans of the workspaces it covered still go to the other destinations that cover them. A deleted destination can't be read, listed, or restored.
+
+See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry?sdk_languages=php#delivery-and-health) to learn more about managing a destination.
+
+#### Parameters
+
+- `destinationID: string` (path parameter)
+
+  ID of the destination (`tdst_...`).
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11` in this header.
+
+#### Returns
+
+- `class DeletedTelemetryDestination`
+
+  - `"telemetry_destination_deleted" type`
+
+  - `string id`
+
+    ID of the deleted destination (`tdst_...`).
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaDeletedTelemetryDestination = $client
+  ->beta
+  ->organization
+  ->telemetryDestinations
+  ->delete(
+  'destination_id', betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24]
+);
+
+var_dump($betaDeletedTelemetryDestination);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "type": "telemetry_destination_deleted"
+}
+```
+
+### Test a Telemetry Destination
+
+`$client->beta->organization->telemetryDestinations->test(string destinationID, ?list<AnthropicBeta> betas): TelemetryDestinationTestResponse`
+
+**POST** `/v1/organizations/telemetry_destinations/{destination_id}/test`
+
+Send one test span, named `anthropic.test`, to the destination with its registered headers, once and without retries, and report the destination's answer. The response is 200 whether or not the destination answered with a 2xx status: its `result` has the type `success`, or the type `failure` and the reason in `error`. The destination's configuration, `state` and `delivery_health` do not change. A disabled destination can be tested too. Wait 10 seconds between tests of one destination; a request that comes sooner may be answered with status 429.
+
+#### Parameters
+
+- `destinationID: string` (path parameter)
+
+  ID of the destination to test (starts with `tdst_`).
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11` in this header.
+
+#### Returns
+
+- `class TelemetryDestinationTestResponse`
+
+  - `"telemetry_destination_test" type`
+
+  - `TelemetryDestinationTestResult result`
+
+    How the test went: `success` when the destination answered with a 2xx status, else `failure` with the reason.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaTelemetryDestinationTestResponse = $client
+  ->beta
+  ->organization
+  ->telemetryDestinations
+  ->test('destination_id', betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24]);
+
+var_dump($betaTelemetryDestinationTestResponse);
+```
+
+##### Response (200)
+
+```json
+{
+  "result": {
+    "type": "success"
+  },
+  "type": "telemetry_destination_test"
+}
+```
+
+## Beta › Organization › Telemetry Destinations › Workspaces
+
+### List Telemetry Destination Workspaces
+
+`$client->beta->organization->telemetryDestinations->workspaces->list(string destinationID, ?int limit, ?string page, ?list<AnthropicBeta> betas): PageCursor<BetaTelemetryDestinationWorkspace>`
+
+**GET** `/v1/organizations/telemetry_destinations/{destination_id}/workspaces`
+
+List the workspaces on a destination's workspace list, newest entry first.
+
+A destination whose `workspaces.type` is `all` doesn't have a list, so its page is empty. The list includes archived workspaces.
+
+See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry?sdk_languages=php#choose-workspaces-for-a-destination) to learn more about choosing the workspaces of a destination.
+
+#### Parameters
+
+- `destinationID: string` (path parameter)
+
+  ID of the destination (`tdst_...`).
+
+- `limit?: optional int` (query parameter)
+
+  Number of entries to return per page, between 1 and 1,000. Defaults to 20.
+
+- `page?: optional string` (query parameter)
+
+  Opaque cursor from a previous response's `next_page`. Leave it out to get the first page.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11` in this header.
+
+#### Returns
+
+- `class BetaTelemetryDestinationWorkspace`
+
+  - `"telemetry_destination_workspace" type`
+
+  - `\Datetime createdAt`
+
+    Time the workspace was added to the list.
+
+  - `string telemetryDestinationID`
+
+    ID of the telemetry destination (`tdst_...`).
+
+  - `string workspaceID`
+
+    ID of the workspace (`wrkspc_...`).
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$page = $client->beta->organization->telemetryDestinations->workspaces->list(
+  'destination_id',
+  limit: 0,
+  page: 'page',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($page);
+```
+
+##### Response (200)
+
+```json
+{
+  "data": [
+    {
+      "created_at": "2019-12-27T18:11:19.117Z",
+      "telemetry_destination_id": "telemetry_destination_id",
+      "type": "telemetry_destination_workspace",
+      "workspace_id": "workspace_id"
+    }
+  ],
+  "next_page": "next_page"
+}
+```
+
+### Add a Telemetry Destination Workspace
+
+`$client->beta->organization->telemetryDestinations->workspaces->add(string workspaceID, string destinationID, ?list<AnthropicBeta> betas): BetaTelemetryDestinationWorkspace`
+
+**POST** `/v1/organizations/telemetry_destinations/{destination_id}/workspaces/{workspace_id}`
+
+Add one workspace to a destination's workspace list.
+
+Under `include` the workspace's spans start going to the destination. Under `exclude` they stop. A list holds at most 1,000 workspaces.
+
+Adding a workspace that is already on the list changes nothing and returns the existing entry. An archived workspace that isn't on the list yet can't be added. A destination whose `workspaces.type` is `all` doesn't have a list, so the API returns 400. To change which workspaces such a destination covers, update its `workspaces`.
+
+See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry?sdk_languages=php#choose-workspaces-for-a-destination) to learn more about choosing the workspaces of a destination.
+
+#### Parameters
+
+- `destinationID: string` (path parameter)
+
+  ID of the destination (`tdst_...`).
+
+- `workspaceID: string` (path parameter)
+
+  ID of the workspace to add (`wrkspc_...`).
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11` in this header.
+
+#### Returns
+
+- `class BetaTelemetryDestinationWorkspace`
+
+  - `"telemetry_destination_workspace" type`
+
+  - `\Datetime createdAt`
+
+    Time the workspace was added to the list.
+
+  - `string telemetryDestinationID`
+
+    ID of the telemetry destination (`tdst_...`).
+
+  - `string workspaceID`
+
+    ID of the workspace (`wrkspc_...`).
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaTelemetryDestinationWorkspace = $client
+  ->beta
+  ->organization
+  ->telemetryDestinations
+  ->workspaces
+  ->add(
+  'workspace_id',
+  destinationID: 'destination_id',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaTelemetryDestinationWorkspace);
+```
+
+##### Response (200)
+
+```json
+{
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "telemetry_destination_id": "telemetry_destination_id",
+  "type": "telemetry_destination_workspace",
+  "workspace_id": "workspace_id"
+}
+```
+
+### Remove a Telemetry Destination Workspace
+
+`$client->beta->organization->telemetryDestinations->workspaces->remove(string workspaceID, string destinationID, ?list<AnthropicBeta> betas): BetaDeletedTelemetryDestinationWorkspace`
+
+**DELETE** `/v1/organizations/telemetry_destinations/{destination_id}/workspaces/{workspace_id}`
+
+Remove one workspace from a destination's workspace list.
+
+Under `include` the workspace's spans stop going to the destination. Under `exclude` they start. An archived workspace can be removed too.
+
+The API returns 404 when the workspace isn't on the list. A destination whose `workspaces.type` is `all` doesn't have a list, so the API returns 400.
+
+See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry?sdk_languages=php#choose-workspaces-for-a-destination) to learn more about choosing the workspaces of a destination.
+
+#### Parameters
+
+- `destinationID: string` (path parameter)
+
+  ID of the destination (`tdst_...`).
+
+- `workspaceID: string` (path parameter)
+
+  ID of the workspace to remove (`wrkspc_...`).
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11` in this header.
+
+#### Returns
+
+- `class BetaDeletedTelemetryDestinationWorkspace`
+
+  - `"telemetry_destination_workspace_deleted" type`
+
+  - `string telemetryDestinationID`
+
+    ID of the telemetry destination (`tdst_...`).
+
+  - `string workspaceID`
+
+    ID of the workspace that was removed (`wrkspc_...`).
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaDeletedTelemetryDestinationWorkspace = $client
+  ->beta
+  ->organization
+  ->telemetryDestinations
+  ->workspaces
+  ->remove(
+  'workspace_id',
+  destinationID: 'destination_id',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaDeletedTelemetryDestinationWorkspace);
+```
+
+##### Response (200)
+
+```json
+{
+  "telemetry_destination_id": "telemetry_destination_id",
+  "type": "telemetry_destination_workspace_deleted",
+  "workspace_id": "workspace_id"
+}
+```
+
+## Beta › Organization › Webhooks
+
+### Create Organization Webhook Endpoint
+
+`$client->beta->organization->webhooks->create(list<EnabledEvent> enabledEvents, string url, ?string description, ?string name, ?list<AnthropicBeta> betas): NewOrganizationWebhookEndpoint`
+
+**POST** `/v1/organizations/webhooks`
+
+Create an organization webhook endpoint.
+
+An organization webhook endpoint belongs to the organization rather than to one of its workspaces. An organization can have at most 32 organization
+webhook endpoints, enabled or disabled.
+
+The response includes the endpoint's signing secret. No read returns it, so store
+it when you receive it.
+
+Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`. A request without it returns `404`, exactly as if this API did not exist. Anthropic turns organization webhook endpoints on for each organization; until yours is on, requests also return `404`. Organization webhook endpoints are in beta and are not available to organizations with HIPAA readiness enabled.
+
+#### Parameters
+
+- `enabledEvents: list<EnabledEvent>`
+
+  The event types to deliver to the endpoint. Must list at least one.
+
+- `url: string`
+
+  The HTTPS URL that deliveries are sent to.
+
+- `description?: optional string`
+
+  Notes about the endpoint.
+
+- `name?: optional string`
+
+  A short label for the endpoint.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `webhooks-2026-10-07` in this header.
+
+#### Returns
+
+- `class NewOrganizationWebhookEndpoint`
+
+  - `string id`
+
+    ID of the webhook endpoint.
+
+  - `\Datetime createdAt`
+
+    When the endpoint was created, in RFC 3339 format.
+
+  - `string description`
+
+    Notes about the endpoint. An empty string when none were given.
+
+  - `string disabledReason`
+
+    Why Anthropic disabled the endpoint automatically. An empty string when the endpoint is enabled, or when you disabled it.
+
+  - `list<EnabledEvent> enabledEvents`
+
+    The event types delivered to the endpoint.
+
+  - `string name`
+
+    A short label for the endpoint. An empty string when none was given.
+
+  - `string signingSecret`
+
+    The secret Anthropic signs deliveries to the endpoint with (prefix `whsec_`). No other response returns it, so store it now. To replace it, regenerate the signing secret.
+
+  - `OrganizationWebhookEndpointState state`
+
+    Whether deliveries are sent to the endpoint.
+
+  - `\Datetime updatedAt`
+
+    When the endpoint was last changed, in RFC 3339 format.
+
+  - `string url`
+
+    The HTTPS URL that deliveries are sent to.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaNewOrganizationWebhookEndpoint = $client
+  ->beta
+  ->organization
+  ->webhooks
+  ->create(
+  enabledEvents: ['user_profile.enforcement_action_opened'],
+  url: 'x',
+  description: 'description',
+  name: 'name',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaNewOrganizationWebhookEndpoint);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "description": "description",
+  "disabled_reason": "disabled_reason",
+  "enabled_events": [
+    "user_profile.enforcement_action_opened"
+  ],
+  "name": "name",
+  "signing_secret": "signing_secret",
+  "state": "disabled",
+  "updated_at": "2019-12-27T18:11:19.117Z",
+  "url": "url"
+}
+```
+
+### List Organization Webhook Endpoints
+
+`$client->beta->organization->webhooks->list(?string afterID, ?string beforeID, ?int limit, ?Order order, ?list<AnthropicBeta> betas): Page<OrganizationWebhookEndpoint>`
+
+**GET** `/v1/organizations/webhooks`
+
+List the organization's webhook endpoints.
+
+An organization webhook endpoint belongs to the organization rather than to one of its workspaces. The list does not include webhook endpoints that
+belong to a workspace.
+
+Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`. A request without it returns `404`, exactly as if this API did not exist. Anthropic turns organization webhook endpoints on for each organization; until yours is on, requests also return `404`. Organization webhook endpoints are in beta and are not available to organizations with HIPAA readiness enabled.
+
+#### Parameters
+
+- `afterID?: optional string` (query parameter)
+
+  ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.
+
+- `beforeID?: optional string` (query parameter)
+
+  ID of a webhook endpoint to use as a cursor. Returns the first `limit` endpoints that come before it in list order, not the `limit` endpoints just before it.
+
+- `limit?: optional int` (query parameter)
+
+  Number of items to return per page, up to `100`. The default, `0`, means `20`.
+
+  default: 0
+
+- `order?: optional Order` (query parameter)
+
+  Sort order by `created_at`. Defaults to `desc`, newest first.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `webhooks-2026-10-07` in this header.
+
+#### Returns
+
+- `class OrganizationWebhookEndpoint`
+
+  - `string id`
+
+    ID of the webhook endpoint.
+
+  - `\Datetime createdAt`
+
+    When the endpoint was created, in RFC 3339 format.
+
+  - `string description`
+
+    Notes about the endpoint. An empty string when none were given.
+
+  - `string disabledReason`
+
+    Why Anthropic disabled the endpoint automatically. An empty string when the endpoint is enabled, or when you disabled it.
+
+  - `list<EnabledEvent> enabledEvents`
+
+    The event types delivered to the endpoint.
+
+  - `string name`
+
+    A short label for the endpoint. An empty string when none was given.
+
+  - `OrganizationWebhookEndpointState state`
+
+    Whether deliveries are sent to the endpoint.
+
+  - `\Datetime updatedAt`
+
+    When the endpoint was last changed, in RFC 3339 format.
+
+  - `string url`
+
+    The HTTPS URL that deliveries are sent to.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$page = $client->beta->organization->webhooks->list(
+  afterID: 'after_id',
+  beforeID: 'before_id',
+  limit: 0,
+  order: 'asc',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($page);
+```
+
+##### Response (200)
+
+```json
+{
+  "data": [
+    {
+      "id": "id",
+      "created_at": "2019-12-27T18:11:19.117Z",
+      "description": "description",
+      "disabled_reason": "disabled_reason",
+      "enabled_events": [
+        "user_profile.enforcement_action_opened"
+      ],
+      "name": "name",
+      "state": "disabled",
+      "updated_at": "2019-12-27T18:11:19.117Z",
+      "url": "url"
+    }
+  ],
+  "has_more": true,
+  "first_id": "first_id",
+  "last_id": "last_id"
+}
+```
+
+### Get Organization Webhook Endpoint
+
+`$client->beta->organization->webhooks->retrieve(string webhookEndpointID, ?list<AnthropicBeta> betas): OrganizationWebhookEndpoint`
+
+**GET** `/v1/organizations/webhooks/{webhook_endpoint_id}`
+
+Retrieve an organization webhook endpoint by ID.
+
+Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`. A request without it returns `404`, exactly as if this API did not exist. Anthropic turns organization webhook endpoints on for each organization; until yours is on, requests also return `404`. Organization webhook endpoints are in beta and are not available to organizations with HIPAA readiness enabled.
+
+#### Parameters
+
+- `webhookEndpointID: string` (path parameter)
+
+  ID of the webhook endpoint.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `webhooks-2026-10-07` in this header.
+
+#### Returns
+
+- `class OrganizationWebhookEndpoint`
+
+  - `string id`
+
+    ID of the webhook endpoint.
+
+  - `\Datetime createdAt`
+
+    When the endpoint was created, in RFC 3339 format.
+
+  - `string description`
+
+    Notes about the endpoint. An empty string when none were given.
+
+  - `string disabledReason`
+
+    Why Anthropic disabled the endpoint automatically. An empty string when the endpoint is enabled, or when you disabled it.
+
+  - `list<EnabledEvent> enabledEvents`
+
+    The event types delivered to the endpoint.
+
+  - `string name`
+
+    A short label for the endpoint. An empty string when none was given.
+
+  - `OrganizationWebhookEndpointState state`
+
+    Whether deliveries are sent to the endpoint.
+
+  - `\Datetime updatedAt`
+
+    When the endpoint was last changed, in RFC 3339 format.
+
+  - `string url`
+
+    The HTTPS URL that deliveries are sent to.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaOrganizationWebhookEndpoint = $client
+  ->beta
+  ->organization
+  ->webhooks
+  ->retrieve(
+  'webhook_endpoint_id', betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24]
+);
+
+var_dump($betaOrganizationWebhookEndpoint);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "description": "description",
+  "disabled_reason": "disabled_reason",
+  "enabled_events": [
+    "user_profile.enforcement_action_opened"
+  ],
+  "name": "name",
+  "state": "disabled",
+  "updated_at": "2019-12-27T18:11:19.117Z",
+  "url": "url"
+}
+```
+
+### Update Organization Webhook Endpoint
+
+`$client->beta->organization->webhooks->update(string webhookEndpointID, ?string description, ?list<EnabledEvent> enabledEvents, ?string name, ?State state, ?string url, ?list<AnthropicBeta> betas): OrganizationWebhookEndpoint`
+
+**POST** `/v1/organizations/webhooks/{webhook_endpoint_id}`
+
+Update an organization webhook endpoint. Only the fields you send are changed.
+
+Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`. A request without it returns `404`, exactly as if this API did not exist. Anthropic turns organization webhook endpoints on for each organization; until yours is on, requests also return `404`. Organization webhook endpoints are in beta and are not available to organizations with HIPAA readiness enabled.
+
+#### Parameters
+
+- `webhookEndpointID: string` (path parameter)
+
+  ID of the webhook endpoint.
+
+- `description?: optional string`
+
+  Notes about the endpoint.
+
+- `enabledEvents?: optional list<EnabledEvent>`
+
+  The event types to deliver to the endpoint. Replaces the whole set; an empty list leaves it unchanged.
+
+- `name?: optional string`
+
+  A short label for the endpoint.
+
+- `state?: optional State`
+
+  `disabled` stops deliveries. `enabled` resumes them and clears `disabled_reason`. Events that happen while the endpoint is disabled are never delivered.
+
+- `url?: optional string`
+
+  The HTTPS URL that deliveries are sent to.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `webhooks-2026-10-07` in this header.
+
+#### Returns
+
+- `class OrganizationWebhookEndpoint`
+
+  - `string id`
+
+    ID of the webhook endpoint.
+
+  - `\Datetime createdAt`
+
+    When the endpoint was created, in RFC 3339 format.
+
+  - `string description`
+
+    Notes about the endpoint. An empty string when none were given.
+
+  - `string disabledReason`
+
+    Why Anthropic disabled the endpoint automatically. An empty string when the endpoint is enabled, or when you disabled it.
+
+  - `list<EnabledEvent> enabledEvents`
+
+    The event types delivered to the endpoint.
+
+  - `string name`
+
+    A short label for the endpoint. An empty string when none was given.
+
+  - `OrganizationWebhookEndpointState state`
+
+    Whether deliveries are sent to the endpoint.
+
+  - `\Datetime updatedAt`
+
+    When the endpoint was last changed, in RFC 3339 format.
+
+  - `string url`
+
+    The HTTPS URL that deliveries are sent to.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaOrganizationWebhookEndpoint = $client
+  ->beta
+  ->organization
+  ->webhooks
+  ->update(
+  'webhook_endpoint_id',
+  description: 'description',
+  enabledEvents: ['user_profile.enforcement_action_opened'],
+  name: 'name',
+  state: 'disabled',
+  url: 'x',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaOrganizationWebhookEndpoint);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "description": "description",
+  "disabled_reason": "disabled_reason",
+  "enabled_events": [
+    "user_profile.enforcement_action_opened"
+  ],
+  "name": "name",
+  "state": "disabled",
+  "updated_at": "2019-12-27T18:11:19.117Z",
+  "url": "url"
+}
+```
+
+### Delete Organization Webhook Endpoint
+
+`$client->beta->organization->webhooks->delete(string webhookEndpointID, ?list<AnthropicBeta> betas): DeletedOrganizationWebhookEndpoint`
+
+**DELETE** `/v1/organizations/webhooks/{webhook_endpoint_id}`
+
+Delete an organization webhook endpoint.
+
+Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`. A request without it returns `404`, exactly as if this API did not exist. Anthropic turns organization webhook endpoints on for each organization; until yours is on, requests also return `404`. Organization webhook endpoints are in beta and are not available to organizations with HIPAA readiness enabled.
+
+#### Parameters
+
+- `webhookEndpointID: string` (path parameter)
+
+  ID of the webhook endpoint.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `webhooks-2026-10-07` in this header.
+
+#### Returns
+
+- `class DeletedOrganizationWebhookEndpoint`
+
+  - `"webhook_endpoint_deleted" type`
+
+    Always `webhook_endpoint_deleted`.
+
+  - `string id`
+
+    ID of the deleted webhook endpoint.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaDeletedOrganizationWebhookEndpoint = $client
+  ->beta
+  ->organization
+  ->webhooks
+  ->delete(
+  'webhook_endpoint_id', betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24]
+);
+
+var_dump($betaDeletedOrganizationWebhookEndpoint);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "type": "webhook_endpoint_deleted"
+}
+```
+
+### Regenerate Organization Webhook Endpoint Signing Secret
+
+`$client->beta->organization->webhooks->regenerateSigningSecret(string webhookEndpointID, ?list<AnthropicBeta> betas): OrganizationWebhookEndpointSigningSecret`
+
+**POST** `/v1/organizations/webhooks/{webhook_endpoint_id}/regenerate_signing_secret`
+
+Replace an organization webhook endpoint's signing secret. The old secret stops
+working immediately. The new secret is returned only in this response.
+
+Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`. A request without it returns `404`, exactly as if this API did not exist. Anthropic turns organization webhook endpoints on for each organization; until yours is on, requests also return `404`. Organization webhook endpoints are in beta and are not available to organizations with HIPAA readiness enabled.
+
+#### Parameters
+
+- `webhookEndpointID: string` (path parameter)
+
+  ID of the webhook endpoint.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `webhooks-2026-10-07` in this header.
+
+#### Returns
+
+- `class OrganizationWebhookEndpointSigningSecret`
+
+  - `string signingSecret`
+
+    The new signing secret. Deliveries are signed with it from now on, and no other response returns it.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaOrganizationWebhookEndpointSigningSecret = $client
+  ->beta
+  ->organization
+  ->webhooks
+  ->regenerateSigningSecret(
+  'webhook_endpoint_id', betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24]
+);
+
+var_dump($betaOrganizationWebhookEndpointSigningSecret);
+```
+
+##### Response (200)
+
+```json
+{
+  "signing_secret": "signing_secret"
+}
+```
+
+## Beta › Organization › Claude Tag › Slack Channels
+
+### Set Up Slack Channel
+
+`$client->beta->organization->claudeTag->slackChannels->create(ClaudeTagSlackChannelIdentifiers slack, ?ClaudeTagSettingsCreate settings, ?list<AnthropicBeta> betas): BetaClaudeTagSlackChannel`
+
+**POST** `/v1/organizations/claude_tag/slack_channels`
+
+Set a Slack channel up for Claude Tag and return it with its identifier. If the channel is already set up, whether in claude.ai, by Claude's first use in it or by an earlier request, the existing channel is returned, so the request can be repeated. `settings`, when sent, is applied as an update applies it. Before a channel is set up, Claude's Slack app confirms with Slack that the channel is in the workspace, is not archived and is visible to the app; a channel that fails the confirmation returns 404. Setting the channel up and applying `settings` are two steps: when the second is refused, the response is the refusal, the channel stays set up with every setting unset, and the error's `details.slack_channel_id` holds the channel's identifier.
+
+#### Parameters
+
+- `slack: ClaudeTagSlackChannelIdentifiers`
+
+  Slack's own identifiers for the channel to set up. The organization must own the workspace.
+
+- `settings?: optional ClaudeTagSettingsCreate`
+
+  Settings to store on the channel, applied as Update Slack Channel applies them.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagSlackChannel`
+
+  - `"slack_channel" type`
+
+  - `string id`
+
+    The channel's identifier. Starts with `slch_`. It does not change for as long as the channel is set up, with one exception: a channel that is not configured can get a new one. A channel that is removed and set up again also has a new one. The old one keeps returning 404; look the channel up by its Slack identifiers for the new one.
+
+  - `\Datetime createdAt`
+
+    Time the channel was set up, by whichever route. It does not change for as long as `id` does not.
+
+  - `ClaudeTagSettings settings`
+
+    What the channel itself stores or, with `include_inherited`, what applies in it. `sources` says which.
+
+  - `ClaudeTagSlackChannelIdentifiers slack`
+
+    Slack's own identifiers for the channel.
+
+  - `ClaudeTagSettingSources sources`
+
+    For each setting, the settings level its value in `settings` comes from.
+
+  - `\Datetime updatedAt`
+
+    Time Claude Tag's record of the channel last changed. It moves on every change to a setting, and can also move when something no response holds changes, so a later value says to read the channel again, not that a setting changed. Attaching or detaching a Bundle does not by itself move it.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaClaudeTagSlackChannel = $client
+  ->beta
+  ->organization
+  ->claudeTag
+  ->slackChannels
+  ->create(
+  slack: ['channelID' => 'xx', 'workspaceID' => 'xx'],
+  settings: [
+    'enabled' => true,
+    'environmentID' => 'x',
+    'guestPolicy' => ['type' => 'allow'],
+    'instructions' => 'instructions',
+    'model' => 'x',
+    'replyMode' => ['type' => 'automatic'],
+  ],
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaClaudeTagSlackChannel);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "settings": {
+    "enabled": true,
+    "environment_id": "environment_id",
+    "guest_policy": {
+      "type": "allow"
+    },
+    "instructions": "instructions",
+    "model": "model",
+    "reply_mode": {
+      "type": "automatic"
+    }
+  },
+  "slack": {
+    "channel_id": "xx",
+    "workspace_id": "xx"
+  },
+  "sources": {
+    "enabled": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "environment_id": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "guest_policy": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "instructions": [
+      {
+        "slack_channel_id": "slack_channel_id",
+        "type": "slack_channel"
+      }
+    ],
+    "model": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "reply_mode": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    }
+  },
+  "type": "slack_channel",
+  "updated_at": "2019-12-27T18:11:19.117Z"
+}
+```
+
+### List Slack Channels
+
+`$client->beta->organization->claudeTag->slackChannels->list(string slackWorkspaceID, ?bool includeInherited, ?int limit, ?string page, ?string slackChannelID, ?list<AnthropicBeta> betas): PageCursor<BetaClaudeTagSlackChannel>`
+
+**GET** `/v1/organizations/claude_tag/slack_channels`
+
+List the set-up Slack channels of one Slack workspace, newest first by `created_at`. A channel that is not set up is not listed: Slack holds the full list of a workspace's channels. Pass `slack_channel_id` as well to look one channel up by its Slack identifiers: `data` then holds that channel, or is empty when it is not set up, and `limit` and `page` are ignored. A workspace that the organization owns only through a Slack Enterprise Grid returns 404 until it is set up. With `include_inherited=true` each channel's `settings` holds what applies in it, and the request fails with 503 rather than resolve against a settings level that could not be read. A `page` cursor resumes only a request with the same `include_inherited`.
+
+#### Parameters
+
+- `slackWorkspaceID: string` (query parameter)
+
+  The Slack workspace whose channels to list: Slack's identifier for it, as in the channel object's `slack.workspace_id`, not the workspace object's `id`.
+
+- `includeInherited?: optional bool` (query parameter)
+
+  When `true`, `settings` holds what applies in each channel once the settings levels above it are taken into account, and every member of `sources` names the level a value comes from. When `false` or left out, `settings` holds what each channel itself stores.
+
+- `limit?: optional int` (query parameter)
+
+  Number of items to return per page, between 1 and 100. Defaults to 20.
+
+- `page?: optional string` (query parameter)
+
+  Opaque cursor from a previous response's `next_page`.
+
+- `slackChannelID?: optional string` (query parameter)
+
+  Slack's identifier for one channel of that workspace, as in the channel object's `slack.channel_id`. It is not the channel object's `id`. With it `data` holds that channel alone, or nothing when the channel is not set up.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagSlackChannel`
+
+  - `"slack_channel" type`
+
+  - `string id`
+
+    The channel's identifier. Starts with `slch_`. It does not change for as long as the channel is set up, with one exception: a channel that is not configured can get a new one. A channel that is removed and set up again also has a new one. The old one keeps returning 404; look the channel up by its Slack identifiers for the new one.
+
+  - `\Datetime createdAt`
+
+    Time the channel was set up, by whichever route. It does not change for as long as `id` does not.
+
+  - `ClaudeTagSettings settings`
+
+    What the channel itself stores or, with `include_inherited`, what applies in it. `sources` says which.
+
+  - `ClaudeTagSlackChannelIdentifiers slack`
+
+    Slack's own identifiers for the channel.
+
+  - `ClaudeTagSettingSources sources`
+
+    For each setting, the settings level its value in `settings` comes from.
+
+  - `\Datetime updatedAt`
+
+    Time Claude Tag's record of the channel last changed. It moves on every change to a setting, and can also move when something no response holds changes, so a later value says to read the channel again, not that a setting changed. Attaching or detaching a Bundle does not by itself move it.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$page = $client->beta->organization->claudeTag->slackChannels->list(
+  slackWorkspaceID: 'slack_workspace_id',
+  includeInherited: true,
+  limit: 0,
+  page: 'page',
+  slackChannelID: 'slack_channel_id',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($page);
+```
+
+##### Response (200)
+
+```json
+{
+  "data": [
+    {
+      "id": "id",
+      "created_at": "2019-12-27T18:11:19.117Z",
+      "settings": {
+        "enabled": true,
+        "environment_id": "environment_id",
+        "guest_policy": {
+          "type": "allow"
+        },
+        "instructions": "instructions",
+        "model": "model",
+        "reply_mode": {
+          "type": "automatic"
+        }
+      },
+      "slack": {
+        "channel_id": "xx",
+        "workspace_id": "xx"
+      },
+      "sources": {
+        "enabled": {
+          "slack_channel_id": "slack_channel_id",
+          "type": "slack_channel"
+        },
+        "environment_id": {
+          "slack_channel_id": "slack_channel_id",
+          "type": "slack_channel"
+        },
+        "guest_policy": {
+          "slack_channel_id": "slack_channel_id",
+          "type": "slack_channel"
+        },
+        "instructions": [
+          {
+            "slack_channel_id": "slack_channel_id",
+            "type": "slack_channel"
+          }
+        ],
+        "model": {
+          "slack_channel_id": "slack_channel_id",
+          "type": "slack_channel"
+        },
+        "reply_mode": {
+          "slack_channel_id": "slack_channel_id",
+          "type": "slack_channel"
+        }
+      },
+      "type": "slack_channel",
+      "updated_at": "2019-12-27T18:11:19.117Z"
+    }
+  ],
+  "next_page": "next_page"
+}
+```
+
+### Get Slack Channel
+
+`$client->beta->organization->claudeTag->slackChannels->retrieve(string id, ?bool includeInherited, ?list<AnthropicBeta> betas): BetaClaudeTagSlackChannel`
+
+**GET** `/v1/organizations/claude_tag/slack_channels/{id}`
+
+Get one Slack channel and its settings. By default `settings` holds what the channel itself stores: a setting that is null there is not set on the channel and is inherited. With `include_inherited=true`, `settings` holds what applies in the channel once the settings levels above it are taken into account, and the request fails with 503 rather than resolve against a settings level that could not be read. Either way `sources` names the settings level each value comes from, so a caller tells the channel's own value from an inherited one by its source, not by whether it is null.
+
+#### Parameters
+
+- `id: string` (path parameter)
+
+  The channel's identifier, starting with `slch_`.
+
+- `includeInherited?: optional bool` (query parameter)
+
+  When `true`, `settings` holds what applies in the channel once the settings levels above it are taken into account, and every member of `sources` names the level a value comes from. When `false` or left out, `settings` holds what the channel itself stores.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagSlackChannel`
+
+  - `"slack_channel" type`
+
+  - `string id`
+
+    The channel's identifier. Starts with `slch_`. It does not change for as long as the channel is set up, with one exception: a channel that is not configured can get a new one. A channel that is removed and set up again also has a new one. The old one keeps returning 404; look the channel up by its Slack identifiers for the new one.
+
+  - `\Datetime createdAt`
+
+    Time the channel was set up, by whichever route. It does not change for as long as `id` does not.
+
+  - `ClaudeTagSettings settings`
+
+    What the channel itself stores or, with `include_inherited`, what applies in it. `sources` says which.
+
+  - `ClaudeTagSlackChannelIdentifiers slack`
+
+    Slack's own identifiers for the channel.
+
+  - `ClaudeTagSettingSources sources`
+
+    For each setting, the settings level its value in `settings` comes from.
+
+  - `\Datetime updatedAt`
+
+    Time Claude Tag's record of the channel last changed. It moves on every change to a setting, and can also move when something no response holds changes, so a later value says to read the channel again, not that a setting changed. Attaching or detaching a Bundle does not by itself move it.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaClaudeTagSlackChannel = $client
+  ->beta
+  ->organization
+  ->claudeTag
+  ->slackChannels
+  ->retrieve(
+  'slch_01SvpyRQK3nN6eH9uhRA7n1q',
+  includeInherited: true,
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaClaudeTagSlackChannel);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "settings": {
+    "enabled": true,
+    "environment_id": "environment_id",
+    "guest_policy": {
+      "type": "allow"
+    },
+    "instructions": "instructions",
+    "model": "model",
+    "reply_mode": {
+      "type": "automatic"
+    }
+  },
+  "slack": {
+    "channel_id": "xx",
+    "workspace_id": "xx"
+  },
+  "sources": {
+    "enabled": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "environment_id": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "guest_policy": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "instructions": [
+      {
+        "slack_channel_id": "slack_channel_id",
+        "type": "slack_channel"
+      }
+    ],
+    "model": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "reply_mode": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    }
+  },
+  "type": "slack_channel",
+  "updated_at": "2019-12-27T18:11:19.117Z"
+}
+```
+
+### Update Slack Channel
+
+`$client->beta->organization->claudeTag->slackChannels->update(string id, ClaudeTagSettingsUpdate settings, ?list<AnthropicBeta> betas): BetaClaudeTagSlackChannel`
+
+**POST** `/v1/organizations/claude_tag/slack_channels/{id}`
+
+Change the settings a Slack channel stores. The update is partial: a setting left out is unchanged, and a setting sent as null is cleared, so the channel inherits it. If any value is refused, no setting in the request is stored. A group direct message takes no settings and returns 400.
+
+#### Parameters
+
+- `id: string` (path parameter)
+
+  The channel's identifier, starting with `slch_`.
+
+- `settings: ClaudeTagSettingsUpdate`
+
+  The settings to change.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagSlackChannel`
+
+  - `"slack_channel" type`
+
+  - `string id`
+
+    The channel's identifier. Starts with `slch_`. It does not change for as long as the channel is set up, with one exception: a channel that is not configured can get a new one. A channel that is removed and set up again also has a new one. The old one keeps returning 404; look the channel up by its Slack identifiers for the new one.
+
+  - `\Datetime createdAt`
+
+    Time the channel was set up, by whichever route. It does not change for as long as `id` does not.
+
+  - `ClaudeTagSettings settings`
+
+    What the channel itself stores or, with `include_inherited`, what applies in it. `sources` says which.
+
+  - `ClaudeTagSlackChannelIdentifiers slack`
+
+    Slack's own identifiers for the channel.
+
+  - `ClaudeTagSettingSources sources`
+
+    For each setting, the settings level its value in `settings` comes from.
+
+  - `\Datetime updatedAt`
+
+    Time Claude Tag's record of the channel last changed. It moves on every change to a setting, and can also move when something no response holds changes, so a later value says to read the channel again, not that a setting changed. Attaching or detaching a Bundle does not by itself move it.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaClaudeTagSlackChannel = $client
+  ->beta
+  ->organization
+  ->claudeTag
+  ->slackChannels
+  ->update(
+  'slch_01SvpyRQK3nN6eH9uhRA7n1q',
+  settings: [
+    'enabled' => true,
+    'environmentID' => 'x',
+    'guestPolicy' => ['type' => 'allow'],
+    'instructions' => 'instructions',
+    'model' => 'x',
+    'replyMode' => ['type' => 'automatic'],
+  ],
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaClaudeTagSlackChannel);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "settings": {
+    "enabled": true,
+    "environment_id": "environment_id",
+    "guest_policy": {
+      "type": "allow"
+    },
+    "instructions": "instructions",
+    "model": "model",
+    "reply_mode": {
+      "type": "automatic"
+    }
+  },
+  "slack": {
+    "channel_id": "xx",
+    "workspace_id": "xx"
+  },
+  "sources": {
+    "enabled": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "environment_id": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "guest_policy": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "instructions": [
+      {
+        "slack_channel_id": "slack_channel_id",
+        "type": "slack_channel"
+      }
+    ],
+    "model": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "reply_mode": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    }
+  },
+  "type": "slack_channel",
+  "updated_at": "2019-12-27T18:11:19.117Z"
+}
+```
+
+### Remove Slack Channel
+
+`$client->beta->organization->claudeTag->slackChannels->delete(string id, ?list<AnthropicBeta> betas): BetaClaudeTagDeletedSlackChannel`
+
+**DELETE** `/v1/organizations/claude_tag/slack_channels/{id}`
+
+Remove a Slack channel from Claude Tag. This deletes the channel's stored settings and its Bundle Targets at once, and then, in the background, the channel's sessions and their transcripts, its memory, its routines and the artifacts published from it. None of it can be restored. The channel in Slack and its messages are unchanged. The request is refused with 400 and `error.details.error_code` `slack_channel_enabled` while `enabled` resolves to `true` for the channel, as a read with `include_inherited=true` returns it: set `enabled` to `false` on the channel first. This guards against removing a channel in use by mistake; it is not a way to keep Claude out, because the removal deletes the channel's own `enabled: false` with its other settings, after which the channel inherits again and Claude's next use of it can set it up anew with a new identifier. The identifier returns 404 as soon as the request returns, so a repeated removal returns 404. A group direct message returns 400, and so does a channel that holds configuration this API does not manage.
+
+#### Parameters
+
+- `id: string` (path parameter)
+
+  The channel's identifier, starting with `slch_`.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagDeletedSlackChannel`
+
+  - `"slack_channel_deleted" type`
+
+  - `string id`
+
+    The removed channel's identifier.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaClaudeTagDeletedSlackChannel = $client
+  ->beta
+  ->organization
+  ->claudeTag
+  ->slackChannels
+  ->delete(
+  'slch_01SvpyRQK3nN6eH9uhRA7n1q',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaClaudeTagDeletedSlackChannel);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "type": "slack_channel_deleted"
+}
+```
+
+## Beta › Organization › Claude Tag › Slack Workspaces
+
+### List Slack Workspaces
+
+`$client->beta->organization->claudeTag->slackWorkspaces->list(?bool includeInherited, ?int limit, ?string page, ?string slackWorkspaceID, ?list<AnthropicBeta> betas): PageCursor<BetaClaudeTagSlackWorkspace>`
+
+**GET** `/v1/organizations/claude_tag/slack_workspaces`
+
+List the set-up Slack workspaces the organization owns, newest first by `created_at`. Pass `slack_workspace_id` to look one workspace up by its Slack identifier: `data` then holds that workspace, or is empty when it is not set up. A workspace of a Slack Enterprise Grid the organization has connected returns 404 until it is set up. With `include_inherited=true` each workspace's `settings` holds what applies in it, and the request fails with 503 rather than resolve against a settings level that could not be read. A `page` cursor resumes only a request with the same `include_inherited`.
+
+#### Parameters
+
+- `includeInherited?: optional bool` (query parameter)
+
+  When `true`, `settings` holds what applies in each workspace once the organization's Slack defaults are taken into account, and every member of `sources` names the level a value comes from. When `false` or left out, `settings` holds what each workspace itself stores.
+
+- `limit?: optional int` (query parameter)
+
+  Number of items to return per page, between 1 and 100. Defaults to 20.
+
+- `page?: optional string` (query parameter)
+
+  Opaque cursor from a previous response's `next_page`.
+
+- `slackWorkspaceID?: optional string` (query parameter)
+
+  Slack's identifier for one workspace, as in the workspace object's `slack.workspace_id`, not its `id`. With it `data` holds that workspace alone, or nothing when it is not set up.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagSlackWorkspace`
+
+  - `"slack_workspace" type`
+
+  - `string id`
+
+    The workspace's identifier. Starts with `slws_`. It does not change for as long as the workspace is set up. A workspace that is removed and set up again has a new one, and the old one keeps returning 404; look the workspace up by its Slack identifier for the new one.
+
+  - `\Datetime createdAt`
+
+    Time the workspace was set up, by whichever route. It does not change for as long as `id` does not.
+
+  - `ClaudeTagSettings settings`
+
+    What the workspace itself stores or, with `include_inherited`, what applies in it. `sources` says which.
+
+  - `ClaudeTagSlackWorkspaceIdentifiers slack`
+
+    Slack's own identifier for the workspace.
+
+  - `ClaudeTagSettingSources sources`
+
+    For each setting, the settings level its value in `settings` comes from.
+
+  - `\Datetime updatedAt`
+
+    Time Claude Tag's record of the workspace last changed. It moves on every change to a setting, and can also move when something no response holds changes, so a later value says to read the workspace again, not that a setting changed. Attaching or detaching a Bundle does not by itself move it.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$page = $client->beta->organization->claudeTag->slackWorkspaces->list(
+  includeInherited: true,
+  limit: 0,
+  page: 'page',
+  slackWorkspaceID: 'slack_workspace_id',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($page);
+```
+
+##### Response (200)
+
+```json
+{
+  "data": [
+    {
+      "id": "id",
+      "created_at": "2019-12-27T18:11:19.117Z",
+      "settings": {
+        "enabled": true,
+        "environment_id": "environment_id",
+        "guest_policy": {
+          "type": "allow"
+        },
+        "instructions": "instructions",
+        "model": "model",
+        "reply_mode": {
+          "type": "automatic"
+        }
+      },
+      "slack": {
+        "workspace_id": "workspace_id"
+      },
+      "sources": {
+        "enabled": {
+          "slack_channel_id": "slack_channel_id",
+          "type": "slack_channel"
+        },
+        "environment_id": {
+          "slack_channel_id": "slack_channel_id",
+          "type": "slack_channel"
+        },
+        "guest_policy": {
+          "slack_channel_id": "slack_channel_id",
+          "type": "slack_channel"
+        },
+        "instructions": [
+          {
+            "slack_channel_id": "slack_channel_id",
+            "type": "slack_channel"
+          }
+        ],
+        "model": {
+          "slack_channel_id": "slack_channel_id",
+          "type": "slack_channel"
+        },
+        "reply_mode": {
+          "slack_channel_id": "slack_channel_id",
+          "type": "slack_channel"
+        }
+      },
+      "type": "slack_workspace",
+      "updated_at": "2019-12-27T18:11:19.117Z"
+    }
+  ],
+  "next_page": "next_page"
+}
+```
+
+### Get Slack Workspace
+
+`$client->beta->organization->claudeTag->slackWorkspaces->retrieve(string id, ?bool includeInherited, ?list<AnthropicBeta> betas): BetaClaudeTagSlackWorkspace`
+
+**GET** `/v1/organizations/claude_tag/slack_workspaces/{id}`
+
+Get one Slack workspace and its settings. By default `settings` holds what the workspace itself stores: a setting that is null there is not set on the workspace and is inherited. With `include_inherited=true`, `settings` holds what applies in the workspace once the organization's Slack defaults are taken into account, and the request fails with 503 rather than resolve against a settings level that could not be read. Either way `sources` names the settings level each value comes from.
+
+#### Parameters
+
+- `id: string` (path parameter)
+
+  The workspace's identifier, starting with `slws_`.
+
+- `includeInherited?: optional bool` (query parameter)
+
+  When `true`, `settings` holds what applies in the workspace once the organization's Slack defaults are taken into account, and every member of `sources` names the level a value comes from. When `false` or left out, `settings` holds what the workspace itself stores.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagSlackWorkspace`
+
+  - `"slack_workspace" type`
+
+  - `string id`
+
+    The workspace's identifier. Starts with `slws_`. It does not change for as long as the workspace is set up. A workspace that is removed and set up again has a new one, and the old one keeps returning 404; look the workspace up by its Slack identifier for the new one.
+
+  - `\Datetime createdAt`
+
+    Time the workspace was set up, by whichever route. It does not change for as long as `id` does not.
+
+  - `ClaudeTagSettings settings`
+
+    What the workspace itself stores or, with `include_inherited`, what applies in it. `sources` says which.
+
+  - `ClaudeTagSlackWorkspaceIdentifiers slack`
+
+    Slack's own identifier for the workspace.
+
+  - `ClaudeTagSettingSources sources`
+
+    For each setting, the settings level its value in `settings` comes from.
+
+  - `\Datetime updatedAt`
+
+    Time Claude Tag's record of the workspace last changed. It moves on every change to a setting, and can also move when something no response holds changes, so a later value says to read the workspace again, not that a setting changed. Attaching or detaching a Bundle does not by itself move it.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaClaudeTagSlackWorkspace = $client
+  ->beta
+  ->organization
+  ->claudeTag
+  ->slackWorkspaces
+  ->retrieve(
+  'slws_01Hq8TzW5mKc2YbX7vNd4RfJ',
+  includeInherited: true,
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaClaudeTagSlackWorkspace);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "settings": {
+    "enabled": true,
+    "environment_id": "environment_id",
+    "guest_policy": {
+      "type": "allow"
+    },
+    "instructions": "instructions",
+    "model": "model",
+    "reply_mode": {
+      "type": "automatic"
+    }
+  },
+  "slack": {
+    "workspace_id": "workspace_id"
+  },
+  "sources": {
+    "enabled": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "environment_id": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "guest_policy": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "instructions": [
+      {
+        "slack_channel_id": "slack_channel_id",
+        "type": "slack_channel"
+      }
+    ],
+    "model": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "reply_mode": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    }
+  },
+  "type": "slack_workspace",
+  "updated_at": "2019-12-27T18:11:19.117Z"
+}
+```
+
+### Update Slack Workspace
+
+`$client->beta->organization->claudeTag->slackWorkspaces->update(string id, ClaudeTagSettingsUpdate settings, ?list<AnthropicBeta> betas): BetaClaudeTagSlackWorkspace`
+
+**POST** `/v1/organizations/claude_tag/slack_workspaces/{id}`
+
+Change the settings a Slack workspace stores. The update is partial: a setting left out is unchanged, and a setting sent as null is cleared, so the workspace inherits it. If any value is refused, no setting in the request is stored.
+
+#### Parameters
+
+- `id: string` (path parameter)
+
+  The workspace's identifier, starting with `slws_`.
+
+- `settings: ClaudeTagSettingsUpdate`
+
+  The settings to change.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagSlackWorkspace`
+
+  - `"slack_workspace" type`
+
+  - `string id`
+
+    The workspace's identifier. Starts with `slws_`. It does not change for as long as the workspace is set up. A workspace that is removed and set up again has a new one, and the old one keeps returning 404; look the workspace up by its Slack identifier for the new one.
+
+  - `\Datetime createdAt`
+
+    Time the workspace was set up, by whichever route. It does not change for as long as `id` does not.
+
+  - `ClaudeTagSettings settings`
+
+    What the workspace itself stores or, with `include_inherited`, what applies in it. `sources` says which.
+
+  - `ClaudeTagSlackWorkspaceIdentifiers slack`
+
+    Slack's own identifier for the workspace.
+
+  - `ClaudeTagSettingSources sources`
+
+    For each setting, the settings level its value in `settings` comes from.
+
+  - `\Datetime updatedAt`
+
+    Time Claude Tag's record of the workspace last changed. It moves on every change to a setting, and can also move when something no response holds changes, so a later value says to read the workspace again, not that a setting changed. Attaching or detaching a Bundle does not by itself move it.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaClaudeTagSlackWorkspace = $client
+  ->beta
+  ->organization
+  ->claudeTag
+  ->slackWorkspaces
+  ->update(
+  'slws_01Hq8TzW5mKc2YbX7vNd4RfJ',
+  settings: [
+    'enabled' => true,
+    'environmentID' => 'x',
+    'guestPolicy' => ['type' => 'allow'],
+    'instructions' => 'instructions',
+    'model' => 'x',
+    'replyMode' => ['type' => 'automatic'],
+  ],
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaClaudeTagSlackWorkspace);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "settings": {
+    "enabled": true,
+    "environment_id": "environment_id",
+    "guest_policy": {
+      "type": "allow"
+    },
+    "instructions": "instructions",
+    "model": "model",
+    "reply_mode": {
+      "type": "automatic"
+    }
+  },
+  "slack": {
+    "workspace_id": "workspace_id"
+  },
+  "sources": {
+    "enabled": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "environment_id": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "guest_policy": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "instructions": [
+      {
+        "slack_channel_id": "slack_channel_id",
+        "type": "slack_channel"
+      }
+    ],
+    "model": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    },
+    "reply_mode": {
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    }
+  },
+  "type": "slack_workspace",
+  "updated_at": "2019-12-27T18:11:19.117Z"
+}
+```
+
+## Beta › Organization › Claude Tag › Bundles
+
+### List Bundles
+
+`$client->beta->organization->claudeTag->bundles->list(?int limit, ?string page, ?list<AnthropicBeta> betas): PageCursor<BetaClaudeTagBundle>`
+
+**GET** `/v1/organizations/claude_tag/bundles`
+
+List the organization's Bundles, newest first by `created_at`. A Bundle that Claude Tag manages for itself is not listed.
+
+#### Parameters
+
+- `limit?: optional int` (query parameter)
+
+  Number of items to return per page, between 1 and 100. Defaults to 20.
+
+- `page?: optional string` (query parameter)
+
+  Opaque cursor from a previous response's `next_page`.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagBundle`
+
+  - `"bundle" type`
+
+  - `string id`
+
+    The Bundle's identifier. Starts with `capp_`.
+
+  - `\Datetime createdAt`
+
+    Time the Bundle was created.
+
+  - `?string description`
+
+    What the Bundle is for. Null when it has none. Read-only.
+
+  - `string displayName`
+
+    The Bundle's name. Always set. Read-only.
+
+  - `\Datetime updatedAt`
+
+    Time of the last change to the Bundle.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$page = $client->beta->organization->claudeTag->bundles->list(
+  limit: 0, page: 'page', betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24]
+);
+
+var_dump($page);
+```
+
+##### Response (200)
+
+```json
+{
+  "data": [
+    {
+      "id": "id",
+      "created_at": "2019-12-27T18:11:19.117Z",
+      "description": "description",
+      "display_name": "display_name",
+      "type": "bundle",
+      "updated_at": "2019-12-27T18:11:19.117Z"
+    }
+  ],
+  "next_page": "next_page"
+}
+```
+
+### Get Bundle
+
+`$client->beta->organization->claudeTag->bundles->retrieve(string bundleID, ?list<AnthropicBeta> betas): BetaClaudeTagBundle`
+
+**GET** `/v1/organizations/claude_tag/bundles/{bundle_id}`
+
+Get one Bundle. What the Bundle grants (connectors, repositories and credentials) is never returned.
+
+#### Parameters
+
+- `bundleID: string` (path parameter)
+
+  The Bundle's identifier, starting with `capp_`.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagBundle`
+
+  - `"bundle" type`
+
+  - `string id`
+
+    The Bundle's identifier. Starts with `capp_`.
+
+  - `\Datetime createdAt`
+
+    Time the Bundle was created.
+
+  - `?string description`
+
+    What the Bundle is for. Null when it has none. Read-only.
+
+  - `string displayName`
+
+    The Bundle's name. Always set. Read-only.
+
+  - `\Datetime updatedAt`
+
+    Time of the last change to the Bundle.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaClaudeTagBundle = $client
+  ->beta
+  ->organization
+  ->claudeTag
+  ->bundles
+  ->retrieve(
+  'capp_011CZkZjLP1cWxj5EtMmdgbq',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaClaudeTagBundle);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "description": "description",
+  "display_name": "display_name",
+  "type": "bundle",
+  "updated_at": "2019-12-27T18:11:19.117Z"
+}
+```
+
+## Beta › Organization › Claude Tag › Bundles › Targets
+
+### List Bundle Targets
+
+`$client->beta->organization->claudeTag->bundles->targets->list(string bundleID, ?int limit, ?string page, ?list<AnthropicBeta> betas): PageCursor<BetaClaudeTagBundleTarget>`
+
+**GET** `/v1/organizations/claude_tag/bundles/{bundle_id}/targets`
+
+List the Slack channels and Slack workspaces a Bundle is attached to, newest first by `created_at`. Only channels and workspaces the organization owns are listed; a Bundle that is attached to anything else has no Bundle Target for it.
+
+#### Parameters
+
+- `bundleID: string` (path parameter)
+
+  The Bundle's identifier, starting with `capp_`.
+
+- `limit?: optional int` (query parameter)
+
+  Number of items to return per page, between 1 and 100. Defaults to 20.
+
+- `page?: optional string` (query parameter)
+
+  Opaque cursor from a previous response's `next_page`.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagBundleTarget`
+
+  - `class BetaClaudeTagSlackChannelBundleTarget`
+
+    - `"slack_channel" type`
+
+    - `string id`
+
+      The Bundle Target's identifier. Starts with `btgt_`. No two Bundle Targets have the same one, and the same Bundle and target always give the same one, also after a detach and a new attach. It is opaque.
+
+    - `\Datetime createdAt`
+
+      Time the Bundle was attached.
+
+    - `string slackChannelID`
+
+      The identifier of the Slack channel the Bundle is attached to, starting with `slch_`. It is the channel object's `id`, not Slack's `channel_id`.
+
+  - `class BetaClaudeTagSlackWorkspaceBundleTarget`
+
+    - `"slack_workspace" type`
+
+    - `string id`
+
+      The Bundle Target's identifier. Starts with `btgt_`. No two Bundle Targets have the same one, and the same Bundle and target always give the same one, also after a detach and a new attach. It is opaque.
+
+    - `\Datetime createdAt`
+
+      Time the Bundle was attached.
+
+    - `string slackWorkspaceID`
+
+      The identifier of the Slack workspace the Bundle is attached to, starting with `slws_`.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$page = $client->beta->organization->claudeTag->bundles->targets->list(
+  'capp_011CZkZjLP1cWxj5EtMmdgbq',
+  limit: 0,
+  page: 'page',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($page);
+```
+
+##### Response (200)
+
+```json
+{
+  "data": [
+    {
+      "id": "id",
+      "created_at": "2019-12-27T18:11:19.117Z",
+      "slack_channel_id": "slack_channel_id",
+      "type": "slack_channel"
+    }
+  ],
+  "next_page": "next_page"
+}
+```
+
+### Attach Bundle
+
+`$client->beta->organization->claudeTag->bundles->targets->create(string bundleID, BetaClaudeTagBundleTargetCreate target, ?list<AnthropicBeta> betas): BetaClaudeTagBundleTarget`
+
+**POST** `/v1/organizations/claude_tag/bundles/{bundle_id}/targets`
+
+Attach a Bundle to a Slack channel or a Slack workspace. A Bundle attached to a workspace can be used in the workspace and in every channel in it. Attaching a Bundle to a channel or workspace it is already attached to returns the existing Bundle Target. The channel or workspace must be set up: attaching never sets a channel up. A group direct message takes no Bundle and returns 400.
+
+#### Parameters
+
+- `bundleID: string` (path parameter)
+
+  The Bundle's identifier, starting with `capp_`.
+
+- `target: BetaClaudeTagBundleTargetCreate`
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagBundleTarget`
+
+  - `class BetaClaudeTagSlackChannelBundleTarget`
+
+    - `"slack_channel" type`
+
+    - `string id`
+
+      The Bundle Target's identifier. Starts with `btgt_`. No two Bundle Targets have the same one, and the same Bundle and target always give the same one, also after a detach and a new attach. It is opaque.
+
+    - `\Datetime createdAt`
+
+      Time the Bundle was attached.
+
+    - `string slackChannelID`
+
+      The identifier of the Slack channel the Bundle is attached to, starting with `slch_`. It is the channel object's `id`, not Slack's `channel_id`.
+
+  - `class BetaClaudeTagSlackWorkspaceBundleTarget`
+
+    - `"slack_workspace" type`
+
+    - `string id`
+
+      The Bundle Target's identifier. Starts with `btgt_`. No two Bundle Targets have the same one, and the same Bundle and target always give the same one, also after a detach and a new attach. It is opaque.
+
+    - `\Datetime createdAt`
+
+      Time the Bundle was attached.
+
+    - `string slackWorkspaceID`
+
+      The identifier of the Slack workspace the Bundle is attached to, starting with `slws_`.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaClaudeTagBundleTarget = $client
+  ->beta
+  ->organization
+  ->claudeTag
+  ->bundles
+  ->targets
+  ->create(
+  'capp_011CZkZjLP1cWxj5EtMmdgbq',
+  target: ['slackChannelID' => 'xxxxxxxx', 'type' => 'slack_channel'],
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaClaudeTagBundleTarget);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "slack_channel_id": "slack_channel_id",
+  "type": "slack_channel"
+}
+```
+
+### Get Bundle Target
+
+`$client->beta->organization->claudeTag->bundles->targets->retrieve(string targetID, string bundleID, ?list<AnthropicBeta> betas): BetaClaudeTagBundleTarget`
+
+**GET** `/v1/organizations/claude_tag/bundles/{bundle_id}/targets/{target_id}`
+
+Get one Bundle Target. Returns 404 when `target_id` is the identifier of another Bundle's Bundle Target, or the Bundle Target was detached.
+
+#### Parameters
+
+- `bundleID: string` (path parameter)
+
+  The Bundle's identifier, starting with `capp_`.
+
+- `targetID: string` (path parameter)
+
+  The Bundle Target's identifier, starting with `btgt_`. Attach Bundle and List Bundle Targets return it. It is never the identifier of the channel or workspace.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagBundleTarget`
+
+  - `class BetaClaudeTagSlackChannelBundleTarget`
+
+    - `"slack_channel" type`
+
+    - `string id`
+
+      The Bundle Target's identifier. Starts with `btgt_`. No two Bundle Targets have the same one, and the same Bundle and target always give the same one, also after a detach and a new attach. It is opaque.
+
+    - `\Datetime createdAt`
+
+      Time the Bundle was attached.
+
+    - `string slackChannelID`
+
+      The identifier of the Slack channel the Bundle is attached to, starting with `slch_`. It is the channel object's `id`, not Slack's `channel_id`.
+
+  - `class BetaClaudeTagSlackWorkspaceBundleTarget`
+
+    - `"slack_workspace" type`
+
+    - `string id`
+
+      The Bundle Target's identifier. Starts with `btgt_`. No two Bundle Targets have the same one, and the same Bundle and target always give the same one, also after a detach and a new attach. It is opaque.
+
+    - `\Datetime createdAt`
+
+      Time the Bundle was attached.
+
+    - `string slackWorkspaceID`
+
+      The identifier of the Slack workspace the Bundle is attached to, starting with `slws_`.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaClaudeTagBundleTarget = $client
+  ->beta
+  ->organization
+  ->claudeTag
+  ->bundles
+  ->targets
+  ->retrieve(
+  'btgt_01SvpyRQK3nN6eH9uhRA7n1qHq8TzW5mKc2YbX7vNd4RfJ',
+  bundleID: 'capp_011CZkZjLP1cWxj5EtMmdgbq',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaClaudeTagBundleTarget);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "created_at": "2019-12-27T18:11:19.117Z",
+  "slack_channel_id": "slack_channel_id",
+  "type": "slack_channel"
+}
+```
+
+### Detach Bundle
+
+`$client->beta->organization->claudeTag->bundles->targets->delete(string targetID, string bundleID, ?list<AnthropicBeta> betas): BetaClaudeTagDeletedBundleTarget`
+
+**DELETE** `/v1/organizations/claude_tag/bundles/{bundle_id}/targets/{target_id}`
+
+Detach a Bundle from a Slack channel or a Slack workspace. A repeated detach returns 404.
+
+#### Parameters
+
+- `bundleID: string` (path parameter)
+
+  The Bundle's identifier, starting with `capp_`.
+
+- `targetID: string` (path parameter)
+
+  The Bundle Target's identifier, starting with `btgt_`. Attach Bundle and List Bundle Targets return it. It is never the identifier of the channel or workspace.
+
+- `betas?: optional list<AnthropicBeta>` (header parameter)
+
+  This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header.
+
+#### Returns
+
+- `class BetaClaudeTagDeletedBundleTarget`
+
+  - `"bundle_target_deleted" type`
+
+  - `string id`
+
+    The identifier the Bundle Target had.
+
+#### Example
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
+$client = new Client(apiKey: 'my-anthropic-api-key');
+
+$betaClaudeTagDeletedBundleTarget = $client
+  ->beta
+  ->organization
+  ->claudeTag
+  ->bundles
+  ->targets
+  ->delete(
+  'btgt_01SvpyRQK3nN6eH9uhRA7n1qHq8TzW5mKc2YbX7vNd4RfJ',
+  bundleID: 'capp_011CZkZjLP1cWxj5EtMmdgbq',
+  betas: [AnthropicBeta::MESSAGE_BATCHES_2024_09_24],
+);
+
+var_dump($betaClaudeTagDeletedBundleTarget);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "id",
+  "type": "bundle_target_deleted"
 }
 ```

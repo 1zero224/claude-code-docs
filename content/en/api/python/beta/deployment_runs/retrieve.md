@@ -5,7 +5,7 @@ url: https://platform.claude.com/docs/en/api/python/beta/deployment_runs/retriev
 
 # Get Deployment Run
 
-`beta.deployment_runs.retrieve(deployment_run_id, **kwargs)  -> BetaManagedAgentsDeploymentRun`
+`beta.deployment_runs.retrieve(deployment_run_id, **kwargs) -> BetaManagedAgentsDeploymentRun`
 
 **GET** `/v1/deployment_runs/{deployment_run_id}`
 
@@ -19,7 +19,7 @@ Get Deployment Run
 
 - `betas: Optional[List[AnthropicBetaParam]]` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
   - `str`
 
@@ -122,6 +122,18 @@ Get Deployment Run
   - `"ce-plugins-2026-09-01"`
 
   - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `workspace_id: Optional[str]` (header parameter)
 

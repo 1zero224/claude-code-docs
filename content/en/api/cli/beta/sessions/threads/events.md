@@ -27,7 +27,119 @@ List Session Thread Events
 
 - `--beta: optional array of AnthropicBeta` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+  - `"message-batches-2024-09-24"`
+
+  - `"prompt-caching-2024-07-31"`
+
+  - `"computer-use-2024-10-22"`
+
+  - `"computer-use-2025-01-24"`
+
+  - `"pdfs-2024-09-25"`
+
+  - `"token-counting-2024-11-01"`
+
+  - `"token-efficient-tools-2025-02-19"`
+
+  - `"output-128k-2025-02-19"`
+
+  - `"files-api-2025-04-14"`
+
+  - `"mcp-client-2025-04-04"`
+
+  - `"mcp-client-2025-11-20"`
+
+  - `"dev-full-thinking-2025-05-14"`
+
+  - `"interleaved-thinking-2025-05-14"`
+
+  - `"code-execution-2025-05-22"`
+
+  - `"extended-cache-ttl-2025-04-11"`
+
+  - `"context-1m-2025-08-07"`
+
+  - `"context-management-2025-06-27"`
+
+  - `"model-context-window-exceeded-2025-08-26"`
+
+  - `"skills-2025-10-02"`
+
+  - `"fast-mode-2026-02-01"`
+
+  - `"output-300k-2026-03-24"`
+
+  - `"user-profiles-2026-03-24"`
+
+  - `"user-profiles-2026-08-18"`
+
+  - `"user-profiles-2026-09-04"`
+
+  - `"advisor-tool-2026-03-01"`
+
+  - `"managed-agents-2026-04-01"`
+
+  - `"cache-diagnosis-2026-04-07"`
+
+  - `"dreaming-2026-04-21"`
+
+  - `"thinking-token-count-2026-05-13"`
+
+  - `"server-side-fallback-2026-06-01"`
+
+  - `"server-side-fallback-2026-07-01"`
+
+  - `"fallback-credit-2026-06-01"`
+
+  - `"fallback-credit-2026-07-01"`
+
+  - `"agent-memory-2026-07-22"`
+
+  - `"mid-conversation-tool-changes-2026-07-01"`
+
+  - `"compact-2026-01-12"`
+
+  - `"computer-use-2025-11-24"`
+
+  - `"mcp-tunnels-2026-06-22"`
+
+  - `"structured-outputs-2025-11-13"`
+
+  - `"task-budgets-2026-03-13"`
+
+  - `"thinking-display-updates-2026-08-18"`
+
+  - `"ce-user-management-2026-07-13"`
+
+  - `"mid-conversation-output-config-2026-07-01"`
+
+  - `"thinking-binding-controls-2026-08-01"`
+
+  - `"mid-conversation-system-clear-at-2026-08-21"`
+
+  - `"compact-2026-09-04"`
+
+  - `"inline-tools-2026-09-15"`
+
+  - `"mcp-client-2026-09-15"`
+
+  - `"ce-plugins-2026-09-01"`
+
+  - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -593,11 +705,9 @@ List Session Thread Events
 
         The evaluated permission policy for this tool invocation.
 
-        - `"allow"`
+      - `evaluation: optional BetaManagedAgentsAgentToolEvaluationAlwaysAllow or BetaManagedAgentsAgentToolEvaluationAlwaysAsk or BetaManagedAgentsAgentToolEvaluationAuto`
 
-        - `"ask"`
-
-        - `"deny"`
+        Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
 
       - `evaluation: optional BetaManagedAgentsAgentToolEvaluationAlwaysAllow or BetaManagedAgentsAgentToolEvaluationAlwaysAsk or BetaManagedAgentsAgentToolEvaluationAuto`
 
@@ -777,7 +887,7 @@ List Session Thread Events
 
         Unique identifier for this event.
 
-      - `error: BetaManagedAgentsUnknownError or BetaManagedAgentsModelOverloadedError or BetaManagedAgentsModelRateLimitedError or 10 more`
+      - `error: BetaManagedAgentsUnknownError or BetaManagedAgentsModelOverloadedError or BetaManagedAgentsModelRateLimitedError or 12 more`
 
         - `beta_managed_agents_unknown_error: object`
 
@@ -1008,6 +1118,58 @@ List Session Thread Events
           - `vault_id: string`
 
             ID of the vault containing the affected credential.
+
+        - `beta_managed_agents_tool_use_limit_reached_error: object`
+
+          The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+          - `type: "tool_use_limit_reached_error"`
+
+          - `message: string`
+
+            Human-readable error description.
+
+          - `retry_status: BetaManagedAgentsRetryStatusRetrying or BetaManagedAgentsRetryStatusExhausted or BetaManagedAgentsRetryStatusTerminal`
+
+            What the client should do next.
+
+            - `beta_managed_agents_retry_status_retrying: object`
+
+              The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+            - `beta_managed_agents_retry_status_exhausted: object`
+
+              This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+            - `beta_managed_agents_retry_status_terminal: object`
+
+              The session encountered a terminal error and will transition to `terminated` state.
+
+        - `beta_managed_agents_compaction_limit_reached_error: object`
+
+          The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+          - `type: "compaction_limit_reached_error"`
+
+          - `message: string`
+
+            Human-readable error description.
+
+          - `retry_status: BetaManagedAgentsRetryStatusRetrying or BetaManagedAgentsRetryStatusExhausted or BetaManagedAgentsRetryStatusTerminal`
+
+            What the client should do next.
+
+            - `beta_managed_agents_retry_status_retrying: object`
+
+              The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+            - `beta_managed_agents_retry_status_exhausted: object`
+
+              This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+            - `beta_managed_agents_retry_status_terminal: object`
+
+              The session encountered a terminal error and will transition to `terminated` state.
 
         - `beta_managed_agents_repository_authentication_error: object`
 
@@ -1455,34 +1617,6 @@ List Session Thread Events
 
         Token usage for this model request.
 
-        - `cache_creation_input_tokens: number`
-
-          Tokens used to create prompt cache in this request.
-
-          format: int32
-
-        - `cache_read_input_tokens: number`
-
-          Tokens read from prompt cache in this request.
-
-          format: int32
-
-        - `input_tokens: number`
-
-          Input tokens consumed by this request.
-
-          format: int32
-
-        - `output_tokens: number`
-
-          Output tokens generated by this request.
-
-          format: int32
-
-        - `speed: optional "standard" or "fast"`
-
-          Inference speed tier this request actually ran at. Mirrors `usage.speed` on /v1/messages. Only present when the fast-mode beta is active.
-
       - `processed_at: string`
 
         Timestamp when the model request completed.
@@ -1637,16 +1771,6 @@ List Session Thread Events
 
         Structured information about why the thread stopped. `null` when there is nothing more to report.
 
-        - `type: "refusal"`
-
-        - `category: "cyber" or "bio" or "frontier_llm" or 2 more`
-
-          The policy category that triggered the refusal, or `null` when there is no named category. New values can be added over time.
-
-        - `explanation: string`
-
-          Human-readable explanation of the refusal, or `null` when none is available. The wording can change, so do not parse it.
-
       - `stop_reason: BetaManagedAgentsSessionEndTurn or BetaManagedAgentsSessionRequiresAction or BetaManagedAgentsSessionRetriesExhausted or 2 more`
 
         - `beta_managed_agents_session_end_turn: object`
@@ -1791,6 +1915,26 @@ List Session Thread Events
 
         - `description: string`
 
+        - `execution_identity: BetaManagedAgentsAWSRoleExecutionIdentity or BetaManagedAgentsServiceAccountExecutionIdentity`
+
+          Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+          - `beta_managed_agents_aws_role_execution_identity: object`
+
+            An AWS IAM role principal as returned in API responses.
+
+            - `type: "aws_role"`
+
+            - `role_arn: string`
+
+              The IAM role's ARN.
+
+          - `beta_managed_agents_service_account_execution_identity: object`
+
+            The Anthropic-managed service account as returned in API responses.
+
+            - `type: "service_account"`
+
         - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
           - `type: "url"`
@@ -1803,11 +1947,15 @@ List Session Thread Events
 
           Model identifier and configuration.
 
-          - `id: "claude-haiku-5-5" or "claude-sonnet-5-5" or "claude-opus-5-5" or 14 more or string`
+          - `id: "claude-fable-5-2" or "claude-haiku-5-5" or "claude-sonnet-5-5" or 15 more or string`
 
             The model that will power your agent.
 
             See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+            - `"claude-fable-5-2"`
+
+              Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
             - `"claude-haiku-5-5"`
 
@@ -1947,6 +2095,10 @@ List Session Thread Events
 
                 - `description: string`
 
+                - `execution_identity: BetaManagedAgentsAWSRoleExecutionIdentity or BetaManagedAgentsServiceAccountExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
                 - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
                   - `type: "url"`
@@ -1958,24 +2110,6 @@ List Session Thread Events
                 - `model: object`
 
                   Model identifier and configuration.
-
-                  - `id: "claude-haiku-5-5" or "claude-sonnet-5-5" or "claude-opus-5-5" or 14 more or string`
-
-                    The model that will power your agent.
-
-                    See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
-
-                  - `effort: optional BetaManagedAgentsEffortLow or BetaManagedAgentsEffortMedium or BetaManagedAgentsEffortHigh or 2 more`
-
-                    How hard Claude works on each inference call. One of `low`, `medium`, `high`, `xhigh`, `max`. Always present; resolved to the per-model default at save time when not supplied.
-
-                  - `inference_geo: optional string`
-
-                    Geographic region for model inference. When unset, requests fall through to the workspace's default_inference_geo.
-
-                  - `speed: optional "standard" or "fast"`
-
-                    Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
                 - `name: string`
 
@@ -2263,22 +2397,6 @@ List Session Thread Events
 
                             Which of the web_search and web_fetch tools' results contribute URLs that may be fetched. Null when not set, which allows both.
 
-                            - `beta_managed_agents_web_fetch_url_source_all: object`
-
-                              Every URL from this source may be fetched. This is the default.
-
-                            - `beta_managed_agents_web_fetch_url_source_none: object`
-
-                              This source contributes no URLs that may be fetched.
-
-                            - `beta_managed_agents_web_fetch_url_source_only: object`
-
-                              Only the named tools' results contribute URLs that may be fetched.
-
-                            - `beta_managed_agents_web_fetch_url_source_except: object`
-
-                              Every tool's results contribute URLs that may be fetched, except the named tools' results.
-
                           - `user_input: BetaManagedAgentsWebFetchURLSourceAll or BetaManagedAgentsWebFetchURLSourceNone`
 
                             Whether URLs in the text of user messages may be fetched. Null when not set, which allows them.
@@ -2287,13 +2405,9 @@ List Session Thread Events
 
                               Every URL from this source may be fetched. This is the default.
 
-                              - `type: "all"`
-
                             - `beta_managed_agents_web_fetch_url_source_none: object`
 
                               This source contributes no URLs that may be fetched.
-
-                              - `type: "none"`
 
                         - `allowed_domains: optional array of string`
 
@@ -2350,6 +2464,8 @@ List Session Thread Events
                           - `country: optional string`
 
                             Two-letter ISO 3166-1 country code, uppercase.
+
+                            pattern: ^[A-Z]{2}$
 
                           - `region: optional string`
 
@@ -2531,6 +2647,10 @@ List Session Thread Events
 
                   - `description: string`
 
+                  - `execution_identity: BetaManagedAgentsAWSRoleExecutionIdentity or BetaManagedAgentsServiceAccountExecutionIdentity`
+
+                    Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
                   - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
                   - `model: object`
@@ -2569,14 +2689,6 @@ List Session Thread Events
 
                   Whether a run's plan can define inline agents, which are not saved.
 
-                  - `beta_managed_agents_multiagent_inline_agents_enabled: object`
-
-                    The agent can define inline agents.
-
-                  - `beta_managed_agents_multiagent_inline_agents_disabled: object`
-
-                    The agent cannot define inline agents.
-
                 - `predefined_agents: array of BetaManagedAgentsSessionThreadAgent`
 
                   Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
@@ -2586,6 +2698,10 @@ List Session Thread Events
                   - `id: string`
 
                   - `description: string`
+
+                  - `execution_identity: BetaManagedAgentsAWSRoleExecutionIdentity or BetaManagedAgentsServiceAccountExecutionIdentity`
+
+                    Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                   - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -2611,57 +2727,59 @@ List Session Thread Events
 
                 - `type: "disabled"`
 
-        - `name: string`
+          - `type: "multiagent_20261001"`
 
-        - `skills: array of BetaManagedAgentsAnthropicSkill or BetaManagedAgentsCustomSkill`
+          - `advisor: BetaManagedAgentsMultiagentAdvisorEnabled or BetaManagedAgentsMultiagentAdvisorDisabled`
 
-          - `beta_managed_agents_anthropic_skill: object`
+            Whether the session's primary thread can consult an advisor model.
 
-            A resolved Anthropic-managed skill.
+            - `beta_managed_agents_multiagent_advisor_enabled: object`
 
-          - `beta_managed_agents_custom_skill: object`
+              The session's primary thread can consult `model` mid-turn.
 
-            A resolved user-created custom skill.
+              - `type: "enabled"`
 
-        - `system: string`
+              - `model: string`
 
-        - `tools: array of BetaManagedAgentsAgentToolset20260401 or BetaManagedAgentsMCPToolset or BetaManagedAgentsCustomTool`
+                The advisor model id.
 
-          - `beta_managed_agents_agent_toolset20260401: object`
+            - `beta_managed_agents_multiagent_advisor_disabled: object`
 
-          - `beta_managed_agents_mcp_toolset: object`
+              The agent has no advisor.
 
-          - `beta_managed_agents_custom_tool: object`
+              - `type: "disabled"`
 
-            A custom tool as returned in API responses.
+          - `subagents: BetaManagedAgentsSessionMultiagentSubagentsEnabled or BetaManagedAgentsMultiagentSubagentsDisabled`
 
         - `version: number`
 
-          format: int32
+              The agent can spawn session threads.
 
-      - `budget: optional object`
+              - `type: "enabled"`
 
         The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
         - `type: "limit"`
 
-        - `max_list_cost: object`
+                Whether the agent can define inline agents, which are not saved, when it spawns session threads.
 
           Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
 
-          - `amount: string`
+                  The agent can define inline agents.
 
-            Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
+                  - `type: "enabled"`
+
+            pattern: ^(0|[1-9]\d*)$
 
           - `currency: "USD"`
 
-            Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
+                  The agent cannot define inline agents.
 
       - `metadata: optional map[string]`
 
-        The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
+                Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
 
-      - `title: optional string`
+                - `type: "agent"`
 
         The session's new title. Present only when the update changed it.
 
@@ -2751,14 +2869,6 @@ List Session Thread Events
 
           Cumulative list cost of the session across all turns, priced at public list rates.
 
-          - `amount: string`
-
-            Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
-
-          - `currency: "USD"`
-
-            Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
-
         - `output_tokens: optional number`
 
           Total output tokens generated across all turns.
@@ -2784,12 +2894,6 @@ List Session Thread Events
       - `budget: optional object`
 
         The session's configured budget at the snapshot time, or null when the session has no budget.
-
-        - `type: "limit"`
-
-        - `max_list_cost: object`
-
-          Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
 
     - `beta_managed_agents_workflow_run_created_event: object`
 
@@ -3037,26 +3141,6 @@ List Session Thread Events
 
         Why the run did not finish, or was not created.
 
-        - `beta_managed_agents_timeout_workflow_run_error: object`
-
-          The run reached its time limit.
-
-        - `beta_managed_agents_program_workflow_run_error: object`
-
-          The plan, a program that the agent wrote, failed, or the server refused it.
-
-        - `beta_managed_agents_unknown_workflow_run_error: object`
-
-          A failure that has no type of its own.
-
-        - `beta_managed_agents_thread_limit_workflow_run_error: object`
-
-          The run exceeded the limit on the number of threads that a run can create.
-
-        - `beta_managed_agents_max_workflow_runs_workflow_run_error: object`
-
-          No run was created, because the session was at its limit of open workflow runs, which are runs that have not ended. Only `workflow_run.error` carries this type.
-
       - `processed_at: string`
 
         Timestamp when this event was processed.
@@ -3075,7 +3159,6 @@ List Session Thread Events
 
 ```bash
 ant beta:sessions:threads:events list \
-  --api-key my-anthropic-api-key \
   --session-id sesn_011CZkZAtmR3yMPDzynEDxu7 \
   --thread-id sthr_011CZkZVWa6oJjw1rgXZpnBt
 ```
@@ -3130,9 +3213,125 @@ Stream Session Thread Events
 
   When set, this connection also receives streaming deltas (`event_start`, `event_delta`) while an event is being produced, before the event itself arrives. Deltas are best-effort; when the final event is produced it carries the complete content. A model request that ends early (an error or interrupt) produces no final event — its terminal `span.model_request_end` closes the preview. Accepts one or more event types to preview and may be repeated: `agent.message` streams `content_delta` fragments; `agent.thinking` is start-only — a signal that the agent has begun extended thinking, concluded by the `agent.thinking` event itself. Only previews of the requested event types are sent.
 
+  - `"agent.message"`
+
+  - `"agent.thinking"`
+
 - `--beta: optional array of AnthropicBeta` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+  - `"message-batches-2024-09-24"`
+
+  - `"prompt-caching-2024-07-31"`
+
+  - `"computer-use-2024-10-22"`
+
+  - `"computer-use-2025-01-24"`
+
+  - `"pdfs-2024-09-25"`
+
+  - `"token-counting-2024-11-01"`
+
+  - `"token-efficient-tools-2025-02-19"`
+
+  - `"output-128k-2025-02-19"`
+
+  - `"files-api-2025-04-14"`
+
+  - `"mcp-client-2025-04-04"`
+
+  - `"mcp-client-2025-11-20"`
+
+  - `"dev-full-thinking-2025-05-14"`
+
+  - `"interleaved-thinking-2025-05-14"`
+
+  - `"code-execution-2025-05-22"`
+
+  - `"extended-cache-ttl-2025-04-11"`
+
+  - `"context-1m-2025-08-07"`
+
+  - `"context-management-2025-06-27"`
+
+  - `"model-context-window-exceeded-2025-08-26"`
+
+  - `"skills-2025-10-02"`
+
+  - `"fast-mode-2026-02-01"`
+
+  - `"output-300k-2026-03-24"`
+
+  - `"user-profiles-2026-03-24"`
+
+  - `"user-profiles-2026-08-18"`
+
+  - `"user-profiles-2026-09-04"`
+
+  - `"advisor-tool-2026-03-01"`
+
+  - `"managed-agents-2026-04-01"`
+
+  - `"cache-diagnosis-2026-04-07"`
+
+  - `"dreaming-2026-04-21"`
+
+  - `"thinking-token-count-2026-05-13"`
+
+  - `"server-side-fallback-2026-06-01"`
+
+  - `"server-side-fallback-2026-07-01"`
+
+  - `"fallback-credit-2026-06-01"`
+
+  - `"fallback-credit-2026-07-01"`
+
+  - `"agent-memory-2026-07-22"`
+
+  - `"mid-conversation-tool-changes-2026-07-01"`
+
+  - `"compact-2026-01-12"`
+
+  - `"computer-use-2025-11-24"`
+
+  - `"mcp-tunnels-2026-06-22"`
+
+  - `"structured-outputs-2025-11-13"`
+
+  - `"task-budgets-2026-03-13"`
+
+  - `"thinking-display-updates-2026-08-18"`
+
+  - `"ce-user-management-2026-07-13"`
+
+  - `"mid-conversation-output-config-2026-07-01"`
+
+  - `"thinking-binding-controls-2026-08-01"`
+
+  - `"mid-conversation-system-clear-at-2026-08-21"`
+
+  - `"compact-2026-09-04"`
+
+  - `"inline-tools-2026-09-15"`
+
+  - `"mcp-client-2026-09-15"`
+
+  - `"ce-plugins-2026-09-01"`
+
+  - `"spend-limit-reads-2026-09-26"`
+
+  - `"telemetry-destinations-2026-08-11"`
+
+  - `"webhooks-2026-10-07"`
+
+  - `"admin-user-sign-out-2026-10-08"`
+
+  - `"message-threads-2026-08-12"`
+
+  - `"analytics-usage-cost-2026-08-24"`
+
+  - `"experimental-claude-tag-2026-10-21"`
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -3694,27 +3893,9 @@ Stream Session Thread Events
 
       The evaluated permission policy for this tool invocation.
 
-      - `"allow"`
-
-      - `"ask"`
-
-      - `"deny"`
-
     - `evaluation: optional BetaManagedAgentsAgentToolEvaluationAlwaysAllow or BetaManagedAgentsAgentToolEvaluationAlwaysAsk or BetaManagedAgentsAgentToolEvaluationAuto`
 
       Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
-
-      - `beta_managed_agents_agent_tool_evaluation_always_allow: object`
-
-        The resolved permission_policy was always_allow; accompanies evaluated_permission "allow".
-
-      - `beta_managed_agents_agent_tool_evaluation_always_ask: object`
-
-        The resolved permission_policy was always_ask; accompanies evaluated_permission "ask".
-
-      - `beta_managed_agents_agent_tool_evaluation_auto: object`
-
-        The resolved permission_policy was auto: the server judged this invocation individually.
 
     - `session_thread_id: optional string`
 
@@ -3878,7 +4059,7 @@ Stream Session Thread Events
 
       Unique identifier for this event.
 
-    - `error: BetaManagedAgentsUnknownError or BetaManagedAgentsModelOverloadedError or BetaManagedAgentsModelRateLimitedError or 10 more`
+    - `error: BetaManagedAgentsUnknownError or BetaManagedAgentsModelOverloadedError or BetaManagedAgentsModelRateLimitedError or 12 more`
 
       - `beta_managed_agents_unknown_error: object`
 
@@ -4109,6 +4290,58 @@ Stream Session Thread Events
         - `vault_id: string`
 
           ID of the vault containing the affected credential.
+
+      - `beta_managed_agents_tool_use_limit_reached_error: object`
+
+        The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "tool_use_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying or BetaManagedAgentsRetryStatusExhausted or BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `beta_managed_agents_retry_status_retrying: object`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `beta_managed_agents_retry_status_exhausted: object`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `beta_managed_agents_retry_status_terminal: object`
+
+            The session encountered a terminal error and will transition to `terminated` state.
+
+      - `beta_managed_agents_compaction_limit_reached_error: object`
+
+        The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
+
+        - `type: "compaction_limit_reached_error"`
+
+        - `message: string`
+
+          Human-readable error description.
+
+        - `retry_status: BetaManagedAgentsRetryStatusRetrying or BetaManagedAgentsRetryStatusExhausted or BetaManagedAgentsRetryStatusTerminal`
+
+          What the client should do next.
+
+          - `beta_managed_agents_retry_status_retrying: object`
+
+            The server is retrying automatically. Client should wait; the same error type may fire again as retrying, then once as exhausted when the retry budget runs out.
+
+          - `beta_managed_agents_retry_status_exhausted: object`
+
+            This turn is dead; queued inputs are flushed and the session returns to idle. Client may send a new prompt.
+
+          - `beta_managed_agents_retry_status_terminal: object`
+
+            The session encountered a terminal error and will transition to `terminated` state.
 
       - `beta_managed_agents_repository_authentication_error: object`
 
@@ -4556,34 +4789,6 @@ Stream Session Thread Events
 
       Token usage for this model request.
 
-      - `cache_creation_input_tokens: number`
-
-        Tokens used to create prompt cache in this request.
-
-        format: int32
-
-      - `cache_read_input_tokens: number`
-
-        Tokens read from prompt cache in this request.
-
-        format: int32
-
-      - `input_tokens: number`
-
-        Input tokens consumed by this request.
-
-        format: int32
-
-      - `output_tokens: number`
-
-        Output tokens generated by this request.
-
-        format: int32
-
-      - `speed: optional "standard" or "fast"`
-
-        Inference speed tier this request actually ran at. Mirrors `usage.speed` on /v1/messages. Only present when the fast-mode beta is active.
-
     - `processed_at: string`
 
       Timestamp when the model request completed.
@@ -4738,16 +4943,6 @@ Stream Session Thread Events
 
       Structured information about why the thread stopped. `null` when there is nothing more to report.
 
-      - `type: "refusal"`
-
-      - `category: "cyber" or "bio" or "frontier_llm" or 2 more`
-
-        The policy category that triggered the refusal, or `null` when there is no named category. New values can be added over time.
-
-      - `explanation: string`
-
-        Human-readable explanation of the refusal, or `null` when none is available. The wording can change, so do not parse it.
-
     - `stop_reason: BetaManagedAgentsSessionEndTurn or BetaManagedAgentsSessionRequiresAction or BetaManagedAgentsSessionRetriesExhausted or 2 more`
 
       - `beta_managed_agents_session_end_turn: object`
@@ -4892,6 +5087,26 @@ Stream Session Thread Events
 
       - `description: string`
 
+      - `execution_identity: BetaManagedAgentsAWSRoleExecutionIdentity or BetaManagedAgentsServiceAccountExecutionIdentity`
+
+        Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
+        - `beta_managed_agents_aws_role_execution_identity: object`
+
+          An AWS IAM role principal as returned in API responses.
+
+          - `type: "aws_role"`
+
+          - `role_arn: string`
+
+            The IAM role's ARN.
+
+        - `beta_managed_agents_service_account_execution_identity: object`
+
+          The Anthropic-managed service account as returned in API responses.
+
+          - `type: "service_account"`
+
       - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
         - `type: "url"`
@@ -4904,11 +5119,15 @@ Stream Session Thread Events
 
         Model identifier and configuration.
 
-        - `id: "claude-haiku-5-5" or "claude-sonnet-5-5" or "claude-opus-5-5" or 14 more or string`
+        - `id: "claude-fable-5-2" or "claude-haiku-5-5" or "claude-sonnet-5-5" or 15 more or string`
 
           The model that will power your agent.
 
           See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+
+          - `"claude-fable-5-2"`
+
+            Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
           - `"claude-haiku-5-5"`
 
@@ -5048,6 +5267,10 @@ Stream Session Thread Events
 
               - `description: string`
 
+              - `execution_identity: BetaManagedAgentsAWSRoleExecutionIdentity or BetaManagedAgentsServiceAccountExecutionIdentity`
+
+                Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
               - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
                 - `type: "url"`
@@ -5059,24 +5282,6 @@ Stream Session Thread Events
               - `model: object`
 
                 Model identifier and configuration.
-
-                - `id: "claude-haiku-5-5" or "claude-sonnet-5-5" or "claude-opus-5-5" or 14 more or string`
-
-                  The model that will power your agent.
-
-                  See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
-
-                - `effort: optional BetaManagedAgentsEffortLow or BetaManagedAgentsEffortMedium or BetaManagedAgentsEffortHigh or 2 more`
-
-                  How hard Claude works on each inference call. One of `low`, `medium`, `high`, `xhigh`, `max`. Always present; resolved to the per-model default at save time when not supplied.
-
-                - `inference_geo: optional string`
-
-                  Geographic region for model inference. When unset, requests fall through to the workspace's default_inference_geo.
-
-                - `speed: optional "standard" or "fast"`
-
-                  Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
               - `name: string`
 
@@ -5364,22 +5569,6 @@ Stream Session Thread Events
 
                           Which of the web_search and web_fetch tools' results contribute URLs that may be fetched. Null when not set, which allows both.
 
-                          - `beta_managed_agents_web_fetch_url_source_all: object`
-
-                            Every URL from this source may be fetched. This is the default.
-
-                          - `beta_managed_agents_web_fetch_url_source_none: object`
-
-                            This source contributes no URLs that may be fetched.
-
-                          - `beta_managed_agents_web_fetch_url_source_only: object`
-
-                            Only the named tools' results contribute URLs that may be fetched.
-
-                          - `beta_managed_agents_web_fetch_url_source_except: object`
-
-                            Every tool's results contribute URLs that may be fetched, except the named tools' results.
-
                         - `user_input: BetaManagedAgentsWebFetchURLSourceAll or BetaManagedAgentsWebFetchURLSourceNone`
 
                           Whether URLs in the text of user messages may be fetched. Null when not set, which allows them.
@@ -5388,13 +5577,9 @@ Stream Session Thread Events
 
                             Every URL from this source may be fetched. This is the default.
 
-                            - `type: "all"`
-
                           - `beta_managed_agents_web_fetch_url_source_none: object`
 
                             This source contributes no URLs that may be fetched.
-
-                            - `type: "none"`
 
                       - `allowed_domains: optional array of string`
 
@@ -5451,6 +5636,8 @@ Stream Session Thread Events
                         - `country: optional string`
 
                           Two-letter ISO 3166-1 country code, uppercase.
+
+                          pattern: ^[A-Z]{2}$
 
                         - `region: optional string`
 
@@ -5632,6 +5819,10 @@ Stream Session Thread Events
 
                 - `description: string`
 
+                - `execution_identity: BetaManagedAgentsAWSRoleExecutionIdentity or BetaManagedAgentsServiceAccountExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
+
                 - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
                 - `model: object`
@@ -5670,14 +5861,6 @@ Stream Session Thread Events
 
                 Whether a run's plan can define inline agents, which are not saved.
 
-                - `beta_managed_agents_multiagent_inline_agents_enabled: object`
-
-                  The agent can define inline agents.
-
-                - `beta_managed_agents_multiagent_inline_agents_disabled: object`
-
-                  The agent cannot define inline agents.
-
               - `predefined_agents: array of BetaManagedAgentsSessionThreadAgent`
 
                 Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
@@ -5687,6 +5870,10 @@ Stream Session Thread Events
                 - `id: string`
 
                 - `description: string`
+
+                - `execution_identity: BetaManagedAgentsAWSRoleExecutionIdentity or BetaManagedAgentsServiceAccountExecutionIdentity`
+
+                  Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
                 - `mcp_servers: array of BetaManagedAgentsMCPServerURLDefinition`
 
@@ -5754,6 +5941,8 @@ Stream Session Thread Events
 
           Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
+          pattern: ^(0|[1-9]\d*)$
+
         - `currency: "USD"`
 
           Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
@@ -5807,14 +5996,6 @@ Stream Session Thread Events
       - `content: object`
 
         A partial element of the content array at index, typed like the element itself — the same shape the buffered agent.message carries in content.
-
-        - `type: "text"`
-
-        - `text: string`
-
-          The text content.
-
-          minLength: 1
 
       - `index: optional number`
 
@@ -5910,14 +6091,6 @@ Stream Session Thread Events
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-        - `amount: string`
-
-          Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
-
-        - `currency: "USD"`
-
-          Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
-
       - `output_tokens: optional number`
 
         Total output tokens generated across all turns.
@@ -5943,12 +6116,6 @@ Stream Session Thread Events
     - `budget: optional object`
 
       The session's configured budget at the snapshot time, or null when the session has no budget.
-
-      - `type: "limit"`
-
-      - `max_list_cost: object`
-
-        Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
 
   - `beta_managed_agents_workflow_run_created_event: object`
 
@@ -6196,26 +6363,6 @@ Stream Session Thread Events
 
       Why the run did not finish, or was not created.
 
-      - `beta_managed_agents_timeout_workflow_run_error: object`
-
-        The run reached its time limit.
-
-      - `beta_managed_agents_program_workflow_run_error: object`
-
-        The plan, a program that the agent wrote, failed, or the server refused it.
-
-      - `beta_managed_agents_unknown_workflow_run_error: object`
-
-        A failure that has no type of its own.
-
-      - `beta_managed_agents_thread_limit_workflow_run_error: object`
-
-        The run exceeded the limit on the number of threads that a run can create.
-
-      - `beta_managed_agents_max_workflow_runs_workflow_run_error: object`
-
-        No run was created, because the session was at its limit of open workflow runs, which are runs that have not ended. Only `workflow_run.error` carries this type.
-
     - `processed_at: string`
 
       Timestamp when this event was processed.
@@ -6230,7 +6377,6 @@ Stream Session Thread Events
 
 ```bash
 ant beta:sessions:threads:events stream \
-  --api-key my-anthropic-api-key \
   --session-id sesn_011CZkZAtmR3yMPDzynEDxu7 \
   --thread-id sthr_011CZkZVWa6oJjw1rgXZpnBt
 ```

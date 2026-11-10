@@ -6,23 +6,21 @@
 
 > Fix MCP tunnel problems: cloudflared won't connect, tools don't appear, routing and IP validation errors, TLS and certificate failures, and OAuth errors.
 
-<Note>
-  MCP tunnels are in research preview and are available to organizations on the Claude Enterprise plan by request. To request access, [submit the MCP tunnels interest form](https://claude.com/form/mcp-tunnels) or contact your Anthropic account team.
-</Note>
+> [!NOTE]
+>
+> MCP tunnels are in research preview and are available to organizations on the Claude Enterprise plan by request. To request access, [submit the MCP tunnels interest form](https://claude.com/form/mcp-tunnels) or contact your Anthropic account team.
 
-A request through an [MCP tunnel](/docs/connectors/mcp-tunnels/overview) can fail at three points, and it helps to check them in order. First the outbound connection from cloudflared to the tunnel edge, then the inner TLS handshake between Anthropic and your proxy, then the proxy's routing to your MCP server. The cloudflared and proxy logs on your side show which point a request reached. If the proxy logs nothing at all for a request, it never arrived in your network.
+A request through an [MCP tunnel](https://claude.com/docs/connectors/mcp-tunnels/overview) can fail at three points, and it helps to check them in order. First the outbound connection from cloudflared to the tunnel edge, then the inner TLS handshake between Anthropic and your proxy, then the proxy's routing to your MCP server. The cloudflared and proxy logs on your side show which point a request reached. If the proxy logs nothing at all for a request, it never arrived in your network.
 
-<CodeGroup>
-  ```bash Helm theme={null}
-  kubectl -n mcp-tunnel logs deploy/mcp-tunnel -c cloudflared
-  kubectl -n mcp-tunnel logs deploy/mcp-tunnel -c mcp-proxy
-  ```
+```bash Helm theme={null}
+kubectl -n mcp-tunnel logs deploy/mcp-tunnel -c cloudflared
+kubectl -n mcp-tunnel logs deploy/mcp-tunnel -c mcp-proxy
+```
 
-  ```bash Docker Compose theme={null}
-  docker compose logs cloudflared
-  docker compose logs mcp-proxy
-  ```
-</CodeGroup>
+```bash Docker Compose theme={null}
+docker compose logs cloudflared
+docker compose logs mcp-proxy
+```
 
 For proxy configuration fields and certificate rules referenced below, see the [MCP tunnels reference](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/reference). The [platform troubleshooting guide](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/troubleshooting) covers the same stack and applies to claude.ai tunnels as well, apart from its Console-specific steps.
 
@@ -45,7 +43,7 @@ The setup component authenticates to the Tunnels API with the key in `API_TOKEN`
 
 ### Setup fails with `Organization already has the maximum of 10 non-archived Tunnels`
 
-Each organization can have at most 10 tunnels that are not archived, and every setup run with an empty `tunnel.id` (Helm) or no `--tunnel-id` (Docker Compose) creates a new one. Archive tunnels you no longer use, as described in [Remove a tunnel](/docs/connectors/mcp-tunnels/setup#remove-a-tunnel), then run setup again. To attach a new deployment to an existing tunnel instead of creating one, set `tunnel.id` in `values.yaml` or pass `--tunnel-id` to the setup command.
+Each organization can have at most 10 tunnels that are not archived, and every setup run with an empty `tunnel.id` (Helm) or no `--tunnel-id` (Docker Compose) creates a new one. Archive tunnels you no longer use, as described in [Remove a tunnel](https://claude.com/docs/connectors/mcp-tunnels/setup.md#remove-a-tunnel), then run setup again. To attach a new deployment to an existing tunnel instead of creating one, set `tunnel.id` in `values.yaml` or pass `--tunnel-id` to the setup command.
 
 ### Helm install fails with a hook error
 
@@ -86,9 +84,9 @@ upstream:
     - 100.64.12.0/22   # example: a cluster Service range outside RFC 1918
 ```
 
-<Warning>
-  Don't set `0.0.0.0/0` or `disable_ip_validation` outside of isolated testing. IP validation is the proxy's protection against server-side request forgery.
-</Warning>
+> [!WARNING]
+>
+> Don't set `0.0.0.0/0` or `disable_ip_validation` outside of isolated testing. IP validation is the proxy's protection against server-side request forgery.
 
 ### Proxy exits with `cannot unmarshal !!seq into map[string]string`
 
@@ -100,7 +98,7 @@ A route value includes a path or omits the port. Each upstream must be exactly `
 
 ### Proxy logs `tls handshake failed`
 
-Anthropic rejected the certificate the proxy presented. Check that the server certificate has not passed its 90-day validity, that its Subject Alternative Name covers `*.<your-tunnel-domain>`, and that it was signed by the CA the setup component registered for this tunnel. On Docker Compose, also confirm the files in `data/` are readable by user ID `65532`. To renew an expired certificate, see [Rotate credentials](/docs/connectors/mcp-tunnels/setup#rotate-credentials).
+Anthropic rejected the certificate the proxy presented. Check that the server certificate has not passed its 90-day validity, that its Subject Alternative Name covers `*.<your-tunnel-domain>`, and that it was signed by the CA the setup component registered for this tunnel. On Docker Compose, also confirm the files in `data/` are readable by user ID `65532`. To renew an expired certificate, see [Rotate credentials](https://claude.com/docs/connectors/mcp-tunnels/setup.md#rotate-credentials).
 
 ## Connectors and tools
 
@@ -108,31 +106,29 @@ Anthropic rejected the certificate the proxy presented. Check that the server ce
 
 Work through these checks in order.
 
-<Steps>
-  <Step title="Confirm the stack is connected">
-    Confirm the stack is connected, using the log checks in [Verify the connection](/docs/connectors/mcp-tunnels/setup#verify-the-connection).
-  </Step>
+**1. Confirm the stack is connected**
 
-  <Step title="Confirm the tunnel's organization">
-    Confirm the tunnel was created with a Tunnels API key from the same claude.ai organization where you are adding the connector. A tunnel created from another organization, including a Claude Console organization, is refused before any traffic reaches your network, and your proxy logs show nothing.
-  </Step>
+Confirm the stack is connected, using the log checks in [Verify the connection](https://claude.com/docs/connectors/mcp-tunnels/setup.md#verify-the-connection).
 
-  <Step title="Confirm the connector URL's path">
-    Confirm the connector URL includes the path your MCP server serves, such as `/mcp`. A request to the bare hostname reaches the proxy but the server may answer `404`.
-  </Step>
+**2. Confirm the tunnel's organization**
 
-  <Step title="Watch the proxy logs">
-    Watch the proxy logs while you retry. `no route for host` and `IP validation failed` point to the sections above. An upstream connection error means the proxy can't reach the MCP server from where it runs.
-  </Step>
-</Steps>
+Confirm the tunnel was created with a Tunnels API key from the same claude.ai organization where you are adding the connector. A tunnel created from another organization, including a Claude Console organization, is refused before any traffic reaches your network, and your proxy logs show nothing.
+
+**3. Confirm the connector URL's path**
+
+Confirm the connector URL includes the path your MCP server serves, such as `/mcp`. A request to the bare hostname reaches the proxy but the server may answer `404`.
+
+**4. Watch the proxy logs**
+
+Watch the proxy logs while you retry. `no route for host` and `IP validation failed` point to the sections above. An upstream connection error means the proxy can't reach the MCP server from where it runs.
 
 ## OAuth sign-in
 
-See [Authenticate to MCP servers behind a tunnel](/docs/connectors/mcp-tunnels/oauth) for how the sign-in flow splits between the member's browser and Claude's servers.
+See [Authenticate to MCP servers behind a tunnel](https://claude.com/docs/connectors/mcp-tunnels/oauth.md) for how the sign-in flow splits between the member's browser and Claude's servers.
 
 ### Sign-in redirects to a tunnel address that does not load
 
-The authorization server's metadata advertises an authorization endpoint on the `tunnel.anthropic.com` hostname or an internal hostname, and the member's browser can't load it. Turn on **Tunnel OAuth configuration** for the connector and set **Authorization endpoint** to the sign-in URL members' browsers can reach, or publish split metadata from the authorization server. Both are described on the [OAuth page](/docs/connectors/mcp-tunnels/oauth#set-the-tunnel-oauth-configuration).
+The authorization server's metadata advertises an authorization endpoint on the `tunnel.anthropic.com` hostname or an internal hostname, and the member's browser can't load it. Turn on **Tunnel OAuth configuration** for the connector and set **Authorization endpoint** to the sign-in URL members' browsers can reach, or publish split metadata from the authorization server. Both are described on the [OAuth page](https://claude.com/docs/connectors/mcp-tunnels/oauth.md#set-the-tunnel-oauth-configuration).
 
 ### Sign-in succeeds in the browser but the connector never connects
 
@@ -140,11 +136,7 @@ Claude could not complete the token exchange, usually because the token endpoint
 
 ### The Token endpoint field rejects the URL
 
-**Token endpoint** and **Registration endpoint** accept an `https://` URL that is either under `tunnel.anthropic.com` or on the same origin (scheme, host, and port) as the **Authorization endpoint**. Any other URL is rejected, because Claude sends the token exchange and the client credentials to it. Add a route for your authorization server as shown in [Route the authorization server through the tunnel](/docs/connectors/mcp-tunnels/oauth#route-the-authorization-server-through-the-tunnel) and enter the resulting tunnel URL. The **Authorization endpoint** field has no such restriction, because browsers load it directly.
-
-### The Tunnel OAuth configuration toggle is missing
-
-Anthropic enables the option for each organization in the research preview on request. Contact your Anthropic account team.
+**Token endpoint** and **Registration endpoint** accept an `https://` URL that is either under `tunnel.anthropic.com` or on the same origin (scheme, host, and port) as the **Authorization endpoint**. Any other URL is rejected, because Claude sends the token exchange and the client credentials to it. Add a route for your authorization server as shown in [Route the authorization server through the tunnel](https://claude.com/docs/connectors/mcp-tunnels/oauth.md#route-the-authorization-server-through-the-tunnel) and enter the resulting tunnel URL. The **Authorization endpoint** field has no such restriction, because browsers load it directly.
 
 ## Get help
 
@@ -152,6 +144,6 @@ If these steps don't resolve the problem, contact your Anthropic account team wi
 
 ## Related resources
 
-* [Set up an MCP tunnel](/docs/connectors/mcp-tunnels/setup): the deployment, verification, and credential rotation steps
-* [Authenticate to MCP servers behind a tunnel](/docs/connectors/mcp-tunnels/oauth): the Tunnel OAuth configuration fields and the split-metadata alternative
+* [Set up an MCP tunnel](https://claude.com/docs/connectors/mcp-tunnels/setup.md): the deployment, verification, and credential rotation steps
+* [Authenticate to MCP servers behind a tunnel](https://claude.com/docs/connectors/mcp-tunnels/oauth.md): the Tunnel OAuth configuration fields and the split-metadata alternative
 * [MCP tunnels reference](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/reference): proxy configuration fields, certificate requirements, and the setup component

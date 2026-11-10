@@ -7,7 +7,7 @@ url: https://platform.claude.com/docs/en/api/php/beta/sessions/resources
 
 ## Add Session Resource
 
-`$client->beta->sessions->resources->add(string sessionID, string fileID, Type type, ?string mountPath, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsFileResource`
+`$client->beta->sessions->resources->add(string sessionID, string fileID, "file" type, ?string mountPath, ?list<AnthropicBeta> betas, ?string workspaceID): ManagedAgentsFileResource`
 
 **POST** `/v1/sessions/{session_id}/resources`
 
@@ -21,15 +21,21 @@ Add Session Resource
 
   ID of a previously uploaded file.
 
-- `type: Type`
+- `type: "file"`
 
-- `mountPath?:optional string`
+- `mountPath?: optional string`
 
   Mount path in the container. Defaults to `/mnt/session/uploads/<file_id>`.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -41,7 +47,7 @@ Add Session Resource
 
 - `class ManagedAgentsFileResource`
 
-  - `Type type`
+  - `"file" type`
 
   - `string id`
 
@@ -63,6 +69,9 @@ Add Session Resource
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -103,17 +112,23 @@ List Session Resources
 
 - `sessionID: string` (path parameter)
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum number of resources to return per page (max 1000). If omitted, returns all resources.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque cursor from a previous response's `next_page` field.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -127,7 +142,7 @@ List Session Resources
 
   - `class ManagedAgentsGitHubRepositoryResource`
 
-    - `Type type`
+    - `"github_repository" type`
 
     - `string id`
 
@@ -147,7 +162,7 @@ List Session Resources
 
   - `class ManagedAgentsFileResource`
 
-    - `Type type`
+    - `"file" type`
 
     - `string id`
 
@@ -165,7 +180,7 @@ List Session Resources
 
   - `class ManagedAgentsMemoryStoreResource`
 
-    - `Type type`
+    - `"memory_store" type`
 
     - `string memoryStoreID`
 
@@ -197,6 +212,9 @@ List Session Resources
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -255,9 +273,15 @@ Get Session Resource
 
 - `resourceID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -271,7 +295,7 @@ Get Session Resource
 
   - `class ManagedAgentsGitHubRepositoryResource`
 
-    - `Type type`
+    - `"github_repository" type`
 
     - `string id`
 
@@ -291,7 +315,7 @@ Get Session Resource
 
   - `class ManagedAgentsFileResource`
 
-    - `Type type`
+    - `"file" type`
 
     - `string id`
 
@@ -309,7 +333,7 @@ Get Session Resource
 
   - `class ManagedAgentsMemoryStoreResource`
 
-    - `Type type`
+    - `"memory_store" type`
 
     - `string memoryStoreID`
 
@@ -341,6 +365,9 @@ Get Session Resource
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -389,9 +416,15 @@ Update Session Resource
 
   New authorization token for the resource. Currently only `github_repository` resources support token rotation.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -405,7 +438,7 @@ Update Session Resource
 
   - `class ManagedAgentsGitHubRepositoryResource`
 
-    - `Type type`
+    - `"github_repository" type`
 
     - `string id`
 
@@ -425,7 +458,7 @@ Update Session Resource
 
   - `class ManagedAgentsFileResource`
 
-    - `Type type`
+    - `"file" type`
 
     - `string id`
 
@@ -443,7 +476,7 @@ Update Session Resource
 
   - `class ManagedAgentsMemoryStoreResource`
 
-    - `Type type`
+    - `"memory_store" type`
 
     - `string memoryStoreID`
 
@@ -475,6 +508,9 @@ Update Session Resource
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -520,9 +556,15 @@ Delete Session Resource
 
 - `resourceID: string` (path parameter)
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -534,7 +576,7 @@ Delete Session Resource
 
 - `class ManagedAgentsDeleteSessionResource`
 
-  - `Type type`
+  - `"session_resource_deleted" type`
 
   - `string id`
 
@@ -544,6 +586,9 @@ Delete Session Resource
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
 
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
@@ -576,7 +621,7 @@ var_dump($betaManagedAgentsDeleteSessionResource);
 
 - `class ManagedAgentsDeleteSessionResource`
 
-  - `Type type`
+  - `"session_resource_deleted" type`
 
   - `string id`
 
@@ -584,7 +629,7 @@ var_dump($betaManagedAgentsDeleteSessionResource);
 
 - `class ManagedAgentsFileResource`
 
-  - `Type type`
+  - `"file" type`
 
   - `string id`
 
@@ -604,7 +649,7 @@ var_dump($betaManagedAgentsDeleteSessionResource);
 
 - `class ManagedAgentsGitHubRepositoryResource`
 
-  - `Type type`
+  - `"github_repository" type`
 
   - `string id`
 
@@ -626,7 +671,7 @@ var_dump($betaManagedAgentsDeleteSessionResource);
 
 - `class ManagedAgentsMemoryStoreResource`
 
-  - `Type type`
+  - `"memory_store" type`
 
   - `string memoryStoreID`
 
@@ -658,7 +703,7 @@ var_dump($betaManagedAgentsDeleteSessionResource);
 
   - `class ManagedAgentsGitHubRepositoryResource`
 
-    - `Type type`
+    - `"github_repository" type`
 
     - `string id`
 
@@ -678,7 +723,7 @@ var_dump($betaManagedAgentsDeleteSessionResource);
 
   - `class ManagedAgentsFileResource`
 
-    - `Type type`
+    - `"file" type`
 
     - `string id`
 
@@ -696,7 +741,7 @@ var_dump($betaManagedAgentsDeleteSessionResource);
 
   - `class ManagedAgentsMemoryStoreResource`
 
-    - `Type type`
+    - `"memory_store" type`
 
     - `string memoryStoreID`
 

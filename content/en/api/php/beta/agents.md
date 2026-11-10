@@ -7,7 +7,7 @@ url: https://platform.claude.com/docs/en/api/php/beta/agents
 
 ## Create Agent
 
-`$client->beta->agents->create(Model model, string name, ?string description, ?list<BetaManagedAgentsURLMCPServerParams> mcpServers, ?array<string,string> metadata, ?BetaManagedAgentsMultiagentParams multiagent, ?list<BetaManagedAgentsSkillParams> skills, ?string system, ?list<Tool> tools, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsAgent`
+`$client->beta->agents->create(Model model, string name, ?string description, ?BetaManagedAgentsExecutionIdentityParams executionIdentity, ?list<BetaManagedAgentsURLMCPServerParams> mcpServers, ?array<string,string> metadata, ?BetaManagedAgentsMultiagentParams multiagent, ?list<BetaManagedAgentsSkillParams> skills, ?string system, ?list<Tool> tools, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsAgent`
 
 **POST** `/v1/agents`
 
@@ -23,37 +23,47 @@ Create Agent
 
   Human-readable name for the agent.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Description of what the agent does.
 
-- `mcpServers?:optional list<BetaManagedAgentsURLMCPServerParams>`
+- `executionIdentity?: optional BetaManagedAgentsExecutionIdentityParams`
+
+  Execution principal for runs of this agent. Omitting it, sending null, or sending `{"type": "service_account"}` stores the default.
+
+- `mcpServers?: optional list<BetaManagedAgentsURLMCPServerParams>`
 
   MCP servers this agent connects to. Maximum 20. Names must be unique within the array. Every server must be referenced by an `mcp_toolset` in `tools`; unreferenced servers are rejected. See the [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector?sdk_languages=php).
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up to 512 chars.
 
-- `multiagent?:optional BetaManagedAgentsMultiagentParams`
+- `multiagent?: optional BetaManagedAgentsMultiagentParams`
 
   Multiagent orchestration configuration.
 
-- `skills?:optional list<BetaManagedAgentsSkillParams>`
+- `skills?: optional list<BetaManagedAgentsSkillParams>`
 
   Skills available to the agent.
 
-- `system?:optional string`
+- `system?: optional string`
 
   System prompt for the agent.
 
-- `tools?:optional list<Tool>`
+- `tools?: optional list<Tool>`
 
   Tool configurations available to the agent. Maximum of 256 tools across all toolsets allowed.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -65,7 +75,7 @@ Create Agent
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -78,6 +88,10 @@ Create Agent
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -114,12 +128,19 @@ Create Agent
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Agents\BetaManagedAgentsModel;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsAgent = $client->beta->agents->create(
   model: BetaManagedAgentsModel::CLAUDE_OPUS_5_5,
   name: 'My First Agent',
   description: 'A general-purpose starter agent.',
+  executionIdentity: [
+    'roleARN' => 'arn:aws:iam::228601553692:role/T', 'type' => 'aws_role'
+  ],
   mcpServers: [
     [
       'name' => 'example-mcp',
@@ -129,8 +150,24 @@ $betaManagedAgentsAgent = $client->beta->agents->create(
   ],
   metadata: ['foo' => 'bar'],
   multiagent: [
-    'agents' => ['agent_011CZkYqphY8vELVzwCUpqiQ', ['type' => 'self']],
-    'type' => 'coordinator',
+    'type' => 'multiagent_20261001',
+    'advisor' => ['type' => 'disabled'],
+    'subagents' => [
+      'type' => 'enabled',
+      'inlineAgents' => ['type' => 'disabled'],
+      'predefinedAgents' => ['agent_011CZkYqphY8vELVzwCUpqiQ'],
+    ],
+    'workflows' => [
+      'type' => 'enabled',
+      'inlineAgents' => ['type' => 'disabled'],
+      'predefinedAgents' => [
+        [
+          'id' => 'agent_011CZkYqphY8vELVzwCUpqiQ',
+          'type' => 'agent',
+          'version' => 1,
+        ],
+      ],
+    ],
   ],
   skills: [['skillID' => 'xlsx', 'type' => 'anthropic', 'version' => '1']],
   system: 'You are a general-purpose agent that can research, write code, run commands, and use connected tools to complete the user\'s task end to end.',
@@ -165,6 +202,9 @@ var_dump($betaManagedAgentsAgent);
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -266,29 +306,35 @@ List Agents
 
 ### Parameters
 
-- `createdAtGte?:optional \Datetime` (query parameter)
+- `createdAtGte?: optional \Datetime` (query parameter)
 
   Return agents created at or after this time (inclusive).
 
-- `createdAtLte?:optional \Datetime` (query parameter)
+- `createdAtLte?: optional \Datetime` (query parameter)
 
   Return agents created at or before this time (inclusive).
 
-- `includeArchived?:optional bool` (query parameter)
+- `includeArchived?: optional bool` (query parameter)
 
   Include archived agents in results. Defaults to false.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum results per page. Default 20, maximum 100.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor from a previous response.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -300,7 +346,7 @@ List Agents
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -313,6 +359,10 @@ List Agents
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -349,6 +399,9 @@ List Agents
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->agents->list(
@@ -374,6 +427,9 @@ var_dump($page);
       "archived_at": null,
       "created_at": "2026-03-15T10:00:00Z",
       "description": "A general-purpose starter agent.",
+      "execution_identity": {
+        "type": "service_account"
+      },
       "mcp_servers": [
         {
           "name": "example-mcp",
@@ -482,13 +538,19 @@ Get Agent
 
   Unique identifier of the agent to retrieve.
 
-- `version?:optional int` (query parameter)
+- `version?: optional int` (query parameter)
 
   Agent version. Omit for the most recent version. Must be at least 1 if specified.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -500,7 +562,7 @@ Get Agent
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -513,6 +575,10 @@ Get Agent
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -549,6 +615,9 @@ Get Agent
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsAgent = $client->beta->agents->retrieve(
@@ -569,6 +638,9 @@ var_dump($betaManagedAgentsAgent);
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -662,7 +734,7 @@ var_dump($betaManagedAgentsAgent);
 
 ## Update Agent
 
-`$client->beta->agents->update(string agentID, ?string description, ?list<BetaManagedAgentsURLMCPServerParams> mcpServers, ?array<string,string> metadata, ?Model model, ?BetaManagedAgentsMultiagentParams multiagent, ?string name, ?list<BetaManagedAgentsSkillParams> skills, ?string system, ?list<Tool> tools, ?int version, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsAgent`
+`$client->beta->agents->update(string agentID, ?string description, ?BetaManagedAgentsExecutionIdentityParams executionIdentity, ?list<BetaManagedAgentsURLMCPServerParams> mcpServers, ?array<string,string> metadata, ?Model model, ?BetaManagedAgentsMultiagentParams multiagent, ?string name, ?list<BetaManagedAgentsSkillParams> skills, ?string system, ?list<Tool> tools, ?int version, ?list<AnthropicBeta> betas, ?string workspaceID): BetaManagedAgentsAgent`
 
 **POST** `/v1/agents/{agent_id}`
 
@@ -674,49 +746,59 @@ Update Agent
 
   Unique identifier of the agent to update.
 
-- `description?:optional string`
+- `description?: optional string`
 
   Description. Omit to preserve; send empty string or null to clear.
 
-- `mcpServers?:optional list<BetaManagedAgentsURLMCPServerParams>`
+- `executionIdentity?: optional BetaManagedAgentsExecutionIdentityParams`
+
+  Execution principal for runs of this agent. Full replacement. Omit to preserve; send null or `{"type": "service_account"}` to restore the default.
+
+- `mcpServers?: optional list<BetaManagedAgentsURLMCPServerParams>`
 
   MCP servers. Full replacement. Omit to preserve; send empty array or `null` to clear. Names must be unique. Maximum 20. Every server must be referenced by an `mcp_toolset` in the agent's resulting `tools`; unreferenced servers are rejected. See the [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector?sdk_languages=php).
 
-- `metadata?:optional array<string,string>`
+- `metadata?: optional array<string,string>`
 
   Metadata patch. Set a key to a string to upsert it, or to null to delete it. Omit the field to preserve. The stored bag is limited to 16 keys (up to 64 chars each) with values up to 512 chars.
 
-- `model?:optional Model`
+- `model?: optional Model`
 
   Model identifier. Accepts the [model string](https://platform.claude.com/docs/en/about-claude/models/overview?sdk_languages=php#latest-models-comparison), e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration control. Omit to preserve. Cannot be cleared.
 
-- `multiagent?:optional BetaManagedAgentsMultiagentParams`
+- `multiagent?: optional BetaManagedAgentsMultiagentParams`
 
   Multiagent orchestration configuration. Full replacement. Omit to preserve; send null to clear.
 
-- `name?:optional string`
+- `name?: optional string`
 
   Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
 
-- `skills?:optional list<BetaManagedAgentsSkillParams>`
+- `skills?: optional list<BetaManagedAgentsSkillParams>`
 
   Skills. Full replacement. Omit to preserve; send empty array or null to clear.
 
-- `system?:optional string`
+- `system?: optional string`
 
   System prompt. Omit to preserve; send empty string or null to clear.
 
-- `tools?:optional list<Tool>`
+- `tools?: optional list<Tool>`
 
   Tool configurations available to the agent. Full replacement. Omit to preserve; send empty array or null to clear. Maximum of 256 tools across all toolsets allowed.
 
-- `version?:optional int`
+- `version?: optional int`
 
   The agent's current version, used to prevent concurrent overwrites. Obtain this value from a create or retrieve response. Must be at least 1 if specified. When supplied, the request fails if it does not match the server's current version; omit to apply the update unconditionally.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -728,7 +810,7 @@ Update Agent
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -741,6 +823,10 @@ Update Agent
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -777,11 +863,18 @@ Update Agent
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+use Anthropic\Beta\Agents\BetaManagedAgentsModel;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsAgent = $client->beta->agents->update(
   'agent_011CZkYpogX7uDKUyvBTophP',
   description: 'updated',
+  executionIdentity: [
+    'roleARN' => 'arn:aws:iam::228601553692:role/T', 'type' => 'aws_role'
+  ],
   mcpServers: [
     [
       'name' => 'example-mcp',
@@ -835,6 +928,9 @@ var_dump($betaManagedAgentsAgent);
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -940,9 +1036,15 @@ Archive Agent
 
   Unique identifier of the agent to archive.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -954,7 +1056,7 @@ Archive Agent
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -967,6 +1069,10 @@ Archive Agent
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -1003,6 +1109,9 @@ Archive Agent
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $betaManagedAgentsAgent = $client->beta->agents->archive(
@@ -1022,6 +1131,9 @@ var_dump($betaManagedAgentsAgent);
   "archived_at": null,
   "created_at": "2026-03-15T10:00:00Z",
   "description": "A general-purpose starter agent.",
+  "execution_identity": {
+    "type": "service_account"
+  },
   "mcp_servers": [
     {
       "name": "example-mcp",
@@ -1119,7 +1231,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsAdvisor`
 
-  - `Type type`
+  - `"advisor" type`
 
   - `string model`
 
@@ -1129,7 +1241,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -1142,6 +1254,10 @@ var_dump($betaManagedAgentsAgent);
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -1175,7 +1291,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsAgentReference`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -1485,7 +1601,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsAgentToolset20260401`
 
-  - `Type type`
+  - `"agent_toolset_20260401" type`
 
   - `list<BetaManagedAgentsAgentToolConfig> configs`
 
@@ -1565,7 +1681,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsAgentToolset20260401Params`
 
-  - `Type type`
+  - `"agent_toolset_20260401" type`
 
   - `?list<BetaManagedAgentsAgentToolConfigParams> configs`
 
@@ -1605,19 +1721,19 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsAlwaysAllowPolicy`
 
-  - `Type type`
+  - `"always_allow" type`
 
 ### Beta Managed Agents Always Ask Policy
 
 - `class BetaManagedAgentsAlwaysAskPolicy`
 
-  - `Type type`
+  - `"always_ask" type`
 
 ### Beta Managed Agents Anthropic Skill
 
 - `class BetaManagedAgentsAnthropicSkill`
 
-  - `Type type`
+  - `"anthropic" type`
 
   - `string skillID`
 
@@ -1627,7 +1743,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsAnthropicSkillParams`
 
-  - `Type type`
+  - `"anthropic" type`
 
   - `string skillID`
 
@@ -1642,6 +1758,26 @@ var_dump($betaManagedAgentsAgent);
 - `class BetaManagedAgentsAutoPolicy`
 
   - `"auto" type`
+
+### Beta Managed Agents AWS Role Execution Identity
+
+- `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+  - `"aws_role" type`
+
+  - `string roleARN`
+
+    The IAM role's ARN.
+
+### Beta Managed Agents AWS Role Execution Identity Params
+
+- `class BetaManagedAgentsAWSRoleExecutionIdentityParams`
+
+  - `"aws_role" type`
+
+  - `string roleARN`
+
+    The IAM role's ARN, e.g. "arn:aws:iam::123456789012:role/my-agent-runner". Maximum 2048 characters.
 
 ### Beta Managed Agents Bash Tool Config
 
@@ -1679,7 +1815,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsCustomSkill`
 
-  - `Type type`
+  - `"custom" type`
 
   - `string skillID`
 
@@ -1689,7 +1825,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsCustomSkillParams`
 
-  - `Type type`
+  - `"custom" type`
 
   - `string skillID`
 
@@ -1703,7 +1839,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsCustomTool`
 
-  - `Type type`
+  - `"custom" type`
 
   - `string description`
 
@@ -1727,7 +1863,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsCustomToolParams`
 
-  - `Type type`
+  - `"custom" type`
 
   - `string description`
 
@@ -1777,31 +1913,63 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsEffortHigh`
 
-  - `Type type`
+  - `"high" type`
 
 ### Beta Managed Agents Effort Low
 
 - `class BetaManagedAgentsEffortLow`
 
-  - `Type type`
+  - `"low" type`
 
 ### Beta Managed Agents Effort Max
 
 - `class BetaManagedAgentsEffortMax`
 
-  - `Type type`
+  - `"max" type`
 
 ### Beta Managed Agents Effort Medium
 
 - `class BetaManagedAgentsEffortMedium`
 
-  - `Type type`
+  - `"medium" type`
 
 ### Beta Managed Agents Effort Xhigh
 
 - `class BetaManagedAgentsEffortXhigh`
 
-  - `Type type`
+  - `"xhigh" type`
+
+### Beta Managed Agents Execution Identity
+
+- `class BetaManagedAgentsExecutionIdentity`
+
+  - `class BetaManagedAgentsAWSRoleExecutionIdentity`
+
+    - `"aws_role" type`
+
+    - `string roleARN`
+
+      The IAM role's ARN.
+
+  - `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+    - `"service_account" type`
+
+### Beta Managed Agents Execution Identity Params
+
+- `class BetaManagedAgentsExecutionIdentityParams`
+
+  - `class BetaManagedAgentsAWSRoleExecutionIdentityParams`
+
+    - `"aws_role" type`
+
+    - `string roleARN`
+
+      The IAM role's ARN, e.g. "arn:aws:iam::123456789012:role/my-agent-runner". Maximum 2048 characters.
+
+  - `class BetaManagedAgentsServiceAccountExecutionIdentityParams`
+
+    - `"service_account" type`
 
 ### Beta Managed Agents Glob Tool Config
 
@@ -1871,7 +2039,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsMCPServerURLDefinition`
 
-  - `Type type`
+  - `"url" type`
 
   - `string name`
 
@@ -1909,7 +2077,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsMCPToolset`
 
-  - `Type type`
+  - `"mcp_toolset" type`
 
   - `list<BetaManagedAgentsMCPToolConfig> configs`
 
@@ -1945,7 +2113,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsMCPToolsetParams`
 
-  - `Type type`
+  - `"mcp_toolset" type`
 
   - `string mcpServerName`
 
@@ -1962,6 +2130,10 @@ var_dump($betaManagedAgentsAgent);
 ### Beta Managed Agents Model
 
 - `enum BetaManagedAgentsModel`
+
+  - `"claude-fable-5-2"`
+
+    Built for the most ambitious work in coding, enterprise workflows, and the sciences
 
   - `"claude-haiku-5-5"`
 
@@ -2075,7 +2247,7 @@ var_dump($betaManagedAgentsAgent);
 
   - `?Speed speed`
 
-    Inference speed mode. Defaults to `standard`.
+    Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
 ### Beta Managed Agents Multiagent Advisor
 
@@ -2145,7 +2317,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsMultiagentCoordinator`
 
-  - `Type type`
+  - `"coordinator" type`
 
   - `list<Agent> agents`
 
@@ -2155,7 +2327,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsMultiagentCoordinatorParams`
 
-  - `Type type`
+  - `"coordinator" type`
 
   - `list<BetaManagedAgentsMultiagentRosterEntryParams> agents`
 
@@ -2217,7 +2389,7 @@ var_dump($betaManagedAgentsAgent);
 
   - `class BetaManagedAgentsAgentParams`
 
-    - `Type type`
+    - `"agent" type`
 
     - `string id`
 
@@ -2229,13 +2401,209 @@ var_dump($betaManagedAgentsAgent);
 
   - `class BetaManagedAgentsMultiagentSelfParams`
 
-    - `Type type`
+    - `"self" type`
 
 ### Beta Managed Agents Multiagent Self Params
 
 - `class BetaManagedAgentsMultiagentSelfParams`
 
-  - `Type type`
+  - `"self" type`
+
+### Beta Managed Agents Multiagent Subagents
+
+- `class BetaManagedAgentsMultiagentSubagents`
+
+  - `class BetaManagedAgentsMultiagentSubagentsEnabled`
+
+    - `"enabled" type`
+
+    - `BetaManagedAgentsMultiagentInlineAgents inlineAgents`
+
+      Whether the agent can define inline agents, which are not saved, when it spawns session threads.
+
+    - `list<BetaManagedAgentsAgentReference> predefinedAgents`
+
+      Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
+
+  - `class BetaManagedAgentsMultiagentSubagentsDisabled`
+
+    - `"disabled" type`
+
+### Beta Managed Agents Multiagent Subagents Disabled
+
+- `class BetaManagedAgentsMultiagentSubagentsDisabled`
+
+  - `"disabled" type`
+
+### Beta Managed Agents Multiagent Subagents Disabled Params
+
+- `class BetaManagedAgentsMultiagentSubagentsDisabledParams`
+
+  - `"disabled" type`
+
+### Beta Managed Agents Multiagent Subagents Enabled
+
+- `class BetaManagedAgentsMultiagentSubagentsEnabled`
+
+  - `"enabled" type`
+
+  - `BetaManagedAgentsMultiagentInlineAgents inlineAgents`
+
+    Whether the agent can define inline agents, which are not saved, when it spawns session threads.
+
+  - `list<BetaManagedAgentsAgentReference> predefinedAgents`
+
+    Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
+
+### Beta Managed Agents Multiagent Subagents Enabled Params
+
+- `class BetaManagedAgentsMultiagentSubagentsEnabledParams`
+
+  - `"enabled" type`
+
+  - `?BetaManagedAgentsMultiagentInlineAgentsParams inlineAgents`
+
+    Whether the agent can define inline agents when it spawns session threads. Defaults to enabled.
+
+  - `?list<BetaManagedAgentsMultiagentPredefinedAgentParams> predefinedAgents`
+
+    Predefined agents that this agent can spawn as session threads. At most 20. Defaults to null. Null and an empty list both mean no predefined agents. This list is separate from `workflows.predefined_agents`, and an agent in one list is not added to the other.
+
+### Beta Managed Agents Multiagent Subagents Params
+
+- `class BetaManagedAgentsMultiagentSubagentsParams`
+
+  - `class BetaManagedAgentsMultiagentSubagentsEnabledParams`
+
+    - `"enabled" type`
+
+    - `?BetaManagedAgentsMultiagentInlineAgentsParams inlineAgents`
+
+      Whether the agent can define inline agents when it spawns session threads. Defaults to enabled.
+
+    - `?list<BetaManagedAgentsMultiagentPredefinedAgentParams> predefinedAgents`
+
+      Predefined agents that this agent can spawn as session threads. At most 20. Defaults to null. Null and an empty list both mean no predefined agents. This list is separate from `workflows.predefined_agents`, and an agent in one list is not added to the other.
+
+  - `class BetaManagedAgentsMultiagentSubagentsDisabledParams`
+
+    - `"disabled" type`
+
+### Beta Managed Agents Multiagent Workflows
+
+- `class BetaManagedAgentsMultiagentWorkflows`
+
+  - `class BetaManagedAgentsMultiagentWorkflowsEnabled`
+
+    - `"enabled" type`
+
+    - `BetaManagedAgentsMultiagentInlineAgents inlineAgents`
+
+      Whether a run's plan can define inline agents, which are not saved.
+
+    - `list<BetaManagedAgentsAgentReference> predefinedAgents`
+
+      Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
+
+  - `class BetaManagedAgentsMultiagentWorkflowsDisabled`
+
+    - `"disabled" type`
+
+### Beta Managed Agents Multiagent Workflows Disabled
+
+- `class BetaManagedAgentsMultiagentWorkflowsDisabled`
+
+  - `"disabled" type`
+
+### Beta Managed Agents Multiagent Workflows Disabled Params
+
+- `class BetaManagedAgentsMultiagentWorkflowsDisabledParams`
+
+  - `"disabled" type`
+
+### Beta Managed Agents Multiagent Workflows Enabled
+
+- `class BetaManagedAgentsMultiagentWorkflowsEnabled`
+
+  - `"enabled" type`
+
+  - `BetaManagedAgentsMultiagentInlineAgents inlineAgents`
+
+    Whether a run's plan can define inline agents, which are not saved.
+
+  - `list<BetaManagedAgentsAgentReference> predefinedAgents`
+
+    Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
+
+### Beta Managed Agents Multiagent Workflows Enabled Params
+
+- `class BetaManagedAgentsMultiagentWorkflowsEnabledParams`
+
+  - `"enabled" type`
+
+  - `?BetaManagedAgentsMultiagentInlineAgentsParams inlineAgents`
+
+    Whether a run's plan can define inline agents. Defaults to enabled.
+
+  - `?list<BetaManagedAgentsMultiagentPredefinedAgentParams> predefinedAgents`
+
+    Predefined agents that a run's plan can use. At most 20. Defaults to null. Null and an empty list both mean no predefined agents. This list is separate from `subagents.predefined_agents`, and an agent in one list is not added to the other.
+
+### Beta Managed Agents Multiagent Workflows Params
+
+- `class BetaManagedAgentsMultiagentWorkflowsParams`
+
+  - `class BetaManagedAgentsMultiagentWorkflowsEnabledParams`
+
+    - `"enabled" type`
+
+    - `?BetaManagedAgentsMultiagentInlineAgentsParams inlineAgents`
+
+      Whether a run's plan can define inline agents. Defaults to enabled.
+
+    - `?list<BetaManagedAgentsMultiagentPredefinedAgentParams> predefinedAgents`
+
+      Predefined agents that a run's plan can use. At most 20. Defaults to null. Null and an empty list both mean no predefined agents. This list is separate from `subagents.predefined_agents`, and an agent in one list is not added to the other.
+
+  - `class BetaManagedAgentsMultiagentWorkflowsDisabledParams`
+
+    - `"disabled" type`
+
+### Beta Managed Agents Multiagent20261001
+
+- `class BetaManagedAgentsMultiagent20261001`
+
+  - `"multiagent_20261001" type`
+
+  - `BetaManagedAgentsMultiagentAdvisor advisor`
+
+    Whether the session's primary thread can consult an advisor model.
+
+  - `BetaManagedAgentsMultiagentSubagents subagents`
+
+    Whether the agent can spawn session threads.
+
+  - `BetaManagedAgentsMultiagentWorkflows workflows`
+
+    Whether the agent can start workflow runs.
+
+### Beta Managed Agents Multiagent20261001 Params
+
+- `class BetaManagedAgentsMultiagent20261001Params`
+
+  - `"multiagent_20261001" type`
+
+  - `?BetaManagedAgentsMultiagentAdvisorParams advisor`
+
+    Whether the session's primary thread can consult an advisor model. Defaults to disabled.
+
+  - `?BetaManagedAgentsMultiagentSubagentsParams subagents`
+
+    Whether the agent can spawn session threads. Defaults to enabled.
+
+  - `?BetaManagedAgentsMultiagentWorkflowsParams workflows`
+
+    Whether the agent can start workflow runs. Defaults to enabled.
 
 ### Beta Managed Agents Multiagent Subagents
 
@@ -2465,15 +2833,31 @@ var_dump($betaManagedAgentsAgent);
 
     Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
+### Beta Managed Agents Service Account Execution Identity
+
+- `class BetaManagedAgentsServiceAccountExecutionIdentity`
+
+  - `"service_account" type`
+
+### Beta Managed Agents Service Account Execution Identity Params
+
+- `class BetaManagedAgentsServiceAccountExecutionIdentityParams`
+
+  - `"service_account" type`
+
 ### Beta Managed Agents Session Thread Agent
 
 - `class BetaManagedAgentsSessionThreadAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal snapshotted from the agent at session creation. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -2497,7 +2881,7 @@ var_dump($betaManagedAgentsAgent);
 
   - `class BetaManagedAgentsAnthropicSkillParams`
 
-    - `Type type`
+    - `"anthropic" type`
 
     - `string skillID`
 
@@ -2509,7 +2893,7 @@ var_dump($betaManagedAgentsAgent);
 
   - `class BetaManagedAgentsCustomSkillParams`
 
-    - `Type type`
+    - `"custom" type`
 
     - `string skillID`
 
@@ -2523,7 +2907,7 @@ var_dump($betaManagedAgentsAgent);
 
 - `class BetaManagedAgentsURLMCPServerParams`
 
-  - `Type type`
+  - `"url" type`
 
   - `string name`
 
@@ -2895,17 +3279,23 @@ List Agent Versions
 
   Agent ID to list versions for.
 
-- `limit?:optional int` (query parameter)
+- `limit?: optional int` (query parameter)
 
   Maximum results per page. Default 20, maximum 100.
 
-- `page?:optional string` (query parameter)
+- `page?: optional string` (query parameter)
 
   Opaque pagination cursor.
 
-- `betas?:optional list<AnthropicBeta>` (header parameter)
+- `betas?: optional list<AnthropicBeta>` (header parameter)
 
-  Optional header to specify the beta version(s) you want to use.
+  This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
+
+- `workspaceID?: optional string` (header parameter)
+
+  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+
+  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspaceID?:optional string` (header parameter)
 
@@ -2917,7 +3307,7 @@ List Agent Versions
 
 - `class BetaManagedAgentsAgent`
 
-  - `Type type`
+  - `"agent" type`
 
   - `string id`
 
@@ -2930,6 +3320,10 @@ List Agent Versions
     A timestamp in RFC 3339 format
 
   - `?string description`
+
+  - `BetaManagedAgentsExecutionIdentity executionIdentity`
+
+    Execution principal for runs of this agent. Always present; `{"type": "service_account"}` when runs carry no customer-named principal.
 
   - `list<BetaManagedAgentsMCPServerURLDefinition> mcpServers`
 
@@ -2966,6 +3360,9 @@ List Agent Versions
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use Anthropic\Client;
+use Anthropic\Beta\AnthropicBeta;
+
 $client = new Client(apiKey: 'my-anthropic-api-key');
 
 $page = $client->beta->agents->versions->list(
@@ -2989,6 +3386,9 @@ var_dump($page);
       "archived_at": null,
       "created_at": "2026-03-15T10:00:00Z",
       "description": "A general-purpose starter agent.",
+      "execution_identity": {
+        "type": "service_account"
+      },
       "mcp_servers": [
         {
           "name": "example-mcp",

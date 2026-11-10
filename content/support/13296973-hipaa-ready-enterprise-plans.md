@@ -28,11 +28,11 @@ If you're unsure whether your organization benefits from a HIPAA-ready product, 
 
 The HIPAA-ready Enterprise offering includes many of the features available on **[standard Enterprise plans](https://support.claude.com/en/articles/9797531-what-is-the-enterprise-plan)**—but enabling HIPAA doesn't bring every feature under your BAA. Features fall into three categories: covered by your BAA, available but not covered, and disabled. PHI should only be processed through covered features, so it's important for administrators to know which features fall in which category and to configure their workspace accordingly. The **[Implementation Guide for HIPAA Entities](https://trust.anthropic.com/resources?s=rgirr4qe8u7ek8c2igx3&name=claude-for-enterprise-hipaa-ready-offering-implementation-guide)** on the Anthropic Trust Center lists every feature's status and is the authoritative source.
 
-**Important:** Enabling HIPAA alone doesn't bring Claude Code or Cowork under your BAA. The Primary Owner must also apply the HIPAA configuration to Claude Code (local mode) and Cowork (local mode). Claude Code (local mode) is Claude Code in the terminal and in the Code tab of Claude Desktop. Cowork (local mode) is Cowork in Claude Desktop.
+**Important:** Enabling HIPAA alone doesn't bring Claude Code or Cowork under your BAA. The Primary Owner must also apply the HIPAA configuration to Claude Code (local mode) and Cowork (local mode). This configuration is currently only available to organizations with an Anthropic account team. Claude Code (local mode) is Claude Code in the terminal and in the Code tab of Claude Desktop. Cowork (local mode) is Cowork in Claude Desktop.
 
 - **Before the Primary Owner applies the configuration:** Cowork is available but not covered under your BAA. Claude Code is covered only with zero data retention (ZDR) enabled, which is available on qualified accounts only. Without ZDR, Claude Code is also available but not covered. Don't use PHI with a product that isn't covered.
 
-- **After the Primary Owner applies the configuration:** Your BAA covers Claude Code (local mode) and Cowork (local mode). Cloud features such as Claude Code on the web, Remote Control, and Cowork in the cloud aren't available. The Primary Owner can't remove the configuration.
+- **After the Primary Owner applies the configuration:** Your BAA covers Claude Code (local mode) and Cowork (local mode). Cloud features such as Claude Code cloud sessions, Claude Code Remote Control, and Cowork in the cloud aren't available. The Primary Owner can't remove the configuration.
 
 Learn how to get the configuration and how to prepare in **[Use Claude Code (local mode) and Cowork (local mode) on a HIPAA-ready Enterprise plan](https://support.claude.com/en/articles/17318731)**.
 
@@ -50,7 +50,7 @@ Eligible Enterprise organizations can enable HIPAA directly from organization se
 
 ### Eligibility
 
-You can enable HIPAA from organization settings if your organization is on an Enterprise plan. Team plans and individual plans (Free, Pro, and Max) can't enable HIPAA.
+You can enable HIPAA from organization settings if your organization is on an Enterprise plan. Team plans and individual plans (Free, Pro, Max, and Ultra) can't enable HIPAA.
 
 Only the **Primary Owner** of the organization can accept the BAA and enable HIPAA. Other Owners or Admins can't complete this flow on the org's behalf. If you're an admin but not the Primary Owner of the Enterprise organization, ask your Primary Owner to sign in and complete enablement.
 

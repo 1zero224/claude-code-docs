@@ -6,6 +6,8 @@ featureMetadata:
   status: beta
   betaHeader: compact-2026-09-04
   supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
     - claude-fable-5-1
     - claude-mythos-5-1
     - claude-fable-5
@@ -13,17 +15,17 @@ featureMetadata:
     - claude-mythos-preview
     - claude-opus-5-5
     - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
     - claude-opus-4-8
     - claude-opus-4-7
     - claude-opus-4-6
-    - claude-sonnet-5-5
-    - claude-sonnet-5
     - claude-sonnet-4-6
-    - claude-haiku-5-5
   supportedPlatforms:
     Claude API: beta
     Claude Platform on AWS: beta
-    Google Cloud: beta
+    Claude Models on Google Cloud (Google managed): beta
     Microsoft Foundry: beta
 ---
 
@@ -36,10 +38,10 @@ Models with preserved thinking check earlier thinking blocks against the convers
 The thinking blocks in kept turns stay valid while all of these hold:
 
 * **The compaction request runs on a model with preserved thinking.** This condition covers every compaction request since a thinking block was produced, not only the most recent one. One way to meet it is to send every compaction request to the model the conversation uses.
-* **The kept turns directly follow the summarized messages, and you send them unchanged.** Send each kept message exactly as it is in your history. Don't skip or add a message between the last summarized message and the first kept one. The first kept message must also have a different role from the last summarized message, and it can't be a mid-conversation `role: "system"` message. Otherwise, the API merges it into the last summarized message. One way to get the first kept message right is to compact exactly the `messages` of a request you already sent. The kept turns then start with Claude's reply to it.
-* **`system` and the `tools` not marked `defer_loading: true` don't change.** They are the same on the compaction request as on the requests that produced the kept thinking, and they stay the same on the requests that follow. [Change the system prompt or tools](https://platform.claude.com/docs/en/build-with-claude/compaction-thinking-blocks#change-the-system-prompt-or-tools) covers how to change them safely.
+* **The kept turns directly follow the summarized messages, and you send them unchanged.** Send each kept message exactly as it is in your history. Don’t skip or add a message between the last summarized message and the first kept one. The first kept message must also have a different role from the last summarized message, and it can’t be a mid-conversation `role: "system"` message. Otherwise, the API merges it into the last summarized message. One way to get the first kept message right is to compact exactly the `messages` of a request you already sent. The kept turns then start with Claude’s reply to it.
+* **`system` and the `tools` not marked `defer_loading: true` don’t change.** They are the same on the compaction request as on the requests that produced the kept thinking, and they stay the same on the requests that follow. [Change the system prompt or tools](https://platform.claude.com/docs/en/build-with-claude/compaction-thinking-blocks#change-the-system-prompt-or-tools) covers how to change them safely.
 
-If a condition doesn't hold, nothing fails when you compact, and the API accepts the block on later requests either way. The failure comes on the first later request that sends the kept thinking where the API enforces the check: a 400 error by default, or dropped thinking blocks if the request sets `thinking.block_binding.prefix_mismatch_behavior` to `"drop_block"`. In the Message Batches API, an item that leaves the field unset doesn't fail. Where the check applies by default, the API drops the blocks instead. [What the API does with an invalid block](https://platform.claude.com/docs/en/build-with-claude/preserved-thinking#mismatch-behavior) describes both outcomes, and [When the API enforces the check](https://platform.claude.com/docs/en/build-with-claude/preserved-thinking#enforcement) says which requests are checked.
+If a condition doesn’t hold, nothing fails when you compact, and the API accepts the compaction block on later requests either way. What fails is the kept thinking, on the first later request that sends it. [What the API does with an invalid block](https://platform.claude.com/docs/en/build-with-claude/preserved-thinking#mismatch-behavior) describes what happens then, and [When `prefix_mismatch_behavior` is unset](https://platform.claude.com/docs/en/build-with-claude/preserved-thinking#enforcement) covers requests that don’t set the field, including Message Batches items.
 
 ## Compact again without breaking older thinking
 
@@ -47,28 +49,28 @@ You can [compact again](https://platform.claude.com/docs/en/build-with-claude/co
 
 The first of the [conditions for kept thinking](https://platform.claude.com/docs/en/build-with-claude/compaction-thinking-blocks#conditions-for-kept-thinking-to-stay-valid) counts every compaction since a thinking block was produced, so a turn that you keep through two compactions needs both to have run on a model with preserved thinking.
 
-Compactions from before a thinking block was produced don't count against it. Thinking produced after a block is in place is bound to that block, and it stays valid through later compactions that meet the conditions.
+Compactions from before a thinking block was produced don’t count against it. Thinking produced after a block is in place is bound to that block, and it stays valid through later compactions that meet the conditions.
 
 ## Change the system prompt or tools
 
-A later request can use a different `system`, different `tools`, or a different model than the compaction request, and the API still accepts the block. Such a change can invalidate the thinking in the kept turns, but it has no other effect.
+A later request can use a different `system`, different `tools`, or a different model from the compaction request, and the API still accepts the block. Such a change can invalidate the thinking in the kept turns, but it has no other effect.
 
 To change `system` or `tools` without invalidating any kept thinking, compact the whole conversation first, so no turns are kept. Then change them on the next request.
 
 To add an instruction or change the available tools without touching `system` or `tools`, append the change to `messages`, as described in [Make changes without editing the prefix](https://platform.claude.com/docs/en/build-with-claude/preserved-thinking#replace-prefix-edits).
 
-Mid-conversation system messages inside the summarized turns are summarized too, so their text instructions stop applying after the swap. A [per-message effort](https://platform.claude.com/docs/en/build-with-claude/effort#change-effort-mid-conversation-beta) level they set isn't carried over either: until a later message sets a level, turns run at the request's top-level `output_config.effort`, or the model's default if you don't set one. To keep an instruction or effort level in force, state it again in a `role: "system"` message directly after the first new `user` turn that follows the kept turns. Tool changes inside those turns carry over on their own when the compaction request also carries `inline-tools-2026-09-15`: the returned block records their net effect in its `tool_changes` field, so send the block back unmodified. If the block has no `tool_changes` field, restate those tool changes the same way. A system message placed between the block and the kept turns breaks their thinking.
+Mid-conversation system messages inside the summarized turns are summarized too, so their text instructions stop applying after the swap. A [per-message effort](https://platform.claude.com/docs/en/build-with-claude/effort#change-effort-mid-conversation-beta) level they set isn’t carried over either: until a later message sets a level, turns run at the request’s top-level `output_config.effort`, or the model’s default if you don’t set one. To keep an instruction or effort level in force, state it again in a `role: "system"` message directly after the first new `user` turn that follows the kept turns. Tool changes inside those turns carry over on their own when the compaction request also carries `inline-tools-2026-09-15`: the returned block records their net effect in its `tool_changes` field, so send the block back unmodified. If the block has no `tool_changes` field, restate those tool changes the same way. A system message placed between the block and the kept turns breaks their thinking.
 
 ## Check that the kept thinking held
 
-The compaction response doesn't say whether the kept thinking holds. The first request after the swap does. To check in your tests:
+The compaction response doesn’t say whether the kept thinking holds. The first request after the swap does. To check in your tests:
 
-1. Have a short conversation with thinking on. Use a model on which the API runs the check (see [When the API enforces the check](https://platform.claude.com/docs/en/build-with-claude/preserved-thinking#enforcement)), and use it for every step, because a model that can't read a thinking block drops it with no error.
+1. Have a short conversation with thinking on. Use a model that runs the prefix check (see [Keeping the prefix unchanged](https://platform.claude.com/docs/en/build-with-claude/preserved-thinking#prefix-check)), and use it for every step, because a model that can’t read a thinking block drops it with no error.
 2. Compact the older turns, and keep at least one turn that holds a thinking block.
 3. Send the next request, with the block first, then the kept turn, then a new `user` message, and with `thinking.block_binding.prefix_mismatch_behavior` set to `"error"`.
 4. Read the result. A 200 response whose `input_transformations` array is empty means no thinking block failed the check or was dropped. A 400 error that says the block is bound to a different conversation means one did. The message starts with the path of the first block that failed, and [What the API does with an invalid block](https://platform.claude.com/docs/en/build-with-claude/preserved-thinking#mismatch-behavior) shows it in full.
 
-The `prefix_mismatch_behavior` field needs the `thinking-binding-controls-2026-08-01` beta header in addition to [the `compact-2026-09-04` beta header](https://platform.claude.com/docs/en/build-with-claude/compaction-on-demand#request-a-summary). Setting the field also opts the request into the check on accounts where the check isn't on by default.
+The `prefix_mismatch_behavior` field needs the `thinking-binding-controls-2026-08-01` beta header in addition to the [`compact-2026-09-04` beta header](https://platform.claude.com/docs/en/build-with-claude/compaction-on-demand#request-a-summary). The value a request sets applies on any account.
 
 The following program runs the four steps. It prints how many thinking blocks the kept turn holds and how many entries `input_transformations` has; no entries means the kept thinking held:
 
@@ -252,7 +254,7 @@ The following program runs the four steps. It prints how many thinking blocks th
   // 1. Have a short conversation with thinking on.
   List<BetaMessageParam> history =
   [
-      new() { Role = Role.User, Content = "What are the main entities in the app's data model?" },
+      new BetaUserMessageParam { Content = "What are the main entities in the app's data model?" },
   ];
   var first = await client.Beta.Messages.Create(new MessageCreateParams
   {
@@ -265,14 +267,12 @@ The following program runs the four steps. It prints how many thinking blocks th
   });
   history.AddRange(
   [
-      new()
+      new BetaAssistantMessageParam
       {
-          Role = Role.Assistant,
           Content = first.Content.Select(block => new BetaContentBlockParam(block.Json)).ToList(),
       },
-      new()
+      new BetaUserMessageParam
       {
-          Role = Role.User,
           Content = "Testing starts on Tuesday, March 3, 2026, takes 10 weekdays, and pauses on March 9 and March 16. On which date does it end?",
       },
   ]);
@@ -285,9 +285,8 @@ The following program runs the four steps. It prints how many thinking blocks th
       Thinking = thinking,
       Messages = history,
   });
-  history.Add(new()
+  history.Add(new BetaAssistantMessageParam
   {
-      Role = Role.Assistant,
       Content = second.Content.Select(block => new BetaContentBlockParam(block.Json)).ToList(),
   });
   var thinkingBlocks = second.Content.Count(block => block.TryPickThinking(out _));
@@ -312,13 +311,12 @@ The following program runs the four steps. It prints how many thinking blocks th
   // 3. Put the block in front of the kept turn and ask the next question.
   history =
   [
-      new()
+      new BetaAssistantMessageParam
       {
-          Role = Role.Assistant,
           Content = summary.Content.Select(block => new BetaContentBlockParam(block.Json)).ToList(),
       },
       .. history[2..],
-      new() { Role = Role.User, Content = "Which day should the release go out?" },
+      new BetaUserMessageParam { Content = "Which day should the release go out?" },
   ];
   var third = await client.Beta.Messages.Create(new MessageCreateParams
   {
@@ -464,10 +462,7 @@ The following program runs the four steps. It prints how many thinking blocks th
 
       // 1. Have a short conversation with thinking on.
       var history = new ArrayList<BetaMessageParam>();
-      history.add(BetaMessageParam.builder()
-          .role(BetaMessageParam.Role.USER)
-          .content("What are the main entities in the app's data model?")
-          .build());
+      history.add(BetaMessageParam.ofUser("What are the main entities in the app's data model?"));
       var firstParams = MessageCreateParams.builder()
           .model(MODEL)
           .maxTokens(8192)
@@ -478,10 +473,8 @@ The following program runs the four steps. It prints how many thinking blocks th
           .build();
       var first = client.beta().messages().create(firstParams);
       history.add(first.toParam());
-      history.add(BetaMessageParam.builder()
-          .role(BetaMessageParam.Role.USER)
-          .content("Testing starts on Tuesday, March 3, 2026, takes 10 weekdays, and pauses on March 9 and March 16. On which date does it end?")
-          .build());
+      history.add(BetaMessageParam.ofUser(
+          "Testing starts on Tuesday, March 3, 2026, takes 10 weekdays, and pauses on March 9 and March 16. On which date does it end?"));
       var secondParams = MessageCreateParams.builder()
           .model(MODEL)
           .maxTokens(8192)
@@ -514,10 +507,7 @@ The following program runs the four steps. It prints how many thinking blocks th
       // 3. Put the block in front of the kept turn and ask the next question.
       firstTurn.clear();
       history.addFirst(summary.toParam());
-      history.add(BetaMessageParam.builder()
-          .role(BetaMessageParam.Role.USER)
-          .content("Which day should the release go out?")
-          .build());
+      history.add(BetaMessageParam.ofUser("Which day should the release go out?"));
       var thirdParams = MessageCreateParams.builder()
           .model(MODEL)
           .maxTokens(8192)
@@ -702,4 +692,26 @@ Thinking blocks in the kept turn: 1
 Dropped thinking blocks: 0
 ```
 
-In production, `"drop_block"` keeps requests succeeding when a condition doesn't hold, and reports each dropped block in `input_transformations` with `reason: "prefix_binding_mismatch"`. An entry whose `path` falls in a kept turn means that turn's thinking didn't hold. [What the API does with an invalid block](https://platform.claude.com/docs/en/build-with-claude/preserved-thinking#mismatch-behavior) describes what is dropped and says how to alert on it. On Claude Sonnet 5.5 and Claude Haiku 5.5, `block_binding` works only with `thinking: {"type": "adaptive"}`. A request that sets it with `thinking: {"type": "between_tools"}` on Claude Sonnet 5.5, or with `thinking: {"type": "disabled"}` on Claude Haiku 5.5, returns a 400 error. On those requests, make sure every condition holds, or remove the `thinking` and `redacted_thinking` blocks from the kept turns.
+In production, `"drop_block"` keeps requests succeeding when a condition doesn’t hold. The response lists each dropped block in `input_transformations` with `reason: "prefix_binding_mismatch"`. An entry whose `path` falls in a kept turn means a condition didn’t hold for that turn’s thinking. [What the API does with an invalid block](https://platform.claude.com/docs/en/build-with-claude/preserved-thinking#mismatch-behavior) describes what is dropped and says how to alert on it. On Claude Sonnet 5.5 and Claude Haiku 5.5, `block_binding` works only with `thinking: {"type": "adaptive"}`. With any other thinking setting on those models, you can’t send `block_binding`, so make sure every condition holds or strip the `thinking` and `redacted_thinking` blocks from the kept turns.
+
+## Availability
+
+Compaction and preserved thinking are in beta on select models.
+
+### API support
+
+#### [Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)
+
+* Availability: Available
+
+| Status | Cloud platforms                                                                                                                                                                                                                                                                                                                                                                  | Models                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Beta   | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry) | [Claude Fable 5.2](https://platform.claude.com/docs/en/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/en/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/en/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/en/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/en/models/mythos-5/overview), Claude Mythos Preview, [Claude Opus 5.5](https://platform.claude.com/docs/en/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/en/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/en/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/en/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/en/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/en/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/en/models/opus-4-7/overview), [Claude Opus 4.6](https://platform.claude.com/docs/en/models/opus-4-6/overview), [Claude Sonnet 4.6](https://platform.claude.com/docs/en/models/sonnet-4-6/overview) |
+
+### Required beta headers
+
+[Beta headers overview](https://platform.claude.com/docs/en/api/beta-headers)
+
+Beta headers allow you to access experimental features and new model capabilities before they become part of the standard API.
+
+* `compact-2026-09-04`

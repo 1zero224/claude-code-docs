@@ -30,7 +30,7 @@ You'll need to check the parent organization dynamic depending on your plan:
 
 - **If you have a Team or Enterprise plan:** You can proceed directly to the **[Setting up single sign-on (SSO)](https://support.claude.com/en/articles/13132885-setting-up-single-sign-on-sso)** guide. Your parent organization is already in place (or will be created when you enable SSO for Team plans).
 
-- **If you have a Claude Console organization and an existing Team or Enterprise plan:** Your Console organization may already be linked to your Team or Enterprise parent organization. Check if you can access **[platform.claude.com/settings/identity](http://platform.claude.com/settings/identity)**. If so, this indicates that the org is linked to the parent organization and SSO is already configured. If not, an Owner on your Team or Enterprise plan can initiate a merge to link your Console organization (see **[Merge organizations](#h_3bad8701c8)** below) to their parent organization and the existing SSO configuration.
+- **If you have a Claude Console organization and an existing Team or Enterprise plan:** Your Console organization may already be linked to your Team or Enterprise parent organization. Check if you can access **[platform.claude.com/settings/identity](https://platform.claude.com/settings/identity)**. If so, this indicates that the org is linked to the parent organization and SSO is already configured. If not, an Owner on your Team or Enterprise plan can initiate a merge to link your Console organization (see **[Merge organizations](#h_3bad8701c8)** below) to their parent organization and the existing SSO configuration.
 
 - **If you have a Claude Console organization without a Team or Enterprise plan:** **[Contact our Sales team](https://claude.com/contact-sales)** to request a parent organization for your Console account. Once we create your parent organization, you'll see the Identity settings page in Claude Console and can proceed with SSO setup.
 
@@ -82,7 +82,7 @@ Approving a merge takes two steps, one on each side, and completes only after bo
 
 2. **Parent organization:** An Owner or Admin of an organization already under the parent approves from Organization settings > Organization and access > Pending Organizations, or from the link in the "Parent Organization Update: New Member Organization Proposed" email.
 
-Once a Console organization is merged, it gains access to the **[Identity and access page](http://platform.claude.com/settings/identity)**, in the Organization settings, to configure SSO and provisioning settings.
+Once a Console organization is merged, it gains access to the **[Identity and access page](https://platform.claude.com/settings/identity)**, in the Organization settings, to configure SSO and provisioning settings.
 
 ---
 
@@ -118,15 +118,17 @@ For detailed information on how each provisioning method works, see **[Set up JI
 
 After enabling SSO for your organization, there are two distinct scenarios to consider for users who have individual accounts associated with your verified company domain:
 
-### Users with existing Free/Pro/Team/Max accounts who ARE added to your SSO application
+### Users with existing Free/Pro/Team/Max/Ultra accounts who ARE added to your SSO application
 
-These users keep access to their existing Free/Pro/Team/Max accounts. They can toggle between the Team or Enterprise plan account and their previous accounts by clicking the profile icon with their initials in the bottom left corner.
+These users keep access to their existing Free/Pro/Team/Max/Ultra accounts. They can toggle between the Team or Enterprise plan account and their previous accounts by clicking the profile icon with their initials in the bottom left corner. They can also close the personal account and bring what can move. Learn more in **[Move your personal Claude account to a Team or Enterprise organization](https://support.claude.com/en/articles/9267400-move-your-personal-claude-account-to-a-team-or-enterprise-organization)**.
 
-### Users with existing Free/Pro/Team/Max accounts who are NOT added to your SSO application
+On Enterprise plans, to close every personal account on your domain. Learn more in **[Claim and migrate accounts on your domain](https://support.claude.com/en/articles/14625619-claim-and-migrate-accounts-on-your-domain)**.
+
+### Users with existing Free/Pro/Team/Max/Ultra accounts who are NOT added to your SSO application
 
 - **If "Require SSO for Claude" is NOT enabled:** These users can still access their existing accounts using the "Continue with email" option.
 
-- **If "Require SSO for Claude" IS enabled:** These users will be unable to access their existing Free/Pro/Team/Max accounts. Please note that these accounts are not deleted, but will be inaccessible as users are unable to log in via SSO.
+- **If "Require SSO for Claude" IS enabled:** These users will be unable to access their existing Free/Pro/Team/Max/Ultra accounts. Please note that these accounts are not deleted, but will be inaccessible as users are unable to log in via SSO.
 
 ---
 
@@ -134,7 +136,7 @@ These users keep access to their existing Free/Pro/Team/Max accounts. They can t
 
 To view or download information about your verified domains and their usage across Claude organizations:
 
-1. Navigate to the **Organization and access** section in Claude (**[claude.ai/admin-settings/organization](https://claude.ai/admin-settings/organization)**) or the **Identity and access** section in Console (**[platform.claude.com/settings/identity](http://platform.claude.com/settings/identity)**).
+1. Navigate to the **Organization and access** section in Claude (**[claude.ai/admin-settings/organization](https://claude.ai/admin-settings/organization)**) or the **Identity and access** section in Console (**[platform.claude.com/settings/identity](https://platform.claude.com/settings/identity)**).
 
 2. Click “Domain memberships” in the **Domains** section.
 

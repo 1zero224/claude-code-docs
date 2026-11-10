@@ -14,15 +14,15 @@ The API is available to every Claude for Government organization by default, and
 
 ## Managing API keys
 
-To create and manage keys for your organization, open **Compliance API** under **Settings** in the organization admin portal. To create and manage keys that return events for every organization in your tenant, open **Compliance API keys** under **Settings** in the [tenant admin portal](/docs/government/tenant-admin/overview). Only tenant administrators can open the tenant admin portal.
+To create and manage keys for your organization, open **Compliance API** under **Settings** in the [organization admin portal](https://claude.com/docs/government/org-admin/overview.md#who-can-access-it). To create and manage keys that return events for every organization in your tenant, open **Compliance API keys** under **Settings** in the [tenant admin portal](https://claude.com/docs/government/tenant-admin/overview.md). Only tenant administrators can open the tenant admin portal.
 
 Both pages list only their own keys, showing each key's name, a hint with the last few characters of the key so you can tell keys apart, when the key was created, and whether it is active or revoked.
 
 To create a key, enter a name and click **Create key**. The full value is shown once, immediately after creation. Copy it somewhere safe before clicking **Done**.
 
-<Warning>
-  The full key value is shown **only once**, at creation time. If you lose it, create a new key and revoke the old one.
-</Warning>
+> [!WARNING]
+>
+> The full key value is shown **only once**, at creation time. If you lose it, create a new key and revoke the old one.
 
 Keys never expire on their own, so rotate them on whatever schedule your agency's policy requires. You can keep more than one key active at a time, which lets you rotate without interrupting your SIEM feed: create a new key, update your collector to use it, confirm events are still arriving, and then revoke the old key. Revoking a key takes effect immediately, and the next request made with it returns a 401.
 
@@ -30,10 +30,10 @@ Each key is scoped to the organization or tenant it was created in. A key create
 
 ## Calling the API
 
-Send a GET request to your Claude for Government host followed by the fixed path `/gateway-api/v1/compliance/activities`, with your key in the `x-api-key` header. The Claude for Government host is the address of your organization admin portal. If you are unsure of it, ask your Anthropic representative.
+Send a GET request to your Claude for Government host followed by the fixed path `/gateway-api/v1/compliance/activities`, with your key in the `x-api-key` header. The Claude for Government host is the domain name in the address of your organization admin portal. If you are unsure of it, ask your Anthropic representative.
 
 ```http theme={null}
-GET https://<claude-for-government-host>/gateway-api/v1/compliance/activities?since=2026-07-01T00:00:00Z&limit=500
+GET https://<claude-for-government-host>/gateway-api/v1/compliance/activities?since=<start-time>&limit=500
 x-api-key: <your-compliance-api-key>
 ```
 
@@ -50,6 +50,8 @@ x-api-key: <your-compliance-api-key>
 | `limit` | Maximum events per page, from 1 to 5000. Defaults to 100. |
 
 The exclusive bounds `created_at.gt` and `created_at.lt` are also accepted if your collector needs them.
+
+The API serves the most recent 30 days of activity. A lower bound earlier than that is treated as 30 days ago.
 
 ### Response format
 
@@ -82,7 +84,6 @@ The response is a JSON envelope containing a page of events and the cursors for 
 The `actor` object identifies who performed the action. Its `type` is one of:
 
 * `user_actor` for a person acting through the product or admin portal.
-* `admin_api_key_actor` for an action taken through an administrative API key.
 * `anthropic_actor` for an action performed by Anthropic personnel or systems on your behalf, such as initial provisioning. No individual identity is included.
 
 Each event also carries fields specific to its type, such as the role a user was changed to or the name of a key that was created.
@@ -98,7 +99,7 @@ On every `user.*` activity, two top-level fields identify the user the event is 
 | `user_id` | The Claude for Government user ID, in the same `usr_` format as `actor.user_id`. |
 | `user_email` | The user's email address at the time of the event. |
 
-The user an event is about is not always the actor. When an owner changes someone's role, the `actor` block names the owner and these fields name the user whose role changed.
+The user an event is about is not always the actor. When an owner changes someone's role, the `actor` block names the owner and these fields name the user whose role changed. When a tenant administrator who isn't one of the organization's Primary Owners grants or removes the Primary Owner role, the `user.role_changed` event also carries a `by_tenant_admin` field set to `true`.
 
 ```json theme={null}
 {
@@ -119,8 +120,6 @@ The user an event is about is not always the actor. When an owner changes someon
 }
 ```
 
-The top-level `user_id` and `user_email` fields appear on activities recorded after they were added to the API. Earlier activities are not updated, so your collector should treat these fields as optional.
-
 ### Activity types
 
 Event types use a dotted `resource.action` naming convention. The categories emitted today include:
@@ -136,13 +135,13 @@ New types may be added over time, so a collector should forward unfamiliar types
 
 ## Connecting to your SIEM
 
-Most deployments run a small scheduled worker that polls the API on a fixed interval, forwards each event to the SIEM's HTTP ingest endpoint, and records a time watermark so the next run picks up where the last one left off.
+Most deployments run a small scheduled worker that polls the API on a fixed interval, forwards each event to the SIEM's HTTP ingest endpoint, and records a time watermark so the next run picks up where the last one left off. A worker that falls more than 30 days behind cannot recover the gap.
 
-A typical run requests `since=<watermark>`, forwards every event returned, and if `has_more` is true, follows `after_id=<last_id>` for each further page until `has_more` is false. After all pages are drained, advance your watermark to the newest `created_at` you saw. Event `id` values are stable and unique, so your collector can deduplicate on `id` and safely retry a page or use an overlapping `since` without creating duplicate records in the SIEM.
+A typical run requests `since=<watermark>`, forwards every event returned, and if `has_more` is true, follows `after_id=<last_id>` for each further page until `has_more` is false. After all pages are drained, advance your watermark to one hour before the newest `created_at` you saw, because an event can reach the feed after a newer one. Event `id` values are stable and unique, so your collector should deduplicate on `id`, and can then safely retry a page or use an overlapping `since` without creating duplicate records in the SIEM.
 
 ## When the API is disabled
 
-Your tenant administrator can turn off the **Compliance API** setting on the [tenant Config page](/docs/government/tenant-admin/configuration). When that setting is off, the **Create key** button is hidden in the organization and tenant admin portals, and every call to `/gateway-api/v1/compliance/activities` returns a 400 error, including calls made with keys that were valid before the setting changed.
+Your tenant administrator can turn off the **Compliance API** setting on the [tenant Config page](https://claude.com/docs/government/tenant-admin/configuration.md). When that setting is off, the **Create key** button is hidden in the organization and tenant admin portals, and every call to `/gateway-api/v1/compliance/activities` returns a 400 error, including calls made with keys that were valid before the setting changed.
 
 Listing and revoking existing keys in either portal remains available even when the setting is off, so an exposed key can still be revoked.
 
@@ -150,9 +149,9 @@ Listing and revoking existing keys in either portal remains available even when 
 
 * The Claude for Government Compliance API is served from the Claude for Government service hostname, not from `api.anthropic.com`. Use the same host you use to reach the admin portal.
 * There is no separate Splunk add-on. The polling pattern described under [Connecting to your SIEM](#connecting-to-your-siem) is the reference implementation for a Splunk HTTP Event Collector job.
-* The desktop application's OpenTelemetry export is a separate log stream configured with **Telemetry endpoint** on the [Config](/docs/government/config/settings#telemetry-endpoint) page. It carries per-session tool and telemetry events to a collector you specify, while this API carries administrative audit events. See [Telemetry and egress](/docs/third-party/claude-desktop/telemetry) for what the OpenTelemetry export includes.
+* The OpenTelemetry export from the Claude applications is a separate log stream, configured with **Telemetry endpoint** on the [Config](https://claude.com/docs/government/config/settings.md#telemetry-endpoint) page. It carries per-session tool and telemetry events to a collector you specify, while this API carries administrative audit events.
 * The Compliance API returns governance and audit events only. It does not return conversation content, files, or anything your users type into Claude.
 * Each organization can hold up to 50 active keys at once, and keys created in the tenant admin portal have a separate limit of 50 active keys. Revoked keys do not count toward either limit.
 * Events are returned newest first within each page.
 * `first_id` and `last_id` are opaque cursors. Pass them back exactly as received rather than constructing them yourself.
-* If your network enforces a [tenant restriction](/docs/government/tenant-admin/tenant-restrictions), the same restriction applies to Compliance API requests.
+* If your network enforces a [tenant restriction](https://claude.com/docs/government/tenant-admin/tenant-restrictions.md), the same restriction applies to Compliance API requests.
