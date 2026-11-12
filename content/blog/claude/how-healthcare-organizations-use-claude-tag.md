@@ -1,11 +1,25 @@
+# How healthcare organizations use Claude Tag
+How Insight Health, Tennr, and Medallion are building human-agent teams with Claude Tag.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Tag
+  -
+AuthorsCamy Pearson, Maria Howe, Araba Koomson
+  -
+DateSeptember 14, 2026
+  -
+Reading time11 min
+  -
+ShareCopy link
 Healthcare organizations are using [Claude Tag (beta)](https://support.claude.com/en/articles/15594475-what-is-claude-tag), which brings Claude into Slack as [a teammate](https://academy.claude.com/courses/building-effective-human-agent-teams), to help them triage production alerts, maintain internal tools, and answer questions about payer rules. While Claude Tag isn't yet covered by Anthropic's [Business Associate Agreement](https://support.claude.com/en/articles/8114513-business-associate-agreements-baa-for-commercial-customers), several healthcare organizations are using it today in channels and with connectors that never touch protected health information (PHI).
 Mention @Claude in a channel and it reads the thread, uses the tools you've connected, does the work, and reports back. It remembers what happens in each channel, so long-running work never needs re-explaining, and it can watch a channel and step in on its own when you let it.
 Admins decide where Claude Tag works and what it can reach, so healthcare teams can keep Claude Tag out of channels and systems that hold PHI:
   - Claude Tag can be off by default and **enabled only in approved channels**, with DMs disabled and **connectors scoped per channel**.
   - Claude Tag doesn't read all of Slack – instead, it only sees what a workspace member sees. While it can read the public channels of the workspace and search them by keyword, it doesn’t have access to private channels it hasn’t been invited to.
-  - **Access bundles** let a team connect data sources like its codebase and issue tracker in one channel while the EHR, clinical systems, and patient communications are inaccessible. Learn more about Claude Tag’s [agent identity access model](https://claude.com/blog/agent-identity-access-model) and its full architecture in the[ security and data handling docs](https://claude.com/docs/claude-tag/concepts/security-and-data?open_in_browser=1), and you can read more about best practices for healthcare organizations, [here](https://claude.com/docs/claude-tag/admins/healthcare).
+  - **Access bundles** let a team connect data sources like its codebase and issue tracker in one channel while the EHR, clinical systems, and patient communications are inaccessible. Learn more about Claude Tag’s [agent identity access model](https://claude.com/resources/articles/agent-identity-access-model) and its full architecture in the[ security and data handling docs](https://claude.com/docs/claude-tag/concepts/security-and-data?open_in_browser=1), and you can read more about best practices for healthcare organizations, [here](https://claude.com/docs/claude-tag/admins/healthcare).
 Enterprise organizations that activate Claude Tag and link it to GitHub receive $25,000 in Claude Tag credit ($2,500 for Team organizations with 10+ seats); note that these credits expire October 1, 2026. See the credit details, [here](https://support.claude.com/en/articles/15575654-claude-tag-launch-promo-for-claude-team-and-enterprise).
-Here’s how Insight Health, Tennr, and Medallion are using Claude Tag to build [human-agent teams](https://claude.com/blog/building-effective-human-agent-teams) today.
+Here’s how Insight Health, Tennr, and Medallion are using Claude Tag to build [human-agent teams](https://claude.com/resources/articles/building-effective-human-agent-teams) today.
 #### **Running incident response at Insight Health**
 Insight Health builds MagicDocs, an AI referral coordinator for specialty medical practices. MagicDocs reads inbound patient documents (faxes, referrals, prior-authorization requests, labs, and medical records), extracts the clinical details, matches each document to the right patient, and writes structured data into the EHR. The company serves 1,100+ practices across 56 specialties.
 As Insight Health's customer base has grown, production alert triage has eaten into time its lean engineering team would rather spend on higher-value work. So for the past three months, the company has run Claude Tag in its PHI-free engineering and support channels, where it investigates production alerts, files and de-duplicates tickets, reviews PRs, and carries context from one thread to the next.
@@ -27,4 +41,26 @@ What made them comfortable rolling out Claude Tag? Sarkar points to picking the 
 #### **Getting started**
 The teams above all started in the same place: engineering, product, ops, or recruiting channels, with one or two connectors, working in open threads rather than DMs so the whole team could review and pick up context.
 Review the Claude Tag best practices for healthcare organizations, [here](https://claude.com/docs/claude-tag/admins/healthcare), then start with one channel. Turn Claude Tag on for an alert or support-engineering channel, connect GitHub, and let the team work with it for two weeks before widening the allowlist.
-***Get started with***[*** Claude Tag***](https://support.claude.com/en/articles/15594475-what-is-claude-tag)***.***
+***Get started with[ Claude Tag](https://support.claude.com/en/articles/15594475-what-is-claude-tag).***
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

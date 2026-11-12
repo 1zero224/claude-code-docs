@@ -1,3 +1,15 @@
+# How the product designer who built Claude Design uses it to explore ideas before building them
+*Nate Parrott, a product designer at Anthropic, shares how he uses Claude Design (in beta) to explore, iterate on, and share visual ideas early, from product prototypes to slide decks and animations.*
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Design
+  -
+DateJuly 24, 2026
+  -
+Reading time11 min
+  -
+ShareCopy link
 In the fall of 2025, I was the only product designer on[ Claude Code for VS Code](https://code.claude.com/docs/en/vs-code), working with two engineers to reimagine everything Claude Code does for a friendly interface outside the terminal. We[ shipped the beta](https://www.anthropic.com/news/enabling-claude-code-to-work-more-autonomously) at the end of September, [Opus 4.5 arrived](https://www.anthropic.com/news/claude-opus-4-5) in November, and the Claude Code team started shipping fast and aggressively. The engineers were shipping far more than before, while I was still delivering at the pace I always had. I needed to find a way to catch up.
 Claude Code runs in the terminal, where everything is text-based, and my first attempt treated it that way: I copied output into Claude, added screenshots, and asked, "Here's a feature we want to add. Why don't you design it?" The results weren't good. For a month or so, as a side project, I kept looking for ways to improve Claude’s design output.
 ## **Giving Claude an HTML playground**
@@ -31,6 +43,28 @@ I use Claude Design every day for what you’d call bread-and-butter design work
 ## **Make it alive**
 There's a Bret Victor talk every designer should watch at some point, called[ Stop Drawing Dead Fish](https://vimeo.com/64895205). From the blurb: "Everything we draw should be alive by default."
 I'd encourage designers, in Claude Design or any other tool, to think about how to make their creations alive. My favorite Claude Design creations are the ones that don't fit into existing boxes: docs with interactive simulations, slide decks that talk to you, diagrams that are also videos, designs that are also their own editors. Code, specifically HTML, is an amazing medium for creativity, and it's finally somewhat easy for designers to create with.
-Claude Design took its current shape because people at Anthropic kept finding uses I hadn't planned for. It now works inside any conversation with Claude, including Claude Code and the Artifacts tab, in beta on paid plans. If you already work at claude.ai/design, nothing changes for you. it is now available in beta on Claude Pro, Max, Team, and Enterprise plans.[ Try it](https://claude.com/product/design) and take it somewhere we haven't thought of yet.
+Claude Design took its current shape because people at Anthropic kept finding uses I hadn't planned for. It now works inside any conversation with Claude, including Claude Code and the Artifacts tab, in beta on paid plans. If you already work at claude.ai/design, nothing changes for you. It is now available in beta on Claude Pro, Max, Ultra, Team, and Enterprise plans.[ Try it](https://claude.com/product/design) and take it somewhere we haven't thought of yet.
 *This article was written by Nate Parrott, a product designer at Anthropic, and expresses his opinions, usage patterns, and advice on Claude Design.*
 ‍
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

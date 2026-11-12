@@ -1,3 +1,13 @@
+# Behind the model launch: What customers discovered testing Claude Opus 4.6 early
+Inside the tight window between pre-production access and public launch, when customers race to test what a new Claude model can really do.
+  -
+Category[Perspectives](https://claude.com/resources/perspectives)
+  -
+DateFebruary 9, 2026
+  -
+Reading time8 min
+  -
+ShareCopy link
 Before a [new Claude model goes live](https://www.anthropic.com/news/claude-opus-4-6), a small group of customers gets access days before the rest of the world. They work with pre-production research models, test them against real workloads to figure out what the model is great at, where it breaks, and whether it's ready to ship to their own users the moment Anthropic launches it publicly. Their honest assessments — what works *and* what doesn't — directly shape the version of the model Anthropic ultimately ships.
 The review window is tight. Teams clear their calendars, spin up war rooms, and start throwing their hardest problems at the model. Behind the scenes, it's late nights, many cups of coffee, and Slack channels lighting up at odd hours. What their customers eventually see is polished—but the process of getting there is a lot messier and a lot more fun.
 For this piece, we wanted to pull the curtain on what this looks like. [Harvey](https://www.harvey.ai/), [bolt.new](https://bolt.new/), [Shopify](https://www.shopify.com/), and [Lovable](https://lovable.dev/) all gave us a look inside at their early access period with Claude Opus 4.6: the approaches they took, the breakthroughs they found, and what they learned before anyone else.
@@ -30,3 +40,24 @@ Of course not all of the feedback was glowing, and that's the point. Early teste
 "We get to shape the future of tools our engineering organization will use," said Paulo Arruda at Shopify. "We're not just passive testers — we're partners in development. When we identify issues or patterns, Anthropic listens and iterates."
 ‍
 ‍
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleOct 22, 2026
+### Building agents: When to fold subagents into your main agent loop
+When building agents in Claude Platform, using fewer subagents in favor of progressively disclosed context and tools can improve quality while reducing cost and latency. Here’s when and how to migrate.
+Claude Platform
+](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop)[
+ArticleOct 13, 2026
+### Uber's CISO on building an insider threat program for AI
+Uber's CISO, Philip Martin, on the importance of monitoring and observability for AI agents, and how Uber's open-source tooling works alongside Enterprise Frontier Safeguards.
+](https://claude.com/resources/articles/uber-s-ciso-on-building-an-insider-threat-program-for-ai)[
+ArticleOct 8, 2026
+### How Block orchestrates Claude Fable across thousands of pull requests
+Bradley Axen, Head of AI Capabilities at Block, on how his team evaluates new large language models, how Claude Fable 5 orchestrates company-wide code migrations, and why safeguards are a critical part of deploying frontier intelligence responsibly, at scale.
+Claude Enterprise
+](https://claude.com/resources/articles/how-block-orchestrates-claude-fable-across-thousands-of-pull-requests)[
+ArticleOct 6, 2026
+### How Comcast and Booz Allen use Claude Mythos to find exploit chains and secure their codebases
+Security teams at Comcast and Booz Allen used Claude Mythos-class models through Project Glasswing to find, validate, and fix vulnerabilities their existing scanners missed.
+](https://claude.com/resources/articles/how-comcast-booz-allen-use-claude-mythos-to-secure-their-codebases)

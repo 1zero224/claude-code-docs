@@ -1,7 +1,19 @@
+# How Outtake built a cyber investigator on Claude
+How Outtake ensures multi-hour agent sessions stay on track to uncover attack network operations
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code, Claude Platform
+  -
+AuthorMichael Segner
+  -
+DateJuly 22, 2026
+  -
+Reading time4 min
+  -
+ShareCopy link
 *In our series, ***How startups build with Claude,** we highlight how startups are transforming their industries with AI. In this article, we share how Outtake built an autonomous cyber investigator that detects, investigates, and dismantles digital threats, from cloned login pages to entire adversarial networks.
-
-    The quick pitch     Name Outtake   Founded 2023   Founders Alex Dhillon (CEO), formerly of Palantir's moonshot team   Growth Grew annual recurring revenue 6x and its customer base more than 10x year-over-year, scanning 20M+ potential cyberattacks in 2025 alone.
-
+The quick pitchNameOuttakeFounded2023FoundersAlex Dhillon (CEO), formerly of Palantir's moonshot teamGrowthGrew annual recurring revenue 6x and its customer base more than 10x year-over-year, scanning 20M+ potential cyberattacks in 2025 alone.
 Even with strong safeguards and controls, bad actors can mask their use of AI in seemingly benign purposes that hide their malicious intent. Code generation platforms can create convincing login portals, agentic go-to-market tooling can power the distribution of phishing attacks, and image generation capabilities can spoof identity. Traditional cybersecurity defenses struggle to keep up.
 “If you put on the bad actor's hat, it's actually a great time to be running attacks,” says Alex Dhillon, founder and CEO of AI cybersecurity platform [Outtake](https://www.outtake.ai/). “The average attack is not only executed faster because of AI, but it also captures deeper access due to AI”
 Outtake unifies the full [digital trust attack chain](https://www.outtake.ai/blog/2026-digital-trust-industry-pain-report) into a single defense, using fleets of AI agents to autonomously detect, investigate, and dismantle threats aimed at their customers, which include leading AI labs, major hedge funds, and US federal agencies.
@@ -10,7 +22,6 @@ Here’s how the Outtake team recently built the Recon Agent, a long-running aut
 When targeting a company, attackers typically move through the same process: weaponize public data → build impersonations as lures → exploit internal systems. This process has been accelerated by AI.
 Before breaking into anything, they harvest publicly available information about an organization, and its executives and employees.
 They then turn that intelligence into bait, like a fake website with a fraudulent login page, to trick victims into handing over credentials. The access gained from these lures help the attacker get inside the perimeter to reach an organization’s most valuable and sensitive assets.
-
 This three-part sequence is predictable, but legacy security tooling guards only one slice at a time:
   - Threat intelligence tools monitor the public-data stage,
   - Brand protection tools watch for impersonations, and
@@ -21,7 +32,7 @@ To carry out this sophisticated workflow, the Recon Agent can read, write, and r
 These investigations can require agents to run autonomously for long periods of time. Agent sessions run a median of 16 minutes, but routinely stretch to an hour and beyond; the longest run thus far lasted two hours of agentic work before returning results.
 ## **How Outtake built a complex long-running agent with Claude**
 Outtake built the Recon Agent in roughly four stages. Each stage was about understanding what a good investigation looked like, then progressively handing that judgment to the agent.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a60e7ad9916514322ed5ac4_3f776183.png)
+![](https://assets.claude.com/c0095c91335295c423d1b1be3e7df8180e0d4303.png)
 ### **Step 1: Become the expert first.**
 Before building any part of the agent, Outtake's engineers ran real cyber investigations themselves and pulled domain expertise from customers and design partners.
 The goal was to define what "good" looks like. For these types of investigations, that meant identifying what evidence matters, how to organize it, and what separated an actionable conclusion from a guess. That standard became the fixed reference point they returned to at every later stage.
@@ -34,7 +45,7 @@ It was by prototyping in Claude Code that they forged their core design principl
 ### **Step 3: Graduate to a production-grade harness**
 “We really liked the patterns that Claude Code had introduced, but we needed additional access to the lower level primitives, which we weren't trying to build ourselves,” Hayford said.
 Using the Claude [Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview) was a natural next step for taking the Recon Agent into production. Carrying over skills and patterns from Claude Code ensured that the team didn't drop any velocity while they gained tighter control over the Recon Agent’s memory, context, and file system without reinventing the wheel in terms of the agent loop and handling sessions.
-### **Step 4: Build a tight iteration loop driven by evals. **
+### **Step 4: Build a tight iteration loop driven by evals.**
 The ability to iterate inexpensively and responsively is particularly crucial in cybersecurity, where attackers adapt the moment they learn a defensive tool exists. The team integrated agent evals from the very beginning, and arrived at a strong eval suite that runs many scenarios at once. This let them make sweeping changes, like model upgrades and full memory-system refactors, safely and with confidence.
 It also let the team pull themselves out of the agentic loop. When, for example, the Recon Agent finishes an investigation and reports back that it could have done better with some tool it didn't have, a separate coding agent then reads those suggestions, writes the new tool, and builds a test scenario to try it out.
 Only at the very end does a human step in to look at the result: did the agent do the investigation better with that tool, or not? “We are the bottleneck, and when you build these long, complex agents, it's very important that the feedback loop be automated. It's a lot faster and it's also a lot more satisfying as a developer,” said Hayford.
@@ -47,9 +58,9 @@ Filesystem enables memory that survives compaction. Agents are typically given v
 ### **Prompts are suggestions**
 Prompts provide flexibility when needed, but hardcoding where possible ensures stability. “When you're building these long-running agents that get complicated over time, prompts are suggestions,” Hayford said. “When an agent didn't do what you wanted, the natural response is to add to the most plastic part of the agent. Slipping ‘when X happens, make sure you do Y’ into the system prompt may work initially, but as this agent runs longer, every single word in that prompt will probably be ignored eventually.”
 The correct approach is to build around that likelihood by identifying what the agent should always do every time and making it part of the agent guardrails. “Pull these things out of the prompt and put them into the harness,” he said. “Now the agent doesn't have to think about it anymore and it has more context space and attention to put towards areas where it can really thrive.”
-*Read more on *[*best practices for directing Claude*](https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more)*, and the context cost and authority of each method. *
+*Read more on [best practices for directing Claude](https://claude.com/resources/articles/steering-claude-code-skills-hooks-rules-subagents-and-more), and the context cost and authority of each method.*
 ### **Evals are for speed, not just reliability**
-Use manual “reflections” as a roadmap to automated evals that tighten dev cycles.** **The conventional view is that evals are a quality gate for reliability. For long-running agents, though, the bigger payoff is speed.
+Use manual “reflections” as a roadmap to automated evals that tighten dev cycles. The conventional view is that evals are a quality gate for reliability. For long-running agents, though, the bigger payoff is speed.
 Early on, every time the Recon Agent ran, the team did a manual review of its performance. But reading an agent’s 30-minute transcript of everything it did is brutal and doesn't scale.
 “In modern agent development, evaluating the output is the most expensive step in the loop,” Jack said.
 An eval is just a structured, graded, automatable version of that reflection. Once you've codified what good looks like into a repeatable check, you can put an agent in the judge's seat to read the 30-minute transcript and score the run.
@@ -59,11 +70,31 @@ An eval is just a structured, graded, automatable version of that reflection. On
 “Security is a big note for us for building the Recon Agent,” Hayford said. “We gave it a file system and bash and we're sending it to adversarial environments, so the most important problem we had to solve was building a sort of blastbox where you could try to hide your agent from sensitive internals without actually hindering it.”
 Their approach assumes the agent might get hijacked, so the surrounding system is engineered to contain the damage. Security looks different from agent to agent, however, depending on their purpose, and not all agents are blastbox candidates.
 Outtake is now scoring the level of trust at the exact point where the agent reaches out to the internet, implementing a checkpoint that evaluates whatever the agent is about to touch: ‘Is this page an impersonation? Is it malware? Is it trying to prompt-inject the agent right now?’ This may be exactly the armor that agents need as they traverse an increasingly adversarial internet.
-
-    Best practices from the Outtake team     Do you know what "good" looks like? Be the agent first. Run the real task yourself and pull domain expertise from customers and design partners so you have a fixed standard to hold every later iteration against.   Is each piece of complexity earned? Find the simplest working version and automate piece by piece. Add complexity only when results justify it — same discipline as traditional software.   Is your harness matched to the workload? Validate assumptions fast in Claude Code, then graduate to the Agent SDK when you need lower-level control over memory, context, and sessions. Don't rebuild the agent loop yourself.   Where should the agent be constrained? Hardcode guardrails at the orchestration layer, but don't let those constraints reach into low-level judgment calls. The improvisation space is where the best results come from.
-
+Best practices from the Outtake teamDo you know what "good" looks like?Be the agent first. Run the real task yourself and pull domain expertise from customers and design partners so you have a fixed standard to hold every later iteration against.Is each piece of complexity earned?Find the simplest working version and automate piece by piece. Add complexity only when results justify it — same discipline as traditional software.Is your harness matched to the workload?Validate assumptions fast in Claude Code, then graduate to the Agent SDK when you need lower-level control over memory, context, and sessions. Don't rebuild the agent loop yourself.Where should the agent be constrained?Hardcode guardrails at the orchestration layer, but don't let those constraints reach into low-level judgment calls. The improvisation space is where the best results come from.
 ## **What's next**
 Recon Agent is live and running investigations today. If you want to go deeper on how Outtake uses Claude to map adversarial infrastructure at scale:
-  - [*View the full webinar*](https://www.anthropic.com/webinars/outtake-built-cyber-investigator-claude)* for a live demo and deeper discussion of how Outtake uses Claude to autonomously investigate and map threat infrastructure at scale.*
-  - [*See Recon Agent in action*](https://www.outtake.ai/solutions/recon-agent)*. Explore how the agent moves from a single impersonation to a full threat actor profile.*
-  - [*Get a free Recon Agent assessment*](https://www.outtake.ai/recon-agent-assessment)* to see what an investigation surfaces on your own exposure.*
+  - *[View the full webinar](https://claude.com/resources/webinars/outtake-built-cyber-investigator-claude) for a live demo and deeper discussion of how Outtake uses Claude to autonomously investigate and map threat infrastructure at scale.*
+  - *[See Recon Agent in action](https://www.outtake.ai/solutions/recon-agent). Explore how the agent moves from a single impersonation to a full threat actor profile.*
+  - *[Get a free Recon Agent assessment](https://www.outtake.ai/recon-agent-assessment) to see what an investigation surfaces on your own exposure.*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

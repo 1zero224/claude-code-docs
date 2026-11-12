@@ -1,16 +1,52 @@
+# Evaluate prompts in the developer console
+Generate, test, and evaluate prompts directly in the Anthropic Console with automatic test case generation and side-by-side output comparison.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Platform
+  -
+DateJuly 9, 2024
+  -
+Reading time4 min
+  -
+ShareCopy link
 When building AI-powered applications, prompt quality significantly impacts results. But crafting high quality prompts is challenging, requiring deep knowledge of your application's needs and expertise with large language models. To speed up development and improve outcomes, we've streamlined this process to make it easier for users to produce high quality prompts.
 You can now generate, test, and evaluate your prompts in the Anthropic Console. We've added new features, including the ability to generate automatic test cases and compare outputs, that allow you to leverage Claude to generate the very best responses for your needs.
 ### Generate prompts
 Writing a great prompt can be as simple as describing a task to Claude. The Console offers a [built-in prompt generator](https://www.anthropic.com/news/prompt-generator), powered by Claude 3.5 Sonnet, that allows you to describe your task (e.g. “Triage inbound customer support requests”) and have Claude generate a high-quality prompt for you.
-![App screen of Anthropic Console prompt generator](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d929bfbe47c603d7a45_a693e694fe0fe462b15c80463b92bbf2f9a74a05-2200x1200.png)
+![App screen of Anthropic Console prompt generator](https://assets.claude.com/44d2c58b7f523823519bc2058185551fe7938949.png)
 You can use Claude’s new test case generation feature to generate input variables for your prompt—for instance, an inbound customer support message—and run the prompt to see Claude’s response. Alternatively, you can enter test cases manually.
-![App screen of prompt generation and Claude response](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d929bfbe47c603d7a42_8d0f1c98a70cbe8246cd1e08aff7abeb0ac678c3-2200x1286.png)
+![App screen of prompt generation and Claude response](https://assets.claude.com/0b0101ebd793461e21d61bf6e15543c22ffccb0b.png)
 ### Generate a test suite
 Testing prompts against a range of real-world inputs can help you build confidence in the quality of your prompt before deploying it to production. With the new Evaluate feature you can do this directly in our Console instead of manually managing tests across spreadsheets or code.
 Manually add or import new test cases from a CSV, or ask Claude to auto-generate test cases for you with the ‘Generate Test Case’ feature. Modify your test cases as needed, then run all of the test cases in one click. View and adjust Claude’s understanding of the generation requirements for each variable to get finer-grained control over the test cases Claude generates.
-![App screen of comparison mode of different prompt responses](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d929bfbe47c603d7a50_1854b171f11156f3d71fb614b6ade93bb8b7b30a-2200x1302.png)
+![App screen of comparison mode of different prompt responses](https://assets.claude.com/0191a79957c21315babd9f39f5bac74ad16936b0.png)
 ### Evaluate model responses and iterate on prompts
 Refining your prompt now takes fewer steps, since you can create new versions of the prompt and re-run the test suite to quickly iterate and improve your results. We’ve also added the ability to compare the outputs of two or more prompts side by side.
 You can even have subject matter experts grade response quality on a 5-point scale in order to see whether the changes you’ve made have improved response quality. Both of these features enable a faster and more accessible way to improve model performance.
 ### Get started
 Test case generation and output comparison features are available to all users on the Anthropic Console. To learn more about how to generate and evaluate prompts with Claude, check out our [docs](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview).
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

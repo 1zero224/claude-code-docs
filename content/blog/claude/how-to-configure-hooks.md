@@ -1,3 +1,15 @@
+# Claude Code power user customization: How to configure hooks
+Learn how to configure Claude Code hooks to automate repetitive tasks, enforce project rules, and inject dynamic context into your coding sessions.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code
+  -
+DateDecember 11, 2025
+  -
+Reading time14 min
+  -
+ShareCopy link
 Even a smooth [Claude Code](https://www.claude.com/product/claude-code) workflow accumulates friction points over time. Every time Claude writes a file, [Prettier](https://prettier.io/) needs to run manually. Every time it runs npm test, the same permission prompt appears. Every session starts with pasting the same boilerplate project context into the first message.
 The good news? [Hooks](https://code.claude.com/docs/en/hooks-guide) eliminate these friction points. They act as triggers you can configure to fire before or after certain actions, allowing you to inject custom logic, scripts, and commands directly into Claude's operations.
 This article covers advanced configuration for developers already familiar with Claude Code basics. By the end of this article, you'll understand the eight hook types, when to use each one, how to configure them, and how to debug them when things go wrong.
@@ -13,12 +25,11 @@ Third, **hooks inject dynamic context without manual effort.** A SessionStart ho
 ## **Claude Code hook types and when to use them**
 Claude Code provides eight hook events that cover the full lifecycle of a session, from startup through tool execution to completion. Each fires at a specific moment, giving you precise control over when your automation runs. Choosing the right hook depends on what you want to accomplish.
 **Hooks at a glance**
-
-    Hook When it fires Common uses     PreToolUse Before a tool executes Block dangerous commands, validate file paths, auto-approve safe operations   PermissionRequest Before a permission dialog appears Auto-approve test commands, block access to sensitive files   PostToolUse After a tool completes Run formatters, trigger linters, log file changes   PreCompact Before context compaction Back up transcripts, preserve important decisions   SessionStart When a session begins or resumes Inject git status, load TODO lists, set environment context   Stop When Claude finishes responding Verify task completion, run tests, generate summaries   SubagentStop When a subagent completes Validate subagent output, trigger follow-up actions   UserPromptSubmit When you submit a prompt Inject sprint context, validate requests, add dynamic context
- You can remove this line if a caption isn't needed
+You can remove this line if a caption isn't neededHookWhen it firesCommon usesPreToolUseBefore a tool executesBlock dangerous commands, validate file paths, auto-approve safe operationsPermissionRequestBefore a permission dialog appearsAuto-approve test commands, block access to sensitive filesPostToolUseAfter a tool completesRun formatters, trigger linters, log file changesPreCompactBefore context compactionBack up transcripts, preserve important decisionsSessionStartWhen a session begins or resumesInject git status, load TODO lists, set environment contextStopWhen Claude finishes respondingVerify task completion, run tests, generate summariesSubagentStopWhen a subagent completesValidate subagent output, trigger follow-up actionsUserPromptSubmitWhen you submit a promptInject sprint context, validate requests, add dynamic context
 ### **PreToolUse**
 This is the most commonly used hook, firing after Claude chooses a tool to use but before the tool actually executes. Your script can inspect the planned action and approve it, block it, request user confirmation, or modify the parameters, using a matcher to filter which tools trigger this hook.
 This PreToolUse hook example evaluates file writes before they execute. Claude reviews the planned action against the specified criteria and can approve, block, or flag concerns based on the prompt logic.
+Copy
 ```
 {
   "hooks": {
@@ -43,6 +54,7 @@ When to use PreToolUse:
   - Modifying tool inputs to inject project-specific defaults
 ### **PermissionRequest**
 This hook fires when Claude would normally show a permission dialog. This hook intercepts the moment before you would see a confirmation prompt, letting your script decide whether to allow, deny, or still ask the user.
+Copy
 ```
 {
   "hooks": {
@@ -69,6 +81,7 @@ When to use PermissionRequest:
 ### **PostToolUse**
 Fires immediately after a tool completes successfully. Your script receives information about what happened, including the tool output, using matchers to filter which tools trigger it.
 This example of PostToolUse runs Prettier on any file Claude writes or edits. The pipe syntax in the matcher means it triggers for both Write and Edit tools.
+Copy
 ```
 {
   "hooks": {
@@ -94,6 +107,7 @@ When to use PostToolUse:
 ### **PreCompact**
 Fires before Claude compacts the conversation context to free up space. Compaction summarizes older parts of the conversation, which means some details get lost. This hook gives you a chance to preserve information before that happens.
 This PreCompact example backs up the transcript before automatic compaction. The matcher can be "auto" or "manual" so you can distinguish between automatic compaction and user-triggered compaction events.
+Copy
 ```
 {
   "hooks": {
@@ -117,6 +131,7 @@ When to use PreCompact:
   - Logging session milestones for later review
 ### **SessionStart**
 Fires when Claude Code starts a new session or resumes an existing one. Whatever your script outputs gets added to the conversation context, so Claude starts with that information already loaded.
+Copy
 ```
 {
   "hooks": {
@@ -141,6 +156,7 @@ When to use SessionStart:
 ### **Stop**
 Fires when Claude finishes responding and would normally wait for your next input. Your script can inspect what Claude produced and decide whether the task is truly complete.
 The script can return JSON with "continue": true to make Claude continue working, which is useful for multi-step workflows:
+Copy
 ```
 {
   "hooks": {
@@ -164,6 +180,7 @@ When to use Stop:
   - Checking that generated code compiles before stopping
 ### **SubagentStop**
 This hook fires whenever a subagent created via the Task tool finishes. Works the same way as Stop, but triggers specifically when a subagent completes its action (rather than the main agent). The configuration of SubagentStop mirrors the Stop hook structure:
+Copy
 ```
 {
   "hooks": {
@@ -187,6 +204,7 @@ When to use SubagentStop:
 ### **UserPromptSubmit**
 Fires when you submit a prompt, before Claude processes it. Whatever your script outputs via stdout gets added to Claude's context along with your prompt, which makes UserPromptSubmit useful for dynamically injecting information that Claude should consider.
 In this example, every time you submit a prompt, Claude receives the contents of your sprint context file. This keeps Claude informed about current priorities without you needing to restate them.
+Copy
 ```
 {
   "hooks": {
@@ -216,6 +234,7 @@ Project-level settings take precedence over user-level settings. There are also 
 Matchers are how you filter which tools can trigger your hook. They only apply to PreToolUse, PostToolUse, and PermissionRequest hooks.
 Simple string matching works exactly as you'd expect: "Write" matches only the Write tool.
 For example:
+Copy
 ```
 {
   "hooks": {
@@ -253,6 +272,7 @@ However, if you configure and approve hooks, they will execute at your permissio
 **Pro tip: **Before you run any commands in an environment, consider the risks. If you're going to run commands with hooks, consider good practices like: validating and sanitizing inputs from stdin, quoting shell variables to prevent injection, using absolute paths for scripts, and avoiding processing sensitive files like .env or credentials.
 ## **Debugging and testing**
 Claude Code logs everything to transcript files, which provides visibility into tool calls and responses without any setup. Every hook receives a transcript_path field pointing to a JSONL file containing the full session history. You can use a SessionStart hook to log where each transcript lives:
+Copy
 ```
 {
   "hooks": {
@@ -273,6 +293,7 @@ Then tail that transcript to watch Claude work in real time: `tail -f /path/to/t
 ### **Hook-specific debugging**
 For hook-specific debugging, add logging to your hook scripts. The transcript files will show what Claude did, but not why your hook took the action to approve or block something.
 With a little extra effort you can add a small bash script that will wrap your tools and log the additional information. For example, log-wrapper.sh:
+Copy
 ```
 #!/bin/bash
 LOG=~/.claude/hooks.log
@@ -292,6 +313,7 @@ exit $CODE
 ```
 This small wrapper script captures stdin into a variable, logs the timestamp and tool name, then pipes the input to your actual tool.
 Once you have log-wrapper.sh written, you would then prepend it to the tool call in the hook:
+Copy
 ```
 {
   "hooks": {
@@ -314,4 +336,26 @@ Once you have log-wrapper.sh written, you would then prepend it to the tool call
 Start with one simple hook that solves an actual friction point in your workflow. The PostToolUse formatter hook is a good first choice since the feedback is immediate and visible. Once that works, expand based on what you learn.
 For complete reference documentation including all available fields and advanced patterns, see the official hooks documentation.
 Hooks let you shape Claude Code to match your workflow rather than adapting your workflow to the tool. When you invest in configuring hooks, it pays off every session.
-*Start using hooks to customize your *[*Claude Code*](https://www.claude.com/product/claude-code)* workflows today.*
+*Start using hooks to customize your [Claude Code](https://www.claude.com/product/claude-code) workflows today.*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

@@ -1,4 +1,16 @@
-[Skills](https://www.claude.com/blog/skills) are custom instructions that extend Claude's capabilities for specific tasks or domains.
+# How to create Skills: Key steps, limitations, and examples
+Learn how to write tailored skills that deliver stronger, more effective outputs from Claude.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude apps
+  -
+DateNovember 19, 2025
+  -
+Reading time14 min
+  -
+ShareCopy link
+[Skills](https://claude.com/resources/articles/skills) are custom instructions that extend Claude's capabilities for specific tasks or domains.
 When you create a skill via a [SKILL.md](http://skill.md) file, you're teaching Claude how to handle specific scenarios more effectively. The power of skills lies in their ability to encode institutional knowledge, standardize outputs, and handle complex multi-step workflows that would otherwise require repeated explanation or investment in building a custom agent.
 Learn how to create skills that transform Claude from general-purpose assistant into specialized expert for your specific workflows either with our [skill creator](https://github.com/anthropics/skills/tree/main/skill-creator) template or manually. (Pro-tip: to make it easy, we recommend building your [SKILL.md](http://skill.md) file with this template and tailoring from there).
 ## **Creating a skill in 5 steps**
@@ -13,10 +25,12 @@ The name should be straightforward and descriptive. Use lowercase with hyphens (
 The description determines when your skill activates, making it the most critical component. Write it from Claude's perspective, focusing on triggers, capabilities, and use cases.
 A strong description balances several elements: specific capabilities, clear triggers, relevant context, and boundaries.
 **Weak description**:
+Copy
 ```
 This skill helps with PDFs and documents.
 ```
 **Strong description**:
+Copy
 ```
 Comprehensive PDF manipulation toolkit for extracting text and tables, creating new PDFs, merging/splitting documents, and handling forms. When Claude needs to fill in a PDF form or programmatically process, generate, or analyze PDF documents at scale. Use for document workflows and batch operations. Not for simple PDF viewing or basic conversions.
 ```
@@ -25,10 +39,11 @@ The stronger version gives Claude multiple data points: specific verbs (extract,
 Your instructions should be structured, scannable, and actionable. Use markdown headers, bullet points for options, and code blocks for examples.
 Structure with clear hierarchy: overview, prerequisites, execution steps, examples, error handling, and limitations. Break complex workflows into discrete phases with clear inputs and outputs.
 Include concrete examples showing correct usage. Specify what the skill cannot do to prevent misuse and manage expectations. Your [SKILL.md](http://skill.md) file can also include additional reference files and assets to provide even more clarity and guidance around what you’re asking the agent to do when the skill is triggered.
-### **5. Upload your skill **
+### **5. Upload your skill**
 Depending on what Claude surface you’re building on, here’s how to upload your skill for use:
-  - [Claude.ai](http://claude.ai) (Claude apps): Go to **Settings** and add your custom skill there. Custom skills require a Pro, Max, Team, or Enterprise plan with code execution enabled. Skills uploaded here are individual to each user—they are not shared organization-wide and cannot be centrally managed by admins.
+  - [Claude.ai](http://claude.ai) (Claude apps): Go to **Settings** and add your custom skill there. Custom skills require a Pro, Max, Ultra, Team, or Enterprise plan with code execution enabled. Skills uploaded here are individual to each user. They are not shared organization-wide and cannot be centrally managed by admins.
   - [Claude Code](https://www.claude.com/product/claude-code): Create a skills/ directory in your plugin or project root and add skill folders containing SKILL.md files. Claude discovers and uses them automatically when the plugin is installed. Example structure:
+Copy
 ```
 my-project/
 ├── skills/
@@ -36,6 +51,7 @@ my-project/
 │       └── SKILL.md
 ```
   - [Claude Developer Platform](https://www.claude.com/platform/api): Upload skills via the Skills API (/v1/skills endpoints). Use a POST request with the required beta headers:
+Copy
 ```
 curl -X POST "https://api.anthropic.com/v1/skills" \
   -H "x-api-key: $ANTHROPIC_API_KEY" \
@@ -74,7 +90,8 @@ When writing skills, avoid bloating the context window with unnecessary content.
 Use a "menu" approach: if your skill covers multiple distinct processes or options, the SKILL.md should describe what's available and use relative paths to reference separate files for each. Claude then reads only the file relevant to the user's task, leaving the others untouched for that conversation.
 These separate files don't need to represent mutually exclusive paths. The key principle is breaking content into reasonable chunks and letting Claude select what's needed based on the task at hand.
 ## ‍**Real-world skills examples**
-### **Skill example #1: **[**docx creation skill**](https://github.com/anthropics/skills/tree/main/document-skills/docx)
+### **Skill example #1: [docx creation skill](https://github.com/anthropics/skills/tree/main/document-skills/docx)**
+Copy
 ```
 #---
 name: docx
@@ -274,7 +291,8 @@ Required dependencies (install if not available):
 - **defusedxml**: `pip install defusedxml` (for secure XML parsing)
 ```
 **What makes it strong**: Provides a clear decision tree that routes Claude to the right workflow based on task type, uses progressive disclosure to keep the main file lean while referencing detailed implementation files only when needed, and includes concrete good/bad examples that show exactly how to implement complex patterns like tracked changes.
-### **Skill example #2: **[**Brand guidelines**](https://github.com/anthropics/skills/blob/main/brand-guidelines/SKILL.md?plain=1)
+### **Skill example #2: [Brand guidelines](https://github.com/anthropics/skills/blob/main/brand-guidelines/SKILL.md?plain=1)**
+Copy
 ```
 #name: brand-guidelines
 description: Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply.
@@ -351,7 +369,8 @@ To access Anthropic's official brand identity and style resources, use this skil
 ```
 **What makes it strong**: Provides precise, actionable information Claude doesn't inherently have (exact hex codes, font names, size thresholds) with a clear description that tells Claude both what it does and when to trigger it.
 **What makes it strong**: Creative capability with clear boundaries, copyright protection built in, technical scaffolding for non-musicians, quality standards.
-### **Skill example #3: **[**frontend design skill**](https://www.claude.com/blog/improving-frontend-design-through-skills)
+### **Skill example #3: [frontend design skill](https://claude.com/resources/articles/improving-frontend-design-through-skills)**
+Copy
 ```
 name: frontend-design
 description: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, or applications. Generates creative, polished code that avoids generic AI aesthetics.
@@ -435,3 +454,29 @@ API developers:
 Claude Code users:
   - Install Skills via [plugin marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
   - Check out our [skills cookbook](https://platform.claude.com/cookbook/skills-notebooks-01-skills-introduction)
+### Agent Skills
+Start using Skills with Claude to build more powerful applications today.
+[Get started](https://claude.com/resources/articles/skills)
+![](https://assets.claude.com/cf758d6a72887271ce371b8bfd2ba845fe172e05.svg)
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

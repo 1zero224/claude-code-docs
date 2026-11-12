@@ -1,3 +1,15 @@
+# Claude 2 on Amazon Bedrock
+Claude 2 is now available on Amazon Bedrock, helping enterprises like LexisNexis, Lonely Planet, and Ricoh USA build secure, scalable AI applications.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Platform
+  -
+DateAugust 23, 2023
+  -
+Reading time4 min
+  -
+ShareCopy link
 We’re excited that Claude 2 is now available to customers on Amazon Bedrock.
 [Claude 2](https://www.anthropic.com/news/claude-2) is our state-of-the-art model that excels at thoughtful dialogue, content creation, complex reasoning, creativity, and coding, built with [Constitutional AI](https://www.anthropic.com/news/claudes-constitution).
 [Amazon Bedrock](https://aws.amazon.com/bedrock/) is a fully managed service that makes leading foundation models accessible via an API so it’s easier for businesses to build and scale generative AI-based applications. When the service [launched in April](https://www.aboutamazon.com/news/aws/aws-amazon-bedrock-generative-ai-service) of this year, Claude 1.3 and Claude Instant were among the first foundation models available to Amazon Web Services (AWS) customers.
@@ -14,3 +26,27 @@ Ricoh USA offers workplace solutions and digital transformation services designe
 ### Getting started
 To learn more about building next-generation AI applications with Claude on Amazon Bedrock, please visit [aws.amazon.com/bedrock/claude](https://aws.amazon.com/bedrock/claude/).
 We’re grateful for the interest in this important collaboration, and we look forward to making our safer, more reliable AI models even more accessible through Amazon Bedrock in the future.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

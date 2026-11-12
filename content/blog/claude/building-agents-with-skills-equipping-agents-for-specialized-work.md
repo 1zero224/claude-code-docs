@@ -1,11 +1,23 @@
+# Building agents with Skills: Equipping agents for specialized work
+Skills package domain expertise in files agents can access and apply—turning general-purpose agents into knowledgeable specialists for real work.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code
+  -
+DateJanuary 22, 2026
+  -
+Reading time12 min
+  -
+ShareCopy link
 A lot has changed in the past year. MCP became the standard for agent connectivity with rapid adoption from industry leaders and the developer community. [Claude Code launched](https://www.anthropic.com/news/claude-3-7-sonnet) as a general-purpose coding agent. And we launched the [Claude Agent SDK](https://www.anthropic.com/engineering/building-agents-with-the-claude-agent-sdk), which now provides a production-ready agent out of the box.
 But as we've built and deployed these agents, we keep running into the same gap: agents have intelligence and capabilities, but not always the expertise to effectively tackle real work. This led us to [create Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills). Skills are organized collections of files that package domain expertise - workflows, best practices, scripts - in a format agents can access and apply. They turn a capable generalist into a knowledgeable specialist.
 In this post, we'll explain why we stopped building specialized agents and started building skills instead, and how this shift is changing how we think about extending agent capabilities.
 ## **The new paradigm: code is all you need**
 We used to think agents in different domains would look very different. A coding agent, a research agent, one for finance, one for marketing—each seemed to need its own tools and scaffolding. The industry initially embraced this model of domain-specific agents. But as models improved in intelligence and agent capabilities progressed, we converged on a different approach.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6972a852db1883d8c862151f_building-agents-with-skills-fig1-v3%402x.png)
+![](https://assets.claude.com/3839436a24bb05c8cb491885831acb92d24c3bee.png)
 We came to see code less as just a use case and more as an interface for agents to do almost any digital work. Claude Code is a coding agent, but also a general-purpose agent that happens to work through code.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6972a8b8cb336e177c409445_building-agents-with-skills-fig2-v4%402x.png)
+![](https://assets.claude.com/88670ce1662bc33a0d7019f12b60affcf8f7c9ff.png)
 Consider working with Claude Code to generate a financial report. It can call APIs for research, store data in the filesystem, analyze it with Python, and synthesize insights. All of that happens through code. The scaffolding becomes as simple as bash and a filesystem.
 But general capability isn't the same as expertise. When we started using Claude Code for real work, a gap emerged.
 ## **The missing piece: domain expertise**
@@ -14,6 +26,7 @@ Agents today are like that math genius: brilliant at reasoning through novel sit
 Skills bridge this gap by packaging domain expertise in a format that agents can progressively access and apply.
 ## **What are Agent Skills?**
 Skills package domain expertise and procedural knowledge for agents.
+Copy
 ```
 anthropic_brand/
 ├── SKILL.md
@@ -24,6 +37,7 @@ anthropic_brand/
 The simplicity of skills is deliberate. Files are a universal primitive that works with what you already have. You can version them with Git, store them in Google Drive, and share them with your team. This simplicity also means skill creation isn't limited to engineers. Product managers, analysts, and domain experts are already building skills to codify their workflows.
 ## **Progressive disclosure**
 Skills can contain extensive information. To protect the context window and make skills composable, they use progressive disclosure: at runtime, only the metadata (name and description from the YAML frontmatter) is shown to the model.
+Copy
 ```
 ---
 name: Anthropic Brand Style Guidelines
@@ -35,6 +49,7 @@ This three-tier approach means you can equip an agent with hundreds of skills wi
 ## **Skills can include scripts as tools**
 Traditional tools have problems: some have poorly written instructions, the model can't always modify or extend them, and they often bloat the context window. Code, on the other hand, is self-documenting, modifiable, and doesn't need to be in context at all times.
 Here's a real example: we kept seeing Claude write the same script to apply Anthropic styling to slides. So we asked Claude to save it as a tool for itself:
+Copy
 ```
 # anthropic/brand_styling/apply_template.py
 import sys
@@ -49,6 +64,7 @@ for slide in prs.slides:
     ...
 ```
 The corresponding documentation in slide-decks.md simply references this script:
+Copy
 ```
 ## Anthropic Slide Decks
 - Intro/outro slides
@@ -65,7 +81,7 @@ The skills ecosystem has emerged quickly, and so far we've seen three major type
 ### **Foundational skills**
 These provide core capabilities everyone needs: working with documents, spreadsheets, presentations, etc. They encode best practices for document generation and manipulation. You can see what this looks like in practice by exploring the [foundational skills in our public repository](https://github.com/anthropics/skills/tree/main/skills/public).
 ### **Partner skills**
-As skills standardize how agents interact with specialized capabilities, companies are building skills to make their services agent-accessible. [K-Dense](https://github.com/K-Dense-AI/claude-scientific-skills), [Browserbase](https://github.com/browserbase/agent-browse), [Notion](https://www.notion.so/notiondevs/Notion-Skills-for-Claude-28da4445d27180c7af1df7d8615723d0), and [many others](https://claude.com/blog/organization-skills-and-directory) are creating skills that integrate their services directly, extending Claude's capabilities in specific domains while maintaining the simplicity of the skills format.
+As skills standardize how agents interact with specialized capabilities, companies are building skills to make their services agent-accessible. [K-Dense](https://github.com/K-Dense-AI/claude-scientific-skills), [Browserbase](https://github.com/browserbase/agent-browse), [Notion](https://www.notion.so/notiondevs/Notion-Skills-for-Claude-28da4445d27180c7af1df7d8615723d0), and [many others](https://claude.com/resources/articles/organization-skills-and-directory) are creating skills that integrate their services directly, extending Claude's capabilities in specific domains while maintaining the simplicity of the skills format.
 ### **Enterprise skills**
 Organizations build proprietary skills encoding their internal processes and domain expertise. Skills help capture the specific workflows, compliance requirements, and institutional knowledge that make an agent useful for enterprise work.
 ## **Trends we see**
@@ -76,7 +92,7 @@ Early skills were simple documentation references. Now we're seeing sophisticate
   - **Intermediate**: "Financial model builder" (~800 lines) - Data retrieval, Excel modeling with Python
   - **Complex**: "RNA sequencing pipeline" (2,500+ lines) - Coordinates HISAT2, StringTie, DESeq2 analysis
 ### **Skills and MCP**
-[Skills and MCP servers work together](https://claude.com/blog/extending-claude-capabilities-with-skills-mcp-servers) naturally. A competitive analysis skill might coordinate web search, internal databases via MCP, Slack message history, and Notion pages to synthesize a comprehensive report.
+[Skills and MCP servers work together](https://claude.com/resources/articles/extending-claude-capabilities-with-skills-mcp-servers) naturally. A competitive analysis skill might coordinate web search, internal databases via MCP, Slack message history, and Notion pages to synthesize a comprehensive report.
 ### **Non-developer adoption**
 Skill creation is expanding beyond engineers to product managers, analysts, and domain experts across disciplines. They can create and test their first skill in under 30 minutes using the skill-creator tool, which guides them through the process interactively. We're working to make skill creation even more accessible, with improved tooling and templates that let anyone capture and share expertise.
 ## **The complete architecture**
@@ -85,7 +101,7 @@ Putting it all together, the emerging agent architecture looks like a combinatio
   - **Agent runtime**: Execution environment (code, filesystem)
   - **MCP servers**: Connections to external tools and data sources
   - **Skills library**: Domain expertise and procedural knowledge
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6972ab24ac6df74ad6704f37_building-agents-with-skills-fig3-v2%402x.png)
+![](https://assets.claude.com/7a74e774acfcc54e8daf30297ecca8581deca386.png)
 Each layer has a clear purpose: the loop reasons, the runtime executes, MCP connects, and skills guide. This separation makes the system comprehensible and allows each piece to evolve independently.
 Consider what happens when you add a single skill to this architecture. The [frontend design skill](https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design) transforms Claude's frontend capabilities instantly. It provides specialized guidance on typography, color theory, and animation, activating only when building web interfaces. Progressive disclosure means it loads only when relevant. Adding new capabilities is straightforward.
 ## **Deploying skills to new verticals**
@@ -120,3 +136,25 @@ We're converging on an architecture for general agents, and skills provide a par
   - [Skills best practices documentation](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
 ### **Acknowledgments:**
 Barry Zhang, Mahesh Murag, Keith Lazuka, Ryan Whitehead
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

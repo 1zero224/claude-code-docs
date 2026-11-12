@@ -1,3 +1,15 @@
+# Common workflow patterns for AI agents—and when to use them
+*Practical guidance on how to structure agent tasks using three common workflow patterns, with tradeoffs and benefits for each.*
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Platform
+  -
+DateMarch 5, 2026
+  -
+Reading time13 min
+  -
+ShareCopy link
 [AI agents](https://www.anthropic.com/research/building-effective-agents) make decisions autonomously, and workflows are how you bring structure to that autonomy. They establish execution patterns that channel agent capabilities toward complex problems requiring coordinated steps, predictable outcomes, and orchestrated timing.
 When you need multiple agents working together, the real decision is which pattern fits your problem.
 We've worked with dozens of teams building AI agents, and in production, three patterns cover the vast majority of use cases: sequential, parallel, and evaluator-optimizer.
@@ -17,15 +29,13 @@ In production, we see three workflow patterns come up most often. Think of these
   - **Parallel workflows** — for running independent tasks across agents simultaneously
   - **Evaluator-optimizer workflows** — for outputs that need iterative refinement
 Each workflow type solves specific problems and comes with clear tradeoffs around complexity, cost, and performance.
-
-     Problem it solves When to use Tradeoff Benefit     **Sequential** Tasks have dependencies: step B needs step A's output Multi-stage processes, data pipelines, draft-review-polish cycles Adds latency (each step waits for the previous one) Can improve accuracy by letting each agent focus on one thing   **Parallel** Tasks are independent but doing them one at a time is slow Evaluations across multiple dimensions, code review, document analysis Costs more (multiple concurrent API calls) and requires an aggregation strategy Can lead to faster completion and separation of concerns across engineering teams   **Evaluator-optimizer** First-draft quality isn't good enough Technical documentation, customer communications, code generation against specific standards Multiplies token usage and adds iteration time Can generate better outputs through structured feedback loops
-
+Problem it solvesWhen to useTradeoffBenefit**Sequential**Tasks have dependencies: step B needs step A's outputMulti-stage processes, data pipelines, draft-review-polish cyclesAdds latency (each step waits for the previous one)Can improve accuracy by letting each agent focus on one thing**Parallel**Tasks are independent but doing them one at a time is slowEvaluations across multiple dimensions, code review, document analysisCosts more (multiple concurrent API calls) and requires an aggregation strategyCan lead to faster completion and separation of concerns across engineering teams**Evaluator-optimizer**First-draft quality isn't good enoughTechnical documentation, customer communications, code generation against specific standardsMultiplies token usage and adds iteration timeCan generate better outputs through structured feedback loops
 ‍
 Start with the simplest pattern that solves your problem. Default to sequential. Move to parallel when latency is the bottleneck and tasks are independent and add evaluator-optimizer loops only when you can measure the quality improvement.
 ### **Sequential workflows**
 Sequential workflows execute tasks in a predetermined order.
 Agents at each stage process inputs, make decisions, make tool calls as needed, then pass results to the next stage. The result is a clear chain of operations where outputs flow linearly through the system.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69a9d98c9196625199b6a5f0_fig1-sequential-workflow-v1%20(1).png)
+![](https://assets.claude.com/2fdd3b26e1ebfc261a7e6b4eac1b9645affd94e4.png)
 **When to use:** Sequential workflows excel when tasks naturally break down into distinct stages with clear dependencies. You're trading some latency for higher accuracy by focusing each agent on a specific subtask instead of trying to handle everything at once.
 Use sequential workflows when there are:
   - Multi-stage processes where each step depends on the previous output
@@ -42,7 +52,7 @@ Parallel workflows distribute independent tasks across multiple agents that exec
 This pattern can deliver speed improvements when tasks don't depend on each other.
 The approach resembles the fan-out/fan-in pattern from distributed systems. You send the same or related work to multiple agents, each processes independently, then you aggregate or synthesize their outputs.
 Agents don't hand off work to each other—they operate autonomously and produce results that contribute to the overall task.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69a9d9d2e30946c46eb80032_fig2-parallel-workflow-v1%20(1).png)
+![](https://assets.claude.com/3c4721f857b04a10946625c9f43254700751e78c.png)
 **When to use:** Parallelization makes sense when you can divide work into independent subtasks that benefit from simultaneous processing, or when you need multiple perspectives on the same problem. It also enables separation of concerns: different engineers can own and optimize individual agents independently without their work interfering with each other. For complex tasks, handling each consideration with a separate AI call often outperforms trying to juggle everything in one call.
 Consider parallel workflows for:
   - Sectioning approaches where different agents handle different aspects (like one processing queries while another screens for safety issues)
@@ -56,7 +66,7 @@ Consider parallel workflows for:
 ### **Evaluator-optimizer workflows**
 Evaluator-optimizer workflows pair two agents in an iterative cycle: one generates content, another evaluates it against specific criteria, and the generator refines based on that feedback. This continues until the output meets your quality threshold or hits a maximum iteration count.
 The key insight is that generation and evaluation are different cognitive tasks. Separating them lets each agent specialize—the generator focuses on producing content, the evaluator focuses on applying consistent quality criteria.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69a9d9f9dc54bd92bd71f921_fig3-evaluator-optimizer-workflow-v1%20(1).png)
+![](https://assets.claude.com/9a59c02f15e74f13749b2ea1d8ce2ca3f7859fb1.png)
 **When to use:** This pattern works when you have clear, measurable quality criteria that an AI evaluator can apply consistently, and when the gap between first-attempt and final quality is meaningful enough to justify the extra tokens and latency.
 Consider evaluator-optimizer workflows for:
   - Code generation with specific requirements (security standards, performance benchmarks, style guidelines)
@@ -87,6 +97,28 @@ The key is matching pattern complexity to actual requirements. Don't add paralle
 ## **Evolve your workflows thoughtfully**
 Our best advice: start with the simplest pattern that works. If a sequential workflow handles your use case, don't add parallelization. If first-attempt quality is good enough, skip the evaluator-optimizer loop.
 These three patterns give you clear upgrade paths as requirements change. A sequential workflow can incorporate parallel processing at bottleneck stages. An agentic approach can add evaluation when quality standards tighten, and because these patterns are modular, you won't need complete rewrites.
-For implementation guidance, detailed examples, and advanced patterns including hybrid approaches, check out our full white paper:[ *Building effective AI agents: architecture patterns and implementation frameworks*](https://resources.anthropic.com/ty-building-effective-ai-agents).
+For implementation guidance, detailed examples, and advanced patterns including hybrid approaches, check out our full white paper:[*Building effective AI agents: architecture patterns and implementation frameworks*](https://resources.anthropic.com/ty-building-effective-ai-agents).
 ‍
-*Build on the *[*Claude Developer Platform *](https://claude.com/platform/api)*today.*
+*Build on the [Claude Developer Platform ](https://claude.com/platform/api)today.*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

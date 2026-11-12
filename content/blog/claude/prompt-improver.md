@@ -1,8 +1,20 @@
+# Improve your prompts in the developer console
+Claude can now automatically refine prompts in the developer console using techniques like chain-of-thought reasoning and example enrichment.
+‍
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Platform
+  -
+DateOctober 14, 2024
+  -
+Reading time5 min
+  -
+ShareCopy link
 Today, we're introducing the ability to improve prompts and manage examples directly in the [Anthropic Console](https://console.anthropic.com/). These features make it easier to leverage prompt engineering best practices and build more reliable AI applications.
 ## Better prompts for better completions
 Prompt quality plays a significant role in how successful a model's responses are for a given task. However, prompting best practices take time to implement and often vary across model providers.
 The prompt improver allows developers to take existing prompts and leverage Claude to automatically refine them using advanced prompt engineering techniques. This is ideal for adapting prompts that were originally written for other AI models, as well as for optimizing hand-written prompts.
-
 The prompt improver strengthens existing prompts via the following methods:
   - **Chain-of-thought reasoning: **Adds a dedicated section for Claude to think through problems systematically before responding to improve accuracy and reliability.
   - **Example standardization: **Converts examples into a consistent XML format for improved clarity and processing.
@@ -11,9 +23,9 @@ The prompt improver strengthens existing prompts via the following methods:
   - **Prefill addition: **Prefills the Assistant message to direct Claude’s actions and enforce output formats.
 Once the new prompt is generated, you can provide feedback for Claude about what is and isn’t working to further improve the prompt.
 **Our testing shows that the prompt improver increased accuracy by 30% for a multilabel classification test1 and brought word count adherence up to 100% for a summarization task.2**
-# Manage multi-shot examples
+## Manage multi-shot examples
 Adding examples to prompts is one of the most effective ways to improve model response quality, especially when it comes to getting Claude to precisely follow a specific format in the output. You can now manage examples in a structured format directly in the Workbench. This makes it easier to add new examples with clear input/output pairs or edit existing examples to refine response quality.
-![A visual of the Anthropic Console showing examples for a prompt.](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d939bfbe47c603d7aae_57c9898911ae729e6745f4d5cc5d9c1e0e4b18df-3840x2160.jpeg)
+![A visual of the Anthropic Console showing examples for a prompt.](https://assets.claude.com/dc5899475f8c28aad0d45a35d7477d0c8ab620ca.jpg)
 If your prompt doesn’t have examples, you can add them with Claude-driven example generation. Claude can automatically create synthetic example inputs and draft outputs for you to streamline this process.
 Adding examples contributes to increased:
   - **Accuracy:** Reduces misinterpretation of instructions.
@@ -31,3 +43,27 @@ To learn more about how to improve and evaluate prompts with Claude, check out o
 #### Footnotes
 [1] Given 500 Wikipedia articles and titles, we tested Claude 3 Haiku’s ability to match article titles to a sentence pulled from an article at random. Claude 3 Haiku’s accuracy increased by 30% in comparison to the original prompt.
 [2] Given ten Wikipedia articles, Claude’s adherence to an instruction to write summaries within a specific word count range was 100% after running through the prompt improver.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

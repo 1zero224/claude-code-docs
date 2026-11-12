@@ -1,22 +1,20 @@
+# Building AI agents for financial services
+Financial institutions are deploying autonomous AI systems to improve operations while navigating regulatory complexity and risk. Here's how.
+‍
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Platform
+  -
+DateOctober 30, 2025
+  -
+Reading time16 min
+  -
+ShareCopy link
 Guide: Building AI agents for financial services
-![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/68c469d2d09b203c164ad8e6_og-claude-education.jpg)
+![Guide: Building AI agents for financial services](https://assets.claude.com/b3e6d0547ee5dc0654c639ece4b89778e2edb536.jpg?w=2400&q=75&fm=webp&fit=max)
 Learn how teams at NBIM, Brex, and more build reliable AI agents with Claude on AWS Bedrock.
-Read more
-[Read more](https://resources.anthropic.com/financial-services-guide-aws-anthropic)Read more
-Guide: Building AI agents for financial services
-![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/6889473610b50328dbb70b58_placeholder.svg)
-[Next](https://claude.com/blog/building-ai-agents-in-financial-services#)Next
-Learn how teams at NBIM, Brex, and more build reliable AI agents with Claude on AWS Bedrock.
-Read more
-[Read more](https://resources.anthropic.com/financial-services-guide-aws-anthropic)Read more
-
-[Next](https://claude.com/blog/building-ai-agents-in-financial-services#)Next
-![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/6889473610b50328dbb70b58_placeholder.svg)
-
-Guide: Building AI agents for financial services
-Learn how teams at NBIM, Brex, and more build reliable AI agents with Claude on AWS Bedrock.
-Read more
-[Read more](https://resources.anthropic.com/financial-services-guide-aws-anthropic)Read more
+[Read more](https://resources.anthropic.com/financial-services-guide-aws-anthropic)
 In financial services, AI agents are moving beyond pilot programs to deliver concrete business value.
 In banking, wealth management, and insurance, autonomous AI agents are transforming how customers understand spending patterns and find savings opportunities. Among other use cases, these tools spot potential overdraft fees, suggest better savings strategies, and guide financial decisions.
 For instance, McKinsey research shows that financial institutions adopting AI agent workflows in fraud detection could generate[ two hundred to two thousand percent productivity gains](https://www.mckinsey.com/capabilities/risk-and-resilience/our-insights/how-agentic-ai-can-change-the-way-banks-fight-financial-crime), while Norges Bank Investment Management (NBIM) employees [save hundreds of cumulative hours per week](https://claude.com/customers/nbim) on analytical and operational tasks using Claude.
@@ -26,7 +24,7 @@ Agents represent a fundamental shift in enterprise AI, replacing generative AI t
 This evolution is especially welcome in financial services, where data often lives in fragmented systems that don't talk to each other, making it harder to see the complete picture of a customer's financial health. Agentic systems can understand financial context, ingest information from multiple unrelated sources, process multiple kinds of data (transaction records, market data, regulatory documents), and apply all of these capabilities to taking meaningful actions within your customer’s existing financial workflows.
 What does this look like in practice? Instead of an analyst manually pulling data from five different systems, reviewing it, and then updating a risk assessment, an agent can monitor transaction patterns across those systems, recognize concerning trends, draft updated risk recommendations based on current regulations, and route them to the right analyst for approval. The agent handles the coordination and analysis, while the analyst makes the final decision.
 This shift from traditional AI to AI agents is particularly significant for financial services because it tackles the process completion problem. Financial workflows don't just need information, they need actions taken across multiple systems to actually complete transactions and maintain compliance. Agents can bridge those gaps.
-## **Real-world results AI agents in finance **
+## **Real-world results AI agents in finance**
 AI-powered financial agents are already delivering real-world results in areas such as customer service, fraud detection, and workforce empowerment.
 ### **Transforming customer interactions**
 Customer service operations are a natural starting point because this area has already proven successful. Financial institutions implementing AI-powered customer service are seeing measurable improvements:
@@ -89,7 +87,7 @@ For example, you might implement a document processing capability that could be 
 Agents interact with both your workforce and your customers, and each group will respond differently to AI-assisted processes. Trust-building matters as much as technical deployment.
 For customers, transparency matters. Make it clear when they're interacting with an AI agent versus a human, explain what the agent can and cannot do, and provide straightforward pathways to human specialists when needed. This clarity builds confidence and encourages broader adoption of AI-assisted services.
 Internal adoption follows similar principles. Your organization already has change management processes for new systems. Apply them here. Staff need to understand how agents work, when to trust their recommendations, and how to escalate concerns.
-Frame the conversation around enhancement rather than replacement. For example, [ Block's internal AI agent](https://www.claude.com/customers/block) reached 4,000 active users out of 10,000 employees across 15 different job profiles (sales, design, product, customer success, and operations). Adoption doubled in one month, with user engagement increasing 40-50% weekly as employees found new ways to use it.
+Frame the conversation around enhancement rather than replacement. For example,[ Block's internal AI agent](https://www.claude.com/customers/block) reached 4,000 active users out of 10,000 employees across 15 different job profiles (sales, design, product, customer success, and operations). Adoption doubled in one month, with user engagement increasing 40-50% weekly as employees found new ways to use it.
 The most successful implementations emphasize how AI enhances human capabilities rather than replacing them.
 #### **Advancing to complex use cases**
 At this stage, your organization has an augmented workforce, refined core capabilities, demonstrated wins, and experienced teams ready for larger challenges. The lessons learned from early implementations provide the foundation for more complex agent deployments.
@@ -101,4 +99,30 @@ The observability and human-in-the-loop mechanisms you built for simpler use cas
 ## **Taking action**
 AI agents represent a significant opportunity to address persistent challenges in financial services. Success requires thoughtful implementation that balances technological capability with industry-specific requirements. This approach delivers quick wins that build confidence while establishing the foundation for more sophisticated initiatives.
 The path forward demands partnership between technology and business teams. Financial services leaders who prioritize customer protection through robust testing and escalation pathways, and build modular systems that evolve with advancing AI capabilities, will lead the way.
-Learn more about how organizations like Visa, Citi, and NBIM are transforming their industries with Claude for Financial Services.
+eBook
+### Building agents for financial services
+Learn how organizations like NBIM, Brex, and Verisk build and deply AI agents at scale with Claude in AWS Bedrock.
+[Read more](https://resources.anthropic.com/financial-services-guide-aws-anthropic)
+![](https://assets.claude.com/0aaa5105e0455d906692cdb66495b33298006232.png)
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

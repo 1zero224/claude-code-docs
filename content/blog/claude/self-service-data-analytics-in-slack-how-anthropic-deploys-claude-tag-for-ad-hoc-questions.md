@@ -1,16 +1,28 @@
-In our [previous post](https://claude.com/blog/how-anthropic-enables-self-service-data-analytics-with-claude), we described how we enabled Claude to answer data analytics questions with ~95% accuracy through three primary artifacts:
+# Self-service data analytics in Slack: how Anthropic deploys Claude Tag for ad-hoc questions
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Tag
+  -
+AuthorsClement Peng , Lily Zhao
+  -
+DateAugust 13, 2026
+  -
+Reading time2 min
+  -
+ShareCopy link
+In our [previous post](https://claude.com/resources/articles/how-anthropic-enables-self-service-data-analytics-with-claude), we described how we enabled Claude to answer data analytics questions with ~95% accuracy through three primary artifacts:
   - A governed semantic layer;
   - A set of skill files that encode our analytical conventions; and
   - An evaluation suite to measure performance.
 That post focused on [Claude Code](https://claude.com/product/claude-code) (the primary development surface for our data scientists and data engineers), and best practices for improving agentic accuracy.
-This post discusses how the data team at Anthropic applies that foundation to where the rest of the company works using [Claude Tag](https://claude.com/product/tag)** **(public beta), which is the foundation for our data analytics agent in Slack. Anyone can ask it data-related questions and receive answers backed by **the same governed definitions analysts use**.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a7e018507d3cd146d296978_11388c5c.png)
-Fictional recreation of a Claude Tag conversation for illustrative purposes. Details, names, and tools are not real.
+This post discusses how the data team at Anthropic applies that foundation to where the rest of the company works using [Claude Tag](https://claude.com/product/tag) (public beta), which is the foundation for our data analytics agent in Slack. Anyone can ask it data-related questions and receive answers backed by **the same governed definitions analysts use**.
+![](https://assets.claude.com/2a42bc446aa9ca8b37a47b8a658b909a9a481e5b.png)Fictional recreation of a Claude Tag conversation for illustrative purposes. Details, names, and tools are not real.
 ## Best practices for deploying a data analytics agent in Slack
 Getting an agent to be *accurate* and getting it *deployed where non-analysts can use it* turned out to be quite different motions. We won’t rehash our recommendations on accuracy from our prior post as they’re still applicable here.
 Rather, we’ll cover our five most important learnings over the past year for how to deploy a data analytics agent in Slack and how you should think about distribution, permissions, freshness, and observability.
 ### Refresh skills as often as you refresh your data models
-You can teach Claude how to do a task aligned with your style and requirements using a [skill](https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more), which is a markdown file with natural language instructions and files Claude can reference when needed.
+You can teach Claude how to do a task aligned with your style and requirements using a [skill](https://claude.com/resources/articles/steering-claude-code-skills-hooks-rules-subagents-and-more), which is a markdown file with natural language instructions and files Claude can reference when needed.
 The single most important architectural decision we made was to treat skill files as **served content**, refreshed continuously, rather than something shipped once and forgotten.
 Data models can change several times a day. For example, a column gets renamed, a metric definition is corrected, or a table is deprecated. Every one of those changes needs to land in a skill file in relatively short order. If Claude is reading last Tuesday's copy of the skill, it gives last Tuesday's wrong answer with full confidence.
 This tendency can be especially damaging since the data consumer is now completely separated from the context they need to judge the accuracy of the response. They aren’t looking at a dashboard with trend lines or associated metrics that can guide their “sniff test.” They may receive just a single data point or two in Slack, and if it's not data they look at regularly, they are likely to accept that confidently wrong answer.
@@ -29,10 +41,10 @@ Every data team likely already has these conventions; they just usually live in 
 Even this combination of knowledge skills and runbook skills is not always enough to answer a question. When someone asks "why did sign-ups drop on Tuesday?", the answer often isn’t in the data model, but rather is frequently spread across Slack threads, incident trackers, release notes, and docs.
 To account for these gaps, we wire Claude Tag into our internal knowledge index, which catalogs documents, discussions, and events across the company. When the agent sees a metric move, it can search that index for *contemporaneous context*: an incident opened that morning, a feature flag flipped, a competitor announcement someone shared in a channel.
 The answer now would look like "sign-ups dropped 12% Tuesday: there was a payment-service incident open 9-11am that morning, and the dip is concentrated in the affected region."
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a7e018507d3cd146d2969dd_0990031b.png)
+![](https://assets.claude.com/142616e5c6d1549e829ef9b439f759032222cb6b.png)
 If your organization has a knowledge graph, internal search, or even just well-organized incident and changelog feeds, connecting Claude Tag to them is the highest-leverage information you can add after the warehouse itself. You can also [connect Claude Tag so it can read and get context from key channels across Slack](https://claude.com/docs/claude-tag/admins/attach-to-scope#attach-to-a-channel).
 ### Permission the service account deliberately
-Claude Tag queries your warehouse as a service account, not as the human who asked the question. While that's the right design (since you don't want every Slack user requiring direct warehouse credentials), [**everyone who can mention the bot has the bot's data access**](https://claude.com/blog/agent-identity-access-model)**. **There is no per-user row-level security: what the service account can read, anyone in the channel can ask about.
+Claude Tag queries your warehouse as a service account, not as the human who asked the question. While that's the right design (since you don't want every Slack user requiring direct warehouse credentials), **[everyone who can mention the bot has the bot's data access](https://claude.com/resources/articles/agent-identity-access-model). **There is no per-user row-level security: what the service account can read, anyone in the channel can ask about.
 We approach this in five ways (and we recommend taking this seriously as it’s easy to get wrong and hard to undo):
 **1. Scope the service account to governed data only.** At Anthropic, Claude Tag's service account can read the semantic layer's output tables and the curated marts that feed them. It cannot read raw event streams, staging schemas, or anything in a personal sandbox. If a question requires data outside that boundary, the agent says so rather than guessing. That is also the right user experience because data outside the governed layer hasn't been validated.
 **2. Classify PII at the column level and deny the service account clearance. **Governed data isn’t automatically PII safe data (e.g., a curated table can still carry an email address). We maintain a data catalog with column-level lineage, so every column’s origin and downstream flow is known. When new columns land, Claude scans them and flags likely PII candidates for human review. A human then applies the classification in the column’s metadata, and lineage propagates that label to derived tables. Given Claude Tag’s service account holds no PII clearance, the warehouse’s column-level access controls make any PII columns invisible to the agent. It can query the table, but the sensitive columns simply aren’t readable.
@@ -47,7 +59,7 @@ We log a structured event for every question Claude Tag handles. This includes:
   - Whether the user reacted with 👍/ 👎 or replied with a correction; and
   - Any open data quality warnings on the tables it touched. We also surface any data quality warnings in the answer's footer, so a stale-data alert appears next to the number rather than being invisible.
 This telemetry feeds two views. One tracks **adoption **or what fraction of agent queries route through the governed layer rather than ad hoc SQL by surface and domain. The other tracks **correctness** measured by the rate of 👎 reactions and corrections by domain. This is the online proxy for accuracy between eval runs.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a7e018507d3cd146d2969e3_07987b0d.png)
+![](https://assets.claude.com/6b2efdbb4fb54c3220f5c57ab7db76ec0e2fdf38.png)
 The adoption metric turned out to be the single most actionable number we tracked. When it dips for a domain, it almost always means either a skill file has drifted or a new class of questions has appeared that the semantic layer doesn't cover.
 ## How this accelerates self-service analytics adoption
 ### Claude Tag threads become the new meeting
@@ -55,8 +67,7 @@ Our favorite, most effective Claude Tag threads usually have multiple people in 
 For example, a data team member asked Claude why a revenue dashboard was taking a few minutes longer than usual to load. Claude discovered query results weren't being cached and a bug was slowing down how results reached the page.
 Claude notified the dashboard owner who decided to fix the cache immediately while handling the bug in a separate motion.
 The owner then asked what other dashboards had slowed, and it turned out dozens were impacted by the same caching error. Claude wrote the caching fix, the data team member reviewed it, and all impacted dashboards were functioning at full capacity in less than an hour.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a7e018507d3cd146d2969e0_0dceb0a6.png)
-Fictional recreation of a Claude Tag conversation for illustrative purposes. Incident details, names, and tools are not real.
+![](https://assets.claude.com/0b59bec1e5baa7be2549ac7f12603714efbfb922.png)Fictional recreation of a Claude Tag conversation for illustrative purposes. Incident details, names, and tools are not real.
 These threads are open which is helpful for multiple reasons. People reading along pick up context (what broke, why, how it got fixed) without anyone writing a summary for them. More importantly, they don't have to remain passive readers. Anyone who knows something useful can jump in and contribute, the way the team members did in the example above.
 So keep the agent in shared channels and keep the work in threads instead of DMs, as the thread can function as a reviewable historical record.
 ### Claude Tag handles repetitive tasks
@@ -69,10 +80,9 @@ Claude can also help design the loop. Ask @Claude what repetitive jobs it’s se
 ### Stepping in when needed
 You can allow Claude to be more proactive in any channel you choose, reading along and stepping in to help when needed. In one of our data channels over the last month, Claude Tag answered more than 75% of questions people posted, typically within a minute or two, even without being called.
 For example, an Anthropic team member asked in a public channel whether a dashboard included a new usage category. Within 90 seconds Claude answered how the data was defined, confirmed the new segment was missing, proposed a fix, and drafted a PR. A data scientist reviewed and approved. Claude then merged the PR and refreshed the dashboard.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a7e018507d3cd146d2969f4_e14fa07b.png)
-Fictional recreation of a Claude Tag conversation for illustrative purposes. Incident details, names, and tools are not real.
+![](https://assets.claude.com/0353756c692cf1fec97eb2288fb019dcde9cd6e8.png)Fictional recreation of a Claude Tag conversation for illustrative purposes. Incident details, names, and tools are not real.
 ## Getting started
-If you've already done the work from [our first post](https://claude.com/blog/how-anthropic-enables-self-service-data-analytics-with-claude), the Slack deployment is mostly plumbing, though the order is important:
+If you've already done the work from [our first post](https://claude.com/resources/articles/how-anthropic-enables-self-service-data-analytics-with-claude), the Slack deployment is mostly plumbing, though the order is important:
   - **Permissions first.** Decide what the service account can read before you write a line of agent code. It's much easier to widen access later than to claw it back.
   - **Distribution second.** Pick mounted-repo or skills-over-MCP and verify freshness end-to-end: change a skill file, and confirm Claude Tag picks it up within your SLA.
   - **Telemetry from day one.** You will not retroactively instrument month-old conversations. Log the structured event on the very first question.
@@ -80,4 +90,25 @@ If you've already done the work from [our first post](https://claude.com/blog/ho
   - **Analytics skills last.** Create the data-access skill first and then let real questions inform which analyst skills (forecasting, cohorts, funnels) your co-workers actually need.
 *This article was written by Clement Peng and Lily Zhao, members of Anthropic's Data Science and Data Engineering team, with contributions from Josh Cherry and Michael Segner.*
 ‍
-- Ready to try it? Add Claude to your Slack workspace and tag @Claude in any channel.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

@@ -1,4 +1,14 @@
-Bain & Company and Anthropic today announced a global partnership to help enterprises move from AI experiments to deployments that produce measurable business results. Bain joins the Claude Partner Network as a Global Premier partner, and the two firms will work together on client engagements spanning AI strategy, technology modernization, and AI-enabled operations.
+# Bain & Company joins the Claude Partner Network as a Global Premier partner
+Anthropic and Bain & Company are partnering to help enterprises deploy AI, building on Bain's rollout of Claude to its 19,000 employees.
+  -
+Category[Enterprise](https://claude.com/resources/enterprise-announcements)
+  -
+DateAugust 25, 2026
+  -
+Reading time4 min
+  -
+ShareCopy link
+Bain & Company and Anthropic today announced a global partnership to help enterprises move from AI experiments to deployments that produce measurable business results. Bain joins the Claude Partner Network as a Global Premier partner, the top tier, which requires 1,000 [certified practitioners](https://claude.com/resources/articles/four-role-based-claude-certifications), and the two firms will work together on client engagements spanning AI strategy, technology modernization, and AI-enabled operations.
 The partnership builds on Bain's own deployment of Claude across the firm, which now serves as a reference point for how Bain advises clients on enterprise rollouts.
 ## How Bain uses Claude
 Bain rolled out Claude to all 19,000 of its employees as part of the firm's suite of AI platforms and tools, for use in both client work and internal operations. Teams work with Claude.ai, Claude Cowork, Claude Code, Claude for Excel, and Claude for Microsoft 365 to build and test complex models, conduct research, pressure-test inputs and assumptions, and explore multiple business scenarios.
@@ -13,3 +23,25 @@ Bain and Anthropic are already working together on client engagements across mul
 "More than 7,000 Bain employees were actively using Claude within weeks of the firm-wide deployment. The speed and breadth of that adoption signal what's possible when the right technology is paired with the expertise to deploy it effectively, and that's exactly what this partnership delivers for Bain's employees and clients," says Steve Corfield, global head of business development and partnerships at Anthropic.
 To learn more about working with Anthropic partners, visit the [Claude Partner Network](https://claude.com/partners).
 ‍
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 9, 2026
+### JPMorganChase expands Claude Code to more employees across the firm
+Claude Code
+](https://claude.com/resources/articles/jpmorganchase-expands-claude-code)[
+ArticleOct 28, 2026
+### IDC brings Quanta into Claude and adopts Claude across the company
+IDC integrated Claude as part of its Quanta platform, and it has rolled Claude out across its own business
+Claude CoworkClaude Code
+1 more: Claude EnterpriseClaude Enterprise
+](https://claude.com/resources/articles/idc-brings-quanta-into-claude-and-adopts-claude-across-the-company)[
+ArticleOct 21, 2026
+### HCLTech joins the Claude Partner Network as a Global Premier partner
+HCLTech will bring Claude into the solutions it provides for banks, hospitals, telecom companies, and manufacturers.
+](https://claude.com/resources/articles/hcltech-joins-claude-partner-network)[
+ArticleSep 28, 2026
+### A new approach to agent security with Claude Managed Agents and NVIDIA
+Note: This blog has been updated from its original version to include additional technical details on Claude Managed Agents.
+Claude Platform
+](https://claude.com/resources/articles/giving-companies-more-control-over-their-ai-agents-with-nvidia)

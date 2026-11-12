@@ -1,6 +1,17 @@
+# Onboarding Claude Code like a new developer: Lessons from 17 years of development
+The methodology that onboards new developers to MacCoss Lab's 700,000-line codebase works on Claude Code, too. Here's how Brendan MacLean, a Claude Developer Ambassador whose lab is part of our [Claude for Open Source](https://claude.com/contact-sales/claude-for-oss) program, did it.
+  -
+Category[Best practices](https://claude.com/resources/best-practices), [Perspectives](https://claude.com/resources/perspectives)
+  -
+ProductClaude Code
+  -
+DateApril 28, 2026
+  -
+Reading time10 min
+  -
+ShareCopy link
 [Skyline](https://skyline.ms/home/software/Skyline/wiki-page.view?name=team), the open source protein analysis software maintained by principal developer Brendan MacLean at the University of Washington's MacCoss Lab, has been in active development since 2008. Skyline helps researchers detect and quantify proteins in things like blood plasma and tissue, which is vital for biomarker discovery, disease research, and drug development. The MacCoss Lab codebase contains 700,000+ lines of C#, maintained for 17 years by a small team running 200,000+ automated nightly tests.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69ef9d6a1af11e710950d666_e16f087b.png)
-*A 3D illustration of the Seattle skyline created in Blender, representing the home of the University of Washington's MacCoss Lab, where Brendan MacLean and his team have developed and maintained Skyline since 2008. Claude helped Brendan add the Claude logo in the back. Image courtesy of MacCoss lab.*
+![](https://assets.claude.com/09cbdf2aad8d5540176ec97e84281f4a24a1f686.png)A 3D illustration of the Seattle skyline created in Blender, representing the home of the University of Washington's MacCoss Lab, where Brendan MacLean and his team have developed and maintained Skyline since 2008. Claude helped Brendan add the Claude logo in the back. Image courtesy of MacCoss lab.
 For nearly three decades, Brendan has been Skyline’s connective tissue, onboarding dozens of undergrads, grad students, and postdocs to the lab.*
 As developers joined and left, the codebase absorbed their contributions. By 2024, it carried the usual burdens of a long-lived project. Certain areas had grown untouchable as developers turned over.
 After decades of training lab members, Brendan knew how to bring researchers up to speed on the lab’s massive codebase. What he didn't expect was that the same methodology, applied to an AI tool, would make Skyline’s codebase manageable again.
@@ -13,8 +24,7 @@ That was the same experience Brendan faced onboarding new developers, which gave
 "I could introduce Claude through Claude Code to my large project as I would a trainee developer: by explaining enough to achieve a successful limited project and produce improved context for the next iteration," Brendan says.
 He moved all AI context into its own repository, [pwiz-ai](https://github.com/ProteoWizard/pwiz-ai), kept separate from the codebase so it applies across all branches and time points. The `CLAUDE.md` file at the root handles environment setup and points Claude to the relevant documentation: think of it as the ‘lay of the land,’ not the expertise itself.
 The expertise lives in [skills,](https://agentskills.io/home) an open format for giving agents capabilities and expertise. His `debugging` skill, for example, is designed to pull Claude out of what he calls "guess and test" mode, pushing it toward root cause analysis before attempting any fix. Skills can be triggered manually or automatically; Brendan tunes his most critical ones with explicit conditions—the `debugging` skill description reads "ALWAYS load when investigating bugs, failures, or unexpected behavior."
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69ef9d6a1af11e710950d669_24e72102.png)
-*The pwiz-ai repository structure, showing how context, skills, and MCP integrations connect to Skyline's codebase. Image courtesy of MacCoss lab.*
+![](https://assets.claude.com/40f63554a290e65424901bfad5aa0d0749d3c5b0.png)The pwiz-ai repository structure, showing how context, skills, and MCP integrations connect to Skyline's codebase. Image courtesy of MacCoss lab.
 With context established, the overhead of teaching Claude the ins and outs of debugging the codebase becomes significantly less steep. Claude already knows what the code does. The interaction starts from understanding rather than from zero.
 “What seemed like a major concern—'Claude can't truly learn about my large project'—grows ever clearer: context is just another artifact to maintain and grow,” Brendan says.
 ## Reducing tech debt and accelerating development
@@ -25,11 +35,9 @@ Three years ago, Brendan stopped adding features to Skyline's nightly test manag
 New infrastructure followed.
 Screenshot reproduction for Skyline's 2,000+ tutorial images is now fully automated and nearly 100% reproducible, extended with Claude Code to add diff-only views and pixel change amplification, and an MCP server written in C# by Claude so that it can “see” these diffs. Claude Code generates a daily summary each morning, showing test failures, exceptions, and open support threads pulled from Skyline's nightly test infrastructure that lands in Brendan's inbox before he sits down to work.
 Claude also wrote the MCP server in Python to make this capability possible, drawing from three separate relational data streams on a LabKey Server, team email, and code with release tags on GitHub.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69ef9d6a1af11e710950d66f_29befb00.png)
-*A daily summary email generated automatically by Claude Code, pulling from Skyline's nightly test infrastructure. Image courtesy of MacCoss lab.*
+![](https://assets.claude.com/0ff1409f39a8033931c94fea35040a15c9b8f19b.png)A daily summary email generated automatically by Claude Code, pulling from Skyline's nightly test infrastructure. Image courtesy of MacCoss lab.
 Brendan's developers are now barely writing code themselves, largely instructing Claude Code instead, and use the tool to autonomously generate automation scripts and MCP implementations. For instance, a developer in the lab who had been skeptical of agentic coding tools built and shipped a new plotting extension—a mobilogram pane for visualizing ion mobility data—and credited Claude Code.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69ef9d6a1af11e710950d66c_0712da57.png)
-*The mobilogram pane was built with Claude Code, visualizing ion mobility data alongside mass spectrometry results. Image courtesy of MacCoss lab.*
+![](https://assets.claude.com/2f0cdd124719c62695d2d30f7cdd9381e7079bf2.png)The mobilogram pane was built with Claude Code, visualizing ion mobility data alongside mass spectrometry results. Image courtesy of MacCoss lab.
 "I am seeing almost everyone taking on fun new features that they might have felt too buried in other work to attempt," says Brendan.
 ## Advice for developers working on legacy codebases
 Based on 17 years of onboarding developers and more than a year of applying the same methodology to Claude Code, here's what Brendan would tell developers working on legacy codebases.
@@ -39,9 +47,8 @@ The to-do lists and plans Claude generates don't persist across sessions. [Conte
 Brendan keeps the AI context in a separate repository because it grows at a different speed than the code and applies to all branches and time points—keeping it inside the code repository was becoming limiting. Keeping context in the same repo is a valid alternative; what matters is that it's versioned, maintained, and available when needed.
 **Invest in building your skill library**
 Use[ skills](https://claude.ai/skills) to encode domain knowledge any Claude instance can load. Brendan's skills follow a "reference do not embed" principle: each skill points into a central documentation knowledgebase rather than duplicating content, keeping them lightweight and easy to maintain.
-His most-used include: a** **`skyline-development`** **skill that orients Claude to the project and its documentation; a `version-control`** **skill that encodes project-specific commit and PR conventions; and a** **`debugging`** **skill designed to pull Claude out of "guess and test" mode, pushing it toward root cause analysis before attempting any fix.
-**Use MCP integrations when data access is key
-**
+His most-used include: a `skyline-development` skill that orients Claude to the project and its documentation; a `version-control` skill that encodes project-specific commit and PR conventions; and a `debugging` skill designed to pull Claude out of "guess and test" mode, pushing it toward root cause analysis before attempting any fix.
+**Use MCP integrations when data access is key**
 Build[ MCP integrations](https://anthropic.com/engineering/mcp) where Claude needs access to real data: test results, exception reports, support threads.
 For open source projects, building and maintaining a context layer carries particular weight. There's no onboarding budget, no institutional memory beyond what gets written down, no guarantee that any contributor will still be around next year. Context, once built, is available to every contributor and persists across the project's lifetime in a way that human institutional knowledge never does. The `pwiz-ai` repository is itself an open source artifact—context that belongs to the project, not any one contributor, and outlasts everyone who built it.
 ## Seventeen years of onboarding, one conclusion
@@ -49,3 +56,25 @@ You wouldn't hand a new hire a 700,000-line codebase and expect results on day o
 As Brendan learned, the context you build with Claude works the same way.
 Once knowledgeable enough about a codebase, engineers can work across branches and time points. Claude, given sufficient context and direction, can do the same.
 **Dario Amodei, co-founder of Anthropic, was previously a member of the MacCoss Lab.*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

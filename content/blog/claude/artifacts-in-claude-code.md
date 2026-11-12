@@ -1,3 +1,15 @@
+# Claude Code now supports artifacts
+*Preview your in-progress work as a live, interactive web page—built from your full session context and shareable with your team.*
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Code
+  -
+DateJune 18, 2026
+  -
+Reading time6 min
+  -
+ShareCopy link
 Starting today, Claude Code can capture work progress as an [artifact](https://claude.com/features/artifacts), which turn Claude Code's work into live, shareable visual pages— including PR walkthroughs, system explainers, dashboards, and release checklists—that update themselves as your session works.
 A Claude Code session can range from investigating an incident to refactoring a service to analyzing months of data. Artifacts translate the work into a web page anyone can open and explore, like a pull request walkthrough, a dashboard you can filter and sort, or even a release checklist that fills itself out as work gets done. Artifacts make it easier to collaborate on shared work, so teams can spend more time building and less time communicating status updates.
 ## **Built on the context from your session**
@@ -7,7 +19,7 @@ When Claude Code updates an artifact, the open page refreshes in place and teamm
 From our internal testing, one of our most common use cases has been debugging. These typically look something like: An engineer kicks off an incident investigation before standup. Claude Code works through the logs and publishes an artifact: a timeline, the suspect commits, and an error-rate chart. She shares the link with her team from the page header. By the time standup begins, Claude has republished it twice as the investigation progressed, incorporating the latest information. With artifacts, team members and stakeholders don’t have to "walk us through what the agent found" because they're all looking at the same view, with the same context.
 ## **Private to your organization**
 Every artifact is private to its author by default. When you're ready, share it with your teammates and your organization directly from the page. Artifacts are viewable only by authenticated members of your org and cannot be made public. Admins manage access with an org-level toggle and role-based scoping, set retention policies, and get org-wide visibility through the compliance API.
-## **Getting started **
+## **Getting started**
 Ask your session for an artifact — or just ask for something visual, h*ere are some ideas by role:*
   - **Legal / open source**: A license audit of every dependency, flagging copyleft, straight from the repo. *"Build an artifact listing every third-party dependency and its license, flagging anything copyleft."*
   - **Privacy**: A data-flow map of where personal data is collected, stored, and logged across the code. *"Trace where we touch personal data across the codebase into an artifact for the privacy review."*
@@ -21,4 +33,28 @@ Ask your session for an artifact — or just ask for something visual, h*ere are
 Claude Code builds the page and gives you a link. Open it in your browser or the desktop app, share it from the header—updates publish to the same URL automatically.
 ## **Availability**
 Artifacts is available in beta to Claude Team and Enterprise orgs, from the Claude Code CLI and desktop app, with pages viewable in any browser.
-[***Get started today***](http://code.claude.com/docs/en/artifacts)*** with Claude Code.***
+***[Get started today](http://code.claude.com/docs/en/artifacts) with Claude Code.***
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

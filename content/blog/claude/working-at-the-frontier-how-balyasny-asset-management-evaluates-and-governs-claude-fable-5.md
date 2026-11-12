@@ -1,3 +1,16 @@
+# Working at the frontier: How Balyasny Asset Management evaluates and governs Claude Fable 5
+Balyasny Asset Management (BAM) Chief AI Officer Charlie Flanagan on why the firm uses Claude Fable 5 and the role of safeguards in deploying frontier intelligence safely and reliably across the organization.
+‍
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Platform, Claude Code
+  -
+DateSeptember 17, 2026
+  -
+Reading time9 min
+  -
+ShareCopy link
 Balyasny Asset Management (BAM) is a global, multi-strategy investment firm that manages roughly $38 billion in assets and supports a team of roughly 2,000 investment professionals and staff. Charlie Flanagan, Chief AI Officer, spoke with Anthropic about how the firm evaluates new models on thousands of real financial tasks, why it built its own platform for running agents, and what changed with the launch of Claude Fable 5.
 ## How has frontier AI changed for BAM in 2026?
 2026 is the year we moved from AI systems that do search to AI systems that do work.
@@ -30,4 +43,26 @@ This is the year we go from people having tools to having teammates. Much like a
 We already have some teams running over 300 agents doing analysis over new data and information constantly. It helps the teams both be faster to insights and not miss anything.
 It also changes the question we ask. We used to build expert systems and teach people to automate the processes they already had. Now we ask whether there is a better way to reach the outcome.
 The limits are really just our own imagination. The tools, data, and models are now at a point where they can do real work for hours on end; it's up to us to continue to reimagine what is possible. It is going to be an incredibly exciting next 12 months.
-***Get started with***[*** Claude Fable***](https://www.anthropic.com/claude/fable)***.***
+***Get started with[ Claude Fable](https://www.anthropic.com/claude/fable).***
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

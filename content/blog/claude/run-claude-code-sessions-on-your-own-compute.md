@@ -1,3 +1,14 @@
+# Run Claude Code sessions on your own compute
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Code
+  -
+DateAugust 6, 2026
+  -
+Reading time2 min
+  -
+ShareCopy link
 Now in public beta, self-hosted environments let you run Claude Code sessions on your own infrastructure. Start a session from the web, mobile, desktop, or a routine, and it runs inside your network, next to your internal services, toolchains, and security controls, rather than on Anthropic-hosted infrastructure.
 For most enterprises, we strongly recommend our hosted offering for operational simplicity with no infrastructure to run or maintain. Self-hosted environments are for teams whose network, tooling, or compliance requirements call for keeping agent execution on infrastructure they control. If you go this route, plan to staff engineering to own setup and ongoing maintenance.
 ### **Why self-host**
@@ -5,6 +16,9 @@ We saw organizations in our preview program adopt self-hosted environments for a
   - **Network access: **sessions run inside your network and can reach internal services, databases, and registries without exposing them to the public internet
   - **Customizability: **pre-install compilers, SDKs, and internal CLIs in your environment so every session starts ready to build
   - **Compliance: **source code and build artifacts stay on infrastructure you control
+![Faire](https://assets.claude.com/1ae334c9f7d397f84da34c8aeff571d3b8bc89d9.svg)
+“Self-hosted environments let us integrate Claude Code into our existing development workflows while maintaining our security and operational controls. This setup means Claude can generate PRs, help fix CI issues, and respond to developer workflow events, with compute that can scale based on demand. Claude understands our codebase, making it a strong fit for how our engineering teams build.”
+George Jacob, Senior Engineering Manager
 ### **Data stays on your infrastructure**
 Repository checkouts, build artifacts, secrets, and any files a session creates or modifies all stay on infrastructure you provision.
 The conversation itself, including prompts, responses, and tool results (which can include code that Claude reads), is sent to Anthropic for inference, and the session transcript is stored so a session can be picked up from any surface.
@@ -18,3 +32,27 @@ Runners can serve more than one session, but each session runs in its own checko
 Self-hosted environments are available in public beta to organizations on Claude Team and Enterprise plans. They are off by default and not available for organizations using ZDR.
 Plan on a platform, developer experience, or developer productivity team owning setup and ongoing operation, including building and maintaining the runner image, updating runners, and running the orchestrator if you use on-demand mode.
 See the [documentation](https://code.claude.com/docs/en/self-hosted-environments) to learn more. Share feedback via [GitHub](https://github.com/anthropics/claude-code/issues) or through your Anthropic account team.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

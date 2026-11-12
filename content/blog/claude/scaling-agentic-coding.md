@@ -1,29 +1,27 @@
+# How to scale agentic coding across your engineering organization
+As Agentic coding tools mature, technical leaders are wrestling with a practical challenge: moving beyond isolated experiments to organization-wide adoption.
+[Try Claude Code](https://claude.com/products/claude-code)
+  -
+Category[Best practices](https://claude.com/resources/best-practices), [Perspectives](https://claude.com/resources/perspectives)
+  -
+ProductClaude Code
+  -
+DateOctober 15, 2025
+  -
+Reading time11 min
+  -
+ShareCopy link
 Introducing Claude Code
-![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/68c469d2d09b203c164ad8e6_og-claude-education.jpg)
+![Introducing Claude Code](https://assets.claude.com/56575a2d86ba511e0095b0cb9a92cafe7079c820.jpg?w=2400&q=75&fm=webp&fit=max)
 See Claude Code in action—from concept to commit in one seamless workflow.
-Read more
-[Read more](https://claude.com/product/claude-code)Read more
-Introducing Claude Code
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68b862e6ee6520aee5bc0741_vid-placeholder.avif)
-[Next](https://claude.com/blog/scaling-agentic-coding#)Next
-See Claude Code in action—from concept to commit in one seamless workflow.
-Read more
-[Read more](https://claude.com/product/claude-code)Read more
-
-[Next](https://claude.com/blog/scaling-agentic-coding#)Next
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68b862e6ee6520aee5bc0741_vid-placeholder.avif)
-
-Introducing Claude Code
-See Claude Code in action—from concept to commit in one seamless workflow.
-Read more
-[Read more](https://claude.com/product/claude-code)Read more
+[Read more](https://claude.com/product/claude-code)
 The difference between successful and struggling implementations often comes down to execution. Teams that deploy agentic coding thoughtfully see meaningful improvements in development velocity and engineer satisfaction. Those that rush deployment without proper planning encounter resistance, inconsistent results, and difficulty demonstrating value.
 Working with engineering teams across different industries has surfaced common patterns. Successful adoption depends less on the specific tool and more on how you approach workflow changes, skill development, team dynamics, and success measurement.
 Let’s dive in.
 ## Understanding agentic coding capabilities
 Agentic coding tools differ from basic code completion by understanding broader context and handling multi-step tasks. They can plan approaches and work through implementation details with less hand-holding than earlier AI coding assistants.
 Common applications include:
-**Legacy system modernization**: Development teams use these tools to help migrate [older codebases to current platforms](https://claude.com/blog/how-ai-helps-break-cost-barrier-cobol-modernization). Projects that might have taken years can move faster, though they still require careful oversight and testing to preserve business logic correctly.
+**Legacy system modernization**: Development teams use these tools to help migrate [older codebases to current platforms](https://claude.com/resources/articles/how-ai-helps-break-cost-barrier-cobol-modernization). Projects that might have taken years can move faster, though they still require careful oversight and testing to preserve business logic correctly.
 **Faster onboarding**: New engineers can query codebases directly to understand architecture, dependencies, and implementation patterns. This complements traditional documentation and reduces the time before new hires contribute meaningfully.
 **Incident response assistance**: SRE and DevOps teams build agents that help diagnose and address common operational issues. While human oversight remains important for complex problems, routine incidents can often be handled with less manual intervention.
 **Broader technical participation**: Product managers can explore codebase constraints when writing requirements, and designers can create working prototypes from mockups. This doesn't replace engineering work but enables more informed collaboration across functions.
@@ -59,7 +57,7 @@ Pilots need clear success criteria. "How do we measure ROI?" remains a central q
 Beyond lines of code written—which captures activity but not necessarily value—teams track multiple indicators:
 **Sprint throughput**: Teams with established DevOps practices can correlate adoption timing with changes in feature delivery speed.
 **Task completion time**: Measure how long standard tasks take before and after implementation. This granular view shows where agentic coding provides the most value.
-**Migration velocity**: Track time required to [modernize legacy systems](https://claude.com/blog/how-ai-helps-break-cost-barrier-cobol-modernization). Faster migrations free engineering resources for other priorities.
+**Migration velocity**: Track time required to [modernize legacy systems](https://claude.com/resources/articles/how-ai-helps-break-cost-barrier-cobol-modernization). Faster migrations free engineering resources for other priorities.
 **Developer satisfaction**: Survey engineers about time spent on repetitive versus creative work. Job satisfaction matters for retention and productivity.
 **Onboarding duration**: Measure how quickly new hires reach meaningful productivity. Shorter ramps reduce training costs and improve team capacity sooner.
 **Cross-functional efficiency**: Track how often other teams need dedicated engineering support for prototyping and testing. Reduced dependencies can indicate broader technical capability.
@@ -94,4 +92,34 @@ Reference previous work explicitly when building on earlier steps: "Using the au
 Agentic coding shifts software development from writing every line to guiding implementation. Organizations that see good results focus on building foundations rather than rushing deployment.
 Start with a focused pilot group. Develop internal expertise. Build the infrastructure that supports success. Then expand deliberately through events like hackathons and internal champions.
 The path from pilot to production requires patience and systematic planning. Organizations that invest in this foundation tend to see meaningful returns: faster development, higher engineer satisfaction, and capacity to tackle previously difficult projects.
-Scale agentic coding across your engineering organization today.
+## FAQ
+How do I use Claude Code?
+To start using Claude Code, you need to set up an API key and follow the documentation provided. This will guide you through the process of making requests and handling responses effectively.
+What is Claude?
+Claude offers a range of features including natural language understanding, context awareness, and the ability to generate coherent and contextually relevant text. It can be used for various applications such as chatbots, content creation, and more.
+How long can agentic coding tools work autonomously?
+Agentic coding tools like Claude Code can work for extended periods maintaining context and building on previous work. Rakuten's seven-hour autonomous refactoring session demonstrates sustained technical work without human intervention. The duration depends on your task complexity and project requirements.
+Do I need to change my development workflow to use agentic coding?
+[Claude Code](https://claude.com/product/claude-code) integrates with your existing development workflows through terminal integration. You can incorporate it into your current practices gradually, starting with specific tasks like testing or documentation before expanding to complete feature development.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

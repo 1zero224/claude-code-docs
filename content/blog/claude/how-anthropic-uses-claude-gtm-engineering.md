@@ -1,3 +1,15 @@
+# How one Anthropic seller rebuilt his team's workflows with Claude Code
+*Before he joined Anthropic, Jared Sires, GTM product manager, had never opened a terminal. Now Anthropic’s Sales team uses his tools.*
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code, Claude Cowork
+  -
+DateJune 5, 2026
+  -
+Reading time10 min
+  -
+ShareCopy link
 Before joining Anthropic in 2024, Jared Sires had never written a line of code. And why would he? He was a startup account executive.
 As is often the case at fast-growing companies, Jared’s book quickly grew to 600 or 700 accounts. With 10 to 15 customer calls a day and an expanding account list, Jared found himself at his desk, answering customer emails until 9 or 10 p.m. every night.
 "It was almost impossible to manage my inbox," he says. "And doing outbound on top of that, you don’t really know where to focus."
@@ -5,7 +17,6 @@ Jared turned to Claude Code for help. With no coding experience, he created CLAF
 That led to a shift in Jared’s role at Anthropic: today, he is product manager of the go-to-market team, a role focused exclusively on identifying problems in how the Anthropic sales organization operates and building Claude-powered solutions to fix them. In this new role, Jared has built tools that automate customer communications, research customer backgrounds before calls, and generate follow-up emails from meeting transcripts. He then packages them as a plugin inside [Claude Cowork](https://claude.com/product/cowork) so the whole sales team can use them.
 He describes the shift in his career as “the most empowering thing I’ve ever experienced.”
 Here's how Jared used Claude to handle his inbox at scale, what he's building next, and best practices GTM teams can take from his approach.
-
 ## **A sales rep buried in administrative tasks**
 Email volume wasn’t the only challenge Jared faced as an account executive. Anthropic ships product changes every 24 to 48 hours, and customer questions tend to land on the most recent details: batch API SLAs, prompt caching discounts, model pricing, SDK behavior. Answering them well meant searching across Slack, Google Docs, internal knowledge bases, and the developer documentation—and doing it again day after day, with a slightly different set of facts.
 "Having to relay technical documentation to customers is pretty hard, especially here at Anthropic when your products evolve so quickly," Jared says.
@@ -23,7 +34,7 @@ Jared tested the feature by writing himself a sequence of increasingly angry ema
 ### **Measuring the impact of CLAFTS**
 While CLAFTS saves Jared 10-15 hours per week, the shift he cares about most is the accuracy of the work. With Claude pulling current product details from documentation on every draft, the answers customers receive are tied to whatever shipped most recently rather than to whatever Jared happened to remember.
 "Before CLAFTS, I felt like I was doing more administrative work than actually spending time with customers," Jared says. "After CLAFTS, I was actually able to do more of what I wanted to do, which is sales."
-## **Scaling Anthropic’s GTM toolkit **
+## **Scaling Anthropic’s GTM toolkit**
 Beyond Jared, a BDR regularly working past midnight emailing customers, John Albert, helped co-build Clafts. The rest of the business development team came on board once they saw their teammate was getting hours back each day. From there, they did most of the evangelism themselves.
 The next set of tools Jared built was a set of [skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) bookending his calendar: daily brief and daily recap.
 Each morning, the daily brief skill reads his calendar, runs a web search on whoever he's meeting with, and produces talking points before the first call. The skill connects to Google Calendar and CRM data through [MCP servers](https://www.anthropic.com/news/model-context-protocol), pulling relevant information about each customer.
@@ -34,13 +45,35 @@ To make sure the tools he builds with Claude Code scale across the wider team he
 Within months of launching the Sales plugin, roughly 80 percent of Anthropic’s sales org was using it. The remaining 20 percent are largely new hires, which Jared considers the next challenge to tackle, since the skills were built specifically to help people ramp faster.
 Before the plugin, every new hire used to spend weeks figuring out their own workflow. Now a new hire can install it on day one and have 20-plus skills already wired into the tools they use: Salesforce, Intercom, Gong, Google Calendar, Gmail, Google Drive, and BigQuery.
 Two skills anchor the sales team plugin:
-  -  `/customer-context `pulls a 360-degree account view across all those sources in about 90 seconds.
+  - `/customer-context` pulls a 360-degree account view across all those sources in about 90 seconds.
   - `/pipeline-management` surfaces at-risk deals, forecasting guidance, and progression recommendations.
 The package also integrates with Cowork's scheduling feature, which lets reps queue skills to run automatically.
 "Our sales people can get back to having meaningful conversations instead of going to update all these different applications,” he says.
-## **Architecting what’s next **
+## **Architecting what’s next**
 Jared’s role has changed alongside the tooling. As a GTM Architect, he now sits in design conversations with product engineers and helps shape new tools for Anthropic’s sales team.
 "I feel like with the technical barrier dissolving, I'm almost able to design more products and have senior engineers help me implement to the final stretch," Jared says. "I'm able to augment and do more things."
 For sellers wondering whether they could build something similar, his advice is to open Claude Code, find one task that's slowing them down, and ask Claude how to build a solution for it.
 "If you told me I was going to be a go-to-market product manager at Anthropic a year ago, I would be pretty surprised," he says. "I never had the technical chops to be in these conversations. With Claude, I'm able to design and build things that don’t just improve my own day-to-day workflows, but also those of my broader team. I have space to work more creatively and strategically, and there’s no turning back."
-*Get started with *[*Claude*](https://claude.ai/)* today. Stay tuned for more stories in the "How Anthropic uses Claude" series.*
+*Get started with [Claude](https://claude.ai/) today. Stay tuned for more stories in the "How Anthropic uses Claude" series.*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

@@ -1,10 +1,25 @@
-*This is the third post in our series on building human-agent teams. The *[*first*](https://claude.com/blog/building-effective-human-agent-teams)* shared what we’ve learned working with multiplayer AI at Anthropic. The *[*second*](https://claude.com/blog/turning-conversation-into-knowledge-how-slack-builds-human-agent-teams)* shared how Slack turns workplace conversation into the context agents need. This one looks at what changes when agents operate on the same platform where teams work.*
+# Agents you can coach: how Asana builds human-agent teams with Claude
+*Arnab Bose, Chief Product Officer at Asana, on how Asana runs AI agents as teammates with scoped roles, shared memory, and work that everyone can see.*
+‍
+  -
+Category[Best practices](https://claude.com/resources/best-practices), [Perspectives](https://claude.com/resources/perspectives)
+  -
+ProductClaude Platform
+  -
+AuthorsAleksandra Todorova, Kristen Swanson
+  -
+DateSeptember 29, 2026
+  -
+Reading time15 min
+  -
+ShareCopy link
+*This is the third post in our series on building human-agent teams. The [first](https://claude.com/resources/articles/building-effective-human-agent-teams) shared what we’ve learned working with multiplayer AI at Anthropic. The [second](https://claude.com/resources/articles/turning-conversation-into-knowledge-how-slack-builds-human-agent-teams) shared how Slack turns workplace conversation into the context agents need. This one looks at what changes when agents operate on the same platform where teams work.*
 Years before they introduced AI agents, teams at Asana were iterating on ways to encode structure and accountability into how teams work together. They ultimately built the W*ork Graph*® model, which maps out every task, project, goal, and conversation on a web of relationships, with defined owners, contributors, and dependencies.
 When they started building AI agents, they decided that rather than adding new context structures for AI, agents would operate within this same model. They would have defined roles, be assigned tasks, read and write messages, and show up in activity feeds alongside human collaborators—with additional safeguards around what agents can access, and share.
 We talked with Arnab Bose, Asana’s Chief Product Officer, about how Asana’s own teams use Claude and work alongside these agents, where Claude models power complex tasks: how each agent gets its role and access, who trains it, how work stays visible to everyone, and the types of jobs agents have on human-agent teams at Asana.
 ## Think through and structure your work before agents act on it
 For Asana employees, Claude is the default AI tool, connected to the platforms employees use to work, including Google Drive, Slack, and of course, Asana.
-"A person makes sense of their day by taking unstructured data, an idea they have, a conversation in Slack, a meeting recording in Zoom, a Databricks report, information from Google Docs,” Arnab says. “They talk it through with Claude, and then they can pump all of that into the structure that Asana provides with projects and tasks." Once the structure is in place, agents can act on it, with the three capabilities we described in the first post of this series, [*Building effective human agent teams*](https://claude.com/blog/building-effective-human-agent-teams): persistent memory, their own credentials, and shared context.
+"A person makes sense of their day by taking unstructured data, an idea they have, a conversation in Slack, a meeting recording in Zoom, a Databricks report, information from Google Docs,” Arnab says. “They talk it through with Claude, and then they can pump all of that into the structure that Asana provides with projects and tasks." Once the structure is in place, agents can act on it, with the three capabilities we described in the first post of this series, [*Building effective human agent teams*](https://claude.com/resources/articles/building-effective-human-agent-teams): persistent memory, their own credentials, and shared context.
 **How to put this into practice:**
   - **Start with your own ideas.** Bring the unstructured pieces of your day, an idea, a Slack conversation, or notes spread across docs, to Claude.
   - **Debate and discuss with Claude.** Use it as a thinking partner: talk the idea through until the next steps are clear.
@@ -12,7 +27,7 @@ For Asana employees, Claude is the default AI tool, connected to the platforms e
 ## Give every agent a role and the tools and access it needs
 Asana employees can work with AI agents in any project like they would with a human colleague. Humans design the teams they work on; each employee gets a list of recommended agents they can use to augment their teams’ goals.
 Agents are built around roles or types of work, for example, content writer, insights analyst, project manager, work intake specialist, campaign analyst, or campaign coordinator. Each agent comes with pre-built skills based on Asana’s research into how its customers do that work, and with the integrations they would need, such as Hubspot or a document drive.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6abb134d1d061429065e9809_947344a3.png)
+![](https://assets.claude.com/71e5b66591e4a02d83db7fa47acf7ef214d4146e.png)
 Each agent also has a profile page that lists its name and purpose, the people who can use it, the administrators, instructions, skills, integrations, and permissions. Asana gives you the tools to make access intentional. “Asana is a contained work surface,” Arnab says. “You could choose to grant access to a specific set of projects versus everything, or a specific set of documents, or a combination of documents and apps.”
 Like human users, agents are subject to explicit access controls, but have an additional safeguard: Asana says an agent’s effective access is bounded by the permissions of the person who triggers it. This allows agents to have broad access to public content, while minimizing the risk of anyone accessing information the agent has learned in a private context.
 **How to put this into practice:**
@@ -28,7 +43,7 @@ The split is intentional, Arnab says. Asana's communications team hold the pen o
   - **Match editors to expertise.** The team that owns the standard the agent applies, like brand voice or planning conventions, owns (or administers) the agent.
   - **Build the memory as you work. **Feedback can improve the agent with time. Ask the agent to remember decisions worth keeping, or delete ones that are no longer relevant or true.
 ## Keep the agent’s work where everyone can see it
-Similar to how [agents in Slack post transparently in channels](https://claude.com/blog/turning-conversation-into-knowledge-how-slack-builds-human-agent-teams), when a task is assigned to an AI teammate everyone can see that an agent is doing it, and what it does. The agent posts activity, including its research plan and the steps it took, so everyone with access to that task can read what it did, comment, and steer it toward the result they want.
+Similar to how [agents in Slack post transparently in channels](https://claude.com/resources/articles/turning-conversation-into-knowledge-how-slack-builds-human-agent-teams), when a task is assigned to an AI teammate everyone can see that an agent is doing it, and what it does. The agent posts activity, including its research plan and the steps it took, so everyone with access to that task can read what it did, comment, and steer it toward the result they want.
 When Asana’s communications team asked Arnab to review a briefing document for a speaking engagement, he @-mentioned the agent on the task and asked it to also factor in his talk track from an earlier talk. The message was brief because he had used that agent many times and the material he referenced was already in the Work Graph. A colleague on the communications team could see his request and the agent’s response, and go back and forth with the agent at the same time.
 "You could probably get great quality responses from a one-on-one AI agent if you are highly AI fluent, get that document out, and post it back into Slack or into Asana," Arnab says. "But at that point, the other human beings who are reviewing that content don't know what the prompt was and what the back-and-forth was. If they disagree with some of the guidance you provided, that's impossible for them to get aligned on." On a shared task, the request, the pushback, and the output are in one place, and the people reviewing the output can also revise the instructions that produced it.
 **How to put this into practice**
@@ -50,3 +65,25 @@ When Asana ran automated coding loops on its own product, its cycle times and re
 In Command, a team space holds a group of 10 to 12 engineers who work on one product. Agents populate the team's unplanned board with tickets pulled from customer feedback and from comments in the team's feedback channel in Slack. People decide what moves from that board into the cycle, and Command predicts time to completion for the cycle with optimistic, balanced, and conservative estimates.
 A ticket can be assigned to a person or to a coding agent, and because the cycle data is all in one place, a manager can ask in chat why a release is off track and what tradeoffs would bring it back. Command answers from the data with what's driving the signal and which changes to trade. All of it is exposed through Asana's MCP server, the connection that lets an assistant like Claude read it, so someone like Arnab or his CTO counterpart can ask Claude what's on track without opening Command.
 “Humanity thrives when teams can work together effortlessly, and today every team is part human, part agent,” Arnab says. “That’s the kind of work we design for: one shared context that both humans and agents can work from, with a distinct identity for every agent so its contributions and access can be audited, and a durable record of what agents can learn so the team’s knowledge compounds instead of evaporating.”
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

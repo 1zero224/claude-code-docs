@@ -1,4 +1,16 @@
-***Update: ****Now available on Google Cloud's Vertex AI (Aug 26, 2025)*
+# Claude Sonnet 4 now supports 1M tokens of context
+Claude Sonnet 4 now supports up to 1 million tokens of context—a 5x increase that lets you process entire codebases, synthesize extensive document sets, and build agents that maintain coherence across hundreds of tool calls.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude apps
+  -
+DateAugust 12, 2025
+  -
+Reading time4 min
+  -
+ShareCopy link
+***Update: **Now available on Google Cloud's Vertex AI (Aug 26, 2025)*
 Claude Sonnet 4 now supports up to 1 million tokens of context on the Anthropic API—a 5x increase that lets you process entire codebases with over 75,000 lines of code or dozens of research papers in a single request.
 Long context support for Sonnet 4 is now in public beta on the Claude Developer Platform natively, and in Amazon Bedrock and Google Cloud’s Vertex AI.
 ### Longer context, more use cases
@@ -8,9 +20,7 @@ With longer context, developers can run more comprehensive and data-intensive us
   - **Context-aware agents: **Build agents that maintain context across hundreds of tool calls and multi-step workflows. Include complete API documentation, tool definitions, and interaction histories without losing coherence.
 ### API pricing
 To account for increased computational requirements, [pricing](https://www.anthropic.com/pricing#api) adjusts for prompts over 200K tokens:
-
-     Input Output   Prompts ≤ 200K $3 / MTok $15 / MTok   Prompts > 200K $6 / MTok $22.50 / MTok
- Claude Sonnet 4 pricing on the Anthropic API
+Claude Sonnet 4 pricing on the Anthropic APIInputOutputPrompts ≤ 200K$3 / MTok$15 / MTokPrompts > 200K$6 / MTok$22.50 / MTok
 When combined with [prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching), users can reduce latency and costs for Claude Sonnet 4 with long context. The 1M context window can also be used with [batch processing](https://docs.anthropic.com/en/docs/build-with-claude/batch-processing) for an additional 50% cost savings.
 ### Customer spotlight: Bolt.new
 Bolt.new transforms web development by integrating Claude into their browser-based development platform.
@@ -21,3 +31,27 @@ London-based iGent AI is advancing the field of software development with Maestr
 ### Get started
 Long context support for Sonnet 4 is now in public beta on the Claude Developer Platform for customers with Tier 4 and custom rate limits, with broader availability rolling out over the coming weeks. Long context is also available in Amazon Bedrock and on Google Cloud's Vertex AI. We’re also exploring how to bring long context to other Claude products.
 To learn more about Sonnet 4 and the 1M context window, see our [documentation](https://docs.anthropic.com/en/docs/build-with-claude/context-windows#1m-token-context-window) and [pricing page](https://www.anthropic.com/pricing#api).
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

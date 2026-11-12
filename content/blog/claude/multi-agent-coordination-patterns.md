@@ -1,3 +1,15 @@
+# Multi-agent coordination patterns: Five approaches and when to use them
+Five multi-agent coordination patterns, their trade-offs, and when to evolve from one to another.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Platform
+  -
+DateApril 10, 2026
+  -
+Reading time19 min
+  -
+ShareCopy link
 In an earlier post, we explored when multi-agent systems provide value and when a single agent is the better choice. This post is for teams that have made that call and now need to decide which coordination pattern fits their problem.
 We've seen teams choose patterns based on what sounds sophisticated rather than what fits the problem at hand. We recommend starting with the simplest pattern that could work, watching where it struggles, and evolving from there. This post examines the mechanics and limitations of five patterns:
   - **Generator-verifier**, for quality-critical output with explicit evaluation criteria
@@ -8,7 +20,7 @@ We've seen teams choose patterns based on what sounds sophisticated rather than 
 ## Pattern 1: Generator-verifier
 This is the simplest multi-agent pattern and among the most deployed. We introduced it as the verification subagent pattern in our previous post, and here we use the broader generator-verifier framing because the generator need not be an orchestrator.
 ### How it works
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69d901978c5cc197e3f1c1c7_1b56c9bc.png)
+![](https://assets.claude.com/5c6e32afcbfc38d375f25ec0f9d187c8cefd49cc.png)
 ‍
 A generator receives a task and produces an initial output, which it passes to a verifier for evaluation. The verifier checks whether the output meets the required criteria and either accepts it as complete or rejects it with feedback. If rejected, that feedback is routed back to the generator, which uses it to produce a revised attempt. This loop continues until the verifier accepts the output or the maximum number of iterations is reached.
 ### Where it works well
@@ -21,19 +33,19 @@ Finally, iterative loops can stall. If the generator can't address the verifier'
 ## Pattern 2: Orchestrator-subagent
 Hierarchy defines this pattern. One agent acts as a team lead that plans work, delegates tasks, and synthesizes results. Subagents handle specific responsibilities and report back.
 ### How it works
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69d901978c5cc197e3f1c1c4_76abfe32.png)
+![](https://assets.claude.com/c2af5db81717ec0047d62944f960e510860c3dbf.png)
 A lead agent receives a task and determines how to approach it. It may handle some subtasks directly while dispatching others to subagents. Subagents complete their work and return results, which the orchestrator synthesizes into a final output.
 [Claude Code](https://claude.com/product/claude-code) uses this pattern. The main agent writes code, edits files, and runs commands itself, dispatching subagents in the background when it needs to search a large codebase or investigate independent questions so work continues while results stream back. Each subagent operates in its own context window and returns distilled findings. This keeps the orchestrator's context focused on the primary task while exploration happens in parallel.
 ### Where it works well
 Consider an automated code review system. When a pull request arrives, the system needs to check for security vulnerabilities, verify test coverage, assess code style, and evaluate architectural consistency. Each check is distinct, requires different context, and produces a clear output. An orchestrator dispatches each check to a specialized subagent, collects the results, and synthesizes a unified review.
 Use this pattern when task decomposition is clear and subtasks have minimal interdependence. The orchestrator maintains a coherent view of the overall goal while subagents stay focused on specific responsibilities.
 ### Where it struggles
-The orchestrator becomes an information bottleneck. When a subagent discovers something relevant to another subagent's work, that information has to travel back through the orchestrator. If the security subagent finds an authentication flaw that affects the architecture subagent's analysis, the orchestrator must recognize this dependency and route the information appropriately. After several such handoffs, critical details are often lost or summarized away.
+The orchestrator becomes an information bottleneck. See [when to fold subagents back into the main agent loop](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop). When a subagent discovers something relevant to another subagent's work, that information has to travel back through the orchestrator. If the security subagent finds an authentication flaw that affects the architecture subagent's analysis, the orchestrator must recognize this dependency and route the information appropriately. After several such handoffs, critical details are often lost or summarized away.
 Sequential execution also limits throughput. Unless explicitly parallelized, subagents run one after another, meaning the system incurs multi-agent token costs without the speed benefit.
 ## Pattern 3: Agent teams
 When work decomposes into parallel subtasks that can proceed independently for extended periods, orchestrator-subagent can become unnecessarily constraining.
 ### How it works
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69d901978c5cc197e3f1c1cd_4282798b.png)
+![](https://assets.claude.com/c3208865ee6a6c6c0c7a071d66fa797d72b2dfcc.png)
 A coordinator spawns multiple worker agents as independent processes. Teammates claim tasks from a shared queue, work on them autonomously across multiple steps, and signal completion.
 The difference from orchestrator-subagent is worker persistence. The orchestrator spawns a subagent for one bounded subtask, and the subagent terminates after returning a result. Teammates stay alive across many assignments, accumulating context and domain specialization that improve their performance over time. The coordinator assigns work and collects outcomes but doesn’t reset workers between tasks.
 ### Where it works well
@@ -46,7 +58,7 @@ Shared resources compound both problems. When multiple teammates operate on the 
 ## Pattern 4: Message bus
 As agent count increases and interaction patterns grow complex, direct coordination becomes difficult to manage. A message bus introduces a shared communication layer where agents publish and subscribe to events.
 ### How it works
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69d901978c5cc197e3f1c1c1_78a53f59.png)
+![](https://assets.claude.com/62e7d3b2ede639843ba270fdba84aa57f446ffad.png)
 Agents interact through two primitives: publish and subscribe. Agents subscribe to the topics they care about, and a router delivers matching messages. New agents with new capabilities can start receiving relevant work without rewiring existing connections.
 ### Where it works well
 A security operations automation system demonstrates where this pattern excels. Alerts arrive from multiple sources, and a triage agent classifies each by severity and type, routing high-severity network alerts to a network investigation agent and credential-related alerts to an identity analysis agent. Each investigation agent may publish enrichment requests that a context-gathering agent fulfills. Findings flow to a response coordination agent that determines the appropriate action.
@@ -56,7 +68,7 @@ Use this pattern for event-driven pipelines where the workflow emerges from even
 The flexibility of event-driven communication makes tracing harder. When an alert triggers a cascade of events across five agents, understanding what happened requires careful logging and correlation. Debugging is harder than following an orchestrator's sequential decisions.
 Routing accuracy is also critical. If the router misclassifies or drops an event, the system fails silently, handling nothing but never crashing. LLM-based routers provide semantic flexibility but introduce their own failure modes.
 ## Pattern 5: Shared state
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69d901978c5cc197e3f1c1ca_d18482f0.png)
+![](https://assets.claude.com/f4a221e1b8bc3421162b15f565fa1b46725c0e7c.png)
 Orchestrators, team leads, and message routers in the previous patterns all centrally manage information flow. Shared state removes the intermediary by letting agents coordinate through a persistent store that all can read and write directly.
 ### How it works
 Agents operate autonomously, reading from and writing to a shared database, file system, or document. There's no central coordinator. Agents check the store for relevant information, act on what they find, and write their findings back. Work typically begins when an initialization step seeds the store with a question or dataset, and ends when a termination condition is met: a time limit, a convergence threshold, or a designated agent determining the store contains a sufficient answer.
@@ -70,25 +82,25 @@ The harder failure mode is reactive loops. For example, Agent A writes a finding
 ## Choosing and evolving between patterns
 The right pattern depends on a handful of structural questions about the system. In our previous post, we argued for context-centric decomposition, which divides work by what context each agent needs rather than by what type of work it does. That principle applies here too. The patterns differ in how they manage context boundaries and information flow.
 ### Orchestrator-subagent vs. agent teams
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69d901978c5cc197e3f1c1d0_cb379a56.png)
+![](https://assets.claude.com/742de423f421c12760fb8137e18732fc87dab10d.png)
 Both involve a coordinator dispatching work to other agents. The question is how long workers need to maintain their context.
   - **Choose orchestrator-subagent** when subtasks are short, focused, and produce clear outputs. The code review system works well here because each check runs its analysis, generates a report, and returns within a single bounded invocation. The subagent doesn't need to carry context across multiple cycles.
   - **Choose agent teams** when subtasks benefit from sustained, multi-step work. The codebase migration fits here because each teammate develops real familiarity with its assigned service: the dependency graph, test patterns, deployment configuration. That accumulated context improves performance in ways one-shot dispatch can't replicate.
 When subagents need to retain state across invocations, agent teams are the better fit.
 ### Orchestrator-subagent vs. message bus
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69d901978c5cc197e3f1c1dc_4313c333.png)
+![](https://assets.claude.com/680a70cf3ec53a3757197be17373e6e1ec814c51.png)
 Both can handle multi-step workflows. The question is how predictable the workflow structure is.
   - **Choose orchestrator-subagent **when the sequence of steps is known in advance. The code review system follows a fixed pipeline: receive a PR, run checks, synthesize results.
   - **Choose message bus** when the workflow emerges from events and may vary based on what's discovered. The security operations system can't predict what alerts will arrive or what investigation paths they'll require. New alert types may emerge that need new handling. The message bus accommodates that variability by routing events to capable agents rather than following a predetermined sequence.
 As conditional logic accumulates in the orchestrator to handle an expanding variety of cases, the message bus makes that routing explicit and extensible.
 ### Agent teams vs. shared state
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69d901978c5cc197e3f1c1df_a8950920.png)
+![](https://assets.claude.com/4375086ca2c10edfec16fb20d4c95831d04ab1ad.png)
 Both involve agents working autonomously. The question is whether agents need each other's findings.
   - **Choose agent teams** when agents work on separate partitions that don't interact. The codebase migration fits here because each teammate handles its service and the coordinator combines results at the end.
   - **Choose shared state** when agents' work is collaborative and findings should flow between them in real time. The research synthesis system is a better match because the academic agent's discovery of a key researcher immediately becomes relevant to the industry agent's investigation.
 Once teammates need to communicate with each other rather than only share final results, shared state makes that more natural.
 ### Message bus vs. shared state
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69d901978c5cc197e3f1c1d4_46c9b982.png)
+![](https://assets.claude.com/e35f51e67250164340de169834495f360b8ff295.png)
 Both support complex multi-agent coordination. The question is whether work flows as discrete events or accumulates into a shared knowledge base.
   - **Choose message bus** when agents react to events in a pipeline. The security operations system processes alerts stage by stage, with each event triggering the next before completing. The pattern is efficient at routing events to capable agents.
   - **Choose shared state** when agents build on accumulated findings over time. The research synthesis system gathers knowledge continuously. Agents return to the store repeatedly, seeing what others have discovered and adjusting their investigations.
@@ -97,359 +109,30 @@ If agents in a message bus system are publishing events to share findings rather
 ## Getting started
 Production systems often combine patterns. A common hybrid uses orchestrator-subagent for the overall workflow with shared state for a collaboration-heavy subtask. Another uses message bus for event routing with agent team-style workers handling each event type. These patterns are building blocks, not mutually exclusive choices.
 The following table summarizes when each pattern is appropriate.
-
-    Situation Pattern     Quality-critical output, explicit evaluation criteria Generator-Verifier   Clear task decomposition, bounded subtasks Orchestrator-Subagent   Parallel workload, independent long-running subtasks Agent Teams   Event-driven pipeline, growing agent ecosystem Message Bus   Collaborative research, agents share discoveries Shared State   No single point of failure required Shared State
-
+SituationPatternQuality-critical output, explicit evaluation criteriaGenerator-VerifierClear task decomposition, bounded subtasksOrchestrator-SubagentParallel workload, independent long-running subtasksAgent TeamsEvent-driven pipeline, growing agent ecosystemMessage BusCollaborative research, agents share discoveriesShared StateNo single point of failure requiredShared State
 For most use cases, we recommend starting with orchestrator-subagent. It handles the widest range of problems with the least coordination overhead. Observe where it struggles, then evolve toward other patterns as specific needs become clear.
-‍*In upcoming posts, we will examine each pattern in depth with production implementations and case studies. For background on when multi-agent systems are worth the investment, see *[*Building multi-agent systems: when and how to use them*](https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them)*.*
+‍*In upcoming posts, we will examine each pattern in depth with production implementations and case studies. For background on when multi-agent systems are worth the investment, see [Building multi-agent systems: when and how to use them](https://claude.com/resources/articles/building-multi-agent-systems-when-and-how-to-use-them).*
 ## **Acknowledgements**
 Written by Cara Phillips, with contributions from Eugene Yan, Jiri De Jonghe, Samuel Weller, and Erik S.
-No items found.
-[Prev](https://claude.com/blog/multi-agent-coordination-patterns#)Prev
-0/5
-[Next](https://claude.com/blog/multi-agent-coordination-patterns#)Next
-eBook
-##
-[](https://claude.com/blog/multi-agent-coordination-patterns#)
-![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/6889473610b50328dbb70b58_placeholder.svg)
-![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/6889473610b50328dbb70b58_placeholder.svg)![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/6889473610b50328dbb70b58_placeholder.svg)
-FAQ
-No items found.
-[](https://claude.com/blog/multi-agent-coordination-patterns#)
-## Related posts
+## Related articles
 Explore more product news and best practices for teams building with Claude.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6903d225485fe31f1ed2d9a1_db28a79c9f4492b8471009d4c20e900f234ece48-1000x1000.svg)
-Aug 26, 2026
-### How Warp builds self-improving agents on Claude
-Agents
-[How Warp builds self-improving agents on Claude](https://claude.com/blog/multi-agent-coordination-patterns#)How Warp builds self-improving agents on Claude
-[How Warp builds self-improving agents on Claude](https://claude.com/blog/how-warp-builds-self-improving-agents-on-claude)How Warp builds self-improving agents on Claude
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a42c9bc20d2072552ef256a_Node-EnterpriseAgents.svg)
-Sep 29, 2026
-### Agents you can coach: how Asana builds human-agent teams with Claude
-Agents
-[Agents you can coach: how Asana builds human-agent teams with Claude](https://claude.com/blog/multi-agent-coordination-patterns#)Agents you can coach: how Asana builds human-agent teams with Claude
-[Agents you can coach: how Asana builds human-agent teams with Claude](https://claude.com/blog/agents-you-can-coach-how-asana-builds-human-agent-teams-with-claude)Agents you can coach: how Asana builds human-agent teams with Claude
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a42c9bc20d2072552ef256a_Node-EnterpriseAgents.svg)
-Sep 28, 2026
-### Giving companies more control over their AI agents, with NVIDIA
-Agents
-[Giving companies more control over their AI agents, with NVIDIA](https://claude.com/blog/multi-agent-coordination-patterns#)Giving companies more control over their AI agents, with NVIDIA
-[Giving companies more control over their AI agents, with NVIDIA](https://claude.com/blog/giving-companies-more-control-over-their-ai-agents-with-nvidia)Giving companies more control over their AI agents, with NVIDIA
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a0112e18cdd7f0b92d19e40_Hand-BuildingBricks.svg)
-Sep 8, 2026
-### Reducing cost and improving performance with Claude Platform
-Agents
-[Reducing cost and improving performance with Claude Platform](https://claude.com/blog/multi-agent-coordination-patterns#)Reducing cost and improving performance with Claude Platform
-[Reducing cost and improving performance with Claude Platform](https://claude.com/blog/reducing-cost-and-improving-performance-with-claude-platform)Reducing cost and improving performance with Claude Platform
-## Transform how your organization operates with Claude
-See pricing
-[See pricing](https://claude.com/pricing#api)See pricing
-Contact sales
-[Contact sales](https://claude.com/contact-sales)Contact sales
-Get the developer newsletter
-Product updates, how-tos, community spotlights, and more. Delivered monthly to your inbox.
-[Subscribe](https://claude.com/blog/multi-agent-coordination-patterns#)Subscribe
-Please provide your email address if you'd like to receive our monthly developer newsletter. You can unsubscribe at any time.
-Thank you! You’re subscribed.
-Sorry, there was a problem with your submission, please try again later.
-[Homepage](https://claude.com)Homepage
-[Next](https://claude.com/blog/multi-agent-coordination-patterns#)Next
-Thank you! Your submission has been received!
-Oops! Something went wrong while submitting the form.
-[Anthropic](https://www.anthropic.com/)Anthropic
-© [year] Anthropic PBC
-Products
-  -
-Claude
-[Claude](https://claude.com/product/overview)Claude
-  -
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
 Claude Code
-[Claude Code](https://claude.com/product/claude-code)Claude Code
-  -
-Claude Cowork
-[Claude Cowork](https://claude.com/product/cowork)Claude Cowork
-  -
-@Claude
-[@Claude](https://claude.com/product/tag)@Claude
-  -
-Claude Science
-[Claude Science](https://claude.com/product/claude-science)Claude Science
-  -
-Claude Security
-[Claude Security](https://claude.com/product/claude-security)Claude Security
-  -
-Download app
-[Download app](https://claude.com/download)Download app
-  -
-Pricing
-[Pricing](https://claude.com/pricing)Pricing
-  -
-Log in
-[Log in](https://claude.ai/login)Log in
-Capabilities
-  -
-Artifacts
-[Artifacts](https://claude.com/features/artifacts)Artifacts
-  -
-Design
-[Design](https://claude.com/product/design)Design
-  -
-Connectors
-[Connectors](https://claude.com/marketplace/connectors-plugins)Connectors
-  -
-Plugins
-[Plugins](https://claude.com/marketplace/plugins)Plugins
-  -
-Skills
-[Skills](https://claude.com/skills)Skills
-Extensions
-  -
-Claude in Chrome
-[Claude in Chrome](https://claude.com/claude-in-chrome)Claude in Chrome
-  -
-Claude for Microsoft 365
-[Claude for Microsoft 365](https://claude.com/claude-for-microsoft-365)Claude for Microsoft 365
-Models
-  -
-Mythos
-[Mythos](https://www.anthropic.com/claude/mythos)Mythos
-  -
-Fable
-[Fable](https://www.anthropic.com/claude/fable)Fable
-  -
-Opus
-[Opus](https://www.anthropic.com/claude/opus)Opus
-  -
-Sonnet
-[Sonnet](https://www.anthropic.com/claude/sonnet)Sonnet
-  -
-Haiku
-[Haiku](https://www.anthropic.com/claude/haiku)Haiku
-Enterprise
-  -
-Overview
-[Overview](https://claude.com/solutions/enterprise)Overview
-  -
-Claude Code for Enterprise
-[Claude Code for Enterprise](https://claude.com/product/claude-code/enterprise)Claude Code for Enterprise
-Use cases
-  -
-AI agents
-[AI agents](https://claude.com/solutions/agents)AI agents
-  -
-Code modernization
-[Code modernization](https://claude.com/solutions/code-modernization)Code modernization
-  -
-Coding
-[Coding](https://claude.com/solutions/coding)Coding
-  -
-Commerce
-[Commerce](https://claude.com/solutions/commerce)Commerce
-Departments
-  -
-Customer support
-[Customer support](https://claude.com/solutions/customer-support)Customer support
-  -
-Cybersecurity
-[Cybersecurity](https://claude.com/solutions/cybersecurity)Cybersecurity
-  -
-Legal
-[Legal](https://claude.com/solutions/legal)Legal
-  -
-Sales
-[Sales](https://claude.com/solutions/sales)Sales
-Industries
-  -
-Financial services
-[Financial services](https://claude.com/solutions/financial-services)Financial services
-  -
-Government
-[Government](https://claude.com/solutions/government)Government
-  -
-Healthcare
-[Healthcare](https://claude.com/solutions/healthcare)Healthcare
-  -
-Higher education
-[Higher education](https://claude.com/solutions/education)Higher education
-  -
-K-12 teachers
-[K-12 teachers](https://claude.com/solutions/teachers)K-12 teachers
-  -
-Life sciences
-[Life sciences](https://claude.com/solutions/life-sciences)Life sciences
-  -
-Nonprofits
-[Nonprofits](https://claude.com/solutions/nonprofits)Nonprofits
-  -
-Small business
-[Small business](https://claude.com/solutions/small-business)Small business
-Programs
-  -
-Startups
-[Startups](https://claude.com/programs/startups)Startups
-  -
-Scientists
-[Scientists](https://claude.com/programs/team-plan-for-scientists)Scientists
-Developers
-  -
-Developer docs
-[Developer docs](https://code.claude.com/docs/en/overview)Developer docs
-  -
-Developer blog
-[Developer blog](https://claude.dev/)Developer blog
-  -
-Community
-[Community](https://claude.com/community)Community
-  -
-Console
-[Console](https://platform.claude.com/docs/en/home)Console
-  -
-Engineering at Anthropic
-[Engineering at Anthropic](https://www.anthropic.com/engineering)Engineering at Anthropic
-Platform
-  -
-Overview
-[Overview](https://claude.com/platform/api)Overview
-  -
-Marketplace
-[Marketplace](https://claude.com/marketplace)Marketplace
-  -
-Claude on AWS
-[Claude on AWS](https://claude.com/partners/claude-on-aws)Claude on AWS
-  -
-Google Cloud
-[Google Cloud](https://claude.com/partners/google-cloud)Google Cloud
-  -
-Microsoft Foundry
-[Microsoft Foundry](https://claude.com/partners/microsoft-foundry)Microsoft Foundry
-Resources
-  -
-Blog
-[Blog](https://claude.com/blog)Blog
-  -
-Claude partner network
-[Claude partner network](https://claude.com/partners)Claude partner network
-  -
-Claude Academy
-[Claude Academy](https://academy.claude.com/)Claude Academy
-  -
-Customer stories
-[Customer stories](https://claude.com/customers)Customer stories
-  -
-Events
-[Events](https://www.anthropic.com/events)Events
-  -
-Powered by Claude
-[Powered by Claude](https://claude.com/partners/powered-by-claude)Powered by Claude
-  -
-Service partners
-[Service partners](https://claude.com/marketplace/service-partners)Service partners
-Help and security
-  -
-Availability
-[Availability](https://www.anthropic.com/supported-countries)Availability
-  -
-Check files
-[Check files](https://claude.com/check-files)Check files
-  -
-Regional compliance
-[Regional compliance](https://claude.com/regional-compliance)Regional compliance
-  -
-Report abuse
-[Report abuse](https://claude.com/form/anthropic-content-reporting)Report abuse
-  -
-Security and compliance
-[Security and compliance](https://trust.anthropic.com/)Security and compliance
-  -
-Status
-[Status](https://status.anthropic.com/)Status
-  -
-Support center
-[Support center](https://support.claude.com/en/)Support center
-Company
-  -
-Anthropic
-[Anthropic](https://www.anthropic.com/)Anthropic
-  -
-Careers
-[Careers](https://www.anthropic.com/careers)Careers
-  -
-Policy
-[Policy](https://www.anthropic.com/policy)Policy
-  -
-Research
-[Research](https://www.anthropic.com/research)Research
-  -
-Anthropic news
-[Anthropic news](https://www.anthropic.com/news)Anthropic news
-  -
-Policy on the AI Exponential
-[Policy on the AI Exponential](https://www.anthropic.com/policy-on-the-ai-exponential)Policy on the AI Exponential
-  -
-Responsible Scaling Policy
-[Responsible Scaling Policy](https://www.anthropic.com/news/announcing-our-updated-responsible-scaling-policy)Responsible Scaling Policy
-  -
-Transparency
-[Transparency](https://anthropic.com/transparency)Transparency
-Terms and policies
-  -
-Privacy choices
-
-### Cookie settings
-
- We use cookies to deliver and improve our services, analyze site usage, and if you agree, to customize or personalize your experience and market our services to you. You can read our Cookie Policy [here](https://www.anthropic.com/legal/cookies).
-
-  Customize cookie settings   Reject all cookies   Accept all cookies
-
-###### Necessary
-
-Enables security and basic functionality.
-
- Required
-
-###### Analytics
-
-Enables tracking of site performance.
-
- Off
-
-###### Marketing
-
-Enables ads personalization and tracking.
-
- Off
-
-   Save preferences
-
-  -
-Privacy policy
-[Privacy policy](https://www.anthropic.com/legal/privacy)Privacy policy
-  -
-Responsible disclosure policy
-[Responsible disclosure policy](https://www.anthropic.com/responsible-disclosure-policy)Responsible disclosure policy
-  -
-Terms of service: Commercial
-[Terms of service: Commercial](https://www.anthropic.com/legal/commercial-terms)Terms of service: Commercial
-  -
-Terms of service: Consumer
-[Terms of service: Consumer](https://www.anthropic.com/legal/consumer-terms)Terms of service: Consumer
-  -
-Terms of Service: US K-12
-[Terms of Service: US K-12](https://anthropic.com/legal/k12-terms)Terms of Service: US K-12
-  -
-Data Processing Agreement: US K-12
-[Data Processing Agreement: US K-12](https://anthropic.com/legal/k12-dpa)Data Processing Agreement: US K-12
-  -
-Usage policy
-[Usage policy](https://www.anthropic.com/legal/aup)Usage policy
-[x.com](https://x.com/claudeai)x.com
-[x.com](https://www.threads.com/@claudeai)x.com
-[LinkedIn](https://www.linkedin.com/showcase/claude/)LinkedIn
-[YouTube](https://www.youtube.com/@anthropic-ai)YouTube
-[Instagram](https://www.instagram.com/claudeai)Instagram
-English
-[](https://claude.com/blog-product/claude-platform)
-Claude Platform
-[](https://claude.com/blog-usecases/coding)
-Coding
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

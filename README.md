@@ -1,7 +1,8 @@
 # Claude Code Docs
 
 > Auto-updating archive of Anthropic's builder documentation: every source
-> that publishes markdown, plus claude.com/blog extracted from HTML, fetched
+> that publishes markdown, plus claude.com/resources/articles (formerly /blog/)
+> extracted from HTML, fetched
 > every 2 days. 4,100 files from seven live sources, plus a frozen archive of the
 > engineering blog.
 
@@ -40,7 +41,8 @@ prints them live.
 | code.claude.com | `--section claude-code` | 198 | Claude Code + Agent SDK docs |
 | platform.claude.com | `--section api` | 2,228 | API reference, build guides |
 | claude.com/docs | `--section products` | 226 | Claude Tag, Cowork, office agents, connectors |
-| claude.com/blog | `--section blog` | 228 | Live Claude blog posts, HTML extracted to Markdown |
+| claude.com/resources/articles | `--section blog` | 279 | Live Claude blog posts, HTML extracted to Markdown |
+| claude.dev/blog | `--section blog` | 18 | Anthropic technical blog, markdown-native |
 | modelcontextprotocol.io | `--section mcp` | 347 | MCP spec, SDKs, governance |
 | github.com/anthropics | `--section github` | 764 | Cookbooks, skills, plugins, courses, SDK docs |
 | support.claude.com | `--section support` | 372 | Help articles |
@@ -77,7 +79,7 @@ content/
   claude/                Product docs (Claude Tag, Cowork, office agents)
   mcp/                   MCP protocol spec + community
   blog/
-    claude/              Live claude.com blog posts (HTML extracted)
+    claude/              Live claude.com + claude.dev blog posts
     engineering/         Frozen 2026-07-08: Building Effective Agents, ...
     research/            Research papers
     news/                Model releases
@@ -111,9 +113,10 @@ uv run scripts/fetcher.py --discover         # Probe domains for new sources
 
 GitHub repo fetching needs `GITHUB_TOKEN` or `GH_TOKEN` in the environment.
 Most fetched sources serve a `.md` variant of each page. The live
-`claude.com/blog` source is HTML-only and is extracted into Markdown under
-`content/blog/claude/`; the legacy `anthropic.com` blog archive remains frozen
-because its jina.ai proxy path was removed in July 2026.
+`claude.com/resources/articles` source (formerly `/blog/`) is HTML-only and is
+extracted into Markdown under `content/blog/claude/`; `claude.dev/blog` is
+markdown-native and shares that directory. The legacy `anthropic.com` blog
+archive remains frozen because its jina.ai proxy path was removed in July 2026.
 
 See [`sources.json`](sources.json) for the complete machine-readable source
 registry.

@@ -1,3 +1,16 @@
+# Claude can now create and edit files
+Describe what you need and get back ready-to-use spreadsheets, documents, presentations, and PDFs instead of just text responses.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude apps, Claude Enterprise
+  -
+DateSeptember 9, 2025
+  -
+Reading time4 min
+  -
+ShareCopy link
+*Editor's note: Mentions of Max in this post from before October 30, 2026 include what are now the Max and Ultra plans.*
 **Update:** Now generally available for paid plans with network and egress controls (October 21, 2025).
 Claude can now create and edit Excel spreadsheets, documents, PowerPoint slide decks, and PDFs directly in [Claude.ai](https://claude.ai/) and the desktop app. This transforms how you work with Claude—instead of only receiving text responses or in-app artifacts, you can describe what you need, upload relevant data, and get ready-to-use files in return.
 File creation is now available as a preview for Max, Team, and Enterprise plan users. Pro users will get access in the coming weeks.
@@ -6,7 +19,7 @@ Claude creates actual files from your instructions—whether working from upload
   - **Turn data into insights**: Give Claude raw data and get back polished outputs with cleaned data, statistical analysis, charts, and written insights explaining what matters.
   - **Build spreadsheets**: Describe what you need—financial models with scenario analysis, project trackers with automated dashboards, or budget templates with variance calculations. Claude creates it with working formulas and multiple sheets.
   - **Cross-format work**: Upload a PDF report and get PowerPoint slides. Share meeting notes and get a formatted document. Upload invoices and get organized spreadsheets with calculations. Claude handles the tedious work and presents information how you need it.
-![Image of three prompts with the resulting Excel, Document, and PDF files. ](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/690119799b711efd0a404392_image.webp)
+![Image of three prompts with the resulting Excel, Document, and PDF files. ](https://assets.claude.com/dbd800f381e7b4449ed6a87bdfda7097fb94a289.jpg)
 ‍
 Whether you need a customer segmentation analysis, sales forecasting, or budget tracking, Claude handles the technical work and produces the files you need. File creation turns projects that normally require programming expertise, statistical knowledge, and hours of effort into minutes of conversation.
 ### **How it works: Claude’s computer**
@@ -18,6 +31,30 @@ To start creating files:
   - Upload relevant files or describe what you need
   - Guide Claude through the work via chat
   - Download your completed files or save directly to Google Drive
-![Image of toggle to turn on ](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d910d03dc12cdc4df7c_1cbf5333ab0784b215a2450fb8dd95cd2e207aea-3840x2160.png)
+![Image of toggle to turn on ](https://assets.claude.com/f1451444c1da87b4e8990d280fc50ab7e8c5ebb1.png)
 Start with straightforward tasks like data cleaning or simple reports, then work up to complex projects like financial models once you're comfortable with how Claude handles files.
 This feature gives Claude internet access to create and analyze files, which may put your data at risk. Monitor chats closely when using this feature. [Learn more](https://support.anthropic.com/en/articles/12111783-create-and-edit-files-with-claude).
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

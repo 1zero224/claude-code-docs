@@ -1,5 +1,17 @@
+# How and when to use subagents in Claude Code
+A practical guide to Claude Code subagents: when they help, how to direct them, and the signals that tell you delegation is worth it.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code
+  -
+DateApril 7, 2026
+  -
+Reading time17 min
+  -
+ShareCopy link
 [Claude Code](https://claude.com/product/claude-code) handles complex, multi-step projects well, but long sessions accumulate weight. Every file read, every tangent explored, every half-finished thought stays in the context window, slowing responses and driving up token costs.
-Consider building a new feature in a large TypeScript monorepo. The main work is the implementation, but side tasks keep appearing: trace how an existing service handles auth, find the shared util for date formatting, check whether the design system already has a component close to what you need. None of these need the full project context, and running them inside the main session adds noise. What if you could run them in parallel?
+Consider building a new feature in a [large TypeScript monorepo](https://claude.com/resources/articles/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start). The main work is the implementation, but side tasks keep appearing: trace how an existing service handles auth, find the shared util for date formatting, check whether the design system already has a component close to what you need. None of these need the full project context, and running them inside the main session adds noise. What if you could run them in parallel?
 Enter [subagents](https://code.claude.com/docs/en/sub-agents). A subagent is an isolated Claude instance with its own context window. It takes a task, does the work, and returns only the result. Think of subagents as the browser tabs of a Claude Code session: a place to chase a tangent without losing the main thread.
 In this article, we discuss when it makes sense to use subagents, how to invoke them, and when the overhead isn't worth it.
 ## What is a subagent?
@@ -45,8 +57,6 @@ Natural language patterns that reliably invoke subagents include:
   - "Spin up subagents to fix these TypeScript errors across the different packages"
 Being explicit matters. Specify the scope, request parallel execution when tasks are independent, and describe the desired output.
 Here's an effective prompt structure:
-```
-```
 This prompt works because it clearly defines three independent tasks, explicitly requests parallel execution, and specifies the output format. Claude understands the intent and spawns appropriate subagents.
 Tips for effective conversational invocation include:
   - **Scope tasks clearly.** "Explore how payments work" beats "explore everything."
@@ -57,10 +67,8 @@ Tips for effective conversational invocation include:
 ### Custom subagents
 When the same kind of subagent keeps getting requested (a security reviewer, a test writer, a docs proofreader), it can be defined once as a custom subagent.
 Claude then delegates to it automatically whenever a task matches its description, no prompting required.
-Custom subagents live as markdown files in `.claude/agents/ `(project-level, shared with the team) or `~/.claude/agents/ `(user-level, available across all projects). Each one gets its own system prompt, tool permissions, and optionally its own model.
+Custom subagents live as markdown files in `.claude/agents/` (project-level, shared with the team) or `~/.claude/agents/` (user-level, available across all projects). Each one gets its own system prompt, tool permissions, and optionally its own model.
 The easiest way to create one is the /agents command, which walks through setup interactively and can generate a first draft from a description. The file can also be written by hand, for example:
-```
-```
 With this in place, Claude routes matching work to the subagent automatically. It can also be invoked by name: "Have the security-reviewer look at the staged changes."
 Custom subagents work best when:
   - A specialist should be available for Claude to delegate to automatically when a task matches
@@ -75,10 +83,8 @@ CLAUDE.md is a good fit for subagent instructions when:
   - The project has specific research patterns Claude should follow
   - Consistent behavior is needed across team members and sessions
 Here’s an example of a simple CLAUDE.md file that triggers a subagent given specific conditions:
-```
-```
 With the above CLAUDE.md file, every code review request automatically uses the defined pattern, eliminating the need to specify it each time.
-For more on CLAUDE.md files, see [Customizing Claude Code for your codebase: setting up a CLAUDE.md file](https://preview.claude.ai/chat/link) and our Claude Code [CLAUDE.md](http://claude.md)[ file docs](https://code.claude.com/docs/en/memory#claude-md-files).
+For more on CLAUDE.md files, see [Customizing Claude Code for your codebase: setting up a CLAUDE.md file](https://claude.com/resources/articles/using-claude-md-files) and our Claude Code [CLAUDE.md](http://claude.md)[ file docs](https://code.claude.com/docs/en/memory#claude-md-files).
 ### Skills
 For complex multi-step workflows that run repeatedly, skills provide a reusable interface. Define a skill once in .claude/skills/, then invoke it with /skill-name or let Claude load it automatically when a task matches its description.
 Skills differ from CLAUDE.md files in scope. CLAUDE.md files are always loaded and shapes every interaction. A skill is loaded on demand, either because it was invoked explicitly or because Claude matched the current task to the skill's description field. That makes skills the right place for workflows that should be available but not applied to every prompt.
@@ -87,10 +93,8 @@ Skills fit well when:
   - Different team members need access to the same complex operation
   - Standardizing how certain tasks are performed across the team matters
 Here’s an example of a deep-review skill for comprehensive code review:
-```
-```
 In the code snippet above, /deep-review triggers a three-part subagent analysis on demand. Because the description mentions reviewing staged changes before commits, Claude can also reach for this skill automatically when that context comes up.
-A skill is a directory, not a single file. Alongside `SKILL.md,` it can hold templates Claude fills in, example outputs showing the expected format, or scripts Claude executes as part of the workflow. The legacy `.claude/commands/ `format was a single flat file, so everything had to live in the prompt itself.
+A skill is a directory, not a single file. Alongside `SKILL.md,` it can hold templates Claude fills in, example outputs showing the expected format, or scripts Claude executes as part of the workflow. The legacy `.claude/commands/` format was a single flat file, so everything had to live in the prompt itself.
 For more on using skills with Claude Code, see our [Claude Code skills docs.](https://code.claude.com/docs/en/skills#extend-claude-with-skills)
 ### Hooks
 Hooks are user-defined shell commands, HTTP endpoints, or LLM prompts that execute automatically at specific points in Claude Code's lifecycle. [Hooks](https://code.claude.com/docs/en/hooks-guide) can automate subagent workflows based on events. Hooks trigger on specific actions and run subagent tasks without manual invocation.
@@ -99,35 +103,23 @@ Hooks are the right tool when:
   - Security checks should run without anyone remembering to ask
   - CI-like quality gates belong in the local development process
 Here is an example of a Stop hook that blocks Claude from ending its turn until a test is passed:
-```
-```
 And the script at `.claude/hooks/check-tests.sh`:
-```
-```
 When Claude finishes its turn, the Stop event fires. The script runs the test suite—if tests fail, it returns JSON with `decision: "block"` and a `reason`. Claude Code reads that, doesn't let Claude stop, and feeds the reason back into the conversation as instruction to keep working. The `stop_hook_active` guard at the top prevents infinite loops: if Claude is already continuing because of a previous stop-hook block, the script lets it exit.
 Hooks represent the most automated approach to subagent orchestration. Conversational invocation or CLAUDE.md instructions are the better starting point; hooks come later, as workflows mature.
-For complete hooks configuration, see [Claude Code power user customization: how to configure hooks](https://claude.com/blog/how-to-configure-hooks) or our [Claude Code hooks docs](https://code.claude.com/docs/en/hooks).
+For complete hooks configuration, see [Claude Code power user customization: how to configure hooks](https://claude.com/resources/articles/how-to-configure-hooks) or our [Claude Code hooks docs](https://code.claude.com/docs/en/hooks).
 ## Practical patterns for using subagents
 The following patterns demonstrate subagent direction applied to common scenarios.
 ### Research before implementing
 When adding a feature to unfamiliar code, delegating research to a subagent first keeps the implementation discussion informed rather than exploratory, for example:
-```
-```
 A synthesized summary arrives instead of twenty files of raw context, and the implementation discussion starts from a solid foundation.
 ### Parallel modifications
 When the same pattern needs updating across multiple files, parallel subagents finish faster and maintain focus, for example:
-```
-```
 Three subagents working in parallel complete in roughly the time one would take. Each focuses on its file without context from the others creating confusion or inconsistency.
 ### Independent review
 After implementing something complex, verification from a subagent that hasn't been influenced by the implementation journey catches what familiarity obscures, for example:
-```
-```
 The review subagent evaluates the code without knowing what tradeoffs were considered, what approaches were rejected, or what assumptions were made. This outside perspective surfaces issues the main conversation might miss.
 ### Pipeline workflow
 For multi-stage tasks, chaining subagents with explicit handoffs between phases keeps each stage focused, for example:
-```
-```
 Using a pipeline workflow, each stage in the task receives focused context. The design subagent isn't distracted by implementation concerns, the implementation subagent works from a clean spec, and the testing subagent evaluates the result independently.
 ## When shouldn’t you use subagents?
 While subagents are a useful feature, subagents carry overhead. Each one spins up its own context, consumes tokens, and adds a layer of indirection between the developer and the work. They're worth that cost when context isolation, parallelism, or a fresh perspective actually helps.
@@ -141,3 +133,25 @@ The signals described earlier (i.e., needing a second opinion, a lack of depende
 ## Start conversational, automate later
 Subagents deliver their full value when used deliberately. The automatic invocation Claude provides is helpful, but knowing when to delegate research, parallelize work, and request a fresh perspective produces better results than leaving it to chance.
 When using subagents, start with conversational prompts. Notice which requests keep occurring and build automation as those patterns clarify. The goal is to make subagent delegation effortless, so your attention stays on the work that matters.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

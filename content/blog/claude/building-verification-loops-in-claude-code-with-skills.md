@@ -1,10 +1,23 @@
-Most [agentic coding](https://claude.com/blog/introduction-to-agentic-coding) sessions follow a loop: you ask for a change, Claude gathers context, takes action, verifies the results, and if needed, loops back to gather additional context.
+# Building verification loops in Claude Code with skills
+How to turn your manual checks into skills, so Claude closes its own feedback loop.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code
+  -
+AuthorDelba de Oliveira
+  -
+DateJuly 22, 2026
+  -
+Reading time5 min
+  -
+ShareCopy link
+Most [agentic coding](https://claude.com/resources/articles/introduction-to-agentic-coding) sessions follow a loop: you ask for a change, Claude gathers context, takes action, verifies the results, and if needed, loops back to gather additional context.
 Verification is how agents check their work before responding. Claude already does some of this from observing the deterministic signals in your codebase, including type checkers, linters, tests, and runtime errors. Whatever Claude can't infer becomes the steps you take to manually check a feature.
 These manual steps, however, can be transformed into verification loops. In [Claude Code](https://claude.com/product/claude-code), a verification loop is an iterative process where Claude checks and attempts to fix the work.
-![diagram of the agentic loop: 1. gathering context, 2. taking action, 3. verifying results.](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a60f2068656db3211c097af_5b4284f8.png)
-*The agentic loop: 1. gathering context, 2. taking action, 3. verifying results.*
+![diagram of the agentic loop: 1. gathering context, 2. taking action, 3. verifying results.](https://assets.claude.com/5dd20c12d10d8e9e337f413fa1466f39a80296d0.png)The agentic loop: 1. gathering context, 2. taking action, 3. verifying results.
 In this article, we cover the most common types of verification loops and show you what we use inside Anthropic. Then we’ll show how to encode the manual checks you already do as skills, so Claude can close its own feedback loop and you can work on something else while it iterates.
-New to agent loops? Start with [getting started with loops](https://claude.com/blog/getting-started-with-loops).
+New to agent loops? Start with [getting started with loops](https://claude.com/resources/articles/getting-started-with-loops).
 ## What is a verification loop?
 A verification loop is a repeating cycle where an AI agent checks its own work — running tests, linters, or custom checks — and fixes what fails before moving on. In Claude Code, verification loops can be packaged as skills, so every session applies the same checks automatically instead of relying on a human to remember them.
 ## Built-in verification loops
@@ -21,12 +34,14 @@ The same goes if you're starting a new project and need to figure out how the pr
 If you're struggling to articulate the verification check itself, ask Claude for best practices first and edit from there. Your version probably differs on a few specific points, and those differences are exactly what you want to capture.
 **Pro tip**: The check doesn't have to be qualitative to belong here. "Reject any migration that drops a column without a backfill step" is a deterministic rule no generic linter will catch but a project-specific one will. Anything you keep having to enforce by hand as a manual check qualifies for capture as a loop.
 ## Make it a skill
-The most common way to encode repetitive steps into a verification loop is to write it as a [skill](https://claude.com/blog/complete-guide-to-building-skills-for-claude), and the fastest way to create a skill is to install the skill-creator plugin and let Claude interview you:
+The most common way to encode repetitive steps into a verification loop is to write it as a [skill](https://claude.com/resources/articles/complete-guide-to-building-skills-for-claude), and the fastest way to create a skill is to install the skill-creator plugin and let Claude interview you:
 Example:
+Copy
 ```
 /skill-creator Create a skill for verifying frontend changes end-to-end. Interview me about my workflow.
 ```
 You can also hand-write a skill by dropping a markdown file in .claude/skills/ inside your project. The simplest possible verification skill is a few lines of frontmatter plus a body:
+Copy
 ```
 # .claude/skills/verify-log-hygiene/SKILL.md
 ---
@@ -44,7 +59,7 @@ and does not pass the request body, headers, or any user-supplied payload.
 Report each violation with file:line, then fix it: add the request ID
 where it's missing and strip the payload from the log call.
 ```
-The full schema and the philosophy behind it are in our [complete guide to building skills](https://claude.com/blog/complete-guide-to-building-skills-for-claude).
+The full schema and the philosophy behind it are in our [complete guide to building skills](https://claude.com/resources/articles/complete-guide-to-building-skills-for-claude).
 ## Match the check to where it runs
 The next thing to determine will be how the verification loop kicks off: standalone, embedded, chained, or tied to PR.
 ### Standalone
@@ -53,6 +68,7 @@ The cost is that each invocation is still a turn you have to remember to take. T
 ### Embedded
 Fires automatically as part of the producing skill. The check belongs to one specific workflow, and the workflow now runs it without you asking.
 The simplest version is a one-line append to the producing skill's body:
+Copy
 ```
 # .claude/skills/scaffold-component/SKILL.md
 ---
@@ -83,6 +99,7 @@ Skip embedded for checks that span workflows; those want standalone, so you can 
 One skill calls another at its end, and several verified handoffs run end-to-end.
 Members of Anthropic's Claude Code team use this pattern in their day-to-day: /code-review hunts for bugs, /simplify cleans up the diff, a /verify skill confirms end-to-end behavior, and a custom /design skill checks against guidelines in a DESIGN.md file if the change touched UI.
 Chaining is also how you add verification to a skill you can't modify: build a custom wrapper skill that invokes the original, then invokes your verification skill, as depicted below:
+Copy
 ```
 # .claude/skills/safe-refactor/SKILL.md
 Run /simplify on the current diff first.
@@ -92,7 +109,7 @@ What started as a habit ("I always run /verify after /simplify") becomes a contr
 You can skip chaining when the steps are independent enough that you sometimes want to run one without the others; chaining trades flexibility for automation. Chained verification loops can increase token spend, so it's best to test these loops before deploying them broadly.
 ### On every PR
 Once the chain is solid for your own changes, the same procedure can run on every PR. A teammate's change passes the same gates yours did, whether they remembered to invoke the chain or not. The infrastructure is the same kind of thing as the chain you already wrote, one step further along: the same skills, the same rubrics, the same standards, applied without depending on the author's diligence.
-This is where verification stops being personal infrastructure and becomes[ team infrastructure](https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start). The check you wrote down to save yourself two minutes a week is now saving everyone two minutes a week, on every change. Hold off on PR-wide gates while the chain is still in flux; every adjustment becomes a team-visible event.
+This is where verification stops being personal infrastructure and becomes[ team infrastructure](https://claude.com/resources/articles/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start). The check you wrote down to save yourself two minutes a week is now saving everyone two minutes a week, on every change. Hold off on PR-wide gates while the chain is still in flux; every adjustment becomes a team-visible event.
 Once you have the process down, you’re ready to expand your loop engineering. The verification loop creation process is consistent, no matter what you’re automating or in what environment:
   - Pick the manual follow-up you did most often this week.
   - Try out the built-in /verify skill first and see if it helps your process.
@@ -101,5 +118,27 @@ Once you have the process down, you’re ready to expand your loop engineering. 
   - Invoke it on a new task and confirm the check runs as part of the output, iterate if needed.
   - Experiment with skill chaining to create an end-to-end verification flow.
 The more you can encode for Claude to follow, the more often Claude's response will land closer to what you want on the very first try. The corrections you no longer have to fiddle with now free up your attention for the individual and exclusive work that no skill can write down for you.
-***Get started with verification loops in ***[***Claude Code***](https://www.anthropic.com/product/claude-code).
-*This article was written by Delba de Oliveira, a member of the Claude Code team. *
+***Get started with verification loops in [Claude Code](https://www.anthropic.com/product/claude-code)***.
+*This article was written by Delba de Oliveira, a member of the Claude Code team.*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

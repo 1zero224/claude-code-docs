@@ -1,5 +1,19 @@
-***Update: ****This blog article was originally published on September 8, 2026, including benchmarks reflecting the cost and performance of using Opus 5 and Sonnet 5. We’ve since re-run several of these benchmarks to incorporate or highlight Opus 5.5, which launched on September 22, 2026.*
-Performance and cost are often viewed as a trade-off: to spend less, you accept worse results. In practice, we've found that many applications using Claude Platform can cut costs without giving up performance with three fixes: maximize the prompt cache hit rate, remove anti-patterns from your prompts when upgrading to frontier Claude models, and calibrate effort to the task. We've put this guidance into the [`claude-api `skill](https://github.com/anthropics/skills/tree/main/skills/claude-api). In this article, we show how Claude Code with the `claude-api `can often find ways to reduce cost while maintaining or improving performance.
+# Reducing cost and improving performance with Claude Platform
+Tuning prompt caching, instructions, and effort can reduce Claude's cost without sacrificing application performance.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Platform
+  -
+AuthorLance Martin
+  -
+DateSeptember 8, 2026
+  -
+Reading time16 min
+  -
+ShareCopy link
+***Update: **This blog article was originally published on September 8, 2026, including benchmarks reflecting the cost and performance of using Opus 5 and Sonnet 5. We’ve since re-run several of these benchmarks to incorporate or highlight Opus 5.5, which launched on September 22, 2026.*
+Performance and cost are often viewed as a trade-off: to spend less, you accept worse results. In practice, we've found that many applications using Claude Platform can cut costs without giving up performance with three fixes: maximize the prompt cache hit rate, remove anti-patterns from your prompts when upgrading to frontier Claude models, and calibrate effort to the task. We've put this guidance into the [`claude-api` skill](https://github.com/anthropics/skills/tree/main/skills/claude-api). In this article, we show how Claude Code with the `claude-api` can often find ways to reduce cost while maintaining or improving performance.
 ## **Prompt cache**
 Before Claude generates a response, it first processes your prompt into an internal working state. This step, called *prefill*, is the expensive part of handling input. Prompt caching saves that state (the key–value, or KV, cache): when a request starts with the same prefix, Claude reads it back instead of recomputing it. Cache reads are[ billed at a fraction](https://platform.claude.com/docs/en/about-claude/pricing) of the full input price.
 There are a few practical considerations to ensure effective use of the prompt cache. First, the prompt cache is pinned to a specific model. Second, prompt cache reads must be *byte-exact* across the full span of the prompt. Finally, the prompt cache has a [limited time-to-live](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#ttl-support) (TTL).
@@ -12,13 +26,11 @@ With these points in mind, there are a few practical tips:
 ### How to fix it
 We’ve [accumulated](https://claude.com/blog/lessons-from-building-claude-code-prompt-caching-is-everything) a few lessons for prompt cache management:
   - **Monitor your prompt cache hit rate carefully**. [Claude Console](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics) provides prompt cache diagnostics, including reasoning for prompt cache misses (Figure 1). If hits drop unexpectedly, the [cache diagnostics API ](https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics)tells you exactly where two requests diverged.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a9f8d87cec69dcbb7d97cb2_image3.png)
-Figure 1. Claude Console can diagnose unexpected prompt cache misses by comparing consecutive requests and identifying exactly where the prompt prefix diverged.
+![](https://assets.claude.com/d6b40161dc25a247ac6782ccde49e2198a76cbf6.png)Figure 1. Claude Console can diagnose unexpected prompt cache misses by comparing consecutive requests and identifying exactly where the prompt prefix diverged.
   - **Defer rarely used tools**. Declare all your tools up front but mark the rarely used ones [defer_loading](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-use-with-prompt-caching#defer-loading-and-cache-preservation): they stay out of the cached prefix and are appended into the conversation only when Claude looks them up with tool search, so the cache is preserved.
   - **Apply system prompt updates as messages**. [Claude Platform](https://platform.claude.com/docs/en/build-with-claude/mid-conversation-system-messages#when-to-use-a-mid-conversation-system-message) lets you add a system instruction as a message mid-conversation instead of editing the system prompt, which preserves the cache.
   - **Lay out the request out so the stable part stays stable**. Add static context (tool definitions and the system prompt) first and the growing conversation behind them (Figure 2).
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a9f8e173f4924ebf13397e3_image5.png)
-Figure 2. Organize prompts to ensure dynamic content is appended to the end of a stable prefix.
+![](https://assets.claude.com/bf235bef54d335c8f367a90e6d986e0e480b3659.png)Figure 2. Organize prompts to ensure dynamic content is appended to the end of a stable prefix.
   - **Make changes to model or effort when the prompt cache will already be broken**. Certain operations, like [compaction](https://platform.claude.com/docs/en/build-with-claude/compaction), already rewrite much of the cache (the conversation). That is a [good moment](https://cognition.com/blog/devin-fusion) to switch model or effort, since you are paying for a miss anyway.
   - **Move the cache breakpoint as the conversation grows**. With Claude Platform, you can set [automatic caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#automatic-caching) to automatically apply the cache breakpoint to the last cacheable block.
   - **Pre-warm the cache**. To reduce latency, send a request with `max_tokens: 0` and an explicit cache breakpoint. This processes the prompt and writes it to the cache without generating anything. If you run it at session start (for example, while a user is typing), the first real request hits a warm cache.
@@ -31,12 +43,11 @@ Prompts can accumulate instructions that patch model weaknesses. These instructi
   - **Stale examples**. Few-shot examples tuned to an older model's failure modes can teach a frontier model to imitate long reasoning chains on requests that don't need them.
   - **Contradictory rules**. Frontier models are better at instruction following. Contradictory instructions ("always refund within policy" vs. "never issue refunds without escalation") can be followed more literally by frontier models, resulting in degraded performance.
   - **Dated configuration**. Settings written for an older Claude generation (e.g., manual thinking budgets) can be rejected by the Claude Platform when upgrading to frontier models.
-### **How to fix it **
-We've updated the `claude-api `skill with a new command that watches out for these anti-patterns. In Claude Code, run `/claude-api prompt-audit` against your prompts, skills, or tool descriptions. The audit covers anything in your working directory, including application code that calls the Claude API and Claude Code's own configuration (e.g., [CLAUDE.md](http://claude.md) or skills).
+### **How to fix it**
+We've updated the `claude-api` skill with a new command that watches out for these anti-patterns. In Claude Code, run `/claude-api prompt-audit` against your prompts, skills, or tool descriptions. The audit covers anything in your working directory, including application code that calls the Claude API and Claude Code's own configuration (e.g., [CLAUDE.md](http://claude.md) or skills).
 For example, we tested a model migration from Opus 4.8 to Opus 5.5 on a customer support benchmark. We started from a clean prompt and planted one anti-pattern at a time (a retired thinking setting, a pair of contradictory refund rules, a manual scratchpad, "verify twice", "be maximally thorough", and a mandatory six-step procedure), giving six legacy prompts.
 We ran each on Opus 4.8, on Opus 5.5 with only the model ID changed, and on Opus 5.5 after running `/claude-api prompt-audit` once per prompt (Figure 3 shows the average across the six).
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6ab2a99ed2ca2fafb3d08f9f_image7.png)
-Figure 3 | The effect of prompting anti-patterns during model migration from Opus 4.8 to Opus 5.5.
+![](https://assets.claude.com/0cd5e5e12be576e52a6a6cf71383b157f186960a.png)Figure 3 | The effect of prompting anti-patterns during model migration from Opus 4.8 to Opus 5.5.
 The migration from Opus 4.8 to Opus 5.5 reduces cost by around 18%. This is because the Opus 5.5 [input tokens and prompt cache reads](https://platform.claude.com/docs/en/about-claude/pricing) are cheaper than Opus 4.8.
 With Opus 5, verification rituals ("*verify twice*") use unnecessary tokens by duplicating order lookup on every refund. Emphasis boosters ("*be maximally thorough*") became dozens of unneeded knowledge-base searches.
 Running `/claude-api prompt-audit` removed the anti-patterns, decreasing costs by an additional 9%. Cost dropped because extra tool calls and duplicated reasoning were eliminated. Accuracy rose by around 2 percentage points for three reasons. The retired thinking setting made the API reject every routing request outright. The contradictory refund rules led Opus 5.5 to withhold four refunds it owed while it asked the customer to confirm. And the manual scratchpad collided with Opus 5.5's built-in thinking: on three tickets it wrote the tool call inside its reasoning and never executed it.
@@ -44,21 +55,18 @@ Running `/claude-api prompt-audit` removed the anti-patterns, decreasing costs b
 [Effort](https://platform.claude.com/docs/en/build-with-claude/effort) tells Claude “how hard to work.” At low effort Claude generally reaches conclusions faster. At high effort, Claude deliberates, verifies, and explores alternatives before answering.
 Cost-versus-performance across effort levels on a single model can vary. For example, Claude Fable 5 scores 11.5% at low effort for $5.35 per task on FrontierCode Diamond (the hardest 50 tasks). At max effort, Fable 5 gets 30.9% for $19.00 per task; changing effort raises the score about 2.7x (+19 points) for about 3.5x the cost (Figure 4).
 On Claude Fable 5.1, Humanity's Last Exam (without tools) shows a steep curve with a diminishing last step. It scores about 53% at low effort for about $0.30 per question and about 61% at max effort for about $2.23; the last step up to max adds about half a point for 46% more cost. The gain inside the benchmark's run-to-run noise, so you pay more for no measurable gain.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a9f8f79e11f87d01ba88ea0_image4.png)
-Figure 4. Fable 5 performance vs cost across effort levels on FrontierCode Diamond.
+![](https://assets.claude.com/e98f3439bf7c1ab39255923d00a84093a2eab83a.png)Figure 4. Fable 5 performance vs cost across effort levels on FrontierCode Diamond.
 Effort can be miscalibrated in either direction:
   - **Assuming higher is always better**. High effort can cause *over-*thinking. Claude spends more time deliberating than the task warrants, which adds cost / latency and can degrade answer quality. Deliberation only helps while there's still evidence to find.
   - **Biasing to low effort**. Set too low, Claude stops before it has enough evidence. It makes fewer tool calls, so it may answer from the first search result instead of the third. It thinks less on hard steps and skips the check it would normally run on its own. The answer looks finished, but it's built on partial information.
-### **How to fix it **
+### **How to fix it**
 There are some useful ways to calibrate effort:
   - **Test stronger models at lower effort**. A stronger model at low effort can be cheaper than a weaker model working hard (high effort). For example, on CursorBench 3.2, Claude Fable 5.1 at low effort [matches the performance](https://www-cdn.anthropic.com/0339e6a7c5c7b87f5c07798616dc32c215d14235/Claude%20Fable%205.1%20&%20Claude%20Mythos%205.1%20System%20Card.pdf) of Fable 5 at high effort at a third of the cost (Figure 5). Two things make the newer model cheaper: at low effort it does less work per task, and Fable 5.1's prompt-cache reads are priced at $0.25 per million tokens versus $1.00 for Fable 5. Even at Fable 5's prices, Fable 5.1 at low effort would cost about 40% less.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a9f8fa48d8330985eb9d300_image1.png)
-Figure 5. Fable 5 vs. Fable 5.1 across effort levels on CursorBench 3.2.
+![](https://assets.claude.com/2dc3f817d4e2d1a60281710824b0be56af297073.png)Figure 5. Fable 5 vs. Fable 5.1 across effort levels on CursorBench 3.2.
   - **Understand your task shape. **Measuring application performance across a [sweep of effort levels](https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence#tune-effort) is a useful way to understand the cost-performance tradeoff for your particular task. On a non-saturated evaluation, a flat performance-cost curve across effort levels suggests that the task is not bound by thinking compute; increasing effort is not beneficial.
 This calibration often involves running an evaluation across models and effort levels. In Claude Code, `/claude-api hillclimb` performs this search for you: it splits your evaluation into train and test sets, proposes configuration changes, and reads failing train examples to fix what it finds.
 We ran it on a customer support benchmark, starting from Opus 4.8 at its default (high) effort. The hillclimber first tried Opus 5 at low effort, applying prompt-audit to remove mandatory tool-call rituals, scratchpad steps, and contradictory rules. That cleared the Opus 4.8 baseline at 98.9% train accuracy and cut cost to 2.6 cents per ticket.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a9f8fd5bc0d13015256b1f5_image6.png)
-Figure 6. Hillclimbing improves cost and performance by updating model choice, effort, and prompt.
+![](https://assets.claude.com/79ea3830539e1a251c9b96faa4bb5f66bc38e9e5.png)Figure 6. Hillclimbing improves cost and performance by updating model choice, effort, and prompt.
 It then stepped down to Sonnet 5 at low effort, which was cheaper still at 1 cent per ticket, but accuracy fell to 88.9%. Reading the failing train tickets, Claude added routing rules and a refund-cap cross-reference to the prompt, bringing Sonnet 5 back to 98.9% at the same cost.
 On the 14 held-out tickets the search never saw, the final configuration scored 90.5% against the original setup's 78.6%, at about one fifth the cost.
 ## **Automating cost reduction**
@@ -70,8 +78,7 @@ We ran this on four public benchmarks, starting with Opus 5.5 as a baseline (Fig
   - **tau2-bench retail** (~73% lower cost): `cost-optimize` found that ~93% of the prompt could be cached, reducing spend by ~73% with no change in the pass rate.
   - **OfficeQA Pro** (~72% lower cost): `cost-optimize` applied the [Batch API](https://platform.claude.com/docs/en/about-claude/pricing) and trimmed oversized documents to their most relevant sections, reducing cost by ~72% with no significant change in the score.
   - **SWE-bench Verified** (~24% lower cost): `cost-optimize` found that prompt caching was already applied, so savings came from setting effort to medium and constraining the agent's output to a few concise sentences. Together, these reduced cost ~24%.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6ab2aa46027b5763ee3e5323_image3.png)
-Figure 7 | Cost and performance change across benchmarks with /claude-api cost-optimize.
+![](https://assets.claude.com/10270725873d9c5e0f70ad594f96072bd4c237c0.png)Figure 7 | Cost and performance change across benchmarks with /claude-api cost-optimize.
 ## **Getting started**
 Start with `/claude-api prompt-audit` when you've migrated to a frontier Claude model and want to check your existing prompts against it. It scans the prompts, skills, and tool descriptions in your working directory. This can be application code that calls the Claude API or Claude Code's configuration (CLAUDE.md, skills). It removes common anti-patterns that hobble frontier models.
 Reach for `/claude-api cost-optimize` when your application uses the Claude API and you want a cost audit. It profiles token spend and then tests different levers: it applies prompt-audit, but also checks for ways to lower cost via prompt caching, batching unattended work, or bounding output. If you provide an evaluation, it measures the effort and model selection trade-offs.
@@ -79,3 +86,25 @@ Finally, use `/claude-api hillclimb` for an iterative search over cost and perfo
 To learn more:
   - See our documentation, [here](https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence#cut-spend-without-losing-quality)
   - See our cookbook, [here](https://platform.claude.com/cookbook/cost-optimization-cost-optimization#prompt-caching)
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

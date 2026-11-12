@@ -1,4 +1,16 @@
-***Update:**** You can now add the web fetch tool to your requests and Claude will fetch and analyze content from any webpage URL. September 10, 2025*
+# Introducing web search on the Anthropic API
+Claude can now search the web through the API, giving users access to real-time information with citations for building up-to-date AI applications.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Platform
+  -
+DateMay 7, 2025
+  -
+Reading time6 min
+  -
+ShareCopy link
+***Update:** You can now add the web fetch tool to your requests and Claude will fetch and analyze content from any webpage URL. September 10, 2025*
 Today, we're introducing web search on the Anthropic API—a new tool that gives Claude access to current information from across the web. With web search enabled, developers can build Claude-powered applications and agents that deliver up-to-date insights.
 ### Power AI agents with the latest information from the web
 Developers can now augment Claude’s comprehensive knowledge with current, real-world data by enabling the web search tool when making requests to the Messages API.
@@ -13,7 +25,7 @@ Web search enables Claude to power a wide range of use cases that benefit from r
   - **Productivity: **Build agents that incorporate the latest company reports, competitive intelligence, or industry research.
 ### Build with trust and control
 Every web-sourced response includes citations to source materials, enabling users to verify information directly. This is particularly valuable for sensitive use cases that require accuracy and accountability.
-![A screenshot of the UX showing blocked domains.](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d93039df37d2c2df52e_b57f878e8735a67a64c1463c8248f0f4b0797952-3840x2160.png)
+![A screenshot of the UX showing blocked domains.](https://assets.claude.com/526227ee1533df4b9ff7cf84d7b302d58ccddf90.png)
 Organizations can maintain additional control through the following admin settings:
   - **Domain allow lists**: Specify which domains Claude can search and retrieve information from, ensuring that results only come from approved sources.
   - **Domain block lists**: Prevent Claude from accessing certain domains that may contain sensitive, competitive, or inappropriate content for your organization.
@@ -30,3 +42,27 @@ Adaptive is an AI tool for consumers to create end-to-end apps.
 ### Getting started
 Web search is now available on the Anthropic API for Claude 3.7 Sonnet, the upgraded Claude 3.5 Sonnet, and Claude 3.5 Haiku at $10 per 1,000 searches plus standard token costs.
 To get started, enable the web search tool in your API requests. Explore our [documentation](https://docs.anthropic.com/en/docs/build-with-claude/tool-use/web-search-tool) and [pricing](https://www.anthropic.com/pricing#api) to learn more.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

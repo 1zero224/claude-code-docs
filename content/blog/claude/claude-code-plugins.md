@@ -1,3 +1,15 @@
+# Customize Claude Code with plugins
+Claude Code now supports plugins: custom collections of slash commands, agents, MCP servers, and hooks that install with a single command.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Code
+  -
+DateOctober 9, 2025
+  -
+Reading time5 min
+  -
+ShareCopy link
 ### Share your Claude Code setup with plugins
 Slash commands, agents, MCP servers, and hooks are all extension points you can use to customize your experience with Claude Code. As we've rolled them out, we've seen users build increasingly powerful setups that they want to share with teammates and the broader community. We built plugins to make this easier.
 Plugins are a lightweight way to package and share any combination of:
@@ -5,8 +17,8 @@ Plugins are a lightweight way to package and share any combination of:
   - **Subagents**: Install purpose-built agents for specialized development tasks
   - **MCP servers**: Connect to tools and data sources through the Model Context Protocol
   - **Hooks**: Customize Claude Code's behavior at key points in its workflow
-You can install plugins directly within Claude Code using the` /plugin` command, now in public beta. They’re designed to toggle on and off as needed. Enable them when you need specific capabilities and disable them when you don’t to reduce system prompt context and complexity.
-![Product screenshot showing Claude Code plugin menu](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d95ecae26885bafdfde_81805a2d45f087f2cc153168759f8bf015706b04-1920x1035.png)
+You can install plugins directly within Claude Code using the `/plugin` command, now in public beta. They’re designed to toggle on and off as needed. Enable them when you need specific capabilities and disable them when you don’t to reduce system prompt context and complexity.
+![Product screenshot showing Claude Code plugin menu](https://assets.claude.com/81805a2d45f087f2cc153168759f8bf015706b04.png)
 Moving forward, plugins will be our standard way to bundle and share Claude Code customizations, and we’ll continue to evolve the format as we add more extension points.
 ### Use cases
 Plugins help you standardize Claude Code environments around a set of shared best practices. Common plugin use cases include:
@@ -27,9 +39,35 @@ You can also check out a few [example plugins](https://github.com/anthropics/cla
 Plugins are now in public beta for all Claude Code users. Install them with the `/plugin` command and they'll work across your terminal and VS Code.
 Check out our documentation to [get started](https://docs.claude.com/en/docs/claude-code/plugins-reference), [build your own plugins](https://docs.claude.com/en/docs/claude-code/plugins), or [publish a marketplace](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces). To see plugins in action, try this multi-agent workflow we use to develop Claude Code:
 `/plugin marketplace add anthropics/claude-code`
+Copy
 ```
 /plugin marketplace add anthropics/claude-code
 ```
+Copy
 ```
 /plugin install feature-dev
 ```
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

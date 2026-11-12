@@ -1,3 +1,16 @@
+# Bringing Code Review to Claude Code
+Practical guidance on how to structure agent tasks using three common workflow patterns, with tradeoffs and benefits for each.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Code
+  -
+DateMarch 9, 2026
+  -
+Reading time5 min
+  -
+ShareCopy link
+***Update: **[Code Review is now generally available](https://claude.com/resources/articles/code-review-is-now-generally-available).*
 Today we're introducing Code Review, which dispatches a team of agents on every PR to catch the bugs that skims miss, built for depth, not speed. It's the system we run on nearly every PR at Anthropic. Now in research preview for Team and Enterprise.
 ## **Managing the review bottleneck**
 Code output per Anthropic engineer has grown 200% in the last year. Code review has become a bottleneck, and we hear the same from customers every week. They tell us developers are stretched thin, and many PRs get skims rather than deep reads.
@@ -21,3 +34,27 @@ Code Review is available now as a research preview in beta for Team and Enterpri
   - **For admins**: Enable Code Review in your[ Claude Code settings](http://claude.ai/admin-settings/claude-code), install the GitHub App, and select repositories you’d like to run reviews on.
   - **For developers**: Once enabled, reviews run automatically on new PRs. No configuration needed.
 [Explore the docs](http://code.claude.com/docs/en/code-review) for more information.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

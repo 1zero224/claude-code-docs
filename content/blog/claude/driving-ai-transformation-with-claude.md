@@ -1,3 +1,14 @@
+# How enterprises are driving AI transformation with Claude
+  -
+Category[Perspectives](https://claude.com/resources/perspectives)
+  -
+ProductClaude Enterprise
+  -
+DateOctober 1, 2025
+  -
+Reading time12 min
+  -
+ShareCopy link
 As [the leader](https://menlovc.com/perspective/2025-mid-year-llm-market-update/#231d94dd-4d90-47a1-a125-c62daefe5dc1-link) in enterprise AI, Anthropic builds state-of-the-art models specializing in industries where precision matters, from coding and cybersecurity to financial services. [Claude Sonnet 4.5](https://www.anthropic.com/news/claude-sonnet-4-5), our latest release, delivers measurable results—reducing vulnerability response time by 44% for security organizations like HackerOne, enabling investment-grade financial analysis at institutional firms like NBIM, and helping developers at Netflix and GitHub tackle complex, codebase-spanning tasks with unprecedented accuracy.
 Here's how five leading organizations are using Claude to drive transformation across their businesses.
 ## **How Novo Nordisk drives breakthrough drug development**
@@ -36,7 +47,28 @@ This enterprise transformation is made possible by Anthropic's [foundational res
 The result is an AI partner that enterprises can trust with increasingly autonomous responsibilities, knowing that the same research rigor underlying Claude's capabilities also ensures its safety and controllability at scale.
 ## **Getting started on your enterprise AI journey**
 Whether you're just beginning to explore AI or already deploying agents at scale, Anthropic provides the resources to help you succeed:
-  - [**How Anthropic teams use Claude Code:**](https://www.anthropic.com/news/how-anthropic-teams-use-claude-code)** **Learn how our own teams leverage AI to accelerate development, with practical examples and implementation strategies.
-  - [**Customer case studies**](https://claude.com/customers)**:** More stories of how organizations across financial services, healthcare, cybersecurity, and other industries are driving transformation with Claude.
-  - [**Anthropic Academy**](https://www.anthropic.com/learn)**: **Access our AI Fluency and Building Agents courses to develop the skills your team needs to work effectively with AI.
+  - [**How Anthropic teams use Claude Code:**](https://www.anthropic.com/news/how-anthropic-teams-use-claude-code) Learn how our own teams leverage AI to accelerate development, with practical examples and implementation strategies.
+  - **[Customer case studies](https://claude.com/customers):** More stories of how organizations across financial services, healthcare, cybersecurity, and other industries are driving transformation with Claude.
+  - **[Anthropic Academy](https://www.anthropic.com/learn): **Access our AI Fluency and Building Agents courses to develop the skills your team needs to work effectively with AI.
 [Contact](https://claude.com/contact-sales) our Sales team to learn more.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleOct 22, 2026
+### Building agents: When to fold subagents into your main agent loop
+When building agents in Claude Platform, using fewer subagents in favor of progressively disclosed context and tools can improve quality while reducing cost and latency. Here’s when and how to migrate.
+Claude Platform
+](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop)[
+ArticleOct 13, 2026
+### Uber's CISO on building an insider threat program for AI
+Uber's CISO, Philip Martin, on the importance of monitoring and observability for AI agents, and how Uber's open-source tooling works alongside Enterprise Frontier Safeguards.
+](https://claude.com/resources/articles/uber-s-ciso-on-building-an-insider-threat-program-for-ai)[
+ArticleOct 8, 2026
+### How Block orchestrates Claude Fable across thousands of pull requests
+Bradley Axen, Head of AI Capabilities at Block, on how his team evaluates new large language models, how Claude Fable 5 orchestrates company-wide code migrations, and why safeguards are a critical part of deploying frontier intelligence responsibly, at scale.
+Claude Enterprise
+](https://claude.com/resources/articles/how-block-orchestrates-claude-fable-across-thousands-of-pull-requests)[
+ArticleOct 6, 2026
+### How Comcast and Booz Allen use Claude Mythos to find exploit chains and secure their codebases
+Security teams at Comcast and Booz Allen used Claude Mythos-class models through Project Glasswing to find, validate, and fix vulnerabilities their existing scanners missed.
+](https://claude.com/resources/articles/how-comcast-booz-allen-use-claude-mythos-to-secure-their-codebases)

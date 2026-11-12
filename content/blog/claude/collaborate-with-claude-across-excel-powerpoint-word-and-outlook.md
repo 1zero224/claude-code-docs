@@ -1,3 +1,15 @@
+# Collaborate with Claude across Excel, PowerPoint, Word and Outlook
+One conversation that carries context across all four apps
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Enterprise
+  -
+DateMay 7, 2026
+  -
+Reading time4 min
+  -
+ShareCopy link
 Starting today, Claude for Excel, PowerPoint, and Word are generally available, and Claude for Outlook is now in public beta for all paid plans. As Claude moves between tasks in your Microsoft apps, it keeps the full context of your conversation.
 ‍
 ## **One conversation across four apps**
@@ -7,11 +19,69 @@ Conversations persist with each file, so you can close the sidebar, reopen it th
 ## **Claude for Outlook**
 Claude for Outlook brings Claude into your inbox. Ask Claude to triage your inbox and it sorts messages by what needs your response, what it can draft for you, and what's noise. Replies land as drafts in Outlook's compose pane with recipients, subject, and body filled in. Calendar invites check attendee availability and open in Outlook's native event form.
 Open an attachment in Word or Excel and Claude already knows what the sender asked for. You review every reply and calendar invite before it goes out, and nothing goes out until you click send.
-## **Deploying Claude for Microsoft 365 across your organization **
+## **Deploying Claude for Microsoft 365 across your organization**
 Claude for Excel, PowerPoint, and Word are now generally available, with the controls IT admins and organizations need. One AppSource listing covers Excel, PowerPoint, and Word, and a separate listing adds Outlook in beta. Admins can deploy both from the Microsoft admin center.
 Enterprise admins can configure [OpenTelemetry](https://support.claude.com/en/articles/14447276-configure-a-custom-opentelemetry-collector-for-office-agents) to stream prompts, tool calls, and document references to their own collector, so security teams see exactly what Claude does across every app. The [Analytics API](https://support.claude.com/en/articles/13703965-claude-enterprise-analytics-api-reference-guide) breaks out activity per user, per app, per day.
 Organizations can access all four add-ins with a Claude account, or route traffic through an existing LLM gateway to Claude models running on Amazon Bedrock, Google Cloud’s Vertex AI, or Microsoft Foundry.
 Microsoft 365 Copilot customers can also work with Claude AI models directly within [Excel](https://support.microsoft.com/en-gb/topic/choose-your-model-when-editing-with-copilot-in-excel-b2c3b3ec-154b-484b-84d0-914a80df395a) and [PowerPoint](https://support.microsoft.com/en-gb/topic/choose-your-model-in-agent-mode-25ba645b-2932-4f10-a910-fea4ae76d65c).
 ## **How organizations use Claude for Microsoft 365**
+![Citadel](https://assets.claude.com/6974233e910a5ba470a017719933cbf677a74d0b.svg)
+“Our investment professionals live in data and analytical models, and Claude for Excel meets them there. Analysts are using it to build and update coverage models, separate signal from noise, and pressure-test their work — all with a step-change in efficiency.”
+Atte Lahtiranta, Head of Core Engineering
+![Bain & Company](https://assets.claude.com/687ae4df36a08c5cd73be9019650f3358fc4c3b2.svg)
+“Claude in Excel allows my teams to build an initial version of complex models faster, enabling them to focus on refining the model, pressure testing inputs and assumption, and exploring more scenarios and trade-offs. This helps us have richer and deeper discussions with our clients earlier.”
+Gene Rapoport, Head of Private Equity AI Practice
+![Deloitte](https://assets.claude.com/d799180e9a468d82dc23a32c1ddfe94dcee116d0.svg)
+“Claude enables a seamless transition from rough ideas to polished, branded deliverables across presentation, document and spreadsheet applications without disrupting the workflow. That end-to-end consistency has been a significant time-saver, especially when quality, formatting, and speed all matter.”
+Vivek Kulkarni, US AI Transformation Leader
+![British Columbia Investment Management Corp](https://assets.claude.com/f9578c1cf0c050b2131464fceb3ac9bc1cb19062.svg)
+“We can instruct Claude to build a style guide from an executive's prior written communications so our EAs can draft their emails in their voice. That's high-leverage work the team would never have time to set up by hand.”
+Ben Letalik, Sr. Director, Digital Transformation & Innovation
+![ServiceNow](https://assets.claude.com/fe0e4049f1a44dacc4b0e11ea7be3c1e5eb6b255.svg)
+“Claude for M365 is being rapidly adopted by ServiceNow. Claude does the work in Excel itself, instead of asking us to move content between tools, driving step change in productivity.”
+Rajeev Sethi, GVP Enterprise Technologies
+![Citadel](https://assets.claude.com/6974233e910a5ba470a017719933cbf677a74d0b.svg)
+“Our investment professionals live in data and analytical models, and Claude for Excel meets them there. Analysts are using it to build and update coverage models, separate signal from noise, and pressure-test their work — all with a step-change in efficiency.”
+Atte Lahtiranta, Head of Core Engineering
+![Bain & Company](https://assets.claude.com/687ae4df36a08c5cd73be9019650f3358fc4c3b2.svg)
+“Claude in Excel allows my teams to build an initial version of complex models faster, enabling them to focus on refining the model, pressure testing inputs and assumption, and exploring more scenarios and trade-offs. This helps us have richer and deeper discussions with our clients earlier.”
+Gene Rapoport, Head of Private Equity AI Practice
+![Deloitte](https://assets.claude.com/d799180e9a468d82dc23a32c1ddfe94dcee116d0.svg)
+“Claude enables a seamless transition from rough ideas to polished, branded deliverables across presentation, document and spreadsheet applications without disrupting the workflow. That end-to-end consistency has been a significant time-saver, especially when quality, formatting, and speed all matter.”
+Vivek Kulkarni, US AI Transformation Leader
+![British Columbia Investment Management Corp](https://assets.claude.com/f9578c1cf0c050b2131464fceb3ac9bc1cb19062.svg)
+“We can instruct Claude to build a style guide from an executive's prior written communications so our EAs can draft their emails in their voice. That's high-leverage work the team would never have time to set up by hand.”
+Ben Letalik, Sr. Director, Digital Transformation & Innovation
+![ServiceNow](https://assets.claude.com/fe0e4049f1a44dacc4b0e11ea7be3c1e5eb6b255.svg)
+“Claude for M365 is being rapidly adopted by ServiceNow. Claude does the work in Excel itself, instead of asking us to move content between tools, driving step change in productivity.”
+Rajeev Sethi, GVP Enterprise Technologies
+![Citadel](https://assets.claude.com/6974233e910a5ba470a017719933cbf677a74d0b.svg)
+“Our investment professionals live in data and analytical models, and Claude for Excel meets them there. Analysts are using it to build and update coverage models, separate signal from noise, and pressure-test their work — all with a step-change in efficiency.”
+Atte Lahtiranta, Head of Core Engineering
+1/5
 ## **Getting started**
 All Mac and Windows users on paid plans can access [Claude for Microsoft 365.](https://claude.com/claude-for-microsoft-365) [Claude for Outlook](https://claude.com/claude-for-microsoft-365) is available in beta on all paid plans. Admins can deploy these add-ins from Microsoft AppSource through the Microsoft admin center.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

@@ -1,3 +1,15 @@
+# How Anthropic's cybersecurity team built a threat detection platform with Claude Code
+*Jackie Bow, technical lead for Anthropic's Detection Platform Engineering team, shares how her team uses Claude Code to build tools that automate alert triage, accelerate investigations, and transform how security analysts work.*
+  -
+Category[Best practices](https://claude.com/resources/best-practices), [Perspectives](https://claude.com/resources/perspectives)
+  -
+ProductClaude Code
+  -
+DateMay 12, 2026
+  -
+Reading time12 min
+  -
+ShareCopy link
 For her entire career, Jackie Bow imagined tools that could tap into the context that actually matters—not just logs and alerts, but the Slack conversations, internal docs, and institutional knowledge that tell you whether something is a real threat or just noise—without needing humans to take the load of combing through the data manually.
 When she joined Anthropic, she finally got the chance to build them—with Claude as her collaborator. Jackie leads Anthropic's Detection Platform Engineering team, which focuses on defensive cybersecurity: detecting threats and responding to potential breaches rather than probing for vulnerabilities. The work involves monitoring systems for suspicious activity, triaging security alerts, and investigating anomalies before they become incidents.
 For a company building increasingly capable AI models, this work is foundational.[ Anthropic's Responsible Scaling Policy](https://www.anthropic.com/news/anthropics-responsible-scaling-policy) ties product releases directly to security commitments, meaning Bow's team helps determine what the company can safely ship.
@@ -44,5 +56,27 @@ The key is giving Claude boundaries (what tools it can use, what data it can acc
 **Embracing non-determinism**: Traditional security tooling treats inconsistency as a bug. CLUE treats it as a feature. The same alert might get investigated differently on different days, and that's fine—sometimes the second path finds something the first missed. The team is experimenting with running multiple investigation strategies in parallel and comparing results.
 "The bitter lesson for security operations? We spent years building systems that encoded how humans investigate. The next generation of tools should give models the capability to investigate and let them find better approaches than we would have prescribed," Bow adds.
 *Check out our best practices for preparing your security program for AI-accelerated offense.*
-*Get started with *[*Claude Code*](https://claude.com/product/claude-code)* today. Stay tuned for more stories in the "How Anthropic uses Claude" series.*
+*Get started with [Claude Code](https://claude.com/product/claude-code) today. Stay tuned for more stories in the "How Anthropic uses Claude" series.*
 **These results were generated using Claude Sonnet and Opus models.*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

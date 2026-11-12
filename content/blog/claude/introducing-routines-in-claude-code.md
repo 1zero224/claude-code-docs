@@ -1,21 +1,36 @@
+# Introducing routines in Claude Code
+Define repeatable routines that work your backlog, review your PRs, and respond to events in the cloud.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Code
+  -
+DateApril 14, 2026
+  -
+Reading time5 min
+  -
+ShareCopy link
 Today, we're introducing routines in Claude Code in research preview. A routine is a Claude Code automation you configure once — including a prompt, repo, and connectors — and then run on a schedule, from an API call, or in response to an event. Routines run on [Claude Code’s web infrastructure](https://code.claude.com/docs/en/claude-code-on-the-web), so nothing depends on your laptop being open.
 Developers already use Claude Code to automate the software development cycle, but until now, they've managed cron jobs, infrastructure, and additional tooling like MCP servers themselves. Routines ship with access to your repos and your [connectors](https://claude.com/connectors), so you can package up automations and set them to run on a schedule or trigger.
 ## How it works
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69de678887f94fb639698fa7_dd878b86.png)
+![](https://assets.claude.com/7dcf6205a44d0fe732a9697c294eed3e7f3e12a1.png)
 ### Scheduled routines
 Give Claude Code a prompt and a cadence (hourly, nightly, or weekly) and it runs on that schedule:
+Copy
 ```
 Every night at 2am: pull the top bug from Linear, attempt a fix, and open a draft PR.
 ```
 If you're using [/schedule](https://code.claude.com/docs/en/scheduled-tasks#compare-scheduling-options) in the CLI, those tasks are now scheduled routines.
 ### API routines
 You can also configure routines to be triggered by API calls. Every routine gets its own endpoint and auth token. POST a message, get back a session URL. Wire Claude Code into your alerting, your deploy hooks, your internal tools—anywhere you can make an HTTP request:
+Copy
 ```
 Read the alert payload, find the owning service, and post a triage summary to #oncall with a proposed first step.
 ```
-If you're building cloud-hosted agents on the Claude Platform rather than automating Claude Code, [scheduled deployments in Claude Managed Agents](https://claude.com/blog/whats-new-in-claude-managed-agents) give your own agents the same run-on-a-schedule behavior.
+If you're building cloud-hosted agents on the Claude Platform rather than automating Claude Code, [scheduled deployments in Claude Managed Agents](https://claude.com/resources/articles/whats-new-in-claude-managed-agents) give your own agents the same run-on-a-schedule behavior.
 ### Webhook routines, starting with GitHub
 Subscribe a routine to automatically kick off in response to GitHub repository events. Claude will create a new session for every PR matching your filters and run your routine.
+Copy
 ```
 Please flag PRs that touch the /auth-provider module. Any changes to this module need to be summarized and posted to #auth-changes.
 ```
@@ -34,5 +49,29 @@ A few common patterns have emerged for early users creating routines:
   - Library port: every PR merged to a Python SDK triggers a routine that ports the change to the parallel Go SDK, and opens a matching PR
   - Bespoke code review: on PR opened, run your team's own checklist across security and performance, leaving inline comments before a human reviewer looks
 ## Getting started
-Routines are available today for Claude Code users on Pro, Max, Team, and Enterprise plans with [Claude Code on the web](https://code.claude.com/docs/en/claude-code-on-the-web#who-can-use-claude-code-on-the-web) enabled. Head to [claude.ai/code](http://claude.ai/code) to create your first routine, or type /schedule in the CLI.
+Routines are available today for Claude Code users on Pro, Max, Ultra, Team, and Enterprise plans with [Claude Code on the web](https://code.claude.com/docs/en/claude-code-on-the-web#who-can-use-claude-code-on-the-web) enabled. Head to [claude.ai/code](http://claude.ai/code) to create your first routine, or type /schedule in the CLI.
 Routines draw down subscription usage limits in the same way as interactive sessions. In addition, routines have daily limits: Pro users can run up to 5 routines per day, Max users can run up to 15 routines per day, and Team and Enterprise users can run up to 25 routines per day. You can run extra routines beyond these limits with extra usage. [See the docs](http://code.claude.com/docs/en/routines) for more information.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

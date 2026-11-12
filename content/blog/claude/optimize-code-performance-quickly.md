@@ -1,3 +1,15 @@
+# Optimize code performance quickly
+Go from reactive profiling to proactive optimization. Find and fix bottlenecks in your codebase before they slow down production.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code
+  -
+DateOctober 6, 2025
+  -
+Reading time9 min
+  -
+ShareCopy link
 Performance bottlenecks sneak up on you. Your API was fast last week, but now it's timing out. User dashboards that load instantly are suddenly crawling. The payment flow that worked fine in testing chokes under real traffic.
 Traditional code optimization requires deep expertise: understanding profiler output, analyzing algorithmic complexity, correlating performance metrics with business logic. Each optimization cycle means profiling, analyzing, implementing, testing—stretching performance improvements across multiple sprints.
 Here's how to turn reactive performance fixes into proactive optimization that prevents bottlenecks before they impact users.
@@ -22,6 +34,7 @@ Many development teams are moving beyond reactive profiling tools toward proacti
 Before setting up complex profiling environments or writing benchmark suites, paste short code snippets in [Claude.ai](https://claude.ai) to quickly determine whether a performance issue is algorithmic, structural, or configuration-related. Unlike traditional profilers that only show where time is spent, Claude explains why code is slow and how to fix it. This initial analysis helps you decide between a quick code change or a comprehensive architectural review.
 ### Get quick optimization ideas
 The most straightforward approach with Claude.ai is copying a problematic function and asking for help. Developers typically paste anywhere from a few lines to entire functions that are causing bottlenecks in their applications. Claude analyzes the code structure, identifies inefficient patterns like nested loops or redundant operations, and suggests specific optimizations.
+Copy
 ```
 User: "This function is slowing down our user dashboard. How can I make it faster?"
 
@@ -35,22 +48,25 @@ Typical questions that work well:
   - ["What's wrong with this algorithm performance-wise?"](https://claude.ai/new?q=What%27s+wrong+with+this+algorithm+performance-wise%3F)
 ### Understand why your code is slow
 Sometimes you need to understand the root cause before jumping into optimization. Claude.ai excels at breaking down performance issues in accessible language, explaining exactly why certain code patterns become bottlenecks as your application scales. You can paste code that's consuming excessive memory, causing API timeouts, or degrading under load, then ask Claude to explain what's happening.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68f13857ee0625a58a13a7bd____.png)
+![](https://assets.claude.com/6de5665eb36da6aaf3911200f6f091621090d029.png)
 ## Scale optimizations with Claude Code
 For performance challenges spanning multiple files or requiring architectural changes, [Claude Code](https://claude.com/product/claude-code) agentically provides project-wide optimization capabilities that traditional profiling tools can't match.
 Install:
+Copy
 ```
 npm install -g @anthropic-ai/claude-code
 ```
 Launch in your project:
+Copy
 ```
 claude
 ```
 Start asking Claude about ways to optimize your code:
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e9533ec45c4d79d1a6c54d_5.png)
+![](https://assets.claude.com/1ab4b29f3ea89384159509c6be72931fcf3eb4e3.png)
 Claude Code autonomously analyzes your entire codebase, correlates recent changes with performance degradation, and provides specific optimization recommendations targeting root causes rather than symptoms.
 ### Implement with automated testing
 Once Claude Code identifies bottlenecks, it orchestrates targeted fixes by automatically creating a step-by-step workflow to generate tests, validate improvements, and prevent regressions.
+Copy
 ```
 > Optimize this payment processing function and benchmark results
 ```
@@ -60,7 +76,7 @@ Claude Code optimizes workflows in large codebases, updating code to increase ef
 **Focus on critical paths**: Run Claude Code inside performance-critical directories (api/, core/) avoiding analysis of static assets or configuration files that don't impact performance.
 **Apply systematic patterns**: Claude Code identifies recurring inefficiencies and suggests architectural improvements addressing multiple bottlenecks simultaneously: connection pooling, strategic caching, optimized database query patterns.
 ### Example: eliminate N+1 database queries
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95463e1157246ac222647_6.png)
+![](https://assets.claude.com/2a0dc8ed98de270d46a25f0410031ac00bcb19c9.png)
 Claude Code scans your codebase for loops triggering database queries, identifies specific ORM patterns causing N+1 problems, implements eager loading or batch query solutions, measures query reduction and response time improvements, generates tests preventing N+1 regressions.
 Claude Code typically identifies additional optimizations such as adding composite indexes on frequently queried columns or implementing Redis caching for repeated queries.
 ## Choose your optimization approach
@@ -72,12 +88,44 @@ Results:
   - **1M+ lines of AI-suggested code** in 30 days
   - **80% reduction in incident triage time**
   - **50% weekly active usage** across engineering teams
-"When we discovered Claude Code, our teams immediately recognized its potential and integrated it into our workflows"
+“"When we discovered Claude Code, our teams immediately recognized its potential and integrated it into our workflows"”
 — Austin Ray, Senior Software Engineer at Ramp
 ## Get started with systematic optimization
 **Immediate performance analysis**: Visit [Claude.ai](https://claude.ai), paste slow functions, get instant complexity analysis and optimization recommendations.
 **Comprehensive optimization**: Install [Claude Code](https://claude.com/product/claude-code):
+Copy
 ```
 npm install -g @anthropic-ai/claude-code
 ```
 Whether you're targeting sub-100ms API response times, reducing memory consumption, or eliminating database bottlenecks, Claude serves as your thinking partner to ship faster, more efficient software without extending development cycles through manual optimization guesswork. Get started today.
+## FAQ
+What causes slow API response times?
+Common causes include algorithmic bottlenecks like O(n²) complexity from nested loops, N+1 database query problems where you make database calls inside loops, inefficient database queries that don't use indexes properly, lack of caching for repeated operations, and redundant data processing.
+How can I find performance bottlenecks in my code?
+You can identify bottlenecks by pasting suspicious functions into Claude.ai for immediate analysis, or use Claude Code to scan your entire codebase for performance issues. Traditional approaches involve profiling tools like Chrome DevTools, New Relic, or Datadog to examine flame graphs and CPU hotspots, but these show where time is spent without explaining why code is inefficient.
+Should I use profiling tools or AI for code optimization?
+Use both approaches together for best results. Traditional profiling tools like Chrome DevTools or Datadog show where your application spends time and help identify hot spots in production environments. AI tools like Claude explain why specific code is slow and suggest concrete optimizations. Start with Claude.ai to quickly determine whether a performance issue is algorithmic, structural, or configuration-related before setting up complex profiling environments.
+How much performance improvement should I expect from code optimization?
+It depends on your starting point. Eliminating N+1 queries can reduce response times from seconds to milliseconds—often 10-100x improvements. Replacing O(n²) algorithms with O(n) implementations shows dramatic gains with large datasets but minimal difference with small ones. Tools like Claude Code can generate benchmark tests to measure improvements objectively, helping you validate whether optimizations actually deliver the expected gains.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

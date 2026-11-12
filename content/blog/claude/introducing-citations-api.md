@@ -1,4 +1,16 @@
-***Update: ****Now available in Amazon Bedrock. (June 30, 2025)*
+# Introducing Citations on the Anthropic API
+Claude can now cite specific passages from your documents, delivering verifiable responses with built-in source tracking.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude apps
+  -
+DateJune 23, 2025
+  -
+Reading time5 min
+  -
+ShareCopy link
+***Update: **Now available in Amazon Bedrock. (June 30, 2025)*
 Today, we're launching Citations, a new API feature that lets Claude ground its answers in source documents. Claude can now provide detailed references to the exact sentences and passages it uses to generate responses, leading to more verifiable, trustworthy outputs.
 Citations is generally available on the Anthropic API and Google Cloud’s Vertex AI.
 ### Trust by verification
@@ -24,3 +36,27 @@ Endex uses Claude to power an Autonomous Agent for financial firms.
 "With Anthropic's Citations, we reduced source hallucinations and formatting issues from 10% to 0% and saw a 20% increase in references per response. This removed the need for elaborate prompt engineering around references and improved our accuracy when conducting complex, multi-stage financial research,” said Tarun Amasa, CEO, Endex.
 ### Get started
 Citations is now available for the new Claude 3.5 Sonnet and Claude 3.5 Haiku. To start using Citations, explore our [documentation](https://docs.anthropic.com/en/docs/build-with-claude/citations).
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

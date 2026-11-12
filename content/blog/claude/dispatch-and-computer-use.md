@@ -1,15 +1,51 @@
-In Claude Cowork and Claude Code, you can now enable Claude to use your computer to complete tasks. When Claude doesn’t have access to the tools it needs, it will point, click, and navigate what’s on your screen to perform the task itself. It can open files, use the browser, and run dev tools automatically — with no setup required.
-This feature is now available in research preview for Claude Pro and Max subscribers. It works especially well with [Dispatch](https://support.claude.com/en/articles/13947068-assign-tasks-to-claude-from-anywhere-in-cowork), which lets you assign Claude tasks from your phone.
+# Put Claude to work on your computer
+In Claude Cowork and Claude Code, Claude can use your computer to point, click, and complete tasks. Dispatch lets you assign them from your phone.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude apps, Claude Code
+  -
+DateMarch 23, 2026
+  -
+Reading time4 min
+  -
+ShareCopy link
+In [Claude Cowork](https://claude.com/product/cowork) and [Claude Code](https://claude.com/product/claude-code), you can now enable Claude to use your computer to complete tasks. When Claude doesn’t have access to the tools it needs, it will point, click, and navigate what’s on your screen to perform the task itself. It can open files, use the browser, and run dev tools automatically — with no setup required.
+This feature is now available in research preview for Claude Pro, Max, and Ultra subscribers. It works especially well with [Dispatch](https://support.claude.com/en/articles/13947068-assign-tasks-to-claude-from-anywhere-in-cowork), which lets you assign Claude tasks from your phone.
 ## How Claude uses your computer
 Claude will reach for the most precise tool first, starting with connectors to services like Slack or Google Calendar. When there isn’t a connector, Claude can directly control your browser, mouse, keyboard, and screen to complete tasks. It will scroll, click to open, and explore as needed, always asking for your explicit permission first.
 We’ve built this capability with safeguards that minimize risk, including prompt injection. When Claude uses your computer, our system will automatically scan activations within the model to detect for such activity. You also have the ability to stop Claude at any point, and Claude will always request permission before accessing new applications.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69c0acb66ca028e43998d824_Cowork-Dispatch-Blog-Permissions.png)
+![](https://assets.claude.com/13513e685fc97e37191c82c09a01b0403107073c.png)
 Computer use is still early compared to Claude’s ability to code or interact with text. Claude can make mistakes, and while we continue to improve our safeguards, threats are constantly evolving. We recommend starting with the apps you trust and not working with sensitive data. Some apps are off-limits by default for this reason. You can learn more about safety best practices [here](https://support.claude.com/en/articles/14128542).
 ## Message Claude from anywhere
 Last week, we released [Dispatch](https://support.claude.com/en/articles/13947068-assign-tasks-to-claude-from-anywhere-in-cowork): a new feature in Claude Cowork (and now available in Claude Code) that lets you have one continuous conversation with Claude from your phone or your desktop. You can assign Claude a task on your phone, turn your attention to something else, then open up the finished work on your computer.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69c0acc3f9e37117f1f547a8_Cowork-Dispatch-Blog-Code-Session.png)
+![](https://assets.claude.com/cc8110adaeb6a22acd16e593c7a41442701052ce.png)
 With Dispatch, you can tell Claude to automatically check your emails every morning or pull some metrics every week, or spin up a Claude Cowork or Claude Code session for a report or a pull request.
 Claude’s new computer use capability makes Dispatch even more helpful. Now, Claude can use your computer on your behalf while you’re away. For example, to create a morning briefing while you’re on the train; make changes in your IDE, run tests, and put up a PR; or keep your 3D printing project moving according to your initial plan.
 ## Getting started
 Claude’s computer use capability in Claude Cowork and Claude Code is in research preview. It won’t always work perfectly: complex tasks sometimes need a second try, and working through your screen is slower than using a direct integration. We're sharing it early because we want to learn where it works and where it falls short—just like we did with Claude Cowork.
-It is available now for Claude Pro and Claude Max subscribers. Computer use is supported on macOS and Windows, and you'll need to enable it in the desktop app settings. You’ll also need to make sure your desktop app is awake and running. From there, you can pair it with the mobile app and try handing off a task from your phone.
+It is available now for Claude Pro, Claude Max, and Claude Ultra subscribers. Computer use is supported on macOS and Windows, and you'll need to enable it in the desktop app settings. You’ll also need to make sure your desktop app is awake and running. From there, you can pair it with the mobile app and try handing off a task from your phone.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

@@ -1,3 +1,15 @@
+# Building AI agents for healthcare and life sciences
+AI agents are delivering measurable results in healthcare and life sciences while navigating the industry's unique regulatory complexity and safety standards. Here's how.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Platform
+  -
+DateOctober 30, 2025
+  -
+Reading time16 min
+  -
+ShareCopy link
 In healthcare and life sciences, AI is proving its worth where it matters most: real-world patient outcomes.
 AI agents are delivering measurable efficiency gains: [16,000 hours](https://aws.amazon.com/solutions/case-studies/pfizer-PACT-case-study/) of annual research time saved at Pfizer and clinical documentation study delivered in hours, not weeks at [Novo Nordisk](https://www.anthropic.com/news/driving-ai-transformation-with-claude).
 For technical leaders evaluating their agentic investments, these production implementations demonstrate concrete ROI. The question isn't whether to build agents—it's how to architect systems that meet healthcare's unique regulatory requirements and clinical safety standards while delivering real results.
@@ -86,4 +98,30 @@ For technical leaders evaluating agent investments, production implementations a
   - **Evaluate whether your workflows have sufficient complexity to warrant agent architectur**e. As a general rule of thumb, some organizations achieve better ROI with simpler automation solutions that address their specific problems more efficiently than full agent implementations.
   - **The path forward demands partnership between technology and clinical teams** to ensure AI agents enhance, rather than replace, human judgment. Healthcare leaders who embrace this collaborative approach, prioritize patient safety through robust testing and escalation pathways, and build modular systems that evolve to keep pace advancing AI capabilities will lead the way in creating strong, sustainable, and incredibly valuable systems for their organizations.
 Production implementations prove the gains are achievable: measurable efficiency improvements across research, administrative workflows, and quality control. Your path forward is architecting systems that capture these benefits while maintaining the rigorous regulatory and clinical safety standards healthcare demands.
-Learn how life sciences organizations are driving impact with Claude for Life Sciences:
+eBook
+### The Enterprise AI Transformation Guide for Healthcare and Life Sciences
+Accelerate your enterprise AI transformation with proven strategies from Anthropic's customers in HCLS.
+[Read the guide](https://resources.anthropic.com/hcls-transformation-guide)
+![](https://assets.claude.com/29d8142c0cc732871194b2e7397a2564c3fb7e39.png)
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

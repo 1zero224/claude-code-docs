@@ -1,3 +1,17 @@
+# How monday.com transformed its platform into an agent-first product where humans and agents collaborate
+*After it hit a ceiling with add-on AI features, monday rebuilt its platform around Claude. Two months and five million agent interactions later, its team shares five lessons from the transition to an agent-first product.*
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Enterprise
+  -
+AuthorAleksandra Todorova
+  -
+DateAugust 20, 2026
+  -
+Reading time10 min
+  -
+ShareCopy link
 More than 250,000 companies, from small and midsize businesses to Fortune 500 organizations, use [monday.com](http://monday.com) to manage their work. When the company launched more than a decade ago, its core product was a visual interface that helped teams automate workflows and manage projects. Today, it has rearchitected its product from the ground up around a human-agent collaboration model where AI is woven into work at every level. With Claude at the core, monday’s new platform handles the technical complexity so customers can work at the AI frontier inside workflows they already know.
 "The shift to an agent-first product was one of the most significant decisions we've made as a company," said Daniel Lereya, chief product and technology officer at monday.com. "It meant fundamentally reimagining what the platform should do, not just adding AI to existing workflows. Our vision is for monday to be the place where people and AI agents work together seamlessly and Anthropic and Claude have been trusted partners in helping us bring that vision to life."
 ## Hitting the “AI dust” ceiling
@@ -10,25 +24,19 @@ After months of intense work, the company announced the most significant change 
 Along with access permissions and restrictions, each monday agent is given a name and an avatar, and colleagues can assign agents work through triggers and mentions in the monday platform.
 This design was intentional, addressing a pattern monday noticed across its customer base: many enterprises want to put AI to work, but often stall at an AI chat that runs parallel to where they actually do the work. Embedding agents directly into workflows and enabling people to interact with them like they would with their colleagues turned agentic AI from an abstract concept to a concrete, actionable one.
 The jobs monday has mapped for agents range from IT ticket triage and knowledge-base upkeep to candidate sourcing and interview scheduling, competitive-intelligence briefings for sales and marketing, and chief-of-staff work like meeting prep and converting decisions into tracked tasks.
-
-        Use case Jobs     IT — From ticket to resolution
-
+Use caseJobsIT — From ticket to resolution
   - **Intake & Triage Agent** — classify tickets, auto-resolve common requests, escalate with full context
   - **Knowledge Agent** — detect knowledge gaps, draft new KB articles
-  - **Incident Agent** — detect incidents, open war rooms, trigger post-mortems     HR — From job post to hire
-
+  - **Incident Agent** — detect incidents, open war rooms, trigger post-mortemsHR — From job post to hire
   - **Resume Screener** — score applications, surface top candidates, send rejections
   - **Interview Scheduler** — handle all scheduling and confirmations
   - **Hiring Coordinator** — keep all stakeholders updated throughout the process, so there is always a human in the loop
-  - **Feedback Manager** — collect structured interviewer feedback automatically     Marketing — Competitive intelligence
-
+  - **Feedback Manager** — collect structured interviewer feedback automaticallyMarketing — Competitive intelligence
   - **Competitive Intelligence Agent** — monitor competitors, detect and categorize signals, send alerts and weekly briefings
-  - **Battlecard Agent** — update battlecards on approved signals, notify sales immediately     Executive Office — Chief of Staff as a Service
-
+  - **Battlecard Agent** — update battlecards on approved signals, notify sales immediatelyExecutive Office — Chief of Staff as a Service
   - **Operator Agent** — book meetings, prep briefings, convert decisions into tracked tasks, monitor priorities
   - **Org Health Agent** — scan for revenue risks, cost leaks, and failing initiatives
   - **Strategy Consultant Agent** — identify growth opportunities, generate action plans
-
 *Agent teams and their jobs for four common workflows.*
 ## **Four ways to run Claude in monday**
 Customers use Claude inside the monday platform through four capabilities:
@@ -49,3 +57,25 @@ For companies planning a similar rebuild, monday’s team shares five lessons th
   - **Adoption depends on trust as much as it does on capability.** Product-market fit depends on user confidence and preparedness to let agents into how work actually gets done. Governance, permissions, transparency, and reliability determine whether agents move beyond pilot programs and into production.
   - **Capability needs infrastructure to match.** Agents perform at a different level when they're grounded in live project data, team history, and structured workflows, and at enterprise scale the backend has to hold. Alongside the agent layer, monday invested in monday DB so the data infrastructure could support the volume, speed, and complexity of agents operating across an organization.
   - **Build on what already works.** monday has always described itself as the place where people team up to drive business outcomes, and the agent-first rebuild extends that promise to a new kind of team member. People still come to monday to achieve their goals, the difference is that some of the team members working alongside them are now agents.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

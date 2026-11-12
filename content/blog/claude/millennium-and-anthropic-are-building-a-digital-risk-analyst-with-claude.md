@@ -1,3 +1,14 @@
+# Millennium and Anthropic are building a digital risk analyst with Claude
+  -
+Category[Enterprise](https://claude.com/resources/enterprise-announcements)
+  -
+ProductClaude Enterprise
+  -
+DateAugust 6, 2026
+  -
+Reading time4 min
+  -
+ShareCopy link
 Anthropic is working with Millennium, one of the world's largest alternative investment management firms, to co-develop a digital risk analyst: an AI teammate to work alongside and under the supervision of the firm's risk managers to surface new risk insights and form opinions on risk exposure across asset classes.
 Claude and [Claude Code](https://claude.com/product/claude-code) are already used broadly across Millennium today - from trading desks and engineering to core business functions. Millennium’s digital risk analyst extends their use of Claude by helping risk managers expedite and enrich analysis of risk positions.
 ## Evaluating financial risk with Claude
@@ -12,3 +23,25 @@ Millennium is using its internal AI lab to continue pushing the frontier, pressu
 "Claude can reason through risk positions, explain daily changes, and carry what it learned into the next question,” said Peter Nolan, Head of Asset and Wealth Management, at Anthropic. “Millennium’s risk managers will use frontier intelligence to deliver automated recommendations with the goal of saving valuable time.”
 **Learn more:**
 Learn more about [Claude for financial services](https://claude.com/solutions/financial-services?utm_source=google&utm_medium=pse_fins&utm_campaign=lgn_cl4w_us_fins&utm_content=&utm_term=claude%20financial%20services&utm_term=claude%20financial%20services&utm_campaign=B2B_ADIR_US_CL4W_SEA_FINS-k_LG_FINS&utm_source=adwords&utm_medium=ppc), or [contact our team](https://claude.com/contact-sales) to talk about what Claude can do inside your firm.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 9, 2026
+### JPMorganChase expands Claude Code to more employees across the firm
+Claude Code
+](https://claude.com/resources/articles/jpmorganchase-expands-claude-code)[
+ArticleOct 28, 2026
+### IDC brings Quanta into Claude and adopts Claude across the company
+IDC integrated Claude as part of its Quanta platform, and it has rolled Claude out across its own business
+Claude CoworkClaude Code
+1 more: Claude EnterpriseClaude Enterprise
+](https://claude.com/resources/articles/idc-brings-quanta-into-claude-and-adopts-claude-across-the-company)[
+ArticleOct 21, 2026
+### HCLTech joins the Claude Partner Network as a Global Premier partner
+HCLTech will bring Claude into the solutions it provides for banks, hospitals, telecom companies, and manufacturers.
+](https://claude.com/resources/articles/hcltech-joins-claude-partner-network)[
+ArticleSep 28, 2026
+### A new approach to agent security with Claude Managed Agents and NVIDIA
+Note: This blog has been updated from its original version to include additional technical details on Claude Managed Agents.
+Claude Platform
+](https://claude.com/resources/articles/giving-companies-more-control-over-their-ai-agents-with-nvidia)

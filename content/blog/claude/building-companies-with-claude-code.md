@@ -1,22 +1,19 @@
+# How three YC startups built their companies with Claude Code
+From non-technical founders winning government contracts to solo devs building at scale, here’s how agentic coding is re-writing the startup playbook.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code
+  -
+DateNovember 17, 2025
+  -
+Reading time16 min
+  -
+ShareCopy link
 Introducing Claude Code
-![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/68c469d2d09b203c164ad8e6_og-claude-education.jpg)
+![Introducing Claude Code](https://assets.claude.com/56575a2d86ba511e0095b0cb9a92cafe7079c820.jpg?w=2400&q=75&fm=webp&fit=max)
 See Claude Code in action—from concept to commit in one seamless workflow.
-Read more
-[Read more](https://claude.com/product/claude-code)Read more
-Introducing Claude Code
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68b862e6ee6520aee5bc0741_vid-placeholder.avif)
-[Next](https://claude.com/blog/building-companies-with-claude-code#)Next
-See Claude Code in action—from concept to commit in one seamless workflow.
-Read more
-[Read more](https://claude.com/product/claude-code)Read more
-
-[Next](https://claude.com/blog/building-companies-with-claude-code#)Next
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68b862e6ee6520aee5bc0741_vid-placeholder.avif)
-
-Introducing Claude Code
-See Claude Code in action—from concept to commit in one seamless workflow.
-Read more
-[Read more](https://claude.com/product/claude-code)Read more
+[Read more](https://claude.com/product/claude-code)
 [Y Combinator](https://www.ycombinator.com/), a startup accelerator, has launched over 5,000 companies that have a combined valuation of over $800B since 2005, including household names like Airbnb, Stripe, and DoorDash.
 Today, agentic coding tools like [Claude Code](https://www.claude.com/product/claude-code) are fundamentally changing how YC startups build and scale. Founders can now ship products directly from the terminal, compressing development cycles from weeks to hours and enabling even non-technical founders to compete with established players from day one.
 We spoke with three YC startups who demonstrate this transformation in action:
@@ -29,7 +26,7 @@ Dexter Horthy was building autonomous AI agents to manage SQL warehouses when he
 ### **The product pivot that started it all**
 That realization became HumanLayer's core insight: often the most useful functions in any software are also the most risky, especially for non-deterministic LLM-powered systems.
 "Our MVP was an agent that would coordinate with humans in Slack and could do basic cleanup, like dropping any table that hadn't been queried in 90+ days," Horthy explained. "We weren't comfortable with an AI application running raw SQL unsupervised, so we wired in some basic human approval steps."
- In August 2024, Horthy built an MVP, demoed it to different startups across SF, and had his first paying customers.
+In August 2024, Horthy built an MVP, demoed it to different startups across SF, and had his first paying customers.
 This progress landed HumanLayer in the YC F24 batch, and the team went all in on providing an API and SDK that lets AI agents contact humans for feedback, input, and approvals across Slack, email, SMS, and other channels.
 Through Q1 2025, the HumanLayer team conducted extensive customer discovery, talking to dozens of engineering teams building AI agents and realized there was a gap in the agentic development loop they hadn’t accounted for.
 "Every team had rolled their own agent architecture," Horthy explained. "We realized we couldn't just build a better API–we needed to help establish the patterns and principles that would let the ecosystem mature."
@@ -59,7 +56,7 @@ His development process follows three discrete phases:
   - **Planning phase (Opus 4.1)**: Create a plan with discrete phases on how to implement the feature. "I'll have Opus create a plan with phases, discrete phases on how to actually go about implementing it, and I'll go revise that plan. Maybe I'll chat with Opus about questions about certain details, or I'll manually update this markdown file."
   - **Implementation phase (Sonnet 4.5)**: Execute each phase of the plan systematically. "Then I'll use Sonnet 4.5 to go and implement each phase."
 This approach prevailed over the other workflows Stettner tried and was influenced by some of the work Horthy is doing at Humanlayer: "I tried every coding tool, and I experimented with basically every model. I just think Anthropic's models are the best at tool use right now, and that translates to code."
-### **Building a robust research engine **
+### **Building a robust research engine**
 The product itself mirrors this multi-agent approach. Stettner built Ambral's core research engine using the Claude Agent SDK with dedicated sub-agents for each data type.
 "I spent a lot of time using the Claude Agent SDK to basically build a very robust research engine that can operate across all of this data," Stettner explained. "It's based around Claude sub-agents, and for every type of data we have a dedicated sub-agent which is an expert in understanding that data."
 Whether users chat with the system or Ambral builds automations for customers, everything is backed by the [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview) and a series of sub-agents retrieving and reasoning across usage data, Slack messages, meeting transcripts, and product interactions.
@@ -91,4 +88,32 @@ This becomes especially important when running multiple instances. Catching a wr
 ## **The new builder advantage**
 These three startups demonstrate a fundamental shift in how companies are built with tools like Claude Code. HumanLayer pivoted and scaled while codifying context engineering practices that are now used across the YC ecosystem. Ambral is tackling customer success at massive scale with a lean founding team. Vulcan won government contracts as non-engineers.
 Traditional barriers to building software—technical expertise, team size, development time—are giving way to new competitive advantages: clear thinking, structured problem decomposition, and the ability to effectively collaborate with AI.
-**Ready to build with Claude Code?**[ Get started. ](https://www.anthropic.com/claude-code)
+**Ready to build with Claude Code?**[ Get started.](https://www.anthropic.com/claude-code)
+![Clay](https://assets.claude.com/267a4deeacbde106146d26ffa4ef2b08fbb3cb4f.svg)
+“We’re automating the mundane. 80% of Sales work today is manual, laborious, data work. In the era of AI, humans can focus on truly human, creative work, and we can leave the data work in the hands of AI.”
+Matthew Quan, Enterprise Growth Lead
+![Augment Code](https://assets.claude.com/7c991eec0ef2ebdbb312e3a55072965c105f343e.svg)
+“Claude Sonnet 4.5’s intelligence is immediately noticeable—it makes better use of Augment’s codebase context, handles longer-horizon tasks, and opens up new agentic possibilities we’re actively exploring.”
+Guy Gur-Ari, Co-founder
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

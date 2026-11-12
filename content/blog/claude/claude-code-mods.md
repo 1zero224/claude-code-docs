@@ -1,3 +1,15 @@
+# Customize Claude Code with mods
+*Change how Claude Code behaves and looks with a few lines of TypeScript.*
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Code
+  -
+DateOctober 1, 2026
+  -
+Reading time5 min
+  -
+ShareCopy link
 Today we're introducing mods, small TypeScript functions that change how Claude Code works. A mod can rewrite a prompt, add new UI, replace a built-in feature, or add entirely new functionality. You can write a mod yourself, or ask Claude Code to write one for you. Mods ship inside plugins, so you install and share them like any plugin. They work in the Claude Code CLI and desktop app.
 Mods run with the same access to your machine as Claude Code itself. They aren’t sandboxed, and you should only install mods from sources you trust, the same way you'd install any code on your computer.
 To see what mods can do, [read our guide to building your first mod](https://claude.dev/blog/getting-started-with-claude-code-mods/).
@@ -25,3 +37,27 @@ Teams can also use mods to build their own controls and functionality. For examp
 ### Getting started
 Mods are available today in the Claude Code CLI and desktop app. Install plugins that include mods from the [Claude directory](https://claude.ai/directory) or by running `/plugin` in the CLI. To share a mod, package it in a plugin and [submit it to the directory](https://claude.ai/directory/manage).
 To build your own mods, read our [getting started guide](https://claude.dev/blog/getting-started-with-claude-code-mods/) or see the [documentation](https://code.claude.com/docs/en/plugins/mods/overview).
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

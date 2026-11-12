@@ -1,3 +1,14 @@
+# Bringing Claude Code and Claude Cowork to government
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Code, Claude Cowork
+  -
+DateJuly 7, 2026
+  -
+Reading time4 min
+  -
+ShareCopy link
 [Claude Code](https://claude.com/product/claude-code) and [Claude Cowork](https://claude.com/product/cowork) are now available in public beta in Claude for Government Desktop, built on the same application our commercial customers use and delivered through a FedRAMP High authorized environment.
 With Claude Code, public sector teams can build and modernize the software systems that underpin public services. Claude Cowork works directly with files on the desktop, allowing agency staff to delegate memo creation, RFP reviews, casework, and decks to Claude.
 The expanded experience also comes with additional governance capabilities. Administrators can set configuration defaults as well as allocate and control spending across departments. Security teams and authorizing officials get tamper-evident audit logs and documentation that supports the agency ATO process.
@@ -15,3 +26,27 @@ Lastly, a penetration-test summary is available for the new desktop client, and 
 Claude for Government is available in beta starting today. Anthropic remains the contracted and billing party—agencies don't need a separate cloud-provider relationship to get started.
 New customers can request access at [claude.com/solutions/government](https://claude.com/solutions/government).
 Security teams can download the penetration-test artifact through the [following link](https://trust.anthropic.com/resources?s=gutlu13ft6nd7famxolbxg&name=[anthropic]-2025-annual-penetration-testing-reports).
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

@@ -1,15 +1,27 @@
+# Building effective human-agent teams
+The way we work with AI is evolving from a single-player to a multiplayer experience, where humans and agents work together as a team to achieve shared goals. We share examples of this new way of working in action.
+  -
+Category[Perspectives](https://claude.com/resources/perspectives)
+  -
+ProductClaude Tag
+  -
+DateJune 24, 2026
+  -
+Reading time16 min
+  -
+ShareCopy link
 Working with AI used to mean one person interfacing with a single chat window. Over time, AI has become increasingly capable at handling complex, long-running work, like coding, research, and financial analysis. With this, we’ve seen many new ways to use AI—from the terminal and IDE to spreadsheets and decks—but the work has still very much been a “single-player” experience: one human worked with one agent to accomplish individual tasks.
 This is changing with the release of tools like [Claude Tag](https://www.anthropic.com/news/introducing-claude-tag). Now, humans and agents can work together in the same workspace, collaborating in service of goals shared by a team. Work now looks a lot more like a *multiplayer game*, with teams of humans setting the strategy, and Claude executing the work.
 This involves some new ways of working. At Anthropic, we’ve been testing the technology required to make human-agent teams successful for the last several months. In this article, we explain what multiplayer agents are, and the lessons we’ve learned for building with them.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a3c1e1e24f66edde9ee63db_Claude-Tag-v2%402x.png)
-## **What are multiplayer agents? **
+![](https://assets.claude.com/4fd99c4ea3dd3549e849472c006c1e0b715b65c2.png)
+## **What are multiplayer agents?**
 “Multiplayer agents” is how we refer here to AI models that work with many different humans at the same time. Much like regular agents, they have their own [memory](https://platform.claude.com/docs/en/managed-agents/memory) and [skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills). But in other respects they're quite different. They have their own [credentials](https://www.anthropic.com/engineering/managed-agents) and they live in places where work happens. At Anthropic, that's inside team collaboration tools like Slack.
 Here’s an example of a human-agent team analyzing a dataset together in Slack:
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6aa0220e39cd96fb665ccaa7_human-agent1-orange.png)
+![](https://assets.claude.com/a304399325b106186614bff98451ae08496ceb40.png)
 For agents to productively participate in a team channel, they need specific capabilities:
   - [**Persistent memory,**](https://platform.claude.com/docs/en/managed-agents/memory) so they can remember goals and tune their execution towards them
-  - [**Credentials not tied to humans**](https://www.anthropic.com/engineering/managed-agents)**,** so they can operate within safe, predictable guardrails
-  - [**Ongoing broad access to information**](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)**, **so they can learn how the organization works and take action to execute tasks in service of the team’s goals
+  - **[Credentials not tied to humans](https://www.anthropic.com/engineering/managed-agents),** so they can operate within safe, predictable guardrails
+  - **[Ongoing broad access to information](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), **so they can learn how the organization works and take action to execute tasks in service of the team’s goals
 These capabilities amount to the technical foundation required for an agent to participate productively across a team of many humans. However, making human-agent teams *successful* requires more than this: teams need specific ways of working and shared norms, too.
 ## **Lesson 1: Work in public and give agents broad context**
 Teams at Anthropic share information proactively and openly. This is especially true when agents are on the team, because agents build their understanding entirely from the text a team makes searchable: Slack, code, docs, and meeting notes. Private messages, hallway conversations, and restricted documents can’t provide agents with context. For an agent, if it’s not written down and accessible, it doesn’t exist.
@@ -25,7 +37,7 @@ Of course, some interactions are sensitive and will need to be private between a
 ## **Lesson 2: Every human and agent get a defined role with the right tools for the job**
 Human-agent teams share one roster, one set of artifacts, and one working space. Agents have their own [credentials](https://www.anthropic.com/engineering/how-we-contain-claude), [skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills), and tool access. Different agents also hold different roles: for instance, while one might own the data analysis for a project, another will hold and enforce the design standard, and a third will run research synthesis.
 When a project kicks off, humans chat with the agents to figure out which roles to assign, and how the humans and agents will work together.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6aa0222b1e928c31755ba830_human-agent2-orange.png)
+![](https://assets.claude.com/6275a8f0acdc059740a27a70a82a9d396aff50dd.png)
 Once the jobs for humans and agents are clear, an agent might spin up other agents to make sure that specific tasks are handled by the agents with the right memory and appropriate access. Importantly, they need access to all the tools required to accomplish the job: one that handles data analysis might need access to BigQuery, and one that performs QA might need access to the Playwright MCP.
 Clearly defined roles and responsibilities set human-agent teams up for success. Humans often work in the same threads the agents do, but they hold the roles only humans can hold. This ensures everything works together and human judgment is applied to the most important decisions. Without clear roles, people end up running fleets of personal AIs on the side, duplicating work and fracturing the team's context. Metrics tracking is a common case: a multiplayer agent can do the job once and let everyone see the same numbers.
 At Anthropic, having clearly defined roles on human-agent teams looks like:
@@ -33,8 +45,7 @@ At Anthropic, having clearly defined roles on human-agent teams looks like:
   - Humans and agents working in the same shared threads, so anyone can pick up where anyone left off
   - Humans and agents that have access to the right tools to accomplish their respective jobs
   - Descriptions of agents’ roles and scopes
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a3be9ee0c7dd123eea0fd08_e35d445f.png)
-*Claude agents share the day-to-day maintenance of a codebase, triaging feedback, planning, writing code, reviewing changes, and reporting status. Each owns a clear task and works on its own schedule; people set the goals and review output.*
+![](https://assets.claude.com/0ce7798881ebd83c002392c403bc9ddc85f48faa.png)Claude agents share the day-to-day maintenance of a codebase, triaging feedback, planning, writing code, reviewing changes, and reporting status. Each owns a clear task and works on its own schedule; people set the goals and review output.
 An engineering team at Anthropic started creating rosters to help codify human and agent roles because it made driving their work much easier and more concrete. Some things that clicked for them early on:
   - Specific roles also help humans easily track where responsibility for a task lies, whether that’s in individual tasks or an entire team’s set of responsibilities
   - Writing [skill files](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) to define specific agents’ roles helps to make specialization easy, and allows people across the company to quickly stand up other agents of the same type
@@ -60,11 +71,11 @@ At Anthropic, building trust with agents over time looks like:
   - Building reflection into the cycle and asking agents to review their own misses so work improves over time
   - Tracking which kinds of tasks each agent has earned autonomy on and expanding scope per task type after repeated successes
 One engineering leader at Anthropic took on a new team with a big backlog. To get a handle on it, he invited a few humans and a few agents to help him sort through the backlog and prioritize what was most important. One set of agents on the team read through all of the items in the backlog, figured out if anyone was working on the items, and assigned a complexity score to anything that was unowned. The other set read from the list, filtered to the medium and low complexity items, and created code changes. At the beginning, humans reviewed every decision made by an agent and marked any that required human input. Then the humans taught the agents to surface those decisions to humans directly, ensuring that decisions with hard tradeoffs always had a human in the loop.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a3be9ee0c7dd123eea0fd03_9eb4409f.png)
+![](https://assets.claude.com/e6de90c72d2c7baaa1f732580c2d8d950e83bf48.png)
 Every week, the leader and his team asked the agents to compile a weekly report that included “lessons & missteps” so the agents would keep track of mistakes and avoid making them again in the future. Over time, the leader was able to give more and more complex code changes to his agents and spend less time guiding the agents’ day to day tasks.
 And once the agents were more independent, the leader coached them to treat human attention as the scarce resource it is: to batch questions to be answered in a single pass, repeat key context to get a human up to speed quickly, and limit how many things each human sees at once.
 Helping agents communicate well ensures that they remain helpful and effective. Some people have agents in their team with the sole role of deciding how to batch and elevate only the most important communication for human team members. Others set guardrails around how much work agents should do per day, so that humans are able to meaningfully engage with the work. Such guardrails ensure that humans maintain skills that are important to them, and that the number of items requiring human review stays sustainable.
-## **Questions to ask **
+## **Questions to ask**
 As you’re laying the foundation for your human-agent teams, consider the following questions:
   - Is all the information and access that agents and humans need both public and broadly searchable?
   - Can you write down your team's roster (humans and agents), and say what each member owns?
@@ -74,6 +85,27 @@ As you’re laying the foundation for your human-agent teams, consider the follo
 ## **Moving forward**
 None of these patterns are new—at least not for humans. A strong north star, clear roles, strong documentation, a shared bar for quality, and room to learn from mistakes are the healthy team habits we’ve known for decades. Agents just make it even more important not to skip them.
 The teams getting the most from their agents are the ones who are most intentional about applying these fundamentals.
-**Acknowledgements **
+**Acknowledgements**
 This article was written by Kristen Swanson, a member of the Education team at Anthropic. She’d like to thank Matt Bell, Erik Olesund, Hasnain Lakhani, Shale Craig, Nolan Caudill, Mike Schiraldi, Aleks Todorova, and Molly Vorwerck for their contributions to this piece.
-*Start building multiplayer agents using *[*agent teams*](https://code.claude.com/docs/en/agent-teams)* in Claude Code or by using *[*Claude Tag*](https://support.claude.com/en/articles/15594475-what-is-claude-tag)*. *
+*Start building multiplayer agents using [agent teams](https://code.claude.com/docs/en/agent-teams) in Claude Code or by using [Claude Tag](https://support.claude.com/en/articles/15594475-what-is-claude-tag).*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleOct 22, 2026
+### Building agents: When to fold subagents into your main agent loop
+When building agents in Claude Platform, using fewer subagents in favor of progressively disclosed context and tools can improve quality while reducing cost and latency. Here’s when and how to migrate.
+Claude Platform
+](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop)[
+ArticleOct 13, 2026
+### Uber's CISO on building an insider threat program for AI
+Uber's CISO, Philip Martin, on the importance of monitoring and observability for AI agents, and how Uber's open-source tooling works alongside Enterprise Frontier Safeguards.
+](https://claude.com/resources/articles/uber-s-ciso-on-building-an-insider-threat-program-for-ai)[
+ArticleOct 8, 2026
+### How Block orchestrates Claude Fable across thousands of pull requests
+Bradley Axen, Head of AI Capabilities at Block, on how his team evaluates new large language models, how Claude Fable 5 orchestrates company-wide code migrations, and why safeguards are a critical part of deploying frontier intelligence responsibly, at scale.
+Claude Enterprise
+](https://claude.com/resources/articles/how-block-orchestrates-claude-fable-across-thousands-of-pull-requests)[
+ArticleOct 6, 2026
+### How Comcast and Booz Allen use Claude Mythos to find exploit chains and secure their codebases
+Security teams at Comcast and Booz Allen used Claude Mythos-class models through Project Glasswing to find, validate, and fix vulnerabilities their existing scanners missed.
+](https://claude.com/resources/articles/how-comcast-booz-allen-use-claude-mythos-to-secure-their-codebases)

@@ -1,7 +1,19 @@
+# Best practices for computer and browser use with Claude
+*Practical guidance for developers building computer and browser use integrations with the Claude model family.*
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Platform
+  -
+DateMay 13, 2026
+  -
+Reading time42 min
+  -
+ShareCopy link
 Claude's [latest models](https://www.anthropic.com/news/claude-sonnet-4-6) represent a significant step forward in computer and browser use capabilities. Because of these features, LLMs are now able to power increasingly complex agentic systems that power real work, like building software applications and automating workflows across multiple, disparate technologies.
 In this blog post, we share best practices for using Claude with computer and browser use, ranging from simple configuration changes to more advanced integration patterns. We hope this piece helps as you start integrating Claude's computer and browser use capabilities into your product. We are also releasing a new [demo implementation](https://github.com/anthropics/claude-quickstarts/tree/main/computer-use-best-practices) which encapsulates some of these best practices and provides additional tools useful for developing on top of Claude's computer use capabilities.
 *Note that these recommendations apply to the Claude 4.6 family (Opus 4.6, Sonnet 4.6, Haiku 4.5) and Claude Opus 4.7 unless otherwise noted. Where guidance differs between the 4.6 family and Opus 4.7, we call it out inline. Our findings are based on internal experimentation and may be updated in the future as new models and techniques emerge.*
-# **Getting started: resolution and scaling**
+## **Getting started: resolution and scaling**
 Click accuracy is the foundation of any computer use integration. If clicks don't land where they should, nothing downstream works: forms don't get filled, buttons don't get pressed, and workflows fail. The single highest impact optimization is also one of the simplest: pre downscale your screenshots before sending them to the API.
 ## **Ensure proper scaling**
 When you send a screenshot to Claude’s Computer Use API, the model sees it and returns click coordinates in the display_width_px / display_height_px coordinate space you specified. But there's an important constraint: the API has internal processing limits on image size. Images that exceed these limits get downscaled before the model sees them, which means the model is clicking based on a degraded version of the image while your harness expects coordinates aligned to the original resolution.
@@ -18,6 +30,7 @@ When the coordinate space and the model's perceived image don't match, the model
 **Start with 1280x720.** This is a safe, practical default for most use cases. It uses about 80% of the pixel budget, stays well within both the long edge and total pixel limits, and is a standard resolution that models have seen during training. It works well for both modern web UIs and legacy desktop applications.
 **If you are using Opus 4.7, we recommend starting with 1080p**, as this brings a meaningful quality lift over 720p and provides a good balance between token use and performance.
 **For developers who want to maximize the visual information the model receives**, we also recommend a "max API fit" approach: computing the optimal resolution per-image based on the source's native aspect ratio:
+Copy
 ```
 import math
 
@@ -54,10 +67,11 @@ This approach is slightly more complex but avoids aspect ratio distortion and us
 **Resolutions to avoid:**
   - **Native resolution (unscaled)**: Unless your source images happen to be below the resolution limits, sending native resolution screenshots is the most common cause of poor click accuracy.
   - **Very low resolutions (below 960x540)**: With low resolution images, too much detail is lost for the model to accurately identify small UI elements.
-  - **If on MacOS: ** A common issue for browser use is that the screenshots on MacOS are often captured with a device pixel ratio of 2, which means that you can end up with images that are 2x the resolution of the screen coordinates.
+  - **If on MacOS:** A common issue for browser use is that the screenshots on MacOS are often captured with a device pixel ratio of 2, which means that you can end up with images that are 2x the resolution of the screen coordinates.
   - **If you are on the 4.6 family, avoid 1920x1080 and above:** These exceed the pixel limit and will be silently downscaled. On Opus 4.7 the ceiling is higher (3.75 MP), so 1080p and 1440p is within budget; still avoid native 4K without downscaling.
 ## **Coordinate scaling**
 When you resize a screenshot before sending it, the model returns click coordinates in the display resolution you specified. You must scale these back to your actual screen resolution before executing the click:
+Copy
 ```
 # Your screen is screen_w x screen_h
 # You sent a screenshot resized to display_w x display_h
@@ -70,6 +84,7 @@ screen_y = int(api_returned_y * scale_y)
 This is straightforward but critical, because if you forget to scale or `display_width_px` / `display_height_px` don't match the actual dimensions of the image you sent, every click will be consistently offset
 ## **Content ordering in the messages array**
 When constructing your messages content array, place the text instruction *before* the image, as depicted in the code snippet below. This lets the model know what it's looking for as it processes the screenshot, which improves click accuracy.
+Copy
 ```
 # RECOMMENDED — text instruction first, then screenshot:
 content = [
@@ -85,41 +100,31 @@ content = [
 ```
 ## **Diagnosing click issues**
 If clicks are missing their targets, it often boils down to one of the causes, below:
-
-    Symptom Likely causes Try this     Clicks consistently offset in one direction
-
-  - `display_width_px` / `display_height_px` don't match the actual image dimensions sent
+SymptomLikely causesTry thisClicks consistently offset in one direction
+  - display_width_px / display_height_px don't match the actual image dimensions sent
   - Screenshot exceeds API limits and is being silently downscaled
   - Content ordering is image-first instead of text-first
-
   - Ensure display dimensions exactly match your resized screenshot, not your native resolution
-  - Pre-downscale to 1280x720 or use `compute_max_api_fit`
-  - Move text instruction before the image in the content array     Clicks land in roughly the right area but miss the target
-
+  - Pre-downscale to 1280x720 or use compute_max_api_fit
+  - Move text instruction before the image in the content arrayClicks land in roughly the right area but miss the target
   - Target is very small (checkbox, icon, toggle)
   - Source image was very high resolution (4K+) and detail was lost during downscaling
   - Aspect ratio distortion from forcing a non-native aspect ratio
-
-  - Enable `enable_zoom: True` for dense UIs
+  - Enable enable_zoom: True for dense UIs
   - Capture at a lower DPI or crop to the relevant screen region before downscaling
-  - Preserve the source aspect ratio when resizing     Model clicks the wrong element entirely
-
+  - Preserve the source aspect ratio when resizingModel clicks the wrong element entirely
   - Ambiguous instruction ("click Submit" when multiple submit-like buttons exist)
   - Visually similar elements near the target
   - UI is too complex for a single instruction
-
   - Use more specific prompts with positional context ("click the blue Submit button in the bottom-right of the form")
   - Break complex interactions into smaller steps
-  - Provide additional context about the page layout     Accuracy is poor across the board
-
+  - Provide additional context about the page layoutAccuracy is poor across the board
   - Screenshots are being sent above API limits
   - Source images are from very high-resolution displays (4K+) with extreme compression ratios
   - Resolution is too low, losing critical detail
-
   - Pre-downscale all screenshots to fit within limits
   - For 4K+ sources on the 4.6 family, Sonnet is more robust to heavy downscaling than Opus 4.6. On Opus 4.7 this gap largely closes, use the 4.7 pixel budget (up to 3.75 MP) so less downscaling is needed in the first place.
-  - Try 1280x720 as a baseline; if too lossy, use `compute_max_api_fit`
-
+  - Try 1280x720 as a baseline; if too lossy, use compute_max_api_fit
 ## **Model selection for clicking tasks**
 Based on our internal testing, Claude Sonnet 4.6 tends to be more mechanically precise at clicking (better spatial accuracy, fewer near misses) while Claude Opus 4.6 brings stronger reasoning. Sonnet 4.6 is also more robust when source images require heavy downscaling.
 Opus 4.7 narrows this gap: Through testing, we have found its clicking precision is roughly on par with Sonnet 4.6, and its higher resolution budget reduces the amount of downscaling needed in the first place, making it a strong choice when you want Opus-level reasoning paired with strong click accuracy.
@@ -128,6 +133,7 @@ For most tasks, we recommend starting with Sonnet 4.6, which provides the best b
 Click accuracy degrades as targets get smaller. Large and medium UI elements (buttons, input fields, and standard menu items) are reliable across all resolutions within the safe zone. The challenge is with small and tiny targets, like checkboxes, system tray icons, dropdown arrows, small toggle switches, and tree view expand/collapse buttons.
 If your application involves clicking small targets frequently, consider these strategies:
 **Use zoom for dense UIs.** Claude 4.6 and 4.7 models support a zoom capability that lets the model inspect specific screen regions at higher resolution before clicking. Enable it in your [tool configuration](https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool):
+Copy
 ```
 {
     "type": "computer_20251124",
@@ -150,6 +156,7 @@ If the model acts unpredictably after trying the fixes above, log the full trans
 Some failures aren't about click accuracy at all. For example, certain dropdown menus may invoke system-level UI that the browser viewport doesn't capture—the model appears to be failing the task, but it simply can't see the menu it needs to interact with. In cases like these, the model should rely on alternative methods such as JavaScript execution, keyboard navigation, or direct document object model (DOM) manipulation rather than clicking.
 ## **Quick reference**
 *How to scale and prepare an image for computer use*
+Copy
 ```
 import math
 from PIL import Image
@@ -204,6 +211,7 @@ def compute_max_api_fit(native_w: int, native_h: int) -> tuple[int, int]:
     return int(w), int(h)
 ```
 **Usage:**
+Copy
 ```
 import anthropic
 from PIL import Image
@@ -241,31 +249,28 @@ response = client.beta.messages.create(
 api_x, api_y = extract_click_coords(response)  # your parsing logic
 screen_x, screen_y = scale_coordinates(api_x, api_y, display_w, display_h, native_w, native_h)
 ```
-# **Tuning thinking effort for computer use**
+## **Tuning thinking effort for computer use**
 Claude's latest models support [adaptive thinking](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking), a setting which lets Claude decide how much to reason through intermediate steps before acting. Instead of manually setting a thinking token budget, adaptive thinking lets Claude dynamically determine when and how much to use extended thinking based on the complexity of each request. For computer use, this means Claude can think through what it's seeing on screen, plan multi-step interactions, and self-correct before committing to a click or keystroke.
 With adaptive thinking, Claude's thinking depth is controlled via the thinking parameter with an effort level: low, medium, high,xhigh (with Opus 4.7),and max. More thinking means more reasoning per action, but also more output tokens, higher latency, and higher cost.
 The natural question: depending on the model, how much thinking is optimal for computer use?
 ## **Claude Opus 4.7**
 We tested each thinking effort level across a suite of end to end UI automation tasks spanning desktop applications, browsers, and multi-application workflows.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a0240d5a273c79dddb95eb5_image1.png)
+![](https://assets.claude.com/a874bc8fe8c7f6fbddf3d96a797b492a419b6c25.png)
 **Opus 4.7 outperforms the 4.6 family.** On the OSWorld Verified benchmark, we find that Opus outperforms all 4.6 family models at equivalent token usage and effort settings. Opus 4.7 on low effort scores similarly to Sonnet 4.6 on max, while using ~1/10th the tokens per task. For difficult tasks, Opus 4.7 is the obvious choice.
 **Setting effort to `high`** achieves close to the highest task success rate while using roughly half the output tokens of `max`. Compared to Opus 4.6, low, medium and high all use approximately the same amount of tokens while improving score on OSWorld. During our internal testing, Max effort used more tokens and provided the best score. The table below outlines our recommendations for when to use each thinking effort level.
 ### **Recommendations for effort levels**
-
-    Scenario Thinking effort Why     Default for most use cases `high` Opus 4.7 is best for difficult tasks. Using high will give the model enough reasoning to plan over complex multi-step interactions without significantly increasing token usage.   High-throughput / cost-sensitive `low` Lower token usage while providing quality between Opus 4.6's high and max effort settings.   Simple, well-defined workflows / fastest Suggest trying Sonnet 4.6 Use if low latency is the highest priority. Adequate for short, predictable tasks where the UI is consistent and the workflow is known.   Complex, one-shot tasks `max` Use when tasks are highly challenging and you need to get it right on the first attempt.
-
+ScenarioThinking effortWhyDefault for most use caseshighOpus 4.7 is best for difficult tasks. Using high will give the model enough reasoning to plan over complex multi-step interactions without significantly increasing token usage.High-throughput / cost-sensitivelowLower token usage while providing quality between Opus 4.6's high and max effort settings.Simple, well-defined workflows / fastestSuggest trying Sonnet 4.6Use if low latency is the highest priority. Adequate for short, predictable tasks where the UI is consistent and the workflow is known.Complex, one-shot tasksmaxUse when tasks are highly challenging and you need to get it right on the first attempt.
 ## **Claude 4.6 models**
 We tested each thinking effort level across a suite of end to end UI automation tasks spanning desktop applications, browsers, and multi-application workflows.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a024267c961b1b1c42684fc_image2.png)
+![](https://assets.claude.com/53c9ab8bef7de617c3dd09ee6b27fb293873d3c6.png)
 Two patterns stand out:
 ‍**Medium effort is the sweet spot.** Setting effort to medium achieves close to the highest task success rate while using roughly half the output tokens of high. Beyond medium, performance somewhat plateaus. Notably, when tasks are retried, medium and high converge to the same success rate. This means high effort may help the model get a difficult task right on the first try, but given multiple attempts, medium may get there as reliably at lower cost.
 **A little thinking goes a long way.** low effort is a surprisingly strong option. It actually uses *fewer* total output tokens than disabling thinking entirely (the model makes fewer mistakes and needs fewer retry cycles), while matching or slightly exceeding no-thinking accuracy. This makes it the best option for cost-sensitive, high-throughput workloads. The table below outlines our effort recommendations.
 ### **Recommendations for effort levels**
-
-    Scenario Thinking effort Why     Default for most use cases `medium` Best accuracy-to-cost ratio. Gives the model enough reasoning to plan multi-step interactions without overthinking. With retries, matches high performance at half the token cost.   High-throughput / cost-sensitive `low` More accurate than no thinking, but with lower token usage due to fewer errors and retries.   Simple, well-defined workflows / fastest Thinking disabled Use if low latency is the highest priority. Adequate for short, predictable tasks where the UI is consistent and the workflow is known.   Complex, one-shot tasks `high` Use when tasks are challenging and you need to get it right on the first attempt. If your system supports retries, medium may achieve the same eventual success rate.
-
+ScenarioThinking effortWhyDefault for most use casesmediumBest accuracy-to-cost ratio. Gives the model enough reasoning to plan multi-step interactions without overthinking. With retries, matches high performance at half the token cost.High-throughput / cost-sensitivelowMore accurate than no thinking, but with lower token usage due to fewer errors and retries.Simple, well-defined workflows / fastestThinking disabledUse if low latency is the highest priority. Adequate for short, predictable tasks where the UI is consistent and the workflow is known.Complex, one-shot taskshighUse when tasks are challenging and you need to get it right on the first attempt. If your system supports retries, medium may achieve the same eventual success rate.
 We don't recommend `max` effort for computer use. In our testing, it provides no accuracy benefit over `high` while further increasing output token cost. UI tasks are primarily perceptual rather than deeply logical, and the additional reasoning budget goes unused or leads to overthinking. Keep in mind that this advice will change as models evolve.
 ## **Example configuration of medium setting effort level**
+Copy
 ```
 import anthropic
 
@@ -294,7 +299,7 @@ UI automation tasks are fundamentally different from coding or math problems. Mo
   - Recover from an unexpected UI state (e.g., a dialog appeared that wasn't anticipated)
   - Cross-reference information between what's on screen and the task instructions
   - Complete challenging projects on professional software
-# **Improving safety: leveraging prompt injection classifiers**
+## **Improving safety: leveraging prompt injection classifiers**
 *This section covers prompt injection protection, which is offered by default and for free if you use our official computer use tool header. However, if you are interested in enabling this on custom computer or browser use tools, please fill out our* [*Prompt Injection Classifiers Interest Form.*](https://docs.google.com/forms/d/e/1FAIpQLSfXj6rXC-SUQEYHCLabwUe5JuYiYyJ29Ja-KP7EhLIPlyz0tw/viewform?usp=dialog)
 Computer use agents interact with untrusted content by design. Every screenshot, webpage, or application UI that Claude processes could contain adversarial instructions, including hidden text, manipulated images, deceptive UI elements, or social engineering attempts that try to hijack the agent's behavior. This attack surface is fundamentally different from a typical API integration where you control the inputs. With computer use, the inputs to the model are the open internet and whatever software the agent is navigating.
 As computer use agents become more capable and more widely deployed, prompt injection becomes a correspondingly more serious risk. An agent that can click, type, and navigate can be manipulated into taking real-world actions such as filling out forms, downloading files, or navigating to malicious URLs. Building robust defenses against these attacks is essential for any production deployment.
@@ -307,6 +312,7 @@ We've continued to invest heavily in all three layers since our initial computer
 ## **Using Claude’s built-in classifiers**
 When you use Claude's [official computer use tool](https://docs.anthropic.com/en/docs/agents-and-tools/computer-use) via the API, prompt injection classifiers run automatically on every request. These classifiers operate in parallel with the main model inference, adding approximately zero additional latency and no additional cost to your requests.
 There is nothing you need to configure to enable this protection. It's on by default when you use the official `computer_20251124` tool type. The classifiers evaluate screenshots and other content for signs of prompt injection and influence Claude's responses accordingly.
+Copy
 ```
 # Classifiers run automatically when using the official CU tool — no extra config needed
 tools = [
@@ -327,7 +333,7 @@ Classifiers are one layer of defense, not a complete solution. We recommend the 
 **Scope the agent's permissions.** Limit what the agent can do. If your workflow doesn't require file downloads, don't give the agent access to download files. If it doesn't need to send emails, don't give it access to an email client. Reducing the blast radius of a successful injection is as important as preventing the injection itself.
 **Monitor and log agent actions.** Log the full sequence of actions the agent takes, including screenshots at each step. This allows you to detect anomalous behavior, audit what happens when something goes wrong, and build a feedback loop to improve your system's robustness over time.
 **Treat all web content as untrusted.** Design your agent's system prompt to clearly distinguish between the user's instructions and content encountered during task execution. Remind the model that text found on web pages, in emails, or in application UIs is not from the user and should not be treated as instructions.
-# **Context management for computer use**
+## **Context management for computer use**
 When building computer use agents, screenshots accumulate fast. Every action generates a new image, and each image consumes roughly 1,000–1,800 tokens depending on resolution. After accounting for the system prompt, tool definitions, and text content, a 200k context window can fill up in well under 100 screenshots.
 Managing this context well has two goals: 1) keeping total tokens bounded and 2) keeping prompt caching effective so you don't repeatedly pay full price for the same prefix. We've found that effective [context management](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) has more impact on long-running-agent cost and latency than almost any other optimization. This section covers three layers that compose cleanly: placing cache breakpoints, pruning old screenshots without breaking the cache, and summarizing history when pruning isn't enough.
 ## **Placing cache breakpoints**
@@ -337,6 +343,7 @@ We recommend:
   - **Up to three additional breakpoints on the most recent tool results**, advancing each turn and clearing the previous iteration's breakpoints so you don't overrun the four-breakpoint limit.
 Spreading breakpoints across recent positions gives you graceful degradation. If your most recent breakpoint is invalidated, e.g. by an image prune, a compaction, or a tool-definition change, an earlier breakpoint can still hit, and you keep paying 10% of the full input cost instead of 100%.
 *Example of cache control and setting breakpoints:*
+Copy
 ```
 def set_trailing_cache_control(messages, max_breakpoints=3):
     """Place up to `max_breakpoints` ephemeral cache_control markers on the
@@ -364,6 +371,7 @@ A concrete pattern that we have tested is to:
   - Between pruning events, the message array is byte-identical across turns, so your cache breakpoints keep hitting.
 Reasonable defaults to start with: keep_n = 3, interval = 25. These are tunable, and a higher interval means fewer prune events (better cache efficiency) but a larger tail of full-resolution screenshots in context (more tokens). Measure cache hit rate and total input tokens on a representative trajectory and adjust.
 *Example of pruning previous screenshots while keeping cache breakpoints:*
+Copy
 ```
 def prune_old_screenshots(messages, keep_n=3, interval=25):
     """Replace older screenshots with text placeholders in batches.
@@ -392,6 +400,7 @@ Instead of silently dropping old images, summarize the full conversation before 
 Compaction and the cache-aware rolling buffer are complementary. Use the rolling buffer turn-to-turn to keep token growth manageable; use compaction occasionally to reclaim the rest of the window without losing earlier context. Each compaction event is a cache invalidation by design, so you want it to happen rarely, not every few turns.
 ### **The summarization prompt**
 This example prompt provides a scaffold where each section targets a specific failure mode. The prompt must capture everything the agent needs to continue the task without re-reading the original conversation, as depicted in the example below:
+Copy
 ```
 COMPACT_PROMPT = """Your task is to create a detailed summary of this conversation that
 will REPLACE the conversation history. The agent will continue working with only this
@@ -447,6 +456,7 @@ In the prompt above, **User Instructions** prevents task drift: without them, th
 ### **Server-side compaction (beta)**
 The simplest way to use this prompt is to let the API handle compaction via [server-side compaction](https://docs.anthropic.com/en/docs/build-with-claude/compaction) (beta). Pass your custom summarization prompt as the `instructions` parameter in `context_management`, and the API automatically summarizes when input tokens exceed a trigger threshold. The `instructions` parameter completely replaces the default summarization prompt, so the sections above are what the model will follow. Set `pause_after_compaction` to attach the most recent messages (including screenshots) across compaction events.
 *Examples of using autocompaction tool:*
+Copy
 ```
 # Minimal — turn on autocompaction with API defaults
 response = client.beta.messages.create(
@@ -479,6 +489,7 @@ response = client.beta.messages.create(
 ### **Truncate client-side to match the server**
 When the API runs a server-side compaction, it replaces pre-compaction content on its side, but your local messages array still holds the full history. If you keep sending the full history on every subsequent turn, you'll pay for tokens the server no longer needs, plus your rolling-buffer pruner will operate on a different message slice than the server actually sees, which can break the cache-stable prefix you carefully maintained above.
 The fix is to mirror the server's truncation on the client, as depicted by the code snippet below. When the response reports that compaction occurred, drop everything before the compaction marker from your local messages array before the next turn. This keeps client and server views aligned and lets the rolling buffer keep working correctly.
+Copy
 ```
 def truncate_to_last_compaction(messages, response):
     """If the server compacted on this turn, drop pre-compaction messages
@@ -505,7 +516,7 @@ A good default for a long-running computer use agent looks like this:
   - Cache-aware rolling buffer with keep_n = 3 and interval = 25, replacing older screenshots with placeholders in batches.
   - Server-side compaction triggered around 150k input tokens with a custom prompt, plus a client-side truncation pass to keep the two views aligned.
 With these three layers in place, a typical long-horizon CU session will hit the prompt cache on the vast majority of turns, keep total input tokens bounded well below the context window, and preserve enough history through compaction events that the agent doesn't lose track of the task.
-# **Experimental settings for improving computer and browser use**
+## **Experimental settings for improving computer and browser use**
 The patterns below are techniques we've been testing in our implementations that show promise but aren't yet blanket recommendations. Each trades off complexity or cost for a potential lift on specific kinds of workloads. We include them here so you can try them on your workflow, but expect the guidance in this section to evolve quickly.
 ## **Batch tools**
 In the updated reference implementation we expose two tools alongside the standard computer and browser tools: `computer_batch` and `browser_batch`. Each accepts a list of sub-actions and executes them in a single tool call. For example, instead of separate click, type, and press key turns, the model can emit one computer_batch call containing all three actions.
@@ -516,6 +527,7 @@ Because batch tools are your own custom definitions, they stack cleanly with the
 The [advisor tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/advisor-tool) pairs an executor model with a higher-intelligence advisor model that the executor can consult mid-generation for strategic guidance. The executor runs the loop and when it hits something that needs deeper reasoning, it calls the advisor, receives a plan or course correction, and continues. This happens server-side inside a single request, no extra round trips on your side.
 For computer use specifically, this pattern is most useful on long-horizon tasks where most turns are mechanical clicking but occasional planning moments (choosing which tab to open, recovering from an unexpected modal, deciding whether to abandon a strategy) benefit from Opus-level reasoning. You get close to advisor-solo quality while the bulk of token generation happens at executor rates.
 *Example of enabling the advisor tool:*
+Copy
 ```
 response = client.beta.messages.create(
     model="claude-sonnet-4-6",
@@ -547,6 +559,7 @@ When the advisor tool fires, the executor emits a `server_tool_use` block with n
 If you later drop the advisor tool from your tools array — because you hit a conversation-wide cap, changed config, or switched models — those prior `server_tool_use` / `advisor_tool_result` blocks become orphaned. The API will return a 400 on the next request because the referenced tool is no longer declared.
 The fix is a simple pre-send pass: whenever the advisor is disabled for a turn, walk the message history and strip any content blocks of type `server_tool_use` (with name == "advisor") and `advisor_tool_result`.
 *Example of removing stale advisor blocks:*
+Copy
 ```
 def strip_orphaned_advisor_blocks(messages):
     """Remove advisor server_tool_use / tool_result blocks from history.
@@ -587,6 +600,7 @@ Traditional prompt engineering asks users to describe what they want in words, t
 The key insight is that playback isn't strict replay. Claude uses the demonstration as a guide while reasoning about the live environment. If a button has moved or a menu has been reorganized, Claude can find the equivalent element in the current UI rather than blindly clicking at recorded coordinates.
 ### **The data model**
 The fundamental unit is a “workflow step”, a single action captured during recording. Each step bundles what was done, where it happened, and what the screen looked like:
+Copy
 ```
 from dataclasses import dataclass, field
 from typing import Literal, Optional
@@ -617,6 +631,7 @@ class SavedWorkflow:
 Capturing both selectors and coordinates is intentional: selectors are more robust to layout changes, but coordinates provide a visual fallback Claude can use when selectors break. Viewport dimensions are stored so coordinates can be scaled when the playback environment differs from the recording environment.
 ### **Recording: what to capture**
 At minimum, capture click events, keyboard input, navigation changes, and a screenshot at each action. For each click, generate a human-readable description (from aria-labels, text content, or via a quick Claude call) and annotate the screenshot with a visual marker at the click position:
+Copy
 ```
 def on_click(event):
     step = WorkflowStep(
@@ -637,6 +652,7 @@ The annotation (a colored circle at the click location) serves two purposes: it 
 ### **Playback: constructing the prompt**
 This is the most important piece. When a user triggers a saved workflow, you construct a message to Claude containing three things: the user's intent, a context block explaining the demonstration format, and the recorded screenshots.
 The context block tells Claude how to interpret annotated screenshots and how to adapt when the live UI differs:
+Copy
 ```
 def generate_playback_context(steps: list[WorkflowStep]) -> str:
     steps_description = "\n".join(
@@ -665,6 +681,7 @@ HOW TO USE THIS DEMONSTRATION:
 </demonstration_context>"""
 ```
 Then assemble the full message with the user's prompt, the context block, and each step's screenshot as an image:
+Copy
 ```
 import anthropic
 
@@ -703,6 +720,7 @@ Not every workflow needs the same level of adherence to the recorded demonstrati
 ‍**Goal-oriented:** focus on the end result; treat the recorded steps as hints rather than instructions. Useful when the UI changes frequently but the goal stays the same. Use a model to summarize the recorded demonstration, using strategies similar to the one described in the next section, then pass that summary to the CU model.
 ### **Example: end-to-end expense report workflow**
 Here's what a saved workflow looks like in practice. The workflow captures five steps: navigating to the expense form, selecting an expense type, choosing "Travel" from the dropdown, entering an amount, and clicking Submit.
+Copy
 ```
 expense_workflow = SavedWorkflow(
     id="wf_abc123",
@@ -748,8 +766,30 @@ expense_workflow = SavedWorkflow(
 )
 ```
 When a user later says "Submit my expense report for the team lunch ($85.50)", the playback service constructs a prompt with the demonstration context, all five annotated screenshots, and the specific values from the new request. Claude sees exactly where to click, what sequence to follow, and adapts the amounts and descriptions to match the current task. If your workflow is too long for this approach to be practical due to input token count, then consider first compacting the workflow before using it as an example. See the following section for tips on managing context.
-# **Getting started with computer and browser use**
+## **Getting started with computer and browser use**
 These practices reflect our current best understanding of what makes computer use integrations reliable in production. They apply to the Claude 4.6 model family and Opus 4.7, and will be updated as new models and techniques emerge.
 As your integration matures, the patterns that matter most will depend on your specific environment, target applications, and reliability requirements.*‍*
-*Get started with the *[*computer use documentation*](https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool)*, check out our new *[*demo implementation*](https://github.com/anthropics/claude-quickstarts/tree/main/computer-use-best-practices)* of these best practices, or revisit the*[* original computer use research post*](https://www.anthropic.com/news/developing-computer-use)* for background on how these capabilities were built and where they're headed.*
+*Get started with the [computer use documentation](https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool), check out our new [demo implementation](https://github.com/anthropics/claude-quickstarts/tree/main/computer-use-best-practices) of these best practices, or revisit the[ original computer use research post](https://www.anthropic.com/news/developing-computer-use) for background on how these capabilities were built and where they're headed.*
 *Acknowledgements: This article & corresponding demo were written by Lucas Gonzalez and Luca Weihs. The authors would like to thank Molly Vorwerck, Javier Rando, Maya Nielan, Gabe Mulley, and Brigit Brown for their contributions.*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

@@ -1,9 +1,21 @@
-# COBOL modernization with AI: breaking the cost barrier
+# COBOL Modernization with AI: Breaking the Cost Barrier
+Legacy code modernization stalled for years because understanding legacy code cost more than rewriting it. AI flips that equation.
+  -
+Category[Best practices](https://claude.com/resources/best-practices), [Perspectives](https://claude.com/resources/perspectives)
+  -
+ProductClaude Code
+  -
+DateFebruary 23, 2026
+  -
+Reading time9 min
+  -
+ShareCopy link
+## COBOL modernization with AI: breaking the cost barrier
 COBOL is everywhere. It handles an estimated [95% of ATM transactions in the US](https://aisel.aisnet.org/cgi/viewcontent.cgi?article=1090&context=treos_icis2022). Hundreds of billions of lines of COBOL run in production every day, powering critical systems in finance, airlines, and government.
 Despite that, the number of people who understand it shrinks every year.
 The developers who built these systems retired years ago, and the institutional knowledge they carried left with them. Production code has been modified repeatedly over decades, but the documentation hasn't kept up. Meanwhile, we aren't exactly minting replacements—COBOL is taught at only a handful of universities, and finding engineers who can read it gets harder every quarter.
 Given these roadblocks, how can organizations [modernize](https://claude.com/solutions/code-modernization) their systems without losing the reliability, availability, and data they’ve accumulated over decades? And without breaking anything?
-# **What is COBOL modernization?**
+## **What is COBOL modernization?**
 COBOL modernization is the process of updating legacy COBOL applications—by rehosting them on new infrastructure, refactoring the code, rewriting it in a modern language like Java, or replacing the system entirely—while preserving the decades of business logic embedded in them. Cost has historically been the barrier: understanding what the code does is the most expensive step.
 ## Why COBOL modernization is different
 COBOL modernization differs fundamentally from typical legacy code refactoring. You aren’t just updating familiar code to use better patterns, you’re reverse engineering business logic from systems built when Nixon was president. You’re untangling dependencies that evolved over decades, and translating institutional knowledge that now exists only in the code itself.
@@ -48,6 +60,28 @@ The approach outlined above works for COBOL systems of any size.
 Tools like Claude Code can automate much of the exploration and analysis work described, giving your team the comprehensive understanding they need to plan and execute migrations confidently.
 Start with a single component or workflow that has clear boundaries and moderate complexity. Use AI to analyze and document it thoroughly, plan the modernization with your engineers, implement incrementally with testing at each step, and validate carefully. This will build organizational confidence and surface adjustments needed for your systems.
 The economics of COBOL modernization have shifted. AI makes the economics work by automating what used to require armies of consultants, freeing your engineers to make the migration decisions that require their domain expertise.*‍*
-*For a step-by-step guide, see Anthropic's *[***Code Modernization Playbook***](https://resources.anthropic.com/code-modernization-playbook)*. *
-*For the step-by-step process behind ports like these, see how Anthropic runs *[*large-scale code migrations with Claude Code*](https://claude.com/blog/ai-code-migration)*.
-Thanks to Dan Mason, technical member of Anthropic staff, for their contributions.*
+*For a step-by-step guide, see Anthropic's [**Code Modernization Playbook**](https://claude.com/resources/guides/the-code-modernization-playbook).*
+*For the step-by-step process behind ports like these, see how Anthropic runs [large-scale code migrations with Claude Code](https://claude.com/resources/articles/ai-code-migration).*
+*Thanks to Dan Mason, technical member of Anthropic staff, for their contributions.*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

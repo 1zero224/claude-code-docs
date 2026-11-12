@@ -1,3 +1,15 @@
+# Building AI agents for the enterprise
+In this guide, we share how leading organizations are using agents to transform their work today, and how Claude Cowork brings these capabilities to every team.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Cowork
+  -
+DateApril 30, 2026
+  -
+Reading time3 min
+  -
+ShareCopy link
 Our September 2025 [Anthropic Economic Index](https://www.anthropic.com/research/anthropic-economic-index-september-2025-report) found that in the U.S., 40 percent of employees report using AI at work, up from 20 percent in 2023. While these are significant gains, a looming question remains: will AI produce lasting advantages or incremental gains that plateau within a quarter?
 The enterprises pulling ahead are doing something different. They're embedding agentic AI into how employees work, how processes run, and what products are possible. They're encoding institutional knowledge into systems that compound over time, and they're seeing returns that are difficult for competitors to replicate.
 To help leaders chart this path, we put together a guide on the three pillars of enterprise AI transformation, with examples from organizations doing this work today: L'Oreal, Lyft, and Rakuten. The guide also covers how to bring these capabilities to every team in your organization with [Claude Cowork](https://www.anthropic.com/product/claude-cowork), without requiring a custom build for each one.
@@ -9,6 +21,28 @@ In this guide, we share:
   - A six-month deployment framework for rolling out Claude Cowork
   - Customer stories from L'Oreal, Lyft, and Rakuten
 The companies getting the biggest returns from AI are being deliberate about how they teach it to employees, where they apply it, and what they build next.
-**Check it out, **[**here**](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/69f3af1f0b8ebe5cde42fcda_Claude-Building-AI-Agents-in-the-Enterpise-04302026_v2%20(1).pdf)**. **
+**Check it out, [here](https://assets.claude.com/facbb36f20bcded62b3295402d5ba517a4eac900.pdf).**
 [Get started](https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork) with Claude Cowork today.
 ‍
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

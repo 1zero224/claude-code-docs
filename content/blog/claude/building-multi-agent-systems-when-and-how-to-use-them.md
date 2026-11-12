@@ -1,21 +1,34 @@
+# Building multi-agent systems: When and how to use them
+While single-agent systems handle most enterprise workflows effectively, multi-agent architectures can unlock additional value for your organization. Learn when and how to use them.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Platform, Claude Code
+  -
+DateJanuary 23, 2026
+  -
+Reading time17 min
+  -
+ShareCopy link
 ## What is a multi-agent system?
 A multi-agent system is an architecture where multiple LLM instances run with separate conversation contexts, coordinated through code. Each agent handles a distinct slice of a task — a subagent researches while an orchestrator plans, for example — which protects context, enables parallel work, and allows specialization a single agent can't sustain.
 Multiple coordination patterns exist (agent swarms, capability-based systems, and message bus architectures), but this article focuses on the orchestrator-subagent pattern: a hierarchical model where a lead agent spawns and manages specialized subagents for specific subtasks. This pattern offers a straightforward coordination model and is a good starting point for teams new to multi-agent systems. We'll explore other patterns in detail in our next article.
 Today, multi-agent systems are often applied in situations where a single agent would perform better, though this calculus continues to evolve as models improve. At Anthropic, we’ve seen teams invest months building elaborate multi-agent architectures only to discover that improved prompting on a single agent achieved equivalent results.
-After building multi-agent systems and working with teams deploying them in production, we've identified three situations where multiple agents consistently outperform a single agent: when context pollution degrades performance, when tasks can run in parallel, and when specialization improves tool selection or task focus. Outside these situations, the coordination costs typically exceed the benefits.
+After building multi-agent systems and working with teams deploying them in production, we've identified three situations where multiple agents consistently outperform a single agent: when context pollution degrades performance, when tasks can run in parallel, and when specialization improves tool selection or task focus. Outside these situations, the coordination costs typically exceed the benefits. See [when to fold subagents back into the main agent loop](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop).
 In this article, we share how to recognize single-agent limits, identify the three scenarios where multi-agent systems excel, and avoid common implementation mistakes.
 ## The case for starting with a single agent
 A well-designed single agent with appropriate tools can accomplish far more than many developers expect.
 Multi-agent systems introduce overhead. Every additional agent represents another potential point of failure, another set of prompts to maintain, and another source of unexpected behavior.
 We've observed teams build elaborate multi-agent systems with separate agents for planning, execution, review, and iteration, only to discover that they suffered from lost context at each handoff and spent more tokens coordinating than executing. In our testing, multi-agent implementations typically use 3-10x more tokens than single-agent approaches for equivalent tasks. This overhead stems from duplicating context across agents, coordination messages between agents, and summarizing results for handoffs.
 ## A decision framework for multi-agent systems
-Multi-agent architectures provide value when they address specific constraints that a single agent cannot overcome. This means multi-agent architectures should be reserved for cases where they provide clear benefits that justify the additional cost. Managed infrastructure can also handle this for you (see [multiagent orchestration in Claude Managed Agents)](https://claude.com/blog/new-in-claude-managed-agents).
+Multi-agent architectures provide value when they address specific constraints that a single agent cannot overcome. This means multi-agent architectures should be reserved for cases where they provide clear benefits that justify the additional cost. Managed infrastructure can also handle this for you (see [multiagent orchestration in Claude Managed Agents)](https://claude.com/resources/articles/new-in-claude-managed-agents).
 The patterns below represent cases where we consistently observe positive returns on this investment.
 ### Context protection
 Large language models have finite context windows, and response quality can degrade as context grows. When an agent's context accumulates information from one subtask that is irrelevant to subsequent subtasks, context pollution occurs. Subagents provide isolation, with each operating in its own clean context focused on its specific task.
 Consider a customer support agent that needs to retrieve order history while diagnosing technical issues. If every order lookup adds thousands of tokens to the context, the agent's ability to reason about the technical problem degrades.
 ‍
 **The single-agent approach:**
+Copy
 ```
 # Single agent accumulates everything in context
 conversation_history = [
@@ -30,6 +43,7 @@ conversation_history = [
 The agent must reason about the technical issue while maintaining 2000+ tokens of irrelevant order history in context, diluting attention and reducing response quality.
 ‍
 **The multi-agent approach:**
+Copy
 ```
 from anthropic import Anthropic
 
@@ -76,6 +90,7 @@ Context isolation is most effective when subtasks generate high context volume (
 Running multiple agents in parallel allows you to explore a larger search space than a single agent can cover. This pattern has proven particularly valuable for search and research tasks.
 Anthropic's research team documented this in [how we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system). A lead agent analyzes a query and spawns multiple subagents to investigate different facets in parallel. Each subagent searches independently, then returns distilled findings. Multi-agent search has shown substantial accuracy improvements over single-agent approaches by allowing exploration across larger information spaces.
 The core implementation decomposes a question into independent facets, runs subagents concurrently, then synthesizes the results.
+Copy
 ```
 import asyncio
 from anthropic import AsyncAnthropic
@@ -120,10 +135,11 @@ When an agent has access to too many tools, performance suffers. Three signals i
   - **Degraded performance.** Adding new tools degrades performance on existing tasks, suggesting the agent has reached its capacity for tool management.
 #### **System prompt specialization**
 Different tasks sometimes require different personas, constraints, or instructions that conflict when combined. A customer support agent needs to be empathetic and patient; a code review agent needs to be precise and critical. A compliance-checking agent needs rigid rule-following; a brainstorming agent needs creative flexibility. When a single agent must switch between conflicting behavioral modes, separating into specialized agents with tailored system prompts produces more consistent results.
-Each specialized agent is only as good as its instructions — the same [prompt engineering best practices](https://claude.com/blog/best-practices-for-prompt-engineering) that improve a single agent's outputs apply to every subagent's system prompt.
+Each specialized agent is only as good as its instructions — the same [prompt engineering best practices](https://claude.com/resources/articles/best-practices-for-prompt-engineering) that improve a single agent's outputs apply to every subagent's system prompt.
 #### **Domain expertise specialization**
 Some tasks benefit from deep domain context that would overwhelm a generalist agent. A legal analysis agent might need extensive context about case law and regulatory frameworks. A medical research agent might need specialized knowledge about clinical trial methodology. Rather than loading all domain context into a single agent, specialized agents can carry focused expertise relevant to their specific responsibilities.
 **Example: Multi-platform integration.** Consider an integration system where agents need to work across CRM, marketing automation, and messaging platforms. Each platform has 10-15 relevant API endpoints. A single agent with 40+ tools often struggles to select correctly, confusing similar operations across platforms. Splitting into specialized agents with focused toolsets and tailored prompts resolves selection errors.
+Copy
 ```
 from anthropic import Anthropic
 
@@ -197,6 +213,7 @@ Verification subagents succeed because they sidestep the telephone game problem.
 ### Implementating a multi-agent system
 The main agent completes a unit of work. Before proceeding, it spawns a verification subagent with the artifact to verify, clear success criteria, and tools to perform verification.
 The verifier does not need to understand why the artifact was built as it was. It only needs to determine whether the artifact meets the specified criteria.
+Copy
 ```
 from anthropic import Anthropic
 
@@ -283,6 +300,28 @@ Multi-agent systems are powerful, but not universally appropriate. Before adding
   - **Decomposition follows context, not problem type.** Group work by what context it requires, not by what kind of work it is.
   - **Clear verification points exist** where subagents can validate work without requiring full context.
 Our advice? Start with the simplest approach that works, and add complexity only when evidence supports it.
-*This is the first in a series of posts on multi-agent systems. For more on single-agent patterns, see *[*Building effective agents*](https://www.anthropic.com/engineering/building-effective-agents)*. For context management strategies, see *[*Effective context engineering for AI agents*](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)*. For a deep dive into how we built our multi-agent research system, see *[*How we built our multi-agent research system*](https://www.anthropic.com/engineering/multi-agent-research-system)*.*
+*This is the first in a series of posts on multi-agent systems. For more on single-agent patterns, see [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents). For context management strategies, see [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents). For a deep dive into how we built our multi-agent research system, see [How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system).*
 ## Acknowledgements
 Written by Cara Phillips, with contributions from Paul Chen, Andy Schumeister, Brad Abrams, and Theo Chu.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

@@ -1,7 +1,18 @@
+# How CodeRabbit used Claude to build an agent orchestration system
+CodeRabbit built a layer on Claude that sits between a coding request and a coding agent, producing a structured coding plan the team can review before any code gets generated.
+[Watch the webinar](https://claude.com/resources/webinars/how-coderabbit-orchestrates-agents-to-strengthen-ai-generated-code)
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code
+  -
+DateMay 27, 2026
+  -
+Reading time7 min
+  -
+ShareCopy link
 *In our series,* ***How startups build with Claude***, we highlight how startups are transforming their industries with AI. In this article, we share how CodeRabbit built an agent orchestration layer that plans before AI generates code.
-
-    The quick pitch     Name CodeRabbit   Founded 2023   Founders Harjot Gill, CEO   Stack Claude Platform, Claude Code   Scale Reviews 2 million PRs per week across 15,000+ customers
-
+The quick pitchNameCodeRabbitFounded2023FoundersHarjot Gill, CEOStackClaude Platform, Claude CodeScaleReviews 2 million PRs per week across 15,000+ customers
 AI coding tools have collapsed the time between idea and working prototype. CodeRabbit, an AI code review platform, has noticed a different trend climbing alongside that throughput: code that compiles and passes tests but doesn't do what the team actually meant to build.
 David Loker, VP of AI at CodeRabbit, locates the cause upstream of the model. Experienced developers often assume coding agents understand the same context they do, so they don’t write down requirements that feel obvious to them. The coding agent then fills the gaps with whatever it considers plausible.
 To close that gap, CodeRabbit used Claude to design and build an agent orchestration system that runs a structured planning phase before any code is generated. The team's working thesis is that planning quality determines output quality, and the cheaper code generation gets, the more expensive it becomes to move in the wrong direction.
@@ -25,7 +36,27 @@ The system started with hand-tuned examples and manual inspection. The team deve
 ## **Catching errors before any code gets written**
 In an AI-native coding workflow, many of the decisions that used to surface during code review are now made earlier, in the planning layer. Building a plan that the team can review and align on before code generation starts catches mistakes early.
 "What we've built, using the Claude ecosystem, is a team-wide planning system," Loker says. "The plan itself becomes a quality gate. If we can make sure the quality of that plan is really good upfront, the downstream effect is very pronounced. You end up with a lot better code at the end of it."
-
-    Best practices from the CodeRabbit team     What outcome are you actually trying to create, and how do you measure? Be explicit not just in specifications to the AI but also define what you want in the MPP (maximum possible product).   What assumptions are still implicit? Ask Claude: what is missing? Are there any parts of the plan that are coming out as implicit assumptions instead of explicit specifications?   What workflows or edge cases are easy to forget? Ask Claude to help identify places or cases that you may not have taken into account.   How will you know the output matches intent before rollout? Create a record of work: a chronicle of planning artifacts that is saved and reused.
-
-**Build your startup on the **[**Claude Platform**](https://platform.claude.com/login?returnTo=%2F%3F)**.**
+Best practices from the CodeRabbit teamWhat outcome are you actually trying to create, and how do you measure?Be explicit not just in specifications to the AI but also define what you want in the MPP (maximum possible product).What assumptions are still implicit?Ask Claude: what is missing? Are there any parts of the plan that are coming out as implicit assumptions instead of explicit specifications?What workflows or edge cases are easy to forget?Ask Claude to help identify places or cases that you may not have taken into account.How will you know the output matches intent before rollout?Create a record of work: a chronicle of planning artifacts that is saved and reused.
+**Build your startup on the [Claude Platform](https://platform.claude.com/login?returnTo=%2F%3F).**
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

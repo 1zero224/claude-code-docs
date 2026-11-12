@@ -1,10 +1,21 @@
+# Working at the frontier: How Cursor knew Claude Fable 5 was ready for the hardest 1% of problems
+Nate Schmidt's job at Cursor is to evaluate frontier models against their ability to tackle long-running, real-world engineering problems. Here’s why–and how–Claude Fable 5 changed the calculus on what coding agents are capable of.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Platform
+  -
+DateJuly 17, 2026
+  -
+Reading time8 min
+  -
+ShareCopy link
 Cursor is an AI coding agent for building professional software. It supports every major frontier model alongside Cursor's own, which makes the company an unusually neutral judge of how each one actually performs.
 Nate Schmidt is the engineer who maintains that scorecard. He works on evals and model behavior at Cursor: studying how models succeed, how they fail, and what makes a developer quietly switch away from one mid-task. When colleagues and customers want a read on a new release, they come to him.
 Over time, Schmidt's team noticed that public benchmark scores and real developer reception to these models had stopped lining up, so they built their own: CursorBench.
 CursorBench was built to capture the messy, underspecified ways engineers actually prompt their models. One eval task is just a stack trace pasted in with the single word "fix," and the model has to infer the intent, find the root cause, and validate the change on its own. Another tells the model the wrong module is broken, to see whether it challenges the user's assumption or follows it into a dead end.
 When Claude Fable 5 ran the eval, the model achieved 72.9% at Max effort, setting a new high, and capturing what agentic coding tools were capable of when paired with the right models.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a59a38185fbd6c8049e2f1a_image1.png)
-Claude Fable 5 achieved achieved 72.9% at Max effort, setting a new high.
+![](https://assets.claude.com/8b8cb7801781a34490492fc4c41ccc385ab53db6.png)Claude Fable 5 achieved achieved 72.9% at Max effort, setting a new high.
 But when Schmidt was using the model on his own engineering workflows and personal tests, he'd stopped having to repeat his goals. The constant babysitting—reminding the model of context, spelling out the solution, auditing the results—wasn't necessary anymore. He could hand over a problem, from the gnarly refactor he was putting off to reasoning about nuanced edge cases, and Claude Fable 5 could solve it.
 "I don't feel like I have to bootstrap Claude Fable 5 to understand the world I exist in and the problem I'm trying to solve," Schmidt says. "The model just has a sense of it out-of-the-box."
 ### **Reasoning about the entire mission**
@@ -18,8 +29,7 @@ A few weeks earlier he'd wired Claude Opus into a programmable space-flight simu
 He re-ran the experiment with the same blank-slate prompt, this time using Claude Fable 5. A few minutes in, the rocket went up, parked in low orbit, and came back down. Same failure as before. Then Schmidt read the transcript.
 "Fable decided it wouldn’t go to the moon on its first attempt. It wanted to do an initial mission just to go into orbit and collect telemetry, then use that to inform the next trip." A few attempts later, the engine noise on his second monitor stopped. There was a lander on the moon. The whole run took a couple of hours, against Opus's twelve-plus with no result.
 "With Opus, it was doing local reasoning—thinking about what just happened and what's immediately about to happen," Schmidt says. "With Fable it's global reasoning. It's thinking about the entire mission."
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a59a69ffb4e8948af39dfd0_C41-77690-D3-03-0037_VS_R1.jpeg)
-Cursor runs all models through CursorBench, their internal benchmark for evaluating models on tasks that simulate real developer work.
+![](https://assets.claude.com/cdc5e194c3277938170585d55d18afe7d22478d0.jpg)Cursor runs all models through CursorBench, their internal benchmark for evaluating models on tasks that simulate real developer work.
 ### **When to reach for the global optimum**
 Schmidt has settled on a simple rule for when to use Claude Fable 5 over cheaper, less intelligent models.
 "If you have a good sense of what the path from A to B looks like, you might not need Fable. If you're at A and you have no idea where B is, Fable is an excellent choice,” he says. "When I want to build something the right way, Fable is the first model I think of."
@@ -27,9 +37,30 @@ Claude Fable 5 has also allowed his team to focus on projects the team had previ
 It also changes how the team coordinates. Cursor runs lean, with intense individual ownership and few standups. Now, before touching shared code, Schmidt has an agent read his teammate's recent commits and flag conflicts, so neither of them has to stop what they’re doing to check in.
 To balance cost and performance, his team pairs Claude Fable 5 with faster, lighter models for routine work and brings it in for the problems where capability is the constraint. In that configuration, he says, the combination is the most effective setup they've run.
 “If I'm getting into a really gnarly problem–the p99 of problems–the thing I'm trying to optimize for is time to solution,” he says. “And I think Fable is the best model for solving our hardest problems.”
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a59a6d5a6b86f4aeda67a0c_C41-77690-D3-11-0029_VS_R1.jpeg)
-Nate Schmidt tests new models across various evaluations, including putting it through the paces in a space-flight simulator.
+![](https://assets.claude.com/a08b3837ddcf70004bcf1de06e30450112d4d5eb.jpg)Nate Schmidt tests new models across various evaluations, including putting it through the paces in a space-flight simulator.
 ### **What's next**
 Despite putting the model through its paces on CursorBench and sending it to the moon, Schmidt is still looking for Claude Fable 5’s limits. Next, he wants to see how long the model can manage a back-end system unattended; days-to-weeks runs are his next experiment. Inside Cursor, the team is using the model to hunt performance bottlenecks and user pain points proactively rather than waiting for reports, and to build the more sophisticated, closer-to-reality eval environments that will measure whatever comes next.
 "There's a class of problems people weren't even thinking about because it didn't seem approachable," he says. "With Fable, I'm excited to push at that."
-***Get started with ***[***Claude Fable***](http://anthropic.com/news/claude-fable-5-mythos-5)**.**
+***Get started with [Claude Fable](http://anthropic.com/news/claude-fable-5-mythos-5)*.**
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

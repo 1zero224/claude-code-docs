@@ -1,3 +1,15 @@
+# Eight trends defining how software gets built in 2026
+How is AI changing the way software gets built—and what should engineering leaders expect in 2026? We analyzed the patterns emerging across the industry.
+  -
+Category[Insights](https://claude.com/resources/insights)
+  -
+ProductClaude Code
+  -
+DateJanuary 21, 2026
+  -
+Reading time4 min
+  -
+ShareCopy link
 Coding agents are now collaborators.
 In 2025, engineering teams discovered AI could handle entire implementation workflows: writing tests, debugging failures, navigating complex codebases. In 2026, we predict these capabilities will expand significantly.
 Our new report identifies eight trends we predict will define agentic coding this year, organized into three categories: **foundation trends** that change how development happens, **capability trends **expanding what agents accomplish, and **impact trends** affecting business outcomes.
@@ -16,3 +28,24 @@ For organizations planning their 2026 priorities, four areas demand immediate at
 Organizations that treat agentic coding as a strategic priority will define what becomes possible.
 Read the full **2026 Agentic Coding Trends Report** [here](https://resources.anthropic.com/hubfs/2026%20Agentic%20Coding%20Trends%20Report.pdf?hsLang=en).
 ‍
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 9, 2026
+### Claude can design electronic prototypes from start to finish
+We asked Claude to design three electronic devices: a speakerphone, a voice-assistant hub, and a handheld virtual pet. The prototypes worked without any fixes to their circuitry.
+(opens in new tab)](https://www.anthropic.com/research/claude-electronics-design)[
+ArticleNov 6, 2026
+### The components of agent memory
+For Claude to learn from experience, it has to decide what's worth remembering before it knows what's next. Here's how "dreaming" helps it organize memory and correct mistakes.
+Claude Platform
+(opens in new tab)](https://www.anthropic.com/research/components-of-agent-memory)[
+ArticleOct 22, 2026
+### LLMs are making formal software verification feasible at a much larger scale
+We need ways to prove that code is free of bugs. Formal software verification could provide this guarantee.
+(opens in new tab)](https://www.anthropic.com/research/formal-verification)[
+ArticleSep 25, 2026
+### What a task costs on Opus 5.5
+The same token price can cost very different amounts per task. Learn what Claude Code tasks cost on Opus 5.5 and which settings change the bill.
+Claude Code
+(opens in new tab)](https://claude.dev/blog/what-a-task-costs-on-opus-5-5/)

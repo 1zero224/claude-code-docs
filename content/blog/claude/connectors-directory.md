@@ -1,3 +1,16 @@
+# Discover tools that work with Claude
+Browse and connect Claude to your favorite apps and tools with one-click.
+‍
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude apps
+  -
+DateJuly 14, 2025
+  -
+Reading time3 min
+  -
+ShareCopy link
 Today, we are introducing a new directory of tools that connect to Claude, which you can explore and try with a single click. We are also featuring new connectors, built by our partners, to remote services like Notion, Canva, and Stripe and local desktop applications like Figma, Socket, and Prisma.
 Now Claude can have access to the same tools, data, and context that you do—transforming it from a helpful assistant into an informed AI collaborator that gives you more relevant responses and can work with you directly in your tools.
 ### Context changes everything
@@ -10,5 +23,29 @@ Here are some ways you could use Claude with connected tools:
   - **Manage payments: **Access Stripe customer data and payment information
 ### Getting started
 You can explore our directory of recommended tools at [claude.ai/directory](http://claude.ai/directory). Click "Connect" to authenticate (or “Install” for desktop extensions), and Claude gains access to your work context. You can also browse featured tools at [anthropic.com/partners/mcp](https://www.anthropic.com/partners/mcp).
-![Screenshot of a connectors dialog box in Claude app, showing various tools and services users can explore and connect to Claude. ](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d940906611bc5d73ba0_78b167a1a7db601cd0ff39356d03e9925e59baba-2880x1620.png)
+![Screenshot of a connectors dialog box in Claude app, showing various tools and services users can explore and connect to Claude. ](https://assets.claude.com/78b167a1a7db601cd0ff39356d03e9925e59baba.png)
 The directory is available now to all Claude users on web and desktop. Local desktop extensions are available through the Claude Desktop app. Connectors to remote apps and services are available to paid plan users only.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

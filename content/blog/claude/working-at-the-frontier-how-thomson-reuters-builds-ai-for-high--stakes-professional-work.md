@@ -1,9 +1,22 @@
+# Working at the frontier: How Thomson Reuters builds AI for high-stakes professional work
+Joel Hron, CTO at Thomson Reuters, has spent years putting AI inside products trusted by lawyers and accountants. Here is why he considers Claude Fable 5 a critical evolution in what’s possible with AI for knowledge work.
+‍
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Platform, Claude Enterprise, Claude Code
+  -
+DateJuly 8, 2026
+  -
+Reading time9 min
+  -
+ShareCopy link
 Thomson Reuters, a global content and technology company, has spent more than 175 years building trusted content and technology for professionals and institutions making consequential decisions. Today, that same mission is shaping how the company builds AI for legal, tax, accounting, compliance, and other high-stakes professional workflows.
 "We're a technology company focused on professions that demand accuracy and precision," says Joel Hron, CTO of Thomson Reuters.
 Its products are the reference tools those professions run on: Westlaw and Practical Law for legal research and practical guidance, CoCounsel Legal, Thomson Reuters professional-grade legal AI platform, is designed to make legal professionals better at their jobs, with answers they can defend and outcomes that provide real value. Hron joined Thomson Reuters four years ago when his startup was acquired by the company, working at the intersection of product, technology, and strategy. In that time period, he says, AI has reshaped what it means to build software. Choosing the right technology partners has never been more important.
 The bar for selecting which LLMs to use to power these products is unusually concrete. Hron and his team evaluate a new model by asking whether its work can withstand the level of professional review lawyers apply before relying on it in their work.
 ### Evaluating models for legal work
-Plenty of companies can build a legal AI tool, but far fewer can build one a lawyer would put their name on. Thomson Reuters brings three advantages to professional AI that general-purpose systems cannot easily replicate: authoritative content, deep domain expertise, and workflow integration.
+Plenty of companies can build [a legal AI tool](https://claude.com/resources/guides/claude-for-the-legal-industry), but far fewer can build one a lawyer would put their name on. Thomson Reuters brings three advantages to professional AI that general-purpose systems cannot easily replicate: authoritative content, deep domain expertise, and workflow integration.
 The reason a lawyer can rely on a Westlaw answer is not the model on its own, says Hron. It is decades of curated case law, the work of 2,700+ domain experts across the globe who annotate and enhance that content every day, and the evaluations Thomson Reuters builds on top of models like Claude. "That human professional is still the one who is accountable for the end work product."
 Claude is a valuable model partner, but the professional-grade system comes from the combination of Anthropic's frontier models with Thomson Reuters' authoritative content, deep domain expertise, workflow integration, and evaluation infrastructure.
 Thomson Reuters describes this approach as Fiduciary-Grade AI™: AI grounded in authoritative content, shaped by deep domain expertise, and embedded directly into professional workflows, so outputs are transparent, verifiable, and defensible when the stakes are high.
@@ -11,12 +24,11 @@ That accountability is why verification matters more here than fluency. Thomson 
 The change shows up in what customers report. Research that "would take dozens of hours," Hron says, now arrives "in a matter of minutes," giving professionals a high-quality starting point they can evaluate, refine, and act on. "Deep research has been a profound shift in how to think about legal research."
 ### Building an agent-first product
 For Thomson Reuters, building agents isn't about creating a smarter chatbot. It reflects a new way to deliver existing products. Hron and his team set out to teach an agent to use all the tools the company used to offer as standalone software. A single agent now has access to hundreds of company tools — simultaneously.
-That shift changed how Thomson Reuters evaluated models. "Our big test for Claude is to really assess how good it is at making plans and using these tools effectively and correctly," he says.
-CoCounsel Legal shows what that looks like. It used to run separate skills one after another. Rebuilt on the Claude Agent SDK, it now plans, delegates, and orchestrates across tools and content sources in real time, so a professional can define the outcome instead of dictating every step. Customer data remains protected and is not used to train third-party models.
+That shift changed how Thomson Reuters [evaluated models](https://claude.com/resources/webinars/evals-for-ai-agents-how-product-builders-get-the-most-out-of-every-new-model). "Our big test for Claude is to really assess how good it is at making plans and using these tools effectively and correctly," he says.
+CoCounsel Legal shows what that looks like. It used to run separate skills one after another. Rebuilt on the [Claude Agent SDK](https://claude.com/resources/articles/building-agents-with-the-claude-agent-sdk), it now plans, delegates, and orchestrates across tools and content sources in real time, so a professional can define the outcome instead of dictating every step. Customer data remains protected and is not used to train third-party models.
 Hron traces the choice back to how the two companies started working together. Thomson Reuters was one of Anthropic's earliest enterprise customers, and the deciding factor wasn't a benchmark. "The number one thing that spoke to us was Anthropic's approach to building enterprise AI," he says, citing transparency, safety, and responsible AI development. The first proof point was deep research in legal, built together as both teams noticed how Anthropic's engineers used the tools the way Thomson Reuters was already shipping them.
 ### What knowledge work demands of a model
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a4c7cbf5c3bf25d312f2d36_hrh.jpg)
-Product, operations, and business teams across the company use Claude Cowork for process automation and light prototyping.
+![](https://assets.claude.com/20138f1eea22461cb39fa554d873867327d5534d.jpg)Product, operations, and business teams across the company use Claude Cowork for process automation and light prototyping.
 Across those projects, Hron's team has settled on four things a model has to do before Thomson Reuters trusts it.
 First, the model, as part of the CoCounsel Legal system, has to check its own citations. Rather than retrieve a source and move on, the system has to validate what it cites before presenting its findings to a human for final review and verification.
 In this system, the model also has to hold steady across long chains of tool calls. Longer tasks demand better context management and dependable tool use over an extended run. A model has to keep the thread across many steps and many systems, so an agent finishes real work instead of stalling halfway through.
@@ -28,9 +40,30 @@ He still tracks traditional engineering measures like DevOps Research and Assess
 The deeper change, according to Hron, is to the work itself.
 "The act of writing lines of code is no longer the job," Hron says of his engineers; the skills that matter most now are systems thinking, judgment, and taste. He sees the same pattern spreading past engineering, with AI making people "more T-shaped," able to reach across product, design, and finance rather than staying in one lane.
 ### What's next
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a4c7c0af419ea78652cbbb0_000261730019_VS_R1_web.jpg)
-Employees at Thomson Reuters use Claude Code to get up to speed on code bases and build long-running agents.
+![](https://assets.claude.com/bb70dc6c2d7ae94da38cdc2a2db47ffaffb0da4e.jpg)Employees at Thomson Reuters use Claude Code to get up to speed on code bases and build long-running agents.
 Hron and his team are eager to push the boundaries with Claude Fable 5 and future Claude models: longer-horizon work, better context management, and tool calling they can count on across the chain of tasks an agent runs.
 He is just as eager to use these models in his own work. Claude Code has let him "be far more technical again," coming up to speed on a codebase he hasn't touched in months within minutes rather than a day, and he turns to Claude Cowork to take on the perspective of a CFO or strategy officer and pressure-test ideas.
 Those are the directions models like Claude Fable 5 are being built around, and for work that ultimately has to hold up in court, Hron sees that as the frontier worth pushing on next. After all, professional AI has to work in environments where being almost right is not good enough.
-**Get started with **[**Claude Fable 5**](https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5)**.**
+**Get started with [Claude Fable 5](https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5).**
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

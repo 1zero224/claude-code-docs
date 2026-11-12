@@ -1,10 +1,22 @@
+# Introducing the Claude Team plan and iOS app
+Claude now offers a Team plan with increased usage and a free iOS app.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude apps
+  -
+DateMay 1, 2024
+  -
+Reading time5 min
+  -
+ShareCopy link
 Today, we’re announcing two updates for Claude: a new Team plan and an iOS app.
   - The Team plan enables ambitious teams to create a workspace with increased usage for members and tools for managing users and billing. It’s the best way for teams across industries to leverage our next-generation [Claude 3 model family](https://www.anthropic.com/news/claude-3-family). This plan is available for $30 per user per month.
   - The Claude iOS app is available to download for free for all Claude users. It offers the same intuitive experience as mobile web, including syncing your chat history and support for taking and uploading photos.
 Claude is designed to help individuals—and now teams—harness the power of the industry’s most advanced AI models. Whether you need a partner for deep work, a knowledgeable expert, a creative collaborator, or an assistant that’s available instantly, Claude augments every employee's capabilities and enables businesses to achieve new levels of productivity to drive better results.
 ## Team plan
 Claude enables companies to shape their workflows based on their teams' unique needs and goals, rather than being limited by their existing tools. Built with security and data privacy in mind, Claude helps protect sensitive business information.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d93b5625ba1efe0b666_0b6e3ba7f4204d003a541dfb93e01335ebf584b9-3840x2160.jpeg)
+![](https://assets.claude.com/7a4713495efbba1ae1c9a8f2944e8cbc07a3d603.jpg)
 The new Team plan features:
   - **Increased usage**: Provides greater usage per user compared to our Pro plan, enabling every teammate to significantly increase the number of chats they can have with Claude.
   - **Access to the Claude 3 model family:** Offers the full Claude 3 model family—including Opus, Sonnet, and Haiku—providing teams and business users a suite of cutting-edge AI models tailored for different use cases. Choose the best-suited model for your specific business needs.
@@ -20,6 +32,30 @@ The Claude iOS app features:
   - **Seamless syncing with web chats**: Pick up where you left off across devices.
   - **Vision capabilities**: Use photos from your library, take new photos, or upload files so you can have real-time image analysis, contextual understanding, and mobile-centric use cases on the go.
   - **Open access**: Users across all plans, including Pro and Team, can download the app free of charge.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d93b5625ba1efe0b65f_efba82b6b4a702cc7557793090950ed2f15772b0-1920x1080.png)
+![](https://assets.claude.com/7b0cddf40ac0d7e32c74e86be07a9df438834121.png)
 Early testers report that the Claude app is exceptional for brainstorming ideas on the go, getting quick answers to questions, or analyzing scenes and images from the real world. Our new iOS app puts the power of frontier intelligence in your back pocket.
 To download the iOS app, find us on the [Apple App Store](https://apps.apple.com/us/app/claude/id6473753684).
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

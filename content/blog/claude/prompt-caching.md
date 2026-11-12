@@ -1,5 +1,17 @@
-***Update****: Prompt caching is Generally Available on the Anthropic API. Prompt caching is also available in preview in Amazon Bedrock and on Google Cloud’s Vertex AI. (December 17, 2024)
-*Prompt caching, which enables developers to cache frequently used context between API calls, is now available on the Anthropic API. With prompt caching, customers can provide Claude with more background knowledge and example outputs—all while reducing costs by up to 90% and latency by up to 85% for long prompts. Prompt caching is available today in public beta for Claude 3.5 Sonnet, Claude 3 Opus, and Claude 3 Haiku.
+# Prompt caching with Claude
+Claude caches frequently used context between API calls, reducing costs and latency for long prompts.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Platform
+  -
+DateAugust 14, 2025
+  -
+Reading time4 min
+  -
+ShareCopy link
+***Update**: Prompt caching is Generally Available on the Anthropic API. Prompt caching is also available in preview in Amazon Bedrock and on Google Cloud’s Vertex AI. (December 17, 2024)*
+Prompt caching, which enables developers to cache frequently used context between API calls, is now available on the Anthropic API. With prompt caching, customers can provide Claude with more background knowledge and example outputs—all while reducing costs by up to 90% and latency by up to 85% for long prompts. Prompt caching is available today in public beta for Claude 3.5 Sonnet, Claude 3 Opus, and Claude 3 Haiku.
 ## When to use prompt caching
 Prompt caching can be effective in situations where you want to send a large amount of prompt context once and then refer to that information repeatedly in subsequent requests, including:
   - **Conversational agents: **Reduce cost and latency for extended conversations, especially those with long instructions or uploaded documents.
@@ -9,50 +21,58 @@ Prompt caching can be effective in situations where you want to send a large amo
   - **Agentic search and tool use: **Enhance performance for scenarios involving multiple rounds of tool calls and iterative changes, where each step typically requires a new API call.
   - **Talk to books, papers, documentation, podcast transcripts, and other long-form content:** Bring any knowledge base alive by embedding the entire document(s) into the prompt, and letting users ask it questions.
 Early customers have seen substantial speed and cost improvements with prompt caching for a variety of use cases—from including a full knowledge base to 100-shot examples to including each turn of a conversation in their prompt.
-
-    **Use case**  **Latency w/o caching (time to first token)**   **Latency w/ caching (time to first token)**  **Cost reduction**   Chat with a book (100,000 token cached prompt) [1] 11.5s 2.4s (-79%) -90%   Many-shot prompting (10,000 token prompt) [1] 1.6s 1.1s (-31%) -86%    Multi-turn conversation (10-turn convo with a long system prompt) [2]  ~10s ~2.5s (-75%) -53%
- Prompt caching
+Prompt caching**Use case****Latency w/o caching (time to first token)****Latency w/ caching (time to first token)****Cost reduction**Chat with a book (100,000 token cached prompt) [1]11.5s2.4s (-79%)-90%Many-shot prompting (10,000 token prompt) [1]1.6s1.1s (-31%)-86%Multi-turn conversation (10-turn convo with a long system prompt) [2]~10s~2.5s (-75%)-53%
 ### How we price cached prompts
 Cached prompts are priced based on the number of input tokens you cache and how frequently you use that content. Writing to the cache costs 25% more than our base input token price for any given model, while using cached content is significantly cheaper, costing only 10% of the base input token price.
-
-     **Claude 3.5 Sonnet**
-
+Pricing**Claude 3.5 Sonnet**
   - Our most intelligent model to date
-  - 200K context window    **Input**
-
+  - 200K context window**Input**
   - $3 / MTok
-   **Prompt caching**
-
-  -  $3.75 / MTok - Cache write
-  - $0.30 / MTok - Cache read    **Output **
-
-  - $15 / MTok      **Claude 3 Opus**
-
+**Prompt caching**
+  - $3.75 / MTok - Cache write
+  - $0.30 / MTok - Cache read**Output**
+  - $15 / MTok**Claude 3 Opus**
   - Powerful model for complex tasks
   - 200K context window
-    **Input**
-
+**Input**
   - $15 / MTok
-   **Prompt caching**
-
-  -  $18.75 / MTok - Cache write
-  - $1.50 / MTok - Cache read    **Output**
-
-  - $75 / MTok      **Claude 3 Haiku**
-
+**Prompt caching**
+  - $18.75 / MTok - Cache write
+  - $1.50 / MTok - Cache read**Output**
+  - $75 / MTok**Claude 3 Haiku**
   - Fastest, most cost-effective model
-  - 200K context window    **Input**
-
-  - $0.25 / MTok    **Prompt caching**
-
-  -  $0.30 / MTok - Cache write
-  - $0.03 / MTok - Cache read    **Output**
-
+  - 200K context window**Input**
+  - $0.25 / MTok**Prompt caching**
+  - $0.30 / MTok - Cache write
+  - $0.03 / MTok - Cache read**Output**
   - $1.25 / MTok
- Pricing
 ### Customer spotlight: Notion
 [Notion](https://www.notion.so/product/ai) is adding prompt caching to Claude-powered features for its AI assistant, Notion AI. With reduced costs and increased speed, Notion is able to optimize internal operations and create a more elevated and responsive user experience for their customers.
-We're excited to use prompt caching to make Notion AI faster and cheaper, all while maintaining state-of-the-art quality.
+“We're excited to use prompt caching to make Notion AI faster and cheaper, all while maintaining state-of-the-art quality.”
 — Simon Last, Co-founder at Notion
 ### Get started
 To start using the prompt caching public beta on the Anthropic API, explore our [documentation](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching) and [pricing page](https://www.anthropic.com/pricing#anthropic-api).
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

@@ -1,3 +1,14 @@
+# Building agents that reach production systems with MCP
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Platform
+  -
+DateApril 22, 2026
+  -
+Reading time12 min
+  -
+ShareCopy link
 Agents are only as useful as the systems they can reach. Teams tend to converge on three approaches for connecting them to external systems—direct API calls, CLIs, and MCP. This post lays out where each fits, why production agents tend to land on MCP, and the patterns for building those integrations effectively.
 ## Connecting agents to external systems
 We generally see three paths for connecting agents to external systems: direct API calls, CLIs, and MCP. Each makes sense somewhere, depending on what you're building. The key distinction is whether there's a common layer between agents and services, and how far that layer reaches.
@@ -11,8 +22,8 @@ CLIs hit hard limits reaching mobile, web, or cloud-hosted platforms that don't 
 MCP provides the common layer as a protocol. The agent connects to a server that exposes your system's capabilities, with auth, discovery, and rich semantics standardized. One remote server reaches any compatible client (Claude, ChatGPT, Cursor, VS Code, and more), in any deployment environment.
 It requires a little bit more upfront investment. The return is that the integration is portable, and provides the semantics needed for a feature-rich agent integration.
 ## Production agents run in the cloud
-Production agents increasingly run in the cloud, so they can scale and operate continuously. The systems they need to reach are cloud-hosted too: where your data lives, work is tracked, and your infrastructure runs. Often these systems are remote and behind auth, where MCP provides the common layer. And when those systems live inside a private network rather than on the public internet, [MCP tunnels in Claude Managed Agents](https://claude.com/blog/claude-managed-agents-updates) connect agents to them over an outbound-only connection — no exposed ports or public endpoints required.
-We’re already seeing this in adoption. The [MCP SDKs](https://modelcontextprotocol.io/docs/sdk) recently surpassed 300 million downloads a month, up from 100 million at the start of the year, with strong adoption across enterprises and popular agentic platforms. Millions of people use MCP with Claude every day, and the protocol underpins much of what we've shipped recently, including [Claude Cowork](https://claude.com/product/cowork), [Claude Managed Agents](https://claude.com/blog/claude-managed-agents), and [channels in Claude Code](https://code.claude.com/docs/en/channels).
+Production agents increasingly run in the cloud, so they can scale and operate continuously. The systems they need to reach are cloud-hosted too: where your data lives, work is tracked, and your infrastructure runs. Often these systems are remote and behind auth, where MCP provides the common layer. And when those systems live inside a private network rather than on the public internet, [MCP tunnels in Claude Managed Agents](https://claude.com/resources/articles/claude-managed-agents-updates) connect agents to them over an outbound-only connection — no exposed ports or public endpoints required.
+We’re already seeing this in adoption. The [MCP SDKs](https://modelcontextprotocol.io/docs/sdk) recently surpassed 300 million downloads a month, up from 100 million at the start of the year, with strong adoption across enterprises and popular agentic platforms. Millions of people use MCP with Claude every day, and the protocol underpins much of what we've shipped recently, including [Claude Cowork](https://claude.com/product/cowork), [Claude Managed Agents](https://claude.com/resources/articles/claude-managed-agents), and [channels in Claude Code](https://code.claude.com/docs/en/channels).
 ‍
 As MCP continues to support production agentic systems, we’re sharing patterns for building these integrations well: from building advanced servers to context-efficient clients, and where skills complement the protocol.
 ## Building effective MCP servers
@@ -33,19 +44,16 @@ Once a user has authorized, the next question is how a cloud-hosted agent holds 
 MCP standardizes how AI agents ([*clients*](https://modelcontextprotocol.io/docs/develop/build-client#python)) connect to and work with tools and data sources they need ([*servers*](https://modelcontextprotocol.io/docs/develop/build-server)). The server securely exposes a range of capabilities, while the client orchestrates them and manages context. If you’re building an MCP client, make it context-efficient with patterns for progressive disclosure.
 ### Load tool definitions on demand with tool search
 [Tool search](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool) defers loading all tools into context, rather than loading them upfront. This allows the agent to search the catalog at runtime, pulling in the relevant tools when needed. In our [testing](https://www.anthropic.com/engineering/advanced-tool-use), tool search tends to cut tool-definition tokens by 85%+ while maintaining high selection accuracy.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69e920e636fbec575e46319c_context-usage.webp)
-Reducing context usage with tool search. Source: [advanced tool use
-](https://www.anthropic.com/engineering/advanced-tool-use)
+![](https://assets.claude.com/3ead16dbc271d174d8aa0067f2df09f23f964daf.png)Reducing context usage with tool search. Source: advanced tool use
 ### Process tool results in code with programmatic tool calling
 [Programmatic tool calling](https://www.anthropic.com/engineering/code-execution-with-mcp) processes tool results in a code-execution sandbox, rather than returning them raw to the model. This lets the agent loop, filter, and aggregate across calls in code, with only the final output reaching context. In our testing, this reduces token usage by roughly [37%](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling) on complex multi-step workflows.
-Together, these patterns compose naturally across multiple servers: leaner context, fewer round-trips, faster responses. See[ *advanced tool use*](https://www.anthropic.com/engineering/advanced-tool-use) for the full breakdown.
+Together, these patterns compose naturally across multiple servers: leaner context, fewer round-trips, faster responses. See[*advanced tool use*](https://www.anthropic.com/engineering/advanced-tool-use) for the full breakdown.
 ## Pairing MCP servers with skills
-[Skills and MCP are complementary](https://claude.com/blog/skills-explained). MCP gives an agent access to tools and data from external systems, while skills teach an agent the procedural knowledge of *how* to use those tools to accomplish real work. The most capable agents use both, and skills make MCP servers scale beyond a handful of connections. There are two general patterns for combining them:
+[Skills and MCP are complementary](https://claude.com/resources/articles/skills-explained). MCP gives an agent access to tools and data from external systems, while skills teach an agent the procedural knowledge of *how* to use those tools to accomplish real work. The most capable agents use both, and skills make MCP servers scale beyond a handful of connections. There are two general patterns for combining them:
 ### Bundle skills and MCP servers as a plugin
 [Plugins](https://code.claude.com/docs/en/plugins-reference#plugin-components-reference) for Claude are a useful abstraction that allow developers to bundle skills, MCP servers, hooks, LSP servers, and specialized subagents in one easily-consumable distribution method. Using this approach is the best way to unify multiple context providers with minimal friction.
 Combining MCP servers with skills allows Claude to act more like a domain-specialist. Grab your tools via MCP, and give Claude the skills to orchestrate workflows end-to-end. See our [data plugin](https://claude.ai/directory/plugins/data%40knowledge-work-plugins) for Cowork as an example, which consists of 10 skills and 8 MCP servers for apps like Snowflake, Databricks, BigQuery, Hex and more.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6945b3dfa8f134d0104e4e23_How%20Skills%20and%20MCP%20work%20together%20-%20v3B%402x%20(2).png)
-Combining skills with MCP. Source: [Extending Claude’s capabilities with skills and MCP servers](https://claude.com/blog/extending-claude-capabilities-with-skills-mcp-servers)
+![](https://assets.claude.com/63e82441ddfbcf4a29659d5007661b57e69a295e.png)Combining skills with MCP. Source: Extending Claude’s capabilities with skills and MCP servers
 ### Distribute skills from an MCP server
 It's increasingly common for providers to publish a skill alongside their MCP server, so the agent gets both the raw capabilities and an opinionated playbook for using them well. [Canva](https://claude.com/connectors/atlassian), [Notion](https://claude.com/connectors/notion), [Sentry](https://claude.com/connectors/sentry), and more do this today in Claude, listing the skill next to their connector in our [web directory](https://claude.com/connectors).
 To make that pairing portable across every client, the MCP community is actively working on an [extension](https://github.com/modelcontextprotocol/experimental-ext-skills) for delivering skills directly from servers. This way the client inherits the relevant expertise automatically, versioned with the API it depends on. We expect this pattern to see broad adoption as the extension stabilizes.
@@ -54,4 +62,26 @@ We opened with three paths for connecting agents to external systems. In practic
 As production agents move to the cloud, MCP becomes the critical layer, and it’s the one that compounds. Today, a remote server reaches every compatible client across any deployment environment, with auth, interactivity, and rich semantics handled by the protocol. As more clients adopt the spec and more extensions land in it, that same server gets more capable without you shipping anything new.
 When building an integration, if your goal is to have production agents in the cloud reach your system, build an MCP server and make it excellent using the patterns above. Every integration built on MCP strengthens the ecosystem: fewer edge cases to solve alone, fewer bespoke integrations to maintain.
 ### Acknowledgements
-Thanks to Den Delimarsky, David Soria Parra, Henry Shi, Felix Rieseberg, Conor Kelly, Molly Vorwerck, Andy Schumeister, Kevin Garcia, Amie Rotherham, Matt Samuels, Angela Jiang, Katelyn Lesse, AJ Rebeiro and Jess Yan** **for their contributions to this blog.
+Thanks to Den Delimarsky, David Soria Parra, Henry Shi, Felix Rieseberg, Conor Kelly, Molly Vorwerck, Andy Schumeister, Kevin Garcia, Amie Rotherham, Matt Samuels, Angela Jiang, Katelyn Lesse, AJ Rebeiro and Jess Yan for their contributions to this blog.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

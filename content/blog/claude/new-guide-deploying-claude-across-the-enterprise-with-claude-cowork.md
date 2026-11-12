@@ -1,3 +1,15 @@
+# Deploying agentic AI across the enterprise with Claude Cowork
+Learn how organizations are using Claude Cowork to transform their day-to-day work, including use cases and best practices from Anthropic’s own teams.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Cowork
+  -
+DateApril 29, 2026
+  -
+Reading time3 min
+  -
+ShareCopy link
 Just a few years ago, using AI at work meant interfacing with a chat window: ask a question, get an answer. In 2025, Claude Code put an agent in the command line and developers started delegating some of their most tedious and time-intensive workflows, from parsing through data and modernizing legacy systems to shipping features across multi-service codebases, all while connected to their most critical business systems.
 Now,[ Claude Cowork](https://claude.com/product/cowork) brings that same capability to the desktop for everyone else at your company: analysts, lawyers, account executives, marketers, and more. Claude Cowork meets work where it already lives: local files and folders, connected apps like Slack and Google Drive, and the browser. Paired with Claude for Excel and Claude for PowerPoint, it can also carry context across spreadsheets and slide decks in a single workflow. And with plugins, skills, and commands, Claude becomes even more capable and customizable to your work environment.
 To help teams get the most out of Claude Cowork, we put together a guide that walks through how to deploy it across a business function, including where to start, how to structure your pilot, common use cases, and best practices for driving adoption at scale. While many of these examples come from Anthropic's own teams and customers, including Thomson Reuters, Zapier, and Jamf, the patterns and lessons learned are broadly applicable across industries and companies.
@@ -7,5 +19,27 @@ Inside the guide, we share:
   - A six-month roadmap for moving from champion teams to organization-wide deployment
   - How Anthropic's finance, legal, sales, and product teams use Cowork in production
   - Customer stories from Thomson Reuters, Zapier, and Jamf
-**Check it out, **[**here**](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/69f24d3e09b921b92403774e_Claude-Deploying-Claude-Across-Your-Organization-04292026.pdf)**. **‍
+**Check it out, [here](https://assets.claude.com/e784e0ee3705d9dbdbc6f3fa2a8fb8eee319b3cf.pdf). **‍
 Get started with [Claude Cowork](https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork) today.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

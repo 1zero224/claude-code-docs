@@ -1,4 +1,16 @@
-***Update:**** Claude for Word beta now available on Team and Enterprise plans. (April 10, 2026)*
+# Advancing Claude for Excel and PowerPoint
+Claude for Excel and PowerPoint now share full context across open files, and skills make any workflow instantly repeatable.
+  -
+Category[Product updates](https://claude.com/resources/product-updates), [Best practices](https://claude.com/resources/best-practices), [Insights](https://claude.com/resources/insights)
+  -
+ProductClaude Enterprise
+  -
+DateMarch 11, 2026
+  -
+Reading time5 min
+  -
+ShareCopy link
+***Update:** Claude for Word beta now available on Team and Enterprise plans. (April 10, 2026)*
 Starting today, [Claude for Excel](https://claude.com/claude-in-excel) and [Claude for PowerPoint](https://claude.com/claude-in-powerpoint) share the full context of your conversation across all open files, so every action Claude takes in one application is informed by everything that’s happening in the other.
 Skills are also now available inside the Excel and PowerPoint add-ins, and Claude for Excel and PowerPoint are available via the three leading cloud platforms: Amazon Bedrock, Google Cloud’s Vertex AI, and Microsoft Foundry.
 These updates enable Claude to move between tasks, spreadsheets, and slides, so you can work with a higher degree of efficiency and quality, without having to re-explain at every step.
@@ -7,7 +19,7 @@ Claude can pass context across multiple Excel and PowerPoint files in one contin
 A financial analyst can pull comparable company financials from an open workbook and other data sources. From there they could build out a trading comps table in Excel, drop the valuation summary into the pitch deck, and draft the email to the MD—without switching tabs or re-explaining the dataset at each step. Reducing the back-and-forth across tools is the crux of getting to a finished deliverable faster.
 ## Turn best practices into one-click actions with skills
 [Skills](https://support.claude.com/en/articles/12512180-use-skills-in-claude) turn complete workflows into a one-click action. When someone on the team figures out the right way to run a variance analysis or compose a client deck using the firm's template, saving it as a skill makes that process instantly repeatable for the future.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69b18f278891d8d39110c45e_Claude-Blog-Excel-PPT-3P%20(1).png)
+![](https://assets.claude.com/744b20022fb320feea15ebffd9a86f712893f9af.png)
 We've shipped a preloaded starter set of skills that cover the most common Excel and PowerPoint use cases. For Excel, the starter skills cover the workflows that come up most often in financial analysis:
   - Auditing a model for formula errors and balance-sheet integrity
   - Building and populating LBO, DCF, and 3-statement model templates
@@ -23,6 +35,29 @@ Finally, [instructions](https://support.claude.com/en/articles/12512180-use-skil
 Claude for Excel and PowerPoint can now meet customers where their compliance posture already lives. Organizations can access both add-ins with a Claude account, or route traffic through an existing LLM gateway to Claude models running on Amazon Bedrock, Google Cloud’s Vertex AI, or Microsoft Foundry. See [the guide](https://support.claude.com/en/articles/13945233-use-claude-in-excel-and-powerpoint-with-an-llm-gateway) on using Claude for Excel and PowerPoint with an LLM gateway.
 Claude also powers [Agent Mode natively inside Excel](https://support.microsoft.com/en-gb/topic/use-claude-with-agent-mode-in-excel-b2c3b3ec-154b-484b-84d0-914a80df395a), so Microsoft 365 Copilot customers can build, edit, and analyze workbooks side by side with Copilot.
 ## Getting started
-All Mac and Windows users on paid plans can access the improved communication between [Claude for Excel](https://claude.com/claude-in-excel) ([see guide](https://support.claude.com/en/articles/12650343-use-claude-for-excel)) and [Claude for PowerPoint](https://claude.com/claude-in-powerpoint) ([see guide](https://support.claude.com/en/articles/13521390-use-claude-in-powerpoint)) in beta. Skills in Excel and PowerPoint are also available on all paid plans. For best practices on getting the most out of these new tools, [register for our webinar](https://www.anthropic.com/webinars/best-practices-for-claude-in-excel-and-powerpoint).
+All Mac and Windows users on paid plans can access the improved communication between [Claude for Excel](https://claude.com/claude-in-excel) ([see guide](https://support.claude.com/en/articles/12650343-use-claude-for-excel)) and [Claude for PowerPoint](https://claude.com/claude-in-powerpoint) ([see guide](https://support.claude.com/en/articles/13521390-use-claude-in-powerpoint)) in beta. Skills in Excel and PowerPoint are also available on all paid plans. For best practices on getting the most out of these new tools, [register for our webinar](https://claude.com/resources/webinars/best-practices-for-claude-in-excel-and-powerpoint).
 We're proud of our partnership with Microsoft and aspire to help more people experience the power of Microsoft 365 and Claude together.
 ‍
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)

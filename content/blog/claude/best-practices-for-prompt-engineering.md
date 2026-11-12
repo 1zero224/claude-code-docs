@@ -1,3 +1,15 @@
+# Best practices for prompt engineering for 2026
+Get better AI results with prompt engineering techniques from the team behind Claude.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude apps
+  -
+DateNovember 10, 2025
+  -
+Reading time20 min
+  -
+ShareCopy link
 ## What is prompt engineering?
 [Prompt engineering](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) is the craft of structuring instructions to get better outputs from AI models. It's how you phrase queries, specify style, provide context, and guide the model's behavior to achieve your goals.
 The difference between a vague instruction and a well-crafted prompt can mean the gap between generic outputs and exactly what you need. A poorly structured prompt might require multiple back-and-forth exchanges to clarify intent, while a well-engineered prompt gets you there in one shot.
@@ -46,6 +58,7 @@ Examples aren't always necessary, but they shine when explaining concepts or dem
 **Important note for modern models**: Claude 4.x and similar advanced models pay very close attention to details in examples. Ensure your examples align with the behaviors you want to encourage and minimize any patterns you want to avoid.
 **Example: Article summarization**
 **Without example**: "Summarize this article"
+Copy
 ```
 Here's an example of the summary style I want:
 
@@ -64,7 +77,7 @@ Now summarize this article in the same style: [link to your new article]
 Give the AI explicit permission to express uncertainty rather than guessing. This reduces hallucinations and increases reliability.
 **Example**: "Analyze this financial data and identify trends. If the data is insufficient to draw conclusions, say so rather than speculating."
 This simple addition makes responses more trustworthy by allowing the model to acknowledge limitations.
-[**Try**](https://claude.ai/)** these in Claude.**
+**[Try](https://claude.ai/) these in Claude.**
 ## Advanced prompt engineering techniques
 These core habits will get you pretty far, but you may still encounter situations that require more sophisticated approaches. Advanced prompt engineering techniques shine when you're building agentic solutions, working with complex data structures, or need to break down multi-stage problems.
 ### Prefill the AI's response
@@ -77,6 +90,7 @@ Prefilling lets you start the AI's response for it, guiding format, tone, or str
 **Example: Enforcing JSON output**
 Without prefill, Claude might say: "Here's the JSON you requested: {...}"
 With prefill (API usage):
+Copy
 ```
 messages=[
     {"role": "user", "content": "Extract the name and price from this product description into JSON."},
@@ -96,6 +110,7 @@ Chain of thought (CoT) prompting involves requesting step-by-step reasoning befo
 There are three common implementations of chain of thought:
 **Basic chain of thought**
 Simply add "Think step-by-step" to your instructions.
+Copy
 ```
 Draft personalized emails to donors asking for contributions to this year's Care for Kids program.
 
@@ -113,11 +128,13 @@ Think step-by-step before you write the email.
 ```
 **Guided chain of thought**
 Structure your prompt to provide specific reasoning stages.
+Copy
 ```
 Think before you write the email. First, think through what messaging might appeal to this donor given their donation history. Then, consider which aspects of the Care for Kids program would resonate with them. Finally, write the personalized donor email using your analysis.
 ```
 **Structured chain of thought**
 Use tags to separate reasoning from the final answer.
+Copy
 ```
 Think before you write the email in <thinking> tags. First, analyze what messaging would appeal to this donor. Then, identify relevant program aspects. Finally, write the personalized donor email in <email> tags, using your analysis.
 ```
@@ -130,6 +147,7 @@ Instead of: "Do not use markdown in your response" Try: "Your response should be
 The formatting style used in your prompt may influence the AI's response style. If you want minimal markdown, reduce markdown in your prompt.
 **3. Be explicit about formatting preferences**
 For detailed control over formatting:
+Copy
 ```
 When writing reports or analyses, write in clear, flowing prose using complete paragraphs. Use standard paragraph breaks for organization. Reserve markdown primarily for inline code, code blocks, and simple headings.
 
@@ -157,6 +175,7 @@ Some prompt engineering techniques that were popular with earlier AI models are 
 ### XML tags for structure
 XML tags were once a recommended way to add structure and clarity to prompts, especially when incorporating large amounts of data. While modern models are better at understanding structure without XML tags, they can still be useful in specific situations.
 **Example**:
+Copy
 ```
 <athlete_information>
 - Height: 6'2"
@@ -181,10 +200,11 @@ Role prompting defines expert personas and perspectives in how you phrase your q
   - You're building an application that requires a specific persona
   - You want domain expertise framing for complex topics
 **Modern alternative**: Often, being explicit about what perspective you want is more effective: "Analyze this investment portfolio, focusing on risk tolerance and long-term growth potential" rather than assigning a role.
-[Try](https://preview.claude.ai/new) in Claude.
+[Try](https://claude.ai/new) in Claude.
 ## Putting it all together
 You've now seen individual techniques in isolation, but their real power emerges when you combine them strategically. The art of prompt engineering isn't using every technique available—it's selecting the right combination for your specific need.
 **Example combining multiple techniques**:
+Copy
 ```
 xtract key financial metrics from this quarterly report and present them in JSON format.
 
@@ -216,9 +236,7 @@ Not every prompt needs every technique. Here's a decision framework:
   - Is the task complex? Consider breaking it down (chaining)
   - Does it need reasoning? Use extended thinking (if available) or chain of thought
 ‍**Technique selection guide**:
-
-    If you need... Use...     Specific output format Examples, prefilling, or explicit format instructions   Step-by-step reasoning Extended thinking (Claude 4.x) or chain of thought   Complex multi-stage task Prompt chaining   Transparent reasoning Chain of thought with structured output   To prevent hallucinations Permission to say "I don't know"
-
+If you need...Use...Specific output formatExamples, prefilling, or explicit format instructionsStep-by-step reasoningExtended thinking (Claude 4.x) or chain of thoughtComplex multi-stage taskPrompt chainingTransparent reasoningChain of thought with structured outputTo prevent hallucinationsPermission to say "I don't know"
 ## Troubleshooting common prompt issues
 Even well-intentioned prompts can produce unexpected results. Here are common issues and how to fix them:
   - **Problem: Response is too generic** → Solution: Add specificity, examples, or explicit requests for comprehensive output. Ask the AI to "go beyond the basics."
@@ -255,11 +273,33 @@ To really hone your prompt engineering skills, you'll need to objectively measur
 ## Final words of advice
 Prompt engineering is ultimately about communication: speaking the language that helps AI most clearly understand your intent. Start with the core techniques covered early in this guide. Use them consistently until they become second nature. Only layer in advanced techniques when they solve a specific problem.
 Remember: the best prompt isn't the longest or most complex. It's the one that achieves your goals reliably with the minimum necessary structure. As you practice, you'll develop an intuition for which techniques suit which situations.
-For instructions you want applied to every session rather than every prompt, move them into [CLAUDE.md files, skills, or other steering methods](https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more). However, the shift toward context engineering doesn't diminish prompt engineering's importance.
+For instructions you want applied to every session rather than every prompt, move them into [CLAUDE.md files, skills, or other steering methods](https://claude.com/resources/articles/steering-claude-code-skills-hooks-rules-subagents-and-more). However, the shift toward context engineering doesn't diminish prompt engineering's importance.
 In fact, prompt engineering is a fundamental building block within context engineering. Every well-crafted prompt becomes part of the larger context that shapes AI behavior, working alongside conversation history, attached files, and system instructions to create better outcomes.
-[Start prompting](https://preview.claude.ai/new) in Claude today.
+[Start prompting](https://claude.ai/new) in Claude today.
 ## Additional resources
   - [Prompt engineering documentation](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview)
   - [Interactive prompt engineering tutorial](https://github.com/anthropics/prompt-eng-interactive-tutorial)
   - [Prompt engineering course](https://anthropic.skilljar.com/claude-with-the-anthropic-api)
   - [Context engineering guide](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

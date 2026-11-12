@@ -1,11 +1,23 @@
-Today we’re announcing updates to Cowork, including new plugins, so teams across the enterprise can mold Claude to how they want to work. As part of this, we're continuing to build on [recent updates](https://claude.com/blog/opus-4-6-finance) to expand what Claude can do for financial services.
+# Cowork and plugins for finance
+New plugins built for how finance actually works, plus cross-app workflows that move with you from Excel to PowerPoint to final deliverable.
+  -
+Category[Product updates](https://claude.com/resources/product-updates), [Best practices](https://claude.com/resources/best-practices), [Insights](https://claude.com/resources/insights)
+  -
+ProductClaude Enterprise
+  -
+DateFebruary 24, 2026
+  -
+Reading time6 min
+  -
+ShareCopy link
+Today we’re announcing updates to Cowork, including new plugins, so teams across the enterprise can mold Claude to how they want to work. As part of this, we're continuing to build on [recent updates](https://claude.com/resources/articles/opus-4-6-finance) to expand what Claude can do for financial services.
 Claude now works across Excel and PowerPoint — carrying context between apps to complete multi-step finance tasks end to end. We're also introducing five new finance plugins, new MCP connectors for FactSet and MSCI, and partner-created plugins from LSEG and S&P Global.
 For finance professionals, this means that an end-to-end workflow — performing research across market data providers through to updating a model and building the deck — can now happen in a single session, without switching tools or losing context along the way.
 ## From data to deliverable
 The work around finance lives in many different places. A deal memo pulls from a model, a model pulls from data, and data feeds back into a presentation. Claude can now move between Excel and PowerPoint without losing context – retrieving data, updating models, and building deliverables as a single continuous task.
 An equity analyst can ask Claude to analyze earnings, update a financial model, and build a summary slide – all without switching tools. When inputs change, Claude automatically updates the rest of the workflow.
 Claude working across Excel and PowerPoint is now available in research preview for all paid plans across Mac and Windows.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/699e3f480ae40e9e292d36f1_image%20(49).png)
+![](https://assets.claude.com/1e053b413b77d9b75ca10eac96e371e77e8dd3a7.png)
 ## New finance plugins
 We’re introducing five new Anthropic-built plugins, and several plugins built by partners. Each brings the domain expertise, expected output quality, and workflow patterns relevant to how that function actually operates.
 The 5 Anthropic-developed plugins are all available now in our [public repository](https://github.com/anthropics/financial-services-plugins).
@@ -26,6 +38,29 @@ Several partners are also launching their own plugins, which can be found in the
 ## Getting started
 All Anthropic-developed plugins – financial analysis, investment banking, equity research, private equity, and wealth management – are available today and can be found in our [public finance plugin repository](https://github.com/anthropics/financial-services-plugins), as are the partner-developed plugins from LSEG and S&P Global. You can install them directly or use them as a starting point to customize for your firm’s specific workflows, terminology and needs.
 To connect Claude to FactSet, MSCI, or your other enterprise data sources, visit the connector directory in Claude’s settings. From there, admins can authorize connections and bundle them into plugins for their teams.
-To get started with Claude working across Excel and PowerPoint, download the add-in for Claude in Excel and Claude in PowerPoint. For a broader look at Cowork and plugin updates across every function, see the [companion blog post](https://claude.com/blog/cowork-plugins-across-enterprise).
+To get started with Claude working across Excel and PowerPoint, download the add-in for Claude in Excel and Claude in PowerPoint. For a broader look at Cowork and plugin updates across every function, see the [companion blog post](https://claude.com/resources/articles/cowork-plugins-across-enterprise).
 ‍
 ‍
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)

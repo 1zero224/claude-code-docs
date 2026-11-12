@@ -1,3 +1,15 @@
+# How leading retailers are turning AI pilots into enterprise-wide transformation
+Most enterprise AI initiatives start strong and stall fast. Our new guide documents what the organizations pulling ahead are doing differently.
+  -
+Category[Best practices](https://claude.com/resources/best-practices), [Perspectives](https://claude.com/resources/perspectives)
+  -
+ProductClaude Enterprise
+  -
+DateJanuary 28, 2026
+  -
+Reading time3 min
+  -
+ShareCopy link
 Most enterprise AI initiatives start strong and stall fast. We've spent the past year working with retail organizations at different stages of that journey - some stuck in pilot purgatory, others scaling AI across thousands of employees.
 Our new guide identifies the three steps that separate the AI leaders pulling ahead from the laggards, drawing from our work alongside organizations seeing measurable ROI.
 ### **What we're seeing**
@@ -12,3 +24,25 @@ In the case of[ Shopify](https://claude.com/customers/shopify), they deployed Cl
 ### **The path forward**
 For organizations planning their 2026 priorities, the guide covers three essential steps: laying your foundation with stakeholder alignment and governance, launching carefully selected pilots starting with lower-risk applications, and scaling what works while building organizational capability.
 Read the full Enterprise AI Transformation Guide for Retail [here](https://resources.anthropic.com/hubfs/The-Enterprise-AI-Transformation-Guide-for-Retail.pdf?hsLang=en).
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

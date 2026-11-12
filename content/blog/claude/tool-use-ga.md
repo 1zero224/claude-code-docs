@@ -1,3 +1,15 @@
+# Claude can now use tools
+Claude now connects with external tools and APIs to perform tasks, manipulate data, and deliver more accurate responses.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Platform
+  -
+DateMay 30, 2024
+  -
+Reading time6 min
+  -
+ShareCopy link
 Tool use, which enables Claude to interact with external tools and APIs, is now generally available across the entire Claude 3 model family on the Anthropic Messages API, Amazon Bedrock, and Google Cloud's Vertex AI. With tool use, Claude can perform tasks, manipulate data, and provide more dynamic—and accurate—responses.
 ## Tool use
 Define a toolset for Claude and specify your request in natural language. Claude will then select the appropriate tool to fulfill the task and, when appropriate, execute the corresponding action:
@@ -10,7 +22,7 @@ Define a toolset for Claude and specify your request in natural language. Claude
 To make it easier to leverage the intelligence of the Claude 3 models with tools, we’ve also built in features that help developers further customize the end-user experience.
   - **Tool use with streaming reduces wait times to create more engaging interactions**: Streaming enables real-time responses in applications like customer support chatbots for smoother, more natural conversations.
   - **Forced tool use allows developers to instruct Claude on tool selection**: Developers can specify which tools Claude should use or leave the choice with Claude, helping create more targeted and efficient applications.
-  - **Tools also work with images**:** **Claude can incorporate image inputs in live applications.
+  - **Tools also work with images**: Claude can incorporate image inputs in live applications.
 During our beta many developers used Opus to build sophisticated user-facing assistants. To further enhance this experience, Opus will now include <thinking> tags in its outputs, clarifying Claude’s reasoning and simplifying the debugging process for developers. Our Claude 3 models are currently unable to support parallel tool calls.
 ## Customer spotlight: StudyFetch
 AI-native learning platform [StudyFetch ](https://www.claude.com/customers/studyfetch)uses Claude's tool use capabilities to power its personalized AI tutor, Spark.E. By integrating tools to track student progress, navigate course materials and lectures, and create interactive user interfaces, StudyFetch has created a more engaging educational environment for students globally.
@@ -23,3 +35,27 @@ Intuned, the browser automation platform, uses Claude to power data extraction w
 "We leverage Claude 3 Haiku for generating live suggestions, automating prompt writing, and extracting key metadata from long documents,” shared Divya Mehta, Product Manager at Hebbia. “Claude 3 Haiku's tool use feature has unlocked capabilities and speed for our platform to generate reliable suggestions and prompts in real-time."
 ## Get started
 You can get started with tool use today on the Anthropic Messages API, Amazon Bedrock, and Google Cloud's Vertex AI. To learn more, explore our [documentation](https://docs.anthropic.com/en/docs/tool-use), [tool use tutorial](https://github.com/anthropics/courses/tree/master/tool_use), and [Anthropic Cookbooks on tool use](https://platform.claude.com/cookbook/tool-use-calculator-tool).
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

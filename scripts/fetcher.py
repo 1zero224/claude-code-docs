@@ -9,6 +9,9 @@ Sources (see sources.json for the complete registry):
   - modelcontextprotocol.io -> MCP spec (sitemap + .md suffix)
   - support.claude.com      -> Help articles, en + zh-CN (sitemap + .md)
   - claude.com/docs         -> Product docs (sitemap + .md suffix)
+  - claude.com/resources/articles -> Claude blog (HTML extracted; /blog/
+                               permanently redirects here)
+  - claude.dev              -> Anthropic technical blog (llms.txt + .md)
   - anthropic.com blog      -> FROZEN 2026-07 (HTML-only, no .md variant;
                                the jina.ai proxy path was removed)
   - github.com/anthropics/* -> Repos (raw.githubusercontent.com)
@@ -71,6 +74,7 @@ DISCOVER_DOMAINS = [
     ("modelcontextprotocol.io", "MCP protocol spec"),
     ("claude.ai",               "Claude app"),
     ("claude.com",              "Product docs"),
+    ("claude.dev",              "Anthropic technical blog"),
     ("academy.claude.com",      "Courses/tutorials (HTML-only, not fetched)"),
 ]
 
@@ -79,14 +83,22 @@ DISCOVER_DOMAINS = [
 # silently — that gap is the whole reason academy.claude.com went unnoticed.
 FETCHED_DOMAINS = {
     "platform.claude.com", "code.claude.com", "modelcontextprotocol.io",
-    "support.claude.com", "claude.com",
+    "support.claude.com", "claude.com", "claude.dev",
 }
 # Archived, deliberately not refreshed: anthropic.com is HTML-only and the
 # jina.ai proxy path was removed in 2026-07.
 FROZEN_DOMAINS = {"anthropic.com"}
+# claude.com/blog 301s to /resources/articles (2026-11). Slugs are unchanged,
+# so the archive keeps the blog/claude/ layout and refetches each post in place.
+CLAUDE_ARTICLES_PATH = "/resources/articles/"
+CLAUDE_ARTICLES_PREFIX = "https://claude.com" + CLAUDE_ARTICLES_PATH
+# Anthropic's markdown-native technical blog. It owns the six posts that
+# claude.com/resources/articles 307s here, plus posts claude.com never had.
+CLAUDE_DEV_LLMS_URL = "https://claude.dev/llms.txt"
+CLAUDE_DEV_PREFIX = "https://claude.dev/blog/"
 FETCHED_SURFACES = {
     ("claude.com", "/docs/", "markdown"),
-    ("claude.com", "/blog/", "html"),
+    ("claude.com", CLAUDE_ARTICLES_PATH, "html"),
 }
 
 # Locales archived from the three localized doc sites. Upstream serves 11
@@ -103,7 +115,8 @@ def surface_is_fetched(domain: str, prefix: str, content_format: str) -> bool:
     if domain in FROZEN_DOMAINS:
         return True
     # Existing sources own all Markdown pages on their respective domains.
-    # Claude.com is intentionally path-specific because /blog/ is HTML-only.
+    # Claude.com is intentionally path-specific because /resources/articles/
+    # is HTML-only.
     return domain in FETCHED_DOMAINS - {"claude.com"} and content_format == "markdown"
 
 
@@ -287,6 +300,9 @@ class Fetcher:
         # that had gone soft-404 — upstream had been pointing here for weeks.
         self.claude_com_sitemap_url = "https://claude.com/docs/sitemap.xml"
         self.claude_com_root_sitemap_url = "https://claude.com/sitemap.xml"
+        # Populated from claude.dev/llms.txt so existing_urls() can tell which
+        # blog/claude/ files are owned by claude.dev rather than claude.com.
+        self.claude_dev_slugs = set()
 
         self.stats = {"total": 0, "downloaded": 0, "skipped": 0,
                       "failed": 0, "dead": 0, "reaped": 0}
@@ -392,7 +408,7 @@ class Fetcher:
 
     # Sections of content/ whose files came from a URL we can re-derive.
     # The old anthropic.com blog archive is excluded; only blog/claude/ is
-    # owned by the live claude.com/blog source.
+    # owned by the live claude.com/resources/articles source.
     _REFETCHABLE = (*SUPPORTED_LANGS, "mcp", "support", "claude", "blog/claude")
 
     def existing_urls(self) -> List[str]:
@@ -442,7 +458,10 @@ class Fetcher:
                     urls.append(f"https://claude.com/docs/{tail}")
                 elif parts[:2] == ("blog", "claude"):
                     tail = "/".join(parts[2:])
-                    urls.append(f"https://claude.com/blog/{tail}")
+                    if tail in self.claude_dev_slugs:
+                        urls.append(f"{CLAUDE_DEV_PREFIX}{tail}")
+                    else:
+                        urls.append(f"{CLAUDE_ARTICLES_PREFIX}{tail}")
         return urls
 
     # -- Output path mapping ----------------------------------------------
@@ -475,7 +494,14 @@ class Fetcher:
         elif "claude.com/docs" in url:
             path = url.replace("https://claude.com/docs/", "")
             return self.output_dir / "claude" / f"{path}.md"
+        elif "claude.dev/blog" in url:
+            path = url.replace(CLAUDE_DEV_PREFIX, "")
+            return self.output_dir / "blog" / "claude" / f"{path}.md"
+        elif "claude.com/resources/articles" in url:
+            path = url.replace(CLAUDE_ARTICLES_PREFIX, "")
+            return self.output_dir / "blog" / "claude" / f"{path}.md"
         elif "claude.com/blog" in url:
+            # Pre-2026-11 URLs; kept so old links map to the same archived slug.
             path = url.replace("https://claude.com/blog/", "")
             return self.output_dir / "blog" / "claude" / f"{path}.md"
         else:
@@ -574,7 +600,7 @@ class Fetcher:
                 return {"url": url, "status": "failed", "error": str(e)}
 
     async def download_blog(self, session, url, semaphore) -> Dict:
-        """Fetch a claude.com/blog HTML page and archive its article body."""
+        """Fetch a claude.com/resources/articles HTML page and archive its body."""
         async with semaphore:
             output_path = self.get_output_path(url)
             if self.incremental and output_path.exists():
@@ -769,16 +795,30 @@ class Fetcher:
             # HTML-only upstream (no llms.txt / .md variant); the jina.ai
             # proxy path was removed. content/blog/ stays as a static archive.
 
-            # -- Claude blog (claude.com): live HTML source -----------------
+            # -- Claude blog (claude.com + claude.dev) ------------------------
             if self.want("blog"):
-                print("Source: claude.com/sitemap.xml (/blog/)")
+                print(f"Source: claude.com/sitemap.xml ({CLAUDE_ARTICLES_PATH})")
                 xml = await self.fetch_text(session, self.claude_com_root_sitemap_url)
-                urls = self.extract_sitemap_urls(xml, "/blog/")
-                urls = [u for u in urls if u.startswith("https://claude.com/blog/")]
-                counts["blog"] = len(urls)
+                urls = self.extract_sitemap_urls(xml, CLAUDE_ARTICLES_PATH)
+                urls = [u for u in urls if u.startswith(CLAUDE_ARTICLES_PREFIX)]
                 print(f"  {len(urls)} articles")
                 for url in urls:
                     queue_blog(url)
+
+                # claude.dev is Anthropic's markdown-native technical blog. It
+                # owns the posts claude.com 307s here plus posts that never
+                # appeared on claude.com; its slugs are disjoint from the HTML
+                # set above, so both sources can share blog/claude/.
+                print(f"Source: claude.dev/llms.txt ({CLAUDE_DEV_PREFIX})")
+                llms = await self.fetch_text(session, CLAUDE_DEV_LLMS_URL)
+                dev_urls = [m[1:-4] for m in re.findall(
+                    r'\(https://claude\.dev/blog/[^)]+\.md\)', llms)]
+                self.claude_dev_slugs = {
+                    u[len(CLAUDE_DEV_PREFIX):] for u in dev_urls}
+                print(f"  {len(dev_urls)} articles")
+                for url in dev_urls:
+                    queue(url)
+                counts["blog"] = len(urls) + len(dev_urls)
 
             # -- Support articles --
             if self.want("support"):
@@ -1045,8 +1085,9 @@ class Fetcher:
 
         "Gone upstream" and "should be deleted" are different questions for an
         archive. A file holding an HTML shell is markup we failed to recognise
-        as an error; deleting it loses nothing. HTML-derived claude.com/blog
-        files are also explicitly managed by this source and may be removed.
+        as an error; deleting it loses nothing. HTML-derived
+        claude.com/resources/articles files are also explicitly managed by this
+        source and may be removed.
         Ordinary real Markdown whose URL now 404s is the opposite: Anthropic
         removed the page and our copy may be the only one left, so it is
         reported for a human instead.
@@ -1160,7 +1201,7 @@ class Fetcher:
                     async with session.get(sample) as r:
                         body = await r.read()
                         if r.status == 200 and "html" in r.headers.get("content-type", ""):
-                            if prefix == "/blog/":
+                            if prefix in ("/blog/", CLAUDE_ARTICLES_PATH):
                                 extract_blog_markdown(body, sample)
                             capability["serves_html"] = True
                 except Exception:
@@ -1317,7 +1358,8 @@ class Fetcher:
         allowed = [
             "platform.claude.com", "code.claude.com",
             "modelcontextprotocol.io", "support.claude.com",
-            "claude.com/docs", "claude.com/blog",
+            "claude.com/docs", "claude.com/resources/articles",
+            "claude.com/blog", "claude.dev/blog",
         ]
         return any(f"https://{d}" in url for d in allowed)
 
@@ -1329,7 +1371,8 @@ class Fetcher:
                 print(f"  {u}", file=sys.stderr)
             print("Allowed: platform.claude.com, code.claude.com, "
               "modelcontextprotocol.io, support.claude.com, claude.com/docs, "
-              "claude.com/blog", file=sys.stderr)
+              "claude.com/resources/articles, claude.com/blog, claude.dev/blog",
+              file=sys.stderr)
             sys.exit(1)
 
         normalized = [normalize_url(u[:-3] if u.endswith(".md") else u) for u in urls]
@@ -1341,7 +1384,8 @@ class Fetcher:
             self.stats["total"] = len(normalized)
             sem = asyncio.Semaphore(self.jobs)
             results = await tqdm_asyncio.gather(
-                *(self.download_blog(session, u, sem) if "/blog/" in u
+                *(self.download_blog(session, u, sem)
+                  if (CLAUDE_ARTICLES_PATH in u or "claude.com/blog/" in u)
                   else self.download_doc(session, u, sem) for u in normalized),
                 desc="Fetching", unit="file",
             )
@@ -1376,9 +1420,13 @@ class Fetcher:
                 await self.fetch_text(session, self.support_sitemap_url))
             blog_urls = [
                 u for u in self.extract_sitemap_urls(
-                    await self.fetch_text(session, self.claude_com_root_sitemap_url), "/blog/")
-                if u.startswith("https://claude.com/blog/")
+                    await self.fetch_text(session, self.claude_com_root_sitemap_url),
+                    CLAUDE_ARTICLES_PATH)
+                if u.startswith(CLAUDE_ARTICLES_PREFIX)
             ]
+            dev_llms = await self.fetch_text(session, CLAUDE_DEV_LLMS_URL)
+            dev_urls = [m[1:-4] for m in re.findall(
+                r'\(https://claude\.dev/blog/[^)]+\.md\)', dev_llms)]
 
         def show_grouped(title, urls, strip_prefix):
             print(f"{title} ({len(urls)})")
@@ -1397,12 +1445,14 @@ class Fetcher:
         show_grouped("modelcontextprotocol.io", mcp_urls, "https://modelcontextprotocol.io/")
 
         print(f"support.claude.com: {len(support_urls)} articles")
-        print(f"claude.com/blog: {len(blog_urls)} articles (HTML extracted)")
+        print(f"claude.com/resources/articles: {len(blog_urls)} articles (HTML extracted)")
+        print(f"claude.dev/blog: {len(dev_urls)} articles (markdown)")
         print("anthropic.com blog: frozen archive (not fetched)")
         print(f"GitHub repos: {len(GITHUB_REPOS)} repos configured")
         print()
 
-        total = len(cc_urls) + len(platform_urls) + len(mcp_urls) + len(support_urls) + len(blog_urls)
+        total = (len(cc_urls) + len(platform_urls) + len(mcp_urls)
+                 + len(support_urls) + len(blog_urls) + len(dev_urls))
         print(f"Total fetchable: {total}+ (excludes GitHub repos)")
 
     # -- Discovery ---------------------------------------------------------
@@ -1526,12 +1576,12 @@ Sections:
   github        All configured GitHub repos
   support       Support articles (support.claude.com, sitemap + .md)
   products      Product docs (claude.com/docs: Claude Tag, Cowork, connectors)
-  blog          Claude blog posts (claude.com/blog: HTML extracted)
+  blog          Claude blog posts (claude.com/resources/articles: HTML extracted)
   all           Everything (default)
 
 Note: content/blog/engineering, content/blog/research, and content/blog/news
   remain the frozen anthropic.com archive. content/blog/claude/ is the live
-  claude.com/blog HTML-extracted source.
+  claude.com/resources/articles HTML-extracted source (formerly /blog/).
 
 Examples:
   fetcher.py                               Fetch everything

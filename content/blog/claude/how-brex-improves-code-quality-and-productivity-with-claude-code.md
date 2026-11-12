@@ -1,23 +1,19 @@
-Customer story: Brex
-![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/68c469d2d09b203c164ad8e6_og-claude-education.jpg)
-compliance rate vs 70% industry standard
-Read more
-[Read more](https://claude.com/customers/brex)Read more
-Customer story: Brex
-![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/6889473610b50328dbb70b58_placeholder.svg)
-[Next](https://claude.com/blog/how-brex-improves-code-quality-and-productivity-with-claude-code#)Next
-compliance rate vs 70% industry standard
-Read more
-[Read more](https://claude.com/customers/brex)Read more
-
-[Next](https://claude.com/blog/how-brex-improves-code-quality-and-productivity-with-claude-code#)Next
-![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/6889473610b50328dbb70b58_placeholder.svg)
-
+# How Brex improves code quality and productivity with Claude Code
+Learn how Claude Code breaks down barriers between technical and non-technical teams by making programming easier and more accessible.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code
+  -
+DateOctober 30, 2025
+  -
+Reading time9 min
+  -
+ShareCopy link
 Customer story: Brex
 94%
 compliance rate vs 70% industry standard
-Read more
-[Read more](https://claude.com/customers/brex)Read more
+[Read more](https://claude.com/customers/brex)
 When Andy Reed joined [Brex](https://www.brex.com/) as a content designer two years ago, he never imagined he'd be writing code and building Figma plugins.
 "I don't know how I would have gotten even half my work done in the past month without [Claude Code](https://claude.com/product/claude-code)," Reed said.
 But that's exactly what happened when Reed embraced [Claude Code](https://claude.com/product/claude-code), Anthropic’s agentic coding solution—and his story is just one example of how the intelligent finance platform is transforming the way their company works.
@@ -29,6 +25,8 @@ What emerged from these conversations wasn't just a story about productivity gai
 ## Adopting a mindset shift with agentic coding
 For Hércules Gimenes and the Product AI team, Claude Code represented something more profound than a new tool.
 "Claude Code offers a mindset shift," he explained. "Instead of being in the driver's seat, you're the reviewer of the changes that Claude introduces. You're guiding the vision and direction."
+Anthropic's own approach to this shift is in [The AI-native SDLC playbook](https://claude.com/resources/articles/the-ai-native-sdlc-playbook)
+For how the Claude Code team handles review itself, see [How the Claude Code team does code review](https://claude.dev/blog/solving-code-review-at-anthropic/)
 This shift has redefined what "writing code" means at Brex—a reflection of the company’s AI-first principles in action. Rather than spending time on implementation details, engineers now focus on architecture and problem-solving. The result? Better code, not just faster code.
 "I don't think I save time using Claude Code," Gimenes said. "I refine the problem itself much more. You can try three approaches for the same problem during the same amount of time, and after the third approach, you have a much clearer understanding and a much cleaner interface."
 ## Breaking down barriers between technical and non-technical roles
@@ -49,7 +47,7 @@ But perhaps the most significant unexpected benefit has been Claude Code's role 
 "Traditionally, a design meeting would involve talking about how something should work, but nobody really understands how the sausage was made," Reed explained. "Now I've got the oracle sitting on my other monitor."
 ## Scaling Claude Code best practices across the company
 As Claude Code adoption spread across Brex, teams developed best practices that have become standard:
-  - **Structured Context Management**: Each major directory in the monorepo now has its own CLAUDE.md file containing domain-specific context. New engineers can understand Mastercard integration details or banking regulations without relying on tribal knowledge.
+  - **Structured Context Management**: Each major directory in the monorepo now has [its own CLAUDE.md file](https://claude.com/resources/articles/using-claude-md-files) containing domain-specific context. New engineers can understand Mastercard integration details or banking regulations without relying on tribal knowledge.
   - **Automated Documentation**: The Product AI team implemented CI/CD checks that verify when code changes might outdate documentation, prompting updates. "Having up-to-date documentation is something you can trust—it's so powerful," Gimenes emphasized.
   - **Context-Aware Commands**: Teams created custom commands that automatically load relevant context. The /submit-pr command, for instance, fetches git status, recent changes, and related PR information before executing.
   - **Start with Discovery**: "Being able to find what you need is not really stored in some staff engineer's brain anymore," Marwaha observed. "It's in the codebase, accessible to everyone."
@@ -59,4 +57,25 @@ Teams at Brex are already planning next-generation applications:
   - The Product AI team envisions more sophisticated context management, where documentation updates itself automatically and context remains decentralized yet accessible.
 From content designers building technical tools to data analysts democratizing access, Claude Code has become what Gimenes calls an “everything tool” — useful for integrating Brex’s domain knowledge with external best practices.
 It also highlights a powerful duality: the intelligent finance Brex delivers to customers, helping them spend smarter and move faster, is the same philosophy that shapes how Brex teams work internally, empowering every employee to build with speed and confidence, regardless of their technical background.
-Learn how financial organizations like Brex drive productivity with Claude Code.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

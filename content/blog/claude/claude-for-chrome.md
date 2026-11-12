@@ -1,9 +1,24 @@
-***Update: Now available to Pro, Team, and Enterprise plans**** (Dec 18, 2025)*
+# Piloting Claude in Chrome
+We're piloting Claude in Chrome to test browser-based AI capabilities while addressing prompt injection risks and building the safety measures needed before wider release.
+‍
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude apps
+  -
+DateAugust 25, 2025
+  -
+Reading time9 min
+  -
+ShareCopy link
+***Update: **[Claude in Chrome is now generally available](https://claude.com/resources/articles/claude-in-chrome-generally-available).*
+*Editor's note: Mentions of Max in this post from before October 30, 2026 include what are now the Max and Ultra plans.*
+***Update: Now available to Pro, Team, and Enterprise plans** (Dec 18, 2025)*
 After months of real-world testing, we're ready to expand to all paid plans. We've also shipped our most requested feature: an integration for **Claude Code**. Build in your terminal, verify in your browser, and debug with Claude reading console errors and DOM state directly.
 **For Teams and Enterprise:** Admins can enable or disable the extension org-wide and configure site allowlists and blocklists.
 ‍
-***Update: Now available to all Max plan subscribers ****(Nov 24, 2025)*
-*After three months of testing, *[*Claude in Chrome*](https://claude.ai/chrome)* is now available in beta to all Max plan subscribers. Since the research preview, we've shipped major updates including scheduled tasks, multi-tab workflows, and smarter navigation on sites you use every day. Read our *[*release notes*](https://support.claude.com/en/articles/12306336-claude-for-chrome-release-notes)* for the full list of updates, and our *[*safety blog*](http://anthropic.com/research/prompt-injection-defenses)* for details on prompt injection defenses and learnings from the pilot.*
+***Update: Now available to all Max plan subscribers **(Nov 24, 2025)*
+*After three months of testing, [Claude in Chrome](https://claude.ai/chrome) is now available in beta to all Max plan subscribers. Since the research preview, we've shipped major updates including scheduled tasks, multi-tab workflows, and smarter navigation on sites you use every day. Read our [release notes](https://support.claude.com/en/articles/12306336-claude-for-chrome-release-notes) for the full list of updates, and our [safety blog](http://anthropic.com/research/prompt-injection-defenses) for details on prompt injection defenses and learnings from the pilot.*
 ‍
 We've spent recent months connecting Claude to your calendar, documents, and many other pieces of software. The next logical step is letting Claude work directly in your browser.
 We view browser-using AI as inevitable: so much work happens in browsers that giving Claude the ability to see what you're looking at, click buttons, and fill forms will make it substantially more useful.
@@ -16,12 +31,9 @@ However, some vulnerabilities remain to be fixed before we can make Claude in Ch
 Prompt injection attacks can cause AIs to delete files, steal data, or make financial transactions. This isn't speculation: we’ve run “red-teaming” experiments to test Claude in Chrome and, without mitigations, we’ve found some concerning results.
 We conducted extensive adversarial prompt injection testing, evaluating 123 test cases representing 29 different attack scenarios. Browser use without our safety mitigations showed a 23.6% attack success rate when deliberately targeted by malicious actors.
 One example of a successful attack—before our new defenses were applied—was a malicious email claiming that, for security reasons, emails needed to be deleted. When processing the inbox, Claude followed these instructions to delete the user’s emails without confirmation.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d90c3728899c99ce194_5e46f0fa8e0ed4a6d71333dba95e1ff6aa64c5b1-1920x1030.png)
-Claude encounters the malicious email, which mimics an employer asking for emails to be deleted for "mailbox hygiene,"and claims "no additional confirmation required."
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d91c3728899c99ce199_5169a802140e293fdbc96706b4eb73e948084574-1920x1030.png)
-Claude proceeds to act on the instructions without confirmation, selecting and deleting the user's emails "as requested by the security team."
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d91c3728899c99ce1aa_d2a23a7e8cd07f47eda84ac44135f770d624915f-1920x1030.png)
-Our new mitigations successfully defend against this particular attack. Claude recognizes that "this is a suspicious security incident email that appears to be a phishing attempt," and does not act on it.
+![](https://assets.claude.com/5e46f0fa8e0ed4a6d71333dba95e1ff6aa64c5b1.png)Claude encounters the malicious email, which mimics an employer asking for emails to be deleted for "mailbox hygiene,"and claims "no additional confirmation required."
+![](https://assets.claude.com/5169a802140e293fdbc96706b4eb73e948084574.png)Claude proceeds to act on the instructions without confirmation, selecting and deleting the user's emails "as requested by the security team."
+![](https://assets.claude.com/d2a23a7e8cd07f47eda84ac44135f770d624915f.png)Our new mitigations successfully defend against this particular attack. Claude recognizes that "this is a suspicious security incident email that appears to be a phishing attempt," and does not act on it.
 As we’ll explain in the next section, we've already implemented several defenses that significantly reduce the attack success rate—though there’s still work to do in uncovering novel attack vectors.
 ### Current defenses
 The first line of defense against prompt injection attacks is *permissions*. Users maintain control over what Claude in Chrome can access and do:
@@ -30,14 +42,37 @@ The first line of defense against prompt injection attacks is *permissions*. Use
 We’ve also built additional safeguards in line with Anthropic’s [trustworthy agents](https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents) principles. First, we’ve improved our system prompts—the general instructions Claude receives before specific instructions from users—to direct Claude on how to handle sensitive data and respond to requests to take sensitive actions.
 Additionally, we’ve blocked Claude from using websites from certain high-risk categories such as financial services, adult content, and pirated content. And we’ve begun to build and test advanced classifiers to detect suspicious instruction patterns and unusual data access requests—even when they arise in seemingly legitimate contexts.
 When we added safety mitigations to autonomous mode, we reduced the attack success rate of 23.6% to 11.2%, which represents a meaningful improvement over our existing Computer Use capability (where Claude could see the user’s screen but without the browser interface that we’re introducing today).
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d91c3728899c99ce19d_b88d1e1c0c196dd012a7d44c5ae8d255d8a20822-3840x2160.png)
-Prompt injection attack success rates across three scenarios: our older computer use capability, our new browser use product with only previous safety mitigations, and our new browser use product with new mitigations (lower scores are better). Our safety improvements reduced browser attack success rates below computer use levels.
+![](https://assets.claude.com/6f7a5b3eefb24ab09995198ab8b2fc29362b3e28.png)Prompt injection attack success rates across three scenarios: our older computer use capability, our new browser use product with only previous safety mitigations, and our new browser use product with new mitigations (lower scores are better). Our safety improvements reduced browser attack success rates below computer use levels.
 We also conducted special red-teaming and mitigations focused on new attacks specific to the browser, such as hidden malicious form fields in a webpage’s Document Object Model (DOM) invisible to humans, and other hard-to-catch injections such as through the URL text and tab title that only an agent might see. On a “challenge” set of four browser-specific attack types, our new mitigations were able to reduce attack success rate from 35.7% to 0%.
 Before we make Claude in Chrome more widely available, we want to expand the universe of attacks we’re thinking about and learn how to get these percentages much closer to zero, by understanding more about the current threats as well as those that might appear in the future.
 ### Taking part
 Internal testing can’t replicate the full complexity of how people browse in the real world: the specific requests they make, the websites they visit, and how malicious content appears in practice. New forms of prompt injection attacks are also constantly being developed by malicious actors. This research preview allows us to partner with trusted users in authentic conditions, revealing which of our current protections work, and which need work.
 We'll use insights from the pilot to refine our prompt injection classifiers and our underlying models. By uncovering real-world examples of unsafe behavior and new attack patterns that aren’t present in controlled tests, we’ll teach our models to recognize the attacks and account for the related behaviors, and ensure that safety classifiers will pick up anything that the model itself misses. We’ll also develop more sophisticated permission controls based on what we learn about how users want to work with Claude in their browsers.
 For the pilot, we’re looking for trusted testers who are comfortable with Claude taking actions in Chrome on their behalf, and who don’t have setups that are safety-critical or otherwise sensitive.
-**If you’d like to take part, you can join the Claude in Chrome research preview waitlist at **[**claude.ai/chrome**](http://claude.ai/chrome)**. **Once you have access, you can install the extension from the Chrome Web Store and authenticate with your Claude credentials.
+**If you’d like to take part, you can join the Claude in Chrome research preview waitlist at [claude.ai/chrome](http://claude.ai/chrome). **Once you have access, you can install the extension from the Chrome Web Store and authenticate with your Claude credentials.
 We recommend starting with trusted sites—always be mindful of the data that’s visible to Claude—and avoiding use of Claude in Chrome for sites that involve financial, legal, medical, or other types of sensitive information. You can find a detailed safety guide [in our Help Center](https://support.anthropic.com/en/articles/12012173-getting-started-with-claude-for-chrome).
 We hope that you’ll share your feedback to help us continue to improve both the capabilities and safeguards for Claude in Chrome—and help us take an important step towards a fundamentally new way to integrate AI into our lives.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

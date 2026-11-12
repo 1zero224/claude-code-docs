@@ -1,10 +1,22 @@
+# Skills explained: How Skills compares to prompts, Projects, MCP, and subagents
+Skills are an increasingly powerful tool for creating custom AI workflows and agents, but where do they fit in the Claude stack? We explain what tool to use when - and how they all work together.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude apps, Claude Platform
+  -
+DateMarch 5, 2026
+  -
+Reading time16 min
+  -
+ShareCopy link
 Since introducing [Skills](https://www.anthropic.com/news/skills), there's been interest in understanding how the various components of Claude's agentic ecosystem work together.
 Whether you're building sophisticated workflows in [Claude Code](https://www.claude.com/product/claude-code), creating enterprise solutions with the API, or maximizing your productivity on [Claude.ai](http://claude.ai), knowing which tool to reach for—and when—can transform how you work with Claude.
 This guide breaks down each building block, explains when to use what, and shows you how to combine them for powerful agentic workflows.
 ## **Understanding your agentic building blocks**
 ### **What are Skills?**
 Skills are folders containing instructions, scripts, and resources that Claude discovers and loads dynamically when relevant to a task. Think of them as specialized training manuals that give Claude expertise in specific domains—from working with Excel spreadsheets to following your organization's brand guidelines.
-**How Skills work:** When Claude encounters a task, it scans available Skills to find relevant matches. Skills use progressive disclosure: metadata loads first (~100 tokens), providing just enough information for Claude to know when a Skill is relevant. Full instructions load when needed (<5k tokens), and bundled files or scripts load only as required.
+**How Skills work:** When Claude encounters a task, it scans available Skills to find relevant matches. Skills use [progressive disclosure](https://claude.dev/blog/lessons-from-building-claude-code-how-we-use-skills/): metadata loads first (~100 tokens), providing just enough information for Claude to know when a Skill is relevant. Full instructions load when needed (<5k tokens), and bundled files or scripts load only as required.
 **When to use Skills:** Choose Skills when you need Claude to perform specialized tasks consistently and efficiently. They're ideal for:
   - **Organizational workflows**: Brand guidelines, compliance procedures, document templates
   - **Domain expertise:** Excel formulas, PDF manipulation, data analysis
@@ -43,7 +55,7 @@ Skills are folders containing instructions, scripts, and resources that Claude d
 *Please prioritize findings by severity and potential impact.*
 **Pro-tip:** Prompts are your primary way of interacting with Claude, but they don't persist across conversations. For repeated workflows or specialized knowledge, consider capturing prompts as Skills or project instructions.
 **When to use a Skill instead:** If you find yourself typing the same prompt repeatedly across multiple conversations, it's time to create a Skill. Transform recurring instructions like "review this code for security vulnerabilities using OWASP standards" or "format this analysis with executive summary, key findings, and recommendations" into Skills. This saves you from re-explaining procedures each time and ensures consistent execution.
-Check out our [prompt library](https://docs.claude.com/en/prompt-library/library), [prompting best practices](http://claude.com/blog/prompt-engineering-best-practices), or [our smart prompt maker](https://claude.ai/public/artifacts/3796db7e-4ef1-4cab-b70c-d045778f23ec) to get started.
+Check out our [prompt library](https://docs.claude.com/en/prompt-library/library), [prompting best practices](https://claude.com/resources/articles/best-practices-for-prompt-engineering), or [our smart prompt maker](https://claude.ai/public/artifacts/3796db7e-4ef1-4cab-b70c-d045778f23ec) to get started.
 ### **What are Projects?**
 Available on all paid Claude plans, [Projects](https://support.claude.com/en/articles/9517075-what-are-projects) are self-contained workspaces with their own chat histories and knowledge bases. Each project includes a 200K context window where you can upload documents, provide context, and set custom instructions that apply to all conversations within that project.
 **How Projects work:** Everything you upload to a project's knowledge base becomes available across all chats within that project. Claude automatically uses this context to provide more informed, relevant responses. When your project knowledge approaches context limits, Claude seamlessly enables Retrieval Augmented Generation (RAG) mode to expand capacity by up to 10x.
@@ -54,7 +66,7 @@ Available on all paid Claude plans, [Projects](https://support.claude.com/en/art
   - **Custom instructions: **Project-specific tone, perspective, or approach
 **Example:** Create a "Q4 Product Launch" project containing market research, competitor analysis, and product specifications. Every chat in this project has access to this knowledge without you needing to re-upload or re-explain the context.
 **When to use a Skill instead: **Projects give Claude persistent context for a specific body of work—your company's codebase, a research initiative, an ongoing client engagement. Skills teach Claude how to do something. A Project might contain all the background on your product launch, while a skill could teach Claude your team's writing standards or code review process. If you find yourself copying the same instructions across multiple Projects, that's a signal to create a skill instead.
-[Learn](https://support.claude.com/en/articles/9517075-what-are-projects) more about Projects.
+[Learn](https://support.claude.com/en/articles/9517075-what-are-projects) more about Projects. [In Claude Code, projects now work differently](https://claude.com/resources/articles/projects-redesigned).
 ### **What are subagents?**
 [Subagents](https://docs.claude.com/en/docs/claude-code/sub-agents) are specialized AI assistants with their own context windows, custom system prompts, and specific tool permissions. Available in Claude Code and the Claude Agent SDK, subagents handle discrete tasks independently and return results to the main agent.
 **How subagents work:** Each subagent operates with its own configuration—you define what it does, how it approaches problems, and which tools it can access. Claude automatically delegates tasks to appropriate subagents based on their descriptions, or you can explicitly request a specific subagent.
@@ -64,14 +76,14 @@ Available on all paid Claude plans, [Projects](https://support.claude.com/en/art
   - **Parallel processing:** Multiple subagents can work on different aspects simultaneously
   - **Tool restriction:** Limit specific subagents to safe operations (e.g., read-only access)
 **Example:**
+Copy
 ```
 Create a code-reviewer subagent with access to Read, Grep, and Glob tools but not Write or Edit. When you modify code, Claude automatically delegates to this subagent for quality and security review without risking unintended code changes.
 ```
 **When to use a Skill instead:** If multiple agents or conversations need the same expertise—like security review procedures or data analysis methods—create a Skill rather than building that knowledge into individual subagents. Skills are portable and reusable, while subagents are purpose-built for specific workflows. Use Skills to teach expertise that any agent can apply; use subagents when you need independent task execution with specific tool permissions and context isolation.
 [Learn more](https://code.claude.com/docs/en/sub-agents) about subagents.
 ### **What is MCP?**
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69141f0993d68ff4c536f316_619a5262.png)
-MCP creates a universal connection layer between AI applications and your existing tools and data sources.
+![](https://assets.claude.com/5f0d9bc4e73f5309bbcc198dab9aed8fd12dc155.png)MCP creates a universal connection layer between AI applications and your existing tools and data sources.
 The Model Context Protocol (MCP) is an open standard for connecting AI assistants to external systems where data lives—content repositories, business tools, databases, and development environments.
 **How MCP works:** MCP provides a standardized way to connect Claude to your tools and data sources. Instead of building custom integrations for each data source, you build against a single protocol. MCP servers expose data and capabilities; MCP clients (like Claude) connect to these servers.
 **When to use MCP:** Choose MCP when you need Claude to:
@@ -85,9 +97,7 @@ The Model Context Protocol (MCP) is an open standard for connecting AI assistant
 ## **How they work together**
 The real power emerges when you combine these building blocks. Each serves a distinct purpose, and together they create sophisticated agentic workflows.
 ### **Comparison: choosing the right tool**
-
-    Feature Skills Prompts Projects Subagents MCP     **What it provides** Procedural knowledge Moment-to-moment instructions Background knowledge Task delegation Tool connectivity   **Persistence** Across conversations Single conversation Within project Across sessions Continuous connection   **Contains** Instructions + code + assets Natural language Documents + context Full agent logic Tool definitions   **When it loads** Dynamically, as needed Each turn Always in project When invoked Always available   **Can include code** Yes No No Yes Yes   **Best for** Specialized expertise Quick requests Centralized context Specialized tasks Data access
-
+FeatureSkillsPromptsProjectsSubagentsMCP**What it provides**Procedural knowledgeMoment-to-moment instructionsBackground knowledgeTask delegationTool connectivity**Persistence**Across conversationsSingle conversationWithin projectAcross sessionsContinuous connection**Contains**Instructions + code + assetsNatural languageDocuments + contextFull agent logicTool definitions**When it loads**Dynamically, as neededEach turnAlways in projectWhen invokedAlways available**Can include code**YesNoNoYesYes**Best for**Specialized expertiseQuick requestsCentralized contextSpecialized tasksData access
 ### **Example agentic workflow: research agent**
 Let's build a comprehensive research agent that combines multiple building blocks. This example shows how to assemble and activate an agent for competitive analysis.
 **Step 1: Set up your Project**
@@ -105,6 +115,7 @@ Enable MCP servers for:
   - Web search (for real-time market information)
 **Step 3: Create specialized Skills**
 Create a "competitive-analysis" skill:
+Copy
 ```
 # My Company GDrive Navigation Skill
 
@@ -144,6 +155,7 @@ Optimized search and retrieval strategy for Meridian Tech's Google Drive structu
 **Step 4: Configure subagents (Claude Code/SDK only)**
 Create specialized subagents:
 `market-researcher` subagent:
+Copy
 ```
 name: market-researcher
 description: Research market trends, industry reports, and competitive landscape data. Use proactively for competitive analysis.
@@ -159,7 +171,8 @@ When researching:
 
 Present findings with citations and confidence levels.
 ```
-`technical-analyst `subagent:
+`technical-analyst` subagent:
+Copy
 ```
 name: technical-analyst
 description: Analyze technical architecture, implementation approaches, and engineering decisions. Use for technical competitive analysis.
@@ -190,7 +203,7 @@ Skills use [progressive disclosure](https://www.anthropic.com/engineering/equipp
 This architecture means you can have many Skills available without overwhelming Claude's context window. Claude accesses exactly what it needs, when it needs it.
 #### **Skills vs. subagents: when to use what**
 **Use Skills when:** You want capabilities that any Claude instance can load and use. Skills are like training materials—they make Claude better at specific tasks across all conversations.
-**Use subagents when:** You need complete, self-contained agents designed for specific purposes that handle workflows independently. Subagents are like specialized employees with their own context and tool permissions.
+**Use subagents when:** You need complete, self-contained agents designed for specific purposes that [handle workflows independently](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop). Subagents are like specialized employees with their own context and tool permissions.
 **Use them together when:** You want subagents with specialized expertise. For example, a code-review subagent can use Skills for language-specific best practices, combining the independence of a subagent with the portable expertise of Skills.
 #### **Skills vs. prompts: when to use what**
 **Use prompts when:** You're giving one-time instructions, providing immediate context, or having a conversational back-and-forth. Prompts are reactive and ephemeral.
@@ -206,7 +219,7 @@ Yes. In Claude Code and the Agent SDK, subagents can access and use Skills just 
 For example, your python-developer subagent can use the pandas-analysis Skill to perform data transformations following your team's conventions, while your documentation-writer subagent uses the technical-writing skill to format API documentation consistently.
 ## **Getting started**
 Ready to build with Skills? Here's how to start:
-[**Claude.ai**](https://Claude.ai)** users:**
+**[Claude.ai](https://Claude.ai) users:**
   - Enable Skills in Settings → Features
   - Create your first project at claude.ai/projects
   - Try combining project knowledge with Skills for your next analysis task
@@ -216,3 +229,29 @@ Ready to build with Skills? Here's how to start:
 **Claude Code users:**
   - Install Skills via [plugin marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
   - Check out our [skills cookbook](https://platform.claude.com/cookbook/skills-notebooks-01-skills-introduction)
+### Agent Skills
+Start using Skills with Claude to build more powerful applications today.
+[Get started](https://claude.com/resources/articles/skills)
+![](https://assets.claude.com/cf758d6a72887271ce371b8bfd2ba845fe172e05.svg)
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

@@ -1,4 +1,17 @@
-***Update: ****The Slack connector is now available for Claude Pro and Max subscribers. (January 26, 2026)*
+# Claude and Slack
+Access Claude directly into Slack so you can get help in channels and threads, or connect your Slack workspace to Claude for searching conversations and pulling context when you need it.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Enterprise
+  -
+DateOctober 1, 2025
+  -
+Reading time5 min
+  -
+ShareCopy link
+*Editor's note: Mentions of Max in this post from before October 30, 2026 include what are now the Max and Ultra plans.*
+***Update: **The Slack connector is now available for Claude Pro and Max subscribers. (January 26, 2026)*
 We're introducing two ways to use Claude with Slack. Add Claude directly to your Slack workspace, or connect Slack to the Claude apps so Claude can search and reference relevant Slack messages during conversations.
 With Claude and Slack deeply integrated, you can work wherever you’d like. Get Claude's help directly in Slack conversations, or have Claude search your Slack workspace when you need context for deeper research projects. Draft responses to critical messages, prep for meetings by pulling in relevant discussions, or analyze shared documents—all where you are already working.
 ### Bringing Claude to Slack
@@ -23,5 +36,27 @@ In Slack, Claude only accesses channels and conversations you have permission to
 ### Getting started
 Claude in Slack is available today through the Slack Marketplace for teams on paid Slack plans. Workspace administrators must first approve the Claude app before individual users can authenticate with their Claude account.
 The Slack connector is available for Claude Team and Enterprise plan customers who have installed Claude in the Slack app. Admins must first enable the [connector](https://claude.ai/directory/597f662f-36de-437e-836e-5a81013cbfbe) for their organization before users can set it up in the “Connectors” tab of their Claude settings.
-Get started with Claude and Slack.
-‍
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

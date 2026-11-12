@@ -1,3 +1,15 @@
+# How Anthropic's legal team cut review times from days to hours with Claude
+*Mark Pike, Associate General Counsel, shares how our legal team uses Claude to build workflows that automate repetitive tasks like reviewing marketing content and redlining contracts—no coding required.*
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Enterprise
+  -
+DateDecember 8, 2025
+  -
+Reading time10 min
+  -
+ShareCopy link
 There's a comically anachronistic vintage payphone on Mark Pike's desk at Anthropic. Tap a "legal challenge coin" against it—yes, really—and it rings. An AI bot answers, figures out what you need, and routes you to the right attorney.
 Mark built it. He doesn't know how to code.
 "I wouldn't say what I'm doing is learning to code," says Mark, a product lawyer at Anthropic. "I partner with Claude to tackle certain projects that involve coding, but I am not the one coding. I'm just very good at troubleshooting."
@@ -11,8 +23,7 @@ The list was long. Marketing review turnaround that stretched for days. Contract
 ## **The solutions: Four workflows in action**
 Over the course of several months and lots of experimentation, some of the legal team's biggest pain points have evolved into repeatable workflows.
 ### **Marketing review workflow**
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6933cb87c77bc5806f6cce36_f995b27a.png)
-The Legal team's Marketing Material Self-Review Tool allows go-to-market employees to self-review their own content before sharing with Legal for a final pass.
+![](https://assets.claude.com/b70130a1213d1f87da2a7530ec9a2c11760fea24.png)The Legal team's Marketing Material Self-Review Tool allows go-to-market employees to self-review their own content before sharing with Legal for a final pass.
 The problem was familiar to any legal team supporting marketing: last-minute blog post reviews with tight turnarounds.
 The solution Mark and his team built is a self-service review tool pinned in Slack. Marketers paste their content, and Claude analyzes it using a "skill" (a file containing the legal team's historical guidance and review framework). The tool identifies issues like publicity rights concerns, overstated claims, and statistical accuracy problems, flagging them as low, medium, or high risk. It suggests fixes before the marketer even submits a ticket.
 "It flags things like 'Hey, do you have rights to this logo? Is this statistic accurate? This trademark needs a symbol,'" Mark explains. "Once you've done that, submit a ticket in the legal queue."
@@ -22,10 +33,9 @@ When content does get submitted for formal review, it's triaged to the right law
 Comparing contract versions and suggesting fallback language is time-consuming work.
 Claude now compares document versions in tools like Google Docs and Office 365, highlights changes, and recommends language from the commercial playbook. Team members figured out how to have Claude work inside Google Docs, commenting with suggested edits in real time. Someone reviewing a contract can ask directly in the document: "Hey Claude, do you think this language would meet our needs?" and get immediate feedback.
 "Contract redlining is the use case everybody expects from AI," Mark says. "And Claude's really good at it – it saves us hours of manual comparison."
-Mark and his colleagues also write [Skills](https://www.claude.com/blog/skills) – specialized instructions and best practices stored in files Claude reads depending on the task – to further streamline the review of specific types of documents, from NDAs to third-party vendor agreements.
+Mark and his colleagues also write [Skills](https://claude.com/resources/articles/skills) – specialized instructions and best practices stored in files Claude reads depending on the task – to further streamline the review of specific types of documents, from NDAs to third-party vendor agreements.
 ### **Outside business activity review**
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6933cb87c77bc5806f6cce33_d4c84677.jpeg)
-The Legal Team's Outside Business Activity Request Form expedite the process of assessing conflict-of-interest reviews for Anthropic employees.
+![](https://assets.claude.com/4a511f132bc9f11d2582225a6e1176f953ba483f.jpg)The Legal Team's Outside Business Activity Request Form expedite the process of assessing conflict-of-interest reviews for Anthropic employees.
 At Anthropic, if an employee wants to consult or join a nonprofit board, they fill out a form to clear conflicts. Employment lawyers were spending significant time on routine conflict-of-interest form reviews.
 Their Claude-powered workflow has employees fill out a form with their department, manager, and description of the proposed activity. Claude analyzes submissions against the COI policy framework and sends recommendations to lawyers via Slack for approval.
 "It used to be that you'd have to interview employees with a bit of back-and-forth to figure out the details and what conflicts might exist. With this workflow, Claude reads the form, asks for more information if it needs to, and suggests an outcome," Mark explains. "Then it goes to our queue with a recommendation."
@@ -51,4 +61,27 @@ MCP allows you to pull information from other systems into Claude. The Anthropic
 ## **The bigger picture**
 Mark envisions a future where new lawyers inherit their team's accumulated knowledge through prompt libraries and skills. Instead of reading through old memos to learn the house style, a new hire could invoke a skill that teaches Claude how to write like the team's product lawyer or format board minutes the way the corporate group prefers.
 "We're not replacing lawyers," he says. "We're pushing out the frontier of what's possible. We're empowering them with the skills and tools they need to get their best work done."
-*Get started with *[*Claude for Enterprise*](https://www.claude.com/pricing/enterprise)* today. Stay tuned for more stories in the "How Anthropic uses Claude" series. *
+*Get started with [Claude for Enterprise](https://www.claude.com/pricing/enterprise) today. Stay tuned for more stories in the "How Anthropic uses Claude" series.*
+[Legal teams can now start from ready-made artifacts](https://claude.com/resources/articles/introducing-artifacts-for-legal-work)
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

@@ -1,12 +1,63 @@
-In October, we introduced [skills](https://claude.com/blog/skills)—a way to teach Claude repeatable workflows tailored to how you work. Today we're making skills easier to deploy, discover, and build: organization-wide management for admins; a directory of partner-built skills from Notion, Canva, Figma, Atlassian, and others; and an open standard so skills work across AI platforms.
+# Skills for organizations, partners, the ecosystem
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude apps, Claude Enterprise
+  -
+DateDecember 18, 2025
+  -
+Reading time2 min
+  -
+ShareCopy link
+In October, we introduced [skills](https://claude.com/resources/articles/skills)—a way to teach Claude repeatable workflows tailored to how you work. Today we're making skills easier to deploy, discover, and build: organization-wide management for admins; a directory of partner-built skills from Notion, Canva, Figma, Atlassian, and others; and an open standard so skills work across AI platforms.
 ## **Manage skills across your organization**
 Claude Team and Enterprise plan admins can now provision skills centrally from admin settings. Admin-provisioned skills are enabled by default for all users. Users can still toggle individual skills off if they choose. This gives organizations consistent, approved workflows across teams while letting individual users customize their experience.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6943adae2f71bafa12c42790_Skills-M1-1_Admin-Settings_Blog-1920x1080.png)
+![](https://assets.claude.com/9c64e79724254d88623b70d69e969db6bfbf5a87.png)
 ## **Discover, create, and edit new skills**
 Creating skills is now simpler. Describe what you want and Claude helps build it, or write instructions directly. For complex workflows, upload skill folders or use the skill-creator. Claude can also help you edit existing skills, and new previews show full contents so you can understand exactly what a skill does before enabling it.
 ## **Skills directory**
 A growing collection of partner-built skills is now available at [claude.com/connectors](https://claude.com/connectors).
 Admins can provision these partner skills across their organization, giving teams immediate access to workflows for tools they already use without any custom development.
+![Sentry](https://assets.claude.com/410f375f04040180bb6545e287b4ad178b0d7767.svg)
+“MCP gave us an open foundation for bringing Sentry’s context to developers wherever they work. With skills we can turn that context into focused workflows, and plugins make them easy to ship and keep updated. We’re excited to see how teams use these to build applications and debug issues faster.”
+Cody De Arkland, Head of Developer Experience
+![Vercel](https://assets.claude.com/f6f5598aac3be6fd9b2dfc23eced7509c90d387b.svg)
+“Skills are a powerful way to extend Claude from figuring out a task to actually doing it. Vercel wants to enable everyone to ship sites, apps, and agents. We built the Vercel Deploy Skill alongside the Claude team to allow more people to go from idea to production.”
+Andrew Qu, Chief of Software
+![Zapier](https://assets.claude.com/76ec34d2d040fb1dd2dd94a7950788e0a82a09b6.svg)
+“By combining skills with Zapier MCP, organizations get AI that not only knows how work should be done, but actually does it reliably. Skills encode repeatable procedures and best practices; Zapier MCP Tools run them at scale across thousands of apps. The result is faster turnaround, reduced busywork, and repeatable AI-powered processes.”
+Lisa Chapello, Head of AI Platform
+![Atlassian](https://assets.claude.com/4870b3d6c0253cea01b100c98ad2030b8e4f8ce1.svg)
+“Atlassian’s skills bring our decades of teamwork expertise and best practices to Claude. Now Claude doesn’t just see Jira tickets or Confluence pages, it knows what to do: turning specs into backlogs, generating status reports, surfacing company knowledge, triaging issues, and more.”
+Josh Devenny, Head of Product, Rovo Skills
+![Canva](https://assets.claude.com/f047885ca3dadf9a16509752ef150ebb9bd424bb.svg)
+“With Skills, Claude now understands how to work within Canva - not just connect to it. Anyone can create full multi-platform campaigns, generate on-brand presentations, and translate content, all with a single, simple prompt.”
+Anwar Haneef, GM & Head of Ecosystem
+![Cloudflare](https://assets.claude.com/83dfc3198647a89c08d4b24793456334fa24136a.svg)
+“Skills have made it possible to one-shot deploying AI Agents and MCP servers onto Cloudflare. We're really excited for people to deploy the apps onto Region:Earth from a quick chat.”
+Kate Reznykova, Engineering Manager, Cloudflare Agents
+![Figma](https://assets.claude.com/30df15cbd261edbc52262a1fa2d1339f3a1a372b.svg)
+“Figma skills help teams build higher quality, differentiated products with Claude Code. Now, Claude can better understand the context, details, and intent of designs in Figma and translate those designs into code with accuracy and consistency.”
+Emil Sjölander, Director of Dev Tools
+![Sentry](https://assets.claude.com/410f375f04040180bb6545e287b4ad178b0d7767.svg)
+“MCP gave us an open foundation for bringing Sentry’s context to developers wherever they work. With skills we can turn that context into focused workflows, and plugins make them easy to ship and keep updated. We’re excited to see how teams use these to build applications and debug issues faster.”
+Cody De Arkland, Head of Developer Experience
+![Vercel](https://assets.claude.com/f6f5598aac3be6fd9b2dfc23eced7509c90d387b.svg)
+“Skills are a powerful way to extend Claude from figuring out a task to actually doing it. Vercel wants to enable everyone to ship sites, apps, and agents. We built the Vercel Deploy Skill alongside the Claude team to allow more people to go from idea to production.”
+Andrew Qu, Chief of Software
+![Zapier](https://assets.claude.com/76ec34d2d040fb1dd2dd94a7950788e0a82a09b6.svg)
+“By combining skills with Zapier MCP, organizations get AI that not only knows how work should be done, but actually does it reliably. Skills encode repeatable procedures and best practices; Zapier MCP Tools run them at scale across thousands of apps. The result is faster turnaround, reduced busywork, and repeatable AI-powered processes.”
+Lisa Chapello, Head of AI Platform
+![Atlassian](https://assets.claude.com/4870b3d6c0253cea01b100c98ad2030b8e4f8ce1.svg)
+“Atlassian’s skills bring our decades of teamwork expertise and best practices to Claude. Now Claude doesn’t just see Jira tickets or Confluence pages, it knows what to do: turning specs into backlogs, generating status reports, surfacing company knowledge, triaging issues, and more.”
+Josh Devenny, Head of Product, Rovo Skills
+![Canva](https://assets.claude.com/f047885ca3dadf9a16509752ef150ebb9bd424bb.svg)
+“With Skills, Claude now understands how to work within Canva - not just connect to it. Anyone can create full multi-platform campaigns, generate on-brand presentations, and translate content, all with a single, simple prompt.”
+Anwar Haneef, GM & Head of Ecosystem
+![Cloudflare](https://assets.claude.com/83dfc3198647a89c08d4b24793456334fa24136a.svg)
+“Skills have made it possible to one-shot deploying AI Agents and MCP servers onto Cloudflare. We're really excited for people to deploy the apps onto Region:Earth from a quick chat.”
+Kate Reznykova, Engineering Manager, Cloudflare Agents
+1/7
 ## **An open standard**
 We're also publishing [Agent Skills](https://agentskills.io) as an open standard. Like MCP, we believe skills should be portable across tools and platforms—the same skill should work whether you're using Claude or other AI platforms. We've been collaborating with members of the ecosystem, and we're excited to see early adoption of the standard.
 ## **Getting started**
@@ -14,3 +65,27 @@ We're also publishing [Agent Skills](https://agentskills.io) as an open standard
   - **Claude Code:** Install from the plugin directory or check skills into your repository.
   - **Claude Developer Platform (API):** Use skills via the /v1/skills endpoint. See[ documentation](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview).
 Admins can provision skills org-wide through Admin Settings. Skills require[ Code Execution and File Creation](https://claude.ai/settings/capabilities) to be enabled.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

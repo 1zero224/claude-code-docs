@@ -1,4 +1,18 @@
-[Auto mode is now the default](http://claude.com/blog/auto-mode-default-in-claude-code) setting in Claude Code. Instead of asking you to approve every command an agent wants to run, a classifier evaluates each action and blocks ones that look potentially harmful.
+# Running auto mode in production
+How the teams at Nuro, Gusto, and Garner Health use auto mode to balance speed and safety at production scale.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code
+  -
+AuthorMolly Vorwerck
+  -
+DateAugust 7, 2026
+  -
+Reading time10 min
+  -
+ShareCopy link
+[Auto mode is now the default](https://claude.com/resources/articles/auto-mode-default-in-claude-code) setting in Claude Code. Instead of asking you to approve every command an agent wants to run, a classifier evaluates each action and blocks ones that look potentially harmful.
 Auto mode’s design resolves a common agentic coding tradeoff: speed vs. safety. Reviewing every command keeps a human in the loop, but once sessions stretch to hours or multiply in parallel, that oversight becomes the bottleneck. Skipping permission checks entirely is faster—and it’s also how prompt injection, scope drift, and the occasional deleted production resource get through.
 Auto mode closes most of that gap. In internal evaluations, the classifier caught more dangerous actions than developers did when clicking through permission prompts by hand, and its performance held up under third-party red-teaming. And because sessions pause less often, Claude works 9x longer between interruptions than under the previous default—across all Claude Code usage.
 To see how auto mode holds up in production, we spoke with teams at Nuro, Gusto, and Garner Health about how and why they use auto mode as their daily driver to balance speed with safety in their production environments.
@@ -31,4 +45,26 @@ That lifecycle runs as a plugin of standardized skills. An agent picks up a task
 Out of the box, the classifier has needed little tuning. Evan’s one adjustment mirrors Kai’s at Nuro: he configured auto mode not to approve actions that communicate with other people, like sending Slack messages or emails.
 “I personally don’t like Claude to just act on my behalf when I’m communicating with another person,” he said. Teams working on core intellectual property—the most skeptical of skipping permissions before auto mode—learned to tune the classifier’s injected prompts to be more or less permissive for their work.
 His advice for other enterprises rolling it out? Lean in and build the right controls so that you can empower engineers while ensuring safe deployment. “If we were to say, everyone go build your own workflows, and we have no telemetry, that would be very dangerous,” Evan said. “Because we have the telemetry, because we’ve built out workflows that are relatively standard, we have much more confidence.”
-***Get started with ***[***auto mode ***](https://code.claude.com/docs/en/auto-mode-config)**in Claude Code.**
+***Get started with [auto mode ](https://code.claude.com/docs/en/auto-mode-config)*in Claude Code.**
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

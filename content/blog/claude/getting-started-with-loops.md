@@ -1,3 +1,17 @@
+# Loop engineering: Getting started with loops
+Learn how the Claude Code team defines agentic loops, with practical guidance on progressing from turn-based to goal-based, time-based, and proactive loops—and when to use each.
+  -
+Category[Best practices](https://claude.com/resources/best-practices), [Perspectives](https://claude.com/resources/perspectives)
+  -
+ProductClaude Code
+  -
+AuthorsDelba de Oliveira, Michael Segner
+  -
+DateJune 30, 2026
+  -
+Reading time2 min
+  -
+ShareCopy link
 ## Getting started with loops
 There’s a lot of talk right now about loop engineering or "designing loops" instead of prompting your coding agent. If you spend some time on X trying to pin down what a loop actually is, you'll come across multiple different answers.
 On the Claude Code team, we define **loops as agents repeating cycles of work until a stop condition is met**. We categorize a few different types of loops based on:
@@ -7,16 +21,17 @@ On the Claude Code team, we define **loops as agents repeating cycles of work un
   - What type of task is most appropriate for each.
 We’ll cover the main loop types, when to use each, and how to maintain code quality while managing token usage. Not all tasks require complex loops; start with the simplest solution and use these patterns selectively.
 ## **Turn-based loops**
-![Di](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a43eb603762e725a739d98c_8ace2295.png)
+![Di](https://assets.claude.com/84b1736ddd601209f65849c09d999d15bb4ccb96.png)
   - **Triggered by**: A user prompt.
   - **Stop criteria**: Claude judges it has completed the task or needs additional context.
   - **Best used for: **Shorter tasks that are not part of a regular process or schedule.
   - **Managed usage by: **Write specific prompts and improve verification using skills to reduce the number of turns.**‍**
 Every prompt you send starts a manual loop with you directing each turn. Claude gathers context, takes action, checks its work, repeats if needed, and responds. We call this the agentic loop.
 For example, ask Claude to create a like button. It reads your code, makes the edit, runs the tests, and hands back something it *believes* works. You then manually check the work, and write the next prompt.
-You can improve the verification step by encoding your manual steps as a SKILL.md so Claude can check more of its own work, end-to-end. (For choosing between skills, hooks, and subagents for this kind of automation, see our guide to [steering Claude Code](https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more).)
+You can improve the verification step by encoding your manual steps as a SKILL.md so Claude can check more of its own work, end-to-end. (For choosing between skills, hooks, and subagents for this kind of automation, see our guide to [steering Claude Code](https://claude.com/resources/articles/steering-claude-code-skills-hooks-rules-subagents-and-more).)
 This should include tools or connectors to allow Claude to *see*, *measure* or *interact* with the result. The more quantitative the checks are, the easier it is for Claude to self-verify.
 For example, in your SKILL.md file you may specify:
+Copy
 ```
 ---
 name: verify-frontend-change
@@ -37,7 +52,7 @@ Never report a UI change as complete based on a successful edit alone. Verify it
 If any step fails, fix the issue and rerun from step 1 — do not hand back partially verified work.
 ```
 ## **Goal-based loop (/goal)**
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a43eb603762e725a739d98f_c6fa9ae5.png)
+![](https://assets.claude.com/0c0fab39c03f3bef320d3a017d73ecd8592dd7b6.png)
   - **Triggered by**: A manual prompt in real-time.
   - **Stop criteria**: Goal achieved OR maximum number of turns reached.
   - **Best used for: **Tasks that have verifiable exit criteria.
@@ -46,6 +61,7 @@ Sometimes, a single turn is not enough, especially for more complex tasks. Agent
 When you define the success criteria, Claude doesn’t have to make a determination on what is “good enough” and end the loop early. Each time Claude tries to stop, an evaluator model checks your condition and sends it back to work until the goal is met or a number of turns you define is reached.
 This is why deterministic criteria, such as number of tests passed or clearing a certain score threshold, are so effective.
 For example:
+Copy
 ```
 /goal get the homepage Lighthouse score to 90 or above, stop after 5 tries.
 ```
@@ -56,12 +72,13 @@ For example:
   - **Managed usage by: **Set longer intervals or react based on events rather than time.
 Some agentic work is recurring: the task stays the same and only the inputs change. For example, summarizing Slack messages every morning. Other work depends on external systems, and a simple way to interface with one is to check it on an interval and react to what changed. For example, a PR which may receive code reviews or fail CI.
 For these, you can trigger when Claude runs with `/loop` which re-runs a prompt on an interval. For example:
+Copy
 ```
 /loop 5m check my PR, address review comments, and fix failing CI
 ```
 `/loop` runs on your computer, so if you turn it off, it stops. You can move the loop to the cloud by creating a routine with `/schedule`.
 ## **Proactive loops**
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a43eb603762e725a739d989_eb9e496a.png)
+![](https://assets.claude.com/1df86a865356e379c8eb780517c24479c0f59489.png)
   - **Triggered by**: An event or schedule, with no human in real time.
   - **Stop criteria**: Each task exits when its goal is met. The routine itself runs until you turn it off.
   - **Best used for: **Recurring streams of well-defined work: bug reports, issue triage, migrations, dependency upgrades, etc.
@@ -73,6 +90,7 @@ For example, to handle incoming feedback, you can use:
   - **Dynamic workflows** to orchestrate agents that triage each report, fix it, and review the fix
   - **Auto mode** so the routine runs without stopping to ask for permission
 Putting it together, a prompt could look like this:
+Copy
 ```
 /schedule every hour: check #project-feedback for bug reports. /goal: don't stop until every report found this run is triaged, actioned, and responded to. When fixing a bug, use a workflow to explore three solutions in parallel worktrees and have a judge adversarially review them.
 ```
@@ -81,7 +99,7 @@ The quality of a loop’s output depends on the system around it. When designing
   - **Keep the codebase itself clean**: Claude follows patterns and conventions that already exist in your codebase.
   - **Give Claude a way to verify its own work**: Encode what good looks like for you and your team with [skills](https://code.claude.com/docs/en/skills).
   - **Make docs easy to reach:** Frameworks and libraries docs have up-to-date best practices.
-  - **Use a second agent for code reviews**: A reviewer with fresh context is less biased and not influenced by the main agent’s reasoning. You can use the built-in `/code-review` skill or [Code Review](https://code.claude.com/docs/en/code-review) for Github. Loops that write code need loops that check it — see [how Anthropic secures an AI-native SDLC](https://claude.com/blog/how-anthropic-secures-its-ai-native-software-development-lifecycle).
+  - **Use a second agent for code reviews**: A reviewer with fresh context is less biased and not influenced by the main agent’s reasoning. You can use the built-in `/code-review` skill or [Code Review](https://code.claude.com/docs/en/code-review) for Github. Loops that write code need loops that check it — see [how Anthropic secures an AI-native SDLC](https://claude.com/resources/articles/how-anthropic-secures-its-ai-native-software-development-lifecycle).
 When an individual result doesn’t meet the standard, don’t stop at fixing the individual issue, try to encode it to improve the system for all future iterations.
 ## **Managing token usage**
 To manage token usage, loops should have clear boundaries:
@@ -91,13 +109,33 @@ To manage token usage, loops should have clear boundaries:
   - **Use scripts for deterministic work**: Running a script is cheaper than reasoning through the steps. For example, a PDF skill can ship a form-filling script that Claude runs each time, instead of re-deriving the code.
   - **Don’t run routines more often that you need to: **Match the interval to how often the thing you’re watching changes
   - **Review usage:** The `/usage` command breaks down recent usage by skills, subagents, and MCPs, `/goal` with no arguments shows number of turns and token usage so far, `/workflows` shows each agent’s token usage and you can stop an agent at any time.
-Your [model and effort level](https://claude.com/blog/claude-model-and-effort-level-in-claude-code) choices are among the biggest levers on what a loop costs.
+Your [model and effort level](https://claude.com/resources/articles/claude-model-and-effort-level-in-claude-code) choices are among the biggest levers on what a loop costs.
 ## **Getting started**
 To summarize:
-
-    Loop You hand off Use it when Reach for     Turn-based The check You're exploring or deciding Custom verification skills   Goal-based The stop condition You know what done looks like `/goal`   Time-based The trigger The work happens outside your project on a schedule `/loop`, `/schedule`   Proactive The prompt The work is recurring and well-defined All of the above, and dynamic workflows
-
+LoopYou hand offUse it whenReach forTurn-basedThe checkYou're exploring or decidingCustom verification skillsGoal-basedThe stop conditionYou know what done looks like/goalTime-basedThe triggerThe work happens outside your project on a schedule/loop, /scheduleProactiveThe promptThe work is recurring and well-definedAll of the above, and dynamic workflows
 To get started with loops, look at the work you already do. Pick one task where you’re the bottleneck and ask which piece you could hand off: can you write the verification check? Is the goal clear enough? Does the work arrive on a schedule?
 Once you have an idea, run the loop, observe the results like where it stalls or over-reaches, and don’t be afraid to iterate on it.
-For more information, read the Claude Code docs on [running agents in parallel,](https://code.claude.com/docs/en/agents) as well as the [loop](https://code.claude.com/docs/en/goal), [schedule](https://code.claude.com/docs/en/routines), [goal](https://code.claude.com/docs/en/goal), and [dynamic workflows](https://code.claude.com/docs/en/workflows#orchestrate-subagents-at-scale-with-dynamic-workflows) pages. To make your checks repeatable across sessions, see [building verification loops in Claude Code with skills](https://claude.com/blog/building-verification-loops-in-claude-code-with-skills).
+For more information, read the Claude Code docs on [running agents in parallel,](https://code.claude.com/docs/en/agents) as well as the [loop](https://code.claude.com/docs/en/goal), [schedule](https://code.claude.com/docs/en/routines), [goal](https://code.claude.com/docs/en/goal), and [dynamic workflows](https://code.claude.com/docs/en/workflows#orchestrate-subagents-at-scale-with-dynamic-workflows) pages. To make your checks repeatable across sessions, see [building verification loops in Claude Code with skills](https://claude.com/resources/articles/building-verification-loops-in-claude-code-with-skills).
 *This article was written by Delba de Oliveira and Michael Segner*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

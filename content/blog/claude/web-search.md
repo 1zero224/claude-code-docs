@@ -1,4 +1,16 @@
-***Update: ****Web search is now available globally on all Claude plans. (May 27, 2025)*
+# Claude can now search the web
+Claude can now search the web to deliver up-to-date, cited information in conversational responses across all plans.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Platform
+  -
+DateMarch 20, 2025
+  -
+Reading time3 min
+  -
+ShareCopy link
+***Update: **Web search is now available globally on all Claude plans. (May 27, 2025)*
 You can now use Claude to search the internet to provide more up-to-date and relevant responses. With web search, Claude has access to the latest events and information, boosting its accuracy on tasks that benefit from the most recent data.
 ‍
 When Claude incorporates information from the web into its responses, it provides direct citations so you can easily fact check sources. Instead of finding search results yourself, Claude processes and delivers relevant sources in a conversational format. This enhancement expands Claude's extensive knowledge base with real-time insights, providing answers based on more current information.
@@ -9,3 +21,27 @@ Popular ways to use Claude with web search:
   - **Shoppers **can compare product features, prices, and reviews across multiple sources to make more informed purchase decisions.
 ## Getting started
 Web search is available now in feature preview for all paid Claude users in the United States. Support for users on our free plan and more countries is coming soon. To get started, toggle on web search in your [profile settings](https://claude.ai/redirect/website.v1.511b92f9-8255-4545-abf4-9817c96cb7d2/settings/profile#feature-preview) and start a conversation with Claude 3.7 Sonnet. When applicable, Claude will search the web to inform its response.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

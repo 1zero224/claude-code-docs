@@ -47,6 +47,12 @@
       "llms_txt": true,
       "notes": "Product docs since ~2026-08: Claude Tag, Cowork, office agents, connectors, government, claude-science, third-party. Serves .md variants under /docs/. Was recorded as cf-blocked marketing until 2026-08-24; support articles had been redirecting here for weeks. /resources/tutorials/ is HTML-only (no .md) and is not fetched."
     },
+    "claude.dev": {
+      "robots": true,
+      "sitemap": false,
+      "llms_txt": true,
+      "notes": "Anthropic technical blog. Markdown-native: every post serves a .md variant. 18 posts, slugs disjoint from claude.com/resources/articles; six claude.com article URLs 307 here."
+    },
     "academy.claude.com": {
       "robots": true,
       "sitemap": true,
@@ -144,14 +150,26 @@
       "name": "claude-blog",
       "type": "sitemap-html",
       "sitemap": "https://claude.com/sitemap.xml",
-      "filter": "/blog/",
+      "filter": "/resources/articles/",
       "output": "blog/claude/",
-      "pages": 228,
+      "pages": 278,
       "enabled": true,
       "section": [
         "blog"
       ],
-      "notes": "Live Claude blog posts. Pages are HTML-only; the fetcher extracts the article rich-text body into Markdown under content/blog/claude/."
+      "notes": "Live Claude blog posts. Pages are HTML-only; the fetcher extracts the article rich-text body into Markdown under content/blog/claude/. /blog/ permanently redirects to /resources/articles (2026-11); slugs are unchanged, so archived files are refetched in place."
+    },
+    {
+      "name": "claude-dev-blog",
+      "type": "llms-txt-md",
+      "url": "https://claude.dev/llms.txt",
+      "output": "blog/claude/",
+      "pages": 18,
+      "enabled": true,
+      "section": [
+        "blog"
+      ],
+      "notes": "Anthropic's markdown-native technical blog; 18 posts, each with a .md variant. Slugs are disjoint from claude.com/resources/articles. This source owns the six archived posts that claude.com now 307s to claude.dev."
     },
     {
       "name": "engineering-blog",

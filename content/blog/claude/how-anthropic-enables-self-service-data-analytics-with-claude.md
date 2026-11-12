@@ -1,3 +1,16 @@
+# How Anthropic enables self-service data analytics with Claude
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code
+  -
+AuthorsJosh Cherry, Clement Peng , Johanne Jiao, Justin Leder, Chen Chang
+  -
+DateJune 3, 2026
+  -
+Reading time5 min
+  -
+ShareCopy link
 As many data science and data engineering teams can attest, enabling self-service data analytics has traditionally been a slog.
 Making the data model more accessible to less technical coworkers via wide and denormalized tables often leads to overlapping views with inconsistent definitions as the business scales (and does little to bridge the gap for employees with little desire to learn SQL). Alternatively, creating more ringfenced environments for users often misses the long tail of business questions and leads to metric and dashboard bloat as teams silo their work.
 The rise of LLMs provides an additional path for self-service analytics that avoids those challenges. However, pointing Claude at a warehouse and letting the agents execute can create a false sense of precision.
@@ -12,7 +25,7 @@ After meeting with dozens of Anthropic’s top Claude Code users and having seen
 ## **Data is not software**
 LLMs' generative abilities are a double-edged sword: the mechanisms that enable creative solutions to complex problems can also hallucinate erroneous output. To fully understand the challenges with analytics agents, it’s useful to compare them to coding agents.
 Coding is an open-ended solution space that rewards the models' creativity, while documentation and tests provide natural guardrails against hallucination. In contrast, for analytics use cases, there’s often only a single correct answer using a single correct source in which there’s no deterministic way of proving the correctness.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a20480bedac32484c00d6b9_4a7645b6.png)
+![](https://assets.claude.com/21d2ac79b6483d9c14944a94123ea9ffe7fd2f9b.png)
 For self-service agentic business analytics, the complexity mainly lies in the ambiguity of the data. The central problem comes down to our*** ability to map a user’s question to specific and up-to-date entities in our data model and know the correct way of working with them***. If we can do that, then the resulting execution and SQL becomes trivial.
 We’ve identified three attributes of this problem that account for an overwhelming majority of inaccurate responses:
   - **Concept <> entity ambiguity**: with hundreds of viable options in a data model (out of potentially millions of fields), the agent is unable to choose the correct fields that best answer a user’s question. For example, in measuring the number of active users: what actions constitute being “active”? Do you include fraudulent users? What lookback window do you use?
@@ -24,18 +37,17 @@ At Anthropic, the main way we minimize these three errors is via our agentic dat
   - **Staleness**: maintenance and validation processes keep everything from rotting as the business changes.
   - **Retrieval failure**: skills make sure the agent reliably finds and correctly uses that answer.
 In this section, we’ll discuss how we built each layer.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a2049920443016925a3ef72_74528df2.png)
-For ad-hoc questions asked directly in Slack, see how our data team deploys a [data analytics agent with Claude Tag](https://claude.com/blog/self-service-data-analytics-in-slack-how-anthropic-deploys-claude-tag-for-ad-hoc-questions).
+![](https://assets.claude.com/9f76b807b5c27e806bb3995890888675b8325c67.png)
+*For ad-hoc questions asked directly in Slack, see [how our data team deploys a data analytics agent with Claude Tag](https://claude.com/resources/articles/self-service-data-analytics-in-slack-how-anthropic-deploys-claude-tag-for-ad-hoc-questions).*
 ### **Data foundations**
 The most important aspect of ensuring analytics agents are accurate is via strong data foundations, which include the data models, transforms, tests, and tables in a data warehouse, along with the metadata describing them. Standard data engineering and data quality practices such as [dimensional modeling](https://en.wikipedia.org/wiki/Dimensional_modeling), shift-left testing, freshness and completeness checks on critical pipelines all still apply (and we won't relitigate these).
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a2049920443016925a3ef75_98412372.png)
- Standard data engineering practices like dimensional modeling are just as important as they ever were.
+![](https://assets.claude.com/05e220dc1de7b0ce4a20b4926aba1bec84963d5d.png)Standard data engineering practices like dimensional modeling are just as important as they ever were.
 What does change is that the end user of your data model is no longer a data expert (e.g. data scientist), but rather agents acting on behalf of users with varying degrees of data expertise or understanding of the underlying infrastructure. This shift presents a challenge in that the results can’t require the user to validate the underlying correctness simply because the end user doesn’t know.
 The data foundations layer is aimed primarily at ambiguity: if *revenue*, for example, resolves to one governed dataset instead of forty plausible candidates, the problem largely disappears before the agent ever has to search. It's also where the first staleness defense lives, since the same repo that defines the canonical models is the natural place to enforce that they stay current.
 We’ve seen a few practices work especially well:
   - **Create canonical datasets**: By far the most common failure is that the agent can’t map a concept (“revenue for product X”) to the single correct table, column, and metric definition, usually because there are multiple plausible candidates with subtly different implementations. The fix is fewer, more heavily governed logical models: curate a small set of canonical, single source-of-truth datasets that are clearly owned, consumption-ready, and discoverable, then aggressively deprecate the near-duplicates. Physical rollups and caches still matter for cost and performance, but they should derive mechanically from the canonical models rather than living alongside them as alternatives. The goal is that when an agent searches for a concept, it finds a single governed answer.
   - **Enforce your standards**: We’ve found the foundations only hold if the canonical models and metric definitions are enforced by *tooling* (the agent is structurally routed to them first; more on that below), by *CI* (changes that bypass them fail review), and by *mandate* (downstream teams build on the governed layer or explain why not). Governance without enforcement otherwise quickly decays back to the multiple candidates problem.
-  - **Colocate artifacts**: Our main defense against constantly changing data models and business logic is colocation. Nearly all data code (i.e., modeling, semantic layer, reference docs, canonical dashboard definitions) lives in a single repo, with CI checks that protect cross-layer integrity. If a modeling change would break a downstream dashboard or invalidate a documented metric, CI flags it and the fix ships in the same PR. (We’ll come back to the mechanics of this in the **Skills **section** **below.)
+  - **Colocate artifacts**: Our main defense against constantly changing data models and business logic is colocation. Nearly all data code (i.e., modeling, semantic layer, reference docs, canonical dashboard definitions) lives in a single repo, with CI checks that protect cross-layer integrity. If a modeling change would break a downstream dashboard or invalidate a documented metric, CI flags it and the fix ships in the same PR. (We’ll come back to the mechanics of this in the **Skills **section below.)
   - **Treat metadata as a first-class product**: Coding agents perform well partly because codebases are *legible*: READMEs, type signatures, docstrings, etc. Your warehouse can be just as legible, but only if column and table descriptions, canonical metric definitions, grain documentation, valid value ranges, lineage, ownership, and model tiering are maintained with the same rigor as the transformations themselves. While not a new insight, good governance provides critical context that helps the agent choose the right dataset.
 ### **Sources of truth**
 If data foundations are the data warehouse itself, sources of truth are the reference surfaces the agent consults to navigate it. This layer reduces concept <> entity ambiguity and turns “weekly active users” in a stakeholder’s question into a specific, governed entity in your data model. Roughly in descending order of trust:
@@ -51,6 +63,7 @@ In Claude Code, a [skill](https://code.claude.com/docs/en/skills) is a folder of
 Some best practices:
 **Create pairwise skills: **a ***knowledge*** skill acts as a thin top-level router that allows additional domain details to load on demand. It says "try the semantic layer first, but if there’s no coverage, here are ~30 reference files for this domain describing the relevant tables, columns, joins and gotchas.” This router is, in effect, our answer to retrieval failure: rather than letting the agent search a million-field warehouse, it narrows the space to a few dozen curated files before a query is ever written. The ***runbook*** skill encodes the process a senior analyst would follow: clarify the question, find sources (via the knowledge skill), run the query, and then loop the result through adversarial review sub-agents. It also bundles a dozen reusable analysis patterns (retention curves, rate decomposition, funnel analysis) so that common requests don't get reinvented each time.
 **Create proper reference docs**: written for retrieval by an LLM. Our reference docs describe tables (grain, scope, and exclusions), the mechanics of gotchas (e.g., “exclude known free-email domains, but keep custom ones like anthropic.com”), and explicit routing triggers (e.g., “IF the question is about experiment lift… DO NOT use for raw event counts”) without prescriptive recipes that go stale. See below for a skeleton we use to create reference docs.
+Copy
 ```
 # [Domain] Tables
 
@@ -120,6 +133,7 @@ Whatever your route, our greatest gains have come from addressing each of the th
 ## **Appendix**
 #### **Skill File Skeleton**
 What follows is the skeleton of our main warehouse skill: the real file's structure, with internal specifics replaced by [bracketed placeholders]. It isn't meant to be copied verbatim; it's meant to show the kinds of sections we found worth writing down.
+Copy
 ```
 ---
 name: [warehouse-skill]
@@ -261,3 +275,25 @@ semantic-layer path is shown not to cover the ask.
 - [Which of two plausible sources is canonical for the headline metric]
 - [… a dozen more hard-won one-liners …]
 ```
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

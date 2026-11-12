@@ -1,3 +1,17 @@
+# Product management on the AI exponential
+Claude Code’s Head of Product Cat Wu shares how product management teams are adapting their workflows and roadmaps in the face of rapidly evolving model intelligence.
+  -
+Category[Perspectives](https://claude.com/resources/perspectives)
+  -
+ProductClaude Code
+  -
+AuthorCat Wu
+  -
+DateMarch 19, 2026
+  -
+Reading time11 min
+  -
+ShareCopy link
 Since [Claude Sonnet 3.5 (new)](https://www.anthropic.com/news/3-5-models-and-computer-use) in October 2024, I made a habit of testing every new model by asking Claude Code (an internal tool at the time) to add a table tool to Excalidraw. With each new model, Claude got a little further but still failed.
 Then, with the release of [Opus 4](https://www.anthropic.com/news/claude-4) in June 2025, Claude started occasionally succeeding, enough that we turned the exercise into a [pre-recorded demo](https://www.youtube.com/live/EvtPBaaykdo?t=3478s) for the Claude 4 model launch to show what had become possible with our latest model.
 Less than a year later, [Opus 4.6](https://www.anthropic.com/news/claude-opus-4-6) can one-shot Excalidraw feature requests reliably enough that we feel comfortable doing it live, in front of thousands of professional developers.
@@ -9,19 +23,17 @@ I started my career as a product engineer at startups like Scale AI and Dagster,
 I joined Anthropic in August 2024 as a product manager on the Research PM team, which bridges our research team and real-world customers to deliver better models. When Claude Code became available internally that fall, I used it to accelerate the more manual parts of my job, including building Streamlit apps to analyze large-scale user feedback and running evals to help the company find new benchmarks to trust. The low barrier to building also meant I could explore well beyond my usual role, like creating RL environments to better understand training.
 These projects took hundreds of hours of prompting Claude Code powered by Sonnet 3.5 (new), but not a single line of code written by hand.
 ## Designing a new product management workflow
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69bc295c981804a6cc75ded9_fig1-claude-code-pm-playbook-on-the-ai-exponential-v4%402x.png)
-Tools like Claude Code and Cowork are blurring the lines between distinct roles in the product development life cycle.
-Claude Code isn’t the only tool powering my workflow. Over time, I've settled into a natural division of labor across three products: a chat collaborator ([Claude.ai](http://claude.ai)), agentic coding tool (Claude Code), and a knowledge work tool ([Cowork](https://www.anthropic.com/webinars/future-of-ai-at-work-introducing-cowork)).
+![](https://assets.claude.com/2eb62c76e42ed4b27ca8f25dc57b7612a6294500.png)Tools like Claude Code and Cowork are blurring the lines between distinct roles in the product development life cycle.
+Claude Code isn’t the only tool powering my workflow. Over time, I've settled into a natural division of labor across three products: a chat collaborator ([Claude.ai](http://claude.ai)), agentic coding tool (Claude Code), and a knowledge work tool ([Cowork](https://claude.com/resources/webinars/future-of-ai-at-work-introducing-cowork)).
 **Claude.ai** is where I talk to Claude as a thought partner without needing it to take action. I bounce ideas for strategy docs, how to handle tricky situations, and get quick answers.
 **Claude Code** is where I build prototypes, evals, and scripts, many of which call Claude API. I use this when the output is code.
 **Cowork** is where I do everything else, from getting to inbox zero, tracking and acting on a todo list, creating slide decks, understanding the history of a decision by searching Slack, and booking my work travel.
 I’ve talked with product managers across the industry who've found their own versions of this workflow:
-*“Claude has raised the ceiling on what good product teams can build, and dramatically shortened the distance between idea and prototype. Getting something tangible in front of customers used to take weeks of building. Now I'll start in Claude Cowork, pulling in context from Slack, our codebase, and docs, then move into Claude Code to have something demo-able in a couple of hours. Good product teams have always tested their ideas with real customers, and that instinct hasn't changed. What has is how many more high-quality ideas we can actually put through the loop.” - Bihan Jiang, Director of Product, Decagon*
-*“To me, being a PM in an AI-native world is both creative and academic. Each new model release changes what’s possible, and in building Datadog’s Bits AI SRE agent we study its strengths and failure modes through offline evaluation on real-world production incidents. We also design tight feedback loops, refining the UX to surface where the agent struggles and turning those insights into product improvements. In that sense, a PM’s craft has shifted from defining certainty upfront to accelerating discovery.” - Kai Xin Tai, Senior Product Manager, Datadog*
+““Claude has raised the ceiling on what good product teams can build, and dramatically shortened the distance between idea and prototype. Getting something tangible in front of customers used to take weeks of building. Now I'll start in Claude Cowork, pulling in context from Slack, our codebase, and docs, then move into Claude Code to have something demo-able in a couple of hours. Good product teams have always tested their ideas with real customers, and that instinct hasn't changed. What has is how many more high-quality ideas we can actually put through the loop.” - Bihan Jiang, Director of Product, Decagon”
+““To me, being a PM in an AI-native world is both creative and academic. Each new model release changes what’s possible, and in building Datadog’s Bits AI SRE agent we study its strengths and failure modes through offline evaluation on real-world production incidents. We also design tight feedback loops, refining the UX to surface where the agent struggles and turning those insights into product improvements. In that sense, a PM’s craft has shifted from defining certainty upfront to accelerating discovery.” - Kai Xin Tai, Senior Product Manager, Datadog”
 One of the most exciting parts of being a product manager today is that these workflows are constantly evolving and giving us more leverage.
 ## Leaning into the AI exponential
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/69bc2f892ac8ae5b32d2ac32_Screenshot%202026-03-19%20at%201.16.39%E2%80%AFPM.png)
-*METR. (2026, March). Task-Completion Time Horizons of Frontier AI Models. *[*https://metr.org/time-horizons/*](https://metr.org/time-horizons/)
+![](https://assets.claude.com/f869c186fa92de1125180eabb1e4e5332f0feb44.png)METR. (2026, March). Task-Completion Time Horizons of Frontier AI Models. https://metr.org/time-horizons/
 METR [finds](https://metr.org/time-horizons/) that, about half the time, Opus 4.6 can complete software tasks which take humans almost 12 hours. When we first started building Claude Code, Sonnet 3.5 (new) was the frontier model and METR measured that it could do tasks that would take a human around 21 minutes. That's a roughly 41x jump in 16 months.
 The Claude Code team has evolved to keep pace with how quickly models improve. Our roles are blending together: designers ship code, engineers make product decisions, product managers build prototypes and evals. This works because clear strategy and goals let everyone prioritize autonomously. The product manager’s job is to create clarity in the ambiguity that rapid model progress creates, push the team to think bigger about what’s possible, and clear the path to shipping faster.
 Here are four shifts we’ve embraced:
@@ -47,7 +59,28 @@ When we first launched todo lists in Claude Code, the model wouldn't reliably ch
 Many product managers are used to having tight control over the full product experience, but AI pushes you to let go in order to move quickly. That instinct for control is the first thing AI product management asks you to unlearn.
 When it comes to building AI products in particular, it feels like surfing a wave where the most important thing is to stay on it. As a perfectionist, this was the hardest shift for me to get comfortable with, but the product manager’s role is now to identify the handful of true non-negotiables and let the rest go.
 The net effect of these shifts is that product teams can move significantly faster. When a product manager can go from idea to working prototype in an afternoon, the gap between “what if we tried…” and “here, try this” nearly disappears.
-At Anthropic, product managers aren’t the only ones transforming their workflows with Claude. Our data science, [finance](https://www.anthropic.com/webinars/claude-code-financial-services), marketing, [legal](https://www.youtube.com/watch?v=tJP6SKfo49c), and [design teams](https://www.youtube.com/watch?v=vLIDHi-1PVU) picked up these tools on their own. The whole organization moves at the same speed instead of waiting on handoffs.
+At Anthropic, product managers aren’t the only ones transforming their workflows with Claude. Our data science, [finance](https://claude.com/resources/webinars/claude-code-financial-services), marketing, [legal](https://www.youtube.com/watch?v=tJP6SKfo49c), and [design teams](https://www.youtube.com/watch?v=vLIDHi-1PVU) picked up these tools on their own. The whole organization moves at the same speed instead of waiting on handoffs.
 The PM role now is to track both things at once: how AI is changing the way you work, and how it's changing what's possible in your product. Do that well, and you stop being surprised when the table tool finally works. You're the one who saw it coming.
-*Start building better products with *[*Claude Code*](https://claude.com/product/claude-code)*.*
-***Acknowledgments:**** This article was written by Cat Wu, the Head of Product for Claude Code at Anthropic. You can find her on *[*X*](https://x.com/_catwu)* and *[*LinkedIn*](https://www.linkedin.com/in/cat-wu/)*. She'd like to thank Bihan Jiang and Kai Xin Tai for their contributions to this piece. *
+*Start building better products with [Claude Code](https://claude.com/product/claude-code).*
+***Acknowledgments:** This article was written by Cat Wu, the Head of Product for Claude Code at Anthropic. You can find her on [X](https://x.com/_catwu) and [LinkedIn](https://www.linkedin.com/in/cat-wu/). She'd like to thank Bihan Jiang and Kai Xin Tai for their contributions to this piece.*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleOct 22, 2026
+### Building agents: When to fold subagents into your main agent loop
+When building agents in Claude Platform, using fewer subagents in favor of progressively disclosed context and tools can improve quality while reducing cost and latency. Here’s when and how to migrate.
+Claude Platform
+](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop)[
+ArticleOct 13, 2026
+### Uber's CISO on building an insider threat program for AI
+Uber's CISO, Philip Martin, on the importance of monitoring and observability for AI agents, and how Uber's open-source tooling works alongside Enterprise Frontier Safeguards.
+](https://claude.com/resources/articles/uber-s-ciso-on-building-an-insider-threat-program-for-ai)[
+ArticleOct 8, 2026
+### How Block orchestrates Claude Fable across thousands of pull requests
+Bradley Axen, Head of AI Capabilities at Block, on how his team evaluates new large language models, how Claude Fable 5 orchestrates company-wide code migrations, and why safeguards are a critical part of deploying frontier intelligence responsibly, at scale.
+Claude Enterprise
+](https://claude.com/resources/articles/how-block-orchestrates-claude-fable-across-thousands-of-pull-requests)[
+ArticleOct 6, 2026
+### How Comcast and Booz Allen use Claude Mythos to find exploit chains and secure their codebases
+Security teams at Comcast and Booz Allen used Claude Mythos-class models through Project Glasswing to find, validate, and fix vulnerabilities their existing scanners missed.
+](https://claude.com/resources/articles/how-comcast-booz-allen-use-claude-mythos-to-secure-their-codebases)

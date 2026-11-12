@@ -1,3 +1,17 @@
+# Coding sessions are longer and use more context. Claude Opus 5.5 is built with that in mind.
+Our latest Opus model is priced and trained to optimize costs for how developers code now.
+  -
+Category[Best practices](https://claude.com/resources/best-practices), [Perspectives](https://claude.com/resources/perspectives), [Insights](https://claude.com/resources/insights)
+  -
+ProductClaude Code, Claude Enterprise
+  -
+AuthorMichael Segner
+  -
+DateSeptember 24, 2026
+  -
+Reading time6 min
+  -
+ShareCopy link
 We estimate Claude Opus 5.5 [costs about 40% less](https://www.anthropic.com/claude-opus-5-5) to run than Opus 5 for typical workloads billed by token. For developers, exactly *how *those savings stack up matters.
 If you pay by the token, you will see the greatest cost difference for longer-running, higher context sessions–the exact type of Claude Code sessions that have become more prevalent in the last six months.
 This post will dive into the mechanics of what makes Opus 5.5 cost effective for how developers are coding today (and likely tomorrow).
@@ -6,18 +20,18 @@ We've pulled aggregate data on how developers have been using Claude Code from M
   - Claude works 3.3x longer on each prompt with more than 40% more model calls per prompt. There are 68% fewer interruptions.
   - Developers are about twice as likely to have a tool server connected or use a skill and a third less likely to paste text into a prompt.
   - Context per request has grown 2.6x. The input to output token ratio moved from 189:1 to 324:1.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6ab54d371474ec5e28cb0912_0dfedac7.png)
+![](https://assets.claude.com/809e6884c05cc2a142d34ee57456120a550ef6d1.png)
 All of this points to developers aiming a harder working, better informed Claude toward bigger, more open-ended tasks. For these types of sessions, the economic impact of context engineering is compounded.
-Simply put, Claude reads more tokens. You need to make sure [all the context you are providing is necessary](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models), and that [as much of that context as possible is reading from cache](https://claude.com/blog/maximizing-the-value-of-your-claude-code-sessions).
+Simply put, Claude reads more tokens. You need to make sure [all the context you are providing is necessary](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models), and that [as much of that context as possible is reading from cache](https://claude.com/resources/articles/maximizing-the-value-of-your-claude-code-sessions).
 ## **What makes Opus 5.5 cost effective for long, context heavy sessions**
 There are three changes that make long-running, context-heavy sessions more cost effective: changes to pricing, model behavior, and the Claude Code harness. Let’s look at each.
 ### **Cache is cheap**
 For usage billed by the token, we reduced the cost of input and output tokens 20%, and *we dropped the price of reading a cached token 60%*. The latter reduction is significant because cache reads make up the majority of agentic and coding work costs.
 And as we just discussed, context per request has increased roughly 2.6x in six months, which means savings are trending in the right direction. The same price change for those billed by token saves more on today's Claude Code traffic than it would have six months ago, because more of the bill is now re-read context.
 As of the publication date, a cached token on Opus 5.5 costs a fifth of what it does compared to competing models while outperforming them.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6ab54d381474ec5e28cb0920_7df87a60.png)
+![](https://assets.claude.com/dda0a2bf9ba0614e6be7598a1be52d1871292742.png)
 ### **Claude Code is better at using the cache**
-This is less specific to Opus 5.5, and more the result of many of the Claude Code features we’ve added in the last six months. Given the coding session trends we just discussed, you would expect a higher rate of cache misses, but the opposite is true. **Input that misses the cache decreased by more than 50%. **
+This is less specific to Opus 5.5, and more the result of many of the Claude Code features we’ve added in the last six months. Given the coding session trends we just discussed, you would expect a higher rate of cache misses, but the opposite is true. **Input that misses the cache decreased by more than 50%.**
 For example, we made it harder to unintentionally break your cache with smaller papercuts like refreshing a login. We also made it harder to break with larger actions, like adding instructions mid-conversation or loading tools on demand. For newer models like Opus 5.5 and Fable 5.1, you can now change effort levels during your sessions without resetting your cache.
 We also made the cache more useful for longer-running and delegated sessions. Developers on API keys and cloud providers can now set a one-hour cache lifetime (which subscribers already had) and forked subagents start from the parent's cache instead of paying for the same context again.
 ### **The same task, but with fewer turns**
@@ -31,3 +45,24 @@ As agentic coding has matured, organizations have shifted from asking developers
   - Compact before you step away rather than after, and
   - If you're on an API key or cloud provider, set the [one-hour cache lifetime](https://code.claude.com/docs/en/prompt-caching#choose-the-ttl-yourself) for long sessions.
 Point Opus 5.5 at the open-ended, context-heavy work where those habits compound, and see [What a task costs on Opus 5.5](https://claude.com/blog/what-a-task-costs-on-opus-5-5) for the worked numbers.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Claude can design electronic prototypes from start to finish
+We asked Claude to design three electronic devices: a speakerphone, a voice-assistant hub, and a handheld virtual pet. The prototypes worked without any fixes to their circuitry.
+(opens in new tab)](https://www.anthropic.com/research/claude-electronics-design)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)

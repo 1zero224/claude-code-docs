@@ -1,6 +1,18 @@
-***Update: ****Artifacts now support MCP and persistent storage. (October 21, 2025)*
-***Update: ****Now available on Team and Enterprise plans. (July 31, 2025)*
-***Update: ****Now available on iOS and Android apps. (July 21, 2025)*
+# Turn ideas into interactive AI-powered apps
+Turn ideas into interactive AI-powered apps through conversation—no coding required—with artifacts.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude apps
+  -
+DateJune 25, 2025
+  -
+Reading time3 min
+  -
+ShareCopy link
+***Update: **Artifacts now support MCP and persistent storage. (October 21, 2025)*
+***Update: **Now available on Team and Enterprise plans. (July 31, 2025)*
+***Update: **Now available on iOS and Android apps. (July 21, 2025)*
 ‍
 Today, we’re introducing a dedicated space to view artifacts in the Claude app, and the ability to embed AI capabilities directly into your creations—transforming artifacts into interactive, AI-powered apps.
 Since launch, millions of users have created over half a billion artifacts—from productivity tools to educational games—and now you can create even more interactive experiences to use and share.
@@ -14,9 +26,33 @@ Additionally, our new [artifacts](https://claude.com/features/artifacts) space m
   - **Organize everything** in one place
 ### When conversation becomes creation
 Music producer Rick Rubin captured this shift perfectly with “[The Way of Code](https://www.thewayofcode.com/),” exploring how conversation itself becomes a form of creative expression. His project paired 81 meditations with interactive artifacts that anyone can reshape with Claude.
-![An image titled ](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d97755e649b281632b8_163fe1d05e30df285cabe24fe3454215edfa4ec9-3413x1920.png)
+![An image titled ](https://assets.claude.com/163fe1d05e30df285cabe24fe3454215edfa4ec9.png)
 ### Getting started
 Want to create a personalized storytelling app? A coding tutor that adjusts to different learning styles? A creative writing assistant? Just describe your idea to Claude.
-Access the new artifacts space from the sidebar in the Claude app—it’s currently available to Free, Pro, and Max users. Whether you want to browse for inspiration, customize existing creations, or build something entirely new, the tools are at your fingertips.
+Access the new artifacts space from the sidebar in the Claude app—it’s currently available to Free, Pro, Max, and Ultra users. Whether you want to browse for inspiration, customize existing creations, or build something entirely new, the tools are at your fingertips.
 You can also share artifacts for anyone to view your creations. To get the full experience, viewers can sign in to a Claude account with any plan.
-The ability to embed AI capabilities directly into your artifacts is available in beta. Learn more about how to build and share AI-powered apps with Claude [here](https://claude-powered-artifacts).
+The ability to embed AI capabilities directly into your artifacts is available in beta. Learn more about how to build and share AI-powered apps with Claude [here](https://claude.com/resources/articles/build-artifacts#).
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

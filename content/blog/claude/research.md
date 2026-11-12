@@ -1,14 +1,26 @@
+# Claude takes research to new places
+Claude can now conduct in-depth Research by searching across the web and your Google Workspace to deliver comprehensive answers in minutes.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude apps
+  -
+DateApril 15, 2025
+  -
+Reading time6 min
+  -
+ShareCopy link
+*Editor's note: Mentions of Max in this post from before October 30, 2026 include what are now the Max and Ultra plans.*
 Earlier this year, we introduced [our vision](https://www.anthropic.com/news/claude-3-7-sonnet) for Claude as your collaborative partner that delivers hours of work in minutes. In line with this vision, we’re continuing to expand the context that Claude has access to, as well as the kinds of outputs you can generate with Claude to support your personal and professional work.
 Today, we’re introducing two new capabilities that make Claude a more informed and capable collaborator — Research and a Google Workspace integration that connects your email, calendar, and documents to Claude. With Research, Claude can search across both your internal work context and the web to help you make decisions and take action faster than before.
-
 ### Research
 Research transforms how Claude finds and reasons with information. Claude operates agentically, conducting multiple searches that build on each other while determining exactly what to investigate next. It explores different angles of your question automatically and works through open questions systematically. This approach delivers thorough answers, complete with easy-to-check citations so you can trust Claude's findings.
 Research delivers high-quality, comprehensive answers in minutes, making it practical for the multiple research tasks you tackle throughout your workday. It's this balance of speed and quality that sets it apart.
 ### Google Workspace
 Claude now integrates with Gmail and Calendar, in addition to Google Docs – helping it gain deeper insight into your work context. By connecting Google Workspace, Claude can securely search emails, review documents, and see your calendar commitments – eliminating the need to manually upload files or repeatedly provide context about your work and schedule.
-![A product screenshot of Claude interacting with Google Workspace](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d9038a73b8083081581_d94666bde1a93acd0d678ecf8c4017230a6416a5-2400x1350.png)
+![A product screenshot of Claude interacting with Google Workspace](https://assets.claude.com/d94666bde1a93acd0d678ecf8c4017230a6416a5.png)
 Ask Claude to pull together meeting notes from last week, identify action items from follow-up email threads, and search relevant documents for additional context. Claude brings these insights directly to you, eliminating hours of manual work and letting you focus on strategic planning instead of information gathering. Claude will provide inline citations that you can use to verify the source, so that you can trust Claude is working from the most recent context.
-![Google Drive suggestion chips on the Claude home page](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e95d9038a73b8083081585_2de448df750ac57760e61a59fe8af1defc46d86e-2400x1350.png)
+![Google Drive suggestion chips on the Claude home page](https://assets.claude.com/2de448df750ac57760e61a59fe8af1defc46d86e.png)
 Using Research with Google Workspace:
   - **Marketing teams **can plan for product launches faster by having Claude gather competitive intelligence from the web while pulling relevant product specs, positioning, and strategy documents to create comprehensive launch plans.
   - **Sales teams **can prepare for client meetings more efficiently by having Claude search through correspondence history, calendar invitations with meeting notes, and the latest updates about the prospect's company to create detailed briefing documents.
@@ -23,3 +35,27 @@ This is just the beginning of updates to make Claude an even better collaborator
 **Research **is now available in early beta for Max, Team, and Enterprise plans in the United States, Japan, and Brazil. Simply toggle on the Research setting in chat.
 **Web search**, which launched in the United States in March, is now available in Brazil and Japan and is automatically enabled for paid plans in these regions. Claude for Work administrators must enable web search for your organization in settings.
 **The Google Workspace** integration is available in beta to all paid users in [profile settings](http://claude.ai/settings/profile#feature-preview). Team and Enterprise plan admins must enable Google Workspace access domain-wide before individual users connect their accounts. Claude Enterprise plan admins can enable Google Docs cataloging for the entire organization.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

@@ -1,10 +1,22 @@
+# Zero risk isn't the job: a CISO's guide to agentic AI
+*Anthropic's Deputy CISO, Jason Clinton, shares his team's lessons learned adopting agentic AI, and the risk assessment framework they've developed for building and deploying agents securely.*
+  -
+Category[Best practices](https://claude.com/resources/best-practices), [Perspectives](https://claude.com/resources/perspectives)
+  -
+AuthorJason Clinton
+  -
+DateJuly 17, 2026
+  -
+Reading time22 min
+  -
+ShareCopy link
 Security leaders are being asked to approve agentic AI use cases that did not even exist a few months ago. Boards want to know whether any of it is governed, and somewhere in your organization, an employee has already connected an agent to something without telling you.
 Saying “no” to these requests produces shadow adoption, which has zero telemetry and generally no off switch. Saying “yes” without controls produces incidents, and the first serious agent incident at your company will set your AI program back.
 A CISO’s responsibility in the age of agentic AI is not to achieve zero risk. Instead, our jobs are to make agentic risk legible and bounded. This way, we can deliberately accept what we can manage, so the business moves on our terms instead of around us.
 In this article, I share our framework for evaluating agents for security risk, explain what “bounded” means in practice, and preview where our work is headed.
 ## External risk from AI versus internal risk in the post-Mythos era
-In [an earlier blog post](https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense), my colleagues and I shared how AI is collapsing the time between a vulnerability existing and a working exploit, highlighting how organizations can mitigate these risks. In the coming months, we expect that vast numbers of bugs that have sat unnoticed in code, sometimes for years, will be found by AI models and chained into working exploits. Frontier models like [Claude Mythos Preview](https://red.anthropic.com/2026/mythos-preview/) and [Claude Mythos 5](https://www.anthropic.com/news/claude-fable-5-mythos-5) are already finding [serious vulnerabilities](https://www.anthropic.com/glasswing) that years of human review missed, including in OpenBSD, the Linux Kernel and [Mozilla Firefox](https://blog.mozilla.org/en/privacy-security/ai-security-zero-day-vulnerabilities/).
-These are serious risks to any GRC program. Mitigating and closing vulnerability gaps, as well as for preparing for the coming wave of exploits, should be a top priority. For this topic, we have prepared a separate doc: [Preparing your security program for AI-accelerated offense](https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense). We’ll focus on internal risks for this guide.
+In [an earlier blog post](https://claude.com/resources/articles/preparing-your-security-program-for-ai-accelerated-offense), my colleagues and I shared how AI is collapsing the time between a vulnerability existing and a working exploit, highlighting how organizations can mitigate these risks. In the coming months, we expect that vast numbers of bugs that have sat unnoticed in code, sometimes for years, will be found by AI models and chained into working exploits. Frontier models like [Claude Mythos Preview](https://red.anthropic.com/2026/mythos-preview/) and [Claude Mythos 5](https://www.anthropic.com/news/claude-fable-5-mythos-5) are already finding [serious vulnerabilities](https://www.anthropic.com/glasswing) that years of human review missed, including in OpenBSD, the Linux Kernel and [Mozilla Firefox](https://blog.mozilla.org/en/privacy-security/ai-security-zero-day-vulnerabilities/).
+These are serious risks to any GRC program. Mitigating and closing vulnerability gaps, as well as for preparing for the coming wave of exploits, should be a top priority. For this topic, we have prepared a separate doc: [Preparing your security program for AI-accelerated offense](https://claude.com/resources/articles/preparing-your-security-program-for-ai-accelerated-offense). We’ll focus on internal risks for this guide.
 ## Governing internal risks
 For many organizations, the most likely threat vector for agentic systems is a data leak enabled by connecting disparate systems through personal agents with insufficient oversight. Another concern is [prompt injection](https://www.anthropic.com/research/prompt-injection-defenses): an attacker hides instructions inside content the agent reads, and the agent follows the attacker instead of the user. Any agent that touches untrusted content could then be exposed, depending on how robust the defenses of the model are. As models grow increasingly capable, they’re getting meaningfully better at resisting injection. While[ attack success rates keep falling](http://anthropic.com/research/prompt-injection-defenses), they’re not zero. There are many concerns outside of these two examples, and the deluge of new classes of concern can seem overwhelming.
 ### Four questions to assess agentic AI risk
@@ -13,11 +25,11 @@ When an agentic use case reaches our review process, we assess its risk by askin
   - **What actions can it take, and on whose behalf?** Read-only is a different concern from read/write. Tool calls, code execution, and network egress each widen the aperture. Every action happens under some identity, and you need to know whose.
   - **What is the blast radius if it is misaligned?** Scope X severity is the quick calculation: did the bad actor or alignment incident have access to one file or the whole org? Would it be an anomaly, an annoyance, a data exposure, or a true incident?
   - **What observability do I have?** Can you tell agent actions from user actions? Does it land in your SIEM?
-The four answers to these questions give you a picture of your risk, but the principle of least agency tells you what to do with it: grant the narrowest capability that still completes the task (see our [Zero Trust for AI Agents](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/6a1611a04085d7cd3dadc924_Claude-eBook-Zero-Trust-for-AI-Agents-05182026.pdf) white paper to learn more). Our default posture at Anthropic is admin-paced rollout: enable a small group, watch the telemetry, and then expand access. Apply these questions to a new paradigm for thinking about risky agentic systems.
+The four answers to these questions give you a picture of your risk, but the principle of least agency tells you what to do with it: grant the narrowest capability that still completes the task (see our [Zero Trust for AI Agents](https://assets.claude.com/4e89a59711a145138bd8edbe7539331abc14ac0b.pdf) white paper to learn more). Our default posture at Anthropic is admin-paced rollout: enable a small group, watch the telemetry, and then expand access. Apply these questions to a new paradigm for thinking about risky agentic systems.
 An agent that drifts out of alignment with your intent is indistinguishable from an insider attack. The security industry spent 2019-2022 formalizing [insider risk as a discipline](https://www.cisa.gov/resources-tools/resources/insider-threat-mitigation-guide) distinct from perimeter defense—recognizing that the most dangerous external attack vectoractor in a system is often one that compromises someone who already has legitimate access.
 The operational difference is response time:[ Ponemon Institute's 2026 Cost of Insider Risks report](https://www.ponemon.org/news-updates/blog/security/lessons-learned-from-the-2026-global-cost-of-insider-risks.html) found organizations took an average of 67 days to contain an insider incident—even after years of investment in dedicated insider risk programs. At agent execution speeds, responses measured in days are too long.
 ## The agentic identity spectrum
-Everything we deploy sits at one of two ends of an [identity access model](https://claude.com/blog/agent-identity-access-model) spectrum.
+Everything we deploy sits at one of two ends of an [identity access model](https://claude.com/resources/articles/agent-identity-access-model) spectrum.
 At one end is the **system service account**: a self-contained, single-purpose, least-privilege identity that does exactly one thing for the business, with no human identity attached. The incident-response agent (see below), a ticket triage agent, or an autonomous code reviewer are examples of these. Another example is [Claude Tag](https://www.anthropic.com/news/introducing-claude-tag), our new shared workspace agent that lets human teams collaborate with agents in shared workspaces like Slack by tagging in Claude.
 At the other end is **the human credential**. When an employee uses a chat interface or a personal agent harness like Claude Cowork on their laptop, the person at the keyboard is accountable for the outcome, the same way they are accountable for anything else done with their credentials.
 The middle of the spectrum, where an agent carries a person's delegated identity into systems that person is not watching, is where accountability gets ambiguous. Ambiguous accountability is how incidents become unexplainable.
@@ -65,5 +77,27 @@ The framework above is only useful if it changes a decision in your organization
   - **Take the seven requirements above to the teams and vendors building agents whom you already pay.** Ask your IdP, your SIEM, and any agent vendor which of these they can show you working in your stack today.
   - **Decide your trust boundary.** Write down what counts as untrusted content in your environment. Every future agent decision gets easier once that line exists.
 Waiting for zero risk means waiting forever. The web is adversarial, the models are evolving fast, and the organizations that learn to size and accept this risk now are the ones that get the advantage.
-*For the controls, attestations, and white papers behind this post, start at *[*trust.anthropic.com*](https://trust.anthropic.com)*. Check out *[*our companion piece*](https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense)* on defending against AI-accelerated offense. Jason goes deeper on this framework in the *[*Secure the Advantage webinar*](https://www.anthropic.com/webinars/secure-the-advantage-a-cisos-guide-to-agentic-ai)*.*
-‍*This article was written by Jason Clinton, Deputy CISO, Anthropic. *
+*For the controls, attestations, and white papers behind this post, start at [trust.anthropic.com](https://trust.anthropic.com). Check out [our companion piece](https://claude.com/resources/articles/preparing-your-security-program-for-ai-accelerated-offense) on defending against AI-accelerated offense. Jason goes deeper on this framework in the [Secure the Advantage webinar](https://claude.com/resources/webinars/secure-the-advantage-a-cisos-guide-to-agentic-ai).*
+‍*This article was written by Jason Clinton, Deputy CISO, Anthropic.*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

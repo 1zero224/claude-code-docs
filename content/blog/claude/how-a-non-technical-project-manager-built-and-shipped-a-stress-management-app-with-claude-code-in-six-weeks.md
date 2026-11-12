@@ -1,7 +1,17 @@
-*In our series, ****Day zero: founder stories****, we profile the builders behind some of the world’s most interesting and inspiring startups. In this article, we highlight Kostiantyn Vlasenko, a winner of the *[*Claude Opus 4.6 Hackathon*](https://claude.com/blog/meet-the-winners-of-our-built-with-opus-4-6-claude-code-hackathon)* and creator of Respiro.*
-
-    Founder Kostiantyn Vlasenko   Country Ukraine   Startup Respiro
-
+# How a non-technical project manager built and shipped a stress management app with Claude Code in six weeks
+Kostiantyn Vlasenko had never written a line of code when he set out to build Respiro. Just over a month later, his product was live on the App Store.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code
+  -
+DateMay 1, 2026
+  -
+Reading time8 min
+  -
+ShareCopy link
+*In our series, **Day zero: founder stories**, we profile the builders behind some of the world’s most interesting and inspiring startups. In this article, we highlight Kostiantyn Vlasenko, a winner of the [Claude Opus 4.6 Hackathon](https://claude.com/resources/articles/meet-the-winners-of-our-built-with-opus-4-6-claude-code-hackathon) and creator of Respiro.*
+FounderKostiantyn VlasenkoCountryUkraineStartupRespiro
 Fifteen minutes before joining the video call for this interview, Kostiantyn Vlasenko was feeling nervous. He was so preoccupied with thinking through what he wanted to say, though, that he actually didn't notice his own anxiety—but his phone did.
 "The app detected this and alerted me, *'Mate, you can just go and do a short box breathing session. Box breathing has previously helped you de-stress,'*" he says.
 That app, [Respiro](https://apps.apple.com/us/app/respiro-stress-relief/id6758023997), is Vlasenko's creation. Although a project manager with a decade of experience, he’d never shipped a line of code until February 2026 when he decided to build a project for the [Built With Opus 4.6 Claude Code Hackathon](https://cerebralvalley.ai/e/claude-code-hackathon?tab=guest-list). A month later, Respiro (an iOS app for science-backed stress management) is live on the Apple App Store, has hundreds of users, and runs on an architecture involving 15+ specialized subagents that Vlasenko built and orchestrates himself.
@@ -26,5 +36,26 @@ The skills Vlasenko developed building Respiro weren’t only applied to his sid
 "Most of them came back saying, *Hey, this workflow is much better than what I have right now! *" he noted. As a result, Mythical now has a small internal team delivering work entirely through Claude. It was not, however, a completely frictionless transition for all involved, Vlasenko observed. "It's hard for some engineers to switch the mindset of not completely controlling every line of code,” he said. “For me, it was easy because I don't have a deep programming background and it just felt like a natural way of working.”
 For Vlasenko, the experience of building Respiro has erased any boundaries between what's possible and what isn't. He's building voice-guided practices and motion exercises into the app’s next release, working from a roadmap Claude helped him write and logging seven or eight hours of coding sessions after finishing his regular workday.
 "I would say that Claude Code is my new addiction," he said.
-
-    The Claude Code Day Zero Questionnaire™   In which we ask founders the same silly questions to learn more about the person behind the keyboard.     Who or what inspires you? LeBron James. His discipline, consistency, and long-term mindset are incredibly inspiring. He didn't just rely on talent; he built one of the all-time greatest careers through relentless focus and execution. Also, Warren Buffett — very different field, but the same core traits: patience, consistency, and clarity of thinking over decades. I really admire people who achieve greatness not by luck, but by staying consistent for a very long time.   If you could go back in time, what would you have done differently and why? I wish I had realized earlier that building a product is actually the easy part. Communicating its value is much harder! Today, it's surprisingly easy to build something high-quality, especially with tools like Claude. But getting people to understand why it matters, why they should care — that's the real challenge.   If someone wrote a book about your startup journey, what would it be titled? "Autonomous by Design"   What does your workspace look like?  About 70% of the time, I work on my MacBook connected to an external monitor, keyboard, and mouse. Around 20% just on my laptop when I'm not at home. And about 10% — from my phone, usually when I get an idea and don't want to wait. Also, my cat is often on the desk keeping me company (and making sure I don't work non-stop for too many hours).    How many browser tabs do you have open right now? Right now — around 5. I try to keep it minimal. Usually, I have a YouTube video playing in the background — I like listening to true crime or founder podcasts. I also actively run a Threads account where I share what I'm building, experiments, Claude workflows, and help others set up their own systems.
+The Claude Code Day Zero Questionnaire™In which we ask founders the same silly questions to learn more about the person behind the keyboard.Who or what inspires you?LeBron James. His discipline, consistency, and long-term mindset are incredibly inspiring. He didn't just rely on talent; he built one of the all-time greatest careers through relentless focus and execution. Also, Warren Buffett — very different field, but the same core traits: patience, consistency, and clarity of thinking over decades. I really admire people who achieve greatness not by luck, but by staying consistent for a very long time.If you could go back in time, what would you have done differently and why?I wish I had realized earlier that building a product is actually the easy part. Communicating its value is much harder! Today, it's surprisingly easy to build something high-quality, especially with tools like Claude. But getting people to understand why it matters, why they should care — that's the real challenge.If someone wrote a book about your startup journey, what would it be titled?"Autonomous by Design"What does your workspace look like?About 70% of the time, I work on my MacBook connected to an external monitor, keyboard, and mouse. Around 20% just on my laptop when I'm not at home. And about 10% — from my phone, usually when I get an idea and don't want to wait. Also, my cat is often on the desk keeping me company (and making sure I don't work non-stop for too many hours).How many browser tabs do you have open right now?Right now — around 5. I try to keep it minimal. Usually, I have a YouTube video playing in the background — I like listening to true crime or founder podcasts. I also actively run a Threads account where I share what I'm building, experiments, Claude workflows, and help others set up their own systems.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

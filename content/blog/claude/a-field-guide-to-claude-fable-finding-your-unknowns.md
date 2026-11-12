@@ -1,6 +1,17 @@
+# A field guide to Claude Fable 5: Finding your unknowns
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code
+  -
+DateJuly 6, 2026
+  -
+Reading time2 min
+  -
+ShareCopy link
 When working with Claude Code, I’m often reminded of the difference between the map and the territory.
-The map, a representation of the work to be done, is my prompts and skills and context, it’s what I give Claude. The territory is where the work needs to happen, the codebase, the real world, its actual constraints.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a4be4919e159adcdfa3ec1c_94358c3c.png)
+The map, a representation of the work to be done, is my prompts and [skills](https://claude.com/resources/articles/skills-explained) and context, it’s what I give Claude. The territory is where the work needs to happen, the codebase, the real world, its actual constraints.
+![](https://assets.claude.com/0c9ef5f6d0bb96e0267b77ae7ec4ee3249a71778.png)
 The difference between the map and the territory is what I call *unknowns*. When Claude runs into an unknown, it needs to make a decision based on its best guess of what I want. The more work being done, the more unknowns Claude might run into.
 Claude Fable is the first model where I find the quality of the work is bottlenecked by my ability to clarify its unknowns.
 Importantly, just planning ahead isn’t always enough. You can find unknowns deep in implementation, or your unknowns may point you to the fact that you should actually be solving the problem in a different way altogether.
@@ -12,10 +23,10 @@ What are your unknowns? When I come to Claude with a problem I tend to break it 
   - **Unknown Knowns:** What's so obvious I’d never write it down, but would recognize it if I saw it?
   - **Unknown Unknowns:** What haven't I considered at all? What knowledge am I not aware of? Do I know how good something can be?
 The best agentic coders have relatively few unknowns. Watching someone like [Boris](https://www.linkedin.com/in/bcherny) or [Jarred](https://www.linkedin.com/in/jarred-sumner-a8772425) prompt, it is obvious to me that they know what they want in-detail. They are deeply in-sync with both the codebase and the model behaviors.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a4be4919e159adcdfa3ec52_cc0ee2de.png)
-But they also assume unknowns. In many ways, reducing and planning for your unknowns is the **skill** of agentic coding. But luckily, this is a skill you can improve at, by working with Claude.
+![](https://assets.claude.com/c0977293cee11764842764e05ae2802892000439.png)
+But they also assume unknowns. In many ways, reducing and planning for your unknowns is the **skill** of [agentic coding](https://claude.com/resources/articles/introduction-to-agentic-coding). But luckily, this is a skill you can improve at, by working with Claude.
 ## Help Claude help you
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a4be4919e159adcdfa3ec55_c4646783.png)
+![](https://assets.claude.com/55cc5d145a4c9a517e6bc1e7d94240c230b4120f.png)
 Instructing Claude is a delicate balance. If you are too specific, Claude will follow your instructions even when a pivot may be more appropriate. If you are too vague, Claude will often make choices and assumptions based on industry best practices that may not be a fit for your task.
 When you don’t account for your unknowns, you fail both ways. You don't know when the path will be filled with obstacles, and you don’t know when the path will be clear, but you still want Claude to veer.
 Claude can help you discover your unknowns faster. It can search through your codebase and the internet extremely quickly, and it knows much more about the average topic than you. It can also iterate from failure faster.
@@ -46,10 +57,10 @@ It’s extremely valuable to identify and verbalize unknown knowns early during 
 For example, you may just want to see how a button added to a frame looks without having to wire up a backend route or maintaining additional state in the frontend.
 Another example is visual design, which for me, is something that is difficult to articulate, but I know what I want when I see it. In these cases, I’ll ask for several design approaches to an artifact.
 I also start almost every coding session with an exploration or brainstorming phase. This helps me start with intent to define the project’s scope. Claude often finds high-value approaches I would have missed, and sometimes misses the forest through the trees. Brainstorming prevents me from setting too narrow or too wide a scope.
-**Example prompts: **
+**Example prompts:**
   - "I want a dashboard for this data but I have no visual taste and don't know what's possible. Make me an HTML page with 4 wildly different design directions so I can react to them.”
   - “Before wiring anything up, make a single HTML file mocking the new editor toolbar with fake data. I want to react to the layout before you touch the real app."
-  -  "Here's my rough problem: users churn after onboarding. Search the codebase and brainstorm 10 places we could intervene, from cheapest to most ambitious. I'll tell you which ones resonate."
+  - "Here's my rough problem: users churn after onboarding. Search the codebase and brainstorm 10 places we could intervene, from cheapest to most ambitious. I'll tell you which ones resonate."
 ### Interviews
 Once I’ve done sufficient brainstorming, I likely still have unknowns.
 In this case, I ask Claude to interview me about any unknowns or ambiguities. When asking Claude to interview you, try and give it context about your problem to guide its questions.
@@ -95,3 +106,25 @@ Every explainer, brainstorm, interview, prototype, and reference is a cheap way 
 So start your next project by asking Claude to help you find your unknowns.
 For the context side of working with Fable-generation models, see [the new rules of context engineering](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models).
 *This article was written by Thariq Shihipar, member of technical staff, Anthropic.*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

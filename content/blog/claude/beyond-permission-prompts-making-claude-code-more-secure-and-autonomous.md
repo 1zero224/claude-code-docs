@@ -1,22 +1,19 @@
+# Beyond permission prompts: making Claude Code more secure and autonomous
+In Claude Code, Claude writes, tests, and debugs code alongside you, navigating your codebase, editing multiple files, and running commands to verify its work. Giving Claude this much access to your codebase and files can introduce risks, especially in the case of prompt injection, such as Claude deleting files you didn't intend.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Code
+  -
+DateOctober 8, 2025
+  -
+Reading time7 min
+  -
+ShareCopy link
 Introducing Claude Code
-![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/68c469d2d09b203c164ad8e6_og-claude-education.jpg)
+![Introducing Claude Code](https://assets.claude.com/56575a2d86ba511e0095b0cb9a92cafe7079c820.jpg?w=2400&q=75&fm=webp&fit=max)
 See Claude Code in action—from concept to commit in one seamless workflow.
-Read more
-[Read more](https://claude.com/product/claude-code)Read more
-Introducing Claude Code
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68b862e6ee6520aee5bc0741_vid-placeholder.avif)
-[Next](https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous#)Next
-See Claude Code in action—from concept to commit in one seamless workflow.
-Read more
-[Read more](https://claude.com/product/claude-code)Read more
-
-[Next](https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous#)Next
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68b862e6ee6520aee5bc0741_vid-placeholder.avif)
-
-Introducing Claude Code
-See Claude Code in action—from concept to commit in one seamless workflow.
-Read more
-[Read more](https://claude.com/product/claude-code)Read more
+[Read more](https://claude.com/product/claude-code)
 To help address this, we’ve introduced two new features in Claude Code built on top of sandboxing, both of which are designed to provide a more secure place for developers to work, while also allowing Claude to run more autonomously and with fewer permission prompts. ByThese features are examples of **native sandboxing**: defining set boundaries within which Claude can work freely, they increase security and agency..
 ## Our current approach to keeping users secure
 Claude Code runs on a permission-based model: by default, it's read-only, which means it asks for permission before making modifications or running any commands. There are some exceptions to this: we use static analysis to auto-allow safe commands like echo or cat, but most operations still need explicit approval.
@@ -24,8 +21,8 @@ But constantly clicking "approve" slows down development and can lead to ‘appr
 ## Sandboxing: a safer and more autonomous approach
 Sandboxing creates pre-defined boundaries within which Claude can work more freely, instead of asking for permission for each action.
 With our update to Claude Code, we’re shifting to this approach. We’re building Our approach to sandboxing is built on top of operating system-level features to enable two new features, each of which are based on the followingtwo sets of boundariesmain things:
-  - **Filesystem isolation**,** **which ensures that Claude can only access or modify specific directories. This is particularly important in preventing a prompt-injected Claude from modifying sensitive system files.
-  - **Network isolation**,** **which ensures that Claude can only connect to approved servers. This prevents a prompt-injected Claude from leaking sensitive information or downloading malware.
+  - **Filesystem isolation**, which ensures that Claude can only access or modify specific directories. This is particularly important in preventing a prompt-injected Claude from modifying sensitive system files.
+  - **Network isolation**, which ensures that Claude can only connect to approved servers. This prevents a prompt-injected Claude from leaking sensitive information or downloading malware.
 It is worth noting that effective sandboxing requires *both* filesystem and network isolation. Without network isolation, a compromised agent could exfiltrate sensitive files like SSH keys; without filesystem isolation, a compromised agent could easily escape the sandbox and gain network access. It’s by using both techniques that we can provide a safer agentic experience for Claude Code users.
 ### Two new sandboxing features in Claude Code
 #### Sandboxed bash tool: safe bash execution without permission prompts
@@ -37,15 +34,14 @@ As described above, this sandbox enforces both:
   - **Network isolation, **by only allowing internet access through a unix domain socket connected to a proxy server running outside the sandbox. This proxy server enforces restrictions on the domains that a process can connect to, and handles user confirmation for newly requested domains. IAnd if you’d like further-increased security, we alsoeven support customizing this proxy to enforce arbitrary rules on outgoing traffic.
 ‍
 Both components are configurable: you can easily choose to allow or disallow specific file paths or domains.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e6c0f6e8c717994091347a_60aa4f4b.png)
+![](https://assets.claude.com/957f5aaf1b2662b9ac5fe25815f0a8491f8966ff.png)
 Sandboxing ensures that even a successful prompt injection is fully isolated, and cannot impact overall user security. This way, a compromised Claude Code can't steal your SSH keys, or phone home to an attacker's server.
 To get started with this feature, run: `claude --sandbox`, and read more technical details about our security model here.
 To make it easier for other teams to build safer agents, we have open sourced [XXX]. We believe that other AI companies should consider adopting this technology for their own agents in order to enhance the security posture of their agents.
-
 #### Claude Code on the web: running Claude Code securely in the cloud
 Today, we're also releasing [Claude Code on the web](https://docs.claude.com/en/docs/claude-code/claude-code-on-the-web), enabling users to run Claude Code in an isolated sandbox in the cloud. Claude Code on the web executes each Claude Code session in an isolated sandbox where it has full access to its server in a safe and secure way. We've designed this sandbox to ensure that sensitive credentials (such as git credentials or signing keys) are never inside the sandbox with Claude Codenever enter the sandbox environment. This way, even if the code running in the sandbox is compromised, the user is kept safe from further harm.
 Claude Code on the web uses a custom proxy service that transparently handles all git interactions. Inside the sandbox, the git client authenticates to this service with a custom-built scoped credential. The proxy verifies this credential and the contents of the git interaction (e.g. ensuring it is only pushing to the configured branch), then attaches the right authentication token before sending the request to GitHub.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/68e6c0f6e8c717994091347d_7b19e1a8.png)
+![](https://assets.claude.com/bb8f554ea106223c996c309677b3eb2950d45f01.png)
 ## Getting started
 Our new sandboxed bash tool and Claude Code on the web offer substantial improvements in both security and productivity for developers using Claude for their engineering work.
 To get started with these tools:
@@ -53,57 +49,34 @@ To get started with these tools:
   - Go to [claude.com/code](http://claude.ai/code) to try out Claude Code on the web.
 ‍
 Or, if you're building your own agents, check out our open-sourced sandboxing code, and consider integrating it into your work. We look forward to seeing what you build.
-No items found.
-[Prev](https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous#)Prev
-0/5
-[Next](https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous#)Next
-eBook
-##
-[](https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous#)
-![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/6889473610b50328dbb70b58_placeholder.svg)
-![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/6889473610b50328dbb70b58_placeholder.svg)![](https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/6889473610b50328dbb70b58_placeholder.svg)
-FAQ
-### How do I use Claude Code?
+## FAQ
+How do I use Claude Code?
 To start using Claude Code, you need to set up an API key and follow the documentation provided. This will guide you through the process of making requests and handling responses effectively.
-### What are the application areas for Claude?
+What are the application areas for Claude?
 From chatbots to automated content generation, Claude's versatility makes it a valuable tool for businesses and developers alike.
-### How does Claude improve over time?
+How does Claude improve over time?
 User feedback plays a crucial role in Claude's improvement. By analyzing user interactions, developers can identify areas for enhancement and implement necessary changes.
-[](https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous#)
-## Related posts
+## Related articles
 Explore more product news and best practices for teams building with Claude.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6903d222061abf091318fb82_423062049d4676b41d52b16068cbb5e21603190e-1000x1000.svg)
-Aug 21, 2026
-### The AI-native SDLC playbook
-Enterprise AI
-[The AI-native SDLC playbook](https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous#)The AI-native SDLC playbook
-[The AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook)The AI-native SDLC playbook
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6903d225e31f7aa22c1f28cb_46e4aa7ea208ed440d5bd9e9e3a0ee66bc336ff1-1000x1000.svg)
-Sep 24, 2026
-### Coding sessions are longer and use more context. Claude Opus 5.5 is built with that in mind.
-Claude Code
-[Coding sessions are longer and use more context. Claude Opus 5.5 is built with that in mind.](https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous#)Coding sessions are longer and use more context. Claude Opus 5.5 is built with that in mind.
-[Coding sessions are longer and use more context. Claude Opus 5.5 is built with that in mind.](https://claude.com/blog/claude-opus-5-5-built-for-coding-sessions-that-use-more-context)Coding sessions are longer and use more context. Claude Opus 5.5 is built with that in mind.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6903d229a7aa26ac1b6e96c2_a62b6eb169818f14c35b7a192af269e283f8fa93-1000x1000.svg)
-Sep 23, 2026
-### How to prepare for AI-driven code modernization projects
-Enterprise AI
-[How to prepare for AI-driven code modernization projects ](https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous#)How to prepare for AI-driven code modernization projects
-[How to prepare for AI-driven code modernization projects ](https://claude.com/blog/how-to-prepare-for-ai-driven-code-modernization-projects)How to prepare for AI-driven code modernization projects
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a42c9bc20d2072552ef256a_Node-EnterpriseAgents.svg)
-Sep 17, 2026
-### Projects redesigned: from folder to conversation
-Product announcements
-[Projects redesigned: from folder to conversation](https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous#)Projects redesigned: from folder to conversation
-[Projects redesigned: from folder to conversation](https://claude.com/blog/projects-redesigned)Projects redesigned: from folder to conversation
-## Transform how your organization operates with Claude
-See pricing
-[See pricing](https://claude.com/pricing#api)See pricing
-Contact sales
-[Contact sales](https://claude.com/contact-sales)Contact sales
-Get the developer newsletter
-Product updates, how-tos, community spotlights, and more. Delivered monthly to your inbox.
-[Subscribe](https://claude.com/blog/beyond-permission-prompts-making-claude-code-more-secure-and-autonomous#)Subscribe
-Please provide your email address if you'd like to receive our monthly developer newsletter. You can unsubscribe at any time.
-Thank you! You’re subscribed.
-Sorry, there was a problem with your submission, please try again later.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

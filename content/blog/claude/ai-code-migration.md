@@ -1,11 +1,23 @@
+# How Anthropic runs large-scale code migrations with Claude Code
+A step-by-step guide to running large code migrations with AI agents — including Bun's million-line Zig-to-Rust port.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Code
+  -
+DateJuly 16, 2026
+  -
+Reading time7 min
+  -
+ShareCopy link
 Code migrations, projects that port a production codebase to a new language, were multi-year endeavors until recently.
-In the last month, individual developers at Anthropic migrated 10 code packages consisting of tens to hundreds of thousands of lines of code using Claude Fable 5, Claude Opus 4.8, and [dynamic workflows](https://claude.com/blog/introducing-dynamic-workflows-in-claude-code). In this article we’ll cover two examples along with best practices from these projects.
+In the last month, individual developers at Anthropic migrated 10 code packages consisting of tens to hundreds of thousands of lines of code using Claude Fable 5, Claude Opus 4.8, and [dynamic workflows](https://claude.com/resources/articles/introducing-dynamic-workflows-in-claude-code). In this article we’ll cover two examples along with best practices from these projects.
 Jarred Sumner, co-founder of Bun and Member of Technical Staff at Anthropic, used Claude Code to [migrate Bun from Zig to Rust](https://bun.com/blog/bun-in-rust). A million lines of code were produced in less than two weeks, with 100% of Bun's existing test suite passing in CI before merge. Nineteen regressions surfaced after merge and have all been fixed. The Rust port was shipped inside Claude Code in June.
 Mike Krieger, co-lead of Anthropic Labs, migrated a Python codebase to 165,000 lines of TypeScript over a weekend. This included hundreds of agents, eight phase gates, three adversarial review rounds, and a final parity check that diffed every command's output against the Python original.
 Claude Code’s new capabilities change the math for these long-deferred projects. Below is the six-step process we now use, drawn from what these migrations taught us.
 The core insight is that you don’t fix the code. **You fix the process (loop) that produced the code**.
 ## What is an AI code migration?
-An AI code migration uses AI agents to port a production codebase to a new language or framework. Instead of translating files by hand, engineers write migration rules and verification loops; agents then translate, compile, and test until the new code's behavior matches the original — compressing multi-year projects into weeks.
+An AI code migration uses AI agents to port a production codebase to a new language or framework. Instead of translating files by hand, engineers write migration rules and [verification loops](https://claude.com/resources/articles/building-verification-loops-in-claude-code-with-skills); agents then translate, compile, and test until the new code's behavior matches the original — compressing multi-year projects into weeks.
 ## **Why and when to migrate languages**
 Before going straight into *the how*, it’s worth discussing *the when* and *why* because the assumptions around these projects have evolved.
 Teams launch migrations because of landscape changes between their initial build and current project. Either a known trade-off has become limiting, a better approach has emerged, or the original ecosystem is shrinking.
@@ -15,8 +27,7 @@ As recently as last quarter, those tradeoffs wouldn’t have been enough to just
 Software engineers have also had to contend with the career risk inherent in these formerly mega-projects. You could maintain two parallel code bases for quarters or years, and if the end result was 90% parity, you had a bigger headache than when you started.
 Now, the worst case scenario is you delete the branch and try again.
 There still needs to be a justifiable business case. While million line migrations no longer cost $3 to $4 million in engineering resources over the course of a four year project, they still cost tens to hundreds of thousands of dollars or more to execute. The Bun migration, for example, consumed 5.9 billion uncached input tokens and 690 million output tokens — around $165,000 at API pricing. The main portion of Mike’s port was 27 million tokens.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a58f8844b99cec5d277a9ee_27e78c5a.png)
-*Jarred’s million-line PR.*
+![](https://assets.claude.com/1e6eaf73247b9ed6a2e2317b09b53321bcf3e5ee.png)Jarred’s million-line PR.
 **However, the migration case no longer needs to be existential. **A year of memory-bug patches in the changelog, or one chronic bottleneck, can now justify it.
 The compile step was the impetus for Mike's project. The internal tool his team works on ships to users as a single binary. Producing that binary with the Python toolchain took roughly eight minutes per platform, totaling a 30-minute wait across the build matrix on every release. After the port, the same compile now takes about two seconds, the binary starts 6x faster, and the team was able to retire a separate deployment pipeline.
 ## **Why AI changes the code migration math**
@@ -29,7 +40,7 @@ Large code migrations are a particularly effective use case for these advanced m
   - **They require consistency and edge case handling**: The process is built so drift has nowhere to hide: reviewers cite the rule behind every finding, so a violation becomes a queue item instead of a quiet divergence. And when an agent does hit an edge case, the fix becomes a rule every subsequent agent follows.
 As we will see below, both Mike and Jarred used Fable for key steps in their migration process, particularly in **an advisory pattern** that used multiple model classes to optimize token consumption.
 ## **Six steps for large code migrations**
-*The process below has been generalized to be relevant to multiple languages and scenarios. For additional details, you can read *[*Jarred’s blog*](https://bun.com/blog/bun-in-rust)*. You can also access the*[* Migration starter kit.*](https://github.com/anthropics/code-migration-kit-with-claude-code)* Note: The starter kit is a generalized template of the process above — it's not what these specific ports ran on.*
+*The process below has been generalized to be relevant to multiple languages and scenarios. For additional details, you can read [Jarred’s blog](https://bun.com/blog/bun-in-rust). You can also access the[ Migration starter kit.](https://github.com/anthropics/code-migration-kit-with-claude-code) Note: The starter kit is a generalized template of the process above — it's not what these specific ports ran on.*
 ### **Prerequisites**
 A prerequisite before starting on your migration project is to have a strong judge in place, otherwise you won’t have an exit condition or measure of success.
 The judge must be able to evaluate both the original code and the target code on equal terms. Test suites written in the original language will often depend on internal functions that won't exist in the target code.
@@ -39,9 +50,9 @@ To build this judge:
   - **Validate the judge**. Run it against the original code to confirm it passes. Then run it against deliberately broken code to confirm it fails — a judge that doesn't catch breakage isn't a judge.
 Jarred had a large test suite written in a third language (TypeScript), but that will not be the case for most projects. For his Python-to-TypeScript port, Mike created a parity harness of seven real-world scenarios and considered any behavior change a bug to be fixed.
 Before we get into each stage, this graphic may help you follow along. This mostly follows Jarred’s methodology, with reviews and gates at each stage. Mike followed a similar overall structure using similar loop workflows, but he ran the entire migration end to end, revised the rules and the workflow based on the results, and ran it again — discarding the output each time until the third run.
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a58f8854b99cec5d277aa48_e7dd47de.png)
+![](https://assets.claude.com/db47317735cd0343e1bce930ccd88f776a4e80fc.png)
 ### **Step 1 — Create the rulebook, dependency map, and gap inventory**
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a58fa78da7794274460319e_Code-migration-step1.jpeg)
+![](https://assets.claude.com/72609898f654fe3ac473bfae37904051ad51f153.jpg)
 In this stage we are creating the foundations of our migration: an inventory of places where code will need to be refactored rather than just translated, a rulebook for how to translate our code, and a dependency map to order our migration implementation workstreams.
 The order matters: the rulebook must come before the gap inventory. The gap inventory is defined by what the rulebook's defaults won't cover, and the two are tested together in a joint audit.
 #### **Rulebook**
@@ -54,6 +65,7 @@ Claude Code can deploy agents to create and run a deterministic script to produc
 #### **Gap inventory and skeptic reviewers**
 The new language has different requirements from the old language that must be met. For Zig to Rust the difference was manual memory management (C and C++ work the same way). For example:
 Zig
+Copy
 ```
 fn readConfig(allocator: std.mem.Allocator) ![]u8 {
     const buf = try allocator.alloc(u8, 1024);
@@ -64,6 +76,7 @@ fn readConfig(allocator: std.mem.Allocator) ![]u8 {
 // A caller that forgets 'defer allocator.free(buf)' still compiles — the leak only surfaces at runtime.
 ```
 Rust
+Copy
 ```
 fn read_config() -> Vec<u8> {
 let buf = vec![0u8; 1024];
@@ -75,6 +88,7 @@ buf // ownership moves to the caller; memory is freed automatically
 ```
 For Python to TypeScript the gap was interfaces and contracts. Python doesn’t require a contract declaring what shape of object it will accept or what it returns, but TypeScript does. For example:
 Python
+Copy
 ```
 def register(handler):
     handler.setup()
@@ -83,6 +97,7 @@ def register(handler):
 # Any object with .setup() and .run() works here. Which objects actually get passed in? Read the whole codebase to find out.
 ```
 TypeScript
+Copy
 ```
 interface RunResult { ok: boolean }
 
@@ -99,15 +114,15 @@ return handler.run({ retries: 3 }); }
 ```
 Both Jarred and Mike created gap inventory files capturing this implicit knowledge. Jarred inventoried these gaps up front, which is what we do here, while Mike chose to translate first and then create the gap inventory by auditing afterwards. You may need to do both.
 Check out this sample [Claude Code prompt to create a gap inventory file](https://github.com/anthropics/code-migration-kit-with-claude-code/blob/main/prompts/02-gap-inventory.md).
-### **Step 2 — Stress-test the rules **
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a58fbe31db98b8b59d39ba8_MIgration-step2.jpeg)
+### **Step 2 — Stress-test the rules**
+![](https://assets.claude.com/c5415b38d23f0b5f4e73032df6237e1df47c703f.jpg)
 This step involves a mini-migration that serves as a “shakedown cruise” for the larger migration.
 In this step, Jarred used one agent to translate three files using the rulebook, one agent to translate three files “like a senior Rust engineer,” and one agent to use the diff to create new translation rules. At this stage he caught two critical issues that would have created numerous issues if fanned out across all 1,448 files.
 The prompt may look something like [this](https://github.com/anthropics/code-migration-kit-with-claude-code/blob/main/prompts/03-stress-test.md).
 This type of stress test **only works for structure-preserving migrations**, where two translations of the same file are comparable line by line. If your rulebook is a redesign — like Mike's — the equivalent test is attacking the design document directly with adversarial reviewers, then validating it with a disposable end-to-end run.
 Regardless, throw out any translated files. The goal is to refine the rules, not make incremental progress.
-### **Step 3 — Translate everything **
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a58fd9c8899de91189a89e0_ai-migation-step4-5-6.jpeg)
+### **Step 3 — Translate everything**
+![](https://assets.claude.com/e708553fa07e19349f0d36f03abb44c5905ae7c2.jpg)
 For the remaining steps, you run the same multi-agent loop architecture: implement, review, and fix.
 You can offload implementer work to smaller models and keep reviewers on larger ones. For example, Mike used Claude Sonnet when he fanned out 12 subagents for the main migration.
 The work queue should be mechanical. A batch script decides what’s done by checking whether the translated file exists on disk, then slices the pending files into batches for the implementer agents. Because the queue is rebuilt from disk every time, the migration is resumable by construction.
@@ -117,7 +132,7 @@ Two adversarial reviewers evaluate the work of the implementers using separate c
 One important design decision to note in this step is where the compiler sits. Mike ran the TypeScript compiler inside every loop, because it checks a unit in seconds. Jarred banned the compiler from the loop entirely and deferred it to the next step, because cargo takes minutes.
 At this step, much of the heavy lifting has been done and [the prompts start to get shorter.](https://github.com/anthropics/code-migration-kit-with-claude-code/blob/main/prompts/04-translation-kickoff.md)
 ### **Steps 4, 5, 6 — Compile, run, and match behavior**
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a58fd76153c143199b57e1b_ai-migration-step3.jpeg)
+![](https://assets.claude.com/97980ed9ec36772fd61e15ac74fbfd8617a4cc37.jpg)
 These three steps share the same loop architecture and need progressively less human judgment, so we cover them together.
 **Step 4**, for example, may often dissolve into step 3 depending on the language and size of the migration.
 Depending on the size and difficulty of the compiler step, agents may not run this at all. Jarred executed this with an orchestrator script that invoked the compiler once across the whole workspace. “Fixer agents” then ran through the error list in parallel with adversarial review. The build runs again, rinse and repeat.
@@ -143,7 +158,29 @@ Jarred’s Bun migration is now in production, although every migration has trad
 But the new codebase is measurably better. Every memory leak the team's tooling can detect has been fixed: one benchmark of 2,000 repeated builds dropped from 6,745 MB of memory to 609. The binary is 19% smaller on Linux and Windows. And cross-language optimization made it 2–5% faster across HTTP serving and real-world workloads like next build and tsc.
 Consider whether it’s time to re-run the math of your long deferred migration. Pick the codebase you've been tolerating and ask Claude what the migration process looks like for it.
 ***Related***
-  - [*Migration starter kit*](https://github.com/anthropics/code-migration-kit-with-claude-code)* Note: The starter kit is a generalized template of the process above — it's not what these specific ports ran on.*
-  - [*Code-modernization plugin*](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-modernization)* — for legacy modernization and framework upgrades rather than language ports*
-  - [*Dynamic workflows in Claude Code*](https://claude.com/blog/introducing-dynamic-workflows-in-claude-code)
+  - *[Migration starter kit](https://github.com/anthropics/code-migration-kit-with-claude-code) Note: The starter kit is a generalized template of the process above — it's not what these specific ports ran on.*
+  - *[Code-modernization plugin](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-modernization) — for [legacy modernization](https://claude.com/resources/guides/the-code-modernization-playbook) and framework upgrades rather than language ports*
+  - [*Dynamic workflows in Claude Code*](https://claude.com/resources/articles/introducing-dynamic-workflows-in-claude-code)
 ‍
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

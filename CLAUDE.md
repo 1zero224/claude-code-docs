@@ -7,7 +7,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Comprehensive archive of everything Anthropic publishes for building with
 Claude. 3,900+ docs from 12 sources; active sources auto-updated every
 2 days (the legacy anthropic.com blog archive is frozen, while
-claude.com/blog is HTML-extracted by the Fetcher).
+claude.com/resources/articles, formerly /blog/, is HTML-extracted by the
+Fetcher).
 
 ## Fetcher
 
@@ -15,7 +16,9 @@ claude.com/blog is HTML-extracted by the Fetcher).
 
 Sources: code.claude.com, platform.claude.com, claude.com/docs,
 modelcontextprotocol.io, support.claude.com (sitemap + .md; en + zh-CN),
-claude.com/blog (root sitemap + HTML extraction), github.com/anthropics/* (10 repos). anthropic.com blog
+claude.com/resources/articles (root sitemap + HTML extraction; /blog/ 301s
+here), claude.dev (llms.txt + .md), github.com/anthropics/* (10 repos).
+anthropic.com blog
 (engineering/research/news) is a FROZEN archive as of 2026-07: the site is
 HTML-only and the jina.ai proxy path was removed.
 

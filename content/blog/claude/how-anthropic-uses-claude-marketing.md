@@ -1,3 +1,15 @@
+# How Anthropic's Growth Marketing team cut ad creation time from 30 minutes to 30 seconds with Claude Code
+*Austin Lau, growth marketer at Anthropic, shares how he went from never having opened a terminal to building Figma plugins and automated ad generation workflows, without writing a single line of code.*
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude Enterprise
+  -
+DateJanuary 26, 2026
+  -
+Reading time11 min
+  -
+ShareCopy link
 Before Claude Code, Austin Lau had never written a line of code in his life. When the product first launched, he had to Google how to open a terminal on his computer.
 "My first reaction when we launched Claude Code was, I have zero idea what this product is for," says Austin, a growth marketer at Anthropic. "As a marketer, it just didn't really click—the use case wasn't obvious to me yet."
 But curiosity won out.
@@ -20,24 +32,22 @@ Creating ad variations meant endless copying, pasting, and switching between Fig
 So Austin built a Figma plugin with Claude Code, a project that took about 45 minutes to an hour to build, but now saves him nearly 30 minutes every time he updates a large batch of creatives across multiple aspect ratios.
 To start, he opened Claude Code and described his problem through a prompt: "Claude, I'm working in Figma. I really want to be able to solve this challenge of this repetitive copy and pasting. Can you help me build a Figma plugin to help me solve my challenge?"
 Claude went out and did the research, evaluating how to best build a plugin, what the limitations were, and then started prototyping. After some troubleshooting, Austin had a working plugin installed in Figma.
-![__wf_reserved_inherit](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6977e24b0eda1b6088668653_Screenshot%202026-01-14%20at%207.07.46%E2%80%AFPM.png)
-*Austin's plugin lets him paste headline copy from a Google Sheet and generate dozens of ad variants with a single click.*
+![](https://assets.claude.com/8fcd4943e754755157c55f1a059597756373119a.png)Austin's plugin lets him paste headline copy from a Google Sheet and generate dozens of ad variants with a single click.
 "All I would have to do is specify the frame of the creative, and then copy and paste just once all the different variations and copy that I wanted to update, and with the click of a button, the Figma plugin will create all the different permutations for that single image," Austin explains.
 ### **Google Ads copy generation**
 For responsive search ads, Austin built a workflow that helps brainstorm and create upload-ready ad copy using existing campaign and ad performance data to help inform what types of messaging resonates with prospects. This workflow saves hours per week on copy creation and character validation. With the time saved on mechanical tasks, Austin can now run more copy experiments and iterate faster on what actually performs best.
-To get started, he types `/rsa`, a custom slash command he created for responsive search ads, into Claude. Claude Code asks for campaign data, existing copy, and keywords, then cross-references his inputs against [Agent Skills](https://claude.com/blog/skills) he created for Anthropic's brand tone and voice, product accuracy, and Google Ads RSA best practices.
+To get started, he types `/rsa`, a custom slash command he created for responsive search ads, into Claude. Claude Code asks for campaign data, existing copy, and keywords, then cross-references his inputs against [Agent Skills](https://claude.com/resources/articles/skills) he created for Anthropic's brand tone and voice, product accuracy, and Google Ads RSA best practices.
 But the output is just a starting point.
 "Claude is a great brainstorming partner, but sometimes it doesn't get it right on the first try," Austin explains. "A lot of the work I do is riffing and going back and forth to help refine the copy over time."
 That refinement matters because Austin is evaluating each headline against what he knows resonates with Anthropic's audiences. Does the value prop land? Is the tone right? Does it stand out from competitors? Once the copy feels right, Claude Code combines everything into a CSV file ready for upload.
 And all of this builds on a human foundation. "All of the copy and examples that we provide Claude were written in partnership with the product marketing and copywriting teams," Austin says. That strong starting point means there's human judgment baked in before Claude even starts brainstorming.
-![__wf_reserved_inherit](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6977e27920c4e24d437527d5_Screenshot%202026-01-14%20at%208.12.41%E2%80%AFPM.png)
-*The workflow exports the relevant campaign and ad group columns, along with 15 headlines, and 4 descriptions per ad into a CSV file ready to upload directly into Google Ads (after undergoing manual review).*
+![](https://assets.claude.com/d18dbdc9038dfaa0e2f44d3edab18218729ff229.png)The workflow exports the relevant campaign and ad group columns, along with 15 headlines, and 4 descriptions per ad into a CSV file ready to upload directly into Google Ads (after undergoing manual review).
 ## **Best practices for building your own workflows**
 Austin's experience offers practical guidance for marketers - or really anyone without a technical background - looking to build custom tools with Claude Code.
 **Start with small, repetitive steps**
 "My advice would be: if you want to try a tool like Claude Code is to just think through, what are the areas of your work that you've identified that are either repetitive or you think could automate, and just start with a very, very small and easy thing,” explains Austin.
 For instance, Austin's first project was to build his calculator app to first see how Claude worked.
-**Let curiosity drive your work **
+**Let curiosity drive your work**
 Austin describes himself as "the type of person who, if I'm very curious about something, it gets to the point of almost stubbornness where I have to find out the answer." That persistence is what turned a blank terminal he didn’t know how to interact with into functioning working tools he uses daily.
 **Talk to Claude like you're explaining a problem to a colleague**
 "You don't need to know how to code. All you need to know is how to explain your challenge and what you're trying to solve in a very clear, concise manner,” says Austin.
@@ -58,6 +68,28 @@ Austin isn't the only marketer at Anthropic building with Claude. Across the mar
   - **Partner Marketing** built self-serve event enablement for Sales, reducing time spent on trade show prep by 40%
 "Most marketers probably approach AI in the same way, where they just see it as a way to help streamline things like writing copy or brainstorming," Austin says. "But they haven't really thought through what are the actual areas that they can truly embed tools like Claude into their workflow."
 There’s an opportunity developing for teams that adopt tools like Claude Code to spend less time on repetitive execution and more time on the things that matter to their job.
-*Get started with*[* Claude Code*](https://claude.com/product/claude-code)* today. Stay tuned for more stories in the "How Anthropic uses Claude" series.*
+*Get started with[ Claude Code](https://claude.com/product/claude-code) today. Stay tuned for more stories in the "How Anthropic uses Claude" series.*
 ‍
 ‍
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

@@ -1,5 +1,17 @@
-***Update:**** We've published *[*Agent Skills*](https://agentskills.io)* as an open standard for cross-platform portability. (December 18, 2025)*
-Since [launching Skills](https://claude.com/blog/skills), two of the biggest questions we’ve heard from customers are: "How do skills and MCP work together? When should I use one versus the other?"
+# Extending Claude’s capabilities with skills and MCP servers
+Learn how skills and MCP work together to build agents that follow your workflows and use external systems and platforms effectively.
+  -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
+ProductClaude apps, Claude Platform
+  -
+DateDecember 19, 2025
+  -
+Reading time11 min
+  -
+ShareCopy link
+***Update:** We've published [Agent Skills](https://agentskills.io) as an open standard for cross-platform portability. (December 18, 2025)*
+Since [launching Skills](https://claude.com/resources/articles/skills), two of the biggest questions we’ve heard from customers are: "How do skills and MCP work together? When should I use one versus the other?"
 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/docs/getting-started/intro) connects Claude to third-party tools, and skills teach Claude how to use them well. When you combine both, you can build agents that follow your team’s workflows, not generic processes that require constant correction.
 For example, an MCP connection to Notion lets Claude search your workspace. Add a skill for meeting prep, and Claude knows *which* pages to pull from, *how* to format the prep document, and *what* your team’s standards are for delivering meeting notes. The connection becomes useful instead of just available.
 In this article, we break down the relationship between skills and MCP, how to combine them to build agents that follow your workflows to produce consistent outputs, and walk through a few real-world examples of how they work together in practice.
@@ -18,8 +30,7 @@ This separation keeps the architecture composable. A single skill can orchestrat
 **Consistent performance**: Outputs actually meet standards. Generic results need editing. Skills define what "done" looks like for your team: the right structure, the right level of detail, the right tone for your audience.
 Over time, teams build up collections of interrelated skills and connections that give Claude expertise in their specific domain.
 **Further reading**: Tim O'Reilly on what [MCP and skills mean for open source AI](https://www.oreilly.com/radar/what-mcp-and-claude-skills-teach-us-about-open-source-for-ai/)
-![](https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6945b3dfa8f134d0104e4e23_How%20Skills%20and%20MCP%20work%20together%20-%20v3B%402x%20(2).png)
-How skills and MCP work together: MCP provides tool access, skills provide workflow logic.
+![](https://assets.claude.com/63e82441ddfbcf4a29659d5007661b57e69a295e.png)How skills and MCP work together: MCP provides tool access, skills provide workflow logic.
 #### **Where skills and MCP may overlap**‍
 MCP servers may contain instructions in the form of tool usage hints and prompts for common tasks. This keeps tool-specific knowledge close to the tool. However, these instructions should be kept generic by design.
 The rule of thumb: MCP instructions cover how to use the server and its tools correctly. Skill instructions cover how to use them for a given process or in a multiserver workflow.
@@ -65,9 +76,7 @@ MCP extends what Claude can access and use. Use an MCP when you need:
 If you're explaining *how* to do something, that's a skill. If you need Claude to *access* something, that's MCP.
 ‍
 #### ***Quick reference table: How skills and MCP differ***
-
-     Skills MCP     **What it is** Procedural knowledge Tool connectivity   **What it does** Teaches Claude *how* to do something Gives Claude *access* to something   **When it loads** On demand, when relevant Always available once connected   **Contains** Instructions, scripts, templates, assets Tools, resources, prompts   **Token behavior** Loads on-demand, preserving context Definitions loaded upfront   **Best for** Workflows, standards, methodology Data access, API calls, external actions
-
+SkillsMCP**What it is**Procedural knowledgeTool connectivity**What it does**Teaches Claude *how* to do somethingGives Claude *access* to something**When it loads**On demand, when relevantAlways available once connected**Contains**Instructions, scripts, templates, assetsTools, resources, prompts**Token behavior**Loads on-demand, preserving contextDefinitions loaded upfront**Best for**Workflows, standards, methodologyData access, API calls, external actions
 ## **Common questions**
 #### **Do skills replace MCP?**
 No. Skills and MCP solve different problems. MCP provides connectivity to external tools and data. Skills provide procedural knowledge for how to use that connectivity effectively. Most powerful workflows use both.
@@ -89,9 +98,31 @@ Ready to build with skills *and* MCP? Here's how to start:
   - Connect an MCP server, then add a skill that uses it
 ## **Related articles**
 Explore more insights on building with Claude's agentic capabilities.
-  - [Skills explained: How Skills compares to prompts, Projects, MCP, and subagents](https://www.claude.com/blog/skills-explained)
-  - [Improving frontend design through Skills](https://www.claude.com/blog/improving-frontend-design-through-skills)
+  - [Skills explained: How Skills compares to prompts, Projects, MCP, and subagents](https://claude.com/resources/articles/skills-explained)
+  - [Improving frontend design through Skills](https://claude.com/resources/articles/improving-frontend-design-through-skills)
   - [Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
 ‍
 ‍
 ‍
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### How Curative is building a national provider network with agents on Claude
+Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
+Claude PlatformClaude Code
+](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
+ArticleNov 9, 2026
+### Safely scaling multi-agent teams with Claude Fable 5.2
+How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
+(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
+ArticleNov 9, 2026
+### Which Claude model should you build with?
+How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
+Claude PlatformClaude Code
+(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
+ArticleOct 27, 2026
+### Manage costs and demonstrate ROI for Claude Code on Google Cloud
+Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+Claude Code
+](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)

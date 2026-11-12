@@ -1,4 +1,15 @@
-***Update****: We've expanded to over 100+ security and compliance partner integrations, see the full list in our *[*Help Center*](https://support.claude.com/en/articles/15167101-get-started-with-claude-compliance-api-integrations)*.*
+# Claude now works with more security and compliance tools
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Enterprise, Claude Platform
+  -
+DateMay 21, 2026
+  -
+Reading time4 min
+  -
+ShareCopy link
+***Update**: We've expanded to over 100+ security and compliance partner integrations, see the full list in our [Help Center](https://support.claude.com/en/articles/15167101-get-started-with-claude-compliance-api-integrations).*
 ‍
 Today we're introducing 28 integrations with notable security and compliance tools. Now IT and security teams can govern Claude across our platform and suite of products, the same way they govern other applications in their stack.
 ## How it works
@@ -12,3 +23,27 @@ For organizations already using one of these security and compliance platforms, 
 ## Getting started
 **For Claude customers: **To connect your Claude instance to a supported partner platform, visit our [Help Center](https://support.claude.com/en/articles/15167101-get-started-with-claude-compliance-api-integrations) and review the Compliance API documentation for [Claude Enterprise](https://support.claude.com/en/articles/13015708-access-the-compliance-api) and the [Claude Platform](https://platform.claude.com/docs/en/manage-claude/compliance-api).
 **For security partners:** If you're a security, compliance, or IT platform that has built a Compliance API integration, [apply here](https://forms.gle/1rkBcdwwR5bLLD82A) to join the network.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

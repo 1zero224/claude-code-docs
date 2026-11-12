@@ -1,3 +1,15 @@
+# Remote MCP support in Claude Code
+Connect your favorite development tools and data sources securely to Claude Code through remote MCP servers.
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Platform
+  -
+DateJune 18, 2025
+  -
+Reading time3 min
+  -
+ShareCopy link
 Today, we’re announcing support for remote MCP servers in Claude Code. Connect your favorite tools and data sources to personalize your coding experience without needing to manage local servers.
 ### **Using Claude Code as your primary development interface**
 Claude Code can access both tools and resources exposed by MCP servers, giving it the ability to pull context from your third-party services—such as dev tools, project management systems, and knowledge bases—and take actions within those services.
@@ -10,3 +22,27 @@ Remote MCP servers offer a lower maintenance alternative to local servers: just 
 Claude Code also features native OAuth support for remote MCP servers, ensuring secure connections to your existing accounts. Simply authenticate to your servers once, and Claude Code handles the rest—no API keys to manage or credentials to store.
 ### **Getting started**
 Remote MCP server support is available now in Claude Code. View the [documentation](https://docs.anthropic.com/en/docs/claude-code/mcp) to get started or explore our [MCP directory](http://anthropic.com/partners/mcp) with recommended servers.
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)

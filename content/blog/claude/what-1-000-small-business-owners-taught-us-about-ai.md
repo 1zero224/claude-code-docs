@@ -1,3 +1,17 @@
+# What 1,000 small business owners taught us about AI
+Lina Ochman, Head of U.S. SMB at Anthropic, shares what she learned during our Claude SMB Tour, and what’s next for the program.
+  -
+Category[Perspectives](https://claude.com/resources/perspectives)
+  -
+ProductClaude for Small Business
+  -
+AuthorLina Ochman
+  -
+DateSeptember 10, 2026
+  -
+Reading time13 min
+  -
+ShareCopy link
 Most AI tools and training are built for large companies and venture-backed startups. Small businesses generate 44% of the U.S. GDP and employ close to half the private-sector workforce, and yet they have largely been left to figure it out alone. As a public benefit corporation, part of our job is leveling the playing field for AI, and in this case, that means doing our part to help frontier AI reach small business and entrepreneurs on the same timeline it reaches the Fortune 500.
 So in May we launched[ Claude for Small Business](https://claude.com/solutions/small-business): a Claude Cowork plugin, built alongside QuickBooks, PayPal, HubSpot, Canva, DocuSign, and more popular small business tools, that connects Claude to the tools owners already use and does the back-office work that eats up their evenings. We also released our new[ AI Fluency for Small Businesses](https://anthropic.skilljar.com/ai-fluency-for-small-businesses) course created with PayPal, focused on the workflows, tools, and broader needs of small business owners.
 Over the following six weeks, our team and our build partner Tenex ran free, half-day workshops in Chicago, Tulsa, Dallas, Hamilton Township in New Jersey, Baton Rouge, Birmingham, Salt Lake City, Baltimore, San Jose, and Indianapolis. Each stop paired AI fluency training with a hands-on Claude Cowork session where roughly 100 business owners opened their laptops and automated something real in their business. More than 1,000 SMB owners and operators came through, and I had the fortune of hearing their stories.
@@ -38,6 +52,27 @@ The most effective teacher for a small business owner is another small business 
 ## **What's next**
 The Claude SMB Tour was both inspirational and eye-opening; business owners were excited and empowered by AI, while simultaneously lacking the resources and community necessary to adopt it at scale. We know there’s a need, and we know we can’t do it alone, so we launched the Claude SMB Trainer Program, a new initiative to bring Claude workshops to small and medium-sized business communities across the United States.
 We’re kicking off the program with two sessions in San Francisco and New York City focused on giving community and AI partner organizations the tools necessary to help others learn AI fluency best practices (inspired by our SMB-focused course) and hands-on learning.
-We’re also excited to share that we’ll be kicking off part two of our [ Claude SMB T our](https://www.anthropic.com/events/build-with-claude?type=smb) this fall, visiting an all new slate of cities, starting with [Boston on September 16](https://anthropic.swoogo.com/claude-smb-workshop-boston/rta), and collecting even more feedback and learnings from small businesses and entrepreneurs to improve our product. Stay tuned for more details.
+We’re also excited to share that we’ll be kicking off part two of our[ Claude SMB T our](https://www.anthropic.com/events/build-with-claude?type=smb) this fall, visiting an all new slate of cities, starting with [Boston on September 16](https://anthropic.swoogo.com/claude-smb-workshop-boston/rta), and collecting even more feedback and learnings from small businesses and entrepreneurs to improve our product. Stay tuned for more details.
 We can’t wait to see you on the road!
-*Get started with *[*Claude for Small Business*](https://claude.com/solutions/small-business)* today. *
+*Get started with [Claude for Small Business](https://claude.com/solutions/small-business) today.*
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleOct 22, 2026
+### Building agents: When to fold subagents into your main agent loop
+When building agents in Claude Platform, using fewer subagents in favor of progressively disclosed context and tools can improve quality while reducing cost and latency. Here’s when and how to migrate.
+Claude Platform
+](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop)[
+ArticleOct 13, 2026
+### Uber's CISO on building an insider threat program for AI
+Uber's CISO, Philip Martin, on the importance of monitoring and observability for AI agents, and how Uber's open-source tooling works alongside Enterprise Frontier Safeguards.
+](https://claude.com/resources/articles/uber-s-ciso-on-building-an-insider-threat-program-for-ai)[
+ArticleOct 8, 2026
+### How Block orchestrates Claude Fable across thousands of pull requests
+Bradley Axen, Head of AI Capabilities at Block, on how his team evaluates new large language models, how Claude Fable 5 orchestrates company-wide code migrations, and why safeguards are a critical part of deploying frontier intelligence responsibly, at scale.
+Claude Enterprise
+](https://claude.com/resources/articles/how-block-orchestrates-claude-fable-across-thousands-of-pull-requests)[
+ArticleOct 6, 2026
+### How Comcast and Booz Allen use Claude Mythos to find exploit chains and secure their codebases
+Security teams at Comcast and Booz Allen used Claude Mythos-class models through Project Glasswing to find, validate, and fix vulnerabilities their existing scanners missed.
+](https://claude.com/resources/articles/how-comcast-booz-allen-use-claude-mythos-to-secure-their-codebases)

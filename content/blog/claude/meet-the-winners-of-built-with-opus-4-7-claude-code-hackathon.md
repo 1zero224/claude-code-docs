@@ -1,3 +1,15 @@
+# Meet the winners of the Built with Opus 4.7 Claude Code hackathon
+*From medical training and electronics repair to coding education and factory maintenance, see the projects built by the winners of our latest virtual hackathon.*
+  -
+Category[Product updates](https://claude.com/resources/product-updates)
+  -
+ProductClaude Code
+  -
+DateJune 15, 2026
+  -
+Reading time18 min
+  -
+ShareCopy link
 Last week, we hosted [Claude Build Day](https://cerebralvalley.ai/e/claude-startups-build-day), our latest hackathon where builders got together in San Francisco to put their ideas to work using Claude Opus 4.8.
 While we wait to see what they built, we chatted with the winners of our Built with Opus 4.7 hackathon about their projects. They tackled medical training, electronics repair, computer science education, interactive play, home repair, and factory maintenance.
 Congratulations to the winners and to everyone who participated! We hope their ideas will inspire you.
@@ -62,5 +74,29 @@ Managed Agents handled agent infrastructure. “Without Claude Managed Agents, w
 After the hackathon’s results were announced, companies working on exactly this problem reached out about the project. Idriss will fold ARIA's agent architecture, KB schema, and signal pipeline into his own industrial IoT platform; his credits will go toward more building and experimentation. As for Adam, his plan is to continue exploring opportunities in industrial agentic AI and use the API credits to continue building and experimenting.
 **Advice to other builders: **Let Claude audit**. **Ask Claude to find if there’s anything wrong with what you've already built before building the next thing, says Idriss. “That loop is underrated.”
 [*ARIA on GitHub*](https://github.com/zestones/Aria)
-[*Learn*](http://claude.com/community)* about our Claude Community programs, including meetups, hackathons, and more.*
+*[Learn](http://claude.com/community) about our Claude Community programs, including meetups, hackathons, and more.*
 ‍
+## Related articles
+Explore more product news and best practices for teams building with Claude.
+[
+ArticleNov 10, 2026
+### Your apps can now open in Claude, and Claude can work in them
+Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
+Claude appsMCP
+](https://claude.com/resources/articles/interactive-connectors-full-tool)[
+ArticleNov 10, 2026
+### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
+Work at the speed of thought
+Claude apps
+](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
+ArticleNov 10, 2026
+### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
+Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
+Claude apps
+](https://claude.com/resources/articles/sheets-whiteboards-data)[
+ArticleNov 9, 2026
+### Claude Fable 5.2 and Mythos 5.2
+Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
+Claude appsClaude Code
+1 more: Claude PlatformClaude Platform
+(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)
