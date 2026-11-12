@@ -39,7 +39,10 @@ Five rules keep the archive honest, all learned the hard way:
   different path, the body in hand is the *target's*; writing it back to the
   requested path misattributes it. That is how the 471KB
   `release-notes/system-prompts.md` briefly became the 3.7KB overview it now
-  redirects to, after upstream split it into per-model pages.
+  redirects to, after upstream split it into per-model pages. The one
+  exception: a support article whose redirect keeps the same numeric article
+  id only changed its localized slug, so the body is written under the
+  canonical slug instead of being dropped.
 - **A known failure must not look like a new one.** `tombstones.json` records
   every URL confirmed gone, so a page that died once is counted quietly on
   later runs instead of re-reported. Only *new* deaths and *resurrections*
