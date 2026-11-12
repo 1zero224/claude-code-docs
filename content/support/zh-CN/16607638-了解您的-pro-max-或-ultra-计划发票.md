@@ -40,7 +40,7 @@
 
 **应付金额。**发票总额减去任何已应用余额。这是您的付款方式被收费的金额。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2629072970/c514f489b65072ccad08e803864f/e8c7a7de-905f-4a40-815f-c9c66edcdbf6?expires=1794465000&amp;signature=09355a47e99bd43cf5b7cfd936b55068a50c06b289a3dadfb9e6ad3c09dac621&amp;req=diYlH8l5n4hYWfMW1HO4zdWraRU76FEePZYKVlMiWEWDuHxPK1yG%2BZ0BQZU6%0AjDoJq2Wl6S6%2Fv%2BBdzm0%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2629072970/c514f489b65072ccad08e803864f/e8c7a7de-905f-4a40-815f-c9c66edcdbf6?expires=1794465900&amp;signature=e9eb2c02a2448542dd07b67d423ddf6d893112e5d15535c4f87eb630f1e6c02e&amp;req=diYlH8l5n4hYWfMW1HO4zdWraRU76FEXPZYKVlMiWEVwAfKmD3WhkglfNB%2BP%0AcsMi1zzMhEnYNEOpM5A%3D%0A)
 
 ## 发票上的账单详情
 

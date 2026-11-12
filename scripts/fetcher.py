@@ -96,6 +96,9 @@ CLAUDE_ARTICLES_PREFIX = "https://claude.com" + CLAUDE_ARTICLES_PATH
 # claude.com/resources/articles 307s here, plus posts claude.com never had.
 CLAUDE_DEV_LLMS_URL = "https://claude.dev/llms.txt"
 CLAUDE_DEV_PREFIX = "https://claude.dev/blog/"
+# whats-new is de-indexed from llms.txt and sitemaps; its index still links
+# every weekly digest, so it is used as the discovery seed.
+CLAUDE_CODE_WHATS_NEW_INDEX = "https://code.claude.com/docs/en/whats-new/index"
 FETCHED_SURFACES = {
     ("claude.com", "/docs/", "markdown"),
     ("claude.com", CLAUDE_ARTICLES_PATH, "html"),
@@ -387,6 +390,19 @@ class Fetcher:
         urls = []
         for match in re.findall(r'\(https://code\.claude\.com/docs/en/[^)]+\.md\)', content):
             urls.append(match[1:-4])  # strip parens and .md
+        # whats-new digests are de-indexed from both llms.txt and the localized
+        # sitemap, but the index page still links every week. Seed it so the
+        # English originals and the zh-CN twins stay in the archive.
+        try:
+            index = await self.fetch_text(
+                session, f"{CLAUDE_CODE_WHATS_NEW_INDEX}.md")
+        except Exception:
+            index = ""
+        for week in sorted(set(re.findall(r"(2026-w\d+)", index))):
+            for lang in SUPPORTED_LANGS:
+                urls.append(f"https://code.claude.com/docs/{lang}/whats-new/{week}")
+        for lang in SUPPORTED_LANGS:
+            urls.append(f"https://code.claude.com/docs/{lang}/whats-new/index")
         # English comes from llms.txt; every other supported locale comes from
         # the sitemap, because there is no per-language llms.txt.
         sitemap = await self.fetch_text(session, self.claude_code_sitemap_url)
@@ -394,7 +410,7 @@ class Fetcher:
             if lang == "en":
                 continue
             urls.extend(self.extract_sitemap_urls(sitemap, f"/docs/{lang}/"))
-        return urls
+        return list(dict.fromkeys(urls))
 
     def extract_support_urls(self, sitemap_xml: str) -> List[str]:
         # Articles serve a .md variant directly (since ~2026-07), so plain
@@ -510,6 +526,16 @@ class Fetcher:
 
     # -- Downloaders -------------------------------------------------------
 
+    @staticmethod
+    def _support_article_id(url: str) -> Optional[str]:
+        match = re.match(r"https://support\.claude\.com/[^/]+/articles/(\d+)", url)
+        return match.group(1) if match else None
+
+    def _same_support_article(self, asked: str, landed: str) -> bool:
+        """True when a support redirect only changed the localized slug."""
+        asked_id = self._support_article_id(asked)
+        return bool(asked_id and asked_id == self._support_article_id(landed))
+
     async def download_doc(self, session, url, semaphore) -> Dict:
         async with semaphore:
             output_path = self.get_output_path(url)
@@ -544,15 +570,23 @@ class Fetcher:
                         # same page is not a move.
                         landed = normalize_url(unquote(str(r.url)))
                         if landed.removesuffix(".md") != url:
-                            self.dead_now[url] = f"moved -> {landed.removesuffix('.md')}"
-                            if output_path.exists():
-                                self.soft_404_paths.append(output_path)
-                            self.stats["failed"] += 1
-                            return {
-                                "url": url,
-                                "status": "dead" if url in self.tombstones else "failed",
-                                "error": f"moved to {landed}",
-                            }
+                            landed_url = landed.removesuffix(".md")
+                            if self._same_support_article(url, landed_url):
+                                # Same support article, localized slug changed.
+                                # Keep the body and write it under the canonical
+                                # slug instead of dropping it. This is a success,
+                                # not a gone page.
+                                output_path = self.get_output_path(landed_url)
+                            else:
+                                self.dead_now[url] = f"moved -> {landed_url}"
+                                if output_path.exists():
+                                    self.soft_404_paths.append(output_path)
+                                self.stats["failed"] += 1
+                                return {
+                                    "url": url,
+                                    "status": "dead" if url in self.tombstones else "failed",
+                                    "error": f"moved to {landed}",
+                                }
                 if looks_like_html(content):
                     # Soft 404: HTTP 200 with the site's HTML shell. Writing it
                     # would replace docs with markup, and because incremental

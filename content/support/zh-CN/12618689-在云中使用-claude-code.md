@@ -10,7 +10,7 @@
 
 云会话支持异步开发工作流程。在终端或编辑器中的本地会话中，您通常同步工作：您发出请求，等待 Claude 响应，审查更改，然后发出另一个请求。这种同步工作方式让您能够进行细粒度控制，但需要您在整个过程中保持关注。云会话的处理方式不同：您可以分配一个更大的任务，让 Claude 独立工作，然后稍后返回审查已完成的工作。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1786446157/07ec74cd46317f8278083a317841/6448f3ee-c6df-4417-8a13-90d8c2ca3d55?expires=1794465000&amp;signature=868266a7a56b4c19d8a9ba0dd2ab9ee6743ef157e917114dea00bad74d5dca5c&amp;req=dScvEM16m4BaXvMW1HO4zR8%2BAVeERJh27XrRA1YwWGvuwJkB0KlLerWC837w%0AuPP2Zhdio3SDlixQWtc%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1786446157/07ec74cd46317f8278083a317841/6448f3ee-c6df-4417-8a13-90d8c2ca3d55?expires=1794465900&amp;signature=8095a07aee378bc350f7f2bb4e982cc9a577257490dc9873e21fd98726ff8f88&amp;req=dScvEM16m4BaXvMW1HO4zR8%2BAVeERJh%2F7XrRA1YwWGuIhUbClOK6Af%2FWewaL%0Ax8d1aNIjDF16Zcf%2Fi%2Fg%3D%0A)
 
 您还可以并行运行多个任务。由于每个任务在自己的隔离环境中运行，您可以让 Claude 同时处理多个不同的问题或存储库。每个任务独立进行，完成时创建自己的拉取请求。多个任务可以同时在同一存储库上工作。
 
@@ -20,13 +20,13 @@
 
 启动云会话时，Claude Code 会为您的工作创建一个隔离的虚拟机。您的 GitHub 存储库被克隆到此环境中，该环境预配置了常见的开发工具和语言生态系统。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1786446158/c092f1383826cb871493f74169d4/97b7cb98-5da2-438e-a920-e170b8b9790e?expires=1794465000&amp;signature=89272b0cb261b5446999914eed4e3abdc1ec7950c12dc6c63c94d9047b62fc8b&amp;req=dScvEM16m4BaUfMW1HO4zcR0rJIwiezA7DtpMiX%2FBYl8xe8qgVf66c%2FLSqlP%0AtvohaoueybK13J0FwjU%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1786446158/c092f1383826cb871493f74169d4/97b7cb98-5da2-438e-a920-e170b8b9790e?expires=1794465900&amp;signature=9c3eea7625dca48c85d40ea7450a6771fa555b84759c144b69fc7b4b4443d09e&amp;req=dScvEM16m4BaUfMW1HO4zcR0rJIwiezJ7DtpMiX%2FBYnqMB7Ac05Xoed59TLK%0Aede%2BPpwco0s%2FAwiMTCk%3D%0A)
 
 Claude 通过运行您在存储库配置中定义的任何设置命令来准备环境。这包括安装依赖项、设置数据库或运行项目需要的其他初始化步骤。如果您的任务需要网络访问（例如安装包或获取数据），您可以配置环境具有的互联网访问级别。
 
 环境准备就绪后，Claude 开始处理您的任务。Claude 读取您的代码、进行更改、编写测试并运行命令来验证工作。如果需要，您可以通过网页界面监控进度并提供指导。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1786446156/83ecf0a5b98eddc9ffc9694c50f7/353589ce-b678-441d-8909-71b45fa2d065?expires=1794465000&amp;signature=987fe2acf8e1b3b623ed1289227a70426c3c961842017beb903800ea8cb59b3d&amp;req=dScvEM16m4BaX%2FMW1HO4zVbcTWeH5cHOUQl3YqgIJdbZyTNBZTWjzZVpNVRf%0Ax7x%2F82qeI37RAH49X8k%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1786446156/83ecf0a5b98eddc9ffc9694c50f7/353589ce-b678-441d-8909-71b45fa2d065?expires=1794465900&amp;signature=6552d540a30f903ae0039cd6baffab6d24bd9d6d84dbe5dbd34b81c679251d6e&amp;req=dScvEM16m4BaX%2FMW1HO4zVbcTWeH5cHHUQl3YqgIJdYOUnaxk0xXeJ8ZIssl%0AMMeuoYCSmsygQS9VLWs%3D%0A)
 
 Claude 完成任务后，会将更改推送到 GitHub 存储库中的新分支。您会收到通知，可以审查更改，然后直接从界面创建拉取请求。拉取请求包含 Claude 的所有工作，可供您审查和进行任何其他您想要进行的更改。
 
