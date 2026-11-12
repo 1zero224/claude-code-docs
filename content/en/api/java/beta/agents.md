@@ -967,8 +967,6 @@ Create Agent
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -1251,8 +1249,6 @@ Create Agent
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -1260,8 +1256,6 @@ Create Agent
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 
@@ -2053,8 +2047,6 @@ List Agents
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -2337,8 +2329,6 @@ List Agents
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -2346,8 +2336,6 @@ List Agents
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 
@@ -3123,8 +3111,6 @@ Get Agent
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -3407,8 +3393,6 @@ Get Agent
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -3416,8 +3400,6 @@ Get Agent
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 
@@ -4966,8 +4948,6 @@ Update Agent
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -5250,8 +5230,6 @@ Update Agent
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -5259,8 +5237,6 @@ Update Agent
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 
@@ -6025,8 +6001,6 @@ Archive Agent
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -6309,8 +6283,6 @@ Archive Agent
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -6318,8 +6290,6 @@ Archive Agent
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 
@@ -6960,8 +6930,6 @@ public final class Main {
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -7244,8 +7212,6 @@ public final class Main {
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -7253,8 +7219,6 @@ public final class Main {
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 
@@ -8494,12 +8458,6 @@ public final class Main {
 
       - `JsonValue type = "auto"`
 
-    - `class BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `JsonValue type = "auto"`
-
 ### Beta Managed Agents Agent Toolset Default Config Params
 
 - `class BetaManagedAgentsAgentToolsetDefaultConfigParams`
@@ -8525,12 +8483,6 @@ public final class Main {
       Tool calls require user confirmation before execution.
 
       - `JsonValue type = "always_ask"`
-
-    - `class BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `JsonValue type = "auto"`
 
     - `class BetaManagedAgentsAutoPolicy`
 
@@ -9480,8 +9432,6 @@ public final class Main {
 
   - `String skillId`
 
-  - `String skillId`
-
   - `String version`
 
 ### Beta Managed Agents Anthropic Skill Params
@@ -9617,8 +9567,6 @@ public final class Main {
   A resolved user-created custom skill.
 
   - `JsonValue type = "custom"`
-
-  - `String skillId`
 
   - `String skillId`
 
@@ -10020,8 +9968,6 @@ public final class Main {
 
   - `String name`
 
-  - `String name`
-
   - `String url`
 
 ### Beta Managed Agents MCP Tool Config
@@ -10049,12 +9995,6 @@ public final class Main {
       Tool calls require user confirmation before execution.
 
       - `JsonValue type = "always_ask"`
-
-    - `class BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `JsonValue type = "auto"`
 
     - `class BetaManagedAgentsAutoPolicy`
 
@@ -10100,12 +10040,6 @@ public final class Main {
 
       - `JsonValue type = "auto"`
 
-    - `class BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `JsonValue type = "auto"`
-
 ### Beta Managed Agents MCP Toolset
 
 - `class BetaManagedAgentsMcpToolset`
@@ -10133,12 +10067,6 @@ public final class Main {
         Tool calls require user confirmation before execution.
 
         - `JsonValue type = "always_ask"`
-
-      - `class BetaManagedAgentsAutoPolicy`
-
-        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-        - `JsonValue type = "auto"`
 
       - `class BetaManagedAgentsAutoPolicy`
 
@@ -10200,12 +10128,6 @@ public final class Main {
 
       - `JsonValue type = "auto"`
 
-    - `class BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `JsonValue type = "auto"`
-
 ### Beta Managed Agents MCP Toolset Default Config Params
 
 - `class BetaManagedAgentsMcpToolsetDefaultConfigParams`
@@ -10231,12 +10153,6 @@ public final class Main {
       Tool calls require user confirmation before execution.
 
       - `JsonValue type = "always_ask"`
-
-    - `class BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `JsonValue type = "auto"`
 
     - `class BetaManagedAgentsAutoPolicy`
 
@@ -10287,12 +10203,6 @@ public final class Main {
         Tool calls require user confirmation before execution.
 
         - `JsonValue type = "always_ask"`
-
-      - `class BetaManagedAgentsAutoPolicy`
-
-        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-        - `JsonValue type = "auto"`
 
       - `class BetaManagedAgentsAutoPolicy`
 
@@ -10850,7 +10760,7 @@ public final class Main {
 
     - `class BetaManagedAgentsAdvisorParams`
 
-- `class BetaManagedAgentsMultiagentSubagentsParams: union`
+      Platform advisor roster entry: a model the session's primary thread may consult mid-turn. At most one per roster; the entry occupies the roster name `anthropic.advisor`.
 
       - `JsonValue type = "advisor"`
 
@@ -10858,93 +10768,7 @@ public final class Main {
 
         A Claude model id. The model must be permitted as an advisor for this agent's model.
 
-    The agent can spawn session threads. Each thread runs a predefined agent, which is a saved agent in `predefined_agents`, or an inline agent, which the agent defines when it spawns the thread and which is not saved. If `inline_agents` is disabled, `predefined_agents` must name at least one agent.
-
-    - `JsonValue type = "enabled"`
-
-    - `Optional<BetaManagedAgentsMultiagentInlineAgentsParams> inlineAgents`
-
-      Whether the agent can define inline agents when it spawns session threads. Defaults to enabled.
-
-      - `class BetaManagedAgentsMultiagentInlineAgentsEnabledParams`
-
-        The agent can define inline agents.
-
-        - `JsonValue type = "enabled"`
-
-      - `class BetaManagedAgentsMultiagentInlineAgentsDisabledParams`
-
-        The agent cannot define inline agents.
-
-        - `JsonValue type = "disabled"`
-
-    - `Optional<List<BetaManagedAgentsMultiagentPredefinedAgentParams>> predefinedAgents`
-
-      Predefined agents that this agent can spawn as session threads. At most 20. Defaults to null. Null and an empty list both mean no predefined agents. This list is separate from `workflows.predefined_agents`, and an agent in one list is not added to the other.
-
-      - `String`
-
-      - `class BetaManagedAgentsAgentParams`
-
-        Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
-
-        - `Type type`
-
-        - `String id`
-
-          The `agent` ID.
-
-          minLength: 1, maxLength: 128
-
-        - `Optional<Long> version`
-
-          The specific `agent` version to use. Omit to use the latest version. Must be at least 1 if specified.
-
-          format: int32
-
-      - `class BetaManagedAgentsMultiagentSelfParams`
-
-        Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
-
-        - `Type type`
-
-  - `class BetaManagedAgentsMultiagentSubagentsDisabledParams`
-
-    The agent cannot spawn session threads.
-
-    - `JsonValue type = "disabled"`
-
-### Beta Managed Agents Multiagent Workflows
-
-- `class BetaManagedAgentsMultiagentWorkflows: union`
-
-  Whether the agent can start workflow runs.
-
-  - `class BetaManagedAgentsMultiagentWorkflowsEnabled`
-
-    The agent can start workflow runs.
-
-    - `JsonValue type = "enabled"`
-
-    - `BetaManagedAgentsMultiagentInlineAgents inlineAgents`
-
-      Whether a run's plan can define inline agents, which are not saved.
-
-      - `class BetaManagedAgentsMultiagentInlineAgentsEnabled`
-
-        The agent can define inline agents.
-
-        - `JsonValue type = "enabled"`
-
-      - `class BetaManagedAgentsMultiagentInlineAgentsDisabled`
-
-        The agent cannot define inline agents.
-
-        - `JsonValue type = "disabled"`
-
-    - `List<BetaManagedAgentsAgentReference> predefinedAgents`
-
-      Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
+        minLength: 1, maxLength: 256
 
 ### Beta Managed Agents Multiagent Inline Agents
 
@@ -11046,11 +10870,11 @@ public final class Main {
 
     - `JsonValue type = "self"`
 
-      - `long version`
+### Beta Managed Agents Multiagent Self Params
 
 - `class BetaManagedAgentsMultiagentSelfParams`
 
-  - `class BetaManagedAgentsMultiagentWorkflowsDisabled`
+  Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
 
   - `JsonValue type = "self"`
 
@@ -11842,8 +11666,6 @@ public final class Main {
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `BetaManagedAgentsModelConfig model`
@@ -11986,8 +11808,6 @@ public final class Main {
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -11995,8 +11815,6 @@ public final class Main {
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 
@@ -13662,8 +13480,6 @@ List Agent Versions
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -13946,8 +13762,6 @@ List Agent Versions
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -13955,8 +13769,6 @@ List Agent Versions
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 

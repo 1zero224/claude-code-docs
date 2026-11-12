@@ -384,8 +384,6 @@ Your [`PreToolUse` hooks](https://code.claude.com/docs/en/hooks#pretooluse) don'
 * **Block specific paths**: add a [`Read` deny rule](https://code.claude.com/docs/en/permissions#read-and-edit) for them. Claude Code doesn't include a file that the rule matches.
 * **Stop `@` references from including files**: set `CLAUDE_CODE_DISABLE_FILE_MENTIONS=1`, which stops `@` file and directory references in your messages from including content, even for paths your hooks don't check. Your matching hooks then run before Claude opens a referenced path with a tool such as `Read`.
 
-To stop `@` references from including file contents and directory listings in your message, set [`CLAUDE_CODE_DISABLE_FILE_MENTIONS=1`](/docs/en/env-vars#variables) in your shell or user settings. Claude then receives the paths you referenced with a note to read them using its file tools. The variable requires Claude Code v2.1.299 or later, and Claude Code ignores it in project and local settings.
-
 ***
 
 ### Run Claude on a schedule
@@ -468,7 +466,7 @@ Work on a feature in one terminal while Claude fixes a bug in another, without t
 claude --worktree feature-auth
 ```
 
-Run the same command with a different name in a second terminal to start an isolated parallel session. In a repository with no commits, the command fails with `Failed to resolve base branch "HEAD": git rev-parse failed`. See [Worktrees](https://code.claude.com/docs/en/worktrees.md) for cleanup, `.worktreeinclude`, and non-git VCS support. To monitor parallel sessions from one screen instead of separate terminals, see [background agents](https://code.claude.com/docs/en/agent-view.md).
+Run the same command with a different name in a second terminal to start an isolated parallel session. See [Worktrees](https://code.claude.com/docs/en/worktrees.md) for cleanup, `.worktreeinclude`, and non-git VCS support. To monitor parallel sessions from one screen instead of separate terminals, see [background agents](https://code.claude.com/docs/en/agent-view.md).
 
 ## Plan before editing
 

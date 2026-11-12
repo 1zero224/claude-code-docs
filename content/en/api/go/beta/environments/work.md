@@ -2063,12 +2063,6 @@ Get statistics about the work queue for an environment.
 
     default: work_queue_stats
 
-  - `Type WorkQueueStats`
-
-    The type of object
-
-    default: work_queue_stats
-
   - `Depth int64`
 
     Number of work items waiting to be picked up
@@ -2379,12 +2373,6 @@ func main() {
 - `type BetaSelfHostedWorkQueueStats`
 
   Statistics about the work queue for an environment.
-
-  - `Type WorkQueueStats`
-
-    The type of object
-
-    default: work_queue_stats
 
   - `Type WorkQueueStats`
 

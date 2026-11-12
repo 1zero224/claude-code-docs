@@ -185,8 +185,6 @@ Archive Session
 
       - `required string Name`
 
-      - `required string Name`
-
       - `required string Url`
 
     - `required BetaManagedAgentsModelConfig Model`

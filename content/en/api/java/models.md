@@ -53,22 +53,6 @@ The Models API response can be used to determine which models are available for 
 
     Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
-
-    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
-
-    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
-
-    - `COMPACT_2026_09_04("compact-2026-09-04")`
-
-    - `INLINE_TOOLS_2026_09_15("inline-tools-2026-09-15")`
-
-    - `MCP_CLIENT_2026_09_15("mcp-client-2026-09-15")`
-
-    - `CE_PLUGINS_2026_09_01("ce-plugins-2026-09-01")`
-
-    - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
-
 ### Returns
 
 - `class ModelInfo`
@@ -409,22 +393,6 @@ The Models API response can be used to determine information about a specific mo
     Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
     Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-    - `MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01("mid-conversation-output-config-2026-07-01")`
-
-    - `THINKING_BINDING_CONTROLS_2026_08_01("thinking-binding-controls-2026-08-01")`
-
-    - `MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
-
-    - `COMPACT_2026_09_04("compact-2026-09-04")`
-
-    - `INLINE_TOOLS_2026_09_15("inline-tools-2026-09-15")`
-
-    - `MCP_CLIENT_2026_09_15("mcp-client-2026-09-15")`
-
-    - `CE_PLUGINS_2026_09_01("ce-plugins-2026-09-01")`
-
-    - `SPEND_LIMIT_READS_2026_09_26("spend-limit-reads-2026-09-26")`
 
 ### Returns
 

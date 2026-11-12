@@ -96,8 +96,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `JsonElement Type = "text"`
 
-            - `JsonElement Type = "text"`
-
             - `required string Text`
 
               minLength: 1
@@ -345,7 +343,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `JsonElement Type = "file"`
 
-                - `JsonElement Type = "code_execution_output"`
+                - `required string FileID`
 
             - `BetaCacheControlEphemeral? CacheControl`
 
@@ -368,8 +366,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
             - `JsonElement Type = "search_result"`
 
             - `required IReadOnlyList<BetaTextBlockParam> Content`
-
-              - `JsonElement Type = "text"`
 
               - `JsonElement Type = "text"`
 
@@ -3341,7 +3337,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `JsonElement Type = "tool_addition"`
+              - `required string Name`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -4535,8 +4531,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-          - `JsonElement Type = "encrypted_code_execution_result"`
 
           - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -8194,8 +8188,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             - `JsonElement Type = "text"`
 
-            - `JsonElement Type = "text"`
-
             - `required string Text`
 
               minLength: 1
@@ -8443,7 +8435,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `JsonElement Type = "file"`
 
-                - `JsonElement Type = "code_execution_output"`
+                - `required string FileID`
 
             - `BetaCacheControlEphemeral? CacheControl`
 
@@ -8466,8 +8458,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
             - `JsonElement Type = "search_result"`
 
             - `required IReadOnlyList<BetaTextBlockParam> Content`
-
-              - `JsonElement Type = "text"`
 
               - `JsonElement Type = "text"`
 
@@ -11439,7 +11429,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `JsonElement Type = "tool_addition"`
+              - `required string Name`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -22638,8 +22628,6 @@ Console.WriteLine(betaMessageTokensCount);
 
       - `JsonElement Type = "encrypted_code_execution_result"`
 
-      - `JsonElement Type = "encrypted_code_execution_result"`
-
       - `required IReadOnlyList<BetaCodeExecutionOutputBlock> Content`
 
         - `JsonElement Type = "code_execution_output"`
@@ -22700,8 +22688,6 @@ Console.WriteLine(betaMessageTokensCount);
 
     - `JsonElement Type = "encrypted_code_execution_result"`
 
-    - `JsonElement Type = "encrypted_code_execution_result"`
-
     - `required IReadOnlyList<BetaCodeExecutionOutputBlock> Content`
 
       - `JsonElement Type = "code_execution_output"`
@@ -22755,8 +22741,6 @@ Console.WriteLine(betaMessageTokensCount);
     - `class BetaEncryptedCodeExecutionResultBlockParam`
 
       The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-      - `JsonElement Type = "encrypted_code_execution_result"`
 
       - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -22834,8 +22818,6 @@ Console.WriteLine(betaMessageTokensCount);
   - `class BetaEncryptedCodeExecutionResultBlockParam`
 
     The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-    - `JsonElement Type = "encrypted_code_execution_result"`
 
     - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -30331,8 +30313,6 @@ Console.WriteLine(betaMessageTokensCount);
 
         - `JsonElement Type = "encrypted_code_execution_result"`
 
-        - `JsonElement Type = "encrypted_code_execution_result"`
-
         - `required IReadOnlyList<BetaCodeExecutionOutputBlock> Content`
 
           - `JsonElement Type = "code_execution_output"`
@@ -33588,8 +33568,6 @@ Console.WriteLine(betaMessageTokensCount);
 
         - `JsonElement Type = "encrypted_code_execution_result"`
 
-        - `JsonElement Type = "encrypted_code_execution_result"`
-
         - `required IReadOnlyList<BetaCodeExecutionOutputBlockParam> Content`
 
           - `JsonElement Type = "code_execution_output"`
@@ -36049,8 +36027,6 @@ Console.WriteLine(betaMessageTokensCount);
 
     - `JsonElement Type = "fallback"`
 
-    - `JsonElement Type = "fallback"`
-
     - `required BetaFallbackInfoParam From`
 
       Identifies one hop of a fallback transition.
@@ -36795,8 +36771,6 @@ Console.WriteLine(betaMessageTokensCount);
 
   - `JsonElement Type = "encrypted_code_execution_result"`
 
-  - `JsonElement Type = "encrypted_code_execution_result"`
-
   - `required IReadOnlyList<BetaCodeExecutionOutputBlock> Content`
 
     - `JsonElement Type = "code_execution_output"`
@@ -36814,8 +36788,6 @@ Console.WriteLine(betaMessageTokensCount);
 - `class BetaEncryptedCodeExecutionResultBlockParam`
 
   The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-  - `JsonElement Type = "encrypted_code_execution_result"`
 
   - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -37006,8 +36978,6 @@ Console.WriteLine(betaMessageTokensCount);
   `tool_use` block you left out.
 
   See the [refusals and fallback guide](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback?sdk_languages=csharp#continuing-the-conversation) to learn which blocks to keep.
-
-  - `JsonElement Type = "fallback"`
 
   - `JsonElement Type = "fallback"`
 
@@ -39594,8 +39564,6 @@ Console.WriteLine(betaMessageTokensCount);
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-          - `JsonElement Type = "encrypted_code_execution_result"`
 
           - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -46630,8 +46598,6 @@ Console.WriteLine(betaMessageTokensCount);
 
           - `JsonElement Type = "text"`
 
-          - `JsonElement Type = "text"`
-
           - `required string Text`
 
             minLength: 1
@@ -46879,7 +46845,7 @@ Console.WriteLine(betaMessageTokensCount);
 
               - `JsonElement Type = "file"`
 
-              - `JsonElement Type = "code_execution_output"`
+              - `required string FileID`
 
           - `BetaCacheControlEphemeral? CacheControl`
 
@@ -46902,8 +46868,6 @@ Console.WriteLine(betaMessageTokensCount);
           - `JsonElement Type = "search_result"`
 
           - `required IReadOnlyList<BetaTextBlockParam> Content`
-
-            - `JsonElement Type = "text"`
 
             - `JsonElement Type = "text"`
 
@@ -49875,7 +49839,7 @@ Console.WriteLine(betaMessageTokensCount);
 
               The tool's input schema as the MCP server lists it, verbatim.
 
-            - `JsonElement Type = "tool_addition"`
+            - `required string Name`
 
               The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -50964,8 +50928,6 @@ Console.WriteLine(betaMessageTokensCount);
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-          - `JsonElement Type = "encrypted_code_execution_result"`
 
           - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -54705,8 +54667,6 @@ Console.WriteLine(betaMessageTokensCount);
 
             - `JsonElement Type = "encrypted_code_execution_result"`
 
-            - `JsonElement Type = "encrypted_code_execution_result"`
-
             - `required IReadOnlyList<BetaCodeExecutionOutputBlock> Content`
 
               - `JsonElement Type = "code_execution_output"`
@@ -58436,8 +58396,6 @@ Console.WriteLine(betaMessageTokensCount);
               The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
               See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-              - `JsonElement Type = "encrypted_code_execution_result"`
 
               - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -94678,8 +94636,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
                 See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-                - `JsonElement Type = "encrypted_code_execution_result"`
 
                 - `JsonElement Type = "encrypted_code_execution_result"`
 

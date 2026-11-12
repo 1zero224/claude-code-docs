@@ -367,8 +367,6 @@ List Agents
 
           - `required string ID`
 
-          - `required string ID`
-
           - `required int Version`
 
             format: int32

@@ -26,18 +26,6 @@ A skill isn't the right tool for everything:
 
 To start, write down the task in one sentence and what a good result looks like. That sentence becomes the skill's `description`, and the rest becomes the instructions. If you'd rather have Claude draft the skill with you, ask it to use the [skill-creator skill](#measure-whether-the-skill-improves-the-output), then edit what it produces.
 
-## Decide what skill to create
-
-A skill pays off when Claude does a task for you repeatedly and you want it done the same way every time. Good candidates are tasks where you find yourself correcting Claude with the same instructions, such as a report format your team uses, a review checklist, a multi-step procedure, or work that needs a reference file or a script to come out right. A skill can also teach Claude how your team uses a tool you've connected, such as which project new issues go in and which labels and template to use in your issue tracker. Write the skill once, and Claude applies it whenever a request matches the skill's description, for you and for anyone you share it with.
-
-A skill isn't the right tool for everything:
-
-* **A one-off task**: describe what you want in the conversation instead
-* **Live data from another service**: that's what an [MCP connector](/docs/connectors/getting-started) provides. A skill can tell Claude how to use a connector, but it can't reach the service itself
-* **Instructions for every conversation**: put those in your [personal preferences or project instructions](https://support.claude.com/en/articles/10185728-understanding-claude-s-personalization-features) rather than a skill, which loads only when a task matches
-
-To start, write down the task in one sentence and what a good result looks like. That sentence becomes the skill's `description`, and the rest becomes the instructions. If you'd rather have Claude draft the skill with you, ask it to use the [skill-creator skill](#measure-whether-the-skill-improves-the-output), then edit what it produces.
-
 ## Directory structure
 
 A skill is a folder named after the skill. The only required file is `SKILL.md`; the other folders are optional and hold material that `SKILL.md` points Claude to. Select a file in the explorer to see what goes in it and what Claude does with it.

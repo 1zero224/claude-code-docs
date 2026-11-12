@@ -229,8 +229,6 @@ List Memory Versions
 
   - `type: Literal["memory_version"]`
 
-  - `type: Literal["memory_version"]`
-
   - `id: str`
 
     Unique identifier for this version (a `memver_...` value).
@@ -574,8 +572,6 @@ Retrieve a Memory Version
 
   - `type: Literal["memory_version"]`
 
-  - `type: Literal["memory_version"]`
-
   - `id: str`
 
     Unique identifier for this version (a `memver_...` value).
@@ -900,8 +896,6 @@ Redact a Memory Version
 
   - `type: Literal["memory_version"]`
 
-  - `type: Literal["memory_version"]`
-
   - `id: str`
 
     Unique identifier for this version (a `memver_...` value).
@@ -1151,8 +1145,6 @@ print(beta_managed_agents_memory_version.id)
   Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=python#audit-memory-changes) to learn more about memory versions.
-
-  - `type: Literal["memory_version"]`
 
   - `type: Literal["memory_version"]`
 

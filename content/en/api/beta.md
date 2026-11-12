@@ -521,10 +521,6 @@ url: https://platform.claude.com/docs/en/api/beta
 
   - `error_code: "organization_not_enrolled_in_beta"`
 
-  - `message: string`
-
-    default: Not found
-
 ### Beta Overloaded Error
 
 - `BetaOverloadedError object`
@@ -580,10 +576,6 @@ url: https://platform.claude.com/docs/en/api/beta
   The request's `Content-Type` header names a charset other than UTF-8, ISO-8859-1 or US-ASCII. Send the request with no charset, or with one of these.
 
   - `error_code: "unsupported_charset"`
-
-  - `message: string`
-
-    default: Rate limited
 
 ## Beta › Models
 
@@ -1722,12 +1714,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `"anthropic-workspace-id": optional string`
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Body parameters
 
 - `max_tokens: number`
@@ -1802,8 +1788,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       - `array of BetaContentBlockParam`
 
         - `BetaTextBlockParam object`
-
-          - `type: "text"`
 
           - `type: "text"`
 
@@ -2077,8 +2061,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           - `type: "search_result"`
 
           - `content: array of BetaTextBlockParam`
-
-            - `type: "text"`
 
             - `type: "text"`
 
@@ -5176,38 +5158,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         - `"max"`
 
-  - `clear_at: optional "next_user_message" or "never" or null`
-
-    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-    - `"next_user_message"`
-
-    - `"never"`
-
-  - `output_config: optional BetaSystemMessageOutputConfig or null`
-
-    Per-message output configuration on a role:"system" input message.
-
-    Fields here apply per-turn; `format` remains top-level only. An
-    empty `{}` is accepted on a message that carries content; a message
-    with neither content nor output_config fields is rejected.
-
-    - `effort: optional "low" or "medium" or "high" or 2 more or null`
-
-      How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-      Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-      - `"low"`
-
-      - `"medium"`
-
-      - `"high"`
-
-      - `"xhigh"`
-
-      - `"max"`
-
 - `model: Model`
 
   The model that will complete your prompt.
@@ -6565,7 +6515,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             default: encrypted_code_execution_result
 
-          - `type: "encrypted_code_execution_result"`
+          - `content: array of BetaCodeExecutionOutputBlock`
 
             - `type: "code_execution_output"`
 
@@ -10406,12 +10356,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `"anthropic-workspace-id": optional string`
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Body parameters
 
 - `messages: array of BetaMessageParam`
@@ -10474,8 +10418,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
       - `array of BetaContentBlockParam`
 
         - `BetaTextBlockParam object`
-
-          - `type: "text"`
 
           - `type: "text"`
 
@@ -10749,8 +10691,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
           - `type: "search_result"`
 
           - `content: array of BetaTextBlockParam`
-
-            - `type: "text"`
 
             - `type: "text"`
 
@@ -13848,38 +13788,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
         - `"max"`
 
-  - `clear_at: optional "next_user_message" or "never" or null`
-
-    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-    - `"next_user_message"`
-
-    - `"never"`
-
-  - `output_config: optional BetaSystemMessageOutputConfig or null`
-
-    Per-message output configuration on a role:"system" input message.
-
-    Fields here apply per-turn; `format` remains top-level only. An
-    empty `{}` is accepted on a message that carries content; a message
-    with neither content nor output_config fields is rejected.
-
-    - `effort: optional "low" or "medium" or "high" or 2 more or null`
-
-      How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-      Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-      - `"low"`
-
-      - `"medium"`
-
-      - `"high"`
-
-      - `"xhigh"`
-
-      - `"max"`
-
 - `model: Model`
 
   The model that will complete your prompt.
@@ -14606,12 +14514,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `"anthropic-workspace-id": optional string`
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Body parameters
 
 - `requests: array of object`
@@ -14706,8 +14608,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           - `array of BetaContentBlockParam`
 
             - `BetaTextBlockParam object`
-
-              - `type: "text"`
 
               - `type: "text"`
 
@@ -14981,8 +14881,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               - `type: "search_result"`
 
               - `content: array of BetaTextBlockParam`
-
-                - `type: "text"`
 
                 - `type: "text"`
 
@@ -18080,38 +17978,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `"max"`
 
-      - `clear_at: optional "next_user_message" or "never" or null`
-
-        How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-        - `"next_user_message"`
-
-        - `"never"`
-
-      - `output_config: optional BetaSystemMessageOutputConfig or null`
-
-        Per-message output configuration on a role:"system" input message.
-
-        Fields here apply per-turn; `format` remains top-level only. An
-        empty `{}` is accepted on a message that carries content; a message
-        with neither content nor output_config fields is rejected.
-
-        - `effort: optional "low" or "medium" or "high" or 2 more or null`
-
-          How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-          Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-          - `"low"`
-
-          - `"medium"`
-
-          - `"high"`
-
-          - `"xhigh"`
-
-          - `"max"`
-
     - `model: Model`
 
       The model that will complete your prompt.
@@ -20880,7 +20746,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   default: encrypted_code_execution_result
 
-                - `type: "encrypted_code_execution_result"`
+                - `content: array of BetaCodeExecutionOutputBlock`
 
                   - `type: "code_execution_output"`
 
@@ -36677,12 +36543,6 @@ Get statistics about the work queue for an environment.
 - `BetaSelfHostedWorkQueueStats object`
 
   Statistics about the work queue for an environment.
-
-  - `type: "work_queue_stats"`
-
-    The type of object
-
-    default: work_queue_stats
 
   - `type: "work_queue_stats"`
 
@@ -72464,8 +72324,6 @@ List Vaults
 
   - `type: "vault"`
 
-  - `type: "vault"`
-
   - `id: string`
 
     The unique ID of the vault (`vlt_...`).
@@ -74033,8 +73891,6 @@ List Credentials
 - `data: optional array of BetaManagedAgentsCredential`
 
   The credentials on this page, newest first.
-
-  - `type: "vault_credential"`
 
   - `type: "vault_credential"`
 
@@ -76031,7 +75887,7 @@ Create a Memory Store
 
     format: date-time
 
-  - `archived_at: string or null`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -76277,7 +76133,7 @@ List Memory Stores
 
     format: date-time
 
-  - `archived_at: string or null`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -76504,7 +76360,7 @@ Retrieve a Memory Store
 
     format: date-time
 
-  - `archived_at: string or null`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -76748,7 +76604,7 @@ Update a Memory Store
 
     format: date-time
 
-  - `archived_at: string or null`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -77149,7 +77005,7 @@ Archive a Memory Store
 
     format: date-time
 
-  - `archived_at: string or null`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -77391,8 +77247,6 @@ Create a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=http#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: "memory"`
 
   - `type: "memory"`
 
@@ -77681,8 +77535,6 @@ List Memories
 
     - `type: "memory"`
 
-    - `type: "memory"`
-
     - `id: string`
 
       The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -77955,8 +77807,6 @@ Retrieve a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=http#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: "memory"`
 
   - `type: "memory"`
 
@@ -78239,8 +78089,6 @@ Update a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=http#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: "memory"`
 
   - `type: "memory"`
 
@@ -79089,8 +78937,6 @@ Retrieve a Memory Version
 
   - `type: "memory_version"`
 
-  - `type: "memory_version"`
-
   - `id: string`
 
     Unique identifier for this version (a `memver_...` value).
@@ -79409,8 +79255,6 @@ Redact a Memory Version
   Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=http#audit-memory-changes) to learn more about memory versions.
-
-  - `type: "memory_version"`
 
   - `type: "memory_version"`
 

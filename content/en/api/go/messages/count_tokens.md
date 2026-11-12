@@ -501,8 +501,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                     maxItems: 100
 
-                    - `Type TabOpened`
-
                     - `TabID string`
 
                       The caller-assigned identifier for this tab, unique within the inventory.

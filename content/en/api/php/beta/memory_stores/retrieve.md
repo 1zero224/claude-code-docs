@@ -27,12 +27,6 @@ Retrieve a Memory Store
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ## Returns
 
 - `class BetaManagedAgentsMemoryStore`
@@ -50,10 +44,6 @@ Retrieve a Memory Store
     Archiving can't be undone. An archived store can't be attached to new sessions. You can't create or update its memories or update the store. You can still read and delete its memories, redact their versions, and delete the store.
 
     See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#archive-a-store) to learn more about archiving.
-
-  - `?\Datetime archivedAt`
-
-    Timestamp when the store was archived, or `null` if active. Set once and never cleared; archiving is one-way. Archived stores are read-only and cannot be attached to new sessions.
 
   - `\Datetime createdAt`
 

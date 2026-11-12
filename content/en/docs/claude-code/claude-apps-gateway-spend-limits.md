@@ -76,7 +76,7 @@ The meter picks each request's rates in this order:
 3. List price for the [`models[].id`](https://code.claude.com/docs/en/claude-apps-gateway-config#models) you mapped to that upstream ID, for upstream strings that carry no model name, such as an Amazon Bedrock application-inference-profile ARN or a Microsoft Foundry deployment name. Requires v2.1.218 or later.
 4. The unknown-model tier of \$5/\$25 per million input/output tokens, so an ID the meter can't place is never free. The gateway warns at boot and once per ID at runtime when it uses this tier.
 
-Whichever rate applies, the meter then multiplies the amount by [`pricing.multiplier`](https://code.claude.com/docs/en/claude-apps-gateway-config#pricing), default `1`.
+Whichever rate applies, the meter then multiplies the amount by [`pricing.multiplier`](https://code.claude.com/docs/en/claude-apps-gateway-config#pricing), default `1`. Requires a gateway server running Claude Code v2.1.227 or later.
 
 Client aborts are billed too. When a stream ends without the upstream's final usage frame, the meter bills a floor estimate of about four characters per output token for the text already sent to the client, so aborting requests early doesn't evade a cap.
 
@@ -91,8 +91,6 @@ If one of your `pricing.overrides` rows matches the request, that row's rates ap
 The pre-check queries Postgres with a two-second timeout. If the store is unreachable or times out, enforcement fails open by default: the request proceeds, the gateway logs a warning, and the response carries no `anthropic-ratelimit-unified-*` headers. Set [`enforcement.fail_closed_on_error: true`](https://code.claude.com/docs/en/claude-apps-gateway-config#enforcement) to fail closed instead, which returns the same `429 billing_error` but with the message `spend limit unavailable` and no period, reset time, or `retry-after` header. Fail-open keeps a store outage from becoming an inference outage; fail-closed guarantees no unmetered spend.
 
 Fail-open only helps while your load balancer or orchestrator still routes traffic to the gateway. See [Outage behavior](https://code.claude.com/docs/en/claude-apps-gateway-deploy.md#outage-behavior) for `store.readiness_grace_seconds`, which keeps replicas passing their readiness check through a short outage.
-
-Fail-open only helps while your load balancer or orchestrator still routes traffic to the gateway. See [Outage behavior](/docs/en/claude-apps-gateway-deploy#outage-behavior) for `store.readiness_grace_seconds`, which keeps replicas passing their readiness check through a short outage.
 
 ### Usage warnings in Claude Code
 

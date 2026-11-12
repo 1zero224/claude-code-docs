@@ -2402,10 +2402,6 @@ puts(beta_environment)
 
   - `error_code: :invalid_metadata`
 
-  - `id: String`
-
-    Environment identifier
-
 ### Beta Limited Network
 
 - `class BetaLimitedNetwork`
@@ -4463,10 +4459,6 @@ Get statistics about the work queue for an environment.
 - `class BetaSelfHostedWorkQueueStats`
 
   Statistics about the work queue for an environment.
-
-  - `type: :work_queue_stats`
-
-    The type of object
 
   - `type: :work_queue_stats`
 

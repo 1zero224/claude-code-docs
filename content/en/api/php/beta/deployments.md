@@ -65,12 +65,6 @@ Create Deployment
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class BetaManagedAgentsDeployment`
@@ -305,12 +299,6 @@ List Deployments
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class BetaManagedAgentsDeployment`
@@ -500,12 +488,6 @@ Get Deployment
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -733,12 +715,6 @@ Update Deployment
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class BetaManagedAgentsDeployment`
@@ -950,12 +926,6 @@ Archive Deployment
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class BetaManagedAgentsDeployment`
@@ -1138,12 +1108,6 @@ Run Deployment Now
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class BetaManagedAgentsDeploymentRun`
@@ -1243,12 +1207,6 @@ Pause Deployment
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1431,12 +1389,6 @@ Unpause Deployment
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -1929,10 +1881,6 @@ var_dump($betaManagedAgentsDeployment);
 - `class BetaManagedAgentsErrorDeploymentPausedReason`
 
   - `"error" type`
-
-  - `BetaManagedAgentsDeploymentPausedReasonError error`
-
-    The failed run's error.
 
   - `BetaManagedAgentsDeploymentPausedReasonError error`
 

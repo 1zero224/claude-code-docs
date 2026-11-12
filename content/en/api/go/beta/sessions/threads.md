@@ -217,8 +217,6 @@ List Session Threads
 
         - `Name string`
 
-        - `Name string`
-
         - `URL string`
 
       - `Model BetaManagedAgentsModelConfig`
@@ -361,8 +359,6 @@ List Session Threads
 
           - `SkillID string`
 
-          - `SkillID string`
-
           - `Version string`
 
         - `type BetaManagedAgentsCustomSkill`
@@ -370,8 +366,6 @@ List Session Threads
           A resolved user-created custom skill.
 
           - `Type Custom`
-
-          - `SkillID string`
 
           - `SkillID string`
 
@@ -1332,8 +1326,6 @@ Get Session Thread
 
         - `Name string`
 
-        - `Name string`
-
         - `URL string`
 
       - `Model BetaManagedAgentsModelConfig`
@@ -1476,8 +1468,6 @@ Get Session Thread
 
           - `SkillID string`
 
-          - `SkillID string`
-
           - `Version string`
 
         - `type BetaManagedAgentsCustomSkill`
@@ -1485,8 +1475,6 @@ Get Session Thread
           A resolved user-created custom skill.
 
           - `Type Custom`
-
-          - `SkillID string`
 
           - `SkillID string`
 
@@ -2444,8 +2432,6 @@ Archive Session Thread
 
         - `Name string`
 
-        - `Name string`
-
         - `URL string`
 
       - `Model BetaManagedAgentsModelConfig`
@@ -2588,8 +2574,6 @@ Archive Session Thread
 
           - `SkillID string`
 
-          - `SkillID string`
-
           - `Version string`
 
         - `type BetaManagedAgentsCustomSkill`
@@ -2597,8 +2581,6 @@ Archive Session Thread
           A resolved user-created custom skill.
 
           - `Type Custom`
-
-          - `SkillID string`
 
           - `SkillID string`
 
@@ -4048,8 +4030,6 @@ func main() {
 
         - `Name string`
 
-        - `Name string`
-
         - `URL string`
 
       - `Model BetaManagedAgentsModelConfig`
@@ -4192,8 +4172,6 @@ func main() {
 
           - `SkillID string`
 
-          - `SkillID string`
-
           - `Version string`
 
         - `type BetaManagedAgentsCustomSkill`
@@ -4201,8 +4179,6 @@ func main() {
           A resolved user-created custom skill.
 
           - `Type Custom`
-
-          - `SkillID string`
 
           - `SkillID string`
 
@@ -6729,8 +6705,6 @@ func main() {
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
         - `Type URL`
-
-        - `Name string`
 
         - `Name string`
 
@@ -9911,8 +9885,6 @@ List Session Thread Events
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
         - `Type URL`
-
-        - `Name string`
 
         - `Name string`
 
@@ -13106,8 +13078,6 @@ Stream Session Thread Events
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
         - `Type URL`
-
-        - `Name string`
 
         - `Name string`
 

@@ -151,8 +151,6 @@ Delete Session Resource
 
   - `String id`
 
-  - `String id`
-
 ## Example
 
 ```java

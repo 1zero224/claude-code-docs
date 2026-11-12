@@ -242,10 +242,6 @@ For organizations that also enable CMEK, your cloud KMS audit log (CloudTrail, C
     Verify your organization’s transparency log (beta): an append-only, signed record of your Access Transparency events, with inclusion and consistency proofs you check on your own infrastructure. See [Verify Access Transparency events with the transparency log](https://platform.claude.com/docs/en/manage-claude/access-transparency-log).
   </Accordion>
 
-  <Accordion title="How can I tell that my Access Transparency record has not been altered?">
-    Verify your organization's transparency log (beta): an append-only, signed record of your Access Transparency events, with inclusion and consistency proofs you check on your own infrastructure. See [Verify Access Transparency events with the transparency log](https://platform.claude.com/docs/en/manage-claude/access-transparency-log).
-  </Accordion>
-
   <Accordion title="How do I request Access Transparency?">
     Contact your Anthropic account representative.
   </Accordion>

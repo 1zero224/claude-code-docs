@@ -977,10 +977,6 @@ var_dump($betaEnvironment);
 
   - `"invalid_metadata" errorCode`
 
-  - `string id`
-
-    Environment identifier
-
 ### Beta Limited Network
 
 - `class BetaLimitedNetwork`

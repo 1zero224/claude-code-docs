@@ -16,28 +16,6 @@ Video: Organization owners: users, seat tiers, and Readiness (1 min 48 s). Narra
 
 [Transcript](https://claude.com/docs/government/video-walkthroughs.md#users-seat-tiers-and-readiness-for-organization-owners)
 
-<Frame caption="Video: Organization owners: users, seat tiers, and Readiness (1 min 48 s). Narrated with an AI-generated voice, with on-screen captions.">
-  <video controls preload="metadata" playsInline className="w-full aspect-video" src="https://mintcdn.com/claude-ai/gGFKuNSbKYs4JMmK/images/government/videos/admin-05-organization-owners-users-seat-tiers-and-readiness.mp4?fit=max&auto=format&n=gGFKuNSbKYs4JMmK&q=85&s=d235ae566a0056c409a1b59b2a9623e7" aria-label="Video walkthrough: Organization owners: users, seat tiers, and Readiness" data-path="images/government/videos/admin-05-organization-owners-users-seat-tiers-and-readiness.mp4" />
-</Frame>
-
-<Accordion title="Transcript">
-  In an organization, a member's role decides what they can manage, and their seat tier decides which models they can use and how much. Readiness shows what still blocks your members.
-
-  Marcus, a Primary Owner, signs in and lands on the organization admin view.
-
-  Under Settings, Readiness lists what blocks members. Every required step is done, but one optional item remains, Assign seat tiers to members. Select Open Users.
-
-  Users lists every member with their role, seat tier, usage against the five-hour and seven-day limits, and last login.
-
-  Wen is Unassigned. Wen can sign in, but Claude Desktop offers no models. Choose a tier from the Seat tier dropdown. The change applies at once, and the models appear the next time Wen starts Claude Desktop.
-
-  Roles are User, Owner, and Primary Owner. Keep at least two Primary Owners, so one can always promote a replacement. From Priya's Role dropdown, Marcus chooses Primary Owner.
-
-  Tiers lists the seat tiers available to your organization. Anthropic-managed tiers are read-only, and your tenant can let you create your own.
-
-  Model access comes from the seat tier, never from the role. Tenant administrator is separate from these roles. If directory groups set roles or tiers, change the group in your provider, because the group mappings overwrite edits made by hand.
-</Accordion>
-
 ## Key concepts
 
 In an organization, a member's [role](https://claude.com/docs/government/org-admin/users.md#understanding-roles) decides what they can manage, and their [seat tier](https://claude.com/docs/government/org-admin/seat-tiers.md) decides which models they can use and how much. For how organizations fit into your agency's tenant, see [How your deployment is organized](https://claude.com/docs/government/overview.md#how-your-deployment-is-organized).
@@ -63,7 +41,7 @@ You can reach the [user view](https://claude.com/docs/government/account/overvie
 * **[Billing](https://claude.com/docs/government/org-admin/billing.md)**: see the billing account that funds your organization and any spend caps
 * **[Readiness](https://claude.com/docs/government/org-admin/readiness.md)**: see what is blocking users from using Claude and where each item is resolved
 * **[Config](https://claude.com/docs/government/org-admin/configuration.md)**: adjust product settings, such as which products members get, for everyone in your organization
-* **[Compliance API](https://claude.com/docs/government/org-admin/compliance-api.md)**: create and manage read-only API keys that stream your organization's audit events to a SIEM or log management system
+* **[Admin API keys](https://claude.com/docs/government/org-admin/admin-api-keys.md)**: create and manage the read-only keys your tools use with the [Compliance API](https://claude.com/docs/government/org-admin/compliance-api.md) and the [Analytics API](https://claude.com/docs/government/org-admin/analytics-api.md)
 
 The **Billing** and **Group mappings** tabs appear in the navigation only when they apply to your organization, and each of those pages says when.
 

@@ -483,8 +483,6 @@ List Agent Versions
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -492,8 +490,6 @@ List Agent Versions
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 

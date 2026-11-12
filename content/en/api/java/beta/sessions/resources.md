@@ -1248,8 +1248,6 @@ Delete Session Resource
 
   - `String id`
 
-  - `String id`
-
 ### Example
 
 ```java
@@ -1293,8 +1291,6 @@ public final class Main {
   Confirmation of resource deletion.
 
   - `JsonValue type = "session_resource_deleted"`
-
-  - `String id`
 
   - `String id`
 

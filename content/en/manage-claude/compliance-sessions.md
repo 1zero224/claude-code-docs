@@ -377,8 +377,6 @@ A session is owned by either a user or an agent, never both. For user-owned sess
 
 To retrieve a chat in the unified Claude experience, including the part that ran in the cloud, use the chat endpoints ([Get chat messages](https://platform.claude.com/docs/en/api/compliance/apps/chats/messages/list)), not the remote session endpoints.
 
-To retrieve a chat in the unified Claude experience, including the part that ran in the cloud, use the chat endpoints ([Get chat messages](https://platform.claude.com/docs/en/api/compliance/apps/chats/messages/list)), not the remote session endpoints.
-
 <Note>
   **Build forward-compatible handlers.** Pass through unrecognized `status` and `product_surface` values, and ignore fields your handler does not expect, so your integration keeps working as new statuses and product surfaces ship.
 </Note>

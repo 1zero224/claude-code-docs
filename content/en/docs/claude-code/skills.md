@@ -48,19 +48,6 @@ For read-only installation diagnostics without starting a session, run `claude d
 
 To audit your instructions rather than your setup, run `/doctor prompt-audit` at the Claude Code prompt. Claude [checks your `CLAUDE.md` files, skills, and other configuration](https://code.claude.com/docs/en/memory#audit-your-instruction-files) for outdated or conflicting instructions instead of running the checkup. The `prompt-audit` subcommand requires Claude Code v2.1.283 or later.
 
-### Check your setup with `/doctor`
-
-Run `/doctor` at the Claude Code prompt for a setup checkup that diagnoses issues and can fix them. Claude reports its findings first and asks for confirmation before changing anything. The checkup covers these areas:
-
-* **Installation health**: duplicate or leftover installs, `PATH` problems, unparseable settings files, and whether a newer version is available on your [release channel](/docs/en/setup#configure-release-channel)
-* **Extensions**: unused skills, MCP servers, and plugins compared with their context cost, and slow [hooks](/docs/en/hooks)
-* **`CLAUDE.md` files**: local `CLAUDE.md` files that duplicate checked-in ones, checked-in [`CLAUDE.md` content Claude could derive from the codebase](/docs/en/memory#my-claude-md-is-too-large), and the always-loaded guidance that remains, which Claude offers to migrate into skills and nested `CLAUDE.md` files that load on demand
-* **Permissions**: an offer to make [auto mode](/docs/en/permissions#permission-modes) your default permission mode and to [pre-approve](/docs/en/permissions) read-only commands that you frequently deny
-
-For read-only installation diagnostics without starting a session, run `claude doctor` in your terminal instead.
-
-To audit your instructions rather than your setup, run `/doctor prompt-audit` at the Claude Code prompt. Claude [checks your `CLAUDE.md` files, skills, and other configuration](/docs/en/memory#audit-your-instruction-files) for outdated or conflicting instructions instead of running the checkup. The `prompt-audit` subcommand requires Claude Code v2.1.283 or later.
-
 ### Run and verify your app
 
 Three bundled skills work together to launch your app and confirm changes against the running app instead of tests alone:
@@ -104,6 +91,7 @@ To start one of the skill's workflows, type a subcommand after the skill name at
 | `managed-agents-secure [<agent-id>]` | Read the settings of one Managed Agent and report where they match the [Secure your Managed Agents deployment](https://platform.claude.com/docs/en/managed-agents/secure-deployment) guide or differ from it. Requires the [`ant` CLI](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/quickstart) | v2.1.304 or later |
 | `prompt-audit` | Flag instructions written for older models in your prompts, skills, and tool descriptions and propose fixes as a diff | v2.1.221 or later |
 | `cost-optimize` | Profile where your project's Claude API spend goes and propose savings from options such as prompt caching, trimming unneeded input and output tokens, batch processing, effort, and model choice, one change at a time | v2.1.247 or later |
+| `latency-optimize` | Find where the time goes in your existing Claude API code and propose changes that reduce how long people wait | v2.1.319 or later |
 | `build-eval` | Build an eval set for your Claude-powered app | v2.1.259 or later |
 | `hillclimb` | Iteratively improve your app against an existing eval | v2.1.259 or later |
 | `preserved-thinking-migration` | Find the edits your integration makes to earlier turns, its system prompt, or its tool list that invalidate [preserved thinking](https://platform.claude.com/docs/en/build-with-claude/preserved-thinking) blocks, measure how much reasoning each one drops, and propose fixes one at a time, re-measuring after each change | v2.1.282 or later |
@@ -615,17 +603,6 @@ To run a skill directly, put its name at the start of your message. After plain 
 
 To write about the skill without permitting a run, leave off the slash.
 
-#### Where you write the skill's name
-
-To run a skill directly, put its name at the start of your message. After plain text, the name gives Claude permission to run the skill but doesn't run it:
-
-| Where | Example | What happens |
-| :- | :- | :- |
-| At the start of your message | `/deploy staging` | Claude Code runs the skill directly |
-| After plain text, as a separate word with no punctuation attached | `go ahead and /deploy to staging` | Nothing runs directly. The name counts as your permission for that message: Claude can run the skill while it responds, and judges from your wording whether you asked it to |
-
-To write about the skill without permitting a run, leave off the slash.
-
 ### Skill content lifecycle
 
 When you or Claude invoke a skill, the rendered `SKILL.md` content enters the conversation as a single message and stays there across later turns. This persistence applies to the skill's instructions, not its permissions: an [`allowed-tools`](#pre-approve-tools-for-a-skill) grant clears when you send your next message. Claude Code does not re-read the skill file on later turns, so write guidance that should apply throughout a task as standing instructions rather than one-time steps.
@@ -665,12 +642,6 @@ When your organization's managed settings list `hooks` in `strictPluginOnlyCusto
 #### When only managed permission rules apply
 
 When your organization sets `allowManagedPermissionRulesOnly` in managed settings, Claude Code ignores `allowed-tools` in project and personal skills and in the [other sources the setting's entry lists](https://code.claude.com/docs/en/settings-reference.md#allowmanagedpermissionrulesonly). This requires Claude Code v2.1.282 or later.
-
-The tools an affected skill lists go through your organization's managed rules and the normal permission prompt instead. Run `/status` to list each skill whose `allowed-tools` Claude Code has ignored so far in the session. An injected command in the skill that no managed rule allows follows [Permission checks on injected commands](#permission-checks-on-injected-commands).
-
-#### When only managed permission rules apply
-
-When your organization sets `allowManagedPermissionRulesOnly` in managed settings, Claude Code ignores `allowed-tools` in project and personal skills and in the [other sources the setting's entry lists](/docs/en/settings-reference#allowmanagedpermissionrulesonly). This requires Claude Code v2.1.282 or later.
 
 The tools an affected skill lists go through your organization's managed rules and the normal permission prompt instead. Run `/status` to list each skill whose `allowed-tools` Claude Code has ignored so far in the session. An injected command in the skill that no managed rule allows follows [Permission checks on injected commands](#permission-checks-on-injected-commands).
 

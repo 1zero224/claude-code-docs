@@ -183,7 +183,7 @@ Update a Memory Store
 
     format: date-time
 
-  - `archived_at: string`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 

@@ -82,8 +82,6 @@ The `parent_tool_use_id` field is always `None` in Python and `null` in TypeScri
 
 Claude Code sets `user_message_uuid` on the turn's first non-ping stream event, and again when the message the turn is answering changes, under the conditions in [`user_message_uuid`](https://code.claude.com/docs/en/agent-sdk/typescript#user_message_uuid). The Python `StreamEvent` doesn't expose this field.
 
-Claude Code sets `user_message_uuid` on the turn's first non-ping stream event, and again when the message the turn is answering changes, under the conditions in [`user_message_uuid`](/docs/en/agent-sdk/typescript#user_message_uuid). The Python `StreamEvent` doesn't expose this field.
-
 The `event` field contains the raw streaming event from the [Claude API](https://platform.claude.com/docs/en/build-with-claude/streaming#event-types). Common event types include:
 
 | Event Type | Description |

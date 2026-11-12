@@ -22,12 +22,6 @@ The network layer that injects credentials into Claude's outbound requests. The 
 
 A named set of connectors, repositories, [allowed domains](https://claude.com/docs/claude-tag/admins/add-connections.md#add-a-domain), plugins, and instructions that Claude uses for one kind of work, such as support triage. An Owner or a [Claude Tag admin](#claude-tag-admin) creates bundles on the **Bundles** tab under **Claude's access** at [`claude.ai/admin-settings/claude-tag`](https://claude.ai/admin-settings/claude-tag), then adds the places where each one applies: all of Slack, a workspace, or a channel. One bundle can apply in many places, and an Owner can also apply one to every channel whose name matches a pattern. See [Give Claude access](https://claude.com/docs/claude-tag/admins/add-connections.md).
 
-<a id="access-bundle" />
-
-## Bundle
-
-A named set of connectors, repositories, [allowed domains](/docs/claude-tag/admins/add-connections#add-a-domain), plugins, and instructions that Claude uses for one kind of work, such as support triage. An Owner or a [Claude Tag admin](#claude-tag-admin) creates bundles on the **Bundles** tab under **Claude's access** at [`claude.ai/admin-settings/claude-tag`](https://claude.ai/admin-settings/claude-tag), then adds the places where each one applies: all of Slack, a workspace, or a channel. One bundle can apply in many places, and an Owner can also apply one to every channel whose name matches a pattern. See [Give Claude access](/docs/claude-tag/admins/add-connections).
-
 ## Channel manager
 
 A member of your Claude organization named to set up specific channels. For each channel assigned to them, a channel manager sets the default model, adds repositories their own GitHub account is an admin of, and manages credentials and plugins in the channel's own bundle, without holding the Owner role. See [Delegate channel setup to channel managers](https://claude.com/docs/claude-tag/admins/restrict-access.md#delegate-channel-setup-to-channel-managers).
@@ -66,10 +60,6 @@ The sandboxed compute configuration a session runs in, including its network acc
 ## Personal connector
 
 A tool you add to your own claude.ai account, like Gmail, Google Drive, or a custom MCP server, listed under [Customize > Connectors](https://claude.ai/customize/connectors). Personal connectors apply in your one-to-one DMs with Claude. Claude can also [use them in a channel](https://claude.com/docs/claude-tag/concepts/personal-connectors.md) for your own tasks, after you allow it. For the connectors an admin adds for Claude Tag, see [Connector](#connection).
-
-## Personal connector
-
-A tool you add to your own claude.ai account, like Gmail, Google Drive, or a custom MCP server, listed under [Customize > Connectors](https://claude.ai/customize/connectors). Personal connectors apply in your one-to-one DMs with Claude. Claude can also [use them in a channel](/docs/claude-tag/concepts/personal-connectors) for your own tasks, after you allow it. For the connectors an admin adds for Claude Tag, see [Connector](#connection).
 
 ## Plugin
 

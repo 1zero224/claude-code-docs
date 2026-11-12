@@ -130,31 +130,6 @@ To get the text without OSC 52:
 * Hold your terminal's native-selection key while you drag, then copy with your terminal's usual shortcut, such as `Cmd+C`. The key is `Fn` in Terminal.app and `Option` in iTerm2. [Keep native text selection](https://code.claude.com/docs/en/fullscreen.md#keep-native-text-selection) lists it for other terminals.
 * Set [`CLAUDE_CODE_DISABLE_MOUSE=1`](https://code.claude.com/docs/en/env-vars) on the remote machine so your terminal handles selection for the whole session.
 
-### Mouse wheel scrolls one line at a time in fullscreen rendering
-
-In [fullscreen rendering](/docs/en/fullscreen), Claude Code scrolls the conversation itself rather than leaving it to your terminal. If each wheel notch moves fewer lines than you want, run `/scroll-speed` to raise the number of lines per notch and save it, or set the `CLAUDE_CODE_SCROLL_SPEED` environment variable, except in the JetBrains IDE terminal, where Claude Code applies its own scroll handling and neither takes effect. See [Mouse wheel scrolling](/docs/en/fullscreen#mouse-wheel-scrolling) for the values each accepts.
-
-To move faster without changing the speed, press `PgUp` and `PgDn` to scroll half a screen at a time. To use your terminal's native scrollback instead, run `/tui default` to switch to the classic renderer.
-
-### Clipboard commands such as `pbcopy` fail inside the sandbox
-
-When [sandboxing](/docs/en/sandboxing) is on, clipboard utilities such as `pbcopy`, `xclip`, and `wl-copy` can fail to reach the system clipboard from inside a sandboxed Bash command, leaving your clipboard unchanged after Claude pipes text to them.
-
-To put Claude's output on your clipboard, ask Claude to print the content in its response, then run [`/copy`](/docs/en/commands). `/copy` writes to the clipboard from the Claude Code process itself rather than from a sandboxed command, so sandboxing doesn't block it. It can copy a single code block instead of the whole response, and it also writes what it copied to a file and prints the path, which gives you a fallback when the clipboard write doesn't reach your terminal, for example over SSH.
-
-When Claude pipes text to one of these tools, adding `pbcopy *`, `wl-copy *`, or `xclip *` to [`excludedCommands`](/docs/en/settings-reference#sandbox-excludedcommands) doesn't take that call out of the sandbox on its own.
-
-### Copied text doesn't reach your local clipboard over SSH
-
-When Claude Code runs on a remote machine over SSH, it can't run a clipboard tool on your local machine. Outside tmux, when you select text in [fullscreen rendering](/docs/en/fullscreen) or run `/copy`, Claude Code sends the text to your terminal as an OSC 52 escape sequence instead. Your terminal decides whether to put it on your clipboard. `/copy` reports `Copied to clipboard` whether or not the text arrived, and outside tmux the selection notice reads `sent N chars via OSC 52`.
-
-Some terminals don't act on OSC 52. iTerm2 ignores it until you turn on **Settings > General > Selection > Applications in terminal may access clipboard**, and macOS Terminal.app doesn't support it.
-
-To get the text without OSC 52:
-
-* Hold your terminal's native-selection key while you drag, then copy with your terminal's usual shortcut, such as `Cmd+C`. The key is `Fn` in Terminal.app and `Option` in iTerm2. [Keep native text selection](/docs/en/fullscreen#keep-native-text-selection) lists it for other terminals.
-* Set [`CLAUDE_CODE_DISABLE_MOUSE=1`](/docs/en/env-vars) on the remote machine so your terminal handles selection for the whole session.
-
 ### Search and discovery issues
 
 If the Search tool, `@file` mentions, custom agents, or custom skills aren't finding files, the bundled `ripgrep` binary may not run on your system. Install your platform's `ripgrep` package and tell Claude Code to use it instead:

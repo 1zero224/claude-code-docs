@@ -116,8 +116,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `JsonElement Type = "text"`
 
-                - `JsonElement Type = "text"`
-
                 - `required string Text`
 
                   minLength: 1
@@ -365,7 +363,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `JsonElement Type = "file"`
 
-                    - `JsonElement Type = "code_execution_output"`
+                    - `required string FileID`
 
                 - `BetaCacheControlEphemeral? CacheControl`
 
@@ -388,8 +386,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 - `JsonElement Type = "search_result"`
 
                 - `required IReadOnlyList<BetaTextBlockParam> Content`
-
-                  - `JsonElement Type = "text"`
 
                   - `JsonElement Type = "text"`
 
@@ -3361,7 +3357,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     The tool's input schema as the MCP server lists it, verbatim.
 
-                  - `JsonElement Type = "tool_addition"`
+                  - `required string Name`
 
                     The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -6410,8 +6406,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
                 See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-                - `JsonElement Type = "encrypted_code_execution_result"`
 
                 - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -10509,8 +10503,6 @@ await foreach (var betaMessageBatchIndividualResponse in client.Beta.Messages.Ba
 
                 - `JsonElement Type = "encrypted_code_execution_result"`
 
-                - `JsonElement Type = "encrypted_code_execution_result"`
-
                 - `required IReadOnlyList<BetaCodeExecutionOutputBlock> Content`
 
                   - `JsonElement Type = "code_execution_output"`
@@ -14383,8 +14375,6 @@ await foreach (var betaMessageBatchIndividualResponse in client.Beta.Messages.Ba
 
               - `JsonElement Type = "encrypted_code_execution_result"`
 
-              - `JsonElement Type = "encrypted_code_execution_result"`
-
               - `required IReadOnlyList<BetaCodeExecutionOutputBlock> Content`
 
                 - `JsonElement Type = "code_execution_output"`
@@ -18216,8 +18206,6 @@ await foreach (var betaMessageBatchIndividualResponse in client.Beta.Messages.Ba
             The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
             See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-            - `JsonElement Type = "encrypted_code_execution_result"`
 
             - `JsonElement Type = "encrypted_code_execution_result"`
 

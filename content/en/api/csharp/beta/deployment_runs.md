@@ -203,7 +203,7 @@ List Deployment Runs
 
     - `JsonElement Type = "agent"`
 
-    Unique identifier for this run (`drun_...`).
+    - `required string ID`
 
     - `required int Version`
 

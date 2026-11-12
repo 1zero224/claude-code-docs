@@ -39,10 +39,6 @@ Create Enrollment URL
 
     When this enrollment URL expires, in RFC 3339 format.
 
-  - `\Datetime expiresAt`
-
-    When this enrollment URL expires, in RFC 3339 format.
-
   - `string url`
 
     Enrollment URL to send to the end user. Valid until `expires_at`.

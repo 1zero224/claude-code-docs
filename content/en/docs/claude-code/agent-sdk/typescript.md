@@ -448,12 +448,6 @@ The snapshot differs from what a live `query()` session applies:
 * **Server-managed settings**: `resolveSettings()` doesn't fetch [server-managed settings](https://code.claude.com/docs/en/server-managed-settings.md#fetch-and-caching-behavior). Pass them as `options.serverManagedSettings` to include them.
 * **`defaultMode`**: the snapshot returns `permissions.defaultMode` as-is from every tier, so it can include the `'auto'` and `'bypassPermissions'` values from project and local settings, which [a live session ignores](https://code.claude.com/docs/en/permission-modes.md#which-mode-a-session-starts-in).
 
-The snapshot differs from what a live `query()` session applies:
-
-* **`policyHelper`**: `resolveSettings()` reads MDM sources, including macOS plist and Windows HKLM/HKCU, but doesn't execute the admin-configured `policyHelper` subprocess.
-* **Server-managed settings**: `resolveSettings()` doesn't fetch [server-managed settings](/docs/en/server-managed-settings#fetch-and-caching-behavior). Pass them as `options.serverManagedSettings` to include them.
-* **`defaultMode`**: the snapshot returns `permissions.defaultMode` as-is from every tier, so it can include the `'auto'` and `'bypassPermissions'` values from project and local settings, which [a live session ignores](/docs/en/permission-modes#which-mode-a-session-starts-in).
-
 ```typescript theme={null}
 function resolveSettings(
   options?: ResolveSettingsOptions
@@ -670,7 +664,7 @@ interface Query extends AsyncGenerator<SDKMessage, void> {
 | `rewindFiles(userMessageId, options?)` | Restores files to their state at the specified user message. Pass `{ dryRun: true }` to preview changes. Requires `enableFileCheckpointing: true`. See [File checkpointing](https://code.claude.com/docs/en/agent-sdk/file-checkpointing.md) |
 | `setPermissionMode()` | Changes the permission mode (only available in streaming input mode) |
 | `setModel()` | Changes the model (only available in streaming input mode). Passing `undefined` or the string `"default"` resets to [Claude Code's default model](https://code.claude.com/docs/en/model-config.md). A session in `auto` mode [changes to `default` mode](https://code.claude.com/docs/en/agent-sdk/permissions#auto-mode-auto) if the new model doesn't support auto mode |
-| `setMaxThinkingTokens()` | *Deprecated:* Use the `thinking` option instead. Changes the maximum thinking tokens. Passing `null` resets thinking to the session default: a mid-session override is cleared, and thinking stays off for sessions that have it disabled |
+| `setMaxThinkingTokens()` | *Deprecated:* Use the `thinking` option instead. Changes the maximum thinking tokens. Pass `null` to undo earlier calls and restore the `thinking` or `maxThinkingTokens` option the session started with |
 | `applyFlagSettings(settings)` | Merges settings into the session's flag settings layer at runtime (only available in streaming input mode). See [`applyFlagSettings()`](#applyflagsettings) |
 | `updateSettings(source, settings)` | Writes one allowlisted key to the project's local settings file or your user settings file, so the value persists for later sessions. See [`updateSettings()`](#updatesettings). Requires TypeScript SDK v0.3.257 or later, which bundles Claude Code v2.1.257 |
 | `initializationResult()` | Returns the full initialization result including supported commands, models, account info, and output style configuration |
@@ -784,22 +778,6 @@ Writes one allowlisted key to a settings file on disk, so the value persists for
 
 * **`"localSettings"`**: accepts `outputStyle` and merges it into the project's local settings file, `.claude/settings.local.json`. The new style takes effect on the session's next request.
 * **`"userSettings"`**: accepts `effortLevel` and saves it as the default [effort level](https://code.claude.com/docs/en/model-config.md#adjust-effort-level) for the session's current model, under [`modelSettings`](https://code.claude.com/docs/en/settings-reference#modelsettings) in your user settings file. Passing `max` writes nothing, because `max` is session-only. The running session keeps its current effort level either way, so call [`applyFlagSettings()`](#applyflagsettings) when you also want to change that. This source requires TypeScript SDK v0.3.277 or later, which bundles Claude Code v2.1.277.
-
-The call rejects when the request carries any other key, when the session runs over a remote transport, and when the session's [`settingSources`](#options) exclude the source you name. Deleting a key isn't supported.
-
-#### `toggleMcpServer()`
-
-Disabling a server disconnects it and removes its tools from the session. For servers you added mid-session and for in-process servers, this depends on your Claude Code version:
-
-* A stdio, SSE, or HTTP server you added mid-session with `setMcpServers()`: removing its tools requires Claude Code v2.1.285 or later.
-* An in-process server you created with [`createSdkMcpServer()`](#createsdkmcpserver), whether you passed it in `mcpServers` or with `setMcpServers()`: disconnecting it and removing its tools requires Claude Code v2.1.286 or later. Disabling one also fails its tool calls that are still running, so Claude receives an error result for each of them immediately, without waiting for your handler to return.
-
-#### `updateSettings()`
-
-Writes one allowlisted key to a settings file on disk, so the value persists for later sessions that load that source. Each source accepts one key, with a string value:
-
-* **`"localSettings"`**: accepts `outputStyle` and merges it into the project's local settings file, `.claude/settings.local.json`. The new style takes effect on the session's next request.
-* **`"userSettings"`**: accepts `effortLevel` and saves it as the default [effort level](/docs/en/model-config#adjust-effort-level) for the session's current model, under [`modelSettings`](/docs/en/settings-reference#modelsettings) in your user settings file. Passing `max` writes nothing, because `max` is session-only. The running session keeps its current effort level either way, so call [`applyFlagSettings()`](#applyflagsettings) when you also want to change that. This source requires TypeScript SDK v0.3.277 or later, which bundles Claude Code v2.1.277.
 
 The call rejects when the request carries any other key, when the session runs over a remote transport, and when the session's [`settingSources`](#options) exclude the source you name. Deleting a key isn't supported.
 
@@ -1945,9 +1923,9 @@ Use the reason code to explain why fast mode is off in your own UI instead of re
 | `extra_usage_disabled` | Usage credits are turned off for the account |
 | `network_error` | The [availability check](https://code.claude.com/docs/en/fast-mode.md#use-fast-mode-behind-proxies-and-llm-gateways) couldn't reach `api.anthropic.com` |
 | `unknown` | Claude Code couldn't determine availability |
-| `not_first_party` | The session uses a provider other than the Anthropic API |
-| `disabled_by_env` | [`CLAUDE_CODE_DISABLE_FAST_MODE`](https://code.claude.com/docs/en/env-vars) is set |
-| `model_not_allowed` | The fast mode Opus model isn't in the organization's [`availableModels`](https://code.claude.com/docs/en/model-config#restrict-model-selection) allowlist |
+| `not_first_party` | The session uses a provider that doesn't offer fast mode |
+| `disabled_by_env` | [`CLAUDE_CODE_DISABLE_FAST_MODE`](https://code.claude.com/docs/en/env-vars) is set, or the model's region on [Google Cloud's Agent Platform](https://code.claude.com/docs/en/fast-mode.md#use-fast-mode-on-agent-platform) doesn't offer fast mode |
+| `model_not_allowed` | The fast mode model isn't in the organization's [`availableModels`](https://code.claude.com/docs/en/model-config#restrict-model-selection) allowlist, or the provider refused fast mode for the session's model |
 | `sdk_opt_in_required` | The session hasn't opted in to fast mode: pass `fastMode: true` in the [`settings`](#options) option or through [`applyFlagSettings()`](#applyflagsettings) |
 | `pending` | The availability check hasn't completed yet |
 
@@ -2029,7 +2007,7 @@ What `0` and an absent field tell you:
 
 #### `startup_failure_reason`
 
-Why Claude Code refused to start, so your application can offer the fix instead of a retry. Claude Code sets it on the `error_during_execution` result it writes before exiting on a known startup failure. That result carries zeroed totals, and its `errors` array carries the same text as stderr. The field is absent on every other result. Requires Agent SDK v0.3.274 or later.
+Why Claude Code refused to start, so your application can offer the fix instead of a retry. Claude Code sets it on the `error_during_execution` result it writes before exiting on a known startup failure. That result carries zeroed totals, and its `errors` array carries the failure message. The field is absent on every other result. Requires Agent SDK v0.3.274 or later.
 
 Set `CLAUDE_CODE_STARTUP_FAILURE_RESULTS` to `1` in [`env`](#options) to receive this result for every `SDKStartupFailureReason` value. Without that variable, Claude Code writes the result only for these failures, and the rest end with stderr output, a non-zero exit, and no result message:
 
@@ -2090,116 +2068,6 @@ Each value names one refusal:
 | `org_config_refused` | Anthropic refused to provide the organization's policies and managed settings for this sign-in, for example because the sign-in expired or was revoked, or the organization doesn't allow Claude Code for this account. Requires Agent SDK v0.3.293 or later |
 | `sandbox_required_unavailable` | [`failIfUnavailable`](#sandboxsettings) is on and the sandbox can't start. The text in `errors` ends with `Set sandbox.failIfUnavailable=false to allow unsandboxed execution.` Requires Agent SDK v0.3.314 or later |
 | `config_file_invalid` | `~/.claude.json` isn't valid JSON. Claude Code leaves the file unchanged, so a retry fails the same way until someone repairs it. `errors` names the file and says how to restore or repair it. See [Configuration error in \~/.claude.json](https://code.claude.com/docs/en/errors.md#configuration-error-in-claude-json). Requires TypeScript Agent SDK v0.3.318 or later and Claude Code v2.1.318 or later |
-
-#### `user_message_uuid`
-
-The `uuid` of the [`SDKUserMessage`](#sdkusermessage) the turn is answering, echoed so you can match Claude Code's reply to the message you sent. Claude Code echoes a `uuid` only if you set one on the message. The field is optional on `SDKUserMessage`, and a string prompt passed to `query()` carries none.
-
-Which of your messages a turn answers depends on how the turn started:
-
-* **A regular message you sent**, meaning one without `isSynthetic: true`: the turn answers that message for its whole run. When you send several messages close together, Claude Code can merge them into one turn, and the field then carries only the last message's `uuid`. To match the reply to any of the merged messages, use [`user_message_uuids`](#user_message_uuids).
-* **A message you sent with `isSynthetic: true`**: the turn answers that message at first. If Claude Code picks up a regular message of yours between tool calls, the turn answers the picked-up message from then on. Echoing a synthetic message's `uuid` requires Agent SDK v0.3.265 or later; earlier versions echo nothing on synthetic turns.
-* **The prompt Claude Code generates to continue an interrupted turn under [`CLAUDE_CODE_RESUME_INTERRUPTED_TURN`](/docs/en/env-vars)**: when the interrupted turn's last prompt is a regular message you sent, whether it opened the turn or Claude Code picked it up during the turn, the continued turn answers that message at first. [`resume_reason`](#resume_reason) tells the continued turn's frames from the interrupted attempt's. When the last prompt isn't a regular message of yours, the continued turn answers no message of yours at first. If Claude Code picks up a regular message of yours between tool calls, the turn answers the picked-up message from then on. Echoing the interrupted turn's prompt requires Agent SDK v0.3.268 or later.
-* **Any other prompt Claude Code generated itself**: the turn answers no message of yours at first and its frames carry no echo. If Claude Code picks up a regular message of yours between tool calls, the turn answers that message from then on. The pickup echo requires Agent SDK v0.3.265 or later; earlier versions echo nothing on these turns.
-
-Claude Code echoes the answered message's `uuid` on three kinds of frame:
-
-* **The result**: every result of a turn that answered a message you sent. Every such result carries it on Agent SDK v0.3.265 or later. Before v0.3.265, the success result of a turn that a regular message started lacked it when the turn sent no API request or ended with a deferred tool call. Before v0.3.246, error results lacked it too, and before v0.3.216 every result did.
-* **The turn's first reply**: the first [assistant message](#sdkassistantmessage), and with `includePartialMessages` also the first [stream event](#sdkpartialassistantmessage) whose `event.type` isn't `ping`, so you can bind the reply before the result arrives. The first-reply echo requires Agent SDK v0.3.246 or later. Before v0.3.269, with `includePartialMessages`, Claude Code set it on that first stream event only, or on the first assistant message when the turn streamed nothing. When the message the turn is answering changes mid-turn, the first reply after the change carries the field too, on Agent SDK v0.3.265 or later; earlier versions set it on one reply frame per turn.
-* **Every [`thinking_tokens`](#sdkthinkingtokensmessage) frame of the turn**: so you can attribute thinking progress to the message you sent without waiting for the turn's first reply. Requires Agent SDK v0.3.260 or later.
-
-Claude Code omits the field in these cases:
-
-* Reply frames other than those first replies
-* Subagent frames
-* Turns that answer no message of yours, or answer a message you sent without a `uuid`
-* Results that answer no message you sent, such as the zeroed result after a crashed worker process
-
-#### `user_message_uuids`
-
-The `uuid`s of every message you sent that Claude Code answered in this turn. When you send several messages close together, Claude Code can merge them into one turn, and `user_message_uuid` then names only the last of them. To match the reply to any of the merged messages, look for that message's `uuid` anywhere in this list. Requires Agent SDK v0.3.259 or later.
-
-Claude Code sets the list together with `user_message_uuid` on each reply frame that carries that field and on the result. For the full set of turn frames that echo the answered message's `uuid`, and the version each requires, see [`user_message_uuid`](#user_message_uuid). The list always contains `user_message_uuid` and holds at most 64 entries.
-
-When Claude Code picks up a regular message you sent while a turn was running, it adds that message's `uuid` to the result's list.
-
-When a first reply or result carries `user_message_uuid` without the list, it came from an earlier Claude Code version, so fall back to the single field.
-
-#### `resume_reason`
-
-Why this turn continues one that a restart interrupted. Claude Code sets this field on a turn that continues an interrupted one under [`CLAUDE_CODE_RESUME_INTERRUPTED_TURN`](/docs/en/env-vars), so you can tell the continued turn's reply and result from the interrupted attempt's. Requires Agent SDK v0.3.268 or later.
-
-Claude Code sets the field on two kinds of frame:
-
-* **The continued turn's result**: on the success and error arms alike, whether or not the result carries `user_message_uuid`.
-* **The continued turn's reply frames**: those that carry [`user_message_uuid`](#user_message_uuid).
-
-The value is a short lowercase token, such as `interrupted_turn`.
-
-#### `queued_turn_count`
-
-The number of messages you sent with [`origin: { kind: "human" }`](#sdkmessageorigin) that are still waiting in the command queue when Claude Code produced the result. Requires Agent SDK v0.3.242 or later.
-
-What `0` and an absent field tell you:
-
-* **`0`**: Claude Code doesn't count messages you sent without that `origin`, and doesn't count task notifications, so a turn can still follow.
-* **Absent**: the final result that Claude Code emits after a crash or fatal startup error omits the field, and [may carry zeroed totals](/docs/en/agent-sdk/cost-tracking#recover-totals-after-a-session-crash).
-
-#### `startup_failure_reason`
-
-Why Claude Code refused to start, so your application can offer the fix instead of a retry. Claude Code sets it on the `error_during_execution` result it writes before exiting on a known startup failure. That result carries zeroed totals, and its `errors` array carries the same text as stderr. The field is absent on every other result. Requires Agent SDK v0.3.274 or later.
-
-Set `CLAUDE_CODE_STARTUP_FAILURE_RESULTS` to `1` in [`env`](#options) to receive this result for every `SDKStartupFailureReason` value. Without that variable, Claude Code writes the result only for these failures, and the rest end with stderr output, a non-zero exit, and no result message:
-
-* A resume that Claude Code stops because it [can't return the session to its worktree](/docs/en/worktrees#the-session-resumes-outside-its-worktree), with `worktree_unverified` or `worktree_resume_refused`. That section says which error carries which value.
-* A refused [`continue`](#options) of a conversation that a background session holds, with `session_held_by_background`. For a refused [`resume`](#options) of such a conversation, Claude Code writes the result only when the variable is set.
-
-```typescript theme={null}
-type SDKStartupFailureReason =
-  | "org_pin_api_key_conflict"
-  | "provider_not_allowed"
-  | "org_verify_failed"
-  | "org_pin_mismatch"
-  | "managed_settings_invalid"
-  | "remote_settings_required_unavailable"
-  | "gateway_signin_required"
-  | "gateway_access_denied"
-  | "proxy_invalid"
-  | "temp_dir_unusable"
-  | "cwd_unavailable"
-  | "shell_tool_missing"
-  | "session_held_by_background"
-  | "worktree_resume_refused"
-  | "worktree_unverified"
-  | "cli_version_too_old"
-  | "bypass_root"
-  | "org_config_required_unavailable"
-  | "org_config_refused";
-```
-
-Each value names one refusal:
-
-| Value | What stopped the session |
-| :- | :- |
-| `org_pin_api_key_conflict` | Managed settings [require a first-party or Cloud gateway sign-in](/docs/en/authentication#restrict-login-to-your-organization), and an Anthropic API key, auth token, or `apiKeyHelper` is configured instead |
-| `provider_not_allowed` | Managed settings [list the API providers this machine may use](/docs/en/settings-reference#allowedproviders), and the session is set up for a provider that isn't listed, or for an endpoint the settings don't pin. Requires Claude Code v2.1.285 or later |
-| `org_verify_failed` | The sign-in's organization couldn't be verified against the pin, for example because of a network failure or a revoked token |
-| `org_pin_mismatch` | The sign-in belongs to an organization the pin doesn't allow |
-| `managed_settings_invalid` | Managed policy settings couldn't be read, the pin names no organization, or [managed model restrictions](/docs/en/errors#managed-settings-block-the-default-model) leave no permitted model for the Default option |
-| `remote_settings_required_unavailable` | Managed settings that the organization requires couldn't be loaded |
-| `gateway_signin_required` | The [Cloud gateway](/docs/en/claude-apps-gateway) ended this sign-in |
-| `gateway_access_denied` | The managed settings request to the Cloud gateway came back with a 403, which the gateway's [troubleshooting table](/docs/en/claude-apps-gateway-deploy#troubleshooting) covers |
-| `proxy_invalid` | A proxy setting isn't a complete URL |
-| `temp_dir_unusable` | The per-user temporary directory is unsafe or couldn't be created |
-| `cwd_unavailable` | The working directory was deleted, moved, or can't be read |
-| `shell_tool_missing` | On Windows, no shell tool is available: Git Bash is missing, and PowerShell is missing or turned off with `CLAUDE_CODE_USE_POWERSHELL_TOOL` |
-| `session_held_by_background` | The conversation to resume or continue is running as a [background session](/docs/en/agent-view) |
-| `worktree_resume_refused` | The session's worktree failed its safety checks, or the resume was launched from inside it. `errors` says whether running the same resume again continues without the worktree |
-| `worktree_unverified` | The session's worktree couldn't be verified right now, and retrying may succeed |
-| `cli_version_too_old` | This Claude Code version is below the minimum Anthropic requires |
-| `bypass_root` | Bypass permissions mode was requested while running as root |
-| `org_config_required_unavailable` | The session needs the organization's policies and managed settings before it can start, and they couldn't be loaded, for example because of a network failure or an Anthropic server error. Requires Agent SDK v0.3.293 or later |
-| `org_config_refused` | Anthropic refused to provide the organization's policies and managed settings for this sign-in, for example because the sign-in expired or was revoked, or the organization doesn't allow Claude Code for this account. Requires Agent SDK v0.3.293 or later |
 
 ### `SDKSystemMessage`
 
@@ -5564,8 +5432,10 @@ type ThinkingDisplay = "summarized" | "omitted";
 type ThinkingConfig =
   | { type: "adaptive"; display?: ThinkingDisplay } // The model determines when and how much to reason (Opus 4.6+)
   | { type: "enabled"; budgetTokens?: number; display?: ThinkingDisplay } // Fixed thinking token budget
-  | { type: "disabled" }; // No extended thinking
+  | { type: "disabled" }; // Turn thinking off where the model and provider allow it
 ```
+
+For `disabled`, see [where you can't turn thinking off](https://code.claude.com/docs/en/model-config.md#where-you-cant-turn-thinking-off).
 
 The optional `display` field controls whether thinking text is returned `"summarized"` or `"omitted"`. On Claude Opus 4.7 and later, the API default is `"omitted"`, so set `"summarized"` to receive thinking content in `thinking` blocks. On providers such as Amazon Bedrock and Google Cloud's Agent Platform, Claude Code doesn't pass `display` for earlier models it recognizes. Those are Opus 4.6, Sonnet 4.6, Haiku 4.5, and earlier models, which use their default.
 
@@ -5843,7 +5713,7 @@ type SDKAuthStatusMessage = {
 
 ### `SDKTaskStartedMessage`
 
-Emitted when a task begins. The `task_type` field is `"local_bash"` for Bash commands and [Monitor](#monitor) watches, `"local_agent"` for subagents, or `"remote_agent"`.
+Emitted when a task begins. `task_type` names the kind of task, such as `"local_bash"` for Bash commands and [Monitor](#monitor) watches, `"local_agent"` for subagents, `"mcp_task"` for [background MCP tool calls](https://code.claude.com/docs/en/mcp.md#automatic-backgrounding-of-long-tool-calls), or `"remote_agent"`.
 
 ```typescript theme={null}
 type SDKTaskStartedMessage = {
@@ -5893,14 +5763,6 @@ A [resumed subagent](https://code.claude.com/docs/en/agent-sdk/subagents.md#resu
 * The main thread launched the task
 * Claude Code no longer tracks the parent task
 * A [teammate](https://code.claude.com/docs/en/agent-teams.md) or an agent inside a workflow launched the task
-
-The parent can be a foreground task or one that already ended, so treat an ID you don't recognize as no parent.
-
-`parent_task_id` holds the `task_id` of the subagent that launched this task. Use it to group each task under the subagent that started it. Claude Code sets it on subagent, Bash, and [Monitor](#monitor) tasks. The field requires Agent SDK v0.3.292 or later. It is absent when:
-
-* The main thread launched the task
-* Claude Code no longer tracks the parent task
-* A [teammate](/docs/en/agent-teams) or an agent inside a workflow launched the task
 
 The parent can be a foreground task or one that already ended, so treat an ID you don't recognize as no parent.
 
@@ -6060,6 +5922,7 @@ type SDKRateLimitEvent = {
     errorCode?: "credits_required";
     canUserPurchaseCredits?: boolean;
     hasChargeableSavedPaymentMethod?: boolean;
+    overageEnabled?: boolean;
   };
   uuid: UUID;
   session_id: string;
@@ -6067,6 +5930,8 @@ type SDKRateLimitEvent = {
 ```
 
 When `errorCode` is `"credits_required"`, the rejection is from a claude.ai subscription whose included usage is exhausted, and the session cannot continue until the user buys usage credits. `canUserPurchaseCredits` indicates whether the authenticated user can buy credits for the account, and `hasChargeableSavedPaymentMethod` indicates whether a saved payment method is on file. All three fields are absent on rate-limit events that are not credits-required rejections. Requires Claude Code v2.1.181 or later.
+
+On a warning about a plan usage limit, where `status` is `"allowed_warning"`, `overageEnabled` reports whether the account has [usage credits](https://code.claude.com/docs/en/costs.md#add-usage-credits-to-your-subscription) turned on. Requires Claude Code v2.1.295 or later.
 
 ### `SDKLocalCommandOutputMessage`
 

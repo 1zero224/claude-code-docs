@@ -355,8 +355,6 @@ List Agent Versions
 
           - `required string ID`
 
-          - `required string ID`
-
           - `required int Version`
 
             format: int32

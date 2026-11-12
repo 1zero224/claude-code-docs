@@ -1969,12 +1969,6 @@ Get statistics about the work queue for an environment.
 
     default: work_queue_stats
 
-  - `type: "work_queue_stats"`
-
-    The type of object
-
-    default: work_queue_stats
-
   - `depth: number`
 
     Number of work items waiting to be picked up
@@ -2272,12 +2266,6 @@ console.log(betaSelfHostedWorkQueueStats.depth);
 - `interface BetaSelfHostedWorkQueueStats`
 
   Statistics about the work queue for an environment.
-
-  - `type: "work_queue_stats"`
-
-    The type of object
-
-    default: work_queue_stats
 
   - `type: "work_queue_stats"`
 

@@ -142,10 +142,11 @@ Claude Code deletes the files in the paths below once they're older than [`clean
 Session files in `sessions/`, auto memory, and Claude Desktop and Cowork transcripts each follow their own retention rule:
 
 * **`sessions/`**: holds one small file per running session, used to detect concurrent sessions and crashes. It isn't part of the age-based sweep: Claude Code removes each file when its session exits and clears crash leftovers on the next launch.
+* **`seed-admin/`**: scratch git directories Claude Code makes while packaging your repository for an [ultrareview](https://code.claude.com/docs/en/ultrareview.md) or a [cloud session upload](https://code.claude.com/docs/en/claude-code-on-the-web.md#send-local-repositories-without-github). When an upload ends, or in a later session if it was interrupted, Claude Code removes that upload's directory and leaves `seed-admin/` in place.
 * **Auto memory**: the sweep doesn't delete the memory files in a project's [auto memory](https://code.claude.com/docs/en/memory.md#auto-memory) directory, `projects/<project>/memory/`. Claude Code removes that directory only if it has been empty for the whole retention period. Before v2.1.228, the sweep treated folders inside the memory directory as session data and could delete old files beneath it.
 * **Claude Desktop and Cowork transcripts**: Claude Code keeps the transcript of a session you started or most recently continued in Claude Desktop or Cowork at any age. To give these transcripts an age limit, set [`desktopSessionCleanupPeriodDays`](https://code.claude.com/docs/en/settings-reference#desktopsessioncleanupperioddays). Requires Claude Code v2.1.248 or later; earlier versions delete them after `cleanupPeriodDays`.
 
-  Claude Code deletes these transcripts after `cleanupPeriodDays` instead in either of these cases:
+  Claude Code deletes these transcripts after `cleanupPeriodDays` instead in cases such as these:
 
   * [Managed settings](https://code.claude.com/docs/en/managed-settings.md) set `cleanupPeriodDays`
   * The [HIPAA configuration applies to your sessions](https://code.claude.com/docs/en/hipaa-setup.md#check-how-developers-sign-in-and-connect)
@@ -153,7 +154,9 @@ Session files in `sessions/`, auto memory, and Claude Desktop and Cowork transcr
 Claude Code skips the age-based sweep in these cases:
 
 * **Bare mode**: when you run `claude -p` with [`--bare`](https://code.claude.com/docs/en/headless#start-faster-with-bare-mode), Claude Code doesn't run the sweep in that session.
-* **Paused sweep**: if Claude Code can't safely determine the retention period, it pauses the retention cleanup sweep; the [`retention_sweep` event](https://code.claude.com/docs/en/monitoring-usage#retention-sweep-event) lists each configuration that pauses it. When the cause is a settings file that can't be read or parsed, or settings errors with `cleanupPeriodDays` or `desktopSessionCleanupPeriodDays` explicitly set, Claude Code also shows a warning in `/status` until you fix the settings errors. When [managed settings](https://code.claude.com/docs/en/server-managed-settings.md) provide `cleanupPeriodDays`, Claude Code runs the sweep at the managed value in either case.
+* **Paused sweep**: if Claude Code can't safely determine the retention period, it pauses the sweep; the [`retention_sweep` event](https://code.claude.com/docs/en/monitoring-usage#retention-sweep-event) lists each configuration that pauses it. When the cause is a settings file that can't be read or parsed, or settings errors with `cleanupPeriodDays` or `desktopSessionCleanupPeriodDays` set, `/status` shows a warning until you fix the cause.
+
+When [managed settings](https://code.claude.com/docs/en/managed-settings.md) provide `cleanupPeriodDays`, Claude Code runs the sweep at the managed value even when a lower-priority settings file has errors.
 
 To check that the machines in your organization run the sweep with the retention period you set, see [Check the retention sweep](https://code.claude.com/docs/en/monitoring-usage.md#check-the-retention-sweep).
 
@@ -167,7 +170,7 @@ The scratchpad lives under Claude Code's temp directory rather than `~/.claude`.
 * **Linux**: `/tmp/claude-<uid>/<project>/<session-id>/scratchpad/`, or the same shape under `$TMPDIR` when your system sets one
 * **Windows**: `%TEMP%\claude\<project>\<session-id>\scratchpad\`
 
-`<project>` is your working directory path with every character other than letters and digits replaced by `-`, such as `-Users-you-my-project`. If you set [`CLAUDE_CODE_TMPDIR`](https://code.claude.com/docs/en/env-vars), the tree moves under that directory instead. Hooks receive the current session's path as [`scratchpad_dir`](https://code.claude.com/docs/en/hooks#common-input-fields).
+`<project>` is your working directory path with every character other than letters and digits replaced by `-`, such as `-Users-you-my-project`. On Windows, `<project>` is a 16-character hash of that string, such as `73295dabccd14c56`. In a Desktop app session, it can be the string itself. To get the exact path, ask Claude. If you set [`CLAUDE_CODE_TMPDIR`](https://code.claude.com/docs/en/env-vars), the tree moves under that directory instead. Hooks receive the current session's path as [`scratchpad_dir`](https://code.claude.com/docs/en/hooks#common-input-fields).
 
 Scratchpad files last as long as the session's transcript: the [retention sweep](#cleaned-up-automatically) deletes the directory when it deletes the transcript, and [`claude purge`](#clear-local-data) doesn't touch the temp directory. Because the directory sits under the system temp location, your operating system can also clear it, such as on restart. To keep something Claude wrote there, ask Claude to move it into your project.
 

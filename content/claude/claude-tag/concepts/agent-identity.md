@@ -77,8 +77,6 @@ A host that none of the three layers above allows is blocked, and Claude names t
 
 A GitHub API request or a git operation doesn't go through those layers. It goes through a separate GitHub proxy. See [Network egress](https://claude.com/docs/claude-tag/concepts/security-and-data.md#network-egress) for what governs those requests instead.
 
-<a id="web-search-vs-network-requests" />
-
 ### Web search vs. network requests
 
 Claude can search the web from a channel without any Domains entry. Web search is [Anthropic's built-in web search tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-search-tool), which runs on Anthropic's servers, not code running in the channel's sandbox.

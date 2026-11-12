@@ -903,9 +903,14 @@ On `PreToolUse`, a timed-out `command`, `http`, or `mcp_tool` hook doesn't block
 
 #### Hooks that start a background process
 
+A hook can start a long-running program, such as a dev server, and leave it running while the session continues. In the hook's script or [shell form](#exec-form-and-shell-form) command:
+
+* Run the program in the background
+* Redirect its stdout and stderr. For example, the Bash command `npm run dev > dev-server.log 2>&1 &` sends both to a file. If you don't redirect them, a hook that isn't [async](#run-hooks-in-the-background) takes up to 10 seconds to finish after its own process exits.
+
 If your command hook makes its decision in a background process and exits, a deny that process prints after Claude Code has stopped reading doesn't block the tool call. For a hook that isn't [async](#run-hooks-in-the-background), Claude Code finishes reading the hook's output shortly after the hook's own process exits.
 
-Print the decision before you start a background process, and redirect that process's stdout and stderr. If your script prints an allow, then starts a background process without redirecting that process's stdout and stderr, Claude Code blocks the tool call. The hook error includes `refusing to honor the suspect capture`.
+Print the decision before you start a background process, and redirect that process's stdout and stderr. If your script prints an allow, then starts a background process without redirecting that process's stdout and stderr, Claude Code blocks the tool call. The hook error includes `stdio went quiet` and `refusing to honor the suspect capture`.
 
 This `PreToolUse` hook script prints the decision with `policy-check.sh`, then uploads metrics in the background:
 
@@ -1004,77 +1009,6 @@ A hook with this error ran in PowerShell, which prints a `command` that is only 
 * **To run a `.ps1`, `.cmd`, or `.bat` file, or a `.exe` whose path has a variable**: set `"shell": "powershell"` and put `&` before the quoted path. Leave `$HOME` as written, and spell environment variables as the [`check.ps1` example](#reference-scripts-by-path-in-powershell-hooks) spells `$env:CLAUDE_PROJECT_DIR`
 * **To run one `.exe` at a path without `$`**: remove the inner quotes from `command`, then apply the [fix for a hook that runs one `.exe`](#failed-hooks-on-windows-without-git-bash), writing `"args": []` if the program takes no arguments
 * **To run a script written for Bash**: apply the [fix for a hook written for Bash](#failed-hooks-on-windows-without-git-bash)
-
-#### Hooks that start a background process
-
-If your command hook makes its decision in a background process and exits, a deny that process prints after Claude Code has stopped reading doesn't block the tool call. For a hook that isn't [async](#run-hooks-in-the-background), Claude Code finishes reading the hook's output shortly after the hook's own process exits.
-
-Print the decision before you start a background process, and redirect that process's stdout and stderr. If your script prints an allow, then starts a background process without redirecting that process's stdout and stderr, Claude Code blocks the tool call. The hook error includes `refusing to honor the suspect capture`.
-
-This `PreToolUse` hook script prints the decision with `policy-check.sh`, then uploads metrics in the background:
-
-```bash theme={null}
-#!/bin/bash
-"$CLAUDE_PROJECT_DIR"/.claude/hooks/policy-check.sh || exit $?
-"$CLAUDE_PROJECT_DIR"/.claude/hooks/upload-metrics.sh >/dev/null 2>&1 &
-```
-
-The rest of the script does this:
-
-* **`|| exit $?`**: makes the check's exit code the hook's own, so a check that exits 2 to deny still blocks. Otherwise the hook exits with the last line's code, which is 0.
-* **`>/dev/null 2>&1 &`**: runs `upload-metrics.sh` in the background with its output redirected, so it doesn't keep the hook's output open.
-
-To test the script, make `policy-check.sh` exit 2, then trigger a tool call that the hook matches. The tool call is blocked.
-
-#### Block the action when a hook fails
-
-On most events, when a hook fails or times out, Claude Code still carries out the action, so a policy hook with a wrong path or a crashing script lets everything through. To block the action instead, set `"onFailure": "block"` on a `command` or `http` hook. The default value is `"continue"`. Requires Claude Code v2.1.295 or later.
-
-This `PreToolUse` hook in `.claude/settings.json` runs a project script before each Bash command, and blocks the command if the script fails:
-
-```json theme={null}
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node",
-            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/check-command.js"],
-            "onFailure": "block"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-To test it, leave `check-command.js` missing and ask Claude to run a Bash command such as `ls`. Claude Code blocks the call, and the error includes `failed; blocking because onFailure is "block"` followed by node's own error output, trimmed here to one line:
-
-```text theme={null}
-PreToolUse:Bash hook error: [node ${CLAUDE_PROJECT_DIR}/.claude/hooks/check-command.js]: failed; blocking because onFailure is "block"
-Error: Cannot find module '/path/to/project/.claude/hooks/check-command.js'
-```
-
-After a timeout, the message says `timed out` instead of `failed`. Without `onFailure` set, the same missing script is a non-blocking error and `ls` runs.
-
-Each of these counts as a failure:
-
-* **Can't start**: a command hook fails to start, for example because the script or executable doesn't exist
-* **Exit code other than 0 or 2**: counts for a command hook even if it printed JSON that allows the action, such as `permissionDecision: "allow"`. To return a JSON decision, exit 0
-* **HTTP error**: an HTTP hook's connection fails, or the response status isn't 2xx
-* **Timeout**: the hook reaches its [`timeout`](#common-fields)
-* **Invalid output**: the JSON output [can't be parsed](#exit-code-0) or fails [schema validation](#json-output). For an HTTP hook, a 2xx body that is neither empty nor a JSON object also counts. Plain-text stdout from a command hook isn't a failure
-
-With `"block"` set, a failure does what [exit code 2 does on that event](#exit-code-2-behavior-per-event), except on `PermissionRequest`, where it denies the request. For example, a `PreToolUse` failure blocks the tool call and a `UserPromptSubmit` failure blocks the prompt.
-
-The field has no effect on these hooks:
-
-* **`Stop`, `SubagentStop`, `TaskCompleted`, and `TeammateIdle` hooks**: exit code 2 on these events sends Claude back to keep working, and Claude can't repair a hook that won't run
-* **Background command hooks**: command hooks that set [`async` or `asyncRewake`](#run-hooks-in-the-background)
 
 #### Exit code 2 behavior per event
 
@@ -1346,14 +1280,6 @@ The matcher value corresponds to how the session was initiated:
 | `clear` | `/clear` |
 | `compact` | Auto or manual compaction |
 | `fork` | A new session forked from an existing one: `--fork-session` with `--resume` or `--continue`, the `/fork` background copy, `/branch`, or a conversation you [move to the background](https://code.claude.com/docs/en/agent-view.md#from-inside-a-session) |
-
-When you start an interactive session, resume a conversation at launch with `--continue` or `--resume`, or run `/clear`, SessionStart hooks run in the background. You can type right away, and a conversation you resumed appears without waiting for the hooks. Claude's first response still waits for the hooks to finish, so their context reaches Claude.
-
-When you switch conversations with `/resume` inside a session, the switch waits for the hooks to finish instead. If you run `/clear` or switch to another conversation while background hooks are still running, nothing they return applies to the session.
-
-The same wait applies at launch, including a resumed session: a prompt you send while SessionStart hooks are still running doesn't reach Claude until they finish.
-
-During either wait, press `Esc` to take the prompt back into the input without sending it. The hooks keep running.
 
 When you start an interactive session, resume a conversation at launch with `--continue` or `--resume`, or run `/clear`, SessionStart hooks run in the background. You can type right away, and a conversation you resumed appears without waiting for the hooks. Claude's first response still waits for the hooks to finish, so their context reaches Claude.
 
@@ -1888,8 +1814,6 @@ A `Write` call on Windows delivers:
 
 The `tool_input` fields depend on the tool:
 
-<a id="bash" />
-
 ##### Bash
 
 Executes shell commands.
@@ -2161,44 +2085,6 @@ For `AskUserQuestion`, echo back the original `questions` array and add an [`ans
 
 An MCP tool whose server marks it with [`_meta["anthropic/requiresUserInteraction"]`](https://code.claude.com/docs/en/mcp#require-approval-for-a-specific-tool) is stricter: a hook can't skip its approval prompt with `"allow"`, with or without `updatedInput`, because Claude Code can't confirm the hook collected the interaction the tool needs.
 
-<h4 id="allow-with-updatedinput">
-  Tools that require user interaction
-</h4>
-
-`AskUserQuestion` and `ExitPlanMode` require user interaction. In [non-interactive mode](/docs/en/headless) with the `-p` flag, Claude Code offers them only when the run has a [permission host](/docs/en/headless#turn-off-permission-prompts-in-unattended-runs) to receive the prompt, such as an Agent SDK `canUseTool` callback.
-
-A `PreToolUse` hook satisfies that requirement when it does the following:
-
-1. Reads the tool's input from stdin
-2. Collects the answer through your own UI
-3. Returns `permissionDecision: "allow"` together with `updatedInput` that holds the answer, so the tool runs without prompting
-
-Returning `"allow"` alone is not sufficient for these tools.
-
-For `AskUserQuestion`, echo back the original `questions` array and add an [`answers`](#askuserquestion) object mapping each question's text to the chosen answer. This output answers one question with `React`:
-
-```json theme={null}
-{
-  "hookSpecificOutput": {
-    "hookEventName": "PreToolUse",
-    "permissionDecision": "allow",
-    "updatedInput": {
-      "questions": [
-        {
-          "question": "Which framework?",
-          "header": "Framework",
-          "options": [{"label": "React", "description": "Component library"}, {"label": "Vue", "description": "Progressive framework"}],
-          "multiSelect": false
-        }
-      ],
-      "answers": {"Which framework?": "React"}
-    }
-  }
-}
-```
-
-An MCP tool whose server marks it with [`_meta["anthropic/requiresUserInteraction"]`](/docs/en/mcp#require-approval-for-a-specific-tool) is stricter: a hook can't skip its approval prompt with `"allow"`, with or without `updatedInput`, because Claude Code can't confirm the hook collected the interaction the tool needs.
-
 #### Defer a tool call for later
 
 `"defer"` is for integrations that run `claude -p` as a subprocess and read its JSON output, such as an Agent SDK app or a custom UI built on top of Claude Code. It lets that calling process pause Claude at a tool call, collect input through its own interface, and resume where it left off.
@@ -2455,7 +2341,7 @@ The example below replaces the output of a `Bash` call. The replacement value ma
 
 #### Annotate a result for the auto mode classifier
 
-Return `classifierContext` to send a short note about the tool call's result to the [auto mode](https://code.claude.com/docs/en/permission-modes.md#eliminate-prompts-with-auto-mode) classifier rather than to Claude. The classifier [never receives tool results themselves](https://code.claude.com/docs/en/permission-modes.md#how-the-classifier-evaluates-actions), so this field is the supported way to tell it something about what a call returned before it reviews later actions. The field requires Claude Code v2.1.236 or later.
+Return `classifierContext` to send a short note about the tool call's result to the [auto mode](https://code.claude.com/docs/en/permission-modes.md#eliminate-prompts-with-auto-mode) classifier rather than to Claude. The note is for the classifier's review of later actions. The field requires Claude Code v2.1.236 or later.
 
 The example below tells the classifier where a query's output came from:
 

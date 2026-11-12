@@ -59,7 +59,11 @@ The `listen` block controls where the gateway serves: the bind address and port,
 | `port` | No | Bind port. Default `8080`. |
 | `public_url` | Unless `host` is loopback | The externally visible `https://` origin, used to build the IdP `redirect_uri` and discovery metadata. Required whenever `host` isn't a loopback address, whether TLS terminates at a proxy such as an ALB, Ingress, or Cloud Run or at the gateway itself through `tls`, because the gateway never derives its own origin from `X-Forwarded-*` headers; they are client-spoofable. Boot fails without it. `trusted_proxies` below governs client-IP resolution only. Also required to enable [telemetry](#telemetry), because the gateway builds the OTLP endpoint it pushes to clients from this URL. |
 | `tls.cert` / `tls.key` | No | PEM paths if the gateway terminates TLS itself |
-| `trusted_proxies` | No | CIDRs or IPs of load balancers in front of the gateway. When set, the gateway trusts `X-Forwarded-For` only from these peers and records the real client IP for per-IP rate limiting and audit. Equivalent to nginx `set_real_ip_from`. `X-Forwarded-For` entries written as `ipv4:port` or `[ipv6]:port`, as some load balancers do, are read with the port dropped. An IPv6 address with a port appended and no brackets may be read as a different address or not read at all, so turn off the port option on any proxy that writes that form. |
+| `trusted_proxies` | No | CIDRs or IPs of the frontends to trust. When set, the gateway trusts `X-Forwarded-For` only from these peers and records the real client IP for per-IP rate limiting and audit. |
+
+List a frontend in `trusted_proxies` only if the last `X-Forwarded-For` entry that it passes on is one that no developer wrote. List no address or range that developers connect from. A frontend that appends the address of each connection it receives qualifies. One that passes the header on as developers send it doesn't.
+
+`X-Forwarded-For` entries written as `ipv4:port` or `[ipv6]:port`, as some load balancers do, are read with the port dropped. An IPv6 address with a port appended and no brackets may be read as a different address or not read at all. Turn off the port option on any proxy that writes that form.
 
 ### `oidc`
 
@@ -188,43 +192,6 @@ Once proxy-only egress is active, allow every destination in the proxy, includin
 > [!WARNING]
 >
 > Turn this on only when the proxy's allowlist is at least as strict as the gateway's own check. The proxy must refuse cloud metadata endpoints such as `169.254.169.254` and `metadata.google.internal`, link-local addresses, and the proxy host's own loopback, and it must refuse them by the address a name resolves to, not only by name, because the gateway no longer catches a hostname that resolves to one of them. A proxy that connects anywhere it's asked removes the gateway's [SSRF guard](https://code.claude.com/docs/en/claude-apps-gateway-deploy.md#threat-model-summary) for these requests.
-
-[Proxy-only egress](#proxy-only-egress) changes both of these: while it's active, IdP requests follow the proxy unless you set `use_proxy: false`, and the gateway hands the proxy each IdP hostname without resolving it first.
-
-#### Proxy-only egress
-
-Set `CLAUDE_GATEWAY_PROXY_IS_EGRESS_BOUNDARY=1` in the gateway's environment, next to `HTTPS_PROXY`, when the pod reaches other hosts only through that forward proxy and can't resolve public DNS names itself, or when the proxy refuses `CONNECT` to an IP address. Requires v2.1.277 or later. It's an environment variable rather than a `gateway.yaml` key so that nothing in the config file can relax the gateway's address check.
-
-```bash theme={null}
-export HTTPS_PROXY=http://proxy.corp.example.com:3128
-export NO_PROXY=
-export no_proxy=
-export CLAUDE_GATEWAY_PROXY_IS_EGRESS_BOUNDARY=1
-```
-
-The gateway logs one `network:` line at boot while proxy-only egress is active.
-
-Each row below is one class of outbound request on a gateway with `HTTPS_PROXY` set, by default and while proxy-only egress is active.
-
-| Outbound request | Default | Proxy-only egress active |
-| - | - | - |
-| `provider: anthropic` upstreams, Workload Identity Federation token exchange, `telemetry.forward_to` exports | Resolved and checked locally, then `CONNECT` to the checked IP address through the proxy. A telemetry collector listed in `NO_PROXY` is reached directly instead | Hostname handed to the proxy |
-| IdP discovery, JWKS, token, and userinfo | Direct unless [`oidc.use_proxy: true`](#idp-requests-through-a-forward-proxy), then `CONNECT` to the checked IP address | Hostname handed to the proxy, unless `oidc.use_proxy: false` keeps an internal IdP direct |
-| Amazon Bedrock, Claude Platform on AWS, Google Cloud's Agent Platform, and Microsoft Foundry upstreams; Google group lookups | Hostname handed to the proxy | Unchanged |
-
-Proxy-only egress stays off unless the gateway's environment meets all three of these conditions:
-
-* `HTTPS_PROXY` or `HTTP_PROXY` is set.
-* `NO_PROXY` and `no_proxy` are empty. If your platform injects either into pods, set both to an empty value on the gateway container. Listing a telemetry collector in `NO_PROXY` keeps proxy-only egress off.
-* `CLAUDE_GATEWAY_ALLOW_LOOPBACK` isn't turned on. A collector or IdP on the pod's own loopback can't be combined with proxy-only egress, because a loopback address handed to the proxy would be the proxy host's own, so give those services an address the proxy can reach instead. For the same reason the gateway refuses `localhost`-style names outright while proxy-only egress is active.
-
-When one of those conditions isn't met, the gateway logs a warning at boot naming the variable that stopped it and keeps the default behavior.
-
-Once proxy-only egress is active, allow every destination in the proxy, including an internal collector and any host configured by IP address. You can still keep an internal IdP direct with [`oidc.use_proxy: false`](#idp-requests-through-a-forward-proxy).
-
-<Warning>
-  Turn this on only when the proxy's allowlist is at least as strict as the gateway's own check. The proxy must refuse cloud metadata endpoints such as `169.254.169.254` and `metadata.google.internal`, link-local addresses, and the proxy host's own loopback, and it must refuse them by the address a name resolves to, not only by name, because the gateway no longer catches a hostname that resolves to one of them. A proxy that connects anywhere it's asked removes the gateway's [SSRF guard](/docs/en/claude-apps-gateway-deploy#threat-model-summary) for these requests.
-</Warning>
 
 ### `session`
 
@@ -1161,27 +1128,6 @@ managed:
           ANTHROPIC_DEFAULT_OPUS_MODEL: restricted-claude-opus-4-8   # opus and Default resolve to the ID too
 ```
 
-#### Start sessions on a model the policy allows
-
-If `availableModels` leaves out Claude Code's default model, sessions get `400` responses until the developer picks a listed model, for example with `/model`. In gateway sessions the default is the Opus model the `opus` alias resolves to, and `availableModels` on its own doesn't change it.
-
-To fix this, set [`enforceAvailableModels: true`](/docs/en/model-config#enforce-the-allowlist-for-the-default-model) in the same `cli` block, then check which kind of entry the list has:
-
-* **An alias such as `sonnet`, or a built-in ID such as `claude-sonnet-4-6`**: sessions start on one of those models, and the Default option in `/model` resolves to it
-* **No alias or built-in ID in the list**: sessions can keep starting on the built-in default, so also set [`model`](/docs/en/model-config#control-the-model-users-run-on) to one of the listed IDs in that policy's `cli` block
-
-This policy lists one custom ID that [`models`](#models) defines, and starts sessions on that ID:
-
-```yaml theme={null}
-managed:
-  policies:
-    - match: { groups: [restricted-projects] }
-      cli:
-        availableModels: [claude-opus-restricted]
-        enforceAvailableModels: true
-        model: claude-opus-restricted
-```
-
 #### Matcher values that stop the gateway at boot
 
 At boot, the gateway checks the `match` block of every policy and the [`admin_groups`](#admin) list. Any of these values stops the gateway with an error that names the field:
@@ -1717,7 +1663,7 @@ While `allow_cidrs` is empty, the gateway warns in two places, without changing 
 
 Both signals use the client address as the gateway resolves it. If a load balancer, port-forward, or tunnel relays traffic and isn't listed in `listen.trusted_proxies`, the gateway sees the relay's address, which is usually private, so neither the runtime warning nor a private allow list catches traffic relayed through it.
 
-Behind such a front end, set [`listen.trusted_proxies`](#listen) first so the gateway sees real client addresses, and keep the gateway and everything in front of it unreachable from the public internet regardless.
+If the relay [belongs in `listen.trusted_proxies`](#listen), list it there. Keep the gateway and everything in front of it unreachable from the public internet regardless.
 
 ### `load_test_mode`
 

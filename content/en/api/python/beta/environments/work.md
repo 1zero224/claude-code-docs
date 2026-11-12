@@ -1972,12 +1972,6 @@ Get statistics about the work queue for an environment.
 
     default: work_queue_stats
 
-  - `type: Literal["work_queue_stats"]`
-
-    The type of object
-
-    default: work_queue_stats
-
   - `depth: int`
 
     Number of work items waiting to be picked up
@@ -2276,12 +2270,6 @@ print(beta_self_hosted_work_queue_stats.depth)
 - `class BetaSelfHostedWorkQueueStats`
 
   Statistics about the work queue for an environment.
-
-  - `type: Literal["work_queue_stats"]`
-
-    The type of object
-
-    default: work_queue_stats
 
   - `type: Literal["work_queue_stats"]`
 

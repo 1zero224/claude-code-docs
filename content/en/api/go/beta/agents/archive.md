@@ -473,8 +473,6 @@ Archive Agent
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -482,8 +480,6 @@ Archive Agent
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 

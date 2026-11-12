@@ -91,19 +91,6 @@ See the [Skills overview](https://modelcontextprotocol.io/extensions/skills/over
 | - | - | - |
 | [Server Cards](https://modelcontextprotocol.io/seps/2127-mcp-server-cards.md) | Beta, destination not yet stated | Lets clients discover a server's metadata before connecting to it. |
 
-### Skills over MCP
-
-<Card title="modelcontextprotocol/ext-skills" icon="github" href="https://github.com/modelcontextprotocol/ext-skills">
-  Discover and read Agent Skills from MCP servers.
-</Card>
-
-| Extension | Description |
-| - | - |
-| [Skills over MCP](/extensions/skills/overview) | Discover workflow instructions and read supporting files through MCP resources. |
-
-See the [Skills overview](/extensions/skills/overview) to get started and the
-[client matrix](/extensions/client-matrix) for implementation support.
-
 ## Experimental Extensions
 
 Experimental extensions provide an incubation pathway for [Working Groups and Interest Groups](https://modelcontextprotocol.io/community/working-interest-groups.md) to prototype ideas and collaborate on extension concepts before or alongside a SEP.

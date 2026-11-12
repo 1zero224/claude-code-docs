@@ -3590,8 +3590,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `type: "encrypted_code_execution_result"`
 
-          - `type: "encrypted_code_execution_result"`
-
           - `content: array of CodeExecutionOutputBlock`
 
             - `type: "code_execution_output"`
@@ -14911,8 +14909,6 @@ ant messages count-tokens \
 
   - `type: "code_execution_20260120"`
 
-  - `type: "code_execution_20260120"`
-
   - `name: "code_execution"`
 
     Name of the tool.
@@ -15059,8 +15055,6 @@ ant messages count-tokens \
 
       - `type: "encrypted_code_execution_result"`
 
-      - `type: "encrypted_code_execution_result"`
-
       - `content: array of CodeExecutionOutputBlock`
 
         - `type: "code_execution_output"`
@@ -15121,8 +15115,6 @@ ant messages count-tokens \
 
     - `type: "encrypted_code_execution_result"`
 
-    - `type: "encrypted_code_execution_result"`
-
     - `content: array of CodeExecutionOutputBlock`
 
       - `type: "code_execution_output"`
@@ -15176,8 +15168,6 @@ ant messages count-tokens \
     - `encrypted_code_execution_result_block_param: object`
 
       The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-      - `type: "encrypted_code_execution_result"`
 
       - `type: "encrypted_code_execution_result"`
 
@@ -15255,8 +15245,6 @@ ant messages count-tokens \
   - `encrypted_code_execution_result_block_param: object`
 
     The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-    - `type: "encrypted_code_execution_result"`
 
     - `type: "encrypted_code_execution_result"`
 
@@ -18369,8 +18357,6 @@ ant messages count-tokens \
 
         - `type: "encrypted_code_execution_result"`
 
-        - `type: "encrypted_code_execution_result"`
-
         - `content: array of CodeExecutionOutputBlock`
 
           - `type: "code_execution_output"`
@@ -19306,8 +19292,6 @@ ant messages count-tokens \
       - `encrypted_code_execution_result_block_param: object`
 
         The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-        - `type: "encrypted_code_execution_result"`
 
         - `type: "encrypted_code_execution_result"`
 
@@ -20345,8 +20329,6 @@ ant messages count-tokens \
 
   - `type: "encrypted_code_execution_result"`
 
-  - `type: "encrypted_code_execution_result"`
-
   - `content: array of CodeExecutionOutputBlock`
 
     - `type: "code_execution_output"`
@@ -20364,8 +20346,6 @@ ant messages count-tokens \
 - `encrypted_code_execution_result_block_param: object`
 
   The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-  - `type: "encrypted_code_execution_result"`
 
   - `type: "encrypted_code_execution_result"`
 
@@ -21069,8 +21049,6 @@ ant messages count-tokens \
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=cli) to learn more about programmatic tool calling.
-
-          - `type: "encrypted_code_execution_result"`
 
           - `type: "encrypted_code_execution_result"`
 
@@ -21795,8 +21773,6 @@ ant messages count-tokens \
     REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
 
     See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=cli#tool-versions) to learn what each tool version adds.
-
-    - `type: "code_execution_20260120"`
 
     - `type: "code_execution_20260120"`
 
@@ -23333,8 +23309,6 @@ ant messages count-tokens \
 
         - `type: "text"`
 
-        - `type: "text"`
-
         - `text: string`
 
           minLength: 1
@@ -23605,8 +23579,6 @@ ant messages count-tokens \
         - `type: "search_result"`
 
         - `content: array of TextBlockParam`
-
-          - `type: "text"`
 
           - `type: "text"`
 
@@ -25154,8 +25126,6 @@ ant messages count-tokens \
 
           - `type: "encrypted_code_execution_result"`
 
-          - `type: "encrypted_code_execution_result"`
-
           - `content: array of CodeExecutionOutputBlock`
 
             - `type: "code_execution_output"`
@@ -26035,8 +26005,6 @@ ant messages count-tokens \
             The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
             See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=cli) to learn more about programmatic tool calling.
-
-            - `type: "encrypted_code_execution_result"`
 
             - `type: "encrypted_code_execution_result"`
 
@@ -27105,8 +27073,6 @@ ant messages count-tokens \
               The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
               See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=cli) to learn more about programmatic tool calling.
-
-              - `type: "encrypted_code_execution_result"`
 
               - `type: "encrypted_code_execution_result"`
 
@@ -30921,8 +30887,6 @@ ant messages count-tokens \
     REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
 
     See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=cli#tool-versions) to learn what each tool version adds.
-
-    - `type: "code_execution_20260120"`
 
     - `type: "code_execution_20260120"`
 
@@ -41749,8 +41713,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `type: "encrypted_code_execution_result"`
 
-                - `type: "encrypted_code_execution_result"`
-
                 - `content: array of CodeExecutionOutputBlock`
 
                   - `type: "code_execution_output"`
@@ -42308,8 +42270,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `authentication_error: object`
 
             - `type: "authentication_error"`
@@ -42319,8 +42279,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `billing_error: object`
 
@@ -42332,8 +42290,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `permission_error: object`
 
             - `type: "permission_error"`
@@ -42343,8 +42299,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `not_found_error: object`
 
@@ -42356,8 +42310,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `rate_limit_error: object`
 
             - `type: "rate_limit_error"`
@@ -42367,8 +42319,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `gateway_timeout_error: object`
 
@@ -42380,8 +42330,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `api_error_object: object`
 
             - `type: "api_error"`
@@ -42391,8 +42339,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `overloaded_error: object`
 

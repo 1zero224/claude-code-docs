@@ -2370,10 +2370,6 @@ ant beta:environments archive \
 
   - `error_code: "invalid_metadata"`
 
-  - `id: string`
-
-    Environment identifier
-
 ### Beta Limited Network
 
 - `beta_limited_network: object`
@@ -4386,10 +4382,6 @@ Get statistics about the work queue for an environment.
 - `beta_self_hosted_work_queue_stats: object`
 
   Statistics about the work queue for an environment.
-
-  - `type: "work_queue_stats"`
-
-    The type of object
 
   - `type: "work_queue_stats"`
 

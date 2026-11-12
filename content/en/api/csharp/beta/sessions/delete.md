@@ -149,8 +149,6 @@ Delete Session
 
   - `required string ID`
 
-  - `required string ID`
-
 ## Example
 
 ```csharp

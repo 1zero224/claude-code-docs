@@ -339,7 +339,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `Type File`
 
-              - `Content []BetaCodeExecutionOutputBlockParam`
+                - `FileID string`
 
             - `CacheControl BetaCacheControlEphemeralParam Optional`
 
@@ -3331,7 +3331,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `Type ToolAddition`
+              - `Name string`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -4580,7 +4580,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             default: encrypted_code_execution_result
 
-          - `Type EncryptedCodeExecutionResult`
+          - `Content []BetaCodeExecutionOutputBlock`
 
             - `Type CodeExecutionOutput`
 

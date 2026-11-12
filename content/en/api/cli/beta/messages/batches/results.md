@@ -736,8 +736,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `type: "encrypted_code_execution_result"`
 
-                - `type: "encrypted_code_execution_result"`
-
                 - `content: array of BetaCodeExecutionOutputBlock`
 
                   - `type: "code_execution_output"`
@@ -3905,8 +3903,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `beta_authentication_error: object`
 
             - `type: "authentication_error"`
@@ -3916,8 +3912,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `beta_billing_error: object`
 
@@ -3929,8 +3923,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `beta_permission_error: object`
 
             - `type: "permission_error"`
@@ -3940,8 +3932,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `beta_not_found_error: object`
 
@@ -3953,8 +3943,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `beta_rate_limit_error: object`
 
             - `type: "rate_limit_error"`
@@ -3964,8 +3952,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `beta_gateway_timeout_error: object`
 
@@ -3977,8 +3963,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `beta_api_error: object`
 
             - `type: "api_error"`
@@ -3988,8 +3972,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `beta_overloaded_error: object`
 

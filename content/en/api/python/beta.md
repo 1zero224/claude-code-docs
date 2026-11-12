@@ -1897,7 +1897,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               - `type: Literal["file"]`
 
-            - `content: Iterable[BetaCodeExecutionOutputBlockParam]`
+              - `file_id: str`
 
           - `cache_control: Optional[BetaCacheControlEphemeralParam]`
 
@@ -4893,7 +4893,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
               The tool's input schema as the MCP server lists it, verbatim.
 
-            - `type: Literal["tool_addition"]`
+            - `name: str`
 
               The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -5016,38 +5016,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
         - `"xhigh"`
 
         - `"max"`
-
-  - `clear_at: Optional[Literal["next_user_message", "never"]]`
-
-    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-    - `"next_user_message"`
-
-    - `"never"`
-
-  - `output_config: Optional[BetaSystemMessageOutputConfigParam]`
-
-    Per-message output configuration on a role:"system" input message.
-
-    Fields here apply per-turn; `format` remains top-level only. An
-    empty `{}` is accepted on a message that carries content; a message
-    with neither content nor output_config fields is rejected.
-
-    - `effort: Optional[Literal["low", "medium", "high", 2 more]]`
-
-      How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-      Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-      - `"low"`
-
-      - `"medium"`
-
-      - `"high"`
-
-      - `"xhigh"`
-
-      - `"max"`
 
 - `model: ModelParam`
 
@@ -6526,7 +6494,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             default: encrypted_code_execution_result
 
-          - `type: Literal["encrypted_code_execution_result"]`
+          - `content: List[BetaCodeExecutionOutputBlock]`
 
             - `type: Literal["code_execution_output"]`
 
@@ -10524,7 +10492,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               - `type: Literal["file"]`
 
-            - `content: Iterable[BetaCodeExecutionOutputBlockParam]`
+              - `file_id: str`
 
           - `cache_control: Optional[BetaCacheControlEphemeralParam]`
 
@@ -13520,7 +13488,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
               The tool's input schema as the MCP server lists it, verbatim.
 
-            - `type: Literal["tool_addition"]`
+            - `name: str`
 
               The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -13643,38 +13611,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
         - `"xhigh"`
 
         - `"max"`
-
-  - `clear_at: Optional[Literal["next_user_message", "never"]]`
-
-    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-    - `"next_user_message"`
-
-    - `"never"`
-
-  - `output_config: Optional[BetaSystemMessageOutputConfigParam]`
-
-    Per-message output configuration on a role:"system" input message.
-
-    Fields here apply per-turn; `format` remains top-level only. An
-    empty `{}` is accepted on a message that carries content; a message
-    with neither content nor output_config fields is rejected.
-
-    - `effort: Optional[Literal["low", "medium", "high", 2 more]]`
-
-      How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-      Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-      - `"low"`
-
-      - `"medium"`
-
-      - `"high"`
-
-      - `"xhigh"`
-
-      - `"max"`
 
 - `model: ModelParam`
 
@@ -14713,7 +14649,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   - `type: Literal["file"]`
 
-                - `content: Iterable[BetaCodeExecutionOutputBlockParam]`
+                  - `file_id: str`
 
               - `cache_control: Optional[BetaCacheControlEphemeralParam]`
 
@@ -17709,7 +17645,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   The tool's input schema as the MCP server lists it, verbatim.
 
-                - `type: Literal["tool_addition"]`
+                - `name: str`
 
                   The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -17832,38 +17768,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `"xhigh"`
 
             - `"max"`
-
-      - `clear_at: Optional[Literal["next_user_message", "never"]]`
-
-        How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-        - `"next_user_message"`
-
-        - `"never"`
-
-      - `output_config: Optional[BetaSystemMessageOutputConfigParam]`
-
-        Per-message output configuration on a role:"system" input message.
-
-        Fields here apply per-turn; `format` remains top-level only. An
-        empty `{}` is accepted on a message that carries content; a message
-        with neither content nor output_config fields is rejected.
-
-        - `effort: Optional[Literal["low", "medium", "high", 2 more]]`
-
-          How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-          Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-          - `"low"`
-
-          - `"medium"`
-
-          - `"high"`
-
-          - `"xhigh"`
-
-          - `"max"`
 
     - `model: ModelParam`
 
@@ -18706,12 +18610,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 - `user_profile_id: Optional[str]` (header parameter)
 
   The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
-
-- `workspace_id: Optional[str]` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `workspace_id: Optional[str]` (header parameter)
 
@@ -20750,7 +20648,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   default: encrypted_code_execution_result
 
-                - `type: Literal["encrypted_code_execution_result"]`
+                - `content: List[BetaCodeExecutionOutputBlock]`
 
                   - `type: Literal["code_execution_output"]`
 
@@ -36496,12 +36394,6 @@ Get statistics about the work queue for an environment.
 - `class BetaSelfHostedWorkQueueStats`
 
   Statistics about the work queue for an environment.
-
-  - `type: Literal["work_queue_stats"]`
-
-    The type of object
-
-    default: work_queue_stats
 
   - `type: Literal["work_queue_stats"]`
 
@@ -75806,7 +75698,7 @@ Create a Memory Store
 
     format: date-time
 
-  - `archived_at: Optional[datetime]`
+  - `created_at: datetime`
 
     When the memory store was created, in RFC 3339.
 
@@ -76050,7 +75942,7 @@ List Memory Stores
 
     format: date-time
 
-  - `archived_at: Optional[datetime]`
+  - `created_at: datetime`
 
     When the memory store was created, in RFC 3339.
 
@@ -76274,7 +76166,7 @@ Retrieve a Memory Store
 
     format: date-time
 
-  - `archived_at: Optional[datetime]`
+  - `created_at: datetime`
 
     When the memory store was created, in RFC 3339.
 
@@ -76518,7 +76410,7 @@ Update a Memory Store
 
     format: date-time
 
-  - `archived_at: Optional[datetime]`
+  - `created_at: datetime`
 
     When the memory store was created, in RFC 3339.
 
@@ -76920,7 +76812,7 @@ Archive a Memory Store
 
     format: date-time
 
-  - `archived_at: Optional[datetime]`
+  - `created_at: datetime`
 
     When the memory store was created, in RFC 3339.
 
@@ -77159,8 +77051,6 @@ Create a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=python#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: Literal["memory"]`
 
   - `type: Literal["memory"]`
 
@@ -77446,8 +77336,6 @@ List Memories
 
     - `type: Literal["memory"]`
 
-    - `type: Literal["memory"]`
-
     - `id: str`
 
       The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -77717,8 +77605,6 @@ Retrieve a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=python#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: Literal["memory"]`
 
   - `type: Literal["memory"]`
 
@@ -78000,8 +77886,6 @@ Update a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=python#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: Literal["memory"]`
 
   - `type: Literal["memory"]`
 
@@ -78509,8 +78393,6 @@ List Memory Versions
 
   - `type: Literal["memory_version"]`
 
-  - `type: Literal["memory_version"]`
-
   - `id: str`
 
     Unique identifier for this version (a `memver_...` value).
@@ -78854,8 +78736,6 @@ Retrieve a Memory Version
 
   - `type: Literal["memory_version"]`
 
-  - `type: Literal["memory_version"]`
-
   - `id: str`
 
     Unique identifier for this version (a `memver_...` value).
@@ -79177,8 +79057,6 @@ Redact a Memory Version
   Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=python#audit-memory-changes) to learn more about memory versions.
-
-  - `type: Literal["memory_version"]`
 
   - `type: Literal["memory_version"]`
 

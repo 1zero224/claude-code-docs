@@ -133,17 +133,6 @@ In both renderers, press `Tab` on a bare mid-prompt `/` to list every command.
 
 A plugin skill matches on its bare name too, so `/deploy` finds a skill named `myplugin:deploy-app`. When you insert the match, Claude Code writes the full `/myplugin:deploy-app`.
 
-### Complete a command mid-prompt
-
-Command completion also works partway through a prompt: type `/` after a space, then the first letters of a name, as in `run the tests, then /com`. Only commands whose names start with those letters match, so a file path such as `/tmp/notes.md` doesn't keep a list open. Claude Code runs a command itself only when the command [starts your message](/docs/en/commands).
-
-* **In [fullscreen rendering](/docs/en/fullscreen)**: the matches open as a list while you type, with no row highlighted, so `Enter` still sends your prompt as typed. Press `Tab` to insert the top match, or pick a row with the arrow keys and `Enter`.
-* **Outside fullscreen**: the rest of the top match appears as ghost text at your cursor, with a count such as `+2` when more commands match. Press `Tab` to insert the only match, or to open the list when several match, then pick a row with the arrow keys and `Enter`.
-
-In both renderers, press `Tab` on a bare mid-prompt `/` to list every command.
-
-A plugin skill matches on its bare name too, so `/deploy` finds a skill named `myplugin:deploy-app`. When you insert the match, Claude Code writes the full `/myplugin:deploy-app`.
-
 ## Vim editor mode
 
 Enable vim-style editing via `/config` → Editor mode.
@@ -262,7 +251,7 @@ Press `v` for character-wise selection or `V` for line-wise selection. Motions e
 | `d`/`x` | Delete selection |
 | `y` | Yank selection |
 | `c`/`s` | Change selection |
-| `p` | Replace selection with register contents |
+| `p`/`P` | Replace selection with register contents |
 | `r{char}` | Replace every selected character with `{char}` |
 | `~`/`u`/`U` | Toggle, lowercase, or uppercase selection |
 | `>`/`<` | Indent or dedent selected lines |
@@ -314,6 +303,8 @@ In the dialog, press `Ctrl+S` to cycle the scope through this session, this proj
    * Press `Backspace` on empty search to cancel
 
 Accepting a match or canceling the search takes effect immediately, even while Claude Code is still loading the history.
+
+To find an earlier prompt when all you remember is something long you pasted into it, such as an error log, press `Ctrl+R` and type a word from the paste. Requires Claude Code v2.1.314 or later.
 
 ## Background Bash commands
 
@@ -514,60 +505,6 @@ Type the choice's digit on its own into an empty prompt input. A note offers the
 The main agent doesn't see a note unless you send it with **Chat in main session**.
 
 Claude Code keeps your recent notes and the topics you marked as known in a file whose name starts with `cc-plugin-you-should-know` under `~/.claude/plugins/store/`. Each check, in this session and later ones, lists them to the side agent as ones not to repeat. Claude Code deletes the file once it has gone [`cleanupPeriodDays`](https://code.claude.com/docs/en/settings-reference#cleanupperioddays) without a session reading or writing it. To clear them sooner, delete that file while no session is running.
-
-### Turn off You should know
-
-To turn off You should know, use either of the following:
-
-* At the Claude Code prompt, run `/plugin disable cc-plugin-you-should-know@builtin`, or turn it off from the **Installed** tab of `/plugin`
-* After you choose **Dismiss** on a note without opening **Learn more** first, choose **Turn off suggestions** on the `Dismissed.` line, which clears after 20 seconds
-
-## You should know suggestions
-
-"You should know" looks for one thing you should know but might have missed, such as a tradeoff Claude chose without calling it out or a result that may be off. When it finds one, it shows a short note above the prompt input:
-
-```text theme={null}
-✦ Heads up · There was a change to how folder sharing starts in June, which may have bumped usage metrics artificially.
-  1: Learn more   2: Knew this already   0: Dismiss
-```
-
-It's one of Claude Code's [built-in mods](/docs/en/plugins/mods/overview#mods-built-into-claude-code), a plugin built into Claude Code that is off by default. Requires Claude Code v2.1.287 or later.
-
-While it's on, a side agent rereads the conversation from time to time as Claude works through a longer task. The side agent is a separate request to the same model and has no tools, so it can't read files, run commands, or change what Claude does.
-
-If the mod is available for your organization, `/plugin` lists it when you connect to the Claude API directly with a claude.ai account or a Console API key. It doesn't when you connect through an [LLM gateway](/docs/en/llm-gateway) or a [Claude apps gateway](/docs/en/claude-apps-gateway), or get your key from an [`apiKeyHelper`](/docs/en/settings-reference#apikeyhelper). Even with a direct connection, these sessions don't list it:
-
-* A session that [doesn't fetch the feature flags](/docs/en/env-vars#features-that-need-feature-flag-fetching) the mod depends on, such as one with `DISABLE_TELEMETRY` set
-* A [first session after an install or upgrade](/docs/en/env-vars#first-session-after-an-install-or-upgrade) whose flags haven't arrived yet
-
-To turn it on, run this at the Claude Code prompt:
-
-```text theme={null}
-/plugin enable cc-plugin-you-should-know@builtin
-```
-
-Where `/plugin` doesn't list the mod, the enable command answers `Plugin "cc-plugin-you-should-know@builtin" is not installed in this project`.
-
-### Cost of checks
-
-While the mod is on, checks are background requests to the same model your session is using, and they count toward your plan's usage limits or your API costs. Each check sends what's already in Claude's context, meaning the conversation so far with its tool results, followed by the mod's own instructions and the text of your recent notes. The conversation part is read from the session's [prompt cache](/docs/en/prompt-caching) on the same terms as Claude's own next request. The instructions, several thousand tokens of them, and the side agent's reply are billed in full on every check.
-
-To watch the checks happen, set [`CLAUDE_CODE_YOU_SHOULD_KNOW_DEBUG=1`](/docs/en/env-vars) in your shell before you start Claude Code.
-
-### Answer a note
-
-Type the choice's digit on its own into an empty prompt input. A note offers these choices:
-
-* **Learn more**: opens a short explanation under the note, with its own choices:
-  * **Understood**: closes it and marks the topic as known
-  * **Chat in main session**: quotes the note into your prompt input so you can add a question and send it to Claude
-  * **Dismiss**: closes it without marking the topic as known
-* **Knew this already**: closes the note and marks the topic as known.
-* **Dismiss**: closes the note.
-
-The main agent doesn't see a note unless you send it with **Chat in main session**.
-
-Claude Code keeps your recent notes and the topics you marked as known in a file whose name starts with `cc-plugin-you-should-know` under `~/.claude/plugins/store/`. Each check, in this session and later ones, lists them to the side agent as ones not to repeat. Claude Code deletes the file once it has gone [`cleanupPeriodDays`](/docs/en/settings-reference#cleanupperioddays) without a session reading or writing it. To clear them sooner, delete that file while no session is running.
 
 ### Turn off You should know
 

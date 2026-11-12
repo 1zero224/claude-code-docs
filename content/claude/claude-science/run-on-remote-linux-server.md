@@ -66,24 +66,6 @@ On 0.1.70 and earlier, which have no `sandbox approve`, run only the first comma
 
 To approve copies you installed yourself, put the path of each program in the second command, not the path of a launcher. For example, after `pixi global install bubblewrap socat`, `command -v bwrap socat` shows launchers in `~/.pixi/bin`, and the programs are `~/.pixi/envs/bubblewrap/bin/bwrap` and `~/.pixi/envs/socat/bin/socat`. If the command says "not approved", see [not approved](https://claude.com/docs/claude-science/troubleshooting.md#not-approved).
 
-## Run Claude Science without administrator access
-
-If you don't have administrator (root or `sudo`) access to a shared server or cluster, choose one of these:
-
-* **Ask the server's administrator** to set up what the sandbox needs: bubblewrap 0.8.0 or later, socat, and a kernel that allows unprivileged user namespaces.
-* **Use the server as an SSH host.** Install Claude Science on your own computer and add the server as an SSH host (see [Remote compute clusters](/docs/claude-science/remote-compute-clusters)), if your organization allows SSH hosts. Claude runs jobs on the server under your own account, with your approval. Jobs run outside the sandbox, so the server doesn't need bubblewrap, socat, or the kernel setting, and you don't need administrator access there.
-
-Administrators usually install bubblewrap and socat, and only an administrator can change the kernel setting. On Ubuntu 23.10 and later, bubblewrap can also need an AppArmor profile that lets it create user namespaces. Claude Science checks for these when it starts and names the first one that's missing. Once that's fixed, the next start names the next one, if any.
-
-Installing Claude Science itself doesn't need root or `sudo`. The installer puts the `claude-science` command in `~/.local/bin`, or in another folder you own if you export `CLAUDE_SCIENCE_INSTALL_DIR` with that folder's path before you run it.
-
-If you run Claude Science on a cluster's login node, these points differ from a server you have to yourself:
-
-* Check your site's rules first. Claude runs its analysis code on the machine where Claude Science runs, and many sites limit long-running or heavy work on login nodes.
-* Choose your own port, because someone else may already be using the default port, 8000. [Start Claude Science](#start-claude-science) shows how to pass a port. After you start it, `claude-science url` prints both ports. Forward each one with that number on both sides.
-* If the cluster's address sends you to one of several login nodes, connect the tunnel to the node where Claude Science is running. Running `hostname` on that node prints its name.
-* Claude Science needs about 5 GB in your home folder for its environments, even if you keep your projects elsewhere.
-
 ## Install Claude Science
 
 ```bash theme={null}

@@ -75,12 +75,6 @@ List Memory Versions
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class ManagedAgentsMemoryVersion`
@@ -243,12 +237,6 @@ Retrieve a Memory Version
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class ManagedAgentsMemoryVersion`
@@ -390,12 +378,6 @@ Redact a Memory Version
   This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -565,10 +547,6 @@ var_dump($betaManagedAgentsMemoryVersion);
 
     ID of the API key (an `apikey_...` value). This identifies the key, not the secret.
 
-  - `string apiKeyID`
-
-    ID of the API key (an `apikey_...` value). This identifies the key, not the secret.
-
 ### Beta Managed Agents Memory Version
 
 - `class ManagedAgentsMemoryVersion`
@@ -664,10 +642,6 @@ var_dump($betaManagedAgentsMemoryVersion);
 - `class ManagedAgentsSessionActor`
 
   - `"session_actor" type`
-
-  - `string sessionID`
-
-    ID of the session (a `sesn_...` value). Look up the session via [Retrieve a session](https://platform.claude.com/docs/en/api/beta/sessions/retrieve?sdk_languages=php) for further provenance.
 
   - `string sessionID`
 

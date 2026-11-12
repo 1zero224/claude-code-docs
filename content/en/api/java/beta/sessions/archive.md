@@ -185,8 +185,6 @@ Archive Session
 
       - `String name`
 
-      - `String name`
-
       - `String url`
 
     - `BetaManagedAgentsModelConfig model`

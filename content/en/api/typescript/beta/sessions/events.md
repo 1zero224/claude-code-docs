@@ -17818,8 +17818,6 @@ for await (const betaManagedAgentsStreamSessionEvents of stream) {
 
   - `type: "tool_use_limit_reached_error"`
 
-  - `type: "unknown_error"`
-
   - `message: string`
 
     Human-readable error description.

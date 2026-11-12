@@ -97,8 +97,6 @@ The path to `oauth.json` is resolved in order: `MCP_INSPECTOR_OAUTH_STATE_PATH`,
 
 The secrets themselves (access and refresh tokens, client secrets, registration access tokens, and IdP session tokens) are not in `oauth.json`. They go to the [secret store](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/configuration.md#where-secrets-are-stored), which is the OS keychain when one is reachable. `MCP_INSPECTOR_PERSIST_TOKENS` limits which acquired tokens are kept: `all` (default), `access` (no refresh tokens), or `none` (re-authorize every run). See [Secret store variables](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/configuration.md#secret-store-variables).
 
-The secrets themselves (access and refresh tokens, client secrets, registration access tokens, and IdP session tokens) are not in `oauth.json`. They go to the [secret store](/docs/2026-07-28/tools/inspector/configuration#where-secrets-are-stored), which is the OS keychain when one is reachable. `MCP_INSPECTOR_PERSIST_TOKENS` limits which acquired tokens are kept: `all` (default), `access` (no refresh tokens), or `none` (re-authorize every run). See [Secret store variables](/docs/2026-07-28/tools/inspector/configuration#secret-store-variables).
-
 ## Mid-session re-authorization
 
 A server can refuse a *single* request mid-session with a `401` or a `403 insufficient_scope`, and the Inspector handles both without dropping the connection:

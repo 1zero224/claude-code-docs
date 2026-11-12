@@ -458,26 +458,6 @@ Reinstall the Claude app over the existing install to restore the lost authoriza
 2. Approve the consent screen Slack shows. If Slack shows **Unapproved permissions requested** instead of finishing the install, see [Unapproved permissions requested](#unapproved-permissions-requested).
 3. Mention `@Claude` anywhere in the workspace. If the reinstall worked, the mention gets a reaction and a reply. A reply that says the workspace isn't set up means the workspace needs to be paired with your Claude organization again; see [This workspace isn't set up for Claude Tag yet](#this-workspace-isn%E2%80%99t-set-up-for-claude-tag-yet).
 
-### Claude is silent everywhere in the workspace
-
-**What you see**
-
-Mentions get no reaction and no reply in every channel and DM in the workspace, and nothing was changed on the Claude side.
-
-**What it means**
-
-Slack can revoke the Claude app's authorization for a workspace without any admin action and with no change on the Claude side.
-
-On Enterprise Grid, the organization-level install can lose its authorization the same way, and then every workspace in the Grid goes silent. See [Claude is silent everywhere on Enterprise Grid](#claude-is-silent-everywhere-on-enterprise-grid).
-
-**How to resolve**
-
-Reinstall the Claude app over the existing install to restore the lost authorization. Don't uninstall first, because uninstalling [deletes the workspace's Claude data](/docs/claude-tag/concepts/data-lifecycle#actions-in-slack).
-
-1. As a Slack workspace admin, open [Claude for Slack](https://claude.com/claude-for-slack) and select **Add to Slack**.
-2. Approve the consent screen Slack shows. If Slack shows **Unapproved permissions requested** instead of finishing the install, see [Unapproved permissions requested](#unapproved-permissions-requested).
-3. Mention `@Claude` anywhere in the workspace. If the reinstall worked, the mention gets a reaction and a reply. A reply that says the workspace isn't set up means the workspace needs to be paired with your Claude organization again; see [This workspace isn't set up for Claude Tag yet](#this-workspace-isn%E2%80%99t-set-up-for-claude-tag-yet).
-
 ### Claude is silent everywhere on Enterprise Grid
 
 **What you see**

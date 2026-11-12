@@ -229,8 +229,6 @@ List Memory Versions
 
   - `type: :memory_version`
 
-  - `type: :memory_version`
-
   - `id: String`
 
     Unique identifier for this version (a `memver_...` value).
@@ -568,8 +566,6 @@ Retrieve a Memory Version
 
   - `type: :memory_version`
 
-  - `type: :memory_version`
-
   - `id: String`
 
     Unique identifier for this version (a `memver_...` value).
@@ -891,8 +887,6 @@ Redact a Memory Version
 
   - `type: :memory_version`
 
-  - `type: :memory_version`
-
   - `id: String`
 
     Unique identifier for this version (a `memver_...` value).
@@ -1139,8 +1133,6 @@ puts(beta_managed_agents_memory_version)
   Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=ruby#audit-memory-changes) to learn more about memory versions.
-
-  - `type: :memory_version`
 
   - `type: :memory_version`
 

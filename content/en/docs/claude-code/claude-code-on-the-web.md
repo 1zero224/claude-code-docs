@@ -36,7 +36,7 @@ Once you're set up, use this page to move work between your terminal and the clo
 
 Every cloud session runs in a [cloud environment](https://code.claude.com/docs/en/cloud-environments.md), the saved configuration that controls network access, environment variables, and setup scripts.
 
-* **Your first environment**: if you don't have one yet, onboarding sets up a **Default** environment with [**Trusted** network access](https://code.claude.com/docs/en/cloud-environments.md#access-levels), either by creating it for you or by asking you to create it. See [The Default environment](https://code.claude.com/docs/en/cloud-environments.md#the-default-environment) for which of those happens on your plan
+* **Your first environment**: if you don't have one yet, onboarding sets up a **Default** environment with [**Limited** network access](https://code.claude.com/docs/en/cloud-environments.md#access-levels). See [The Default environment](https://code.claude.com/docs/en/cloud-environments.md#the-default-environment) for how that works on your plan
 * **Which environment a session uses**: see [The Default environment](https://code.claude.com/docs/en/cloud-environments.md#the-default-environment) for how sessions choose an environment when you have more than one
 * **Change what sessions can reach or run at startup**: see [Configure cloud environments](https://code.claude.com/docs/en/cloud-environments.md)
 * **What's installed without any configuration**: see [Installed tools](https://code.claude.com/docs/en/cloud-environments.md#installed-tools)
@@ -249,7 +249,7 @@ Claude Code resumes a session in the permission mode it was in when you do eithe
 * Reopen a session whose Anthropic-hosted [environment expired](#environment-expired)
 * Send a message to a session that a self-hosted runner [released while it was idle](https://code.claude.com/docs/en/self-hosted-environments-reference.md#runner-cli-flags)
 
-### Take back a queued message
+### Review changes
 
 After Claude pushes its changes to a branch, the **Changes** card in the panel beside the chat shows the lines added and removed, such as `+42 -18`. Click the line counts on the **Changes** card to open the diff view.
 
@@ -499,9 +499,6 @@ Before relying on cloud sessions for a workflow, account for these constraints:
 * **Repository authentication**: you can only pull a cloud session into your terminal when you are authenticated to the same account
 * **Platform restrictions**: repository cloning in Anthropic-hosted environments and pull request creation require GitHub. Self-hosted [GitHub Enterprise Server](https://code.claude.com/docs/en/github-enterprise-server.md) instances are supported for Team and Enterprise plans. You can send a GitLab, Bitbucket, or other non-GitHub repository to a cloud session as a [local bundle](#send-local-repositories-without-github) by setting `CCR_FORCE_BUNDLE=1`, but the session can't push results back to that remote
   * **Self-hosted environments**: for a repository on another git host, see the [requirements for starting a session with `--environment`](https://code.claude.com/docs/en/self-hosted-environments-deploy#start-a-session-on-a-repository-outside-github).
-* **Organization IP allowlist**: cloud sessions call the Anthropic API from Anthropic-managed infrastructure, not your network, while sessions in a [self-hosted environment](https://code.claude.com/docs/en/self-hosted-environments) call it from your own network. If your organization has [IP allowlisting](https://support.claude.com/en/articles/13200993-restrict-access-to-claude-with-ip-allowlisting) enabled, every Anthropic-hosted cloud session fails with an authentication error.
-  * **Code Review and scheduled tasks**: the same applies to [Code Review](https://code.claude.com/docs/en/code-review.md) and to [cloud scheduled tasks](https://code.claude.com/docs/en/routines.md) that run on Anthropic-hosted environments. A scheduled task routed to a self-hosted environment calls the API from your own network.
-  * **Getting an exemption**: contact [Anthropic support](https://support.claude.com/) to exempt Anthropic-hosted services from your organization's IP allowlist.
 
 ## Related resources
 

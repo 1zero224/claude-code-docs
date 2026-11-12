@@ -431,8 +431,6 @@ List Sessions
 
               - `required string Name`
 
-              - `required string Name`
-
               - `required string Url`
 
             - `required BetaManagedAgentsModelConfig Model`
@@ -451,8 +449,6 @@ List Sessions
 
                 - `required string SkillID`
 
-                - `required string SkillID`
-
                 - `required string Version`
 
               - `class BetaManagedAgentsCustomSkill`
@@ -460,8 +456,6 @@ List Sessions
                 A resolved user-created custom skill.
 
                 - `JsonElement Type = "custom"`
-
-                - `required string SkillID`
 
                 - `required string SkillID`
 

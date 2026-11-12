@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "note": "What the last full run could see outside sources.json. Written by the fetcher so a new source arrives as a diff a human reviews, not as a line in an Actions log nobody reads. Stable facts only: a change here is always news. `review` is the actionable list \u2014 domains we could archive today and do not.",
-  "updated": "2026-11-10",
+  "note": "What the last full run could see outside sources.json. Written by the fetcher so a new source arrives as a diff a human reviews, not as a line in an Actions log nobody reads. Stable facts only: a change here is always news. `path_prefixes` records content formats by URL path, and `review` lists uncovered surfaces.",
+  "updated": "2026-11-12",
   "domains": {
     "anthropic.com": {
       "status": "frozen",
@@ -45,6 +45,11 @@
           "serves_html": true
         },
         "/claude-fable-and-mythos-5-1/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/claude-fable-and-mythos-5-2/": {
           "url_count": 1,
           "serves_markdown": false,
           "serves_html": true
@@ -95,7 +100,7 @@
           "serves_html": true
         },
         "/engineering/": {
-          "url_count": 27,
+          "url_count": 1,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -114,23 +119,28 @@
           "serves_markdown": false,
           "serves_html": true
         },
-        "/institute/": {
-          "url_count": 3,
-          "serves_markdown": false,
-          "serves_html": true
-        },
-        "/learn/": {
+        "/guest-investigator-program/": {
           "url_count": 1,
           "serves_markdown": false,
           "serves_html": true
         },
+        "/institute/": {
+          "url_count": 4,
+          "serves_markdown": false,
+          "serves_html": true
+        },
         "/legal/": {
-          "url_count": 24,
+          "url_count": 26,
           "serves_markdown": false,
           "serves_html": true
         },
         "/news/": {
-          "url_count": 269,
+          "url_count": 281,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/path-to-hope/": {
+          "url_count": 1,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -144,18 +154,13 @@
           "serves_markdown": false,
           "serves_html": true
         },
-        "/product/": {
-          "url_count": 4,
-          "serves_markdown": false,
-          "serves_html": true
-        },
         "/project/": {
           "url_count": 1,
           "serves_markdown": false,
           "serves_html": true
         },
         "/research/": {
-          "url_count": 174,
+          "url_count": 218,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -175,11 +180,6 @@
           "serves_html": true
         },
         "/startup-program-official-terms/": {
-          "url_count": 1,
-          "serves_markdown": false,
-          "serves_html": true
-        },
-        "/supported-countries/": {
           "url_count": 1,
           "serves_markdown": false,
           "serves_html": true
@@ -223,7 +223,7 @@
           "serves_html": true
         },
         "/docs/": {
-          "url_count": 3870,
+          "url_count": 4433,
           "serves_markdown": true,
           "serves_html": true
         },
@@ -316,7 +316,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 2641,
+          "url_count": 2413,
           "serves_markdown": true,
           "serves_html": true
         }
@@ -329,62 +329,62 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/de/": {
-          "url_count": 373,
+          "url_count": 387,
           "serves_markdown": true,
           "serves_html": true
         },
         "/en/": {
-          "url_count": 376,
+          "url_count": 393,
           "serves_markdown": true,
           "serves_html": true
         },
         "/es/": {
-          "url_count": 373,
+          "url_count": 389,
           "serves_markdown": true,
           "serves_html": true
         },
         "/fr/": {
-          "url_count": 373,
+          "url_count": 389,
           "serves_markdown": true,
           "serves_html": true
         },
         "/id/": {
-          "url_count": 373,
+          "url_count": 389,
           "serves_markdown": true,
           "serves_html": true
         },
         "/it/": {
-          "url_count": 373,
+          "url_count": 389,
           "serves_markdown": true,
           "serves_html": true
         },
         "/ja/": {
-          "url_count": 373,
+          "url_count": 389,
           "serves_markdown": true,
           "serves_html": true
         },
         "/ko/": {
-          "url_count": 372,
+          "url_count": 388,
           "serves_markdown": true,
           "serves_html": true
         },
         "/pt/": {
-          "url_count": 373,
+          "url_count": 389,
           "serves_markdown": true,
           "serves_html": true
         },
         "/ru/": {
-          "url_count": 373,
+          "url_count": 389,
           "serves_markdown": true,
           "serves_html": true
         },
         "/zh-CN/": {
-          "url_count": 373,
+          "url_count": 389,
           "serves_markdown": true,
           "serves_html": true
         },
         "/zh-TW/": {
-          "url_count": 373,
+          "url_count": 389,
           "serves_markdown": true,
           "serves_html": true
         }
@@ -397,7 +397,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/community/": {
-          "url_count": 33,
+          "url_count": 34,
           "serves_markdown": true,
           "serves_html": true
         },
@@ -427,7 +427,7 @@
           "serves_html": true
         },
         "/seps/": {
-          "url_count": 44,
+          "url_count": 46,
           "serves_markdown": true,
           "serves_html": true
         },
@@ -452,8 +452,41 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 265,
+          "url_count": 290,
           "serves_markdown": true,
+          "serves_html": true
+        }
+      }
+    },
+    "claude.dev": {
+      "status": "fetched",
+      "serves_llms_txt": true,
+      "serves_sitemap": true,
+      "serves_markdown": true,
+      "path_prefixes": {
+        "/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/blog/": {
+          "url_count": 18,
+          "serves_markdown": true,
+          "serves_html": false
+        },
+        "/terminal/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/terms/": {
+          "url_count": 1,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/mods/": {
+          "url_count": 1,
+          "serves_markdown": false,
           "serves_html": true
         }
       }
@@ -475,7 +508,7 @@
           "serves_html": true
         },
         "/courses/": {
-          "url_count": 498,
+          "url_count": 515,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -485,12 +518,12 @@
           "serves_html": true
         },
         "/tutorials/": {
-          "url_count": 125,
+          "url_count": 140,
           "serves_markdown": false,
           "serves_html": true
         },
         "/use-cases/": {
-          "url_count": 158,
+          "url_count": 157,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -631,6 +664,10 @@
     "academy.claude.com/tutorials/: serves html, but that path is not fetched",
     "academy.claude.com/use-cases/: serves html, but that path is not fetched",
     "claude.com/docs/: serves html, but that path is not fetched",
+    "claude.dev/: serves html, but that path is not fetched",
+    "claude.dev/mods/: serves html, but that path is not fetched",
+    "claude.dev/terminal/: serves html, but that path is not fetched",
+    "claude.dev/terms/: serves html, but that path is not fetched",
     "code.claude.com/docs/: serves html, but that path is not fetched",
     "modelcontextprotocol.io/community/: serves html, but that path is not fetched",
     "modelcontextprotocol.io/development/: serves html, but that path is not fetched",

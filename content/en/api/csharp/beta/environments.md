@@ -2422,10 +2422,6 @@ Console.WriteLine(betaEnvironment);
 
   - `JsonElement ErrorCode = "invalid_metadata"`
 
-  - `required string ID`
-
-    Environment identifier
-
 ### Beta Limited Network
 
 - `class BetaLimitedNetwork`
@@ -4516,10 +4512,6 @@ Get statistics about the work queue for an environment.
 - `class BetaSelfHostedWorkQueueStats`
 
   Statistics about the work queue for an environment.
-
-  - `JsonElement Type = "work_queue_stats"`
-
-    The type of object
 
   - `JsonElement Type = "work_queue_stats"`
 

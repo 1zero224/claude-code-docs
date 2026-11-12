@@ -1923,8 +1923,6 @@ List Session Thread Events
 
         - `String name`
 
-        - `String name`
-
         - `String url`
 
       - `BetaManagedAgentsModelConfig model`
@@ -5109,8 +5107,6 @@ Stream Session Thread Events
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
         - `JsonValue type = "url"`
-
-        - `String name`
 
         - `String name`
 

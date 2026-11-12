@@ -513,8 +513,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                     maxItems: 100
 
-                    - `Type TabOpened`
-
                     - `TabID string`
 
                       The caller-assigned identifier for this tab, unique within the inventory.
@@ -3398,7 +3396,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             default: encrypted_code_execution_result
 
-          - `Type EncryptedCodeExecutionResult`
+          - `Content []CodeExecutionOutputBlock`
 
             - `Type CodeExecutionOutput`
 

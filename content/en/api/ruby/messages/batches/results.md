@@ -566,8 +566,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `type: :encrypted_code_execution_result`
 
-                - `type: :encrypted_code_execution_result`
-
                 - `content: Array[CodeExecutionOutputBlock]`
 
                   - `type: :code_execution_output`
@@ -1127,8 +1125,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class AuthenticationError`
 
             - `type: :authentication_error`
@@ -1138,8 +1134,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BillingError`
 
@@ -1151,8 +1145,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class PermissionError`
 
             - `type: :permission_error`
@@ -1162,8 +1154,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class NotFoundError`
 
@@ -1175,8 +1165,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class RateLimitError`
 
             - `type: :rate_limit_error`
@@ -1186,8 +1174,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class GatewayTimeoutError`
 
@@ -1199,8 +1185,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class APIErrorObject`
 
             - `type: :api_error`
@@ -1210,8 +1194,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class OverloadedError`
 

@@ -227,8 +227,6 @@ List Memory Versions
 
   - `type: Literal["memory_version"]`
 
-  - `type: Literal["memory_version"]`
-
   - `id: str`
 
     Unique identifier for this version (a `memver_...` value).

@@ -479,8 +479,6 @@ Get Agent
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -488,8 +486,6 @@ Get Agent
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 

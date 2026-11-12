@@ -50,8 +50,6 @@ asyncio.run(main())
 
 The TypeScript examples on this page use top-level `await`, so save them as `.mts` files or set `"type": "module"` in `package.json`.
 
-The TypeScript examples on this page use top-level `await`, so save them as `.mts` files or set `"type": "module"` in `package.json`.
-
 ### State that lives on local disk
 
 Three kinds of agent state live on the container's filesystem by default. None of them survive a container restart, a scale-down, or a move to a different node.
@@ -106,8 +104,6 @@ asyncio.run(main())
 ```
 
 The script prints each message as it arrives, including a result message whose `subtype` is `success` when the task completes within the turn limit. If the task hits the 20-turn limit instead, the result message's `subtype` is `error_max_turns` and the `query()` call raises an error after yielding it, so wrap the loop in a try block if the container needs to exit cleanly. See [Handle the result](https://code.claude.com/docs/en/agent-sdk/agent-loop.md#handle-the-result) for the error subtypes.
-
-The script prints each message as it arrives, including a result message whose `subtype` is `success` when the task completes within the turn limit. If the task hits the 20-turn limit instead, the result message's `subtype` is `error_max_turns` and the `query()` call raises an error after yielding it, so wrap the loop in a try block if the container needs to exit cleanly. See [Handle the result](/docs/en/agent-sdk/agent-loop#handle-the-result) for the error subtypes.
 
 ### Long-running sessions
 

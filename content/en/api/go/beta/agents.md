@@ -51,53 +51,53 @@ Create Agent
 
           Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-        Efficient model for coding and agents
+        - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
           Efficient model for coding and agents
 
-        Powerful intelligence for coding, knowledge work, and long-running agents
+        - `const BetaManagedAgentsModelClaudeFable5 BetaManagedAgentsModel = "claude-fable-5"`
 
-      - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+          Next generation of intelligence for the hardest knowledge work and coding problems
 
-        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+        - `const BetaManagedAgentsModelClaudeOpus5 BetaManagedAgentsModel = "claude-opus-5"`
 
-      - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Efficient model for coding and agents
+        - `const BetaManagedAgentsModelClaudeOpus4_8 BetaManagedAgentsModel = "claude-opus-4-8"`
 
-      - `const BetaManagedAgentsModelClaudeFable5 BetaManagedAgentsModel = "claude-fable-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Next generation of intelligence for the hardest knowledge work and coding problems
+        - `const BetaManagedAgentsModelClaudeOpus4_7 BetaManagedAgentsModel = "claude-opus-4-7"`
 
-      - `const BetaManagedAgentsModelClaudeOpus5 BetaManagedAgentsModel = "claude-opus-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeOpus4_6 BetaManagedAgentsModel = "claude-opus-4-6"`
 
-      - `const BetaManagedAgentsModelClaudeOpus4_8 BetaManagedAgentsModel = "claude-opus-4-8"`
+          Powerful intelligence for long-running agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeSonnet4_6 BetaManagedAgentsModel = "claude-sonnet-4-6"`
 
-      - `const BetaManagedAgentsModelClaudeOpus4_7 BetaManagedAgentsModel = "claude-opus-4-7"`
+          Best combination of speed and intelligence
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeHaiku4_5 BetaManagedAgentsModel = "claude-haiku-4-5"`
 
         - `const BetaManagedAgentsModelClaudeHaiku4_5_20251001 BetaManagedAgentsModel = "claude-haiku-4-5-20251001"`
 
         - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
 
-      - `const BetaManagedAgentsModelClaudeHaiku4_5 BetaManagedAgentsModel = "claude-haiku-4-5"`
+          Powerful intelligence for long-running agents and coding
 
-      - `const BetaManagedAgentsModelClaudeHaiku4_5_20251001 BetaManagedAgentsModel = "claude-haiku-4-5-20251001"`
+        - `const BetaManagedAgentsModelClaudeOpus4_5_20251101 BetaManagedAgentsModel = "claude-opus-4-5-20251101"`
 
-      - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeSonnet4_5 BetaManagedAgentsModel = "claude-sonnet-4-5"`
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           High-performance model for agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeSonnet4_5_20250929 BetaManagedAgentsModel = "claude-sonnet-4-5-20250929"`
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -1243,8 +1243,6 @@ Create Agent
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -1252,8 +1250,6 @@ Create Agent
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 
@@ -2331,8 +2327,6 @@ List Agents
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -2340,8 +2334,6 @@ List Agents
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 
@@ -3403,8 +3395,6 @@ Get Agent
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -3412,8 +3402,6 @@ Get Agent
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 
@@ -4080,53 +4068,53 @@ Update Agent
 
           Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-        Efficient model for coding and agents
+        - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
           Efficient model for coding and agents
 
-        Powerful intelligence for coding, knowledge work, and long-running agents
+        - `const BetaManagedAgentsModelClaudeFable5 BetaManagedAgentsModel = "claude-fable-5"`
 
-      - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+          Next generation of intelligence for the hardest knowledge work and coding problems
 
-        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+        - `const BetaManagedAgentsModelClaudeOpus5 BetaManagedAgentsModel = "claude-opus-5"`
 
-      - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Efficient model for coding and agents
+        - `const BetaManagedAgentsModelClaudeOpus4_8 BetaManagedAgentsModel = "claude-opus-4-8"`
 
-      - `const BetaManagedAgentsModelClaudeFable5 BetaManagedAgentsModel = "claude-fable-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Next generation of intelligence for the hardest knowledge work and coding problems
+        - `const BetaManagedAgentsModelClaudeOpus4_7 BetaManagedAgentsModel = "claude-opus-4-7"`
 
-      - `const BetaManagedAgentsModelClaudeOpus5 BetaManagedAgentsModel = "claude-opus-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeOpus4_6 BetaManagedAgentsModel = "claude-opus-4-6"`
 
-      - `const BetaManagedAgentsModelClaudeOpus4_8 BetaManagedAgentsModel = "claude-opus-4-8"`
+          Powerful intelligence for long-running agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeSonnet4_6 BetaManagedAgentsModel = "claude-sonnet-4-6"`
 
-      - `const BetaManagedAgentsModelClaudeOpus4_7 BetaManagedAgentsModel = "claude-opus-4-7"`
+          Best combination of speed and intelligence
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeHaiku4_5 BetaManagedAgentsModel = "claude-haiku-4-5"`
 
         - `const BetaManagedAgentsModelClaudeHaiku4_5_20251001 BetaManagedAgentsModel = "claude-haiku-4-5-20251001"`
 
         - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
 
-      - `const BetaManagedAgentsModelClaudeHaiku4_5 BetaManagedAgentsModel = "claude-haiku-4-5"`
+          Powerful intelligence for long-running agents and coding
 
-      - `const BetaManagedAgentsModelClaudeHaiku4_5_20251001 BetaManagedAgentsModel = "claude-haiku-4-5-20251001"`
+        - `const BetaManagedAgentsModelClaudeOpus4_5_20251101 BetaManagedAgentsModel = "claude-opus-4-5-20251101"`
 
-      - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeSonnet4_5 BetaManagedAgentsModel = "claude-sonnet-4-5"`
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           High-performance model for agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeSonnet4_5_20250929 BetaManagedAgentsModel = "claude-sonnet-4-5-20250929"`
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -5246,8 +5234,6 @@ Update Agent
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -5255,8 +5241,6 @@ Update Agent
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 
@@ -6313,8 +6297,6 @@ Archive Agent
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -6322,8 +6304,6 @@ Archive Agent
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 
@@ -7254,8 +7234,6 @@ func main() {
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -7263,8 +7241,6 @@ func main() {
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 
@@ -7725,8 +7701,6 @@ func main() {
   A resolved agent reference with a concrete version.
 
   - `Type Agent`
-
-  - `ID string`
 
   - `ID string`
 
@@ -8506,12 +8480,6 @@ func main() {
 
       - `Type Auto`
 
-    - `type BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `Type Auto`
-
 ### Beta Managed Agents Agent Toolset Default Config Params
 
 - `type BetaManagedAgentsAgentToolsetDefaultConfigParams`
@@ -8537,12 +8505,6 @@ func main() {
       Tool calls require user confirmation before execution.
 
       - `Type AlwaysAsk`
-
-    - `type BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `Type Auto`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -9492,8 +9454,6 @@ func main() {
 
   - `SkillID string`
 
-  - `SkillID string`
-
   - `Version string`
 
 ### Beta Managed Agents Anthropic Skill Params
@@ -9629,8 +9589,6 @@ func main() {
   A resolved user-created custom skill.
 
   - `Type Custom`
-
-  - `SkillID string`
 
   - `SkillID string`
 
@@ -10032,8 +9990,6 @@ func main() {
 
   - `Name string`
 
-  - `Name string`
-
   - `URL string`
 
 ### Beta Managed Agents MCP Tool Config
@@ -10061,12 +10017,6 @@ func main() {
       Tool calls require user confirmation before execution.
 
       - `Type AlwaysAsk`
-
-    - `type BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `Type Auto`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -10112,12 +10062,6 @@ func main() {
 
       - `Type Auto`
 
-    - `type BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `Type Auto`
-
 ### Beta Managed Agents MCP Toolset
 
 - `type BetaManagedAgentsMCPToolset`
@@ -10145,12 +10089,6 @@ func main() {
         Tool calls require user confirmation before execution.
 
         - `Type AlwaysAsk`
-
-      - `type BetaManagedAgentsAutoPolicy`
-
-        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-        - `Type Auto`
 
       - `type BetaManagedAgentsAutoPolicy`
 
@@ -10212,12 +10150,6 @@ func main() {
 
       - `Type Auto`
 
-    - `type BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `Type Auto`
-
 ### Beta Managed Agents MCP Toolset Default Config Params
 
 - `type BetaManagedAgentsMCPToolsetDefaultConfigParams`
@@ -10243,12 +10175,6 @@ func main() {
       Tool calls require user confirmation before execution.
 
       - `Type AlwaysAsk`
-
-    - `type BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `Type Auto`
 
     - `type BetaManagedAgentsAutoPolicy`
 
@@ -10802,8 +10728,6 @@ func main() {
 
       - `ID string`
 
-      - `ID string`
-
       - `Version int64`
 
         format: int32
@@ -11109,12 +11033,6 @@ func main() {
       Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
       - `Type Agent`
-
-      - `ID string`
-
-        The `agent` ID.
-
-        minLength: 1, maxLength: 128
 
       - `ID string`
 
@@ -11770,8 +11688,6 @@ func main() {
 
     - `Name string`
 
-    - `Name string`
-
     - `URL string`
 
   - `Model BetaManagedAgentsModelConfig`
@@ -11914,8 +11830,6 @@ func main() {
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -11923,8 +11837,6 @@ func main() {
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 
@@ -13872,8 +13784,6 @@ List Agent Versions
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -13881,8 +13791,6 @@ List Agent Versions
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 

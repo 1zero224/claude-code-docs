@@ -57,12 +57,6 @@ List Events
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class ManagedAgentsSessionEvent`
@@ -1037,12 +1031,6 @@ Send Events
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class ManagedAgentsSendSessionEvents`
@@ -1119,12 +1107,6 @@ Stream Events
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -2786,96 +2768,6 @@ var_dump($betaManagedAgentsStreamSessionEvents);
 - `class ManagedAgentsRedactedBlock`
 
   - `"redacted" type`
-
-### Beta Managed Agents Repository Authentication Error
-
-- `class ManagedAgentsRepositoryAuthenticationError`
-
-  - `"repository_authentication_error" type`
-
-  - `string message`
-
-    Human-readable error description.
-
-  - `?string repositoryURL`
-
-    URL of the repository that could not be cloned. Null when it could not be identified.
-
-  - `RetryStatus retryStatus`
-
-    What the client should do next. Always `retrying`: the session keeps running without the repository.
-
-### Beta Managed Agents Repository Checkout Error
-
-- `class ManagedAgentsRepositoryCheckoutError`
-
-  - `"repository_checkout_error" type`
-
-  - `string message`
-
-    Human-readable error description.
-
-  - `?string repositoryURL`
-
-    URL of the repository that could not be cloned. Null when it could not be identified.
-
-  - `RetryStatus retryStatus`
-
-    What the client should do next. Always `retrying`: the session keeps running without the repository.
-
-### Beta Managed Agents Repository Clone Error
-
-- `class ManagedAgentsRepositoryCloneError`
-
-  - `"repository_clone_error" type`
-
-  - `string message`
-
-    Human-readable error description.
-
-  - `?string repositoryURL`
-
-    URL of the repository that could not be cloned. Null when it could not be identified.
-
-  - `RetryStatus retryStatus`
-
-    What the client should do next. Always `retrying`: the session keeps running without the repository.
-
-### Beta Managed Agents Repository Forbidden Error
-
-- `class ManagedAgentsRepositoryForbiddenError`
-
-  - `"repository_forbidden_error" type`
-
-  - `string message`
-
-    Human-readable error description.
-
-  - `?string repositoryURL`
-
-    URL of the repository that could not be cloned. Null when it could not be identified.
-
-  - `RetryStatus retryStatus`
-
-    What the client should do next. Always `retrying`: the session keeps running without the repository.
-
-### Beta Managed Agents Repository Not Found Error
-
-- `class ManagedAgentsRepositoryNotFoundError`
-
-  - `"repository_not_found_error" type`
-
-  - `string message`
-
-    Human-readable error description.
-
-  - `?string repositoryURL`
-
-    URL of the repository that could not be cloned. Null when it could not be identified.
-
-  - `RetryStatus retryStatus`
-
-    What the client should do next. Always `retrying`: the session keeps running without the repository.
 
 ### Beta Managed Agents Repository Authentication Error
 

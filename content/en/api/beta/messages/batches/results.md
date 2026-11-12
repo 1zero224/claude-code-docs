@@ -802,7 +802,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   default: encrypted_code_execution_result
 
-                - `type: "encrypted_code_execution_result"`
+                - `content: array of BetaCodeExecutionOutputBlock`
 
                   - `type: "code_execution_output"`
 

@@ -149,10 +149,6 @@ Get statistics about the work queue for an environment.
 
     The type of object
 
-  - `JsonValue type = "work_queue_stats"`
-
-    The type of object
-
   - `long depth`
 
     Number of work items waiting to be picked up

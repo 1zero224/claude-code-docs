@@ -141,12 +141,6 @@ Archive a Memory Store
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ## Returns
 
 - `beta_managed_agents_memory_store: object`
@@ -169,7 +163,7 @@ Archive a Memory Store
 
     format: date-time
 
-  - `archived_at: string`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 

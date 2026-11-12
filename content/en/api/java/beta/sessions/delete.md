@@ -149,8 +149,6 @@ Delete Session
 
   - `String id`
 
-  - `String id`
-
 ## Example
 
 ```java

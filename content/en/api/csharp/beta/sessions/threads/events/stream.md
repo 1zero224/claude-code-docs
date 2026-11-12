@@ -1923,8 +1923,6 @@ Stream Session Thread Events
 
         - `required string Name`
 
-        - `required string Name`
-
         - `required string Url`
 
       - `required BetaManagedAgentsModelConfig Model`

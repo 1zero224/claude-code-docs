@@ -114,8 +114,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `JsonElement Type = "text"`
 
-                - `JsonElement Type = "text"`
-
                 - `required string Text`
 
                   minLength: 1
@@ -363,7 +361,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `JsonElement Type = "file"`
 
-                    - `JsonElement Type = "code_execution_output"`
+                    - `required string FileID`
 
                 - `BetaCacheControlEphemeral? CacheControl`
 
@@ -386,8 +384,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 - `JsonElement Type = "search_result"`
 
                 - `required IReadOnlyList<BetaTextBlockParam> Content`
-
-                  - `JsonElement Type = "text"`
 
                   - `JsonElement Type = "text"`
 
@@ -3359,7 +3355,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     The tool's input schema as the MCP server lists it, verbatim.
 
-                  - `JsonElement Type = "tool_addition"`
+                  - `required string Name`
 
                     The tool's name as the MCP server lists it (not prefixed with the server name).
 

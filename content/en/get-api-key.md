@@ -12,12 +12,6 @@ When you create a key, you choose its type, which determines what the key can do
 
 You can also create a **workspace key**, a legacy key without an owner: it belongs to the workspace you create it in and keeps working after its creator leaves. It is preferable to use a personal or service account key, as these stop working automatically when their associated account is removed from the organization.
 
-## Choose a key type
-
-When you create a key, you choose its type, which determines what the key can do, where it works, and when it stops working. A **personal key** acts as you, and stops working if you leave an organization. A **service account key** represents a [service account](https://platform.claude.com/docs/en/manage-claude/workload-identity-federation#service-accounts) which can be used by workloads such as CI pipelines, production services, or agents. Use a personal key for your own development, and a service account key for anything shared.
-
-You can also create a **workspace key**, a legacy key without an owner: it belongs to the workspace you create it in and keeps working after its creator leaves. It is preferable to use a personal or service account key, as these stop working automatically when their associated account is removed from the organization.
-
 ## Create an API key
 
 <Steps>

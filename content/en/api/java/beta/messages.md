@@ -147,12 +147,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-  - `Optional<String> workspaceId` (header parameter)
-
-    Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-    Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
   - `long maxTokens`
 
     The maximum number of tokens to generate before stopping.
@@ -225,8 +219,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
         - `List<BetaContentBlockParam>`
 
           - `class BetaTextBlockParam`
-
-            - `JsonValue type = "text"`
 
             - `JsonValue type = "text"`
 
@@ -477,7 +469,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `JsonValue type = "file"`
 
-                - `JsonValue type = "code_execution_output"`
+                - `String fileId`
 
             - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -500,8 +492,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
             - `JsonValue type = "search_result"`
 
             - `List<BetaTextBlockParam> content`
-
-              - `JsonValue type = "text"`
 
               - `JsonValue type = "text"`
 
@@ -3473,7 +3463,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `JsonValue type = "tool_addition"`
+              - `String name`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -3596,38 +3586,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           - `XHIGH("xhigh")`
 
           - `MAX("max")`
-
-    - `Optional<ClearAt> clearAt`
-
-      How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-      - `NEXT_USER_MESSAGE("next_user_message")`
-
-      - `NEVER("never")`
-
-    - `Optional<BetaSystemMessageOutputConfig> outputConfig`
-
-      Per-message output configuration on a role:"system" input message.
-
-      Fields here apply per-turn; `format` remains top-level only. An
-      empty `{}` is accepted on a message that carries content; a message
-      with neither content nor output_config fields is rejected.
-
-      - `Optional<Effort> effort`
-
-        How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-        Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-        - `LOW("low")`
-
-        - `MEDIUM("medium")`
-
-        - `HIGH("high")`
-
-        - `XHIGH("xhigh")`
-
-        - `MAX("max")`
 
   - `Model model`
 
@@ -4573,8 +4531,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=java) to learn more about programmatic tool calling.
-
-          - `JsonValue type = "encrypted_code_execution_result"`
 
           - `JsonValue type = "encrypted_code_execution_result"`
 
@@ -8300,12 +8256,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-  - `Optional<String> workspaceId` (header parameter)
-
-    Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-    Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
   - `List<BetaMessageParam> messages`
 
     Input messages.
@@ -8366,8 +8316,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
         - `List<BetaContentBlockParam>`
 
           - `class BetaTextBlockParam`
-
-            - `JsonValue type = "text"`
 
             - `JsonValue type = "text"`
 
@@ -8618,7 +8566,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `JsonValue type = "file"`
 
-                - `JsonValue type = "code_execution_output"`
+                - `String fileId`
 
             - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -8641,8 +8589,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
             - `JsonValue type = "search_result"`
 
             - `List<BetaTextBlockParam> content`
-
-              - `JsonValue type = "text"`
 
               - `JsonValue type = "text"`
 
@@ -11614,7 +11560,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `JsonValue type = "tool_addition"`
+              - `String name`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -11737,38 +11683,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
           - `XHIGH("xhigh")`
 
           - `MAX("max")`
-
-    - `Optional<ClearAt> clearAt`
-
-      How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-      - `NEXT_USER_MESSAGE("next_user_message")`
-
-      - `NEVER("never")`
-
-    - `Optional<BetaSystemMessageOutputConfig> outputConfig`
-
-      Per-message output configuration on a role:"system" input message.
-
-      Fields here apply per-turn; `format` remains top-level only. An
-      empty `{}` is accepted on a message that carries content; a message
-      with neither content nor output_config fields is rejected.
-
-      - `Optional<Effort> effort`
-
-        How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-        Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-        - `LOW("low")`
-
-        - `MEDIUM("medium")`
-
-        - `HIGH("high")`
-
-        - `XHIGH("xhigh")`
-
-        - `MAX("max")`
 
   - `Model model`
 
@@ -22724,8 +22638,6 @@ public final class Main {
 
       - `JsonValue type = "encrypted_code_execution_result"`
 
-      - `JsonValue type = "encrypted_code_execution_result"`
-
       - `List<BetaCodeExecutionOutputBlock> content`
 
         - `JsonValue type = "code_execution_output"`
@@ -22786,8 +22698,6 @@ public final class Main {
 
     - `JsonValue type = "encrypted_code_execution_result"`
 
-    - `JsonValue type = "encrypted_code_execution_result"`
-
     - `List<BetaCodeExecutionOutputBlock> content`
 
       - `JsonValue type = "code_execution_output"`
@@ -22841,8 +22751,6 @@ public final class Main {
     - `class BetaEncryptedCodeExecutionResultBlockParam`
 
       The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-      - `JsonValue type = "encrypted_code_execution_result"`
 
       - `JsonValue type = "encrypted_code_execution_result"`
 
@@ -22920,8 +22828,6 @@ public final class Main {
   - `class BetaEncryptedCodeExecutionResultBlockParam`
 
     The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-    - `JsonValue type = "encrypted_code_execution_result"`
 
     - `JsonValue type = "encrypted_code_execution_result"`
 
@@ -30417,8 +30323,6 @@ public final class Main {
 
         - `JsonValue type = "encrypted_code_execution_result"`
 
-        - `JsonValue type = "encrypted_code_execution_result"`
-
         - `List<BetaCodeExecutionOutputBlock> content`
 
           - `JsonValue type = "code_execution_output"`
@@ -33674,8 +33578,6 @@ public final class Main {
 
         - `JsonValue type = "encrypted_code_execution_result"`
 
-        - `JsonValue type = "encrypted_code_execution_result"`
-
         - `List<BetaCodeExecutionOutputBlockParam> content`
 
           - `JsonValue type = "code_execution_output"`
@@ -36135,8 +36037,6 @@ public final class Main {
 
     - `JsonValue type = "fallback"`
 
-    - `JsonValue type = "fallback"`
-
     - `BetaFallbackInfoParam from`
 
       Identifies one hop of a fallback transition.
@@ -36881,8 +36781,6 @@ public final class Main {
 
   - `JsonValue type = "encrypted_code_execution_result"`
 
-  - `JsonValue type = "encrypted_code_execution_result"`
-
   - `List<BetaCodeExecutionOutputBlock> content`
 
     - `JsonValue type = "code_execution_output"`
@@ -36900,8 +36798,6 @@ public final class Main {
 - `class BetaEncryptedCodeExecutionResultBlockParam`
 
   The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-  - `JsonValue type = "encrypted_code_execution_result"`
 
   - `JsonValue type = "encrypted_code_execution_result"`
 
@@ -37092,8 +36988,6 @@ public final class Main {
   `tool_use` block you left out.
 
   See the [refusals and fallback guide](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback?sdk_languages=java#continuing-the-conversation) to learn which blocks to keep.
-
-  - `JsonValue type = "fallback"`
 
   - `JsonValue type = "fallback"`
 
@@ -39680,8 +39574,6 @@ public final class Main {
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=java) to learn more about programmatic tool calling.
-
-          - `JsonValue type = "encrypted_code_execution_result"`
 
           - `JsonValue type = "encrypted_code_execution_result"`
 
@@ -46716,8 +46608,6 @@ public final class Main {
 
           - `JsonValue type = "text"`
 
-          - `JsonValue type = "text"`
-
           - `String text`
 
             minLength: 1
@@ -46965,7 +46855,7 @@ public final class Main {
 
               - `JsonValue type = "file"`
 
-              - `JsonValue type = "code_execution_output"`
+              - `String fileId`
 
           - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -46988,8 +46878,6 @@ public final class Main {
           - `JsonValue type = "search_result"`
 
           - `List<BetaTextBlockParam> content`
-
-            - `JsonValue type = "text"`
 
             - `JsonValue type = "text"`
 
@@ -49961,7 +49849,7 @@ public final class Main {
 
               The tool's input schema as the MCP server lists it, verbatim.
 
-            - `JsonValue type = "tool_addition"`
+            - `String name`
 
               The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -50106,38 +49994,6 @@ public final class Main {
     - `String previousMessageId`
 
       The `id` of the previous response in this Thread.
-
-  - `Optional<ClearAt> clearAt`
-
-    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-    - `NEXT_USER_MESSAGE("next_user_message")`
-
-    - `NEVER("never")`
-
-  - `Optional<BetaSystemMessageOutputConfig> outputConfig`
-
-    Per-message output configuration on a role:"system" input message.
-
-    Fields here apply per-turn; `format` remains top-level only. An
-    empty `{}` is accepted on a message that carries content; a message
-    with neither content nor output_config fields is rejected.
-
-    - `Optional<Effort> effort`
-
-      How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-      Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-      - `LOW("low")`
-
-      - `MEDIUM("medium")`
-
-      - `HIGH("high")`
-
-      - `XHIGH("xhigh")`
-
-      - `MAX("max")`
 
 ### Beta Message Tokens Count
 
@@ -51082,8 +50938,6 @@ public final class Main {
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=java) to learn more about programmatic tool calling.
-
-          - `JsonValue type = "encrypted_code_execution_result"`
 
           - `JsonValue type = "encrypted_code_execution_result"`
 
@@ -54823,8 +54677,6 @@ public final class Main {
 
             - `JsonValue type = "encrypted_code_execution_result"`
 
-            - `JsonValue type = "encrypted_code_execution_result"`
-
             - `List<BetaCodeExecutionOutputBlock> content`
 
               - `JsonValue type = "code_execution_output"`
@@ -58554,8 +58406,6 @@ public final class Main {
               The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
               See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=java) to learn more about programmatic tool calling.
-
-              - `JsonValue type = "encrypted_code_execution_result"`
 
               - `JsonValue type = "encrypted_code_execution_result"`
 
@@ -94663,8 +94513,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
                 See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=java) to learn more about programmatic tool calling.
-
-                - `JsonValue type = "encrypted_code_execution_result"`
 
                 - `JsonValue type = "encrypted_code_execution_result"`
 

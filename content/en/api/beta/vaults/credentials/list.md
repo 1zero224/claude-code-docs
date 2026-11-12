@@ -171,8 +171,6 @@ List Credentials
 
   - `type: "vault_credential"`
 
-  - `type: "vault_credential"`
-
   - `id: string`
 
     The unique ID of the credential (`vcrd_...`).

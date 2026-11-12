@@ -215,8 +215,6 @@ List Session Threads
 
         - `Name string`
 
-        - `Name string`
-
         - `URL string`
 
       - `Model BetaManagedAgentsModelConfig`
@@ -359,8 +357,6 @@ List Session Threads
 
           - `SkillID string`
 
-          - `SkillID string`
-
           - `Version string`
 
         - `type BetaManagedAgentsCustomSkill`
@@ -368,8 +364,6 @@ List Session Threads
           A resolved user-created custom skill.
 
           - `Type Custom`
-
-          - `SkillID string`
 
           - `SkillID string`
 

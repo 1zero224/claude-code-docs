@@ -341,7 +341,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `Type File`
 
-              - `Content []BetaCodeExecutionOutputBlockParam`
+                - `FileID string`
 
             - `CacheControl BetaCacheControlEphemeralParam Optional`
 
@@ -3333,7 +3333,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `Type ToolAddition`
+              - `Name string`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -4582,7 +4582,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             default: encrypted_code_execution_result
 
-          - `Type EncryptedCodeExecutionResult`
+          - `Content []BetaCodeExecutionOutputBlock`
 
             - `Type CodeExecutionOutput`
 
@@ -8591,7 +8591,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `Type File`
 
-              - `Content []BetaCodeExecutionOutputBlockParam`
+                - `FileID string`
 
             - `CacheControl BetaCacheControlEphemeralParam Optional`
 
@@ -11583,7 +11583,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `Type ToolAddition`
+              - `Name string`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -22859,8 +22859,6 @@ func main() {
 
   - `Type CodeExecution20260120`
 
-  - `Type CodeExecution20260120`
-
   - `Name CodeExecution`
 
     Name of the tool.
@@ -23017,7 +23015,7 @@ func main() {
 
         default: encrypted_code_execution_result
 
-      - `Type EncryptedCodeExecutionResult`
+      - `Content []BetaCodeExecutionOutputBlock`
 
         - `Type CodeExecutionOutput`
 
@@ -23087,7 +23085,7 @@ func main() {
 
       default: encrypted_code_execution_result
 
-    - `Type EncryptedCodeExecutionResult`
+    - `Content []BetaCodeExecutionOutputBlock`
 
       - `Type CodeExecutionOutput`
 
@@ -30858,7 +30856,7 @@ func main() {
 
           default: encrypted_code_execution_result
 
-        - `Type EncryptedCodeExecutionResult`
+        - `Content []BetaCodeExecutionOutputBlock`
 
           - `Type CodeExecutionOutput`
 
@@ -38385,7 +38383,7 @@ func main() {
 
       A schema to specify Claude's output format in responses. See [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs?sdk_languages=go)
 
-    - `TaskBudget BetaTokenTaskBudgetParam Optional`
+      - `Type JSONSchema`
 
       - `Schema map[string]any`
 
@@ -38669,7 +38667,7 @@ func main() {
 
         A schema to specify Claude's output format in responses. See [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs?sdk_languages=go)
 
-      - `TaskBudget BetaTokenTaskBudgetParam Optional`
+        - `Type JSONSchema`
 
         - `Schema map[string]any`
 
@@ -39287,18 +39285,7 @@ func main() {
 
 - `type BetaJSONOutputFormatParam`
 
-### Beta MCP Tool
-
-- `type BetaMCPTool`
-
-  A tool as an MCP server lists it: its name on that server, its
-  description, and its input schema.
-
-  - `InputSchema map[string, any]`
-
-  - `Name string`
-
-  - `Description string Optional`
+  - `Type JSONSchema`
 
   - `Schema map[string]any`
 
@@ -40617,7 +40604,7 @@ func main() {
 
             default: encrypted_code_execution_result
 
-          - `Type EncryptedCodeExecutionResult`
+          - `Content []BetaCodeExecutionOutputBlock`
 
             - `Type CodeExecutionOutput`
 
@@ -47997,7 +47984,7 @@ func main() {
 
               - `Type File`
 
-            - `Content []BetaCodeExecutionOutputBlockParam`
+              - `FileID string`
 
           - `CacheControl BetaCacheControlEphemeralParam Optional`
 
@@ -50989,7 +50976,7 @@ func main() {
 
               The tool's input schema as the MCP server lists it, verbatim.
 
-            - `Type ToolAddition`
+            - `Name string`
 
               The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -51133,38 +51120,6 @@ func main() {
 
       The `id` of the previous response in this Thread.
 
-  - `ClearAt BetaMessageParamClearAt Optional`
-
-    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-    - `const BetaMessageParamClearAtNextUserMessage BetaMessageParamClearAt = "next_user_message"`
-
-    - `const BetaMessageParamClearAtNever BetaMessageParamClearAt = "never"`
-
-  - `OutputConfig BetaSystemMessageOutputConfigParam Optional`
-
-    Per-message output configuration on a role:"system" input message.
-
-    Fields here apply per-turn; `format` remains top-level only. An
-    empty `{}` is accepted on a message that carries content; a message
-    with neither content nor output_config fields is rejected.
-
-    - `Effort BetaSystemMessageOutputConfigEffort Optional`
-
-      How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-      Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-      - `const BetaSystemMessageOutputConfigEffortLow BetaSystemMessageOutputConfigEffort = "low"`
-
-      - `const BetaSystemMessageOutputConfigEffortMedium BetaSystemMessageOutputConfigEffort = "medium"`
-
-      - `const BetaSystemMessageOutputConfigEffortHigh BetaSystemMessageOutputConfigEffort = "high"`
-
-      - `const BetaSystemMessageOutputConfigEffortXhigh BetaSystemMessageOutputConfigEffort = "xhigh"`
-
-      - `const BetaSystemMessageOutputConfigEffortMax BetaSystemMessageOutputConfigEffort = "max"`
-
 ### Beta Message Tokens Count
 
 - `type BetaMessageTokensCount`
@@ -51217,7 +51172,7 @@ func main() {
 
     A schema to specify Claude's output format in responses. See [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs?sdk_languages=go)
 
-  - `TaskBudget BetaTokenTaskBudgetParam Optional`
+    - `Type JSONSchema`
 
     - `Schema map[string]any`
 
@@ -52213,7 +52168,7 @@ func main() {
 
             default: encrypted_code_execution_result
 
-          - `Type EncryptedCodeExecutionResult`
+          - `Content []BetaCodeExecutionOutputBlock`
 
             - `Type CodeExecutionOutput`
 
@@ -56091,7 +56046,7 @@ func main() {
 
               default: encrypted_code_execution_result
 
-            - `Type EncryptedCodeExecutionResult`
+            - `Content []BetaCodeExecutionOutputBlock`
 
               - `Type CodeExecutionOutput`
 
@@ -59977,7 +59932,7 @@ func main() {
 
                 default: encrypted_code_execution_result
 
-              - `Type EncryptedCodeExecutionResult`
+              - `Content []BetaCodeExecutionOutputBlock`
 
                 - `Type CodeExecutionOutput`
 
@@ -96551,7 +96506,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   default: encrypted_code_execution_result
 
-                - `Type EncryptedCodeExecutionResult`
+                - `Content []BetaCodeExecutionOutputBlock`
 
                   - `Type CodeExecutionOutput`
 

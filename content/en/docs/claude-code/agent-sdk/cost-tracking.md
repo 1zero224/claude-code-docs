@@ -190,8 +190,6 @@ The result message includes [`modelUsage`](https://code.claude.com/docs/en/agent
 
 Each entry's `costBasis` says which price table priced that model's latest request: `list` for list price, `managed` for a [`modelPricing`](https://code.claude.com/docs/en/settings-reference#modelpricing) table, or `unknown` when neither matched the model ID. The field requires Claude Code v2.1.246 or later.
 
-Each entry's `costBasis` says which price table priced that model's latest request: `list` for list price, `managed` for a [`modelPricing`](/docs/en/settings-reference#modelpricing) table, or `unknown` when neither matched the model ID. The field requires Claude Code v2.1.246 or later.
-
 The following example runs a query and prints the cost and token breakdown for each model used:
 
 ```typescript theme={null}

@@ -1037,8 +1037,6 @@ Create Agent
 
     - `required string Name`
 
-    - `required string Name`
-
     - `required string Url`
 
   - `required IReadOnlyDictionary<string, string> Metadata`
@@ -1321,8 +1319,6 @@ Create Agent
 
       - `required string SkillID`
 
-      - `required string SkillID`
-
       - `required string Version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -1330,8 +1326,6 @@ Create Agent
       A resolved user-created custom skill.
 
       - `JsonElement Type = "custom"`
-
-      - `required string SkillID`
 
       - `required string SkillID`
 

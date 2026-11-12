@@ -203,8 +203,6 @@ List Agent Versions
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -487,8 +485,6 @@ List Agent Versions
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -496,8 +492,6 @@ List Agent Versions
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 

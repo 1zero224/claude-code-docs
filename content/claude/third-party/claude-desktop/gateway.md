@@ -468,7 +468,7 @@ booleanSince 4.16336.0
 >
 > Off unless you set it to `true`. While off, Auto mode's built-in safety check reviews risky actions.
 >
-> This setting is temporary. It goes away when Claude Code drops that built-in check. After that, only turning off **Allow Auto mode** avoids the provider's check.
+> This setting goes away when Claude Code drops that built-in check. After that, only turning off **Allow Auto mode** avoids the provider's check.
 >
 > When on, each Auto mode request carries one more `anthropic-beta` value and a `safeguards` field. The field describes the session, including Claude Code's `autoMode` settings, permission rules, folder paths, a user name and Git state. Your gateway must forward both unchanged, and return `safeguard_results` and tool-use IDs unchanged. If it returns an error such as 401 or 500, every Auto mode turn fails. Turn this off and have users restart the app.
 >
@@ -563,28 +563,6 @@ The following table lists what the model configuration and the gateway need to p
 
 On a response that delivers only keep-alive pings, a session accepts about five minutes of pings and then waits [`inferenceStreamIdleTimeoutSec`](https://claude.com/docs/third-party/claude-desktop/configuration#inferencestreamidletimeoutsec) seconds more for model output (300 by default, so about ten minutes in all). Raise that key if your provider needs longer than that before its first output on a large request.
 
-To show a model as one entry, add `prefer1m: true` next to `supports1m` on its entry. New conversations with that model use the 1M context window. To do this for every model that supports 1M, set [`modelPrefer1mContext`](/docs/third-party/claude-desktop/configuration#modelprefer1mcontext) to `true`.
-
-### Context window and compaction
-
-Cowork and Code sessions keep a long conversation within the model's context window by compacting it. To compact, the session sends one request that asks the model to summarize the conversation so far, then continues from the summary. Through a gateway, a session can't read the model's real context window from the provider, so it assumes one from the model ID and the picker entry:
-
-* **Standard entry**: 1M tokens for a model the session recognizes as having a native 1M context window, as listed under [the context window behind a gateway](https://code.claude.com/docs/en/model-config#context-window-behind-a-gateway) in the Claude Code documentation, and 200K tokens for every other model ID, including IDs the session doesn't recognize. On Claude Desktop versions earlier than 2.19675.0, a session assumes 200K tokens on this entry for every model.
-* **1M context window entry**, or the single entry from `prefer1m` or `modelPrefer1mContext`: 1M tokens, regardless of the model ID.
-
-If the gateway or the provider accepts less than the window a session assumes, requests past that limit fail. The session then compacts and retries only when the provider's too-long error reaches it unchanged. To make sessions compact earlier than the window they assume, for example when your provider serves a natively 1M model with only a 200K window, see [Set the auto-compact window](https://code.claude.com/docs/en/model-config#set-the-auto-compact-window) in the Claude Code documentation. For a model ID the session doesn't recognize, see [Correct the window for a gateway or custom model ID](https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id).
-
-The following table lists what the model configuration and the gateway need to provide so that sessions use the full context window and compact when they reach it, and how to check each requirement.
-
-| Requirement | What fails without it | How to check |
-| - | - | - |
-| Set `supports1m`, or mark the model in discovery (see [Models](#models)), for each model your provider serves with a 1M-token context window but a session assumes 200K tokens for. Also accept the `context-1m-2025-08-07` value in the `anthropic-beta` request header. | Sessions on such a model's standard picker entry assume a 200K-token window, even when the provider accepts 1M. A gateway that rejects the header value fails every request made from the **1M context window** entry. | From a session on the **1M context window** entry, confirm in the gateway's logs that requests carry the header value and that requests above 200K input tokens succeed. |
-| [Stream responses](https://code.claude.com/docs/en/llm-gateway-protocol#streaming) through without buffering, including the provider's SSE `ping` events, and set the response timeout on every proxy and load balancer on the route longer than your slowest complete response. | The summary request carries the whole conversation, and while the provider works on it, pings can be the only bytes on the connection. If a proxy buffers them, the session sees no bytes and gives up after about five minutes, and if a proxy's response timeout is shorter than the response takes, it ends the request with its own error, such as `504`. | Run a streaming request with `curl -N` against the hostname clients use and confirm that events print as they are generated, not in one burst at the end. |
-| Return the provider's `usage` object unchanged on every response, including `cache_creation_input_tokens` and `cache_read_input_tokens`. | The session counts the conversation's tokens from the `usage` of the latest response. With the cache fields missing it undercounts, and requests reach the provider's limit before the session compacts. | Compare the `usage` object in the gateway's upstream response log with the one the client receives for the same request. They should be identical, and where the provider supports prompt caching, `cache_read_input_tokens` is above zero after the first turn. |
-| [Forward the provider's status code and error body unchanged](https://code.claude.com/docs/en/llm-gateway-protocol#automatic-retry-and-error-forwarding) when it rejects a request. | Where the provider's too-long error is the compaction trigger, the session compacts and retries only if that error reaches it unchanged. With a rewritten error, the session shows the error and doesn't compact. | Send an oversized request through the gateway and confirm that the client receives the provider's status code and error body. |
-
-On a response that delivers only keep-alive pings, a session accepts about five minutes of pings and then waits [`inferenceStreamIdleTimeoutSec`](/docs/third-party/claude-desktop/configuration#inferencestreamidletimeoutsec) seconds more for model output (300 by default, so about ten minutes in all). Raise that key if your provider needs longer than that before its first output on a large request.
-
 ### MCP tool search
 
 [MCP tool search](https://code.claude.com/docs/en/mcp#scale-with-mcp-tool-search) loads MCP tool schemas on demand instead of inlining every schema into the context window. It reduces context pressure when many MCP tools are configured (sessions that otherwise compact every turn or two).
@@ -601,7 +579,7 @@ On Claude API, Google Cloud's Agent Platform, Amazon Bedrock, and Amazon Bedrock
 
 In [**Auto mode**](https://claude.com/docs/third-party/claude-desktop/configuration.md#automodeenabled), which Cowork shows as **Automatically approve**, a safety classifier reviews Claude's actions and blocks the ones it judges risky. On a gateway deployment, these can do the review:
 
-* **Claude Code's built-in safety check (the default)**: it sends its own requests through your gateway, and you pay for them like the rest of your usage.
+* **Claude Code's built-in safety check (the default)**: it sends its own requests through your gateway, and you pay for them like the rest of your usage. In Cowork, shell commands wait for this check too, which usually adds one request for each command. If every such request fails, each command is refused with no prompt, and the task shows the command as failed. For what your gateway must accept, and for when shell commands aren't checked, see [`autoModeEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#automodeenabled).
 * **The model provider behind your gateway**: the session asks for the review in its normal request, and the provider returns its verdict with the response. The session sends no separate request for an action that gets a verdict.
 
 > [!NOTE]
@@ -771,6 +749,8 @@ Until the gateway meets [the requirements](#gateway-requirements-for-auto-mode-c
 
 * Set `inferenceGatewayAutoModeServerChecks` to `false`, as described in [Turn off server-side Auto mode checks](#turn-off-server-side-auto-mode-checks). The change takes effect once each user [relaunches Claude Desktop](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#when-a-configuration-change-on-a-device-takes-effect).
 * Have users start new sessions in **Manual** mode, which Cowork shows as **Manually approve**. If turns fail in those sessions too, the review isn't the cause.
+
+**`Automatically approve isn’t available for this task. Switched to Manually approve.` or `Couldn’t switch to Automatically approve.`** Claude Code can't run Auto mode for the Cowork task, for example because the task's model [doesn't support it](https://code.claude.com/docs/en/permission-modes#eliminate-prompts-with-auto-mode). Have the user pick a model that does, and then pick **Automatically approve**. A scheduled task keeps its stored mode, so each run on a model that doesn't support Auto mode switches again.
 
 **Model picker is empty or missing models.** Check your gateway's `GET /v1/models` response and your `inferenceModels` list (see [Models](#models)). When `/v1/models` is unreachable or returns an error, the picker falls back to the `inferenceModels` list; if that list is empty, so is the picker.
 

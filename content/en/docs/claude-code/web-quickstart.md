@@ -80,7 +80,7 @@ A [cloud environment](https://code.claude.com/docs/en/cloud-environments.md) is 
 * **Pro, Max, and Ultra**: you get an environment named **Default** automatically.
 * **Team and Enterprise**: onboarding shows a **Create your first cloud environment** form. Leave the prefilled name and network access unchanged and click **Create & finish** to create the **Default** environment. If an Owner has turned on [Quick setup](https://code.claude.com/docs/en/claude-code-on-the-web.md#quick-setup-for-team-and-enterprise), onboarding creates **Default** for you instead.
 
-**Default** uses [`Trusted` network access](https://code.claude.com/docs/en/cloud-environments#access-levels): sessions reach [common package registries](https://code.claude.com/docs/en/cloud-environments.md#default-allowed-domains) and other allowlisted domains, and nothing else through the session's network. See [Installed tools](https://code.claude.com/docs/en/cloud-environments.md#installed-tools) for what's available without any configuration.
+**Default** uses [**Limited** network access](https://code.claude.com/docs/en/cloud-environments.md#access-levels): sessions reach [common package registries](https://code.claude.com/docs/en/cloud-environments.md#default-allowed-domains) and other allowlisted domains. See [Installed tools](https://code.claude.com/docs/en/cloud-environments.md#installed-tools) for what's available without any configuration.
 
 For a first project, the **Default** environment works as is. To change its network access, add environment variables, or run a [setup script](https://code.claude.com/docs/en/cloud-environments.md#setup-scripts) before sessions start, [edit it or create additional environments](https://code.claude.com/docs/en/cloud-environments.md#configure-your-environment).
 
@@ -116,17 +116,11 @@ In the Claude Code CLI, run:
 /web-setup
 ```
 
-Confirm the prompt to send your `gh` token to your Claude account. On success, Claude Code prints `Connected as <your-github-username>` and opens [claude.ai/code](https://claude.ai/code) in your browser. If you don't have a cloud environment yet, `/web-setup` creates one with Trusted network access and no setup script. You can [edit the environment or add variables](https://code.claude.com/docs/en/cloud-environments.md#configure-your-environment) afterward. Once `/web-setup` completes, you can start cloud sessions from your terminal with [`--cloud`](https://code.claude.com/docs/en/claude-code-on-the-web#from-terminal-to-cloud) or set up recurring tasks with [`/schedule`](https://code.claude.com/docs/en/routines).
+Confirm the prompt to send your `gh` token to your Claude account. On success, Claude Code prints `Connected as <your-github-username>` and opens [claude.ai/code](https://claude.ai/code) in your browser.
+
+If you don't have a cloud environment yet, `/web-setup` creates one with the default **Limited** network access and no setup script. You can [edit the environment or add variables](https://code.claude.com/docs/en/cloud-environments.md#configure-your-environment) afterward. Once `/web-setup` completes, you can start cloud sessions from your terminal with [`--cloud`](https://code.claude.com/docs/en/claude-code-on-the-web#from-terminal-to-cloud) or set up recurring tasks with [`/schedule`](https://code.claude.com/docs/en/routines).
 
 #### Remove the `/web-setup` token
-
-To remove the token from your Claude account, disconnect GitHub at [claude.ai/customize/connectors](https://claude.ai/customize/connectors). Disconnecting deletes the GitHub credentials your cloud sessions use, whether they came from the browser or from `/web-setup`, so cloud sessions lose GitHub access until you connect again. Your local `gh` stays signed in, and the token remains valid on GitHub.
-
-To invalidate the token itself, revoke it on GitHub. If you signed in to `gh` through the browser, the token belongs to the **GitHub CLI** entry under [**Settings > Applications > Authorized OAuth Apps**](https://github.com/settings/applications) on GitHub, and revoking that entry also signs the GitHub CLI out on your machines. Cloud sessions then lose GitHub access until you run `gh auth login` and `/web-setup` again.
-
-<h4 id="remove-the-web-setup-token">
-  Remove the `/web-setup` token
-</h4>
 
 To remove the token from your Claude account, disconnect GitHub at [claude.ai/customize/connectors](https://claude.ai/customize/connectors). Disconnecting deletes the GitHub credentials your cloud sessions use, whether they came from the browser or from `/web-setup`, so cloud sessions lose GitHub access until you connect again. Your local `gh` stays signed in, and the token remains valid on GitHub.
 
@@ -254,7 +248,7 @@ The [setup script](https://code.claude.com/docs/en/cloud-environments.md#setup-s
 
 Common causes:
 
-* A package install failed because the registry isn't in your [network access level](https://code.claude.com/docs/en/cloud-environments.md#access-levels). `Trusted` covers most package managers; `None` blocks them all.
+* A package install failed because the registry isn't in your [network access level](https://code.claude.com/docs/en/cloud-environments.md#access-levels). **Limited** with **Allow package managers** checked covers most package managers; **None** blocks them all.
 * The script references a file or path that doesn't exist in a fresh clone.
 * A command that works locally needs a different invocation on Ubuntu.
 

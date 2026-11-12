@@ -537,8 +537,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                       maxItems: 100
 
-                      - `type: Literal["tab_opened"]`
-
                       - `tab_id: str`
 
                         The caller-assigned identifier for this tab, unique within the inventory.
@@ -3113,12 +3111,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspace_id: Optional[str]` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class MessageBatch`
@@ -4506,7 +4498,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   default: encrypted_code_execution_result
 
-                - `type: Literal["encrypted_code_execution_result"]`
+                - `content: List[CodeExecutionOutputBlock]`
 
                   - `type: Literal["code_execution_output"]`
 
@@ -6147,7 +6139,7 @@ for batch in client.messages.batches.results(
 
                   default: encrypted_code_execution_result
 
-                - `type: Literal["encrypted_code_execution_result"]`
+                - `content: List[CodeExecutionOutputBlock]`
 
                   - `type: Literal["code_execution_output"]`
 
@@ -7515,7 +7507,7 @@ for batch in client.messages.batches.results(
 
                 default: encrypted_code_execution_result
 
-              - `type: Literal["encrypted_code_execution_result"]`
+              - `content: List[CodeExecutionOutputBlock]`
 
                 - `type: Literal["code_execution_output"]`
 
@@ -8835,7 +8827,7 @@ for batch in client.messages.batches.results(
 
               default: encrypted_code_execution_result
 
-            - `type: Literal["encrypted_code_execution_result"]`
+            - `content: List[CodeExecutionOutputBlock]`
 
               - `type: Literal["code_execution_output"]`
 

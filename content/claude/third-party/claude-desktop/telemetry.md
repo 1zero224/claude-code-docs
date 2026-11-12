@@ -16,13 +16,15 @@ This page covers what each telemetry category contains, how to turn it off, and 
 
 To find out whether a managed profile's keys apply on a device that uses the [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md), see [Which settings apply on a device with a managed profile](https://claude.com/docs/third-party/claude-desktop/admin-console.md#which-settings-apply-on-a-device-with-a-managed-profile).
 
+On a device that gets its configuration from a [bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md), essential and non-essential telemetry are each off unless the server's response sets the category's key to `false`.
+
 ### Essential telemetry
 
 Crash reports, error stack traces, and performance timings. Contains diagnostic metadata (app version, OS, error type, redacted stack frames) but **never prompt or response content**. Attributed to your organization via `deploymentOrganizationUuid` so Anthropic support can find issues you report.
 
 | Setting | Default | Effect when `true` |
 | - | - | - |
-| `disableEssentialTelemetry` | `false` | No crash or error data leaves the device. |
+| `disableEssentialTelemetry` | `false` (`true` with a bootstrap server) | No crash or error data leaves the device. |
 
 On Claude Desktop 2.7032.0 and later, the [**Keep only your organization ID and restrictions on disk**](https://claude.com/docs/third-party/claude-desktop/admin-console.md#configuration-kept-on-devices) switch in the [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md) also stops the app's crash reports, even while `disableEssentialTelemetry` is `false`. Error stack traces and performance timings still leave the device while `disableEssentialTelemetry` is `false`.
 
@@ -36,7 +38,7 @@ Product-usage analytics: feature adoption, session counts, UI interactions. Used
 
 | Setting | Default | Effect when `true` |
 | - | - | - |
-| `disableNonessentialTelemetry` | `false` | No product analytics leave the device. |
+| `disableNonessentialTelemetry` | `false` (`true` with a bootstrap server) | No product analytics leave the device. |
 
 Claude Code's usage telemetry is part of this category and goes to `api.anthropic.com`. While this category is on, allow that host at the perimeter, as listed under [Non-essential telemetry](#non-essential-telemetry-disablenonessentialtelemetry-false). Claude Code sends this telemetry from outside the agent's sandbox, so the host needs no entry in `coworkEgressAllowedHosts`.
 
@@ -60,7 +62,7 @@ On Linux, installing the `claude-desktop` package adds Anthropic's apt repositor
 
 ## Sending telemetry to your own collector
 
-Independently of what's sent to Anthropic, you can export session activity to your own OpenTelemetry collector by setting `otlpEndpoint`. This is the recommended way to retain an audit trail in environments that disable Anthropic-bound telemetry.
+Independently of what's sent to Anthropic, you can export session activity to your own OpenTelemetry collector by setting `otlpEndpoint`. This is the recommended way to retain an audit trail in environments that disable Anthropic-bound telemetry. The export isn't a complete record of a session; see [Content capture](#content-capture).
 
 For third-party deployments, the export includes session metadata (event names, durations, token counts, result counts, errors) by default, but not message content. It also identifies the signed-in user; see [User attribution](#user-attribution). Records of skill scans are an exception to leaving out message content. If you turn on [skill scanning](https://claude.com/docs/third-party/claude-desktop/extensions.md#skill-scanning), the export also carries `custom3p_skill_scan_completed` records of scan results, and a record's summary can quote the skill. Claude Desktop sends the summary even when [content capture](#content-capture) (`otlpContentCapture`) is off. See [Monitoring](https://claude.com/docs/cowork/monitoring.md) for the event schema and the [`otlp*` keys](https://claude.com/docs/third-party/claude-desktop/configuration#otlpendpoint) in the configuration reference.
 
@@ -122,7 +124,17 @@ To include content in the export, set `otlpContentCapture` to an array of catego
 | `toolContent` | Tool output content, up to the [content length limit](#content-length-limit) |
 | `rawApiBodies` | Inference request and response bodies, up to the [content length limit](#content-length-limit) |
 
-On Claude Desktop version 1.17377 or later, enabling `userPrompts` also captures model responses, even if `assistantResponses` is not listed. On those versions, no `otlpContentCapture` configuration captures user prompts without model responses.
+Your collector doesn't get a [`user_prompt`](https://claude.com/docs/cowork/monitoring#user-prompt-event) event for some messages that people send. Don't rely on content capture alone to keep what people type.
+
+On Claude Desktop 1.17377.1 or later, listing `userPrompts` also captures model responses by default, even if `assistantResponses` isn't listed.
+
+To capture user prompts and redact model response text, set `OTEL_LOG_ASSISTANT_RESPONSES` to `0` in the `env` block of [Claude Code's own managed settings](https://claude.com/docs/third-party/claude-desktop/code.md#interaction-with-claude-code%E2%80%99s-own-managed-settings), and leave `rawApiBodies` out of `otlpContentCapture`. Each [`assistant_response`](https://claude.com/docs/cowork/monitoring#model-response-event) event still arrives, with `<REDACTED>` in place of the text. Requires Claude Desktop 2.37337.1 or later.
+
+Check these points before you deploy the setting:
+
+* **Where to set it**: in the highest-priority Claude Code managed settings on the device, not in a per-user Windows registry policy. See **More detail** under [`otlpContentCapture`](https://claude.com/docs/third-party/claude-desktop/configuration#otlpcontentcapture).
+* **No Claude Code managed settings on the device yet**: also set `parentSettingsBehavior` to `"merge"` in the settings you create, or Claude Code can drop the restrictions that Claude Desktop passes to it
+* **Background agents in Code sessions**: when an agent that Claude runs in the background finishes, Claude Code passes the agent's final response back to the conversation as a prompt. Your collector can receive that text in a `user_prompt` event, and on a trace span when [traces](#traces-beta) are on, even with the variable set to `0`. Cowork and Chat sessions don't run agents in the background.
 
 Conversation titles arrive on the desktop application's own stream (`claude-desktop`) as a `desktop_session_title_set` event that carries each Cowork and Code session's title and the Claude Code `session.id` to join on. The event is exported only when [`otlpDesktopLogLevel`](https://claude.com/docs/third-party/claude-desktop/configuration#otlpdesktoploglevel) is `info` or `debug`, and the title text is included only when `otlpContentCapture` includes `userPrompts`. Requires Claude Desktop 1.44121.1 or later.
 

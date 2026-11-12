@@ -217,8 +217,6 @@ List Session Threads
 
         - `String name`
 
-        - `String name`
-
         - `String url`
 
       - `BetaManagedAgentsModelConfig model`
@@ -361,8 +359,6 @@ List Session Threads
 
           - `String skillId`
 
-          - `String skillId`
-
           - `String version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -370,8 +366,6 @@ List Session Threads
           A resolved user-created custom skill.
 
           - `JsonValue type = "custom"`
-
-          - `String skillId`
 
           - `String skillId`
 
@@ -1324,8 +1318,6 @@ Get Session Thread
 
         - `String name`
 
-        - `String name`
-
         - `String url`
 
       - `BetaManagedAgentsModelConfig model`
@@ -1468,8 +1460,6 @@ Get Session Thread
 
           - `String skillId`
 
-          - `String skillId`
-
           - `String version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -1477,8 +1467,6 @@ Get Session Thread
           A resolved user-created custom skill.
 
           - `JsonValue type = "custom"`
-
-          - `String skillId`
 
           - `String skillId`
 
@@ -2430,8 +2418,6 @@ Archive Session Thread
 
         - `String name`
 
-        - `String name`
-
         - `String url`
 
       - `BetaManagedAgentsModelConfig model`
@@ -2574,8 +2560,6 @@ Archive Session Thread
 
           - `String skillId`
 
-          - `String skillId`
-
           - `String version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -2583,8 +2567,6 @@ Archive Session Thread
           A resolved user-created custom skill.
 
           - `JsonValue type = "custom"`
-
-          - `String skillId`
 
           - `String skillId`
 
@@ -4028,8 +4010,6 @@ public final class Main {
 
         - `String name`
 
-        - `String name`
-
         - `String url`
 
       - `BetaManagedAgentsModelConfig model`
@@ -4172,8 +4152,6 @@ public final class Main {
 
           - `String skillId`
 
-          - `String skillId`
-
           - `String version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -4181,8 +4159,6 @@ public final class Main {
           A resolved user-created custom skill.
 
           - `JsonValue type = "custom"`
-
-          - `String skillId`
 
           - `String skillId`
 
@@ -6709,8 +6685,6 @@ public final class Main {
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
         - `JsonValue type = "url"`
-
-        - `String name`
 
         - `String name`
 
@@ -9891,8 +9865,6 @@ List Session Thread Events
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
         - `JsonValue type = "url"`
-
-        - `String name`
 
         - `String name`
 
@@ -13080,8 +13052,6 @@ Stream Session Thread Events
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
         - `JsonValue type = "url"`
-
-        - `String name`
 
         - `String name`
 

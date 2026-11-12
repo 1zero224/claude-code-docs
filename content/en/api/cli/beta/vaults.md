@@ -366,8 +366,6 @@ List Vaults
 
     - `type: "vault"`
 
-    - `type: "vault"`
-
     - `id: string`
 
       The unique ID of the vault (`vlt_...`).
@@ -558,12 +556,6 @@ Retrieve a Vault
   - `"analytics-usage-cost-2026-08-24"`
 
   - `"experimental-claude-tag-2026-10-21"`
-
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -975,12 +967,6 @@ Delete a Vault
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `beta_managed_agents_deleted_vault: object`
@@ -1138,12 +1124,6 @@ Archive a Vault
   - `"analytics-usage-cost-2026-08-24"`
 
   - `"experimental-claude-tag-2026-10-21"`
-
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -1922,8 +1902,6 @@ List Credentials
   - `data: optional array of BetaManagedAgentsCredential`
 
     The credentials on this page, newest first.
-
-    - `type: "vault_credential"`
 
     - `type: "vault_credential"`
 

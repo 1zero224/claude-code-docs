@@ -975,8 +975,6 @@ Update Agent
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -1259,8 +1257,6 @@ Update Agent
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -1268,8 +1264,6 @@ Update Agent
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 

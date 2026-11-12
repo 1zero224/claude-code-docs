@@ -29,8 +29,6 @@ With neither `--catalog` nor `--config`, and no [ad-hoc target](https://modelcon
 
 The TUI also takes the [shared server-selection flags](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/configuration.md#shared-server-selection-flags) (`--server-url`, `--transport`, `--header`, `-e`, `--cwd`) plus `--protocol-era` for an ad-hoc server, and the [OAuth client flags](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/configuration.md#cli-and-tui-oauth-client-flags) (`--client-id`, `--client-secret`, `--client-metadata-url`, `--client-config`, `--callback-url`).
 
-The TUI also takes the [shared server-selection flags](/docs/2026-07-28/tools/inspector/configuration#shared-server-selection-flags) (`--server-url`, `--transport`, `--header`, `-e`, `--cwd`) plus `--protocol-era` for an ad-hoc server, and the [OAuth client flags](/docs/2026-07-28/tools/inspector/configuration#cli-and-tui-oauth-client-flags) (`--client-id`, `--client-secret`, `--client-metadata-url`, `--client-config`, `--callback-url`).
-
 ## Tabs
 
 | Tab | Key | What it shows |

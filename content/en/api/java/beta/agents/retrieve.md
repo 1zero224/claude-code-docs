@@ -197,8 +197,6 @@ Get Agent
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -481,8 +479,6 @@ Get Agent
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -490,8 +486,6 @@ Get Agent
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 

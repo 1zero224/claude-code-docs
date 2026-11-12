@@ -92,8 +92,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `type: :text`
 
-          - `type: :text`
-
           - `text: String`
 
             minLength: 1
@@ -516,8 +514,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
                   All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                   maxItems: 100
-
-                  - `type: :tab_opened`
 
                   - `tab_id: String`
 
@@ -1660,8 +1656,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
     REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
 
     See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=ruby#tool-versions) to learn what each tool version adds.
-
-    - `type: :code_execution_20260120`
 
     - `type: :code_execution_20260120`
 
@@ -3605,8 +3599,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=ruby) to learn more about programmatic tool calling.
-
-          - `type: :encrypted_code_execution_result`
 
           - `type: :encrypted_code_execution_result`
 

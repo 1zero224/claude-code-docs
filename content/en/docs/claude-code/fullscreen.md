@@ -149,8 +149,6 @@ These actions are rebindable. See [Scroll actions](https://code.claude.com/docs/
 
 While you're scrolled up, a dim header row at the top of the conversation shows the most recent prompt that has scrolled above the view. Click the row to jump to that prompt.
 
-While you're scrolled up, a dim header row at the top of the conversation shows the most recent prompt that has scrolled above the view. Click the row to jump to that prompt.
-
 ### Auto-follow
 
 Scrolling up pauses auto-follow so new output doesn't pull you back to the bottom. A `Jump to bottom` button floats over the bottom edge of the transcript while you're scrolled up, and shows a count such as `3 new messages` when new output arrives. Click it, press `Ctrl+End`, or scroll to the bottom to resume following.

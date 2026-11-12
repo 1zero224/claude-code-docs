@@ -51,36 +51,6 @@ Some shell commands also run outside the sandbox, depending on your settings:
 
 To put the tools, processes, and commands in this section behind one boundary, run the Claude Code process itself in a [container, virtual machine, or the sandbox runtime](https://code.claude.com/docs/en/sandbox-environments.md).
 
-## What the sandbox restricts
-
-While the sandbox is on, the shell commands Claude runs start inside its boundary, and so do the processes they start. The sandbox is off by default. To turn it on, run `/sandbox` in a session, as [Get started](#get-started) shows, or set [`sandbox.enabled`](/docs/en/settings-reference#sandbox-enabled) to `true` in a [settings file](/docs/en/settings) such as `~/.claude/settings.json`.
-
-The table shows what a sandboxed command can reach by default and the settings that change each default.
-
-| Access | Default | Change it with |
-| :- | :- | :- |
-| Writes | The working directory, a per-user temp directory, and [directories you've added](/docs/en/permissions#additional-directories-grant-file-access-not-configuration). [Protected paths](#protected-paths) stay write-denied | [`filesystem.allowWrite`](/docs/en/settings-reference#sandbox-filesystem-allowwrite), [`filesystem.denyWrite`](/docs/en/settings-reference#sandbox-filesystem-denywrite) |
-| Reads | Most of the machine, including credential files such as `~/.ssh` and `~/.aws/credentials` | [`filesystem.denyRead`](/docs/en/settings-reference#sandbox-filesystem-denyread), [`credentials`](#protect-credentials) |
-| Network | No direct route out. Connections go through a proxy on your machine that checks each host against your allowed domains, which start empty. Your permission mode decides [what happens to other hosts](#hosts-outside-your-allowed-domains) | [`network.allowedDomains`](/docs/en/settings-reference#sandbox-network-alloweddomains), [`network.deniedDomains`](/docs/en/settings-reference#sandbox-network-denieddomains) |
-| Environment variables | Inherited from Claude Code, including any secrets in its environment | [`credentials`](#protect-credentials), [`CLAUDE_CODE_SUBPROCESS_ENV_SCRUB`](/docs/en/env-vars) |
-
-Claude Code builds the sandbox on the open source [`@anthropic-ai/sandbox-runtime`](https://github.com/anthropics/sandbox-runtime) package.
-
-### What runs outside the sandbox
-
-The sandbox wraps shell commands. These tools and processes run outside it:
-
-* **Built-in file and web tools**: tools such as Read, Edit, Write, WebFetch, and WebSearch follow [permission rules](/docs/en/permissions) instead. A `denyRead` entry doesn't stop the Read tool, and `allowedDomains` doesn't limit WebFetch
-* **Other processes Claude Code starts**: command [hooks](/docs/en/hooks), local [MCP servers](/docs/en/mcp), [plugin monitors](/docs/en/plugins/components#monitors), [LSP servers](/docs/en/tools-reference#lsp-tool-behavior), and helper commands such as your [status line](/docs/en/statusline) command and `apiKeyHelper` run with your full access
-
-Some shell commands also run outside the sandbox, depending on your settings:
-
-* **Commands you type yourself**: a command you enter at the [`!` shell-mode prompt](/docs/en/interactive-mode#shell-mode-with-prefix) runs unsandboxed in most sessions. [Strict sandbox mode](#turn-off-the-retry-with-strict-sandbox-mode) lists the sessions where a command you type runs sandboxed
-* **Excluded commands**: commands that match [`excludedCommands`](#run-commands-outside-the-sandbox-with-excludedcommands) run unsandboxed
-* **Unsandboxed retries**: Claude can [ask to run a command unsandboxed](#the-unsandboxed-retry-escape-hatch), usually after it fails in the sandbox
-
-To put the tools, processes, and commands in this section behind one boundary, run the Claude Code process itself in a [container, virtual machine, or the sandbox runtime](/docs/en/sandbox-environments).
-
 ## Get started
 
 The sandbox is built into Claude Code. What you install depends on your platform:
@@ -129,17 +99,6 @@ claude --settings '{"sandbox": {"enabled": true, "allowUnsandboxedCommands": fal
 > [!WARNING]
 >
 > By default, when the platform doesn't support the sandbox or the dependency check at startup fails, Claude Code runs commands without sandboxing. To make Claude Code exit at startup instead, set [`sandbox.failIfUnavailable`](https://code.claude.com/docs/en/settings-reference#sandbox-failifunavailable) to `true`. Managed deployments that require sandboxing as a security gate can use this setting.
-
-### Confirm commands run inside the sandbox
-
-To check that the sandbox is working, ask Claude to run each line in the table. What you type at the [`!` prompt](#what-runs-outside-the-sandbox) usually runs outside the sandbox, so typing a line yourself doesn't test it.
-
-| Command | Result inside the sandbox |
-| :- | :- |
-| `touch ~/sandbox-probe` | Fails with `Operation not permitted` on macOS, or `Read-only file system` on Linux and WSL2 |
-| `curl --noproxy '*' https://example.com` | Fails with `Could not resolve host`, because the command has no route around the sandbox proxy |
-
-If Claude asks to retry a failed command outside the sandbox, decline the retry. If `touch` succeeds and your home directory isn't one of the directories the sandbox lets commands write to, delete `~/sandbox-probe`. Then run `/sandbox` to check that the sandbox is on and its dependencies are installed.
 
 ### Confirm commands run inside the sandbox
 
@@ -682,39 +641,6 @@ A per-command list widens only what the sandbox denies by default. [`deniedDomai
 
 While per-command lists apply, Claude Code refuses a connection to a host that no approved command listed, without a prompt or a classifier check. The refusal names the host in the command's result, and Claude re-runs the command with the host added.
 
-#### Hosts outside your allowed domains
-
-When a sandboxed command connects to a host that isn't in your allowed domains, the command stays in the sandbox and waits for a decision. In an interactive terminal session, the decision depends on your permission mode:
-
-| Permission mode | What happens to the connection |
-| :- | :- |
-| `bypassPermissions` mode, and plan mode with [bypass permissions available](/docs/en/permission-modes#skip-all-checks-with-bypasspermissions-mode) | Allowed without a prompt |
-| Manual mode, `acceptEdits` mode, and plan mode otherwise | You get a prompt |
-| Auto mode | Refused unless the command [listed the host](#per-command-allowed-domains-in-auto-mode) and the classifier approved the list |
-| `dontAsk` mode | Refused |
-
-With [`strictAllowlist`](/docs/en/settings-reference#sandbox-network-strictallowlist) or [`allowManagedDomainsOnly`](/docs/en/settings-reference#sandbox-network-allowmanageddomainsonly) on, the built-in sandbox proxy refuses the connection in every permission mode. In `bypassPermissions` mode, hosts outside your allowed domains are allowed unless one of them is on. [The unsandboxed retry escape hatch](#the-unsandboxed-retry-escape-hatch) covers when a command can leave the sandbox in that mode. A connection to a host in [`deniedDomains`](/docs/en/settings-reference#sandbox-network-denieddomains) is refused in every permission mode too.
-
-#### Hostnames that resolve to local addresses
-
-After a hostname passes the allowlist, the sandbox proxy resolves it and refuses the connection when the name resolves only to local addresses. Local addresses include loopback addresses such as `127.0.0.1`, link-local addresses such as the `169.254.169.254` cloud metadata endpoint, and addresses assigned to your own machine. The names `localhost` and `*.localhost` are allowed to resolve to loopback.
-
-An allowed intranet hostname that resolves to a private range such as `10.0.0.0/8` connects. To let a name resolve to a refused address, add that IP address to `allowedDomains`, such as `"127.0.0.1:8080"`.
-
-The check applies to hostnames. Your allowed domains and permission mode decide a connection to an IP address. The proxy also skips the check for connections it sends through an upstream corporate proxy, because that proxy resolves the name.
-
-#### Per-command allowed domains in auto mode
-
-In [auto mode](/docs/en/permission-modes#eliminate-prompts-with-auto-mode) with sandboxing on, Claude names the hosts a command needs on the command itself instead of triggering a network approval for each connection. Each Bash, PowerShell, or [Monitor](/docs/en/tools-reference#monitor-tool) command that runs in the sandbox can carry a list of hosts beyond the sandbox's allowlist: a domain such as `registry.npmjs.org`, a wildcard such as `*.pythonhosted.org`, or an IP address, each with an optional `:port`. The classifier reviews the hosts together with the command. Requires Claude Code v2.1.271 or later.
-
-An approved list opens those hosts for that one command alone, for as long as it runs. Nothing is added to your session's allowed hosts or your settings; the next command names its own hosts.
-
-A command that carries hosts goes to the classifier instead of being approved by a permission rule or the sandbox's [auto-allow mode](#sandbox-modes). If an [ask rule](/docs/en/permissions#manage-permissions) forces a prompt for the command, the permission dialog in your terminal lists the hosts beside it, and approving there covers both.
-
-A per-command list widens only what the sandbox denies by default. [`deniedDomains`](/docs/en/settings-reference#sandbox-network-denieddomains) entries still block. When [`strictAllowlist`](/docs/en/settings-reference#sandbox-network-strictallowlist) or [`allowManagedDomainsOnly`](/docs/en/settings-reference#sandbox-network-allowmanageddomainsonly) locks the allowlist, Claude Code refuses per-command lists.
-
-While per-command lists apply, Claude Code refuses a connection to a host that no approved command listed, without a prompt or a classifier check. The refusal names the host in the command's result, and Claude re-runs the command with the host added.
-
 #### IPv6 addresses in domain lists
 
 To match an IPv6 address in `allowedDomains`, `deniedDomains`, or a `WebFetch(domain:...)` rule, write the address in brackets: `"[::1]"` matches that address on every port, and `"[::1]:443"` matches it on port 443 only. The bracketed form requires Claude Code v2.1.229 or later.
@@ -813,7 +739,7 @@ This configuration sandboxes the commands Claude runs. A developer can still typ
 
 The sandbox doesn't run on native Windows, so with `failIfUnavailable` set, Claude Code exits at startup on those machines. If your fleet includes Windows hosts, you can:
 
-* **Deliver the configuration by operating system**: deploy it through your MDM or as a [managed settings file](https://code.claude.com/docs/en/managed-settings.md#delivery-mechanisms) on macOS and Linux machines only. [Server-managed settings](https://code.claude.com/docs/en/server-managed-settings.md#current-limitations) apply to all users in the organization
+* **Deliver the configuration by operating system**: deploy it through your MDM or as a [managed settings file](https://code.claude.com/docs/en/managed-settings.md#delivery-mechanisms) on macOS and Linux machines only. [Server-managed settings](https://code.claude.com/docs/en/server-managed-settings.md#give-groups-different-settings) follow the member, not the device.
 * **Move Windows users into a supported environment**: have them run Claude Code inside WSL2 or a container
 
 ### Keep developers from widening the policy

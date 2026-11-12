@@ -267,8 +267,6 @@ List Sessions
 
       - `Name string`
 
-      - `Name string`
-
       - `URL string`
 
     - `Model BetaManagedAgentsModelConfig`

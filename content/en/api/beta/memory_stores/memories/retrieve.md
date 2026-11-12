@@ -179,8 +179,6 @@ Retrieve a Memory
 
   - `type: "memory"`
 
-  - `type: "memory"`
-
   - `id: string`
 
     The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.

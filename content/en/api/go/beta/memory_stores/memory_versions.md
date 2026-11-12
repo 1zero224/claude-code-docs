@@ -209,8 +209,6 @@ List Memory Versions
 
   - `Type MemoryVersion`
 
-  - `Type BetaManagedAgentsMemoryVersionType`
-
   - `ID string`
 
     Unique identifier for this version (a `memver_...` value).
@@ -557,8 +555,6 @@ Retrieve a Memory Version
 
   - `Type MemoryVersion`
 
-  - `Type BetaManagedAgentsMemoryVersionType`
-
   - `ID string`
 
     Unique identifier for this version (a `memver_...` value).
@@ -896,8 +892,6 @@ Redact a Memory Version
 
   - `Type MemoryVersion`
 
-  - `Type BetaManagedAgentsMemoryVersionType`
-
   - `ID string`
 
     Unique identifier for this version (a `memver_...` value).
@@ -1162,8 +1156,6 @@ func main() {
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#audit-memory-changes) to learn more about memory versions.
 
   - `Type MemoryVersion`
-
-  - `Type BetaManagedAgentsMemoryVersionType`
 
   - `ID string`
 

@@ -1916,7 +1916,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `Type File`
 
-              - `Content []BetaCodeExecutionOutputBlockParam`
+                - `FileID string`
 
             - `CacheControl BetaCacheControlEphemeralParam Optional`
 
@@ -4908,7 +4908,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `Type ToolAddition`
+              - `Name string`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -6157,7 +6157,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             default: encrypted_code_execution_result
 
-          - `Type EncryptedCodeExecutionResult`
+          - `Content []BetaCodeExecutionOutputBlock`
 
             - `Type CodeExecutionOutput`
 
@@ -10166,7 +10166,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `Type File`
 
-              - `Content []BetaCodeExecutionOutputBlockParam`
+                - `FileID string`
 
             - `CacheControl BetaCacheControlEphemeralParam Optional`
 
@@ -13158,7 +13158,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `Type ToolAddition`
+              - `Name string`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -14074,7 +14074,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `Type File`
 
-                  - `Content []BetaCodeExecutionOutputBlockParam`
+                    - `FileID string`
 
                 - `CacheControl BetaCacheControlEphemeralParam Optional`
 
@@ -17066,7 +17066,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     The tool's input schema as the MCP server lists it, verbatim.
 
-                  - `Type ToolAddition`
+                  - `Name string`
 
                     The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -17187,38 +17187,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               - `const BetaSystemMessageOutputConfigEffortXhigh BetaSystemMessageOutputConfigEffort = "xhigh"`
 
               - `const BetaSystemMessageOutputConfigEffortMax BetaSystemMessageOutputConfigEffort = "max"`
-
-        - `ClearAt BetaMessageParamClearAt Optional`
-
-          How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-          - `const BetaMessageParamClearAtNextUserMessage BetaMessageParamClearAt = "next_user_message"`
-
-          - `const BetaMessageParamClearAtNever BetaMessageParamClearAt = "never"`
-
-        - `OutputConfig BetaSystemMessageOutputConfigParam Optional`
-
-          Per-message output configuration on a role:"system" input message.
-
-          Fields here apply per-turn; `format` remains top-level only. An
-          empty `{}` is accepted on a message that carries content; a message
-          with neither content nor output_config fields is rejected.
-
-          - `Effort BetaSystemMessageOutputConfigEffort Optional`
-
-            How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-            Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-            - `const BetaSystemMessageOutputConfigEffortLow BetaSystemMessageOutputConfigEffort = "low"`
-
-            - `const BetaSystemMessageOutputConfigEffortMedium BetaSystemMessageOutputConfigEffort = "medium"`
-
-            - `const BetaSystemMessageOutputConfigEffortHigh BetaSystemMessageOutputConfigEffort = "high"`
-
-            - `const BetaSystemMessageOutputConfigEffortXhigh BetaSystemMessageOutputConfigEffort = "xhigh"`
-
-            - `const BetaSystemMessageOutputConfigEffortMax BetaSystemMessageOutputConfigEffort = "max"`
 
       - `Model Model`
 
@@ -17499,7 +17467,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A schema to specify Claude's output format in responses. See [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs?sdk_languages=go)
 
-            - `TaskBudget BetaTokenTaskBudgetParam Optional`
+              - `Type JSONSchema`
 
               - `Schema map[string]any`
 
@@ -20159,7 +20127,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   default: encrypted_code_execution_result
 
-                - `Type EncryptedCodeExecutionResult`
+                - `Content []BetaCodeExecutionOutputBlock`
 
                   - `Type CodeExecutionOutput`
 
@@ -23634,53 +23602,53 @@ Create Agent
 
           Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-        Efficient model for coding and agents
+        - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
           Efficient model for coding and agents
 
-        Powerful intelligence for coding, knowledge work, and long-running agents
+        - `const BetaManagedAgentsModelClaudeFable5 BetaManagedAgentsModel = "claude-fable-5"`
 
-      - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+          Next generation of intelligence for the hardest knowledge work and coding problems
 
-        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+        - `const BetaManagedAgentsModelClaudeOpus5 BetaManagedAgentsModel = "claude-opus-5"`
 
-      - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Efficient model for coding and agents
+        - `const BetaManagedAgentsModelClaudeOpus4_8 BetaManagedAgentsModel = "claude-opus-4-8"`
 
-      - `const BetaManagedAgentsModelClaudeFable5 BetaManagedAgentsModel = "claude-fable-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Next generation of intelligence for the hardest knowledge work and coding problems
+        - `const BetaManagedAgentsModelClaudeOpus4_7 BetaManagedAgentsModel = "claude-opus-4-7"`
 
-      - `const BetaManagedAgentsModelClaudeOpus5 BetaManagedAgentsModel = "claude-opus-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeOpus4_6 BetaManagedAgentsModel = "claude-opus-4-6"`
 
-      - `const BetaManagedAgentsModelClaudeOpus4_8 BetaManagedAgentsModel = "claude-opus-4-8"`
+          Powerful intelligence for long-running agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeSonnet4_6 BetaManagedAgentsModel = "claude-sonnet-4-6"`
 
-      - `const BetaManagedAgentsModelClaudeOpus4_7 BetaManagedAgentsModel = "claude-opus-4-7"`
+          Best combination of speed and intelligence
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeHaiku4_5 BetaManagedAgentsModel = "claude-haiku-4-5"`
 
         - `const BetaManagedAgentsModelClaudeHaiku4_5_20251001 BetaManagedAgentsModel = "claude-haiku-4-5-20251001"`
 
         - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
 
-      - `const BetaManagedAgentsModelClaudeHaiku4_5 BetaManagedAgentsModel = "claude-haiku-4-5"`
+          Powerful intelligence for long-running agents and coding
 
-      - `const BetaManagedAgentsModelClaudeHaiku4_5_20251001 BetaManagedAgentsModel = "claude-haiku-4-5-20251001"`
+        - `const BetaManagedAgentsModelClaudeOpus4_5_20251101 BetaManagedAgentsModel = "claude-opus-4-5-20251101"`
 
-      - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeSonnet4_5 BetaManagedAgentsModel = "claude-sonnet-4-5"`
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           High-performance model for agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeSonnet4_5_20250929 BetaManagedAgentsModel = "claude-sonnet-4-5-20250929"`
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -24826,8 +24794,6 @@ Create Agent
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -24835,8 +24801,6 @@ Create Agent
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 
@@ -25914,8 +25878,6 @@ List Agents
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -25923,8 +25885,6 @@ List Agents
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 
@@ -26986,8 +26946,6 @@ Get Agent
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -26995,8 +26953,6 @@ Get Agent
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 
@@ -27663,53 +27619,53 @@ Update Agent
 
           Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-        Efficient model for coding and agents
+        - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
 
           Efficient model for coding and agents
 
-        Powerful intelligence for coding, knowledge work, and long-running agents
+        - `const BetaManagedAgentsModelClaudeFable5 BetaManagedAgentsModel = "claude-fable-5"`
 
-      - `const BetaManagedAgentsModelClaudeFable5_1 BetaManagedAgentsModel = "claude-fable-5-1"`
+          Next generation of intelligence for the hardest knowledge work and coding problems
 
-        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+        - `const BetaManagedAgentsModelClaudeOpus5 BetaManagedAgentsModel = "claude-opus-5"`
 
-      - `const BetaManagedAgentsModelClaudeSonnet5 BetaManagedAgentsModel = "claude-sonnet-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Efficient model for coding and agents
+        - `const BetaManagedAgentsModelClaudeOpus4_8 BetaManagedAgentsModel = "claude-opus-4-8"`
 
-      - `const BetaManagedAgentsModelClaudeFable5 BetaManagedAgentsModel = "claude-fable-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Next generation of intelligence for the hardest knowledge work and coding problems
+        - `const BetaManagedAgentsModelClaudeOpus4_7 BetaManagedAgentsModel = "claude-opus-4-7"`
 
-      - `const BetaManagedAgentsModelClaudeOpus5 BetaManagedAgentsModel = "claude-opus-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeOpus4_6 BetaManagedAgentsModel = "claude-opus-4-6"`
 
-      - `const BetaManagedAgentsModelClaudeOpus4_8 BetaManagedAgentsModel = "claude-opus-4-8"`
+          Powerful intelligence for long-running agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeSonnet4_6 BetaManagedAgentsModel = "claude-sonnet-4-6"`
 
-      - `const BetaManagedAgentsModelClaudeOpus4_7 BetaManagedAgentsModel = "claude-opus-4-7"`
+          Best combination of speed and intelligence
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeHaiku4_5 BetaManagedAgentsModel = "claude-haiku-4-5"`
 
         - `const BetaManagedAgentsModelClaudeHaiku4_5_20251001 BetaManagedAgentsModel = "claude-haiku-4-5-20251001"`
 
         - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
 
-      - `const BetaManagedAgentsModelClaudeHaiku4_5 BetaManagedAgentsModel = "claude-haiku-4-5"`
+          Powerful intelligence for long-running agents and coding
 
-      - `const BetaManagedAgentsModelClaudeHaiku4_5_20251001 BetaManagedAgentsModel = "claude-haiku-4-5-20251001"`
+        - `const BetaManagedAgentsModelClaudeOpus4_5_20251101 BetaManagedAgentsModel = "claude-opus-4-5-20251101"`
 
-      - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeSonnet4_5 BetaManagedAgentsModel = "claude-sonnet-4-5"`
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           High-performance model for agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `const BetaManagedAgentsModelClaudeSonnet4_5_20250929 BetaManagedAgentsModel = "claude-sonnet-4-5-20250929"`
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -28829,8 +28785,6 @@ Update Agent
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -28838,8 +28792,6 @@ Update Agent
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 
@@ -29896,8 +29848,6 @@ Archive Agent
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -29905,8 +29855,6 @@ Archive Agent
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 
@@ -30973,8 +30921,6 @@ List Agent Versions
 
       - `SkillID string`
 
-      - `SkillID string`
-
       - `Version string`
 
     - `type BetaManagedAgentsCustomSkill`
@@ -30982,8 +30928,6 @@ List Agent Versions
       A resolved user-created custom skill.
 
       - `Type Custom`
-
-      - `SkillID string`
 
       - `SkillID string`
 
@@ -35806,12 +35750,6 @@ Get statistics about the work queue for an environment.
 
     default: work_queue_stats
 
-  - `Type WorkQueueStats`
-
-    The type of object
-
-    default: work_queue_stats
-
   - `Depth int64`
 
     Number of work items waiting to be picked up
@@ -37162,8 +37100,6 @@ Create Session
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
       - `Type URL`
-
-      - `Name string`
 
       - `Name string`
 
@@ -38774,8 +38710,6 @@ List Sessions
 
       - `Name string`
 
-      - `Name string`
-
       - `URL string`
 
     - `Model BetaManagedAgentsModelConfig`
@@ -40290,8 +40224,6 @@ Get Session
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
       - `Type URL`
-
-      - `Name string`
 
       - `Name string`
 
@@ -41832,8 +41764,6 @@ Update Session
 
       - `Name string`
 
-      - `Name string`
-
       - `URL string`
 
     - `Model BetaManagedAgentsModelConfig`
@@ -43313,8 +43243,6 @@ Delete Session
 
   - `ID string`
 
-  - `ID string`
-
 #### Example
 
 ```go
@@ -43532,8 +43460,6 @@ Archive Session
     - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
       - `Type URL`
-
-      - `Name string`
 
       - `Name string`
 
@@ -46905,8 +46831,6 @@ List Events
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
         - `Type URL`
-
-        - `Name string`
 
         - `Name string`
 
@@ -51102,8 +51026,6 @@ Stream Events
 
         - `Name string`
 
-        - `Name string`
-
         - `URL string`
 
       - `Model BetaManagedAgentsModelConfig`
@@ -53684,8 +53606,6 @@ Delete Session Resource
 
   - `ID string`
 
-  - `ID string`
-
 #### Example
 
 ```go
@@ -53940,8 +53860,6 @@ List Session Threads
 
         - `Name string`
 
-        - `Name string`
-
         - `URL string`
 
       - `Model BetaManagedAgentsModelConfig`
@@ -54084,8 +54002,6 @@ List Session Threads
 
           - `SkillID string`
 
-          - `SkillID string`
-
           - `Version string`
 
         - `type BetaManagedAgentsCustomSkill`
@@ -54093,8 +54009,6 @@ List Session Threads
           A resolved user-created custom skill.
 
           - `Type Custom`
-
-          - `SkillID string`
 
           - `SkillID string`
 
@@ -55055,8 +54969,6 @@ Get Session Thread
 
         - `Name string`
 
-        - `Name string`
-
         - `URL string`
 
       - `Model BetaManagedAgentsModelConfig`
@@ -55199,8 +55111,6 @@ Get Session Thread
 
           - `SkillID string`
 
-          - `SkillID string`
-
           - `Version string`
 
         - `type BetaManagedAgentsCustomSkill`
@@ -55208,8 +55118,6 @@ Get Session Thread
           A resolved user-created custom skill.
 
           - `Type Custom`
-
-          - `SkillID string`
 
           - `SkillID string`
 
@@ -56167,8 +56075,6 @@ Archive Session Thread
 
         - `Name string`
 
-        - `Name string`
-
         - `URL string`
 
       - `Model BetaManagedAgentsModelConfig`
@@ -56311,8 +56217,6 @@ Archive Session Thread
 
           - `SkillID string`
 
-          - `SkillID string`
-
           - `Version string`
 
         - `type BetaManagedAgentsCustomSkill`
@@ -56320,8 +56224,6 @@ Archive Session Thread
           A resolved user-created custom skill.
 
           - `Type Custom`
-
-          - `SkillID string`
 
           - `SkillID string`
 
@@ -59006,8 +58908,6 @@ List Session Thread Events
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
         - `Type URL`
-
-        - `Name string`
 
         - `Name string`
 
@@ -62201,8 +62101,6 @@ Stream Session Thread Events
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
         - `Type URL`
-
-        - `Name string`
 
         - `Name string`
 
@@ -74969,7 +74867,7 @@ Create a Memory Store
 
     format: date-time
 
-  - `ArchivedAt Time`
+  - `CreatedAt Time`
 
     When the memory store was created, in RFC 3339.
 
@@ -75223,7 +75121,7 @@ List Memory Stores
 
     format: date-time
 
-  - `ArchivedAt Time`
+  - `CreatedAt Time`
 
     When the memory store was created, in RFC 3339.
 
@@ -75456,7 +75354,7 @@ Retrieve a Memory Store
 
     format: date-time
 
-  - `ArchivedAt Time`
+  - `CreatedAt Time`
 
     When the memory store was created, in RFC 3339.
 
@@ -75712,7 +75610,7 @@ Update a Memory Store
 
     format: date-time
 
-  - `ArchivedAt Time`
+  - `CreatedAt Time`
 
     When the memory store was created, in RFC 3339.
 
@@ -76138,7 +76036,7 @@ Archive a Memory Store
 
     format: date-time
 
-  - `ArchivedAt Time`
+  - `CreatedAt Time`
 
     When the memory store was created, in RFC 3339.
 
@@ -76383,8 +76281,6 @@ Create a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#view-and-edit-memories) to learn more about working with memories.
 
   - `Type Memory`
-
-  - `Type BetaManagedAgentsMemoryType`
 
   - `ID string`
 
@@ -76673,8 +76569,6 @@ List Memories
 
     - `Type Memory`
 
-    - `Type BetaManagedAgentsMemoryType`
-
     - `ID string`
 
       The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -76949,8 +76843,6 @@ Retrieve a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#view-and-edit-memories) to learn more about working with memories.
 
   - `Type Memory`
-
-  - `Type BetaManagedAgentsMemoryType`
 
   - `ID string`
 
@@ -77229,8 +77121,6 @@ Update a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#view-and-edit-memories) to learn more about working with memories.
 
   - `Type Memory`
-
-  - `Type BetaManagedAgentsMemoryType`
 
   - `ID string`
 
@@ -77742,8 +77632,6 @@ List Memory Versions
 
   - `Type MemoryVersion`
 
-  - `Type BetaManagedAgentsMemoryVersionType`
-
   - `ID string`
 
     Unique identifier for this version (a `memver_...` value).
@@ -78090,8 +77978,6 @@ Retrieve a Memory Version
 
   - `Type MemoryVersion`
 
-  - `Type BetaManagedAgentsMemoryVersionType`
-
   - `ID string`
 
     Unique identifier for this version (a `memver_...` value).
@@ -78428,8 +78314,6 @@ Redact a Memory Version
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#audit-memory-changes) to learn more about memory versions.
 
   - `Type MemoryVersion`
-
-  - `Type BetaManagedAgentsMemoryVersionType`
 
   - `ID string`
 
@@ -85174,13 +85058,7 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       - `Type Sessions`
 
-        The memory store must be in the same workspace as the dream and must not be archived.
-
-        minLength: 1
-
-    - `type BetaDreamSessionsInput`
-
-      The sessions that a dream reads, given as an entry in `inputs`.
+      - `SessionIDs []string`
 
         The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
 
@@ -85418,7 +85296,7 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       - `Type MemoryStore`
 
-      The memory store that a dream reads, given as an entry in `inputs`.
+      - `MemoryStoreID string`
 
         The ID of the memory store for the dream to read (`memstore_...`).
 
@@ -85432,25 +85310,11 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       - `Type Sessions`
 
-        The memory store must be in the same workspace as the dream and must not be archived.
-
-        minLength: 1
-
-    - `type BetaDreamSessionsInput`
-
-      The sessions that a dream reads, given as an entry in `inputs`.
-
-        The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
-
-        Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
       - `SessionIDs []string`
 
         The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
 
         Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
-        The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=go#limits) lists all the limits on a dream.
 
   - `Instructions string`
 
@@ -85502,12 +85366,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
         minLength: 1
 
-      - `MemoryStoreID string`
-
-        The ID of the memory store for the dream to write its result to (`memstore_...`). It must be the memory store in the `memory_store` entry of `inputs`.
-
-        minLength: 1
-
   - `Outputs []BetaDreamOutput`
 
     The memory store that holds the dream's result, as a one-item array, or an empty array until the dream records that memory store.
@@ -85517,12 +85375,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
     See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=go#use-the-output) for how to review and use the result.
 
     - `Type MemoryStore`
-
-    - `MemoryStoreID string`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
     - `MemoryStoreID string`
 
@@ -85944,7 +85796,7 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       - `Type MemoryStore`
 
-      The memory store that a dream reads, given as an entry in `inputs`.
+      - `MemoryStoreID string`
 
         The ID of the memory store for the dream to read (`memstore_...`).
 
@@ -85958,25 +85810,11 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       - `Type Sessions`
 
-        The memory store must be in the same workspace as the dream and must not be archived.
-
-        minLength: 1
-
-    - `type BetaDreamSessionsInput`
-
-      The sessions that a dream reads, given as an entry in `inputs`.
-
-        The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
-
-        Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
       - `SessionIDs []string`
 
         The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
 
         Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
-        The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=go#limits) lists all the limits on a dream.
 
   - `Instructions string`
 
@@ -86028,12 +85866,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
         minLength: 1
 
-      - `MemoryStoreID string`
-
-        The ID of the memory store for the dream to write its result to (`memstore_...`). It must be the memory store in the `memory_store` entry of `inputs`.
-
-        minLength: 1
-
   - `Outputs []BetaDreamOutput`
 
     The memory store that holds the dream's result, as a one-item array, or an empty array until the dream records that memory store.
@@ -86043,12 +85875,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
     See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=go#use-the-output) for how to review and use the result.
 
     - `Type MemoryStore`
-
-    - `MemoryStoreID string`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
     - `MemoryStoreID string`
 
@@ -86408,7 +86234,7 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       - `Type MemoryStore`
 
-      The memory store that a dream reads, given as an entry in `inputs`.
+      - `MemoryStoreID string`
 
         The ID of the memory store for the dream to read (`memstore_...`).
 
@@ -86422,25 +86248,11 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       - `Type Sessions`
 
-        The memory store must be in the same workspace as the dream and must not be archived.
-
-        minLength: 1
-
-    - `type BetaDreamSessionsInput`
-
-      The sessions that a dream reads, given as an entry in `inputs`.
-
-        The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
-
-        Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
       - `SessionIDs []string`
 
         The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
 
         Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
-        The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=go#limits) lists all the limits on a dream.
 
   - `Instructions string`
 
@@ -86492,12 +86304,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
         minLength: 1
 
-      - `MemoryStoreID string`
-
-        The ID of the memory store for the dream to write its result to (`memstore_...`). It must be the memory store in the `memory_store` entry of `inputs`.
-
-        minLength: 1
-
   - `Outputs []BetaDreamOutput`
 
     The memory store that holds the dream's result, as a one-item array, or an empty array until the dream records that memory store.
@@ -86507,12 +86313,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
     See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=go#use-the-output) for how to review and use the result.
 
     - `Type MemoryStore`
-
-    - `MemoryStoreID string`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
     - `MemoryStoreID string`
 
@@ -86871,7 +86671,7 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       - `Type MemoryStore`
 
-      The memory store that a dream reads, given as an entry in `inputs`.
+      - `MemoryStoreID string`
 
         The ID of the memory store for the dream to read (`memstore_...`).
 
@@ -86885,25 +86685,11 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       - `Type Sessions`
 
-        The memory store must be in the same workspace as the dream and must not be archived.
-
-        minLength: 1
-
-    - `type BetaDreamSessionsInput`
-
-      The sessions that a dream reads, given as an entry in `inputs`.
-
-        The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
-
-        Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
       - `SessionIDs []string`
 
         The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
 
         Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
-        The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=go#limits) lists all the limits on a dream.
 
   - `Instructions string`
 
@@ -86955,12 +86741,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
         minLength: 1
 
-      - `MemoryStoreID string`
-
-        The ID of the memory store for the dream to write its result to (`memstore_...`). It must be the memory store in the `memory_store` entry of `inputs`.
-
-        minLength: 1
-
   - `Outputs []BetaDreamOutput`
 
     The memory store that holds the dream's result, as a one-item array, or an empty array until the dream records that memory store.
@@ -86970,12 +86750,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
     See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=go#use-the-output) for how to review and use the result.
 
     - `Type MemoryStore`
-
-    - `MemoryStoreID string`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
     - `MemoryStoreID string`
 
@@ -87334,7 +87108,7 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       - `Type MemoryStore`
 
-      The memory store that a dream reads, given as an entry in `inputs`.
+      - `MemoryStoreID string`
 
         The ID of the memory store for the dream to read (`memstore_...`).
 
@@ -87348,25 +87122,11 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       - `Type Sessions`
 
-        The memory store must be in the same workspace as the dream and must not be archived.
-
-        minLength: 1
-
-    - `type BetaDreamSessionsInput`
-
-      The sessions that a dream reads, given as an entry in `inputs`.
-
-        The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
-
-        Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
       - `SessionIDs []string`
 
         The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
 
         Give 1 to 100 IDs, with no duplicates. Each session must be in the same workspace as the dream. Responses list the IDs in sorted order.
-
-        The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=go#limits) lists all the limits on a dream.
 
   - `Instructions string`
 
@@ -87418,12 +87178,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
         minLength: 1
 
-      - `MemoryStoreID string`
-
-        The ID of the memory store for the dream to write its result to (`memstore_...`). It must be the memory store in the `memory_store` entry of `inputs`.
-
-        minLength: 1
-
   - `Outputs []BetaDreamOutput`
 
     The memory store that holds the dream's result, as a one-item array, or an empty array until the dream records that memory store.
@@ -87433,12 +87187,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
     See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=go#use-the-output) for how to review and use the result.
 
     - `Type MemoryStore`
-
-    - `MemoryStoreID string`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
     - `MemoryStoreID string`
 

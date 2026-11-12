@@ -82,8 +82,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             - `JsonElement Type = "text"`
 
-            - `JsonElement Type = "text"`
-
             - `required string Text`
 
               minLength: 1
@@ -331,7 +329,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `JsonElement Type = "file"`
 
-                - `JsonElement Type = "code_execution_output"`
+                - `required string FileID`
 
             - `BetaCacheControlEphemeral? CacheControl`
 
@@ -354,8 +352,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
             - `JsonElement Type = "search_result"`
 
             - `required IReadOnlyList<BetaTextBlockParam> Content`
-
-              - `JsonElement Type = "text"`
 
               - `JsonElement Type = "text"`
 
@@ -3327,7 +3323,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `JsonElement Type = "tool_addition"`
+              - `required string Name`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 

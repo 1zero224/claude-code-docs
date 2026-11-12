@@ -515,8 +515,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                     maxItems: 100
 
-                    - `Type TabOpened`
-
                     - `TabID string`
 
                       The caller-assigned identifier for this tab, unique within the inventory.
@@ -3400,7 +3398,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             default: encrypted_code_execution_result
 
-          - `Type EncryptedCodeExecutionResult`
+          - `Content []CodeExecutionOutputBlock`
 
             - `Type CodeExecutionOutput`
 
@@ -4784,8 +4782,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
                     All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                     maxItems: 100
-
-                    - `Type TabOpened`
 
                     - `TabID string`
 
@@ -21248,7 +21244,7 @@ func main() {
 
             default: encrypted_code_execution_result
 
-          - `Type EncryptedCodeExecutionResult`
+          - `Content []CodeExecutionOutputBlock`
 
             - `Type CodeExecutionOutput`
 
@@ -24941,8 +24937,6 @@ func main() {
 
                   maxItems: 100
 
-                  - `Type TabOpened`
-
                   - `TabID string`
 
                     The caller-assigned identifier for this tab, unique within the inventory.
@@ -26539,7 +26533,7 @@ func main() {
 
             default: encrypted_code_execution_result
 
-          - `Type EncryptedCodeExecutionResult`
+          - `Content []CodeExecutionOutputBlock`
 
             - `Type CodeExecutionOutput`
 
@@ -27515,7 +27509,7 @@ func main() {
 
               default: encrypted_code_execution_result
 
-            - `Type EncryptedCodeExecutionResult`
+            - `Content []CodeExecutionOutputBlock`
 
               - `Type CodeExecutionOutput`
 
@@ -28689,7 +28683,7 @@ func main() {
 
                 default: encrypted_code_execution_result
 
-              - `Type EncryptedCodeExecutionResult`
+              - `Content []CodeExecutionOutputBlock`
 
                 - `Type CodeExecutionOutput`
 
@@ -39821,8 +39815,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                         maxItems: 100
 
-                        - `Type TabOpened`
-
                         - `TabID string`
 
                           The caller-assigned identifier for this tab, unique within the inventory.
@@ -43844,7 +43836,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   default: encrypted_code_execution_result
 
-                - `Type EncryptedCodeExecutionResult`
+                - `Content []CodeExecutionOutputBlock`
 
                   - `Type CodeExecutionOutput`
 

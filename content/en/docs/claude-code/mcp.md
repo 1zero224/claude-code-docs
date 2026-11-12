@@ -151,15 +151,6 @@ When Claude Code disconnects a stdio server, for example when your session ends,
 
 Before v2.1.296, Claude Code on Windows ended the server's process tree at once, without closing stdin first or waiting.
 
-#### How Claude Code stops a stdio server
-
-When Claude Code disconnects a stdio server, for example when your session ends, it signals the server process and waits briefly for it to exit before forcing it to stop. If your server saves state or removes lock files at shutdown, handle the signal for your platform and finish within that time:
-
-* **On macOS and Linux**: Claude Code sends `SIGINT`, then `SIGTERM` if the process is still running 100 milliseconds later, then `SIGKILL` after a further 400 milliseconds.
-* **On Windows**: Claude Code closes the server's stdin, then ends the server's process tree if the process is still running 300 milliseconds later.
-
-Before v2.1.296, Claude Code on Windows ended the server's process tree at once, without closing stdin first or waiting.
-
 ### Option 4: Add a remote WebSocket server
 
 WebSocket servers hold a persistent bidirectional connection, which suits remote MCP servers that push events to Claude unprompted. Use HTTP instead when your server only responds to requests, since HTTP supports OAuth and the `claude mcp add --transport` flag, while WebSocket supports neither.
@@ -1372,10 +1363,6 @@ Anthropic also provides some connectors itself, without you or an admin adding t
 
 Claude Code marks a connector `managed` in `/mcp` and in the [`/plugin`](https://code.claude.com/docs/en/plugins/install) manager when your organization manages its authentication in claude.ai. Managed status doesn't change how Claude Code connects to the connector or applies your organization's [tool controls](#organization-controls-on-connector-tools).
 
-Anthropic also provides some connectors itself, without you or an admin adding them. On accounts where [Claude Docs](/docs/en/artifacts#write-a-document-with-claude-docs) is available, `/mcp` lists `claude.ai Claude Docs` with no setup, and Claude uses it when you ask for a document meant for other people. To turn it off, add a `serverName` entry of `"claude.ai Claude Docs"` to `deniedMcpServers` or use the `/mcp` toggle, both described in [Disable claude.ai connectors](#disable-claude-ai-connectors).
-
-Claude Code marks a connector `managed` in `/mcp` and in the [`/plugin`](/docs/en/plugins/install) manager when your organization manages its authentication in claude.ai. Managed status doesn't change how Claude Code connects to the connector or applies your organization's [tool controls](#organization-controls-on-connector-tools).
-
 Connectors you have never signed in to are collapsed behind a `Show unused connectors` row at the end of the claude.ai section, so an organization-provisioned list doesn't fill the panel. Select the row to expand them. A connector you signed in to before stays visible even when it currently needs re-authentication.
 
 Connectors from claude.ai are fetched only when your active [authentication method](https://code.claude.com/docs/en/authentication.md#authentication-precedence) is a claude.ai subscription login. They aren't loaded, even if you previously ran `/login`, when:
@@ -1520,8 +1507,6 @@ The field is in the result's JSON text and holds the path of the command's outpu
   3. Look for your `echo` string in the last ten lines, which the second call returns
 
 The `backgroundOutputPath` field requires Claude Code v2.1.295 or later.
-
-When the JSON text in a Bash or PowerShell tool call's result includes a `backgroundOutputPath` field, the call left its command running [in the background](/docs/en/tools-reference#background-commands), such as when the call set `run_in_background: true` or the command reached its timeout. The field gives the path of the command's output file. Nothing notifies your client when the command finishes, and the file gets no closing line when it does, so reading the file shows the output written so far. To detect the end, append a marker to the command, such as `npm test; echo DONE`, and look for it in the file. The `backgroundOutputPath` field requires Claude Code v2.1.295 or later.
 
 ## MCP output limits and warnings
 
@@ -1748,8 +1733,6 @@ Compare @postgres:schema://users with @docs:file://database/user-model
 
 MCP Apps UI resources are entries with a `ui://` URI or the `text/html;profile=mcp-app` media type: pages for a host application to render rather than content for Claude to read. They don't appear in the `@` suggestions or in the resource list tool's results, and a server that offers only UI resources shows an empty resource list. Reading a UI resource by its URI still works.
 
-MCP Apps UI resources are entries with a `ui://` URI or the `text/html;profile=mcp-app` media type: pages for a host application to render rather than content for Claude to read. They don't appear in the `@` suggestions or in the resource list tool's results, and a server that offers only UI resources shows an empty resource list. Reading a UI resource by its URI still works.
-
 ## Scale with MCP tool search
 
 Tool search keeps MCP context usage low by deferring tool definitions until Claude needs them. Only tool names and server instructions load at session start, so adding more MCP servers has minimal impact on your context window. Claude Code doesn't impose a fixed per-server tool cap; the practical limit is your context window budget.
@@ -1889,12 +1872,6 @@ The `alwaysLoad` field is available on all server types.
 Setting `alwaysLoad: true` also makes startup wait for the server's tools, capped at the standard 5-second connect timeout, since they must be present when the first prompt is built. A remote server with a valid [`cached` entry](#server-status-detail) supplies its tools from the cache without connecting, so it doesn't hold startup. Other servers connect in the background by default; set [`MCP_CONNECTION_NONBLOCKING=0`](https://code.claude.com/docs/en/env-vars) to make startup wait for them too.
 
 ### Defer a server's tools
-
-To keep all of a server's tools behind tool search, set `"alwaysLoad": false` in that server's entry in your MCP configuration. That includes tools that the server's author has [marked to load upfront](#per-tool-alwaysload). If you leave `alwaysLoad` out, those marked tools load upfront. Requires Claude Code v2.1.287 or later.
-
-<h3 id="defer-a-servers-tools">
-  Defer a server's tools
-</h3>
 
 To keep all of a server's tools behind tool search, set `"alwaysLoad": false` in that server's entry in your MCP configuration. That includes tools that the server's author has [marked to load upfront](#per-tool-alwaysload). If you leave `alwaysLoad` out, those marked tools load upfront. Requires Claude Code v2.1.287 or later.
 

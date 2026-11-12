@@ -174,26 +174,6 @@ Deliver it as [managed settings](https://code.claude.com/docs/en/managed-setting
 
 To confirm the rates are in effect, run `/usage` in a session that has [received the managed settings](https://code.claude.com/docs/en/managed-settings.md#read-the-source-in-%2Fstatus): the Session block's `Total cost` line carries the note `at your organization's configured rates`. The figures are still estimates, not an invoice. The per-million-token prices in the `/model` picker stay at list price.
 
-### Report spend at your contracted rates
-
-By default, Claude Code computes every cost figure it shows developers at list price, so if your organization pays contracted rates, the figures in `/usage`, the status line, and OpenTelemetry don't match your bill. To make them match, set the [`modelPricing`](/docs/en/settings-reference#modelpricing) managed setting to your rates. The setting changes what Claude Code reports, not what Anthropic charges. Requires Claude Code v2.1.242 or later.
-
-<Steps>
-  <Step title="Take the rates from your contract">
-    Enter the per-million-token rates from your contract. Claude Code doesn't fetch them from the Claude Console, so update the setting when the contract changes.
-  </Step>
-
-  <Step title="Write the setting">
-    Set `multiplier` below 1 for a flat discount or above 1 for a markup, list each model's four per-token rates under `overrides`, or do both. A markup requires Claude Code v2.1.271 or later. The [`modelPricing` entry](/docs/en/settings-reference#modelpricing) has the shape and a paste-ready example.
-  </Step>
-
-  <Step title="Deploy it through managed settings">
-    Deliver it as [managed settings](/docs/en/managed-settings): server-managed settings, an MDM policy, `managed-settings.json`, or a [policy helper](/docs/en/managed-settings#compute-the-policy-with-a-helper-program). Claude Code ignores the key in user, project, and local settings and in `--settings`.
-  </Step>
-</Steps>
-
-To confirm the rates are in effect, run `/usage` in a session that has [received the managed settings](/docs/en/managed-settings#read-the-source-in-%2Fstatus): the Session block's `Total cost` line carries the note `at your organization's configured rates`. The figures are still estimates, not an invoice. The per-million-token prices in the `/model` picker stay at list price.
-
 ### Claude for Teams and Enterprise
 
 On Claude for Teams and Enterprise plans, each member's Claude Code usage draws from a per-seat allowance that resets on a rolling five-hour window and a weekly window. The allowance is shared with Claude chat and Cowork, and its size depends on the member's [seat tier](https://support.claude.com/en/articles/11845131-use-claude-code-with-your-team-or-enterprise-plan) (Standard or Premium). Your controls live in the claude.ai admin console, not the Claude Console.
@@ -312,9 +292,7 @@ MCP tool definitions are [deferred by default](https://code.claude.com/docs/en/m
 
 Custom [hooks](https://code.claude.com/docs/en/hooks.md) can preprocess data before Claude sees it. Instead of Claude reading a 10,000-line log file to find errors, a hook can grep for `ERROR` and return only matching lines, reducing context from tens of thousands of tokens to hundreds.
 
-A [skill](https://code.claude.com/docs/en/skills.md) can give Claude domain knowledge so it doesn't have to explore. For example, a "codebase-overview" skill could describe your project's architecture, key directories, and naming conventions. When Claude invokes the skill, it gets this context immediately instead of spending tokens reading multiple files to understand the structure.
-
-For example, this PreToolUse hook filters test output to show only failures:
+This PreToolUse hook trims test output to its last 100 lines:
 
 > [tab] settings.json
 >
@@ -340,17 +318,17 @@ For example, this PreToolUse hook filters test output to show only failures:
 
 > [tab] filter-test-output.sh
 >
-> The hook calls this script. Create the folder with `mkdir -p ~/.claude/hooks`, save the script below as `~/.claude/hooks/filter-test-output.sh`, and make it executable with `chmod +x ~/.claude/hooks/filter-test-output.sh`. It checks if the command is a test runner and modifies it to show only failures:
+> The hook calls this script. Create the folder with `mkdir -p ~/.claude/hooks`, save the script below as `~/.claude/hooks/filter-test-output.sh`, and make it executable with `chmod +x ~/.claude/hooks/filter-test-output.sh`. It checks if the command is a test runner and, if so, keeps only the last 100 lines of its output:
 >
 > ```bash theme={null}
 > #!/bin/bash
 > input=$(cat)
 > cmd=$(echo "$input" | jq -r '.tool_input.command')
 >
-> # If running tests, filter to show only failures
+> # If running tests, keep only the last 100 lines
 > pattern='^(npm test|pytest|go test)( [^;&|<>`$#\\[:cntrl:]]*)?$'
 > if [[ "$cmd" =~ $pattern ]]; then
->   filtered_cmd="$cmd 2>&1 | grep -A 5 -E '(FAIL|ERROR|error:)' | head -100"
+>   filtered_cmd="$cmd 2>&1 | tail -n 100"
 >   echo "$input" | jq --arg filtered "$filtered_cmd" \
 >     '{hookSpecificOutput: {hookEventName: "PreToolUse", updatedInput: (.tool_input + {command: $filtered})}}'
 > else
@@ -359,6 +337,8 @@ For example, this PreToolUse hook filters test output to show only failures:
 > ```
 
 To verify the setup, run `/hooks` and check that the hook appears under PreToolUse. You can also start Claude Code with `claude --debug-file ./claude-debug.txt` and ask Claude to run `npm test`. When the hook rewrites the command, that log file contains a `modified tool input keys` line listing `command` and the other Bash input fields.
+
+A [skill](https://code.claude.com/docs/en/skills.md) can give Claude domain knowledge so it doesn't have to explore. For example, a "codebase-overview" skill could describe your project's architecture, key directories, and naming conventions. When Claude invokes the skill, it gets this context immediately instead of spending tokens reading multiple files to understand the structure.
 
 ### Move instructions from CLAUDE.md to skills
 
@@ -377,8 +357,6 @@ On models with a [fixed thinking budget](https://code.claude.com/docs/en/model-c
 Running tests, fetching documentation, or processing log files can consume significant context. Delegate these to [subagents](https://code.claude.com/docs/en/sub-agents.md#isolate-high-volume-operations) so the verbose output stays in the subagent's context while only a summary returns to your main conversation.
 
 The subagent's own requests still draw on your usage. To spend less on them, [choose a smaller model for a subagent](https://code.claude.com/docs/en/sub-agents.md#choose-a-model) or [run every subagent on one model](https://code.claude.com/docs/en/sub-agents.md#run-every-subagent-on-one-model).
-
-The subagent's own requests still draw on your usage. To spend less on them, [choose a smaller model for a subagent](/docs/en/sub-agents#choose-a-model) or [run every subagent on one model](/docs/en/sub-agents#run-every-subagent-on-one-model).
 
 ### Manage agent team costs
 
@@ -402,8 +380,6 @@ For longer or more complex work, these habits help avoid wasted tokens from goin
 Session recap and idle compaction can use tokens while you're idle. See [session recap](https://code.claude.com/docs/en/interactive-mode.md#session-recap) and [idle compaction](https://code.claude.com/docs/en/settings-reference.md#idlecompaction) for when each runs and how to turn it off.
 
 When prompt suggestions are on, Claude Code also sends a short request to the model your session is using after Claude responds, to [suggest your next prompt](https://code.claude.com/docs/en/interactive-mode.md#prompt-suggestions). That request reuses the conversation's prompt cache, so it is mostly cache reads plus a few output tokens. Claude Code [skips it while your account is close to or at its usage limit](https://code.claude.com/docs/en/interactive-mode.md#when-claude-code-skips-suggestions). To stop these requests, [turn prompt suggestions off](https://code.claude.com/docs/en/interactive-mode.md#turn-prompt-suggestions-off).
-
-When prompt suggestions are on, Claude Code also sends a short request to the model your session is using after Claude responds, to [suggest your next prompt](/docs/en/interactive-mode#prompt-suggestions). That request reuses the conversation's prompt cache, so it is mostly cache reads plus a few output tokens. Claude Code [skips it while your account is close to or at its usage limit](/docs/en/interactive-mode#when-claude-code-skips-suggestions). To stop these requests, [turn prompt suggestions off](/docs/en/interactive-mode#turn-prompt-suggestions-off).
 
 ## Why usage climbs in a long session
 

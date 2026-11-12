@@ -28,18 +28,6 @@ In any field, Claude Science also gives you these tools:
 
 Researchers in the life sciences also get specialized [Featured connectors](https://claude.com/docs/claude-science/connectors-and-skills.md#featured-connectors) to databases in their fields, and skills for specific models, such as AlphaFold2 for protein structure. Other Featured connectors and skills work in any field: for example, the Literature Graph and Research Resources connectors search scholarly literature and funding opportunities, and the literature review skill helps Claude find, verify, and synthesize papers. To give Claude a data source or method from your own field, see [When the connector you need isn't listed](https://claude.com/docs/claude-science/connectors-and-skills.md#when-the-connector-you-need-isn%E2%80%99t-listed) and [Skills](https://claude.com/docs/claude-science/connectors-and-skills.md#skills).
 
-## Use Claude Science outside the life sciences
-
-Claude Science isn't limited to the life sciences. Besides biology, chemistry, and clinical and medical research, it supports computer science and machine learning, engineering, materials science, mathematics, physics, the social sciences, and other fields. Claude Science is for anyone who works through the loop of scientific discovery: generating hypotheses, reviewing literature, designing experiments, running long and complex data analyses, and turning the results into reproducible figures and findings. Claude writes and runs code and [installs the packages](/docs/claude-science/tools-and-environments#installing-packages) an analysis needs.
-
-In any field, Claude Science also gives you these tools:
-
-* **Remote compute.** For long-running or heavy analyses, Claude can run jobs on [a workstation or Slurm cluster you reach over SSH](/docs/claude-science/remote-compute-clusters), or on cloud GPUs through [your own Modal account](/docs/claude-science/compute-providers). On Team and Enterprise plans, your organization's admin decides whether you can use SSH hosts and Modal.
-* **Credentials.** Store credentials for [licensed literature](/docs/claude-science/literature-access), [cloud storage](/docs/claude-science/cloud-storage), and other APIs in **Settings > Credentials**, where they're encrypted on your computer.
-* **Review.** [The reviewer](/docs/claude-science/the-reviewer) can check Claude's claims against the work that actually ran, and you can add review criteria for your own field in **Settings > Specialists > Reviewer**.
-
-Researchers in the life sciences also get specialized [Featured connectors](/docs/claude-science/connectors-and-skills#featured-connectors) to databases in their fields, and skills for specific models, such as AlphaFold2 for protein structure. Other Featured connectors and skills work in any field: for example, the Literature Graph and Research Resources connectors search scholarly literature and funding opportunities, and the literature review skill helps Claude find, verify, and synthesize papers. To give Claude a data source or method from your own field, see [When the connector you need isn't listed](/docs/claude-science/connectors-and-skills#when-the-connector-you-need-isn%E2%80%99t-listed) and [Skills](/docs/claude-science/connectors-and-skills#skills).
-
 ## Requirements
 
 * A Claude account on a Pro, Max, Ultra, Team, or Enterprise plan. The [Claude Team plan for scientists](https://claude.com/programs/team-plan-for-scientists) has Claude Science on by default. On other Team and Enterprise plans, an Owner must [enable Claude Science for the organization](https://claude.com/docs/claude-science/enable-claude-science.md) first.

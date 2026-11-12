@@ -1921,8 +1921,6 @@ List Session Thread Events
 
         - `Name string`
 
-        - `Name string`
-
         - `URL string`
 
       - `Model BetaManagedAgentsModelConfig`

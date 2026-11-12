@@ -31,12 +31,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-  - `Optional<String> workspaceId` (header parameter)
-
-    Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-    Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
   - `List<Request> requests`
 
     List of requests for prompt completion. Each is an individual request to create a Message.
@@ -129,8 +123,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `List<ContentBlockParam>`
 
               - `class TextBlockParam`
-
-                - `JsonValue type = "text"`
 
                 - `JsonValue type = "text"`
 
@@ -556,8 +548,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                         All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                         maxItems: 100
-
-                        - `JsonValue type = "tab_opened"`
 
                         - `String tabId`
 
@@ -4428,8 +4418,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `JsonValue type = "encrypted_code_execution_result"`
 
-                - `JsonValue type = "encrypted_code_execution_result"`
-
                 - `List<CodeExecutionOutputBlock> content`
 
                   - `JsonValue type = "code_execution_output"`
@@ -5868,8 +5856,6 @@ public final class Main {
 
                 - `JsonValue type = "encrypted_code_execution_result"`
 
-                - `JsonValue type = "encrypted_code_execution_result"`
-
                 - `List<CodeExecutionOutputBlock> content`
 
                   - `JsonValue type = "code_execution_output"`
@@ -7078,8 +7064,6 @@ public final class Main {
 
               - `JsonValue type = "encrypted_code_execution_result"`
 
-              - `JsonValue type = "encrypted_code_execution_result"`
-
               - `List<CodeExecutionOutputBlock> content`
 
                 - `JsonValue type = "code_execution_output"`
@@ -8247,8 +8231,6 @@ public final class Main {
             The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
             See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=java) to learn more about programmatic tool calling.
-
-            - `JsonValue type = "encrypted_code_execution_result"`
 
             - `JsonValue type = "encrypted_code_execution_result"`
 

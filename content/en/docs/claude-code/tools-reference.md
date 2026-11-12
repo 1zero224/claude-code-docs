@@ -197,7 +197,7 @@ The time limit requires Claude Code v2.1.285 or later. Before v2.1.288, it appli
 The time limit counts from the moment the command enters the background:
 
 * A command that Claude starts in the background gets 30 minutes, or the `timeout` Claude passes with `run_in_background`, up to a maximum of 2 hours
-* A command that starts in the foreground and then moves to the background, for example at its timeout, gets 30 minutes from the move
+* A command that starts in the foreground and then moves to the background at its timeout gets 30 minutes from the move
 
 In a run with the `-p` flag whose prompt you pass as text rather than with `--input-format stream-json`, both defaults are 10 minutes instead of 30, because the run [waits for background commands after its result](https://code.claude.com/docs/en/headless.md#background-tasks-at-exit).
 
@@ -640,8 +640,6 @@ A subagent has the task-tracking tools only when your session has them, whatever
 
 Without the Task tools, an agent coordinates with its team through messages instead of the [shared task list](https://code.claude.com/docs/en/agent-teams.md#assign-and-claim-tasks).
 
-The default set described here applies in Claude Code v2.1.268 and later.
-
 ## WebFetch tool behavior
 
 WebFetch takes a URL and a prompt describing what to extract. It fetches the page and converts the response to Markdown when the server returns HTML. For most fetches, it then runs the prompt against the content in a separate model call, and Claude receives the result of that call rather than the raw page. The conversion step is not configurable.
@@ -679,14 +677,6 @@ Sandboxed commands don't inherit WebFetch's built-in set of preapproved document
 On Claude Code v2.1.285 or later, set [`CLAUDE_CODE_DISABLE_WEB_FETCH`](https://code.claude.com/docs/en/env-vars#variables) to `1` to turn WebFetch off.
 
 If you sign in with a Team or Enterprise claude.ai account and don't connect through an [LLM gateway](https://code.claude.com/docs/en/llm-gateway), WebFetch also depends on your organization's policy, which Claude Code requests from `api.anthropic.com` when a session starts. The same goes for a session whose plan Claude Code can't determine, such as one running under a claude.ai token that another app supplied.
-
-If WebFetch is missing from a session, run `/status` in the session. If its `Organization policy` line reports that the policy didn't load and names web fetch among the features that wait for it, Claude Code is withholding WebFetch until it can confirm that your organization allows it. Outside a session, `claude doctor` makes its own request and prints the same line. Once a policy that allows WebFetch loads, the tool returns without a restart.
-
-### WebFetch availability
-
-On Claude Code v2.1.285 or later, set [`CLAUDE_CODE_DISABLE_WEB_FETCH`](/docs/en/env-vars#variables) to `1` to turn WebFetch off.
-
-If you sign in with a Team or Enterprise claude.ai account and don't connect through an [LLM gateway](/docs/en/llm-gateway), WebFetch also depends on your organization's policy, which Claude Code requests from `api.anthropic.com` when a session starts. The same goes for a session whose plan Claude Code can't determine, such as one running under a claude.ai token that another app supplied.
 
 If WebFetch is missing from a session, run `/status` in the session. If its `Organization policy` line reports that the policy didn't load and names web fetch among the features that wait for it, Claude Code is withholding WebFetch until it can confirm that your organization allows it. Outside a session, `claude doctor` makes its own request and prints the same line. Once a policy that allows WebFetch loads, the tool returns without a restart.
 

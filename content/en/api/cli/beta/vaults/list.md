@@ -161,8 +161,6 @@ List Vaults
 
     - `type: "vault"`
 
-    - `type: "vault"`
-
     - `id: string`
 
       The unique ID of the vault (`vlt_...`).

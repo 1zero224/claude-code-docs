@@ -2459,10 +2459,6 @@ public final class Main {
 
   - `JsonValue errorCode = "invalid_metadata"`
 
-  - `String id`
-
-    Environment identifier
-
 ### Beta Limited Network
 
 - `class BetaLimitedNetwork`
@@ -4607,10 +4603,6 @@ Get statistics about the work queue for an environment.
 - `class BetaSelfHostedWorkQueueStats`
 
   Statistics about the work queue for an environment.
-
-  - `JsonValue type = "work_queue_stats"`
-
-    The type of object
 
   - `JsonValue type = "work_queue_stats"`
 

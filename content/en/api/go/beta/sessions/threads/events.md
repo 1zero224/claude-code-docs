@@ -1923,8 +1923,6 @@ List Session Thread Events
 
         - `Name string`
 
-        - `Name string`
-
         - `URL string`
 
       - `Model BetaManagedAgentsModelConfig`
@@ -5115,8 +5113,6 @@ Stream Session Thread Events
       - `MCPServers []BetaManagedAgentsMCPServerURLDefinition`
 
         - `Type URL`
-
-        - `Name string`
 
         - `Name string`
 

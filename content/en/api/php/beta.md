@@ -1885,12 +1885,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class MessageBatch`
@@ -2695,12 +2689,6 @@ Create Agent
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsAgent`
@@ -2966,12 +2954,6 @@ List Agents
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsAgent`
@@ -3177,12 +3159,6 @@ Get Agent
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -3430,12 +3406,6 @@ Update Agent
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsAgent`
@@ -3676,12 +3646,6 @@ Archive Agent
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsAgent`
@@ -3884,12 +3848,6 @@ List Agent Versions
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -5940,12 +5898,6 @@ Create Session
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsSession`
@@ -6319,12 +6271,6 @@ List Sessions
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsSession`
@@ -6639,12 +6585,6 @@ Get Session
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -6966,12 +6906,6 @@ Update Session
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -7311,12 +7245,6 @@ Delete Session
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsDeletedSession`
@@ -7372,12 +7300,6 @@ Archive Session
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -7711,12 +7633,6 @@ List Events
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -8696,12 +8612,6 @@ Send Events
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class ManagedAgentsSendSessionEvents`
@@ -8778,12 +8688,6 @@ Stream Events
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -9772,12 +9676,6 @@ Add Session Resource
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class ManagedAgentsFileResource`
@@ -9860,12 +9758,6 @@ List Session Resources
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -10018,12 +9910,6 @@ Get Session Resource
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class ResourceGetResponse`
@@ -10156,12 +10042,6 @@ Update Session Resource
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -10301,12 +10181,6 @@ Delete Session Resource
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class ManagedAgentsDeleteSessionResource`
@@ -10383,12 +10257,6 @@ List Session Threads
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -10591,12 +10459,6 @@ Get Session Thread
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class ManagedAgentsSessionThread`
@@ -10781,12 +10643,6 @@ Archive Session Thread
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -10982,12 +10838,6 @@ List Session Thread Events
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -11958,12 +11808,6 @@ Stream Session Thread Events
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -12982,12 +12826,6 @@ Create Deployment
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsDeployment`
@@ -13222,12 +13060,6 @@ List Deployments
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsDeployment`
@@ -13417,12 +13249,6 @@ Get Deployment
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -13650,12 +13476,6 @@ Update Deployment
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsDeployment`
@@ -13867,12 +13687,6 @@ Archive Deployment
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsDeployment`
@@ -14055,12 +13869,6 @@ Run Deployment Now
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsDeploymentRun`
@@ -14160,12 +13968,6 @@ Pause Deployment
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -14348,12 +14150,6 @@ Unpause Deployment
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -14575,12 +14371,6 @@ List Deployment Runs
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsDeploymentRun`
@@ -14699,12 +14489,6 @@ Get Deployment Run
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsDeploymentRun`
@@ -14815,12 +14599,6 @@ Create a Vault
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsVault`
@@ -14921,12 +14699,6 @@ List Vaults
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsVault`
@@ -15020,12 +14792,6 @@ Retrieve a Vault
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -15130,12 +14896,6 @@ Update a Vault
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsVault`
@@ -15229,12 +14989,6 @@ Delete a Vault
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsDeletedVault`
@@ -15294,12 +15048,6 @@ Archive a Vault
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -15405,12 +15153,6 @@ Create a Credential
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -15539,12 +15281,6 @@ List Credentials
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class ManagedAgentsCredential`
@@ -15656,12 +15392,6 @@ Retrieve a Credential
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -15783,12 +15513,6 @@ Update a Credential
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -15917,12 +15641,6 @@ Delete a Credential
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class ManagedAgentsDeletedCredential`
@@ -15991,12 +15709,6 @@ Archive a Credential
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -16106,12 +15818,6 @@ Validate an MCP OAuth Credential
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -16248,12 +15954,6 @@ Create a Memory Store
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsMemoryStore`
@@ -16271,10 +15971,6 @@ Create a Memory Store
     Archiving can't be undone. An archived store can't be attached to new sessions. You can't create or update its memories or update the store. You can still read and delete its memories, redact their versions, and delete the store.
 
     See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#archive-a-store) to learn more about archiving.
-
-  - `?\Datetime archivedAt`
-
-    Timestamp when the store was archived, or `null` if active. Set once and never cleared; archiving is one-way. Archived stores are read-only and cannot be attached to new sessions.
 
   - `\Datetime createdAt`
 
@@ -16380,12 +16076,6 @@ List Memory Stores
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsMemoryStore`
@@ -16403,10 +16093,6 @@ List Memory Stores
     Archiving can't be undone. An archived store can't be attached to new sessions. You can't create or update its memories or update the store. You can still read and delete its memories, redact their versions, and delete the store.
 
     See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#archive-a-store) to learn more about archiving.
-
-  - `?\Datetime archivedAt`
-
-    Timestamp when the store was archived, or `null` if active. Set once and never cleared; archiving is one-way. Archived stores are read-only and cannot be attached to new sessions.
 
   - `\Datetime createdAt`
 
@@ -16501,12 +16187,6 @@ Retrieve a Memory Store
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsMemoryStore`
@@ -16524,10 +16204,6 @@ Retrieve a Memory Store
     Archiving can't be undone. An archived store can't be attached to new sessions. You can't create or update its memories or update the store. You can still read and delete its memories, redact their versions, and delete the store.
 
     See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#archive-a-store) to learn more about archiving.
-
-  - `?\Datetime archivedAt`
-
-    Timestamp when the store was archived, or `null` if active. Set once and never cleared; archiving is one-way. Archived stores are read-only and cannot be attached to new sessions.
 
   - `\Datetime createdAt`
 
@@ -16633,12 +16309,6 @@ Update a Memory Store
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsMemoryStore`
@@ -16656,10 +16326,6 @@ Update a Memory Store
     Archiving can't be undone. An archived store can't be attached to new sessions. You can't create or update its memories or update the store. You can still read and delete its memories, redact their versions, and delete the store.
 
     See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#archive-a-store) to learn more about archiving.
-
-  - `?\Datetime archivedAt`
-
-    Timestamp when the store was archived, or `null` if active. Set once and never cleared; archiving is one-way. Archived stores are read-only and cannot be attached to new sessions.
 
   - `\Datetime createdAt`
 
@@ -16752,12 +16418,6 @@ Delete a Memory Store
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsDeletedMemoryStore`
@@ -16824,12 +16484,6 @@ Archive a Memory Store
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaManagedAgentsMemoryStore`
@@ -16847,10 +16501,6 @@ Archive a Memory Store
     Archiving can't be undone. An archived store can't be attached to new sessions. You can't create or update its memories or update the store. You can still read and delete its memories, redact their versions, and delete the store.
 
     See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=php#archive-a-store) to learn more about archiving.
-
-  - `?\Datetime archivedAt`
-
-    Timestamp when the store was archived, or `null` if active. Set once and never cleared; archiving is one-way. Archived stores are read-only and cannot be attached to new sessions.
 
   - `\Datetime createdAt`
 
@@ -16953,12 +16603,6 @@ Create a Memory
   This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -17110,12 +16754,6 @@ List Memories
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class ManagedAgentsMemoryListItem`
@@ -17256,12 +16894,6 @@ Retrieve a Memory
   This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -17410,12 +17042,6 @@ Update a Memory
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class ManagedAgentsMemory`
@@ -17549,12 +17175,6 @@ Delete a Memory
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class ManagedAgentsDeletedMemory`
@@ -17664,12 +17284,6 @@ List Memory Versions
   This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -17837,12 +17451,6 @@ Retrieve a Memory Version
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class ManagedAgentsMemoryVersion`
@@ -17984,12 +17592,6 @@ Redact a Memory Version
   This endpoint is in beta: requests must send `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -20280,10 +19882,6 @@ Create Enrollment URL
 
     When this enrollment URL expires, in RFC 3339 format.
 
-  - `\Datetime expiresAt`
-
-    When this enrollment URL expires, in RFC 3339 format.
-
   - `string url`
 
     Enrollment URL to send to the end user. Valid until `expires_at`.
@@ -20642,81 +20240,11 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaDream`
 
   - `"dream" type`
-
-  - `string id`
-
-    The unique ID of the dream (`drm_...`).
-
-  - `?\Datetime archivedAt`
-
-    When the dream was archived, in RFC 3339, or `null` if it hasn't been archived.
-
-  - `\Datetime createdAt`
-
-    When the dream was created, in RFC 3339.
-
-    Lists of dreams are sorted by this time, newest first.
-
-  - `?\Datetime endedAt`
-
-    When the dream reached `completed`, `failed`, or `canceled`, in RFC 3339, or `null` if it is still `pending` or `running`.
-
-  - `?BetaDreamError error`
-
-    Why the dream failed, or `null` if `status` isn't `failed`.
-
-  - `list<BetaDreamInput> inputs`
-
-    The sources that the dream reads, from the request that created it.
-
-  - `?string instructions`
-
-    The guidance given when the dream was created, or `null` if none was given.
-
-  - `BetaDreamModelConfig model`
-
-    The model that runs a dream, from the request that created it.
-
-    The dream uses this model for all of its work. The response always gives the model as an object, even if the request gave only a model ID.
-
-  - `BetaOutputBehavior outputBehavior`
-
-    Where the dream writes its result, as set in the request that created the dream. If that request left out `output_behavior`, the dream used the `create_new` behavior.
-
-  - `list<BetaDreamOutput> outputs`
-
-    The memory store that holds the dream's result, as a one-item array, or an empty array until the dream records that memory store.
-
-    The array is empty while the dream is `pending` and for a short time after it starts `running`. It can stay empty if the dream fails or is canceled before then. The memory store holds the complete result only once `status` is `completed`.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#use-the-output) for how to review and use the result.
-
-  - `?string sessionID`
-
-    The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
-
-    Stream that session's events to follow what the dream reads and writes.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#watch-the-pipeline-run) for how to watch a running dream.
-
-  - `BetaDreamStatus status`
-
-    Where a dream is in its lifecycle.
-
-    `completed`, `failed`, and `canceled` are final: once a dream has one of these statuses, its status doesn't change again.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#lifecycle) for what each status means.
 
   - `string id`
 
@@ -20890,81 +20418,11 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaDream`
 
   - `"dream" type`
-
-  - `string id`
-
-    The unique ID of the dream (`drm_...`).
-
-  - `?\Datetime archivedAt`
-
-    When the dream was archived, in RFC 3339, or `null` if it hasn't been archived.
-
-  - `\Datetime createdAt`
-
-    When the dream was created, in RFC 3339.
-
-    Lists of dreams are sorted by this time, newest first.
-
-  - `?\Datetime endedAt`
-
-    When the dream reached `completed`, `failed`, or `canceled`, in RFC 3339, or `null` if it is still `pending` or `running`.
-
-  - `?BetaDreamError error`
-
-    Why the dream failed, or `null` if `status` isn't `failed`.
-
-  - `list<BetaDreamInput> inputs`
-
-    The sources that the dream reads, from the request that created it.
-
-  - `?string instructions`
-
-    The guidance given when the dream was created, or `null` if none was given.
-
-  - `BetaDreamModelConfig model`
-
-    The model that runs a dream, from the request that created it.
-
-    The dream uses this model for all of its work. The response always gives the model as an object, even if the request gave only a model ID.
-
-  - `BetaOutputBehavior outputBehavior`
-
-    Where the dream writes its result, as set in the request that created the dream. If that request left out `output_behavior`, the dream used the `create_new` behavior.
-
-  - `list<BetaDreamOutput> outputs`
-
-    The memory store that holds the dream's result, as a one-item array, or an empty array until the dream records that memory store.
-
-    The array is empty while the dream is `pending` and for a short time after it starts `running`. It can stay empty if the dream fails or is canceled before then. The memory store holds the complete result only once `status` is `completed`.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#use-the-output) for how to review and use the result.
-
-  - `?string sessionID`
-
-    The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
-
-    Stream that session's events to follow what the dream reads and writes.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#watch-the-pipeline-run) for how to watch a running dream.
-
-  - `BetaDreamStatus status`
-
-    Where a dream is in its lifecycle.
-
-    `completed`, `failed`, and `canceled` are final: once a dream has one of these statuses, its status doesn't change again.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#lifecycle) for what each status means.
 
   - `string id`
 
@@ -21127,81 +20585,11 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaDream`
 
   - `"dream" type`
-
-  - `string id`
-
-    The unique ID of the dream (`drm_...`).
-
-  - `?\Datetime archivedAt`
-
-    When the dream was archived, in RFC 3339, or `null` if it hasn't been archived.
-
-  - `\Datetime createdAt`
-
-    When the dream was created, in RFC 3339.
-
-    Lists of dreams are sorted by this time, newest first.
-
-  - `?\Datetime endedAt`
-
-    When the dream reached `completed`, `failed`, or `canceled`, in RFC 3339, or `null` if it is still `pending` or `running`.
-
-  - `?BetaDreamError error`
-
-    Why the dream failed, or `null` if `status` isn't `failed`.
-
-  - `list<BetaDreamInput> inputs`
-
-    The sources that the dream reads, from the request that created it.
-
-  - `?string instructions`
-
-    The guidance given when the dream was created, or `null` if none was given.
-
-  - `BetaDreamModelConfig model`
-
-    The model that runs a dream, from the request that created it.
-
-    The dream uses this model for all of its work. The response always gives the model as an object, even if the request gave only a model ID.
-
-  - `BetaOutputBehavior outputBehavior`
-
-    Where the dream writes its result, as set in the request that created the dream. If that request left out `output_behavior`, the dream used the `create_new` behavior.
-
-  - `list<BetaDreamOutput> outputs`
-
-    The memory store that holds the dream's result, as a one-item array, or an empty array until the dream records that memory store.
-
-    The array is empty while the dream is `pending` and for a short time after it starts `running`. It can stay empty if the dream fails or is canceled before then. The memory store holds the complete result only once `status` is `completed`.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#use-the-output) for how to review and use the result.
-
-  - `?string sessionID`
-
-    The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
-
-    Stream that session's events to follow what the dream reads and writes.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#watch-the-pipeline-run) for how to watch a running dream.
-
-  - `BetaDreamStatus status`
-
-    Where a dream is in its lifecycle.
-
-    `completed`, `failed`, and `canceled` are final: once a dream has one of these statuses, its status doesn't change again.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#lifecycle) for what each status means.
 
   - `string id`
 
@@ -21364,81 +20752,11 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaDream`
 
   - `"dream" type`
-
-  - `string id`
-
-    The unique ID of the dream (`drm_...`).
-
-  - `?\Datetime archivedAt`
-
-    When the dream was archived, in RFC 3339, or `null` if it hasn't been archived.
-
-  - `\Datetime createdAt`
-
-    When the dream was created, in RFC 3339.
-
-    Lists of dreams are sorted by this time, newest first.
-
-  - `?\Datetime endedAt`
-
-    When the dream reached `completed`, `failed`, or `canceled`, in RFC 3339, or `null` if it is still `pending` or `running`.
-
-  - `?BetaDreamError error`
-
-    Why the dream failed, or `null` if `status` isn't `failed`.
-
-  - `list<BetaDreamInput> inputs`
-
-    The sources that the dream reads, from the request that created it.
-
-  - `?string instructions`
-
-    The guidance given when the dream was created, or `null` if none was given.
-
-  - `BetaDreamModelConfig model`
-
-    The model that runs a dream, from the request that created it.
-
-    The dream uses this model for all of its work. The response always gives the model as an object, even if the request gave only a model ID.
-
-  - `BetaOutputBehavior outputBehavior`
-
-    Where the dream writes its result, as set in the request that created the dream. If that request left out `output_behavior`, the dream used the `create_new` behavior.
-
-  - `list<BetaDreamOutput> outputs`
-
-    The memory store that holds the dream's result, as a one-item array, or an empty array until the dream records that memory store.
-
-    The array is empty while the dream is `pending` and for a short time after it starts `running`. It can stay empty if the dream fails or is canceled before then. The memory store holds the complete result only once `status` is `completed`.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#use-the-output) for how to review and use the result.
-
-  - `?string sessionID`
-
-    The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
-
-    Stream that session's events to follow what the dream reads and writes.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#watch-the-pipeline-run) for how to watch a running dream.
-
-  - `BetaDreamStatus status`
-
-    Where a dream is in its lifecycle.
-
-    `completed`, `failed`, and `canceled` are final: once a dream has one of these statuses, its status doesn't change again.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=php#lifecycle) for what each status means.
 
   - `string id`
 
@@ -21601,12 +20919,6 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaTunnel`
@@ -21688,12 +21000,6 @@ Fetches a tunnel by ID.
   This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -21793,12 +21099,6 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaTunnel`
@@ -21892,12 +21192,6 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaTunnel`
@@ -21984,12 +21278,6 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class BetaTunnelToken`
@@ -22060,12 +21348,6 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
   This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -22144,12 +21426,6 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
   This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -22246,12 +21522,6 @@ Fetches a tunnel certificate by ID.
   This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -22361,12 +21631,6 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class TunnelCertificate`
@@ -22465,12 +21729,6 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
   This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 

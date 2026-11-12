@@ -83,14 +83,7 @@ Stream events from the session to receive real-time updates as the agent works. 
           ],
       )
 
-      # Tail live events, skipping anything already seen
       for event in stream:
-          if event.type == "event_start" or event.type == "event_delta":
-              # Delta previews aren't enabled on this connection.
-              continue
-          if event.id in seen_event_ids:
-              continue
-          seen_event_ids.add(event.id)
           match event.type:
               case "agent.message":
                   for block in event.content:
@@ -111,14 +104,9 @@ Stream events from the session to receive real-time updates as the agent works. 
     events: [
       {
         type: "user.message",
-        content: [
-          {
-            type: "text",
-            text: "Analyze the performance of the sort function in utils.py",
-          },
-        ],
-      },
-    ],
+        content: [{ type: "text", text: "Summarize the repo README" }]
+      }
+    ]
   });
 
   events: for await (const event of stream) {
@@ -244,17 +232,6 @@ Stream events from the session to receive real-time updates as the agent works. 
   }
   ```
 
-  ```java Java
-  client.beta().sessions().events().send(
-      session.id(),
-      EventSendParams.builder()
-          .addEvent(BetaManagedAgentsUserMessageEventParams.builder()
-              .type(BetaManagedAgentsUserMessageEventParams.Type.USER_MESSAGE)
-              .addTextContent("Analyze the performance of the sort function in utils.py")
-              .build())
-          .build());
-  ```
-
   ```php PHP
   use Anthropic\Beta\Sessions\Events\ManagedAgentsAgentMessageEvent;
   use Anthropic\Beta\Sessions\Events\ManagedAgentsSessionErrorEvent;
@@ -330,11 +307,11 @@ To reconnect to an existing session without missing events, combine a new stream
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
   <CodeGroupItem language="cURL">
-    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+    This workflow needs more logic than a single shell command. Use the [Anthropic SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
   </CodeGroupItem>
 
   <CodeGroupItem language="CLI">
-    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+    This workflow needs more logic than a single shell command. Use the [Anthropic SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
   </CodeGroupItem>
 
   ```python Python
@@ -541,18 +518,6 @@ To reconnect to an existing session without missing events, combine a new stream
 
 Send a `user.message` event to start or continue the agent’s work:
 
-In a multiagent session, a subagent's blocking events are cross-posted to the primary thread. See [Tool permissions and custom tools](https://platform.claude.com/docs/en/managed-agents/session-threads#tool-permissions-and-custom-tools).
-
-### Return a custom tool result
-
-The `agent.custom_tool_use` event contains the tool name and input. Run the tool in your system. Then send a `user.custom_tool_result` event, passing the event ID in the `custom_tool_use_id` (java: `customToolUseId`; php: `customToolUseID`; csharp, go: `CustomToolUseID`) parameter along with the result content.
-
-You can send the result as soon as the `agent.custom_tool_use` event arrives, without waiting for `session.status_idle`. The session still emits `session.status_idle` with a `requires_action` stop reason for the call, and your client can ignore it. A second result for the same call is accepted and has no effect.
-
-When you [reconnect](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#reconnect-without-missing-events) to a paused session, `stop_reason.event_ids` on the latest `session.status_idle` event lists the calls to answer.
-
-The following example answers each call as it arrives:
-
 <CodeGroup>
   ```bash cURL
   curl --fail-with-body -sS "https://api.anthropic.com/v1/sessions/$SESSION_ID/events?beta=true" \
@@ -732,11 +697,11 @@ The following example answers each call as it arrives:
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
   <CodeGroupItem language="cURL">
-    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+    This workflow needs more logic than a single shell command. Use the [Anthropic SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
   </CodeGroupItem>
 
   <CodeGroupItem language="CLI">
-    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+    This workflow needs more logic than a single shell command. Use the [Anthropic SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
   </CodeGroupItem>
 
   ```python Python
@@ -938,11 +903,11 @@ The following example approves every pending call:
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
   <CodeGroupItem language="cURL">
-    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+    This workflow needs more logic than a single shell command. Use the [Anthropic SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
   </CodeGroupItem>
 
   <CodeGroupItem language="CLI">
-    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+    This workflow needs more logic than a single shell command. Use the [Anthropic SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
   </CodeGroupItem>
 
   ```python Python

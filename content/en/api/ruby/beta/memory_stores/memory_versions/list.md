@@ -227,8 +227,6 @@ List Memory Versions
 
   - `type: :memory_version`
 
-  - `type: :memory_version`
-
   - `id: String`
 
     Unique identifier for this version (a `memver_...` value).

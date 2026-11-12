@@ -95,12 +95,6 @@ If your screen reader jumps back to the prompt while you're reading earlier outp
 
 To keep your place while you read, stop your screen reader from following the terminal cursor. In NVDA, press `NVDA+6` to stop the review cursor from following the terminal cursor. Press `NVDA+6` again to turn following back on.
 
-### Read earlier output without losing your place
-
-If your screen reader jumps back to the prompt while you're reading earlier output, it's following the terminal cursor. Claude Code moves the terminal cursor back to the prompt each time it writes new text.
-
-To keep your place while you read, stop your screen reader from following the terminal cursor. In NVDA, press `NVDA+6` to stop the review cursor from following the terminal cursor. Press `NVDA+6` again to turn following back on.
-
 ### Jump between turns
 
 Claude Code emits OSC 133 shell-integration markers at turn boundaries, so your terminal's jump-to-previous-prompt key moves between turns without reading through the whole transcript:

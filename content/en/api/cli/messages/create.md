@@ -3588,8 +3588,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `type: "encrypted_code_execution_result"`
 
-          - `type: "encrypted_code_execution_result"`
-
           - `content: array of CodeExecutionOutputBlock`
 
             - `type: "code_execution_output"`

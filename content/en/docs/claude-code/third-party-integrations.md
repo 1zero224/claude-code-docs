@@ -149,8 +149,6 @@ For the per-provider environment variables that route Amazon Bedrock, Microsoft 
 
 If your organization uses [customer-managed encryption keys](https://platform.claude.com/docs/en/manage-claude/cmek) (CMEK) and routes Claude Code through an LLM gateway or a custom `ANTHROPIC_BASE_URL`, CMEK doesn't apply to Claude Code's operational telemetry on those sessions. To turn telemetry off for every developer, deliver `DISABLE_TELEMETRY` through managed settings as shown in [Turn telemetry off for your organization](https://code.claude.com/docs/en/managed-settings.md#turn-telemetry-off-for-your-organization).
 
-If your organization uses [customer-managed encryption keys](https://platform.claude.com/docs/en/manage-claude/cmek) (CMEK) and routes Claude Code through an LLM gateway or a custom `ANTHROPIC_BASE_URL`, CMEK doesn't apply to Claude Code's operational telemetry on those sessions. To turn telemetry off for every developer, deliver `DISABLE_TELEMETRY` through managed settings as shown in [Turn telemetry off for your organization](/docs/en/managed-settings#turn-telemetry-off-for-your-organization).
-
 ## Best practices for organizations
 
 ### Invest in documentation and memory

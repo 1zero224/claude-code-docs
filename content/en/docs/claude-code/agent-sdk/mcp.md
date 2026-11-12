@@ -638,8 +638,6 @@ asyncio.run(main())
 
 In the `MCP servers:` line, a `status` of `connected` for `github` confirms the token works. If Claude Code has a [cached tool list](#connection-timing) for the server, the status can read `pending` instead and the server connects on its first tool call. If the status is `failed` or `needs-auth`, see [Error handling](#error-handling) before trusting the result, since Claude can fall back to built-in tools when the server is unavailable.
 
-In the `MCP servers:` line, a `status` of `connected` for `github` confirms the token works. If Claude Code has a [cached tool list](#connection-timing) for the server, the status can read `pending` instead and the server connects on its first tool call. If the status is `failed` or `needs-auth`, see [Error handling](#error-handling) before trusting the result, since Claude can fall back to built-in tools when the server is unavailable.
-
 ### Query a database
 
 This example uses [DBHub](https://github.com/bytebase/dbhub) to query a Postgres database. The agent automatically discovers the database schema, writes the SQL query, and returns the results.
@@ -815,10 +813,6 @@ A remote server's status can also change after it reports `"connected"`. When th
 
 After five reconnection attempts fail, the server reports `"failed"`, or `"needs-auth"` when it needs authorizing again. A `"failed"` HTTP or SSE server can still return to `"connected"` without a call from you, because Claude Code keeps [retrying in the background](https://code.claude.com/docs/en/mcp.md#mid-session-drops-of-a-remote-server) after a transient error. To retry manually, call [`reconnectMcpServer()`](https://code.claude.com/docs/en/agent-sdk/typescript#methods) in TypeScript or [`ClaudeSDKClient.reconnect_mcp_server()`](https://code.claude.com/docs/en/agent-sdk/python#methods) in Python.
 
-A remote server's status can also change after it reports `"connected"`. When the connection to it drops mid-session, Claude Code moves the server back to `"pending"` while [reconnecting](/docs/en/mcp#automatic-reconnection). A later `mcpServerStatus()` call in TypeScript, or [`ClaudeSDKClient.get_mcp_status()`](/docs/en/agent-sdk/python#methods) in Python, can then report `"pending"` for a server you saw connected earlier, with no configuration change on your side.
-
-After five reconnection attempts fail, the server reports `"failed"`, or `"needs-auth"` when it needs authorizing again. A `"failed"` HTTP or SSE server can still return to `"connected"` without a call from you, because Claude Code keeps [retrying in the background](/docs/en/mcp#mid-session-drops-of-a-remote-server) after a transient error. To retry manually, call [`reconnectMcpServer()`](/docs/en/agent-sdk/typescript#methods) in TypeScript or [`ClaudeSDKClient.reconnect_mcp_server()`](/docs/en/agent-sdk/python#methods) in Python.
-
 ## Troubleshooting
 
 ### Server shows "failed" status
@@ -878,18 +872,6 @@ options = ClaudeAgentOptions(
 ### A tool is missing from an SDK MCP server
 
 In the TypeScript SDK, when a tool's input schema can't be converted to JSON Schema, the server you created with [`createSdkMcpServer()`](https://code.claude.com/docs/en/agent-sdk/typescript#createsdkmcpserver) leaves that tool out when it lists its tools. The SDK emits a warning at that point. Under Node.js the warning is a process warning with code `CLAUDE_SDK_MCP_TOOL_SCHEMA_UNCONVERTIBLE`, and it starts with this text:
-
-```text theme={null}
-Tool "<name>" on SDK MCP server "<server>" was left out of the server's tool list, because its input schema cannot be converted to JSON Schema
-```
-
-The rest of the warning gives the conversion error's message when it has one, then says what to check and change.
-
-Before TypeScript Agent SDK v0.3.286, one unconvertible schema made the server's whole tool listing fail without this warning, so none of that server's tools reached Claude.
-
-### A tool is missing from an SDK MCP server
-
-In the TypeScript SDK, when a tool's input schema can't be converted to JSON Schema, the server you created with [`createSdkMcpServer()`](/docs/en/agent-sdk/typescript#createsdkmcpserver) leaves that tool out when it lists its tools. The SDK emits a warning at that point. Under Node.js the warning is a process warning with code `CLAUDE_SDK_MCP_TOOL_SCHEMA_UNCONVERTIBLE`, and it starts with this text:
 
 ```text theme={null}
 Tool "<name>" on SDK MCP server "<server>" was left out of the server's tool list, because its input schema cannot be converted to JSON Schema

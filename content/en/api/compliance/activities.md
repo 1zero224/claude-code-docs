@@ -86216,18 +86216,6 @@ compliance activities that can be filtered by various criteria.
 
       format: date-time
 
-    - `ip_allowlist_enabled: optional boolean or null`
-
-      Whether the organization's IP allowlist is turned on (true) or off (false) after this change; absent when the change did not turn the IP allowlist on or off, and for activities recorded before this field was added.
-
-    - `ip_range: optional string or null`
-
-      The IP range this change applied to, as it is after the change, e.g. "192.0.2.0/24"; absent when the change was not to an individual IP range, and for activities recorded before this field was added.
-
-    - `ip_range_active: optional boolean or null`
-
-      Whether the IP range is active on the allowlist (true) or saved but inactive (false) after this change; absent when the change did not turn the range on or off.
-
     - `organization_id: optional string or null`
 
       Organization ID this activity is associated with
@@ -90861,10 +90849,6 @@ compliance activities that can be filtered by various criteria.
         - `ip_address: optional string or null`
 
         - `user_agent: optional string or null`
-
-    - `enabled: boolean`
-
-      Whether members signing in with SSO must also complete a magic link as a second factor, after this change.
 
     - `id: optional string`
 
@@ -234588,18 +234572,6 @@ curl https://api.anthropic.com/v1/compliance/activities \
 
       format: date-time
 
-    - `ip_allowlist_enabled: optional boolean or null`
-
-      Whether the organization's IP allowlist is turned on (true) or off (false) after this change; absent when the change did not turn the IP allowlist on or off, and for activities recorded before this field was added.
-
-    - `ip_range: optional string or null`
-
-      The IP range this change applied to, as it is after the change, e.g. "192.0.2.0/24"; absent when the change was not to an individual IP range, and for activities recorded before this field was added.
-
-    - `ip_range_active: optional boolean or null`
-
-      Whether the IP range is active on the allowlist (true) or saved but inactive (false) after this change; absent when the change did not turn the range on or off.
-
     - `organization_id: optional string or null`
 
       Organization ID this activity is associated with
@@ -239233,10 +239205,6 @@ curl https://api.anthropic.com/v1/compliance/activities \
         - `ip_address: optional string or null`
 
         - `user_agent: optional string or null`
-
-    - `enabled: boolean`
-
-      Whether members signing in with SSO must also complete a magic link as a second factor, after this change.
 
     - `id: optional string`
 

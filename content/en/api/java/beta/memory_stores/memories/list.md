@@ -189,8 +189,6 @@ List Memories
 
     - `JsonValue type = "memory"`
 
-    - `Type type`
-
     - `String id`
 
       The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.

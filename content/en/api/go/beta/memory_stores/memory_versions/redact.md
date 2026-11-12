@@ -159,8 +159,6 @@ Redact a Memory Version
 
   - `Type MemoryVersion`
 
-  - `Type BetaManagedAgentsMemoryVersionType`
-
   - `ID string`
 
     Unique identifier for this version (a `memver_...` value).

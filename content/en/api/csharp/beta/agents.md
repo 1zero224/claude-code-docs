@@ -1039,8 +1039,6 @@ Create Agent
 
     - `required string Name`
 
-    - `required string Name`
-
     - `required string Url`
 
   - `required IReadOnlyDictionary<string, string> Metadata`
@@ -1323,8 +1321,6 @@ Create Agent
 
       - `required string SkillID`
 
-      - `required string SkillID`
-
       - `required string Version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -1332,8 +1328,6 @@ Create Agent
       A resolved user-created custom skill.
 
       - `JsonElement Type = "custom"`
-
-      - `required string SkillID`
 
       - `required string SkillID`
 
@@ -2270,8 +2264,6 @@ List Agents
 
           - `required string ID`
 
-          - `required string ID`
-
           - `required int Version`
 
             format: int32
@@ -3176,8 +3168,6 @@ Get Agent
 
     - `required string Name`
 
-    - `required string Name`
-
     - `required string Url`
 
   - `required IReadOnlyDictionary<string, string> Metadata`
@@ -3460,8 +3450,6 @@ Get Agent
 
       - `required string SkillID`
 
-      - `required string SkillID`
-
       - `required string Version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -3469,8 +3457,6 @@ Get Agent
       A resolved user-created custom skill.
 
       - `JsonElement Type = "custom"`
-
-      - `required string SkillID`
 
       - `required string SkillID`
 
@@ -5086,8 +5072,6 @@ Update Agent
 
     - `required string Name`
 
-    - `required string Name`
-
     - `required string Url`
 
   - `required IReadOnlyDictionary<string, string> Metadata`
@@ -5370,8 +5354,6 @@ Update Agent
 
       - `required string SkillID`
 
-      - `required string SkillID`
-
       - `required string Version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -5379,8 +5361,6 @@ Update Agent
       A resolved user-created custom skill.
 
       - `JsonElement Type = "custom"`
-
-      - `required string SkillID`
 
       - `required string SkillID`
 
@@ -6140,8 +6120,6 @@ Archive Agent
 
     - `required string Name`
 
-    - `required string Name`
-
     - `required string Url`
 
   - `required IReadOnlyDictionary<string, string> Metadata`
@@ -6424,8 +6402,6 @@ Archive Agent
 
       - `required string SkillID`
 
-      - `required string SkillID`
-
       - `required string Version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -6433,8 +6409,6 @@ Archive Agent
       A resolved user-created custom skill.
 
       - `JsonElement Type = "custom"`
-
-      - `required string SkillID`
 
       - `required string SkillID`
 
@@ -7070,8 +7044,6 @@ Console.WriteLine(betaManagedAgentsAgent);
 
     - `required string Name`
 
-    - `required string Name`
-
     - `required string Url`
 
   - `required IReadOnlyDictionary<string, string> Metadata`
@@ -7354,8 +7326,6 @@ Console.WriteLine(betaManagedAgentsAgent);
 
       - `required string SkillID`
 
-      - `required string SkillID`
-
       - `required string Version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -7363,8 +7333,6 @@ Console.WriteLine(betaManagedAgentsAgent);
       A resolved user-created custom skill.
 
       - `JsonElement Type = "custom"`
-
-      - `required string SkillID`
 
       - `required string SkillID`
 
@@ -7825,8 +7793,6 @@ Console.WriteLine(betaManagedAgentsAgent);
   A resolved agent reference with a concrete version.
 
   - `JsonElement Type = "agent"`
-
-  - `required string ID`
 
   - `required string ID`
 
@@ -8606,12 +8572,6 @@ Console.WriteLine(betaManagedAgentsAgent);
 
       - `JsonElement Type = "auto"`
 
-    - `class BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `JsonElement Type = "auto"`
-
 ### Beta Managed Agents Agent Toolset Default Config Params
 
 - `class BetaManagedAgentsAgentToolsetDefaultConfigParams`
@@ -8637,12 +8597,6 @@ Console.WriteLine(betaManagedAgentsAgent);
       Tool calls require user confirmation before execution.
 
       - `JsonElement Type = "always_ask"`
-
-    - `class BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `JsonElement Type = "auto"`
 
     - `class BetaManagedAgentsAutoPolicy`
 
@@ -9592,8 +9546,6 @@ Console.WriteLine(betaManagedAgentsAgent);
 
   - `required string SkillID`
 
-  - `required string SkillID`
-
   - `required string Version`
 
 ### Beta Managed Agents Anthropic Skill Params
@@ -9729,8 +9681,6 @@ Console.WriteLine(betaManagedAgentsAgent);
   A resolved user-created custom skill.
 
   - `JsonElement Type = "custom"`
-
-  - `required string SkillID`
 
   - `required string SkillID`
 
@@ -10132,8 +10082,6 @@ Console.WriteLine(betaManagedAgentsAgent);
 
   - `required string Name`
 
-  - `required string Name`
-
   - `required string Url`
 
 ### Beta Managed Agents MCP Tool Config
@@ -10161,12 +10109,6 @@ Console.WriteLine(betaManagedAgentsAgent);
       Tool calls require user confirmation before execution.
 
       - `JsonElement Type = "always_ask"`
-
-    - `class BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `JsonElement Type = "auto"`
 
     - `class BetaManagedAgentsAutoPolicy`
 
@@ -10212,12 +10154,6 @@ Console.WriteLine(betaManagedAgentsAgent);
 
       - `JsonElement Type = "auto"`
 
-    - `class BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `JsonElement Type = "auto"`
-
 ### Beta Managed Agents MCP Toolset
 
 - `class BetaManagedAgentsMcpToolset`
@@ -10245,12 +10181,6 @@ Console.WriteLine(betaManagedAgentsAgent);
         Tool calls require user confirmation before execution.
 
         - `JsonElement Type = "always_ask"`
-
-      - `class BetaManagedAgentsAutoPolicy`
-
-        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-        - `JsonElement Type = "auto"`
 
       - `class BetaManagedAgentsAutoPolicy`
 
@@ -10312,12 +10242,6 @@ Console.WriteLine(betaManagedAgentsAgent);
 
       - `JsonElement Type = "auto"`
 
-    - `class BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `JsonElement Type = "auto"`
-
 ### Beta Managed Agents MCP Toolset Default Config Params
 
 - `class BetaManagedAgentsMcpToolsetDefaultConfigParams`
@@ -10343,12 +10267,6 @@ Console.WriteLine(betaManagedAgentsAgent);
       Tool calls require user confirmation before execution.
 
       - `JsonElement Type = "always_ask"`
-
-    - `class BetaManagedAgentsAutoPolicy`
-
-      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-      - `JsonElement Type = "auto"`
 
     - `class BetaManagedAgentsAutoPolicy`
 
@@ -10399,12 +10317,6 @@ Console.WriteLine(betaManagedAgentsAgent);
         Tool calls require user confirmation before execution.
 
         - `JsonElement Type = "always_ask"`
-
-      - `class BetaManagedAgentsAutoPolicy`
-
-        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
-
-        - `JsonElement Type = "auto"`
 
       - `class BetaManagedAgentsAutoPolicy`
 
@@ -10828,8 +10740,6 @@ Console.WriteLine(betaManagedAgentsAgent);
 
       - `required string ID`
 
-      - `required string ID`
-
       - `required int Version`
 
         format: int32
@@ -11135,266 +11045,6 @@ Console.WriteLine(betaManagedAgentsAgent);
       Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
 
       - `JsonElement Type = "agent"`
-
-      - `required string ID`
-
-        The `agent` ID.
-
-        minLength: 1, maxLength: 128
-
-    - `class BetaManagedAgentsAdvisorParams`
-
-      Platform advisor roster entry: a model the session's primary thread may consult mid-turn. At most one per roster; the entry occupies the roster name `anthropic.advisor`.
-
-      - `required Type Type`
-
-      - `required string Model`
-
-        A Claude model id. The model must be permitted as an advisor for this agent's model.
-
-        minLength: 1, maxLength: 256
-
-### Beta Managed Agents Multiagent Inline Agents
-
-- `class BetaManagedAgentsMultiagentInlineAgents: union`
-
-  Whether the agent can define inline agents. The agent defines an inline agent itself, in a workflow run's plan or when it spawns a session thread, and the inline agent is not saved.
-
-  - `class BetaManagedAgentsMultiagentInlineAgentsEnabled`
-
-    The agent can define inline agents.
-
-    - `JsonElement Type = "enabled"`
-
-  - `class BetaManagedAgentsMultiagentInlineAgentsDisabled`
-
-    The agent cannot define inline agents.
-
-    - `JsonElement Type = "disabled"`
-
-### Beta Managed Agents Multiagent Inline Agents Disabled
-
-- `class BetaManagedAgentsMultiagentInlineAgentsDisabled`
-
-  The agent cannot define inline agents.
-
-  - `JsonElement Type = "disabled"`
-
-### Beta Managed Agents Multiagent Inline Agents Disabled Params
-
-- `class BetaManagedAgentsMultiagentInlineAgentsDisabledParams`
-
-  The agent cannot define inline agents.
-
-  - `JsonElement Type = "disabled"`
-
-### Beta Managed Agents Multiagent Inline Agents Enabled
-
-- `class BetaManagedAgentsMultiagentInlineAgentsEnabled`
-
-  The agent can define inline agents.
-
-  - `JsonElement Type = "enabled"`
-
-### Beta Managed Agents Multiagent Inline Agents Enabled Params
-
-- `class BetaManagedAgentsMultiagentInlineAgentsEnabledParams`
-
-  The agent can define inline agents.
-
-  - `JsonElement Type = "enabled"`
-
-### Beta Managed Agents Multiagent Inline Agents Params
-
-- `class BetaManagedAgentsMultiagentInlineAgentsParams: union`
-
-  Whether the agent can define inline agents. The agent defines an inline agent itself, in a workflow run's plan or when it spawns a session thread, and the inline agent is not saved.
-
-  - `class BetaManagedAgentsMultiagentInlineAgentsEnabledParams`
-
-    The agent can define inline agents.
-
-    - `JsonElement Type = "enabled"`
-
-  - `class BetaManagedAgentsMultiagentInlineAgentsDisabledParams`
-
-    The agent cannot define inline agents.
-
-    - `JsonElement Type = "disabled"`
-
-### Beta Managed Agents Multiagent Predefined Agent Params
-
-- `class BetaManagedAgentsMultiagentPredefinedAgentParams: union`
-
-  One agent in a `predefined_agents` list. It is an agent ID string, an `agent` reference with an optional `version`, or `self` for the agent that owns this configuration.
-
-  - `string`
-
-  - `class BetaManagedAgentsAgentParams`
-
-    Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
-
-    - `required Type Type`
-
-    - `required string ID`
-
-      The `agent` ID.
-
-      minLength: 1, maxLength: 128
-
-    - `int Version`
-
-      The specific `agent` version to use. Omit to use the latest version. Must be at least 1 if specified.
-
-      format: int32
-
-  - `class BetaManagedAgentsMultiagentSelfParams`
-
-    Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
-
-    - `required Type Type`
-
-### Beta Managed Agents Multiagent Self Params
-
-- `class BetaManagedAgentsMultiagentSelfParams`
-
-  Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
-
-  - `required Type Type`
-
-### Beta Managed Agents Multiagent Subagents
-
-- `class BetaManagedAgentsMultiagentSubagents: union`
-
-  Whether the agent can spawn session threads.
-
-  - `class BetaManagedAgentsMultiagentSubagentsEnabled`
-
-    The agent can spawn session threads.
-
-    - `JsonElement Type = "enabled"`
-
-    - `required BetaManagedAgentsMultiagentInlineAgents InlineAgents`
-
-      Whether the agent can define inline agents, which are not saved, when it spawns session threads.
-
-      - `class BetaManagedAgentsMultiagentInlineAgentsEnabled`
-
-        The agent can define inline agents.
-
-        - `JsonElement Type = "enabled"`
-
-      - `class BetaManagedAgentsMultiagentInlineAgentsDisabled`
-
-        The agent cannot define inline agents.
-
-        - `JsonElement Type = "disabled"`
-
-    - `required IReadOnlyList<BetaManagedAgentsAgentReference> PredefinedAgents`
-
-      Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
-
-      - `required Type Type`
-
-      - `required string ID`
-
-      - `required int Version`
-
-        format: int32
-
-  - `class BetaManagedAgentsMultiagentSubagentsDisabled`
-
-    The agent cannot spawn session threads.
-
-    - `JsonElement Type = "disabled"`
-
-### Beta Managed Agents Multiagent Subagents Disabled
-
-- `class BetaManagedAgentsMultiagentSubagentsDisabled`
-
-  The agent cannot spawn session threads.
-
-  - `JsonElement Type = "disabled"`
-
-### Beta Managed Agents Multiagent Subagents Disabled Params
-
-- `class BetaManagedAgentsMultiagentSubagentsDisabledParams`
-
-  The agent cannot spawn session threads.
-
-  - `JsonElement Type = "disabled"`
-
-### Beta Managed Agents Multiagent Subagents Enabled
-
-- `class BetaManagedAgentsMultiagentSubagentsEnabled`
-
-  The agent can spawn session threads.
-
-  - `JsonElement Type = "enabled"`
-
-  - `required BetaManagedAgentsMultiagentInlineAgents InlineAgents`
-
-    Whether the agent can define inline agents, which are not saved, when it spawns session threads.
-
-    - `class BetaManagedAgentsMultiagentInlineAgentsEnabled`
-
-      The agent can define inline agents.
-
-      - `JsonElement Type = "enabled"`
-
-    - `class BetaManagedAgentsMultiagentInlineAgentsDisabled`
-
-      The agent cannot define inline agents.
-
-      - `JsonElement Type = "disabled"`
-
-  - `required IReadOnlyList<BetaManagedAgentsAgentReference> PredefinedAgents`
-
-    Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
-
-    - `required Type Type`
-
-    - `required string ID`
-
-    - `required int Version`
-
-      format: int32
-
-### Beta Managed Agents Multiagent Subagents Enabled Params
-
-- `class BetaManagedAgentsMultiagentSubagentsEnabledParams`
-
-  The agent can spawn session threads. Each thread runs a predefined agent, which is a saved agent in `predefined_agents`, or an inline agent, which the agent defines when it spawns the thread and which is not saved. If `inline_agents` is disabled, `predefined_agents` must name at least one agent.
-
-  - `JsonElement Type = "enabled"`
-
-  - `BetaManagedAgentsMultiagentInlineAgentsParams? InlineAgents`
-
-    Whether the agent can define inline agents when it spawns session threads. Defaults to enabled.
-
-    - `class BetaManagedAgentsMultiagentInlineAgentsEnabledParams`
-
-      The agent can define inline agents.
-
-      - `JsonElement Type = "enabled"`
-
-    - `class BetaManagedAgentsMultiagentInlineAgentsDisabledParams`
-
-      The agent cannot define inline agents.
-
-      - `JsonElement Type = "disabled"`
-
-  - `IReadOnlyList<BetaManagedAgentsMultiagentPredefinedAgentParams>? PredefinedAgents`
-
-    Predefined agents that this agent can spawn as session threads. At most 20. Defaults to null. Null and an empty list both mean no predefined agents. This list is separate from `workflows.predefined_agents`, and an agent in one list is not added to the other.
-
-    - `string`
-
-    - `class BetaManagedAgentsAgentParams`
-
-      Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
-
-      - `required Type Type`
 
       - `required string ID`
 
@@ -11712,7 +11362,7 @@ Console.WriteLine(betaManagedAgentsAgent);
 
       - `JsonElement Type = "enabled"`
 
-  Whether the agent can spawn session threads.
+      - `required string Model`
 
         The advisor model id.
 
@@ -11820,93 +11470,7 @@ Console.WriteLine(betaManagedAgentsAgent);
 
         A Claude model id. The model must be permitted as an advisor for this agent's model.
 
-    The agent can spawn session threads. Each thread runs a predefined agent, which is a saved agent in `predefined_agents`, or an inline agent, which the agent defines when it spawns the thread and which is not saved. If `inline_agents` is disabled, `predefined_agents` must name at least one agent.
-
-    - `JsonElement Type = "enabled"`
-
-    - `BetaManagedAgentsMultiagentInlineAgentsParams? InlineAgents`
-
-      Whether the agent can define inline agents when it spawns session threads. Defaults to enabled.
-
-      - `class BetaManagedAgentsMultiagentInlineAgentsEnabledParams`
-
-        The agent can define inline agents.
-
-        - `JsonElement Type = "enabled"`
-
-      - `class BetaManagedAgentsMultiagentInlineAgentsDisabledParams`
-
-        The agent cannot define inline agents.
-
-        - `JsonElement Type = "disabled"`
-
-    - `IReadOnlyList<BetaManagedAgentsMultiagentPredefinedAgentParams>? PredefinedAgents`
-
-      Predefined agents that this agent can spawn as session threads. At most 20. Defaults to null. Null and an empty list both mean no predefined agents. This list is separate from `workflows.predefined_agents`, and an agent in one list is not added to the other.
-
-      - `string`
-
-      - `class BetaManagedAgentsAgentParams`
-
-        Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
-
-        - `required Type Type`
-
-        - `required string ID`
-
-          The `agent` ID.
-
-          minLength: 1, maxLength: 128
-
-        - `int Version`
-
-          The specific `agent` version to use. Omit to use the latest version. Must be at least 1 if specified.
-
-          format: int32
-
-      - `class BetaManagedAgentsMultiagentSelfParams`
-
-        Sentinel roster entry meaning "the agent that owns this configuration". Resolved server-side to a concrete agent reference.
-
-        - `required Type Type`
-
-  - `class BetaManagedAgentsMultiagentSubagentsDisabledParams`
-
-    The agent cannot spawn session threads.
-
-    - `JsonElement Type = "disabled"`
-
-### Beta Managed Agents Multiagent Workflows
-
-- `class BetaManagedAgentsMultiagentWorkflows: union`
-
-  Whether the agent can start workflow runs.
-
-  - `class BetaManagedAgentsMultiagentWorkflowsEnabled`
-
-    The agent can start workflow runs.
-
-    - `JsonElement Type = "enabled"`
-
-    - `required BetaManagedAgentsMultiagentInlineAgents InlineAgents`
-
-      Whether a run's plan can define inline agents, which are not saved.
-
-      - `class BetaManagedAgentsMultiagentInlineAgentsEnabled`
-
-        The agent can define inline agents.
-
-        - `JsonElement Type = "enabled"`
-
-      - `class BetaManagedAgentsMultiagentInlineAgentsDisabled`
-
-        The agent cannot define inline agents.
-
-        - `JsonElement Type = "disabled"`
-
-    - `required IReadOnlyList<BetaManagedAgentsAgentReference> PredefinedAgents`
-
-      Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
+        minLength: 1, maxLength: 256
 
     - `class BetaManagedAgentsMultiagentAdvisorDisabledParams`
 
@@ -12136,8 +11700,6 @@ Console.WriteLine(betaManagedAgentsAgent);
 
     - `required string Name`
 
-    - `required string Name`
-
     - `required string Url`
 
   - `required BetaManagedAgentsModelConfig Model`
@@ -12280,8 +11842,6 @@ Console.WriteLine(betaManagedAgentsAgent);
 
       - `required string SkillID`
 
-      - `required string SkillID`
-
       - `required string Version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -12289,8 +11849,6 @@ Console.WriteLine(betaManagedAgentsAgent);
       A resolved user-created custom skill.
 
       - `JsonElement Type = "custom"`
-
-      - `required string SkillID`
 
       - `required string SkillID`
 
@@ -14107,8 +13665,6 @@ List Agent Versions
           A resolved agent reference with a concrete version.
 
           - `JsonElement Type = "agent"`
-
-          - `required string ID`
 
           - `required string ID`
 

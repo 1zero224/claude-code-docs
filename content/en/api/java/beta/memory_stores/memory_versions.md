@@ -209,8 +209,6 @@ List Memory Versions
 
   - `JsonValue type = "memory_version"`
 
-  - `Type type`
-
   - `String id`
 
     Unique identifier for this version (a `memver_...` value).
@@ -549,8 +547,6 @@ Retrieve a Memory Version
 
   - `JsonValue type = "memory_version"`
 
-  - `Type type`
-
   - `String id`
 
     Unique identifier for this version (a `memver_...` value).
@@ -882,8 +878,6 @@ Redact a Memory Version
 
   - `JsonValue type = "memory_version"`
 
-  - `Type type`
-
   - `String id`
 
     Unique identifier for this version (a `memver_...` value).
@@ -1142,8 +1136,6 @@ public final class Main {
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#audit-memory-changes) to learn more about memory versions.
 
   - `JsonValue type = "memory_version"`
-
-  - `Type type`
 
   - `String id`
 

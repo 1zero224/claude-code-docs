@@ -90,32 +90,6 @@ Agent view opens in place of a new conversation.
 
 To start a regular session while the setting is on, pass a prompt: `claude "fix the login test"`. To turn the setting off, run `/config defaultToAgentsView=false` in a regular session or in one you attach to from agent view.
 
-### Open agent view by default
-
-To have `claude` with no arguments open agent view instead of a new conversation, turn on a `/config` setting.
-
-<Steps>
-  <Step title="Turn on the setting">
-    In a regular `claude` session, run `/config` and turn on **Open agents view by default**. To skip the menu, set the [`defaultToAgentsView`](/docs/en/settings-reference#defaulttoagentsview) key directly:
-
-    ```text theme={null}
-    /config defaultToAgentsView=true
-    ```
-  </Step>
-
-  <Step title="Start Claude Code">
-    Exit the session, then run `claude` with no arguments:
-
-    ```bash theme={null}
-    claude
-    ```
-
-    Agent view opens in place of a new conversation.
-  </Step>
-</Steps>
-
-To start a regular session while the setting is on, pass a prompt: `claude "fix the login test"`. To turn the setting off, run `/config defaultToAgentsView=false` in a regular session or in one you attach to from agent view.
-
 ## Monitor sessions with agent view
 
 Run `claude agents` to open agent view. It takes over the full terminal and lists every session grouped by state, with pinned sessions and the ones that need you at the top. Each row shows the session's name, current activity, and its age, counted from when the session was created; a finished session's age freezes at how long the run took.
@@ -195,7 +169,9 @@ A working row shows what the session says it's doing, and a blocked row shows th
 
 When the list is [grouped by directory](#organize-the-list), the summary opens with the session's state as a colored word, such as `Needs input · double jump or wall climb?`. In the default state grouping, the group header already names the state, so the row shows only the summary.
 
-The end-of-turn summary and each mid-turn rewrite are one short Haiku-class request through your normal provider, billed and handled under the same [data usage terms](https://code.claude.com/docs/en/data-usage.md) as the session itself. The 15-second updates between model rewrites reuse the session's own output and don't send a request. On a third-party provider or gateway with no Haiku-class model configured, the request uses the session's main model instead; set [`ANTHROPIC_DEFAULT_HAIKU_MODEL`](https://code.claude.com/docs/en/model-config#environment-variables) to choose one.
+#### Cost of row summaries
+
+The end-of-turn summary and each mid-turn rewrite are one short request through your normal provider, billed and handled under the same [data usage terms](https://code.claude.com/docs/en/data-usage.md) as the session itself. On a third-party provider or gateway, summaries use the model you set in [`ANTHROPIC_DEFAULT_HAIKU_MODEL`](https://code.claude.com/docs/en/model-config#environment-variables). With it unset, they use your provider's model for background tasks: see [Amazon Bedrock](https://code.claude.com/docs/en/amazon-bedrock.md#4-pin-model-versions), [Google Cloud's Agent Platform](https://code.claude.com/docs/en/google-vertex-ai.md#5-pin-model-versions), [Microsoft Foundry](https://code.claude.com/docs/en/microsoft-foundry.md#4-pin-model-versions), or your [gateway](https://code.claude.com/docs/en/llm-gateway-protocol.md#requests-and-defaults-by-connection-method).
 
 ### Pull request status
 
@@ -270,8 +246,6 @@ While you're attached, `/install-github-app` and the [`/mcp`](https://code.claud
 Attached sessions always render in [fullscreen mode](https://code.claude.com/docs/en/fullscreen.md), regardless of your `tui` setting, because a background session has no terminal scrollback to append to. Scroll with `PgUp`, `PgDn`, or the mouse wheel, and press `Ctrl+O` for transcript mode. Your terminal's native scroll and tmux copy mode show only the current viewport, the same as when you run any fullscreen application.
 
 An attached session doesn't [report its status to your terminal](https://code.claude.com/docs/en/terminal-config.md#see-session-status-in-your-terminal).
-
-An attached session doesn't [report its status to your terminal](/docs/en/terminal-config#see-session-status-in-your-terminal).
 
 Press `←` on an empty prompt, or run `/exit`, to detach and return to agent view, whether you opened the session from agent view or with `claude attach <id>` from your shell.
 
@@ -471,8 +445,6 @@ Two commands move work from the session you're in to the background: `/backgroun
 Run `/background` or its alias `/bg` to move the current conversation into a background session. Pass a prompt such as `/bg run the test suite and fix any failures` to give one more instruction first. If Claude is responding when you run `/bg`, the response continues in the background session.
 
 If you exit a session while some kinds of background work are running, such as subagents or workflows, a `Background work is running` dialog warns that the work stops. Choose `Move to background and exit` to background the session the same way `/background` does and return to your shell. The option isn't shown when agent view is [turned off](#turn-off-agent-view).
-
-If a background session on the list already has the conversation's name, Claude Code numbers the new row's name, such as `my-session (2)`, and leaves the existing row's name alone. To rename the new row, select it in agent view and press `Ctrl+R`.
 
 If a background session on the list already has the conversation's name, Claude Code numbers the new row's name, such as `my-session (2)`, and leaves the existing row's name alone. To rename the new row, select it in agent view and press `Ctrl+R`.
 
@@ -761,17 +733,6 @@ When Claude Code refuses a source's mode as too permissive, the next source in t
 
 Permissiveness runs plan, then Manual and `dontAsk`, then `acceptEdits` and auto, which each count as more permissive than the other, then `bypassPermissions`.
 
-For a session you dispatch from an agent view opened with `←`, Claude Code takes the permission mode from the first of these that applies:
-
-1. The target directory's [`permissions.defaultMode`](/docs/en/settings-reference#permissions-defaultmode). Two source rules apply:
-   * `auto` and `bypassPermissions` [take effect only from managed settings, a `--settings` file, or `~/.claude/settings.json`](/docs/en/settings-reference#permissions-defaultmode).
-   * Claude Code refuses a `defaultMode` from the project's `.claude/settings.json` or `.claude/settings.local.json` that selects a more permissive mode than the session you came from was in.
-2. The permission mode of the session you came from
-
-When Claude Code refuses a source's mode as too permissive, the next source in the list decides. For example, if you dispatch from a plan-mode session into a directory whose checked-in settings ask for `acceptEdits`, the new session starts in plan mode. If you move that `defaultMode` to `~/.claude/settings.json`, it applies regardless of the permission mode of the session you came from.
-
-Permissiveness runs plan, then Manual and `dontAsk`, then `acceptEdits` and auto, which each count as more permissive than the other, then `bypassPermissions`.
-
 #### Dispatch defaults
 
 To set defaults for every session you dispatch from agent view, pass any of `--permission-mode`, `--model`, `--effort`, or `--agent` when opening it:
@@ -788,8 +749,6 @@ claude agents --permission-mode plan --model opus --effort high
 
 Pass `--restricted` to start every session you dispatch from the view in [restricted mode](https://code.claude.com/docs/en/cli-reference.md#cli-flags), as if each were launched with the top-level `--restricted` flag. Requires Claude Code v2.1.248 or later.
 
-Pass `--restricted` to start every session you dispatch from the view in [restricted mode](/docs/en/cli-reference#cli-flags), as if each were launched with the top-level `--restricted` flag. Requires Claude Code v2.1.248 or later.
-
 The active defaults appear in the footer below the dispatch input.
 
 A background session started in `bypassPermissions` mode needs your [acceptance of the bypass disclaimer](https://code.claude.com/docs/en/permission-modes.md#skip-all-checks-with-bypasspermissions-mode) on record, since that mode lets a session you aren't watching act without approval. Passing `--dangerously-skip-permissions` or `--permission-mode bypassPermissions` to `claude agents` shows the same disclaimer when you haven't accepted it before, and accepting applies `bypassPermissions` to the sessions you launch from the view. Passing `--allow-dangerously-skip-permissions` shows the same disclaimer too, and accepting makes `bypassPermissions` available in the `Shift+Tab` cycle of those sessions without starting them in it.
@@ -803,8 +762,6 @@ If the session took its effort from your settings rather than from `--effort` or
 Claude Code also keeps a name you set with [`/rename`](https://code.claude.com/docs/en/commands) or `Ctrl+R` across that restart, so you can still run [`claude --resume <name>`](https://code.claude.com/docs/en/sessions#name-your-sessions) to reach the session.
 
 A prompt you stashed with [`Ctrl+S`](https://code.claude.com/docs/en/interactive-mode#general-controls) while attached is kept with the session too. Reopen the session after its process was stopped or restarted, and press `Ctrl+S` to restore the stashed text. Pasted content in the stash doesn't survive the restart.
-
-A prompt you stashed with [`Ctrl+S`](/docs/en/interactive-mode#general-controls) while attached is kept with the session too. Reopen the session after its process was stopped or restarted, and press `Ctrl+S` to restore the stashed text. Pasted content in the stash doesn't survive the restart.
 
 ### Settings, plugins, and MCP servers
 

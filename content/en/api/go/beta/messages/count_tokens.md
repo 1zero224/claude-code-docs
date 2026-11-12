@@ -327,7 +327,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `Type File`
 
-              - `Content []BetaCodeExecutionOutputBlockParam`
+                - `FileID string`
 
             - `CacheControl BetaCacheControlEphemeralParam Optional`
 
@@ -3319,7 +3319,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `Type ToolAddition`
+              - `Name string`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 

@@ -163,8 +163,6 @@ Retrieve a Memory
 
   - `JsonElement Type = "memory"`
 
-  - `required Type Type`
-
   - `required string ID`
 
     The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.

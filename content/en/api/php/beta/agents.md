@@ -65,12 +65,6 @@ Create Agent
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class BetaManagedAgentsAgent`
@@ -336,12 +330,6 @@ List Agents
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class BetaManagedAgentsAgent`
@@ -547,12 +535,6 @@ Get Agent
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -800,12 +782,6 @@ Update Agent
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspaceID?:optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class BetaManagedAgentsAgent`
@@ -1041,12 +1017,6 @@ Archive Agent
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -2605,202 +2575,6 @@ var_dump($betaManagedAgentsAgent);
 
     Whether the agent can start workflow runs. Defaults to enabled.
 
-### Beta Managed Agents Multiagent Subagents
-
-- `class BetaManagedAgentsMultiagentSubagents`
-
-  - `class BetaManagedAgentsMultiagentSubagentsEnabled`
-
-    - `"enabled" type`
-
-    - `BetaManagedAgentsMultiagentInlineAgents inlineAgents`
-
-      Whether the agent can define inline agents, which are not saved, when it spawns session threads.
-
-    - `list<BetaManagedAgentsAgentReference> predefinedAgents`
-
-      Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
-
-  - `class BetaManagedAgentsMultiagentSubagentsDisabled`
-
-    - `"disabled" type`
-
-### Beta Managed Agents Multiagent Subagents Disabled
-
-- `class BetaManagedAgentsMultiagentSubagentsDisabled`
-
-  - `"disabled" type`
-
-### Beta Managed Agents Multiagent Subagents Disabled Params
-
-- `class BetaManagedAgentsMultiagentSubagentsDisabledParams`
-
-  - `"disabled" type`
-
-### Beta Managed Agents Multiagent Subagents Enabled
-
-- `class BetaManagedAgentsMultiagentSubagentsEnabled`
-
-  - `"enabled" type`
-
-  - `BetaManagedAgentsMultiagentInlineAgents inlineAgents`
-
-    Whether the agent can define inline agents, which are not saved, when it spawns session threads.
-
-  - `list<BetaManagedAgentsAgentReference> predefinedAgents`
-
-    Predefined agents, which are saved agents that this agent can spawn as session threads, each resolved to a specific version.
-
-### Beta Managed Agents Multiagent Subagents Enabled Params
-
-- `class BetaManagedAgentsMultiagentSubagentsEnabledParams`
-
-  - `"enabled" type`
-
-  - `?BetaManagedAgentsMultiagentInlineAgentsParams inlineAgents`
-
-    Whether the agent can define inline agents when it spawns session threads. Defaults to enabled.
-
-  - `?list<BetaManagedAgentsMultiagentPredefinedAgentParams> predefinedAgents`
-
-    Predefined agents that this agent can spawn as session threads. At most 20. Defaults to null. Null and an empty list both mean no predefined agents. This list is separate from `workflows.predefined_agents`, and an agent in one list is not added to the other.
-
-### Beta Managed Agents Multiagent Subagents Params
-
-- `class BetaManagedAgentsMultiagentSubagentsParams`
-
-  - `class BetaManagedAgentsMultiagentSubagentsEnabledParams`
-
-    - `"enabled" type`
-
-    - `?BetaManagedAgentsMultiagentInlineAgentsParams inlineAgents`
-
-      Whether the agent can define inline agents when it spawns session threads. Defaults to enabled.
-
-    - `?list<BetaManagedAgentsMultiagentPredefinedAgentParams> predefinedAgents`
-
-      Predefined agents that this agent can spawn as session threads. At most 20. Defaults to null. Null and an empty list both mean no predefined agents. This list is separate from `workflows.predefined_agents`, and an agent in one list is not added to the other.
-
-  - `class BetaManagedAgentsMultiagentSubagentsDisabledParams`
-
-    - `"disabled" type`
-
-### Beta Managed Agents Multiagent Workflows
-
-- `class BetaManagedAgentsMultiagentWorkflows`
-
-  - `class BetaManagedAgentsMultiagentWorkflowsEnabled`
-
-    - `"enabled" type`
-
-    - `BetaManagedAgentsMultiagentInlineAgents inlineAgents`
-
-      Whether a run's plan can define inline agents, which are not saved.
-
-    - `list<BetaManagedAgentsAgentReference> predefinedAgents`
-
-      Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
-
-  - `class BetaManagedAgentsMultiagentWorkflowsDisabled`
-
-    - `"disabled" type`
-
-### Beta Managed Agents Multiagent Workflows Disabled
-
-- `class BetaManagedAgentsMultiagentWorkflowsDisabled`
-
-  - `"disabled" type`
-
-### Beta Managed Agents Multiagent Workflows Disabled Params
-
-- `class BetaManagedAgentsMultiagentWorkflowsDisabledParams`
-
-  - `"disabled" type`
-
-### Beta Managed Agents Multiagent Workflows Enabled
-
-- `class BetaManagedAgentsMultiagentWorkflowsEnabled`
-
-  - `"enabled" type`
-
-  - `BetaManagedAgentsMultiagentInlineAgents inlineAgents`
-
-    Whether a run's plan can define inline agents, which are not saved.
-
-  - `list<BetaManagedAgentsAgentReference> predefinedAgents`
-
-    Predefined agents, which are saved agents that a run's plan can use, each resolved to a specific version.
-
-### Beta Managed Agents Multiagent Workflows Enabled Params
-
-- `class BetaManagedAgentsMultiagentWorkflowsEnabledParams`
-
-  - `"enabled" type`
-
-  - `?BetaManagedAgentsMultiagentInlineAgentsParams inlineAgents`
-
-    Whether a run's plan can define inline agents. Defaults to enabled.
-
-  - `?list<BetaManagedAgentsMultiagentPredefinedAgentParams> predefinedAgents`
-
-    Predefined agents that a run's plan can use. At most 20. Defaults to null. Null and an empty list both mean no predefined agents. This list is separate from `subagents.predefined_agents`, and an agent in one list is not added to the other.
-
-### Beta Managed Agents Multiagent Workflows Params
-
-- `class BetaManagedAgentsMultiagentWorkflowsParams`
-
-  - `class BetaManagedAgentsMultiagentWorkflowsEnabledParams`
-
-    - `"enabled" type`
-
-    - `?BetaManagedAgentsMultiagentInlineAgentsParams inlineAgents`
-
-      Whether a run's plan can define inline agents. Defaults to enabled.
-
-    - `?list<BetaManagedAgentsMultiagentPredefinedAgentParams> predefinedAgents`
-
-      Predefined agents that a run's plan can use. At most 20. Defaults to null. Null and an empty list both mean no predefined agents. This list is separate from `subagents.predefined_agents`, and an agent in one list is not added to the other.
-
-  - `class BetaManagedAgentsMultiagentWorkflowsDisabledParams`
-
-    - `"disabled" type`
-
-### Beta Managed Agents Multiagent20261001
-
-- `class BetaManagedAgentsMultiagent20261001`
-
-  - `"multiagent_20261001" type`
-
-  - `BetaManagedAgentsMultiagentAdvisor advisor`
-
-    Whether the session's primary thread can consult an advisor model.
-
-  - `BetaManagedAgentsMultiagentSubagents subagents`
-
-    Whether the agent can spawn session threads.
-
-  - `BetaManagedAgentsMultiagentWorkflows workflows`
-
-    Whether the agent can start workflow runs.
-
-### Beta Managed Agents Multiagent20261001 Params
-
-- `class BetaManagedAgentsMultiagent20261001Params`
-
-  - `"multiagent_20261001" type`
-
-  - `?BetaManagedAgentsMultiagentAdvisorParams advisor`
-
-    Whether the session's primary thread can consult an advisor model. Defaults to disabled.
-
-  - `?BetaManagedAgentsMultiagentSubagentsParams subagents`
-
-    Whether the agent can spawn session threads. Defaults to enabled.
-
-  - `?BetaManagedAgentsMultiagentWorkflowsParams workflows`
-
-    Whether the agent can start workflow runs. Defaults to enabled.
-
 ### Beta Managed Agents Read Tool Config
 
 - `class BetaManagedAgentsReadToolConfig`
@@ -3292,12 +3066,6 @@ List Agent Versions
   This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
 - `workspaceID?: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspaceID?:optional string` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 

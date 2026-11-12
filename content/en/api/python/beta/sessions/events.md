@@ -17822,8 +17822,6 @@ for event in client.beta.sessions.events.stream(
 
   - `type: Literal["tool_use_limit_reached_error"]`
 
-  - `type: Literal["unknown_error"]`
-
   - `message: str`
 
     Human-readable error description.

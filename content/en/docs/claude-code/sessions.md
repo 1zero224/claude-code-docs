@@ -132,17 +132,6 @@ You can run `claude --resume <session-id>` from any directory, so you can resume
 
 The cross-project search resolves the ID only when exactly one other project holds a transcript with messages for it, so a hand-copied duplicate makes Claude Code report not-found rather than resume an arbitrary copy. If no stored session matches the ID, Claude Code reports `No conversation found with session ID: <session-id>`.
 
-Moving a session with [`/cd`](/docs/en/commands) relocates it to the new directory's project storage, so it appears in that directory's picker afterward.
-
-#### Resume by session ID or name
-
-You can run `claude --resume <session-id>` from any directory, so you can resume a session that started elsewhere or moved with [`/cd`](/docs/en/commands). Claude Code looks for the ID in this order:
-
-1. The current project directory and its git worktrees
-2. Every other project on this machine
-
-The cross-project search resolves the ID only when exactly one other project holds a transcript with messages for it, so a hand-copied duplicate makes Claude Code report not-found rather than resume an arbitrary copy. If no stored session matches the ID, Claude Code reports `No conversation found with session ID: <session-id>`.
-
 Resuming by name resolves across the current repository and its worktrees. Both forms look for an exact match and resume it directly even if it lives in a different worktree:
 
 | Command | Exact match | Ambiguous name |

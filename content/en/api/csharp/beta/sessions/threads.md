@@ -1315,8 +1315,6 @@ Get Session Thread
 
         - `required string Name`
 
-        - `required string Name`
-
         - `required string Url`
 
       - `required BetaManagedAgentsModelConfig Model`
@@ -1459,8 +1457,6 @@ Get Session Thread
 
           - `required string SkillID`
 
-          - `required string SkillID`
-
           - `required string Version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -1468,8 +1464,6 @@ Get Session Thread
           A resolved user-created custom skill.
 
           - `JsonElement Type = "custom"`
-
-          - `required string SkillID`
 
           - `required string SkillID`
 
@@ -2413,8 +2407,6 @@ Archive Session Thread
 
         - `required string Name`
 
-        - `required string Name`
-
         - `required string Url`
 
       - `required BetaManagedAgentsModelConfig Model`
@@ -2557,8 +2549,6 @@ Archive Session Thread
 
           - `required string SkillID`
 
-          - `required string SkillID`
-
           - `required string Version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -2566,8 +2556,6 @@ Archive Session Thread
           A resolved user-created custom skill.
 
           - `JsonElement Type = "custom"`
-
-          - `required string SkillID`
 
           - `required string SkillID`
 
@@ -4003,8 +3991,6 @@ Console.WriteLine(betaManagedAgentsSessionThread);
 
         - `required string Name`
 
-        - `required string Name`
-
         - `required string Url`
 
       - `required BetaManagedAgentsModelConfig Model`
@@ -4147,8 +4133,6 @@ Console.WriteLine(betaManagedAgentsSessionThread);
 
           - `required string SkillID`
 
-          - `required string SkillID`
-
           - `required string Version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -4156,8 +4140,6 @@ Console.WriteLine(betaManagedAgentsSessionThread);
           A resolved user-created custom skill.
 
           - `JsonElement Type = "custom"`
-
-          - `required string SkillID`
 
           - `required string SkillID`
 
@@ -6687,8 +6669,6 @@ Console.WriteLine(betaManagedAgentsSessionThread);
 
         - `required string Name`
 
-        - `required string Name`
-
         - `required string Url`
 
       - `required BetaManagedAgentsModelConfig Model`
@@ -6853,8 +6833,6 @@ Console.WriteLine(betaManagedAgentsSessionThread);
 
                 - `required string Name`
 
-                - `required string Name`
-
                 - `required string Url`
 
               - `required BetaManagedAgentsModelConfig Model`
@@ -6873,8 +6851,6 @@ Console.WriteLine(betaManagedAgentsSessionThread);
 
                   - `required string SkillID`
 
-                  - `required string SkillID`
-
                   - `required string Version`
 
                 - `class BetaManagedAgentsCustomSkill`
@@ -6882,8 +6858,6 @@ Console.WriteLine(betaManagedAgentsSessionThread);
                   A resolved user-created custom skill.
 
                   - `JsonElement Type = "custom"`
-
-                  - `required string SkillID`
 
                   - `required string SkillID`
 

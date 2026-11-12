@@ -17800,8 +17800,6 @@ end
 
   - `type: :tool_use_limit_reached_error`
 
-  - `type: :unknown_error`
-
   - `message: String`
 
     Human-readable error description.

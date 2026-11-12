@@ -60,8 +60,6 @@ The receiving Claude reads the message between tool calls during an active turn.
 
 A message from another session arrives as plain text. If it mentions a file or an [MCP resource](https://code.claude.com/docs/en/mcp.md#use-mcp-resources) with `@`, Claude sees the mention as written and Claude Code attaches nothing, whether the message starts a new turn or arrives during one. Claude can still open a mentioned path on the receiving machine with its own tools, subject to that session's permissions.
 
-A message from another session arrives as plain text. If it mentions a file or an [MCP resource](/docs/en/mcp#use-mcp-resources) with `@`, Claude sees the mention as written and Claude Code attaches nothing, whether the message starts a new turn or arrives during one. Claude can still open a mentioned path on the receiving machine with its own tools, subject to that session's permissions.
-
 Claude Code refuses a message in the following cases:
 
 * The message is [over the size cap](#limitations). Claude Code refuses it in the sending session, before it leaves.

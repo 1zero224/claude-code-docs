@@ -50,10 +50,6 @@ The Claude for Government host is the same domain name you use to access Claude 
 
 Use the host exactly as it was provided to your agency. An alias that your agency sets up on its own, such as a DNS record, redirect, or reverse proxy under your own domain that forwards to Claude for Government, does not work as the bootstrap address. The app accepts sign-in addresses only on the host in `bootstrapUrl`, and Claude for Government answers sign-in only on the host provided to your agency, so the app cannot sign in through such an alias.
 
-Use the host exactly as it was provided to your agency. An alias that your agency sets up on its own, such as a DNS record, redirect, or reverse proxy under your own domain that forwards to Claude for Government, does not work as the bootstrap address. The app accepts sign-in addresses only on the host in `bootstrapUrl`, and Claude for Government answers sign-in only on the host provided to your agency, so the app cannot sign in through such an alias.
-
-With any alias of this kind, the app still offers **Sign in with your organization**, but sign-in fails as soon as the user chooses it; see [Troubleshooting](#troubleshooting). The app supports routing its traffic through your network's proxy server, as the [Security and data handling](/docs/government/security/security-and-data-handling#network-egress-required-domains-and-proxies) page describes.
-
 ### How the app uses the bootstrap address
 
 The address is the same for every device and user in your agency and carries no credentials or user information, so the same profile is safe to push to your whole fleet. A request to the address without a signed-in session is refused.
@@ -203,10 +199,6 @@ Claude Desktop reads its update settings when it starts. If the app is already r
 On Claude Desktop versions earlier than 1.25927.0, the Config page setting alone does not reliably stop updates. On those versions, a profile that sets `disableAutoUpdates` to `"true"` stops automatic updates for signed-in users too, until you remove the key.
 
 On Linux, apt installs Claude Desktop updates, and the app does not download or install its own. The **Block automatic updates** setting and the `disableAutoUpdates` key do not change these updates. To stop the app's own check of Anthropic's [update hosts](https://claude.com/docs/third-party/claude-desktop/telemetry.md#required-egress-paths) for a new version, use both, with the key in the [Linux file](#linux). To keep Linux devices on the versions your agency distributes, follow [Auto-updates](https://claude.com/docs/third-party/claude-desktop/telemetry.md#auto-updates) in the Claude Desktop documentation.
-
-On Linux, apt installs Claude Desktop updates, and the app does not download or install its own. By default, installing the `claude-desktop` package adds Anthropic's apt repository, so `apt upgrade` installs new versions from `downloads.claude.ai`, and so do unattended upgrades on devices that have them turned on. The **Block automatic updates** setting and the `disableAutoUpdates` key do not change these updates.
-
-To keep Linux devices on the versions your agency distributes, add the line `CLAUDE_DESKTOP_ADD_REPO=false` to `/etc/default/claude-desktop`, and create that file if it does not exist. The package then does not add the repository when it installs or upgrades. On a device that already has the package, also delete `/etc/apt/sources.list.d/claude-desktop.list`.
 
 ## Confirm it worked
 

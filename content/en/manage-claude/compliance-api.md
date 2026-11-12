@@ -67,12 +67,6 @@ Send the `anthropic-version` header on every request; see [API versions](https:/
 
 ***
 
-## Versioning
-
-Send the `anthropic-version` header on every request; see [API versions](https://platform.claude.com/docs/en/api/versioning) for the available versions.
-
-***
-
 ## Compliance API versus related features
 
 A few adjacent features overlap with the Compliance API; here is how to choose.
@@ -120,6 +114,10 @@ Anthropic provides two analytics APIs: the Claude Enterprise Analytics API and t
 
   <Card href="https://platform.claude.com/docs/en/manage-claude/compliance-integration-patterns" title="Design your compliance integration">
     Choose a feed-consumption pattern, plan SIEM correlation, and decide your retention approach.
+  </Card>
+
+  <Card href="https://platform.claude.com/docs/en/manage-claude/compliance-security-posture/overview" title="Security posture in the Compliance API">
+    Get changes on the Security posture page into your SIEM and other security tools.
   </Card>
 
   <Card href="https://platform.claude.com/docs/en/manage-claude/compliance-errors" title="Handle Compliance API errors">

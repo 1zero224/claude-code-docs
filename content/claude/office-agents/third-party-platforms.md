@@ -55,6 +55,13 @@ All paths need:
 Your organization's IT team manages these resources. Anthropic cannot
 provide or reset credentials.
 
+> [!NOTE]
+>
+> Bedrock direct does not support AWS GovCloud (US) regions. An alternative
+> is an [LLM gateway](#gateway-requirements-for-it-teams) that your
+> organization operates. Anthropic has not tested a gateway with Amazon
+> Bedrock in GovCloud.
+
 ## Network allowlist
 
 The add-in requires access to specific domains. The required domains
@@ -67,6 +74,13 @@ directly (1P) or a third-party platform (3P).
 > inference provider. Domains pointing to Anthropic (such as
 > `pivot.claude.ai`) serve the add-in's interface, feature configuration,
 > and operational telemetry, not prompt or response content.
+>
+> [Dictation](https://claude.com/docs/office-agents/dictation.md) is an exception. It is available
+> only when users sign in with a Claude account and inference goes to
+> `api.anthropic.com`. The add-in sends the user's Claude access token and
+> streams the user's audio over a WebSocket connection to `pivot.claude.ai`,
+> which forwards them to Anthropic's transcription service and returns the
+> transcribed text.
 
 ### Anthropic API (1P)
 
@@ -75,10 +89,10 @@ inference goes to `api.anthropic.com`.
 
 | Domain | Required when | Purpose |
 | - | - | - |
-| `pivot.claude.ai` | Always | Add-in host serving task pane UI, analytics, icon search, skill downloads, and telemetry. |
+| `pivot.claude.ai` | Always | Add-in host serving task pane UI, analytics, icon search, skill downloads, telemetry, and the WebSocket relay for dictation audio. |
 | `claude.ai` | Always | Anthropic OAuth sign-in and feature-flag evaluation. |
 | `hcaptcha.com`, `*.hcaptcha.com` | Always | hCaptcha browser check on the `claude.ai` sign-in and approval pages, which open in the user's web browser. If these domains are blocked, the sign-in approval can fail with a message that the browser couldn't be verified. |
-| `api.anthropic.com` | Always | Claude inference API, file uploads, code-execution containers, and MCP connector registry. |
+| `api.anthropic.com` | Always | Claude inference API, file uploads, code-execution containers, and each user's list of MCP connectors. |
 | `appsforoffice.microsoft.com` | Always | Microsoft Office.js runtime script (required by all Office add-ins). |
 | `login.microsoftonline.com` | If using Outlook | Microsoft Entra ID sign-in via Nested App Auth for the Graph token. |
 | `o1158394.ingest.us.sentry.io` | Optional | Crash and error reporting; blocking degrades diagnostics only. |
@@ -294,34 +308,18 @@ add-in warns in the console when one of these keys arrives in the query
 string and ignores it there from October 19, 2026.
 
 The following example shows the change. Apply it to both `SourceLocation`
-and the `Taskpane.Url` resource, keep `&` written as `&amp;` in the XML,
-and redeploy the manifest from the Microsoft 365 admin center.
+and the `Taskpane.Url` resource, and keep `&` written as `&amp;` in the XML.
 
 ```text theme={null}
 before: https://pivot.claude.ai/?gateway_url=https://ai-gateway.example.com/v1&amp;gateway_token=sk-gw-xxxxx&amp;m=excel3p-1.0.0.1
 after:  https://pivot.claude.ai/?gateway_url=https://ai-gateway.example.com/v1&amp;m=excel3p-1.0.0.1#gateway_token=sk-gw-xxxxx
 ```
 
-### Keep credentials out of the manifest URL query string
-
-Prefer a bootstrap endpoint (`bootstrap_url`) or Entra ID sign-in with
-`gateway_auth_source=entra`, so no credential appears in the manifest or
-in any URL. If you keep URL configuration, put `gateway_token`,
-`azure_api_key`, `google_client_secret`, `otlp_headers`,
-`inference_headers`, and `mcp_servers` after `#`, never after `?`:
-the browser sends the query string to the server on every load, where
-request logs record it, while the fragment stays in the browser. The
-add-in warns in the console when one of these keys arrives in the query
-string and ignores it there from October 19, 2026.
-
-The following example shows the change. Apply it to both `SourceLocation`
-and the `Taskpane.Url` resource, keep `&` written as `&amp;` in the XML,
-and redeploy the manifest from the Microsoft 365 admin center.
-
-```text theme={null}
-before: https://pivot.claude.ai/?gateway_url=https://ai-gateway.example.com/v1&amp;gateway_token=sk-gw-xxxxx&amp;m=excel3p-1.0.0.1
-after:  https://pivot.claude.ai/?gateway_url=https://ai-gateway.example.com/v1&amp;m=excel3p-1.0.0.1#gateway_token=sk-gw-xxxxx
-```
+Before you redeploy the manifest from the Microsoft 365 admin center, raise
+the number in its `<Version>` element, for example from `1.0.0.1` to
+`1.0.0.2`. Microsoft requires a
+[higher version number for every manifest change](https://learn.microsoft.com/en-us/office/dev/add-ins/publish/maintain-breaking-changes),
+and without one, Office can keep using the old manifest.
 
 ### Admin feature controls
 
@@ -337,7 +335,7 @@ array to vary it per user.
 | `addin.access` | Kill switch: the add-in refuses to run. |
 | `file.upload` | Blocks attaching files to the conversation. |
 | `web_search` | Removes the built-in web search and web fetch tools, whose queries are served by Anthropic's search provider, along with the user-facing web search toggle. Code execution is unaffected. |
-| `permission_mode.accept_all_edits` | Keeps users in "Ask before edits": "Accept all edits" and "Skip all permissions" can't be turned on, and users already in either mode go back to "Ask before edits". Connector "Always allow" choices are unaffected. |
+| `permission_mode.accept_all_edits` | Keeps users in "Ask before edits": "Accept all edits" and "Skip all permissions" can't be turned on, and users already in either mode go back to "Ask before edits". Connector "Always allow" choices and Outlook's "Always allow mailbox search" are unaffected. |
 | `permission_mode.dangerously_always_allow` | Removes the "Dangerously always allow" button from approval cards. It switches users to the mode shown as "Skip all permissions"; users already in that mode are moved to "Accept all edits". |
 
 Unknown slugs are ignored, so setting a slug from a newer add-in version
@@ -372,6 +370,7 @@ If a skill fails to load, the add-in doesn't replace it with a later
 skill. To see which skills failed to load, select the + button at the
 bottom of the chat pane, and then select Skills. A note at the top of the
 list names up to three of those skills and gives the number of any others.
+The note leaves out a skill that still has a copy from an earlier load.
 
 If a bootstrap call takes more than 10 seconds when the add-in
 loads with an existing connection, the add-in has no admin-provisioned
@@ -396,6 +395,61 @@ the bootstrap call made when the add-in sets up a new connection. On that
 record, `count` is the number of different skill names in the response,
 and `cap` is the limit, 20.
 
+### Publish a new or changed skill
+
+The add-in loads the `skills` array when the pane loads and at each
+scheduled bootstrap call before the response expires. It also calls the
+bootstrap endpoint when a user selects New chat or starts to type the first
+message of a chat.
+
+That extra call happens at most once every 30 seconds in each open pane,
+counted from the last time the pane read the skills. The add-in retries a call
+up to three times if the endpoint can't be reached or answers with a 5xx, 408,
+425, or 429 status. Skill file downloads aren't retried. From the response, the add-in uses only the
+`skills` array. It doesn't apply a token or any other setting, so keep
+tokens from earlier calls valid until they expire.
+
+After that call, the add-in loads the array again if an entry might have
+changed.
+
+| Skill entry | Counts as changed when |
+| - | - |
+| With `sha256` | The `sha256`, `name`, or `description` differs. A different `url` alone doesn't count. |
+| Inline `content`, no `sha256` | The `content`, `name`, or `description` differs. |
+| `url`, no `sha256` | Always. The add-in can't tell whether the file changed. |
+
+An added, removed, or reordered entry also counts as a change, and so does
+an entry that failed to load the last time. When the add-in loads the array
+again, it downloads the `url` of each skill within the limit of 20, unless
+the entry has inline `content`. It does the same when the pane loads and at
+each scheduled bootstrap call.
+
+To avoid downloads on the call at New chat or the first message when nothing
+changed, give each `url` entry a `sha256`: the SHA-256 of the file, as 64
+hexadecimal characters. Update the `sha256` whenever the file changes: the
+add-in refuses a file that doesn't match it.
+
+The load runs in the background and a chat never waits for it:
+
+* A message sent before the load ends goes without the new skill. A message
+  sent after the load ends has it.
+* If the call fails or takes more than 10 seconds, the add-in keeps the
+  skills that it has.
+* A skill that fails to load keeps the copy the pane already had, until a later
+  load of that skill succeeds. The copy is held only in memory: if the pane
+  reloads while the file still fails, the skill is missing until it loads. The
+  add-in sends the warning log record `Bootstrap skill failed to load`
+  to your [OpenTelemetry collector](https://claude.com/docs/office-agents/opentelemetry.md).
+* A skill published within 30 seconds of the last read appears in a later
+  chat.
+
+To remove every skill, return an empty `skills` array. If a response has
+no `skills` key, the add-in keeps the skills that it has.
+
+Serve the bootstrap response with `Cache-Control: no-store`, so that no
+cache between the add-in and the endpoint answers with an older copy. A
+response with `Last-Modified` and no `Cache-Control` can be stored too.
+
 ### Deploy to Outlook
 
 Outlook requires a separate manifest file from Excel, PowerPoint, and
@@ -406,8 +460,8 @@ you are deploying to Outlook, it generates a second file named
 own custom app in the steps below.
 
 Claude for Outlook reads mail and calendar data through Microsoft Graph,
-which requires a one-time tenant-wide grant from a Global Administrator
-regardless of which platform serves the model. Complete the
+which requires a one-time tenant-wide grant from a Global Administrator or a
+Cloud Application Administrator, regardless of which platform serves the model. Complete the
 [Microsoft Graph admin consent](https://claude.com/docs/office-agents/outlook.md#grant-microsoft-graph-consent)
 step before deployment so users are not prompted individually. The Graph
 token stays in the user's Outlook client and is never sent to your
@@ -530,105 +584,6 @@ specific to this path:
     provider. Let your IT team know."
   * Bedrock base URL: "This add-in can't use your organization's Bedrock
     base URL. Let your IT team know."
-* **Applied as delivered**: the add-in applies served settings the same
-  way it applies manifest configuration, with no per-setting consent
-  prompt. The Claude organization admin who edits served settings can
-  be a different person from the Microsoft 365 admin who deployed the
-  manifest.
-* **No bootstrap endpoint**: a member signed in this way uses no
-  bootstrap endpoint at all. If served settings name a `bootstrap_url`,
-  the add-in ignores it and never sends the member's token there.
-* **Last known settings at reload**: the add-in keeps the most recent
-  served document so a reloading task pane can start on it while it
-  reads the current one. The saved copy is used only for the member and
-  organization it was fetched for, and is replaced as soon as the
-  current document arrives.
-* **Settings withdrawn**: if Anthropic stops serving settings for the
-  organization, the add-in stops using any saved copy and shows "Claude
-  isn't available for your organization here" until the member signs
-  out. If the first read fails before any settings have arrived, the
-  add-in shows "Couldn't load your organization's settings" with Try
-  again and Sign out actions instead of starting on defaults.
-
-### What the add-in stores for this sign-in
-
-The sign-in is an OAuth access token and refresh token that can read
-the member's profile and the organization's add-in settings. The add-in
-also sends it with the feature-flag and telemetry requests described in
-[What Anthropic collects](#what-anthropic-collects) so those requests
-identify the signed-in member. It carries no inference access, so it
-cannot be used to send prompts to Anthropic.
-
-The add-in stores the token in localStorage within its sandboxed iframe,
-in the same place and form as a Claude account sign-in, and refreshes it
-in the background. It is not synced to Anthropic's servers. Unlike a
-Claude account sign-in, it is also not copied to the Office add-in
-storage that lets a sign-in carry across Office applications, so a
-member can be asked to log in again in another Office application or
-after Office clears the add-in's browser storage.
-
-Signing out revokes the token with Anthropic, removes it and the saved
-settings from storage, and signs the member out of any other open Claude
-task panes that share that storage.
-
-If the browser blocks the add-in's storage, for example when
-third-party site data is blocked for Office on the web, the add-in
-refuses the sign-in rather than holding it in memory only. It revokes
-the token and asks the member to allow site data for the add-in and
-select "Log in" again.
-
-## Serve add-in settings from your Claude organization
-
-Anthropic can serve the add-in's configuration to the members of a
-Claude organization directly, in place of manifest parameters, Microsoft
-Entra ID attributes, or a bootstrap endpoint. Members sign in with the
-add-in's standard "Log in" button and their Claude account. The add-in
-then reads the organization's settings from Anthropic and connects to
-the gateway or cloud provider those settings name. Prompts and responses
-still travel only to that provider, never to Anthropic.
-
-This option is in preview. It works in Anthropic's preview environments
-and is not yet enabled for production organizations. Members need the
-add-in's "Log in" button, which the Microsoft AppSource install and any
-manifest without connection parameters show.
-
-### How the sign-in works
-
-The sequence below is what a member sees. No per-member admin action is
-needed.
-
-1. The member selects "Log in" on the add-in's sign-in screen and
-   approves the sign-in in the browser with their Claude account.
-2. Anthropic's sign-in response identifies the member's organization as
-   one whose add-in settings Anthropic serves. The add-in confirms with
-   Anthropic that the account and organization on the token match that
-   response, stores the sign-in, and reloads the task pane. If the check
-   fails, the add-in discards and revokes the token and shows "Couldn't
-   verify your organization's sign-in."
-3. After the reload, the add-in reads the organization's settings from
-   `api.anthropic.com` and opens the connection screen with the served
-   values filled in, such as the gateway URL, API format, authorization
-   header, and available models. When the served settings include every
-   value the connection needs, the add-in connects without further
-   input. Otherwise the member enters the missing value, typically the
-   gateway token from your IT team, and connects.
-4. While the member stays signed in, the add-in reads the served
-   settings again at each launch and periodically while it runs, so
-   changes an admin makes apply without redeploying the manifest.
-
-### What served settings control
-
-Served settings use the same configuration keys as the manifest and a
-bootstrap endpoint, including the keys described in
-[Per-user configuration](#per-user-configuration) and
-[Admin feature controls](#admin-feature-controls). A few rules are
-specific to this path:
-
-* **Single source**: for a member signed in this way, the served
-  document is the only configuration source. The add-in does not merge
-  it with manifest parameters, Entra ID attributes, or a bootstrap
-  endpoint, and nothing from the task pane URL fills a key the served
-  document leaves out.
 * **Applied as delivered**: the add-in applies served settings the same
   way it applies manifest configuration, with no per-setting consent
   prompt. The Claude organization admin who edits served settings can

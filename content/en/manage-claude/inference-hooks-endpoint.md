@@ -397,118 +397,6 @@ A `tool_use` block for bash, which Anthropic defines and the calling application
 }
 ```
 
-## The tool call frame
-
-When Claude produces tool calls, Anthropic sends one tool call frame that lists them. Calls to some of claude.ai's own tools may be left out, and a response whose only tool calls are left out doesn't produce a tool call frame; see [Availability](https://platform.claude.com/docs/en/manage-claude/inference-hooks#availability). One verdict covers the whole frame: you can't allow some tool calls and deny others. The frame goes to the same endpoint as the prompt frame, with the same headers, signature, and top-level fields. Tool calls made by code that Claude runs in the code execution tool are sent the same way, in separate tool call frames, before they run.
-
-It differs from the prompt frame in three ways:
-
-* `type` is `"tool_call"`.
-* `messages` holds only the latest message, the `assistant` message Claude just produced: any `text` blocks and one `tool_use` block per tool call the frame lists, in the order the model produced them. Earlier conversation is left out, because the prompt frame sent before that model call carried it. Read the last entry of `messages`, because the protocol may later add earlier messages before it.
-* Each `tool_use` block carries a `tool_info` object that says who runs or provides the tool.
-
-Where `session_id` is set, it is the same on both frames. The tool call frame has its own `request_id`, which is opaque like the prompt frame's.
-
-`tool_info` says who runs or provides the tool, not what the tool can reach. It is one of four kinds, told apart by its `type` field, and each kind carries its own fields. Anthropic sends the first of the following kinds that fits the tool. New kinds may appear: accept a `type` you don't recognize, and for such a kind rely only on `type`.
-
-An optional field that doesn't apply is left out, never `null`, so a `tool_info` can be just `{"type": "client"}`. `tool_name` is chosen by whoever defined the tool, and a server's `toolset_name` by whoever wrote the request, so don't treat either as a trust boundary.
-
-### Platform tools
-
-A platform tool is one that the Claude API itself runs while it serves the request, such as web search or code execution.
-
-| Field          | Present  | Description                                                                                                         |
-| -------------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
-| `type`         | Always   | `"platform"`                                                                                                        |
-| `tool_type`    | Always   | The tool's versioned type, such as `web_search_20250305`. Match it exactly; don't parse a name or a date out of it. |
-| `toolset_name` | Optional | The group of tools it belongs to.                                                                                   |
-
-### Application tools
-
-An application tool is one that the Anthropic application making the request provides itself, such as claude.ai's own tools.
-
-| Field          | Present  | Description                       |
-| -------------- | -------- | --------------------------------- |
-| `type`         | Always   | `"application"`                   |
-| `toolset_name` | Optional | The group of tools it belongs to. |
-
-### Third-party tools
-
-A third-party tool is one on a server that Anthropic knows of, such as a claude.ai connector or an MCP server that the request names in `mcp_servers`. This doesn't mean Anthropic has vetted the server.
-
-| Field             | Present              | Description                                                                                                                                                         |
-| ----------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`            | Always               | `"third_party"`                                                                                                                                                     |
-| `toolset_name`    | Optional             | The name the request gives the server.                                                                                                                              |
-| `origin`          | Optional             | The scheme, host, and non-default port of the server's URL. It can be a private or local address, `localhost` included. An absent `origin` means unknown, not safe. |
-| `verified_origin` | Whenever `origin` is | `true` only when Anthropic's servers connect to the server themselves. Treat `false` as an origin that Anthropic hasn't confirmed.                                  |
-
-A `tool_use` block for a tool on an MCP server that the request names `crm` in `mcp_servers`:
-
-```json
-{
-  "type": "tool_use",
-  "id": "toolu_01GhIjKlMnOpQrStUvWxYzAb",
-  "tool_name": "crm_search",
-  "input": {
-    "query": "accounts renewing in Q4"
-  },
-  "tool_info": {
-    "type": "third_party",
-    "toolset_name": "crm",
-    "origin": "https://mcp.crm.example.com",
-    "verified_origin": true
-  }
-}
-```
-
-### Client tools
-
-A client tool is any other tool, usually one that the application calling Claude runs. A tool that Anthropic defines but the calling application runs, such as bash or computer use, is a client tool too, and carries its versioned type in `tool_type`. A call to a tool the request doesn't declare is also `"client"`.
-
-A tool on an MCP server that Claude Code connects to directly from the user's computer, such as a local MCP server, is a client tool. Its `tool_info` is `{"type": "client"}`, and its `tool_name` is the name Claude Code gives it, in the form `mcp__<server>__<tool>`.
-
-A deny stops the call before Claude Code runs it. The exchange between Claude Code and a local server doesn't pass through Anthropic, so your AI security server sees the tool's result only when Claude Code sends it back. Its text is then in a `tool_result` block in the next prompt frame.
-
-| Field          | Present  | Description                                                                                                                                    |
-| -------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`         | Always   | `"client"`                                                                                                                                     |
-| `tool_type`    | Optional | The tool's versioned type, such as `bash_20250124`, when Anthropic defines the tool. Match it exactly; don't parse a name or a date out of it. |
-| `toolset_name` | Optional | The group of tools it belongs to, such as `browser`.                                                                                           |
-
-A `tool_use` block for a tool that the calling application declares:
-
-```json
-{
-  "type": "tool_use",
-  "id": "toolu_01AbCdEfGhIjKlMnOpQrStUv",
-  "tool_name": "read_file",
-  "input": {
-    "path": "reports/q3.txt"
-  },
-  "tool_info": {
-    "type": "client"
-  }
-}
-```
-
-A `tool_use` block for bash, which Anthropic defines and the calling application runs:
-
-```json
-{
-  "type": "tool_use",
-  "id": "toolu_01HiJkLmNoPqRsTuVwXyZaBc",
-  "tool_name": "bash",
-  "input": {
-    "command": "ls -la reports/"
-  },
-  "tool_info": {
-    "type": "client",
-    "tool_type": "bash_20250124"
-  }
-}
-```
-
 ## Return a verdict
 
 Respond with HTTP 200 and a JSON verdict body for both outcomes; the `action` field discriminates. To allow the request:
@@ -543,8 +431,6 @@ The reverse doesn’t hold. Anything other than HTTP 200 with a parseable verdic
 * Any `action` value other than `allow` or `deny` is treated as a webhook failure.
 
 Anthropic reads at most 64 KiB of the response body, and the body must be uncompressed. Redirects are not followed, and cookies are ignored. Unknown fields in the verdict body are ignored, so you can return a richer object alongside the fields documented here.
-
-A tool call frame takes the same verdict body, and every rule in this section applies to it unchanged. `allow` lets the tool calls run and the response continues; `deny` stops all of them and ends the response with the same error as a denied prompt, including your `deny_reason`. Text delivered before the first tool call is not taken back.
 
 A tool call frame takes the same verdict body, and every rule in this section applies to it unchanged. `allow` lets the tool calls run and the response continues; `deny` stops all of them and ends the response with the same error as a denied prompt, including your `deny_reason`. Text delivered before the first tool call is not taken back.
 

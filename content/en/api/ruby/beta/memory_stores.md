@@ -211,16 +211,6 @@ Create a Memory Store
 
     format: date-time
 
-  - `name: String`
-
-    Human-readable name for the store. 1–255 characters. The store's mount-path slug under `/mnt/memory/` is derived from this name.
-
-  - `updated_at: Time`
-
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
-
-    format: date-time
-
 ### Example
 
 ```ruby
@@ -460,16 +450,6 @@ List Memory Stores
 
     format: date-time
 
-  - `name: String`
-
-    Human-readable name for the store. 1–255 characters. The store's mount-path slug under `/mnt/memory/` is derived from this name.
-
-  - `updated_at: Time`
-
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
-
-    format: date-time
-
 ### Example
 
 ```ruby
@@ -687,16 +667,6 @@ Retrieve a Memory Store
     When the memory store was last changed, in RFC 3339.
 
     Changing its `name`, `description`, or `metadata` updates it. Archiving the store does too. Changes to the store's memories don't.
-
-    format: date-time
-
-  - `name: String`
-
-    Human-readable name for the store. 1–255 characters. The store's mount-path slug under `/mnt/memory/` is derived from this name.
-
-  - `updated_at: Time`
-
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
 
     format: date-time
 
@@ -936,16 +906,6 @@ Update a Memory Store
     When the memory store was last changed, in RFC 3339.
 
     Changing its `name`, `description`, or `metadata` updates it. Archiving the store does too. Changes to the store's memories don't.
-
-    format: date-time
-
-  - `name: String`
-
-    Human-readable name for the store. 1–255 characters. The store's mount-path slug under `/mnt/memory/` is derived from this name.
-
-  - `updated_at: Time`
-
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
 
     format: date-time
 
@@ -1341,16 +1301,6 @@ Archive a Memory Store
 
     format: date-time
 
-  - `name: String`
-
-    Human-readable name for the store. 1–255 characters. The store's mount-path slug under `/mnt/memory/` is derived from this name.
-
-  - `updated_at: Time`
-
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
-
-    format: date-time
-
 ### Example
 
 ```ruby
@@ -1441,16 +1391,6 @@ puts(beta_managed_agents_memory_store)
     When the memory store was last changed, in RFC 3339.
 
     Changing its `name`, `description`, or `metadata` updates it. Archiving the store does too. Changes to the store's memories don't.
-
-    format: date-time
-
-  - `name: String`
-
-    Human-readable name for the store. 1–255 characters. The store's mount-path slug under `/mnt/memory/` is derived from this name.
-
-  - `updated_at: Time`
-
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
 
     format: date-time
 
@@ -1631,8 +1571,6 @@ Create a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=ruby#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: :memory`
 
   - `type: :memory`
 
@@ -1911,8 +1849,6 @@ List Memories
 
     - `type: :memory`
 
-    - `type: :memory`
-
     - `id: String`
 
       The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -2176,8 +2112,6 @@ Retrieve a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=ruby#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: :memory`
 
   - `type: :memory`
 
@@ -2453,8 +2387,6 @@ Update a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=ruby#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: :memory`
 
   - `type: :memory`
 
@@ -2950,8 +2882,6 @@ List Memory Versions
 
   - `type: :memory_version`
 
-  - `type: :memory_version`
-
   - `id: String`
 
     Unique identifier for this version (a `memver_...` value).
@@ -3289,8 +3219,6 @@ Retrieve a Memory Version
 
   - `type: :memory_version`
 
-  - `type: :memory_version`
-
   - `id: String`
 
     Unique identifier for this version (a `memver_...` value).
@@ -3609,8 +3537,6 @@ Redact a Memory Version
   Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=ruby#audit-memory-changes) to learn more about memory versions.
-
-  - `type: :memory_version`
 
   - `type: :memory_version`
 

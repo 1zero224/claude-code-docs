@@ -16,8 +16,6 @@ The new Claude experience, which combines chat and Cowork, is rolling out to Pro
 
 On desktop, web, and mobile, chat and Cowork share one home, so you start both from the same place. Find the message box and select "Cowork," then describe your task. To go back to a regular conversation, select "Chat." In the Chrome side panel, opening the panel starts a Cowork session directly.
 
-**Note:** Claude Cowork is now just Claude. Ask for what you need, and Claude decides whether that's a quick answer or a task. This is rolling out gradually to Pro and Max plans, with more plans to follow. If you're on a Pro or Max plan and your message box no longer shows "Chat" and "Cowork" options, you have the new experience, and some steps in this article may look different. Learn more in **[Claude Cowork and chat are one Claude](https://support.claude.com/en/articles/16761823)**, or read our **[blog post](https://claude.com/blog/cowork-is-now-claude)**.
-
 ---
 
 ## What is Claude Cowork?
@@ -180,7 +178,7 @@ To set global instructions:
 
 3. Type your instructions in the text box and click "Save":
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2525926874/15324ac4155d7802272e8bdef04b/ec66cd09-a4db-4f1d-8f30-226c9d126333?expires=1794298500&amp;signature=2c2fbbb43e00912cb3290540ecf1c2b1eace1a4985e173bf36f0106094741479&amp;req=diUlE8B8m4lYXfMW1HO4zcDl69zuP1m18iWjaktE940g6qR0F7zzjhP1mlq0%0AyeTPNsHBglqvWBqkGVg%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2525926874/15324ac4155d7802272e8bdef04b/ec66cd09-a4db-4f1d-8f30-226c9d126333?expires=1794465000&amp;signature=4c52455a69ed40c3a2db91bb78a33564e7b8b00c3e689cbe91b70ce9d473e6c5&amp;req=diUlE8B8m4lYXfMW1HO4zcDl69zoMFSw8iWjaktE941i7qqphG4DGpoWzjkM%0A9VEAQZciMn1BD7XTA9c%3D%0A)
 
 ### Folder instructions
 

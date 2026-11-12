@@ -272,8 +272,6 @@ Examples that name SharePoint or Teams need a work or school account.
 
 ---
 
-**Note:** Your admin turns on each Teams write tool separately. Sending a chat message and posting or replying in a channel always ask you to confirm before Claude sends anything.
-
 ## Supported file types
 
 When reading files from SharePoint and OneDrive, Claude can open these formats:

@@ -1594,12 +1594,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
     Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-  - `Optional<String> workspaceId` (header parameter)
-
-    Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-    Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
   - `long maxTokens`
 
     The maximum number of tokens to generate before stopping.
@@ -1672,8 +1666,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
         - `List<BetaContentBlockParam>`
 
           - `class BetaTextBlockParam`
-
-            - `JsonValue type = "text"`
 
             - `JsonValue type = "text"`
 
@@ -1924,7 +1916,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `JsonValue type = "file"`
 
-                - `JsonValue type = "code_execution_output"`
+                - `String fileId`
 
             - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -1947,8 +1939,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
             - `JsonValue type = "search_result"`
 
             - `List<BetaTextBlockParam> content`
-
-              - `JsonValue type = "text"`
 
               - `JsonValue type = "text"`
 
@@ -4920,7 +4910,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `JsonValue type = "tool_addition"`
+              - `String name`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -5043,38 +5033,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           - `XHIGH("xhigh")`
 
           - `MAX("max")`
-
-    - `Optional<ClearAt> clearAt`
-
-      How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-      - `NEXT_USER_MESSAGE("next_user_message")`
-
-      - `NEVER("never")`
-
-    - `Optional<BetaSystemMessageOutputConfig> outputConfig`
-
-      Per-message output configuration on a role:"system" input message.
-
-      Fields here apply per-turn; `format` remains top-level only. An
-      empty `{}` is accepted on a message that carries content; a message
-      with neither content nor output_config fields is rejected.
-
-      - `Optional<Effort> effort`
-
-        How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-        Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-        - `LOW("low")`
-
-        - `MEDIUM("medium")`
-
-        - `HIGH("high")`
-
-        - `XHIGH("xhigh")`
-
-        - `MAX("max")`
 
   - `Model model`
 
@@ -6020,8 +5978,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=java) to learn more about programmatic tool calling.
-
-          - `JsonValue type = "encrypted_code_execution_result"`
 
           - `JsonValue type = "encrypted_code_execution_result"`
 
@@ -9747,12 +9703,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
     Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-  - `Optional<String> workspaceId` (header parameter)
-
-    Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-    Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
   - `List<BetaMessageParam> messages`
 
     Input messages.
@@ -9813,8 +9763,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
         - `List<BetaContentBlockParam>`
 
           - `class BetaTextBlockParam`
-
-            - `JsonValue type = "text"`
 
             - `JsonValue type = "text"`
 
@@ -10065,7 +10013,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `JsonValue type = "file"`
 
-                - `JsonValue type = "code_execution_output"`
+                - `String fileId`
 
             - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -10088,8 +10036,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
             - `JsonValue type = "search_result"`
 
             - `List<BetaTextBlockParam> content`
-
-              - `JsonValue type = "text"`
 
               - `JsonValue type = "text"`
 
@@ -13061,7 +13007,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `JsonValue type = "tool_addition"`
+              - `String name`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -13184,38 +13130,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
           - `XHIGH("xhigh")`
 
           - `MAX("max")`
-
-    - `Optional<ClearAt> clearAt`
-
-      How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-      - `NEXT_USER_MESSAGE("next_user_message")`
-
-      - `NEVER("never")`
-
-    - `Optional<BetaSystemMessageOutputConfig> outputConfig`
-
-      Per-message output configuration on a role:"system" input message.
-
-      Fields here apply per-turn; `format` remains top-level only. An
-      empty `{}` is accepted on a message that carries content; a message
-      with neither content nor output_config fields is rejected.
-
-      - `Optional<Effort> effort`
-
-        How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-        Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-        - `LOW("low")`
-
-        - `MEDIUM("medium")`
-
-        - `HIGH("high")`
-
-        - `XHIGH("xhigh")`
-
-        - `MAX("max")`
 
   - `Model model`
 
@@ -13661,12 +13575,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-  - `Optional<String> workspaceId` (header parameter)
-
-    Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-    Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
   - `List<Request> requests`
 
     List of requests for prompt completion. Each is an individual request to create a Message.
@@ -13759,8 +13667,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `List<BetaContentBlockParam>`
 
               - `class BetaTextBlockParam`
-
-                - `JsonValue type = "text"`
 
                 - `JsonValue type = "text"`
 
@@ -14011,7 +13917,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `JsonValue type = "file"`
 
-                    - `JsonValue type = "code_execution_output"`
+                    - `String fileId`
 
                 - `Optional<BetaCacheControlEphemeral> cacheControl`
 
@@ -14034,8 +13940,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 - `JsonValue type = "search_result"`
 
                 - `List<BetaTextBlockParam> content`
-
-                  - `JsonValue type = "text"`
 
                   - `JsonValue type = "text"`
 
@@ -17007,7 +16911,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     The tool's input schema as the MCP server lists it, verbatim.
 
-                  - `JsonValue type = "tool_addition"`
+                  - `String name`
 
                     The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -17130,38 +17034,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               - `XHIGH("xhigh")`
 
               - `MAX("max")`
-
-        - `Optional<ClearAt> clearAt`
-
-          How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-          - `NEXT_USER_MESSAGE("next_user_message")`
-
-          - `NEVER("never")`
-
-        - `Optional<BetaSystemMessageOutputConfig> outputConfig`
-
-          Per-message output configuration on a role:"system" input message.
-
-          Fields here apply per-turn; `format` remains top-level only. An
-          empty `{}` is accepted on a message that carries content; a message
-          with neither content nor output_config fields is rejected.
-
-          - `Optional<Effort> effort`
-
-            How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-            Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-            - `LOW("low")`
-
-            - `MEDIUM("medium")`
-
-            - `HIGH("high")`
-
-            - `XHIGH("xhigh")`
-
-            - `MAX("max")`
 
       - `Model model`
 
@@ -19829,8 +19701,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
                 See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=java) to learn more about programmatic tool calling.
-
-                - `JsonValue type = "encrypted_code_execution_result"`
 
                 - `JsonValue type = "encrypted_code_execution_result"`
 
@@ -24077,8 +23947,6 @@ Create Agent
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -24361,8 +24229,6 @@ Create Agent
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -24370,8 +24236,6 @@ Create Agent
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 
@@ -25163,8 +25027,6 @@ List Agents
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -25447,8 +25309,6 @@ List Agents
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -25456,8 +25316,6 @@ List Agents
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 
@@ -26233,8 +26091,6 @@ Get Agent
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -26517,8 +26373,6 @@ Get Agent
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -26526,8 +26380,6 @@ Get Agent
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 
@@ -28076,8 +27928,6 @@ Update Agent
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -28360,8 +28210,6 @@ Update Agent
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -28369,8 +28217,6 @@ Update Agent
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 
@@ -29135,8 +28981,6 @@ Archive Agent
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -29419,8 +29263,6 @@ Archive Agent
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -29428,8 +29270,6 @@ Archive Agent
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 
@@ -30206,8 +30046,6 @@ List Agent Versions
 
     - `String name`
 
-    - `String name`
-
     - `String url`
 
   - `Metadata metadata`
@@ -30490,8 +30328,6 @@ List Agent Versions
 
       - `String skillId`
 
-      - `String skillId`
-
       - `String version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -30499,8 +30335,6 @@ List Agent Versions
       A resolved user-created custom skill.
 
       - `JsonValue type = "custom"`
-
-      - `String skillId`
 
       - `String skillId`
 
@@ -35190,10 +35024,6 @@ Get statistics about the work queue for an environment.
 
     The type of object
 
-  - `JsonValue type = "work_queue_stats"`
-
-    The type of object
-
   - `long depth`
 
     Number of work items waiting to be picked up
@@ -36540,8 +36370,6 @@ Create Session
     - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
       - `JsonValue type = "url"`
-
-      - `String name`
 
       - `String name`
 
@@ -38138,8 +37966,6 @@ List Sessions
 
       - `String name`
 
-      - `String name`
-
       - `String url`
 
     - `BetaManagedAgentsModelConfig model`
@@ -39650,8 +39476,6 @@ Get Session
     - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
       - `JsonValue type = "url"`
-
-      - `String name`
 
       - `String name`
 
@@ -41184,8 +41008,6 @@ Update Session
 
       - `String name`
 
-      - `String name`
-
       - `String url`
 
     - `BetaManagedAgentsModelConfig model`
@@ -42657,8 +42479,6 @@ Delete Session
 
   - `String id`
 
-  - `String id`
-
 #### Example
 
 ```java
@@ -42868,8 +42688,6 @@ Archive Session
     - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
       - `JsonValue type = "url"`
-
-      - `String name`
 
       - `String name`
 
@@ -46233,8 +46051,6 @@ List Events
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
         - `JsonValue type = "url"`
-
-        - `String name`
 
         - `String name`
 
@@ -50410,8 +50226,6 @@ Stream Events
 
         - `String name`
 
-        - `String name`
-
         - `String url`
 
       - `BetaManagedAgentsModelConfig model`
@@ -52955,8 +52769,6 @@ Delete Session Resource
 
   - `String id`
 
-  - `String id`
-
 #### Example
 
 ```java
@@ -53205,8 +53017,6 @@ List Session Threads
 
         - `String name`
 
-        - `String name`
-
         - `String url`
 
       - `BetaManagedAgentsModelConfig model`
@@ -53349,8 +53159,6 @@ List Session Threads
 
           - `String skillId`
 
-          - `String skillId`
-
           - `String version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -53358,8 +53166,6 @@ List Session Threads
           A resolved user-created custom skill.
 
           - `JsonValue type = "custom"`
-
-          - `String skillId`
 
           - `String skillId`
 
@@ -54312,8 +54118,6 @@ Get Session Thread
 
         - `String name`
 
-        - `String name`
-
         - `String url`
 
       - `BetaManagedAgentsModelConfig model`
@@ -54456,8 +54260,6 @@ Get Session Thread
 
           - `String skillId`
 
-          - `String skillId`
-
           - `String version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -54465,8 +54267,6 @@ Get Session Thread
           A resolved user-created custom skill.
 
           - `JsonValue type = "custom"`
-
-          - `String skillId`
 
           - `String skillId`
 
@@ -55418,8 +55218,6 @@ Archive Session Thread
 
         - `String name`
 
-        - `String name`
-
         - `String url`
 
       - `BetaManagedAgentsModelConfig model`
@@ -55562,8 +55360,6 @@ Archive Session Thread
 
           - `String skillId`
 
-          - `String skillId`
-
           - `String version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -55571,8 +55367,6 @@ Archive Session Thread
           A resolved user-created custom skill.
 
           - `JsonValue type = "custom"`
-
-          - `String skillId`
 
           - `String skillId`
 
@@ -58251,8 +58045,6 @@ List Session Thread Events
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
         - `JsonValue type = "url"`
-
-        - `String name`
 
         - `String name`
 
@@ -61440,8 +61232,6 @@ Stream Session Thread Events
       - `List<BetaManagedAgentsMcpServerUrlDefinition> mcpServers`
 
         - `JsonValue type = "url"`
-
-        - `String name`
 
         - `String name`
 
@@ -75417,8 +75207,6 @@ Create a Memory
 
   - `JsonValue type = "memory"`
 
-  - `Type type`
-
   - `String id`
 
     The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -75700,8 +75488,6 @@ List Memories
 
     - `JsonValue type = "memory"`
 
-    - `Type type`
-
     - `String id`
 
       The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -75968,8 +75754,6 @@ Retrieve a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#view-and-edit-memories) to learn more about working with memories.
 
   - `JsonValue type = "memory"`
-
-  - `Type type`
 
   - `String id`
 
@@ -76242,8 +76026,6 @@ Update a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#view-and-edit-memories) to learn more about working with memories.
 
   - `JsonValue type = "memory"`
-
-  - `Type type`
 
   - `String id`
 
@@ -76743,8 +76525,6 @@ List Memory Versions
 
   - `JsonValue type = "memory_version"`
 
-  - `Type type`
-
   - `String id`
 
     Unique identifier for this version (a `memver_...` value).
@@ -77083,8 +76863,6 @@ Retrieve a Memory Version
 
   - `JsonValue type = "memory_version"`
 
-  - `Type type`
-
   - `String id`
 
     Unique identifier for this version (a `memver_...` value).
@@ -77415,8 +77193,6 @@ Redact a Memory Version
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#audit-memory-changes) to learn more about memory versions.
 
   - `JsonValue type = "memory_version"`
-
-  - `Type type`
 
   - `String id`
 
@@ -84316,12 +84092,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
-    - `String memoryStoreId`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
-
   - `Optional<String> sessionId`
 
     The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
@@ -84813,12 +84583,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
-    - `String memoryStoreId`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
-
   - `Optional<String> sessionId`
 
     The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
@@ -85246,12 +85010,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
     See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=java#use-the-output) for how to review and use the result.
 
     - `JsonValue type = "memory_store"`
-
-    - `String memoryStoreId`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
     - `String memoryStoreId`
 
@@ -85688,12 +85446,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
-    - `String memoryStoreId`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
-
   - `Optional<String> sessionId`
 
     The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
@@ -86116,12 +85868,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
     See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=java#use-the-output) for how to review and use the result.
 
     - `JsonValue type = "memory_store"`
-
-    - `String memoryStoreId`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
     - `String memoryStoreId`
 

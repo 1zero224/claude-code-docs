@@ -170,10 +170,6 @@ An MRTR round paused at the pending-request modal, tagged input\_required. Answe
 
 The monitoring sidebar's Protocol tab after mrtr\_confirm completes. Both tools/call rounds sit inside one MRTR conversation, Round 1 tagged input\_required and Round 2 complete, while unrelated traffic stays outside it.
 
-<Frame caption="The monitoring sidebar's Protocol tab after mrtr_confirm completes. Both tools/call rounds sit inside one MRTR conversation, Round 1 tagged input_required and Round 2 complete, while unrelated traffic stays outside it.">
-  <img src="https://mintcdn.com/mcp/pUebPdrb6PY5_mfH/images/inspector/mrtr-protocol-conversation.png?fit=max&auto=format&n=pUebPdrb6PY5_mfH&q=85&s=b083d8127a7a67028fcd9702b25aeac1" width="3840" height="2160" data-path="images/inspector/mrtr-protocol-conversation.png" />
-</Frame>
-
 ***
 
 ## Tools: mirrored headers and excluded tools
@@ -232,14 +228,6 @@ The Network tab shows the HTTP layer; here, the 400 Bad Request the strict serve
 ![](https://mintcdn.com/mcp/gk28X8wi_tbRYzej/images/inspector/protocol-modern-error.png?fit=max\&auto=format\&n=gk28X8wi_tbRYzej\&q=85\&s=d578ea8262ff327e4d61d3697937900b)
 
 The Protocol tab renders the same failure as a typed spec error: -32022 UnsupportedProtocolVersion, with the versions the server does support.
-
-***
-
-## Cancellation
-
-On a legacy connection, cancelling an in-flight tool call sends `notifications/cancelled`. On a modern Streamable HTTP connection the Inspector instead closes that request's own SSE response stream, which is the 2026-07-28 cancellation signal. Over stdio, cancellation is still `notifications/cancelled`.
-
-Reproduce with `test-servers/configs/cancellation-modern-http.json`: run `slow_task`, click **Cancel** after a few seconds, and the server's terminal prints how far the task got before it stopped.
 
 ***
 

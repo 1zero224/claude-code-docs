@@ -96,8 +96,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `JsonElement Type = "text"`
 
-            - `JsonElement Type = "text"`
-
             - `required string Text`
 
               minLength: 1
@@ -520,8 +518,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
                     All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                     maxItems: 100
-
-                    - `JsonElement Type = "tab_opened"`
 
                     - `required string TabID`
 
@@ -3354,8 +3350,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `JsonElement Type = "encrypted_code_execution_result"`
 
-          - `JsonElement Type = "encrypted_code_execution_result"`
-
           - `required IReadOnlyList<CodeExecutionOutputBlock> Content`
 
             - `JsonElement Type = "code_execution_output"`
@@ -4238,8 +4232,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             - `JsonElement Type = "text"`
 
-            - `JsonElement Type = "text"`
-
             - `required string Text`
 
               minLength: 1
@@ -4662,8 +4654,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
                     All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                     maxItems: 100
-
-                    - `JsonElement Type = "tab_opened"`
 
                     - `required string TabID`
 
@@ -14667,8 +14657,6 @@ Console.WriteLine(messageTokensCount);
 
       - `JsonElement Type = "encrypted_code_execution_result"`
 
-      - `JsonElement Type = "encrypted_code_execution_result"`
-
       - `required IReadOnlyList<CodeExecutionOutputBlock> Content`
 
         - `JsonElement Type = "code_execution_output"`
@@ -14729,8 +14717,6 @@ Console.WriteLine(messageTokensCount);
 
     - `JsonElement Type = "encrypted_code_execution_result"`
 
-    - `JsonElement Type = "encrypted_code_execution_result"`
-
     - `required IReadOnlyList<CodeExecutionOutputBlock> Content`
 
       - `JsonElement Type = "code_execution_output"`
@@ -14784,8 +14770,6 @@ Console.WriteLine(messageTokensCount);
     - `class EncryptedCodeExecutionResultBlockParam`
 
       The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-      - `JsonElement Type = "encrypted_code_execution_result"`
 
       - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -14863,8 +14847,6 @@ Console.WriteLine(messageTokensCount);
   - `class EncryptedCodeExecutionResultBlockParam`
 
     The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-    - `JsonElement Type = "encrypted_code_execution_result"`
 
     - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -17977,8 +17959,6 @@ Console.WriteLine(messageTokensCount);
 
         - `JsonElement Type = "encrypted_code_execution_result"`
 
-        - `JsonElement Type = "encrypted_code_execution_result"`
-
         - `required IReadOnlyList<CodeExecutionOutputBlock> Content`
 
           - `JsonElement Type = "code_execution_output"`
@@ -18918,8 +18898,6 @@ Console.WriteLine(messageTokensCount);
       - `class EncryptedCodeExecutionResultBlockParam`
 
         The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-        - `JsonElement Type = "encrypted_code_execution_result"`
 
         - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -19957,8 +19935,6 @@ Console.WriteLine(messageTokensCount);
 
   - `JsonElement Type = "encrypted_code_execution_result"`
 
-  - `JsonElement Type = "encrypted_code_execution_result"`
-
   - `required IReadOnlyList<CodeExecutionOutputBlock> Content`
 
     - `JsonElement Type = "code_execution_output"`
@@ -19976,8 +19952,6 @@ Console.WriteLine(messageTokensCount);
 - `class EncryptedCodeExecutionResultBlockParam`
 
   The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-  - `JsonElement Type = "encrypted_code_execution_result"`
 
   - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -20681,8 +20655,6 @@ Console.WriteLine(messageTokensCount);
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-          - `JsonElement Type = "encrypted_code_execution_result"`
 
           - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -23918,8 +23890,6 @@ Console.WriteLine(messageTokensCount);
 
           - `JsonElement Type = "text"`
 
-          - `JsonElement Type = "text"`
-
           - `required string Text`
 
             minLength: 1
@@ -24342,8 +24312,6 @@ Console.WriteLine(messageTokensCount);
                   All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                   maxItems: 100
-
-                  - `JsonElement Type = "tab_opened"`
 
                   - `required string TabID`
 
@@ -25747,8 +25715,6 @@ Console.WriteLine(messageTokensCount);
 
           - `JsonElement Type = "encrypted_code_execution_result"`
 
-          - `JsonElement Type = "encrypted_code_execution_result"`
-
           - `required IReadOnlyList<CodeExecutionOutputBlock> Content`
 
             - `JsonElement Type = "code_execution_output"`
@@ -26628,8 +26594,6 @@ Console.WriteLine(messageTokensCount);
             The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
             See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-            - `JsonElement Type = "encrypted_code_execution_result"`
 
             - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -27698,8 +27662,6 @@ Console.WriteLine(messageTokensCount);
               The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
               See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-              - `JsonElement Type = "encrypted_code_execution_result"`
 
               - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -38146,8 +38108,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `JsonElement Type = "text"`
 
-                - `JsonElement Type = "text"`
-
                 - `required string Text`
 
                   minLength: 1
@@ -38570,8 +38530,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                         All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                         maxItems: 100
-
-                        - `JsonElement Type = "tab_opened"`
 
                         - `required string TabID`
 
@@ -42527,8 +42485,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
                 See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-                - `JsonElement Type = "encrypted_code_execution_result"`
 
                 - `JsonElement Type = "encrypted_code_execution_result"`
 

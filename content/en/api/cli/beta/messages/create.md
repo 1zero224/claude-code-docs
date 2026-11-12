@@ -4864,8 +4864,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `type: "encrypted_code_execution_result"`
 
-          - `type: "encrypted_code_execution_result"`
-
           - `content: array of BetaCodeExecutionOutputBlock`
 
             - `type: "code_execution_output"`
@@ -8112,34 +8110,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       - `server_tool_use: object`
 
         The number of server tool requests.
-
-    - `input_transformations: optional array of BetaInputTransformation`
-
-      Changes the API made to the request's input before showing it to the model,
-      and blocks that failed a binding check but were left unchanged: one entry per
-      block, in request order. Two entry types today. `thinking_dropped` — a
-      `thinking`, `redacted_thinking` or `connector_text` block from the request's
-      `messages` that was removed from the prompt instead of being shown to the
-      model because it failed a binding check. `thinking_mismatch_allowed` — a
-      `thinking` or `redacted_thinking` block that failed the conversation check
-      (the conversation before it differs from the one it was created in, or it
-      carries no record of one on a model that requires it) and was shown to the
-      model all the same, because that check is not enforced for this request.
-      More entry types may be added over time; ignore types you do not recognize.
-
-      Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
-      every such response from a model that supports extended thinking, as `[]`
-      when there is no entry to report; without the beta, blocks are removed or
-      left in place all the same but nothing is reported. Removed blocks contribute
-      nothing to `usage.input_tokens`; blocks left in place count as sent. When
-      streaming, the array is final in `message_start`; the final `message_delta`
-      event carries it only when a server-side model fallback happened mid-stream,
-      in which case it holds the serving model's entries and replaces the one in
-      `message_start`.
-
-      - `beta_thinking_dropped_input_transformation: object`
-
-      - `beta_thinking_mismatch_allowed_input_transformation: object`
 
     - `input_transformations: optional array of BetaInputTransformation`
 

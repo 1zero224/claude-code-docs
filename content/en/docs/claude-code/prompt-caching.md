@@ -103,7 +103,7 @@ Before v2.1.260, changing effort on Fable 5.1 with an API key or a Claude subscr
 [Fast mode](https://code.claude.com/docs/en/fast-mode.md) and standard speed keep separate caches, so after you turn fast mode on or off, the next request can't use what the other speed cached. The first time you turn fast mode on in a conversation, the next request reads the whole conversation so far uncached at [fast mode rates](https://code.claude.com/docs/en/fast-mode.md#understand-the-cost-tradeoff). To keep that cost small, turn it on at the start of a session.
 
 * If you turn it on while Claude is working, that turn finishes at standard speed, and you pay for any uncached read on your next turn's first request.
-* If your current model doesn't support fast mode, running `/fast` also [switches you to Opus](https://code.claude.com/docs/en/fast-mode.md#toggle-fast-mode). That [model switch](#switching-models) starts a fresh cache on its own from the next request in the running turn.
+* If your current model doesn't support fast mode, running `/fast` also [switches your model](https://code.claude.com/docs/en/fast-mode.md#toggle-fast-mode). That [model switch](#switching-models) starts a fresh cache on its own from the next request in the running turn.
 
 Each later toggle reads uncached whatever the speed you switch to doesn't have cached. Speed changes Claude Code makes on its own, such as the [fallback to standard speed](https://code.claude.com/docs/en/fast-mode.md#handle-rate-limits) after a rate limit and the return to fast mode later, count as toggles too.
 
@@ -197,16 +197,6 @@ When the next request would pass either limit, Claude Code removes a batch of th
 
 Removing images changes the messages that held them, so the next request reprocesses the conversation from the earliest of those messages onward. Because Claude Code removes a batch at a time, you see one slower turn per batch rather than one with each new screenshot.
 
-If you leave a long conversation idle in a terminal session while it is on the [one-hour TTL](#which-ttl-each-request-gets), Claude Code can compact it shortly before the cache expires. To turn idle compaction off, set [`idleCompaction`](/docs/en/settings-reference#idlecompaction) to `false`, which requires Claude Code v2.1.290 or later.
-
-### Accumulating many images
-
-The API limits how many images and PDFs each request can carry. For the current numbers, see [Request limits](https://platform.claude.com/docs/en/build-with-claude/vision#request-limits) in the API docs. Claude Code also caps the total size of the images and PDFs in a request, so large screenshots reach the limit with fewer images than small ones.
-
-When the next request would pass either limit, Claude Code removes a batch of the oldest images and PDFs from what it sends, which leaves room for more before it needs to remove any again. Claude can no longer see the removed images. If Claude needs one of them again, share it again.
-
-Removing images changes the messages that held them, so the next request reprocesses the conversation from the earliest of those messages onward. Because Claude Code removes a batch at a time, you see one slower turn per batch rather than one with each new screenshot.
-
 ### Upgrading Claude Code
 
 A new Claude Code version typically updates the system prompt or tool definitions, so the first conversation you start after an upgrade builds its cache from the top. [Auto-update](https://code.claude.com/docs/en/setup.md#auto-updates) downloads new versions in the background but applies them on the next launch, never mid-session, so you see this as an uncached first turn after restarting rather than a surprise during a session. Set `DISABLE_AUTOUPDATER=1` to control when upgrades apply.
@@ -245,12 +235,6 @@ Switching between [permission modes](https://code.claude.com/docs/en/permission-
 ### Changing output style
 
 When you switch [output styles](https://code.claude.com/docs/en/output-styles.md) mid-session with [`/output-style`](https://code.claude.com/docs/en/output-styles#change-your-output-style), `/config`, or the `outputStyle` setting, Claude uses the new style starting with your next message. Claude Code delivers the new style's instructions as a message in the conversation, so that request still reads the system prompt and the earlier conversation from the cache.
-
-Before v2.1.251, a mid-session style switch kept the cache but didn't apply until you ran `/clear` or started a new session.
-
-### Changing output style
-
-When you switch [output styles](/docs/en/output-styles) mid-session with [`/output-style`](/docs/en/output-styles#change-your-output-style), `/config`, or the `outputStyle` setting, Claude uses the new style starting with your next message. Claude Code delivers the new style's instructions as a message in the conversation, so that request still reads the system prompt and the earlier conversation from the cache.
 
 Before v2.1.251, a mid-session style switch kept the cache but didn't apply until you ran `/clear` or started a new session.
 

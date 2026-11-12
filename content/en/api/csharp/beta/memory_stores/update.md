@@ -185,7 +185,7 @@ Update a Memory Store
 
     format: date-time
 
-  - `required DateTimeOffset? ArchivedAt`
+  - `required DateTimeOffset CreatedAt`
 
     When the memory store was created, in RFC 3339.
 

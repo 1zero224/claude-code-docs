@@ -1916,10 +1916,6 @@ Get statistics about the work queue for an environment.
 
     The type of object
 
-  - `type: :work_queue_stats`
-
-    The type of object
-
   - `depth: Integer`
 
     Number of work items waiting to be picked up
@@ -2205,10 +2201,6 @@ puts(beta_self_hosted_work_queue_stats)
 - `class BetaSelfHostedWorkQueueStats`
 
   Statistics about the work queue for an environment.
-
-  - `type: :work_queue_stats`
-
-    The type of object
 
   - `type: :work_queue_stats`
 

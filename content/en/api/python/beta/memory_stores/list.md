@@ -185,7 +185,7 @@ List Memory Stores
 
     format: date-time
 
-  - `archived_at: Optional[datetime]`
+  - `created_at: datetime`
 
     When the memory store was created, in RFC 3339.
 

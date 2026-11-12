@@ -333,8 +333,6 @@ Unless Claude starts a run from a script file's path, Claude Code writes the run
 
 Claude can start a workflow only from a script file the session is already allowed to read. To run a script kept outside your working directory, add its directory with [`/add-dir`](https://code.claude.com/docs/en/permissions#working-directories) or a [Read allow rule](https://code.claude.com/docs/en/permissions.md#read-and-edit) first.
 
-Claude can start a workflow only from a script file the session is already allowed to read. To run a script kept outside your working directory, add its directory with [`/add-dir`](/docs/en/permissions#working-directories) or a [Read allow rule](/docs/en/permissions#read-and-edit) first.
-
 The runtime tracks each agent's result as the run progresses, which is what makes a run [resumable](#resume-after-a-pause) within the same session.
 
 ### Prompt caching in a fan-out

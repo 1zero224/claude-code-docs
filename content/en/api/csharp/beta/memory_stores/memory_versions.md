@@ -544,8 +544,6 @@ Retrieve a Memory Version
 
   - `JsonElement Type = "memory_version"`
 
-  - `required Type Type`
-
   - `required string ID`
 
     Unique identifier for this version (a `memver_...` value).
@@ -869,8 +867,6 @@ Redact a Memory Version
 
   - `JsonElement Type = "memory_version"`
 
-  - `required Type Type`
-
   - `required string ID`
 
     Unique identifier for this version (a `memver_...` value).
@@ -1121,8 +1117,6 @@ Console.WriteLine(betaManagedAgentsMemoryVersion);
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=csharp#audit-memory-changes) to learn more about memory versions.
 
   - `JsonElement Type = "memory_version"`
-
-  - `required Type Type`
 
   - `required string ID`
 

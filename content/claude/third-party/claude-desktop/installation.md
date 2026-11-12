@@ -181,37 +181,9 @@ Group Policy overwrites a change made in a device's local security policy, so ch
 
 To apply a Group Policy change on a device, run `gpupdate /force` in a Command Prompt or restart the device. When the changed policy has reached the device, run the [readiness check](#check-device-readiness) again and confirm that the **VM service logon right** line reads "SeServiceLogonRight granted". Then have the user restart Claude Desktop and start a Cowork task. If the banner still appears, generate the diagnostic report described under [Troubleshooting](#troubleshooting) and send it to your Anthropic representative.
 
-### Cowork workspace or Claude CLI fails to download
+### Claude keeps crashing after a new version is installed
 
-Claude Desktop downloads the VM workspace bundle that Cowork uses and the Claude CLI binary (the agent helper described under [Endpoint security software](#endpoint-security-software)) from `downloads.claude.ai` whenever a device does not have the versions the app needs. When the workspace download fails or the downloaded file does not pass verification, the app shows **Failed to start Claude's workspace** with the download error under it, for example a message that begins "Checksum/decompress failed", "Download failed", or "Request error". When the Claude CLI download fails on a device that has no earlier copy, Chat conversations and Cowork tasks fail to start with "Host Claude Code binary not available. Check that the download completed."
-
-Restarting the app tries the download again, which is enough when an earlier attempt was only interrupted. When the same message returns on every attempt, the usual cause is a proxy, secure web gateway, or web filter between the device and `downloads.claude.ai`. Such equipment can block the app's requests, cut off the transfer partway (the workspace bundle is more than 1 GB), or return its own page in place of the file. Less often, security software on the device locks or quarantines the downloaded files.
-
-* Allow Claude Desktop itself, not only browsers, to reach `downloads.claude.ai`, as listed under [Required egress paths](/docs/third-party/claude-desktop/telemetry#required-egress-paths). The download follows the app's proxy settings, described under [Network proxy](/docs/third-party/claude-desktop/network-proxy).
-* If a proxy or secure web gateway inspects this traffic, make sure files from `downloads.claude.ai` reach the device complete and unchanged.
-* On a network that cannot allow these downloads, deploy the [offline installer](#offline-installation), which includes both components.
-
-Once the device can download from `downloads.claude.ai`, have the user restart Claude Desktop and start a new conversation or task, so that the app downloads what is missing. If the messages persist, generate the diagnostic report described under [Troubleshooting](#troubleshooting) and send it to your Anthropic representative. It includes the errors the app logged for these downloads.
-
-### Windows security policy blocks the Cowork workspace
-
-On Windows, the app shows **A Windows security policy is blocking Claude's workspace** when a user-rights policy stops the virtual machine that Cowork runs in from starting. Cowork tasks don't start on that device, and [advanced file analysis](/docs/third-party/claude-desktop/chat#advanced-file-analysis) in Chat, which uses the same virtual machine, fails too. The banner's **Copy details** button copies a description of the error that includes the code `0x80070569`. Standard (non-3P) installs show this banner too.
-
-The virtual machine runs under an account in the built-in `NT VIRTUAL MACHINE\Virtual Machines` group (SID `S-1-5-83-0`), and that group needs the **Log on as a service** user right. Microsoft's [Starting or live migrating Hyper-V VMs fails](https://learn.microsoft.com/en-us/troubleshoot/windows-server/virtualization/starting-or-live-migrating-hyper-v-vms-fails) describes the same error for Hyper-V virtual machines when the group is missing that right. A Group Policy that defines **Log on as a service** replaces the list of accounts on each device instead of adding to it. When the policy's list leaves this group out, or a policy lists the group under **Deny log on as a service**, the virtual machine can't start.
-
-Run these checks on an affected device, or before rollout on a device that your policy applies to:
-
-* **Readiness check**: run the [readiness check](#check-device-readiness) on a device that has Virtual Machine Platform enabled. When the group lacks the right or is denied it, the **VM service logon right** line reads "SeServiceLogonRight not granted to S-1-5-83-0" or "SeDenyServiceLogonRight is set for S-1-5-83-0".
-* **Policy that sets the right**: in an elevated Command Prompt, run `gpresult /scope computer /h gpresult.html`, then open `gpresult.html` from the current folder. Use the report to find which Group Policy Object sets **Log on as a service** for the device.
-* **Rights on the device**: in an elevated Command Prompt, run `secedit /export /cfg user-rights.inf /areas USER_RIGHTS`, then open `user-rights.inf` from the current folder. If a policy defines **Log on as a service**, the `SeServiceLogonRight` line must include `S-1-5-83-0`. If the file has a `SeDenyServiceLogonRight` line, that line must not include `S-1-5-83-0`.
-
-Group Policy overwrites a change made in a device's local security policy, so change the policy that sets the right:
-
-* **Group Policy**: add `NT VIRTUAL MACHINE\Virtual Machines` to **Log on as a service** in every Group Policy Object that defines that right for these devices, and remove it from **Deny log on as a service** if a policy lists it there. Following Microsoft's [Starting or live migrating Hyper-V VMs fails](https://learn.microsoft.com/en-us/troubleshoot/windows-server/virtualization/starting-or-live-migrating-hyper-v-vms-fails), make the edit in the Group Policy Management console on a Windows computer that has Hyper-V enabled. The devices that run Claude Desktop don't need Hyper-V. In **Add User or Group**, type the group's name in full instead of searching for it. A computer that doesn't have Windows virtualization features enabled can't resolve that name.
-* **Group Policy, Microsoft's other method**: the same Microsoft article describes moving the devices to an organizational unit where no policy manages user rights, so that the user rights in each device's local security policy take effect.
-* **Intune or another MDM**: add the group to the `UserRights/LogOnAsService` setting in Microsoft's [UserRights Policy CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-userrights). In that setting, write the group as `*S-1-5-83-0`, its SID with a leading asterisk. Microsoft lists the setting for Windows 11, version 22H2 with KB5053657 and later, and for Windows 11, version 24H2 and later.
-
-To apply a Group Policy change on a device, run `gpupdate /force` in a Command Prompt or restart the device. When the changed policy has reached the device, run the [readiness check](#check-device-readiness) again and confirm that the **VM service logon right** line reads "SeServiceLogonRight granted". Then have the user restart Claude Desktop and start a Cowork task. If the banner still appears, generate the diagnostic report described under [Troubleshooting](#troubleshooting) and send it to your Anthropic representative.
+On macOS, Claude Desktop can show **Claude keeps crashing** after a new version is installed while the app is open. Have the user click **Restart Claude**, not **Reload**, and the app reopens on the new version. Try the reinstall or the **Disable Hardware Acceleration** step that the screen suggests only if the screen comes back after the restart. To avoid the screen, see [Restart open apps after you install a new version](#restart-open-apps-after-you-install-a-new-version).
 
 ## Endpoint security software
 
@@ -404,11 +376,12 @@ See [Telemetry and egress](https://claude.com/docs/third-party/claude-desktop/te
 
 ### Restart open apps after you install a new version
 
-When you set [`disableAutoUpdates`](https://claude.com/docs/third-party/claude-desktop/configuration#disableautoupdates) and install new versions with your own tools, an install can land while Claude Desktop is open. The open app finds the newer version on the device and shows **Relaunch to update** in the sidebar. Clicking **Relaunch to update** moves the person to the newer version.
+When you install new versions with your own tools, an install can land while Claude Desktop is open. If you set [`disableAutoUpdates`](https://claude.com/docs/third-party/claude-desktop/configuration#disableautoupdates), the open app finds the newer version on the device and shows **Relaunch to update** in the sidebar. Clicking **Relaunch to update** moves the person to the newer version.
 
-On Windows, the app shows **Relaunch to update** for installs from the `.msix` package. Clicking it closes Claude Desktop, and Windows may then open the newer version. If Claude Desktop stays closed, open it again to get the newer version. Quitting and reopening Claude Desktop without the click can start the earlier version again, while signing out of Windows and back in moves the person to the newer version.
+* **macOS**: install while Claude Desktop isn't running. Otherwise have people quit and reopen Claude Desktop, or click **Relaunch to update** where it shows, soon after the install. Until they do, new windows and some features may fail even while the open window still works.
+* **Windows**: with `disableAutoUpdates` set, the app shows **Relaunch to update** for installs from the `.msix` package. Clicking it closes Claude Desktop, and Windows may then open the newer version. If Claude Desktop stays closed, open it again to get the newer version. Quitting and reopening Claude Desktop without the click can start the earlier version again, while signing out of Windows and back in moves the person to the newer version.
 
-You can also have Claude Desktop restart itself when nobody clicks. Two keys control the restart:
+With `disableAutoUpdates` set, you can also have Claude Desktop restart itself when nobody clicks. Two keys control the restart:
 
 * [`installedUpdateEnforcementEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#installedupdateenforcementenabled): set it to `true` to turn on the restart, which is off by default
 * [`installedUpdateEnforcementHours`](https://claude.com/docs/third-party/claude-desktop/configuration#installedupdateenforcementhours): how long the app waits after it finds the newer version. With a number from 1 to 72, the app restarts when those hours end, even while someone is using the computer. With the key unset, the app waits 72 hours and then until the computer has been idle for 10 minutes.

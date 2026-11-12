@@ -12,7 +12,7 @@ Model ID: `claude-mythos-5`
 
 Context window: 1M tokens · Max output: 128K tokens · Input pricing: $10 / MTok · Output pricing: $50 / MTok
 
-[Announcement](https://www.anthropic.com/news/claude-fable-5-mythos-5) · [Migration guide](https://platform.claude.com/docs/en/models/fable-5-1/migration-guide#migrating-from-claude-mythos-5-to-claude-mythos-5-1)
+[Announcement](https://www.anthropic.com/news/claude-fable-5-mythos-5) · [Migration guide](https://platform.claude.com/docs/en/models/fable-5-2/migration-guide#migrating-from-claude-mythos-5-to-claude-mythos-5-2)
 
 Claude Mythos 5 is available only to organizations verified through Anthropic’s verification programs, such as the [Cyber Verification Program](https://support.claude.com/en/articles/14604842). It has the same specifications and pricing as Claude Fable 5. To request access, apply to the program that covers your use case. [See Claude Fable 5](https://platform.claude.com/docs/en/models/fable-5/overview) · [How refusals and fallback work](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback)
 
@@ -86,18 +86,6 @@ Claude Mythos 5 is available only to organizations verified through Anthropic’
   </Card>
 
   <Card title="Claude Mythos 5.2" icon="arrow-right" href="https://platform.claude.com/docs/en/models/mythos-5-2/overview">
-    The current Mythos model: overview, specs, and resources.
-  </Card>
-</CardGroup>
-
-## Resources
-
-<CardGroup cols={3}>
-  <Card title="Migrate to Claude Mythos 5.1" icon="arrows-left-right" href="https://platform.claude.com/docs/en/models/fable-5-1/migration-guide#migrating-from-claude-mythos-5-to-claude-mythos-5-1">
-    What changes when moving from Claude Mythos 5 to Claude Mythos 5.1.
-  </Card>
-
-  <Card title="Claude Mythos 5.1" icon="arrow-right" href="https://platform.claude.com/docs/en/models/mythos-5-1/overview">
     The current Mythos model: overview, specs, and resources.
   </Card>
 </CardGroup>

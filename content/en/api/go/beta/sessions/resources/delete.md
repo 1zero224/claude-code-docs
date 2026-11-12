@@ -151,8 +151,6 @@ Delete Session Resource
 
   - `ID string`
 
-  - `ID string`
-
 ## Example
 
 ```go

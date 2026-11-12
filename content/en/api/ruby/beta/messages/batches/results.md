@@ -738,8 +738,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `type: :encrypted_code_execution_result`
 
-                - `type: :encrypted_code_execution_result`
-
                 - `content: Array[BetaCodeExecutionOutputBlock]`
 
                   - `type: :code_execution_output`
@@ -3909,8 +3907,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class BetaAuthenticationError`
 
             - `type: :authentication_error`
@@ -3920,8 +3916,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BetaBillingError`
 
@@ -3933,8 +3927,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class BetaPermissionError`
 
             - `type: :permission_error`
@@ -3944,8 +3936,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BetaNotFoundError`
 
@@ -3957,8 +3947,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class BetaRateLimitError`
 
             - `type: :rate_limit_error`
@@ -3968,8 +3956,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BetaGatewayTimeoutError`
 
@@ -3981,8 +3967,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class BetaAPIError`
 
             - `type: :api_error`
@@ -3992,8 +3976,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BetaOverloadedError`
 

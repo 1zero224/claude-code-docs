@@ -207,17 +207,6 @@ To restrict features for those sessions in the managed settings file, use the ke
 
 Don't use `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` in place of these keys. It turns off some of these features, but it also turns off the auto-updater, and it leaves WebFetch on.
 
-#### The HIPAA configuration behind a gateway
-
-Sessions that go through a gateway aren't eligible for the HIPAA configuration. [Check how developers sign in and connect](/docs/en/hipaa-setup#check-how-developers-sign-in-and-connect) lists which sign-in and connection methods are.
-
-To restrict features for those sessions in the managed settings file, use the keys in [Map egress paths to managed controls and events](/docs/en/monitoring-usage#map-egress-paths-to-managed-controls-and-events). These keys don't make a session eligible for the HIPAA configuration, and they don't cover everything the configuration changes. For example:
-
-* **Cloud sessions**: no managed key turns them off. See [Admin console controls](/docs/en/desktop#admin-console-controls)
-* **Anthropic credentials in child processes**: the configuration [removes them](/docs/en/hipaa-setup#anthropic-credentials-in-commands-hooks-and-mcp-servers) from the processes Claude Code starts, and no settings key does only that
-
-Don't use `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` in place of these keys. It turns off some of these features, but it also turns off the auto-updater, and it leaves WebFetch on.
-
 #### Hand developers the values to set themselves
 
 If you don't have managed-settings distribution in place, send each developer what they need to follow the [connect page](https://code.claude.com/docs/en/llm-gateway-connect.md#configure-claude-code-yourself):
@@ -262,7 +251,7 @@ Then start `claude` and send a message. Each symptom at this step has one cause:
 
 * A login prompt means a credential gap. Run `/status` and open the **Status** tab: when the `Setting sources` line doesn't include managed settings, the distribution didn't reach the machine; when it does, the developer credential wasn't delivered, so set `ANTHROPIC_AUTH_TOKEN` or the `apiKeyHelper`
 * `Failed to authenticate` errors mean the gateway is rejecting requests; its log says which credential failed. A rejection the gateway logs itself names the developer key, while a `401` from `api.anthropic.com` or your provider's endpoint means the provider credential the gateway holds was rejected
-* A one-time approval prompt for the key is expected on first use when the gateway expects keys in the `x-api-key` header, set as `ANTHROPIC_API_KEY`. With `ANTHROPIC_AUTH_TOKEN`, no prompt appears and the variable takes over silently; a previously saved claude.ai login is inactive for that session
+* A one-time approval prompt for the key is expected on first use when the gateway expects keys in the `x-api-key` header, set as `ANTHROPIC_API_KEY`
 
 If your organization uses [fast mode](https://code.claude.com/docs/en/fast-mode.md), run `/fast` here too: the availability check calls `api.anthropic.com` directly rather than following the gateway base URL, so a gateway-routed session can report fast mode as unavailable or disabled even though inference works. [Use fast mode behind proxies and LLM gateways](https://code.claude.com/docs/en/fast-mode.md#use-fast-mode-behind-proxies-and-llm-gateways) maps each message to the variable that restores it, distributed with [the rest of the configuration](#distribute-the-configuration).
 

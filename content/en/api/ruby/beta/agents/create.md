@@ -103,9 +103,9 @@ Create Agent
 
     - `id: BetaManagedAgentsModel`
 
-      Fastest model for high-volume, real-time tasks
+      The model that will power your agent.
 
-    - `:"claude-sonnet-5-5"`
+      See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
     - `effort: optional :low | :medium | :high | 2 more | BetaManagedAgentsEffortLow | BetaManagedAgentsEffortMedium | 3 more | nil`
 
@@ -1179,49 +1179,49 @@ Create Agent
 
         Efficient model for coding and agents
 
-      Powerful intelligence for coding, knowledge work, and long-running agents
+      - `:"claude-fable-5"`
 
-    - `:"claude-fable-5-1"`
+        Next generation of intelligence for the hardest knowledge work and coding problems
 
-      Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+      - `:"claude-opus-5"`
 
-    - `:"claude-sonnet-5"`
+        Powerful intelligence for long-running agents and coding
 
-      Efficient model for coding and agents
+      - `:"claude-opus-4-8"`
 
-    - `:"claude-fable-5"`
+        Powerful intelligence for long-running agents and coding
 
-      Next generation of intelligence for the hardest knowledge work and coding problems
+      - `:"claude-opus-4-7"`
 
-    - `:"claude-opus-5"`
+        Powerful intelligence for long-running agents and coding
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-opus-4-6"`
 
-    - `:"claude-opus-4-8"`
+        Powerful intelligence for long-running agents and coding
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-sonnet-4-6"`
 
-    - `:"claude-opus-4-7"`
+        Best combination of speed and intelligence
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-haiku-4-5"`
 
       - `:"claude-haiku-4-5-20251001"`
 
       - `:"claude-opus-4-5"`
 
-    - `:"claude-haiku-4-5"`
+        Powerful intelligence for long-running agents and coding
 
-    - `:"claude-haiku-4-5-20251001"`
+      - `:"claude-opus-4-5-20251101"`
 
-    - `:"claude-opus-4-5"`
+        Powerful intelligence for long-running agents and coding
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-sonnet-4-5"`
 
         **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         High-performance model for agents and coding
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-sonnet-4-5-20250929"`
 
         **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 

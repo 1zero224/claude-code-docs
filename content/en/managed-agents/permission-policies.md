@@ -669,29 +669,7 @@ To turn on `auto`, set `permission_policy` to `{"type": "auto"}`. It goes in the
 
 The following example sets `auto` as the default for the agent toolset and for the `github` MCP toolset, and overrides `bash` to `always_ask`:
 
-```json
-{
-  "type": "agent.tool_use",
-  "id": "sevt_01def...",
-  "name": "bash",
-  "input": {
-    "command": "pip install -r requirements.txt"
-  },
-  "evaluated_permission": "ask",
-  "evaluation": {
-    "type": "always_ask"
-  },
-  "processed_at": "2026-03-25T14:01:45Z"
-}
-```
-
-If you send a `user.tool_confirmation` for an event whose `evaluated_permission` (java, php: `evaluatedPermission`; csharp, go: `EvaluatedPermission`) is not `ask`, the API rejects it with a 400 error. That includes calls the server denied under `auto`: your client cannot override them.
-
-To answer interactively instead, use `ant beta:sessions connect`, which shows the waiting call and sends this event when you allow or deny it. See [Connect to a Managed Agents session from your terminal](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/sessions-connect#follow-and-steer-the-session).
-
-In the following examples, the tool-use event IDs come from the `stop_reason.event_ids` array of the `session.status_idle` event. Learn more about receiving events in the [Session event stream](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#stream-events) guide, or [subscribe to webhooks](https://platform.claude.com/docs/en/managed-agents/webhooks) to be notified when a session pauses for input.
-
-<CodeGroup>
+<CodeGroup defaultLanguage="CLI">
   ```bash cURL
   curl -fsSL https://api.anthropic.com/v1/agents \
     -H "x-api-key: $ANTHROPIC_API_KEY" \

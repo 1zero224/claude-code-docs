@@ -47,54 +47,6 @@ From November 10, 2026, members whose settings give them Cowork get the [**Stand
 
 **Maximum session length** always counts from when the member originally signed in, so a session that is already older than the new maximum ends when it [picks up the change](https://claude.com/docs/government/config/overview.md#when-changes-take-effect) and the member is prompted to sign in again. Your identity provider decides whether that sign-in asks the member to authenticate again or passes them straight through.
 
-The **Claude Desktop home** setting chooses what members see in Claude Desktop. **Standard** gives them Chat with file analysis, plus Cowork. **Simple** gives them Chat with file analysis, without Cowork. **Off** gives them neither, which leaves only Code. If you choose **Off**, keep Code turned on, or Claude Desktop has nothing to open. While the setting has a value, it overrides the separate Chat, file analysis, and Cowork switches, including a directory group's. By default it is not set, and those switches apply.
-
-<Note>
-  **Claude Desktop home** needs Claude Desktop 1.52386.0 or later. Earlier versions ignore it and follow the switches.
-</Note>
-
-### Claude Code
-
-The **Claude Code** section of the **Config** page holds your organization's settings for Claude Code. Claude for Government delivers them to the command-line tool after a member signs in, and in Claude Desktop 2.9939.2 or later they can also reach Code sessions. While Claude Code is in [early access](/docs/government/deploy-claude-code/configure), the section appears once your agency has access.
-
-* **Blocked shell commands**: command names, such as `curl` or `ssh`, that Claude Code never runs. None are blocked by default.
-* **Managed hooks**: hooks that run in every member's Claude Code sessions, such as a command that writes an audit record after each tool use. None are set by default.
-* **Member-added hooks**: whether hooks and custom status lines that members set up in their own or their projects' settings run as well. **Blocked** by default. Managed hooks still run, and in Claude Desktop so do hooks inside plugins.
-* **Plugin sources**: where members can install Claude Code plugins from, one of **None**, **Approved sources only** with an **Approved plugin sources** list, or **Any source** with a **Blocked plugin sources** list. **None** by default. The two switches under [Member-added plugins and marketplaces](#member-added-plugins-and-marketplaces) narrow **Any source**. While **Let members add plugin marketplaces** is off, members install only from the **Approved plugin sources** list. While **Let members add their own plugins** is off, they cannot add a source of their own from a file or folder on their machine.
-* **Sideloaded plugins**: whether members can load plugins, agents, or connector files with a command-line flag. **Blocked** by default.
-* **Minimum Claude Code version**: Claude Code below this version does not start and tells the member to update. No minimum by default.
-* **Maximum Claude Code version**: Claude Code above this version does not start. No maximum by default.
-* **Opening from the browser**: whether links in web pages and editors can open Claude Code with a prompt filled in. **Blocked** by default.
-* **Shell command sandbox**: whether members' shell commands run inside Claude Code's sandbox. The default, **Claude Code default**, leaves that to Claude Code's own settings. **Off** runs the commands without the sandbox, for workspaces where it cannot start, such as containers.
-
-Related controls sit outside this section. Under [Tool and connector cards](#tool-and-connector-cards), the **Shell commands**, **Web fetch**, and **Web search** cards turn a whole tool off for Claude Code or make it ask every time. The **Member-added connectors** setting on the **Connectors** card sets which other connectors members can use in Claude Code, beyond web search and the ones you add there: **None** (the default), **Only these**, or **Any connector**. In Claude Desktop 2.2553.0 or later it also governs connectors delivered inside plugins: a remote one connects under **Any connector** or when its address is listed under **Only these**, and a local MCP server does not start under **None** or **Only these**. [Bypass-permissions mode and Auto mode](#bypass-permissions-mode-and-auto-mode) apply to Claude Code as described there.
-
-Connectors you add on the **Connectors** card reach the Claude Code command-line tool when you tick **Claude Code** under **Apply to**, as [Connectors](/docs/government/connectors/overview) describes.
-
-### Bypass-permissions mode and Auto mode
-
-**Bypass-permissions mode** controls whether members can start Claude Code in bypass-permissions mode, which skips permission prompts. **Auto mode** controls whether members can switch the Claude Code command-line tool, and Cowork and Code in Claude Desktop, to Auto mode, in which Claude approves routine actions itself and still asks about risky ones; when it is **Allowed**, new Code sessions in Claude Desktop 2.9939.2 or later and new interactive sessions in the Claude Code command-line tool 2.1.283 or later start in it on models that support Auto mode, unless another mode is chosen. Both are **Blocked** by default. Both settings appear on the **Config** page, and take effect, together with the [**Claude Code**](#claude-code) section.
-
-### Member-added plugins and marketplaces
-
-Two switches that control whether members can add plugins of their own in Claude Desktop. **Let members add plugin marketplaces** lets members add plugin marketplaces and install plugins from them. **Let members add their own plugins** lets members upload plugin files or have Claude create a plugin for them. Both switches are off by default.
-
-While a switch is off, Claude Desktop hides the corresponding controls from members. Plugins that members uploaded or created earlier keep working. Marketplaces that members added earlier are hidden while **Let members add plugin marketplaces** is off.
-
-<Note>
-  Hiding marketplaces that members added earlier needs Claude Desktop 2.16120.0 or later.
-</Note>
-
-### Let members add their own connectors
-
-Controls whether members can add connectors of their own in Claude Desktop, as local MCP servers under **Settings**, then **Developer**. The **Let members add their own connectors** switch is off by default. It sets Claude Desktop's [`isLocalDevMcpEnabled`](/docs/third-party/claude-desktop/configuration#islocaldevmcpenabled) key.
-
-### Let members create skills
-
-Controls whether members can create or upload skills of their own. The **Let members create skills** switch is on by default.
-
-While the switch is off, members cannot create new skills or upload skill files, and Claude does not offer to create or update skills in conversations. Skills that members already made, skills your organization provides, and built-in skills keep working.
-
 ### Allowed network hosts
 
 The list covers [web fetch and shell commands](https://claude.com/docs/third-party/claude-desktop/configuration.md#coworkegressallowedhosts) in Chat and Cowork, the [sandboxed shell commands](https://claude.com/docs/government/security/security-and-data-handling.md#code-in-claude-desktop) of Code sessions on macOS and Linux, and those of the Claude Code command-line tool while [**Shell command sandbox**](#shell-command-sandbox) is **On**. Web search, connectors, and the app's own connections do not use this list.
@@ -211,3 +163,4 @@ Only tenant administrators can change **Let organizations manage their own seat 
 | **Let organizations manage their own seat tiers** | Lets organization owners create and edit self-managed seat tiers on the [Tiers](https://claude.com/docs/government/org-admin/seat-tiers.md) page, in addition to the Anthropic-managed ones. When it is off, the **Reset usage limits** action on the [Users](https://claude.com/docs/government/org-admin/users.md) page is also unavailable. | On | Admin Console |
 | **Compliance API** | Controls whether the [Compliance API](https://claude.com/docs/government/org-admin/compliance-api.md) is available. When this is off, requests are refused and existing keys stay listed so you can revoke them. | On | Admin Console |
 | **Organization Analytics connector** | Makes the Organization Analytics connector available to organization owners in Claude Desktop. When this is off, requests to it are refused. | Off | Claude Desktop |
+| **Analytics API** | Controls whether the [Analytics API](https://claude.com/docs/government/org-admin/analytics-api.md) is available. When this is off, requests are refused and existing keys stay listed so you can revoke them. | Off | Admin Console |

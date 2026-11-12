@@ -193,8 +193,6 @@ Archive Session Thread
 
         - `String name`
 
-        - `String name`
-
         - `String url`
 
       - `BetaManagedAgentsModelConfig model`
@@ -337,8 +335,6 @@ Archive Session Thread
 
           - `String skillId`
 
-          - `String skillId`
-
           - `String version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -346,8 +342,6 @@ Archive Session Thread
           A resolved user-created custom skill.
 
           - `JsonValue type = "custom"`
-
-          - `String skillId`
 
           - `String skillId`
 

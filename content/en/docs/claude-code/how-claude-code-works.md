@@ -129,17 +129,6 @@ If Claude follows a rule you didn't write, such as adding a `Co-Authored-By` tra
 
 To change or remove the attribution lines, set [`attribution`](https://code.claude.com/docs/en/settings-reference#attribution). To remove Claude Code's built-in commit and pull request instructions, set [`includeGitInstructions`](https://code.claude.com/docs/en/settings-reference#includegitinstructions) to `false`. For the other switches, see [Turn off the context your agent replaces](https://code.claude.com/docs/en/agent-sdk/modifying-system-prompts.md#turn-off-the-context-your-agent-replaces).
 
-#### Context Claude Code adds on its own
-
-If Claude follows a rule you didn't write, such as adding a `Co-Authored-By` trailer to a commit, the rule may have come from a [system reminder](/docs/en/glossary#system-reminder). As you work, Claude Code adds its own context to the conversation alongside your messages:
-
-* Your CLAUDE.md files
-* The instructions of your [output style](/docs/en/output-styles)
-* A note when a file Claude read earlier changes on disk
-* The commit and pull request attribution lines
-
-To change or remove the attribution lines, set [`attribution`](/docs/en/settings-reference#attribution). To remove Claude Code's built-in commit and pull request instructions, set [`includeGitInstructions`](/docs/en/settings-reference#includegitinstructions) to `false`. For the other switches, see [Turn off the context your agent replaces](/docs/en/agent-sdk/modifying-system-prompts#turn-off-the-context-your-agent-replaces).
-
 #### When context fills up
 
 Claude Code manages context automatically as you approach the limit. It compacts the conversation into a summary. The summary keeps your requests and key code snippets, but detailed instructions from early in the conversation may be lost. Put persistent rules in CLAUDE.md rather than relying on conversation history.

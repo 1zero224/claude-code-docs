@@ -56,19 +56,6 @@ The steps depend on the app:
 
 ***
 
-## Continue a conversation after a denied request
-
-Each request includes the whole conversation, so a denied message is sent again with every later message. If your AI security server evaluates the whole transcript, it denies those requests too. To continue, the user removes the denied content from what the app sends next, including any file Claude would read again.
-
-The steps depend on the app:
-
-* **claude.ai, including Claude Desktop and the mobile apps.** The user edits the denied message, or an earlier one, rather than sending a corrected copy as a new message. On the web and in Claude Desktop, the edit resends the message's attachments unless the user removes them. A new chat also works.
-* **Claude Code.** The user runs `/rewind` and selects the prompt that first brought the content in. If asked, they select **Restore conversation**, then edit or clear the prompt that returns to the input field. `/clear` starts over. See [Checkpointing](https://code.claude.com/docs/en/checkpointing).
-* **Cowork.** The user edits the denied message if it is their latest one. The edit resends attached files, and **Restart from here** resends the whole message unchanged. If the content is in a file or an earlier message, the user selects **New task**.
-* **Claude Tag.** In Slack, the user first edits the denied message, or deletes it if it is a reply. They then send `@Claude !restart` on its own where Claude was answering: in that thread, or at the channel's top level. The new session rereads the messages still in Slack, so the edit or deletion comes first. See the [`!restart` command](https://claude.com/docs/claude-tag/users/commands#restart-a-stuck-or-wrong-context-session).
-
-***
-
 ## Use cases
 
 * **Data loss prevention (DLP).** Forward the transcript to your DLP scanner and deny prompts that carry regulated or classified material. This is the most common deployment.

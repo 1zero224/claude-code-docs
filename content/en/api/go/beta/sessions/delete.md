@@ -149,8 +149,6 @@ Delete Session
 
   - `ID string`
 
-  - `ID string`
-
 ## Example
 
 ```go

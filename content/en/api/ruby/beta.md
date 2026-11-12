@@ -141,8 +141,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-  - `message: String`
-
 ### Beta Authentication Error
 
 - `class BetaAuthenticationError`
@@ -155,8 +153,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-  - `message: String`
-
 ### Beta Billing Error
 
 - `class BetaBillingError`
@@ -168,8 +164,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
   - `message: String`
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-  - `message: String`
 
 ### Beta Currency
 
@@ -189,8 +183,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-    - `message: String`
-
   - `class BetaAuthenticationError`
 
     - `type: :authentication_error`
@@ -200,8 +192,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
     - `message: String`
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-    - `message: String`
 
   - `class BetaBillingError`
 
@@ -213,8 +203,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-    - `message: String`
-
   - `class BetaPermissionError`
 
     - `type: :permission_error`
@@ -224,8 +212,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
     - `message: String`
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-    - `message: String`
 
   - `class BetaNotFoundError`
 
@@ -237,8 +223,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-    - `message: String`
-
   - `class BetaRateLimitError`
 
     - `type: :rate_limit_error`
@@ -248,8 +232,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
     - `message: String`
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-    - `message: String`
 
   - `class BetaGatewayTimeoutError`
 
@@ -261,8 +243,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-    - `message: String`
-
   - `class BetaAPIError`
 
     - `type: :api_error`
@@ -273,8 +253,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-    - `message: String`
-
   - `class BetaOverloadedError`
 
     - `type: :overloaded_error`
@@ -284,8 +262,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
     - `message: String`
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-    - `message: String`
 
 ### Beta Error Response
 
@@ -305,8 +281,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-      - `message: String`
-
     - `class BetaAuthenticationError`
 
       - `type: :authentication_error`
@@ -316,8 +290,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
       - `message: String`
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-      - `message: String`
 
     - `class BetaBillingError`
 
@@ -329,8 +301,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-      - `message: String`
-
     - `class BetaPermissionError`
 
       - `type: :permission_error`
@@ -340,8 +310,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
       - `message: String`
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-      - `message: String`
 
     - `class BetaNotFoundError`
 
@@ -353,8 +321,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-      - `message: String`
-
     - `class BetaRateLimitError`
 
       - `type: :rate_limit_error`
@@ -364,8 +330,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
       - `message: String`
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-      - `message: String`
 
     - `class BetaGatewayTimeoutError`
 
@@ -377,8 +341,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-      - `message: String`
-
     - `class BetaAPIError`
 
       - `type: :api_error`
@@ -388,8 +350,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
       - `message: String`
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-      - `message: String`
 
     - `class BetaOverloadedError`
 
@@ -415,8 +375,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-  - `message: String`
-
 ### Beta Invalid Request Error
 
 - `class BetaInvalidRequestError`
@@ -428,8 +386,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
   - `message: String`
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-  - `message: String`
 
 ### Beta Monetary Amount
 
@@ -467,8 +423,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
   - `error_code: :organization_not_enrolled_in_beta`
 
-  - `message: String`
-
 ### Beta Overloaded Error
 
 - `class BetaOverloadedError`
@@ -481,8 +435,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-  - `message: String`
-
 ### Beta Permission Error
 
 - `class BetaPermissionError`
@@ -494,8 +446,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
   - `message: String`
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-  - `message: String`
 
 ### Beta Rate Limit Error
 
@@ -516,8 +466,6 @@ url: https://platform.claude.com/docs/en/api/ruby/beta
   The request's `Content-Type` header names a charset other than UTF-8, ISO-8859-1 or US-ASCII. Send the request with no charset, or with one of these.
 
   - `error_code: :unsupported_charset`
-
-  - `message: String`
 
 ## Beta › Models
 
@@ -1575,8 +1523,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `type: :text`
 
-          - `type: :text`
-
           - `text: String`
 
             minLength: 1
@@ -1847,8 +1793,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           - `type: :search_result`
 
           - `content: Array[BetaTextBlockParam]`
-
-            - `type: :text`
 
             - `type: :text`
 
@@ -4946,38 +4890,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         - `:max`
 
-  - `clear_at: :next_user_message | :never`
-
-    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-    - `:next_user_message`
-
-    - `:never`
-
-  - `output_config: BetaSystemMessageOutputConfig`
-
-    Per-message output configuration on a role:"system" input message.
-
-    Fields here apply per-turn; `format` remains top-level only. An
-    empty `{}` is accepted on a message that carries content; a message
-    with neither content nor output_config fields is rejected.
-
-    - `effort: :low | :medium | :high | 2 more`
-
-      How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-      Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-      - `:low`
-
-      - `:medium`
-
-      - `:high`
-
-      - `:xhigh`
-
-      - `:max`
-
 - `model: Model`
 
   The model that will complete your prompt.
@@ -6398,8 +6310,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=ruby) to learn more about programmatic tool calling.
-
-          - `type: :encrypted_code_execution_result`
 
           - `type: :encrypted_code_execution_result`
 
@@ -10028,8 +9938,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
           - `type: :text`
 
-          - `type: :text`
-
           - `text: String`
 
             minLength: 1
@@ -10300,8 +10208,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
           - `type: :search_result`
 
           - `content: Array[BetaTextBlockParam]`
-
-            - `type: :text`
 
             - `type: :text`
 
@@ -13398,38 +13304,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
         - `:xhigh`
 
         - `:max`
-
-  - `clear_at: :next_user_message | :never`
-
-    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-    - `:next_user_message`
-
-    - `:never`
-
-  - `output_config: BetaSystemMessageOutputConfig`
-
-    Per-message output configuration on a role:"system" input message.
-
-    Fields here apply per-turn; `format` remains top-level only. An
-    empty `{}` is accepted on a message that carries content; a message
-    with neither content nor output_config fields is rejected.
-
-    - `effort: :low | :medium | :high | 2 more`
-
-      How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-      Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-      - `:low`
-
-      - `:medium`
-
-      - `:high`
-
-      - `:xhigh`
-
-      - `:max`
 
 - `model: Model`
 
@@ -18537,8 +18411,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `type: :text`
 
-              - `type: :text`
-
               - `text: String`
 
                 minLength: 1
@@ -18809,8 +18681,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               - `type: :search_result`
 
               - `content: Array[BetaTextBlockParam]`
-
-                - `type: :text`
 
                 - `type: :text`
 
@@ -21908,38 +21778,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `:max`
 
-      - `clear_at: :next_user_message | :never`
-
-        How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-        - `:next_user_message`
-
-        - `:never`
-
-      - `output_config: BetaSystemMessageOutputConfig`
-
-        Per-message output configuration on a role:"system" input message.
-
-        Fields here apply per-turn; `format` remains top-level only. An
-        empty `{}` is accepted on a message that carries content; a message
-        with neither content nor output_config fields is rejected.
-
-        - `effort: :low | :medium | :high | 2 more`
-
-          How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-          Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-          - `:low`
-
-          - `:medium`
-
-          - `:high`
-
-          - `:xhigh`
-
-          - `:max`
-
     - `model: Model`
 
       The model that will complete your prompt.
@@ -22791,12 +22629,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
   The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
 
 - `workspace_id: optional String` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspace_id: String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -24691,8 +24523,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
                 See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=ruby) to learn more about programmatic tool calling.
-
-                - `type: :encrypted_code_execution_result`
 
                 - `type: :encrypted_code_execution_result`
 
@@ -27865,8 +27695,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class BetaAuthenticationError`
 
             - `type: :authentication_error`
@@ -27876,8 +27704,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BetaBillingError`
 
@@ -27889,8 +27715,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class BetaPermissionError`
 
             - `type: :permission_error`
@@ -27900,8 +27724,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BetaNotFoundError`
 
@@ -27913,8 +27735,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class BetaRateLimitError`
 
             - `type: :rate_limit_error`
@@ -27924,8 +27744,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BetaGatewayTimeoutError`
 
@@ -27937,8 +27755,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class BetaAPIError`
 
             - `type: :api_error`
@@ -27948,8 +27764,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BetaOverloadedError`
 
@@ -28087,9 +27901,9 @@ Create Agent
 
     - `id: BetaManagedAgentsModel`
 
-      Fastest model for high-volume, real-time tasks
+      The model that will power your agent.
 
-    - `:"claude-sonnet-5-5"`
+      See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
     - `effort: optional :low | :medium | :high | 2 more | BetaManagedAgentsEffortLow | BetaManagedAgentsEffortMedium | 3 more | nil`
 
@@ -29163,49 +28977,49 @@ Create Agent
 
         Efficient model for coding and agents
 
-      Powerful intelligence for coding, knowledge work, and long-running agents
+      - `:"claude-fable-5"`
 
-    - `:"claude-fable-5-1"`
+        Next generation of intelligence for the hardest knowledge work and coding problems
 
-      Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+      - `:"claude-opus-5"`
 
-    - `:"claude-sonnet-5"`
+        Powerful intelligence for long-running agents and coding
 
-      Efficient model for coding and agents
+      - `:"claude-opus-4-8"`
 
-    - `:"claude-fable-5"`
+        Powerful intelligence for long-running agents and coding
 
-      Next generation of intelligence for the hardest knowledge work and coding problems
+      - `:"claude-opus-4-7"`
 
-    - `:"claude-opus-5"`
+        Powerful intelligence for long-running agents and coding
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-opus-4-6"`
 
-    - `:"claude-opus-4-8"`
+        Powerful intelligence for long-running agents and coding
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-sonnet-4-6"`
 
-    - `:"claude-opus-4-7"`
+        Best combination of speed and intelligence
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-haiku-4-5"`
 
       - `:"claude-haiku-4-5-20251001"`
 
       - `:"claude-opus-4-5"`
 
-    - `:"claude-haiku-4-5"`
+        Powerful intelligence for long-running agents and coding
 
-    - `:"claude-haiku-4-5-20251001"`
+      - `:"claude-opus-4-5-20251101"`
 
-    - `:"claude-opus-4-5"`
+        Powerful intelligence for long-running agents and coding
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-sonnet-4-5"`
 
         **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         High-performance model for agents and coding
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-sonnet-4-5-20250929"`
 
         **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -32265,9 +32079,9 @@ Update Agent
 
     - `id: BetaManagedAgentsModel`
 
-      Fastest model for high-volume, real-time tasks
+      The model that will power your agent.
 
-    - `:"claude-sonnet-5-5"`
+      See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
     - `effort: optional :low | :medium | :high | 2 more | BetaManagedAgentsEffortLow | BetaManagedAgentsEffortMedium | 3 more | nil`
 
@@ -33297,49 +33111,49 @@ Update Agent
 
         Efficient model for coding and agents
 
-      Powerful intelligence for coding, knowledge work, and long-running agents
+      - `:"claude-fable-5"`
 
-    - `:"claude-fable-5-1"`
+        Next generation of intelligence for the hardest knowledge work and coding problems
 
-      Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+      - `:"claude-opus-5"`
 
-    - `:"claude-sonnet-5"`
+        Powerful intelligence for long-running agents and coding
 
-      Efficient model for coding and agents
+      - `:"claude-opus-4-8"`
 
-    - `:"claude-fable-5"`
+        Powerful intelligence for long-running agents and coding
 
-      Next generation of intelligence for the hardest knowledge work and coding problems
+      - `:"claude-opus-4-7"`
 
-    - `:"claude-opus-5"`
+        Powerful intelligence for long-running agents and coding
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-opus-4-6"`
 
-    - `:"claude-opus-4-8"`
+        Powerful intelligence for long-running agents and coding
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-sonnet-4-6"`
 
-    - `:"claude-opus-4-7"`
+        Best combination of speed and intelligence
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-haiku-4-5"`
 
       - `:"claude-haiku-4-5-20251001"`
 
       - `:"claude-opus-4-5"`
 
-    - `:"claude-haiku-4-5"`
+        Powerful intelligence for long-running agents and coding
 
-    - `:"claude-haiku-4-5-20251001"`
+      - `:"claude-opus-4-5-20251101"`
 
-    - `:"claude-opus-4-5"`
+        Powerful intelligence for long-running agents and coding
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-sonnet-4-5"`
 
         **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         High-performance model for agents and coding
 
-      Powerful intelligence for long-running agents and coding
+      - `:"claude-sonnet-4-5-20250929"`
 
         **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -40185,10 +39999,6 @@ Get statistics about the work queue for an environment.
 - `class BetaSelfHostedWorkQueueStats`
 
   Statistics about the work queue for an environment.
-
-  - `type: :work_queue_stats`
-
-    The type of object
 
   - `type: :work_queue_stats`
 
@@ -79310,16 +79120,6 @@ Create a Memory Store
 
     format: date-time
 
-  - `name: String`
-
-    Human-readable name for the store. 1–255 characters. The store's mount-path slug under `/mnt/memory/` is derived from this name.
-
-  - `updated_at: Time`
-
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
-
-    format: date-time
-
 #### Example
 
 ```ruby
@@ -79559,16 +79359,6 @@ List Memory Stores
 
     format: date-time
 
-  - `name: String`
-
-    Human-readable name for the store. 1–255 characters. The store's mount-path slug under `/mnt/memory/` is derived from this name.
-
-  - `updated_at: Time`
-
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
-
-    format: date-time
-
 #### Example
 
 ```ruby
@@ -79786,16 +79576,6 @@ Retrieve a Memory Store
     When the memory store was last changed, in RFC 3339.
 
     Changing its `name`, `description`, or `metadata` updates it. Archiving the store does too. Changes to the store's memories don't.
-
-    format: date-time
-
-  - `name: String`
-
-    Human-readable name for the store. 1–255 characters. The store's mount-path slug under `/mnt/memory/` is derived from this name.
-
-  - `updated_at: Time`
-
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
 
     format: date-time
 
@@ -80035,16 +79815,6 @@ Update a Memory Store
     When the memory store was last changed, in RFC 3339.
 
     Changing its `name`, `description`, or `metadata` updates it. Archiving the store does too. Changes to the store's memories don't.
-
-    format: date-time
-
-  - `name: String`
-
-    Human-readable name for the store. 1–255 characters. The store's mount-path slug under `/mnt/memory/` is derived from this name.
-
-  - `updated_at: Time`
-
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
 
     format: date-time
 
@@ -80440,16 +80210,6 @@ Archive a Memory Store
 
     format: date-time
 
-  - `name: String`
-
-    Human-readable name for the store. 1–255 characters. The store's mount-path slug under `/mnt/memory/` is derived from this name.
-
-  - `updated_at: Time`
-
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
-
-    format: date-time
-
 #### Example
 
 ```ruby
@@ -80656,8 +80416,6 @@ Create a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=ruby#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: :memory`
 
   - `type: :memory`
 
@@ -80936,8 +80694,6 @@ List Memories
 
     - `type: :memory`
 
-    - `type: :memory`
-
     - `id: String`
 
       The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -81201,8 +80957,6 @@ Retrieve a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=ruby#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: :memory`
 
   - `type: :memory`
 
@@ -81478,8 +81232,6 @@ Update a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=ruby#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: :memory`
 
   - `type: :memory`
 
@@ -81975,8 +81727,6 @@ List Memory Versions
 
   - `type: :memory_version`
 
-  - `type: :memory_version`
-
   - `id: String`
 
     Unique identifier for this version (a `memver_...` value).
@@ -82314,8 +82064,6 @@ Retrieve a Memory Version
 
   - `type: :memory_version`
 
-  - `type: :memory_version`
-
   - `id: String`
 
     Unique identifier for this version (a `memver_...` value).
@@ -82634,8 +82382,6 @@ Redact a Memory Version
   Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=ruby#audit-memory-changes) to learn more about memory versions.
-
-  - `type: :memory_version`
 
   - `type: :memory_version`
 
@@ -89132,10 +88878,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=ruby#steer-with-instructions) for what kinds of instructions work well.
 
-  Guidance that steers how the dream reads the sessions and organizes the output memory store, from 1 to 4,096 characters.
-
-  See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=ruby#steer-with-instructions) for what kinds of instructions work well.
-
   minLength: 1, maxLength: 4096
 
 - `output_behavior: optional BetaOutputBehavior`
@@ -89376,8 +89118,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
     The guidance given when the dream was created, or `null` if none was given.
 
-    The guidance given when the dream was created, or `null` if none was given.
-
   - `model: BetaDreamModelConfig`
 
     The model that runs a dream, from the request that created it.
@@ -89441,12 +89181,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
       With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
   - `session_id: String | nil`
-
-    The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
-
-    Stream that session's events to follow what the dream reads and writes.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=ruby#watch-the-pipeline-run) for how to watch a running dream.
 
     The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
 
@@ -89862,8 +89596,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
     The guidance given when the dream was created, or `null` if none was given.
 
-    The guidance given when the dream was created, or `null` if none was given.
-
   - `model: BetaDreamModelConfig`
 
     The model that runs a dream, from the request that created it.
@@ -89927,12 +89659,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
       With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
   - `session_id: String | nil`
-
-    The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
-
-    Stream that session's events to follow what the dream reads and writes.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=ruby#watch-the-pipeline-run) for how to watch a running dream.
 
     The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
 
@@ -90295,8 +90021,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
     The guidance given when the dream was created, or `null` if none was given.
 
-    The guidance given when the dream was created, or `null` if none was given.
-
   - `model: BetaDreamModelConfig`
 
     The model that runs a dream, from the request that created it.
@@ -90360,12 +90084,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
       With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
   - `session_id: String | nil`
-
-    The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
-
-    Stream that session's events to follow what the dream reads and writes.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=ruby#watch-the-pipeline-run) for how to watch a running dream.
 
     The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
 
@@ -90723,8 +90441,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
     The guidance given when the dream was created, or `null` if none was given.
 
-    The guidance given when the dream was created, or `null` if none was given.
-
   - `model: BetaDreamModelConfig`
 
     The model that runs a dream, from the request that created it.
@@ -90788,12 +90504,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
       With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
   - `session_id: String | nil`
-
-    The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
-
-    Stream that session's events to follow what the dream reads and writes.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=ruby#watch-the-pipeline-run) for how to watch a running dream.
 
     The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
 
@@ -91151,8 +90861,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
     The guidance given when the dream was created, or `null` if none was given.
 
-    The guidance given when the dream was created, or `null` if none was given.
-
   - `model: BetaDreamModelConfig`
 
     The model that runs a dream, from the request that created it.
@@ -91216,12 +90924,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
       With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
   - `session_id: String | nil`
-
-    The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
-
-    Stream that session's events to follow what the dream reads and writes.
-
-    See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=ruby#watch-the-pipeline-run) for how to watch a running dream.
 
     The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
 

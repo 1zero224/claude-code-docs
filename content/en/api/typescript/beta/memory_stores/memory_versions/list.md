@@ -229,8 +229,6 @@ List Memory Versions
 
   - `type: "memory_version"`
 
-  - `type: "memory_version"`
-
   - `id: string`
 
     Unique identifier for this version (a `memver_...` value).

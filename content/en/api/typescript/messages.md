@@ -15293,8 +15293,6 @@ console.log(messageTokensCount.input_tokens);
 
   - `type: "code_execution_20260120"`
 
-  - `type: "code_execution_20260120"`
-
   - `name: "code_execution"`
 
     Name of the tool.
@@ -15451,7 +15449,7 @@ console.log(messageTokensCount.input_tokens);
 
         default: encrypted_code_execution_result
 
-      - `type: "encrypted_code_execution_result"`
+      - `content: Array<CodeExecutionOutputBlock>`
 
         - `type: "code_execution_output"`
 
@@ -15521,7 +15519,7 @@ console.log(messageTokensCount.input_tokens);
 
       default: encrypted_code_execution_result
 
-    - `type: "encrypted_code_execution_result"`
+    - `content: Array<CodeExecutionOutputBlock>`
 
       - `type: "code_execution_output"`
 
@@ -15576,8 +15574,6 @@ console.log(messageTokensCount.input_tokens);
     - `interface EncryptedCodeExecutionResultBlockParam`
 
       The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-      - `type: "encrypted_code_execution_result"`
 
       - `type: "encrypted_code_execution_result"`
 
@@ -15655,8 +15651,6 @@ console.log(messageTokensCount.input_tokens);
   - `interface EncryptedCodeExecutionResultBlockParam`
 
     The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-    - `type: "encrypted_code_execution_result"`
 
     - `type: "encrypted_code_execution_result"`
 
@@ -18895,7 +18889,7 @@ console.log(messageTokensCount.input_tokens);
 
           default: encrypted_code_execution_result
 
-        - `type: "encrypted_code_execution_result"`
+        - `content: Array<CodeExecutionOutputBlock>`
 
           - `type: "code_execution_output"`
 
@@ -19864,8 +19858,6 @@ console.log(messageTokensCount.input_tokens);
       - `interface EncryptedCodeExecutionResultBlockParam`
 
         The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-        - `type: "encrypted_code_execution_result"`
 
         - `type: "encrypted_code_execution_result"`
 
@@ -21704,7 +21696,7 @@ console.log(messageTokensCount.input_tokens);
 
             default: encrypted_code_execution_result
 
-          - `type: "encrypted_code_execution_result"`
+          - `content: Array<CodeExecutionOutputBlock>`
 
             - `type: "code_execution_output"`
 
@@ -24984,8 +24976,6 @@ console.log(messageTokensCount.input_tokens);
 
           - `type: "text"`
 
-          - `type: "text"`
-
           - `text: string`
 
             minLength: 1
@@ -25408,8 +25398,6 @@ console.log(messageTokensCount.input_tokens);
                   All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                   maxItems: 100
-
-                  - `type: "tab_opened"`
 
                   - `tab_id: string`
 
@@ -27011,7 +26999,7 @@ console.log(messageTokensCount.input_tokens);
 
             default: encrypted_code_execution_result
 
-          - `type: "encrypted_code_execution_result"`
+          - `content: Array<CodeExecutionOutputBlock>`
 
             - `type: "code_execution_output"`
 
@@ -27987,7 +27975,7 @@ console.log(messageTokensCount.input_tokens);
 
               default: encrypted_code_execution_result
 
-            - `type: "encrypted_code_execution_result"`
+            - `content: Array<CodeExecutionOutputBlock>`
 
               - `type: "code_execution_output"`
 
@@ -29163,7 +29151,7 @@ console.log(messageTokensCount.input_tokens);
 
                 default: encrypted_code_execution_result
 
-              - `type: "encrypted_code_execution_result"`
+              - `content: Array<CodeExecutionOutputBlock>`
 
                 - `type: "code_execution_output"`
 
@@ -39886,8 +39874,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `type: "text"`
 
-                - `type: "text"`
-
                 - `text: string`
 
                   minLength: 1
@@ -40310,8 +40296,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                         All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                         maxItems: 100
-
-                        - `type: "tab_opened"`
 
                         - `tab_id: string`
 
@@ -44268,7 +44252,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                   default: encrypted_code_execution_result
 
-                - `type: "encrypted_code_execution_result"`
+                - `content: Array<CodeExecutionOutputBlock>`
 
                   - `type: "code_execution_output"`
 

@@ -1923,8 +1923,6 @@ Stream Session Thread Events
 
         - `String name`
 
-        - `String name`
-
         - `String url`
 
       - `BetaManagedAgentsModelConfig model`

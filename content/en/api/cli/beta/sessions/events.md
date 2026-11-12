@@ -827,22 +827,6 @@ List Events
 
         Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
 
-      - `evaluation: optional BetaManagedAgentsAgentToolEvaluationAlwaysAllow or BetaManagedAgentsAgentToolEvaluationAlwaysAsk or BetaManagedAgentsAgentToolEvaluationAuto`
-
-        Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
-
-        - `beta_managed_agents_agent_tool_evaluation_always_allow: object`
-
-          The resolved permission_policy was always_allow; accompanies evaluated_permission "allow".
-
-        - `beta_managed_agents_agent_tool_evaluation_always_ask: object`
-
-          The resolved permission_policy was always_ask; accompanies evaluated_permission "ask".
-
-        - `beta_managed_agents_agent_tool_evaluation_auto: object`
-
-          The resolved permission_policy was auto: the server judged this invocation individually.
-
       - `session_thread_id: optional string`
 
         When set, this event was cross-posted from a subagent's thread to surface its permission request on the primary thread's stream. Empty on the thread's own events. Informational only: the server routes the matching `user.tool_confirmation` or `user.tool_result` by `tool_use_id`, so clients do not send it back.
@@ -2845,59 +2829,59 @@ List Events
 
                 - `type: "disabled"`
 
-          - `type: "multiagent_20261001"`
+        - `name: string`
 
-          - `advisor: BetaManagedAgentsMultiagentAdvisorEnabled or BetaManagedAgentsMultiagentAdvisorDisabled`
+        - `skills: array of BetaManagedAgentsAnthropicSkill or BetaManagedAgentsCustomSkill`
 
-            Whether the session's primary thread can consult an advisor model.
+          - `beta_managed_agents_anthropic_skill: object`
 
-            - `beta_managed_agents_multiagent_advisor_enabled: object`
+            A resolved Anthropic-managed skill.
 
-              The session's primary thread can consult `model` mid-turn.
+          - `beta_managed_agents_custom_skill: object`
 
-              - `type: "enabled"`
+            A resolved user-created custom skill.
 
-              - `model: string`
+        - `system: string`
 
-                The advisor model id.
+        - `tools: array of BetaManagedAgentsAgentToolset20260401 or BetaManagedAgentsMCPToolset or BetaManagedAgentsCustomTool`
 
-            - `beta_managed_agents_multiagent_advisor_disabled: object`
+          - `beta_managed_agents_agent_toolset20260401: object`
 
-              The agent has no advisor.
+          - `beta_managed_agents_mcp_toolset: object`
 
-              - `type: "disabled"`
+          - `beta_managed_agents_custom_tool: object`
 
-          - `subagents: BetaManagedAgentsSessionMultiagentSubagentsEnabled or BetaManagedAgentsMultiagentSubagentsDisabled`
+            A custom tool as returned in API responses.
 
         - `version: number`
 
-              The agent can spawn session threads.
+          format: int32
 
-              - `type: "enabled"`
+      - `budget: optional object`
 
         The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
         - `type: "limit"`
 
-                Whether the agent can define inline agents, which are not saved, when it spawns session threads.
+        - `max_list_cost: object`
 
           Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
 
-                  The agent can define inline agents.
+          - `amount: string`
 
-                  - `type: "enabled"`
+            Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
             pattern: ^(0|[1-9]\d*)$
 
           - `currency: "USD"`
 
-                  The agent cannot define inline agents.
+            Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
       - `metadata: optional map[string]`
 
-                Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
+        The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
 
-                - `type: "agent"`
+      - `title: optional string`
 
         The session's new title. Present only when the update changed it.
 
@@ -11445,22 +11429,6 @@ ant beta:sessions:events stream \
 
       Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
 
-    - `evaluation: optional BetaManagedAgentsAgentToolEvaluationAlwaysAllow or BetaManagedAgentsAgentToolEvaluationAlwaysAsk or BetaManagedAgentsAgentToolEvaluationAuto`
-
-      Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
-
-      - `beta_managed_agents_agent_tool_evaluation_always_allow: object`
-
-        The resolved permission_policy was always_allow; accompanies evaluated_permission "allow".
-
-      - `beta_managed_agents_agent_tool_evaluation_always_ask: object`
-
-        The resolved permission_policy was always_ask; accompanies evaluated_permission "ask".
-
-      - `beta_managed_agents_agent_tool_evaluation_auto: object`
-
-        The resolved permission_policy was auto: the server judged this invocation individually.
-
     - `session_thread_id: optional string`
 
       When set, this event was cross-posted from a subagent's thread to surface its permission request on the primary thread's stream. Empty on the thread's own events. Informational only: the server routes the matching `user.tool_confirmation` or `user.tool_result` by `tool_use_id`, so clients do not send it back.
@@ -15239,22 +15207,6 @@ ant beta:sessions:events stream \
 
       Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
 
-    - `evaluation: optional BetaManagedAgentsAgentToolEvaluationAlwaysAllow or BetaManagedAgentsAgentToolEvaluationAlwaysAsk or BetaManagedAgentsAgentToolEvaluationAuto`
-
-      Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
-
-      - `beta_managed_agents_agent_tool_evaluation_always_allow: object`
-
-        The resolved permission_policy was always_allow; accompanies evaluated_permission "allow".
-
-      - `beta_managed_agents_agent_tool_evaluation_always_ask: object`
-
-        The resolved permission_policy was always_ask; accompanies evaluated_permission "ask".
-
-      - `beta_managed_agents_agent_tool_evaluation_auto: object`
-
-        The resolved permission_policy was auto: the server judged this invocation individually.
-
     - `session_thread_id: optional string`
 
       When set, this event was cross-posted from a subagent's thread to surface its permission request on the primary thread's stream. Empty on the thread's own events. Informational only: the server routes the matching `user.tool_confirmation` or `user.tool_result` by `tool_use_id`, so clients do not send it back.
@@ -17822,8 +17774,6 @@ ant beta:sessions:events stream \
   The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn.
 
   - `type: "tool_use_limit_reached_error"`
-
-  - `type: "unknown_error"`
 
   - `message: string`
 

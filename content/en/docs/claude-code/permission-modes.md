@@ -25,7 +25,7 @@ Each mode makes a different tradeoff between convenience and oversight. The tabl
 
 The mode that reviews every action is named **Manual** in the CLI, in `claude --help`, in the VS Code and JetBrains extensions, and in the desktop app. Its config value is `default`, which is what hooks and SDK integrations use. The CLI accepts `manual` as an alias wherever you type the value, for example `claude --permission-mode manual` or `"defaultMode": "manual"`.
 
-Writes to [protected paths](#protected-paths) are never auto-approved except in `bypassPermissions` mode and in plan-mode sessions where bypass permissions are available, meaning interactive terminal sessions started in a way that [puts `bypassPermissions` in the mode cycle](#switch-permission-modes).
+Each mode has its own rule for writes to [protected paths](#protected-paths).
 
 Modes set the baseline. Layer [permission rules](https://code.claude.com/docs/en/permissions.md#manage-permissions) on top to pre-approve or block specific tools. Deny rules block in every mode, including `bypassPermissions`. Deny and ask rules don't apply to [`EndConversation`](https://code.claude.com/docs/en/tools-reference#endconversation-tool-behavior) as long as Claude still has at least one other tool it can call. Allow rules have no effect in `bypassPermissions`.
 
@@ -484,9 +484,11 @@ The classifier trusts your working directory and the remotes that were configure
 * Opening a pull request against a different repository or organization, forking with `gh repo fork`, or pushing to a third-party repository, unless you named that external target
 * Content from a sensitive local store, or from a file whose name, path, or type marks it as sensitive, entering a commit, a push, PR or issue text, a gist or paste, or a package publish, unless you named both the source and the destination. Session transcripts and conversation logs, credential and configuration dot-folders such as SSH keys, cloud credentials, browser profiles, and shell history, and user-data exports all count, and the repository being private doesn't clear it
 * Writing to Claude Code session transcripts, the `.jsonl` history files under `~/.claude/projects/` or your configured config directory, whether directly or through a shell command. The rule also covers the metadata lines Claude Code appends to each transcript entry for its own checks. Reading a transcript isn't blocked
-* A recursive forced delete such as `rm -rf "$VAR"` or `Remove-Item -Recurse -Force $dir` whose target is a shell variable that isn't assigned anywhere in the conversation the classifier sees, or a glob rooted at such a variable. The value came only from earlier command output, which the classifier never receives, so the classifier can't verify the deletion target against the other deletion rules. The block clears when you name the exact path being deleted, or when Claude re-runs the delete with the resolved literal path written into the command. Deletes whose target the classifier can resolve aren't affected.
+* A recursive forced delete such as `rm -rf "$VAR"` or `Remove-Item -Recurse -Force $dir` whose target is a shell variable that isn't assigned in the conversation the classifier sees, or a glob rooted at such a variable. Without that assignment, the classifier can't tell what the command would delete.
 
-  A glob directly under the variable, as in `rm -rf "$VAR"/*`, is a [critical path](#critical-paths) instead. `Remove-Item` targets that are a bare `*` or end in `/*` or `\*` never reach the classifier: Claude Code [denies them outright](#remove-item-in-powershell).
+  The block clears when you name the exact path being deleted, or when Claude re-runs the delete with the resolved literal path written into the command. Deletes whose target the classifier can resolve aren't affected.
+
+  A glob directly under the variable, as in `rm -rf "$VAR"/*`, is a [critical path](#critical-paths) instead. For a `Remove-Item` target that is a bare `*` or ends in `/*` or `\*`, see [Remove-Item in PowerShell](#remove-item-in-powershell): Claude Code denies that command outright.
 
 Several of these categories depend on [environment](https://code.claude.com/docs/en/auto-mode-config.md#define-trusted-infrastructure) entries, such as sensitive remote targets and protected IaC scopes, that you can narrow to concrete names.
 
@@ -550,14 +552,6 @@ If you tell Claude that a blocked action is allowed, the classifier reads that a
 * **Name the action and its specifics**: your message has to name the action and the specific thing that makes it dangerous, such as the branch of a force push. Naming the verb alone clears nothing, so "you can force-push" leaves the block in place.
 * **Expect it to cover one action**: an approval covers the destructive action you named, so a later action is blocked again unless you granted the approval as standing. To stop approving a routine pattern one action at a time, add it to [`autoMode.allow`](https://code.claude.com/docs/en/auto-mode-config#override-the-block-and-allow-rules).
 * **Some blocks stay in place**: [the classifier's precedence order](https://code.claude.com/docs/en/auto-mode-config.md#override-the-block-and-allow-rules) sets out which blocks your approval can reach. To run a step it won't clear, [leave auto mode](#switch-permission-modes) and answer the permission prompt.
-
-### Approvals you state in conversation
-
-If you tell Claude that a blocked action is allowed, the classifier reads that as your approval and can clear the block. How you worded it decides whether the action runs, and how far the approval reaches:
-
-* **Name the action and its specifics**: your message has to name the action and the specific thing that makes it dangerous, such as the branch of a force push. Naming the verb alone clears nothing, so "you can force-push" leaves the block in place.
-* **Expect it to cover one action**: an approval covers the destructive action you named, so a later action is blocked again unless you granted the approval as standing. To stop approving a routine pattern one action at a time, add it to [`autoMode.allow`](/docs/en/auto-mode-config#override-the-block-and-allow-rules).
-* **Some blocks stay in place**: [the classifier's precedence order](/docs/en/auto-mode-config#override-the-block-and-allow-rules) sets out which blocks your approval can reach. To run a step it won't clear, [leave auto mode](#switch-permission-modes) and answer the permission prompt.
 
 ### When auto mode falls back
 
@@ -694,6 +688,8 @@ The first time you start an interactive session with this mode enabled, Claude C
 * **If you accept**: Claude Code sets `skipDangerousModePermissionPrompt` to `true` in `~/.claude/settings.json`, so later sessions skip the dialog. To see the dialog again, remove the key from that file or set it to `false`. The [`skipDangerousModePermissionPrompt` reference](https://code.claude.com/docs/en/settings-reference#skipdangerousmodepermissionprompt) lists the other settings files where you or your organization can set it.
 * **If you decline**: Claude Code exits.
 
+If you pass [`--setting-sources`](https://code.claude.com/docs/en/cli-reference#cli-flags) without `user`, the dialog can appear again although you accepted it earlier. To skip it, add `user`, as in `--setting-sources user,project`.
+
 In [non-interactive mode](https://code.claude.com/docs/en/headless.md) no dialog is shown.
 
 A [background session](https://code.claude.com/docs/en/agent-view.md) honors your acceptance when it's recorded in user or managed settings:
@@ -736,13 +732,13 @@ If [`claude agents`](https://code.claude.com/docs/en/agent-view#dispatch-default
 
 ## Protected paths
 
-Writes to a small set of paths are never auto-approved, except in `bypassPermissions` mode and in interactive terminal sessions in plan mode with [bypass permissions](#skip-all-checks-with-bypasspermissions-mode) available. This prevents accidental corruption of repository state and Claude's own configuration.
+A small set of paths holds repository state and Claude's own configuration, so each mode has its own rule for writes to them:
 
 | Mode | Protected-path writes |
 | :- | :- |
 | `default`, `acceptEdits` | Prompted |
 | `plan` | Allowed in interactive terminal sessions with [bypass permissions](#skip-all-checks-with-bypasspermissions-mode) available. Otherwise, routed to the classifier when [auto mode](#eliminate-prompts-with-auto-mode) is available during planning, and prompted when it isn't |
-| `auto` | Routed to the classifier |
+| `auto` | Routed to the classifier, which decides |
 | `dontAsk` | Denied |
 | `bypassPermissions` | Allowed |
 

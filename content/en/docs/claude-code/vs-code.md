@@ -337,10 +337,6 @@ The Web tab also lists your [Remote Control](https://code.claude.com/docs/en/rem
 
 If any part of a conversation fails to download, an error appears and no copy is saved. Select the session again to retry. If you select a session that has no conversation to download yet, an error tells you where to continue it instead.
 
-The Web tab also lists your [Remote Control](/docs/en/remote-control) sessions. If you click one that ran in the folder you have open, the extension opens that local conversation instead of downloading a copy, and focuses the tab already showing it if there is one. If the extension can't rule out that another Claude process has the conversation open, you get a downloaded copy instead.
-
-If any part of a conversation fails to download, an error appears and no copy is saved. Select the session again to retry. If you select a session that has no conversation to download yet, an error tells you where to continue it instead.
-
 ### Check account and usage
 
 Run `/usage` to open the Account & usage dialog, which shows your signed-in account and your usage. The usage figures match how you signed in:
@@ -403,6 +399,8 @@ If a notice in place of the prompt box says the conversation is still open somew
 
 If the reload interrupted Claude mid-step, Claude continues that step when the conversation comes back, and a notice in the chat marks the continuation. Requires Claude Code v2.1.274 or later. If the step was interrupted more than an hour ago or the session is open elsewhere, the conversation comes back idle instead.
 
+When a notice in the chat includes `plan mode is now off, so Claude did not continue on its own`, the step was interrupted in plan mode. To keep planning, select **Plan** in the mode indicator before you send your next message.
+
 #### Turn off continuation after a reload
 
 To stop Claude from continuing an interrupted step after a reload, open the [Continue After Reload setting](vscode://settings/claudeCode.continueAfterReload) and uncheck it.
@@ -422,19 +420,6 @@ An open doesn't finish when the panel crashes or stops responding while loading 
 * **To open it anyway**: click **Open it anyway** or pick the conversation from Session history. Once the conversation finishes opening, it [comes back after later reloads as usual](#continue-conversations-after-a-reload).
 * **If the panel stops responding while the conversation loads**: reload the window. A new chat opens.
 * **To leave it closed**: keep working in the new chat. The notice disappears once you send a prompt.
-
-### Continue conversations after a reload
-
-After you run **Developer: Reload Window** or restart VS Code, whether a chat comes back with its conversation depends on where it was open:
-
-* **Editor tab**: the conversation comes back with its tab.
-* **Sidebar**: the conversation comes back if you sent a message or Claude responded in it within the last 10 minutes. If it doesn't come back, resume the conversation from [Session history](#resume-past-conversations).
-
-If another Claude Code process still has the conversation open, you're asked before it opens here, with the same **Open here anyway** notice as when you [resume it from session history](#resume-past-conversations).
-
-If the reload interrupted Claude mid-step, Claude continues that step when the conversation comes back, and a notice in the chat marks the continuation. Requires Claude Code v2.1.274 or later. If the step was interrupted more than an hour ago or the session is open elsewhere, the conversation comes back idle instead.
-
-To turn continuation off, open the [Continue After Reload setting](vscode://settings/claudeCode.continueAfterReload) and uncheck it. Setting [`CLAUDE_CODE_RESUME_INTERRUPTED_TURN`](/docs/en/env-vars#variables) or any other `CLAUDE_CODE_RESUME_` variable in VS Code's environment or in the [`environmentVariables` setting](#extension-settings) has no effect in the panel, because the extension removes those variables before it starts the panel's sessions.
 
 ### Run multiple conversations
 
@@ -643,7 +628,7 @@ When a subagent shows as one status line with no tool calls, type `/tasks` in th
 
 ## VS Code commands and shortcuts
 
-To open the Command Palette, press `Cmd+Shift+P` on Mac or `Ctrl+Shift+P` on Windows/Linux. Type "Claude Code" there to see all available VS Code commands for the Claude Code extension.
+To open the Command Palette, press `Cmd+Shift+P` on Mac or `Ctrl+Shift+P` on Windows/Linux. Type "Claude Code" there to see the extension's Command Palette commands.
 
 Some shortcuts depend on which panel is "focused" (receiving keyboard input). When your cursor is in a code file, the editor is focused. When your cursor is in Claude's prompt box, Claude is focused. Use `Cmd+Esc` / `Ctrl+Esc` to toggle between them.
 
@@ -668,6 +653,7 @@ Some shortcuts depend on which panel is "focused" (receiving keyboard input). Wh
 | Rename Session Tab | - | Rename the session in the active Claude tab. Requires Claude Code v2.1.257 or later |
 | Add Session Tab to Group | - | Add the session in the active Claude tab to a [session group](#organize-sessions-into-groups) you pick or create. Requires Claude Code v2.1.257 or later |
 | Mark Session as Unread | - | Mark the session in the active Claude tab as unread in the sessions list. Requires Claude Code v2.1.257 or later |
+| `claude-vscode.toggleDictation` | `Cmd+D` (Mac) / `Ctrl+D` (Windows/Linux) | Start or stop [voice dictation](https://code.claude.com/docs/en/voice-dictation.md). The shortcut requires Claude to be focused. This command isn't in the Command Palette |
 | Show Logs | - | View extension debug logs |
 | Logout | - | Sign out of your Anthropic account |
 

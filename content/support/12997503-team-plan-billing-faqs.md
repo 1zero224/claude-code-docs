@@ -18,7 +18,7 @@ Your organization's billing address determines where your invoices are sent. You
 
 If you want to use a name other than the one tied to your payment method, an organization Owner should check the "Use a different name on invoices" box when adding or updating your payment method in **[Organization settings > Billing](https://claude.ai/admin-settings/billing)**:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1922145253/f2e3d4e0fe43a2ea07e89244764c/image.png?expires=1794298500&amp;signature=1110f95a1c26feee913c1e41e5204456dd929244fe84390ab8403787096f17fe&amp;req=dSklFMh6mINaWvMW1HO4zRZTxV7DssPWKAqLF4ERnlUKsPmTnL4M1F1To4Bi%0AW%2FKClh27mG6odkHggXU%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1922145253/f2e3d4e0fe43a2ea07e89244764c/image.png?expires=1794465000&amp;signature=3f0e3a3e4f930b8b8be7958d36a3b51be9363120b194ef57a6a9039188578a77&amp;req=dSklFMh6mINaWvMW1HO4zRZTxV7Fvc7TKAqLF4ERnlU8vcrdDutWjzbJ3oSi%0Ag2Pv8NgXSFrdTUI4P%2BU%3D%0A)
 
 ## When will I be billed?
 
@@ -58,7 +58,7 @@ An organization owner can resubscribe for Team plan access by navigating to **[O
 
 ## What happens to my Pro, Max, or Ultra subscription when I upgrade to Team?
 
-When you upgrade from Pro, Max, or Ultra to Team in place, your individual subscription is cancelled automatically and you receive a prorated refund for the unused portion of your billing period. The refund is issued about 24 hours after your Team payment goes through, and depending on your bank, it can take several more business days to appear on your statement. Google Play purchases don't have this wait, but the refund can take a few days to appear. Any prepaid usage credits on your individual account are refunded
+When you upgrade from Pro, Max, or Ultra to Team in place, if you bought it directly from us, your individual subscription is cancelled automatically and you receive a prorated refund for the unused portion of your billing period. The refund is issued about 24 hours after your Team payment goes through, and depending on your bank, it can take several more business days to appear on your statement. For Google Play purchases, we ask Google Play to cancel your subscription and refund your unused time. Refunds usually take one to two weeks. Check Google Play, and cancel there if your plan is still active. Any unused credits you bought directly from us are refunded.
 
 If you signed up for Pro, Max, or Ultra through the Apple App Store, in-place upgrades work differently. For more information, refer to **[Get started with the Team plan](https://support.claude.com/en/articles/9267247-get-started-with-the-team-plan#h_5d142d3f45)**.
 

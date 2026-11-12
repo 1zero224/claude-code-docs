@@ -1409,8 +1409,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
             - `JsonElement Type = "text"`
 
-            - `JsonElement Type = "text"`
-
             - `required string Text`
 
               minLength: 1
@@ -1658,7 +1656,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 - `JsonElement Type = "file"`
 
-                - `JsonElement Type = "code_execution_output"`
+                - `required string FileID`
 
             - `BetaCacheControlEphemeral? CacheControl`
 
@@ -1681,8 +1679,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
             - `JsonElement Type = "search_result"`
 
             - `required IReadOnlyList<BetaTextBlockParam> Content`
-
-              - `JsonElement Type = "text"`
 
               - `JsonElement Type = "text"`
 
@@ -4654,7 +4650,7 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `JsonElement Type = "tool_addition"`
+              - `required string Name`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -5848,8 +5844,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-          - `JsonElement Type = "encrypted_code_execution_result"`
 
           - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -9507,8 +9501,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             - `JsonElement Type = "text"`
 
-            - `JsonElement Type = "text"`
-
             - `required string Text`
 
               minLength: 1
@@ -9756,7 +9748,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 - `JsonElement Type = "file"`
 
-                - `JsonElement Type = "code_execution_output"`
+                - `required string FileID`
 
             - `BetaCacheControlEphemeral? CacheControl`
 
@@ -9779,8 +9771,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
             - `JsonElement Type = "search_result"`
 
             - `required IReadOnlyList<BetaTextBlockParam> Content`
-
-              - `JsonElement Type = "text"`
 
               - `JsonElement Type = "text"`
 
@@ -12752,7 +12742,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `JsonElement Type = "tool_addition"`
+              - `required string Name`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -13410,8 +13400,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `JsonElement Type = "text"`
 
-                - `JsonElement Type = "text"`
-
                 - `required string Text`
 
                   minLength: 1
@@ -13659,7 +13647,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `JsonElement Type = "file"`
 
-                    - `JsonElement Type = "code_execution_output"`
+                    - `required string FileID`
 
                 - `BetaCacheControlEphemeral? CacheControl`
 
@@ -13682,8 +13670,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 - `JsonElement Type = "search_result"`
 
                 - `required IReadOnlyList<BetaTextBlockParam> Content`
-
-                  - `JsonElement Type = "text"`
 
                   - `JsonElement Type = "text"`
 
@@ -16655,7 +16641,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     The tool's input schema as the MCP server lists it, verbatim.
 
-                  - `JsonElement Type = "tool_addition"`
+                  - `required string Name`
 
                     The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -19704,8 +19690,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
                 See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-                - `JsonElement Type = "encrypted_code_execution_result"`
 
                 - `JsonElement Type = "encrypted_code_execution_result"`
 
@@ -24016,8 +24000,6 @@ Create Agent
 
     - `required string Name`
 
-    - `required string Name`
-
     - `required string Url`
 
   - `required IReadOnlyDictionary<string, string> Metadata`
@@ -24300,8 +24282,6 @@ Create Agent
 
       - `required string SkillID`
 
-      - `required string SkillID`
-
       - `required string Version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -24309,8 +24289,6 @@ Create Agent
       A resolved user-created custom skill.
 
       - `JsonElement Type = "custom"`
-
-      - `required string SkillID`
 
       - `required string SkillID`
 
@@ -25247,8 +25225,6 @@ List Agents
 
           - `required string ID`
 
-          - `required string ID`
-
           - `required int Version`
 
             format: int32
@@ -26153,8 +26129,6 @@ Get Agent
 
     - `required string Name`
 
-    - `required string Name`
-
     - `required string Url`
 
   - `required IReadOnlyDictionary<string, string> Metadata`
@@ -26437,8 +26411,6 @@ Get Agent
 
       - `required string SkillID`
 
-      - `required string SkillID`
-
       - `required string Version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -26446,8 +26418,6 @@ Get Agent
       A resolved user-created custom skill.
 
       - `JsonElement Type = "custom"`
-
-      - `required string SkillID`
 
       - `required string SkillID`
 
@@ -28063,8 +28033,6 @@ Update Agent
 
     - `required string Name`
 
-    - `required string Name`
-
     - `required string Url`
 
   - `required IReadOnlyDictionary<string, string> Metadata`
@@ -28347,8 +28315,6 @@ Update Agent
 
       - `required string SkillID`
 
-      - `required string SkillID`
-
       - `required string Version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -28356,8 +28322,6 @@ Update Agent
       A resolved user-created custom skill.
 
       - `JsonElement Type = "custom"`
-
-      - `required string SkillID`
 
       - `required string SkillID`
 
@@ -29117,8 +29081,6 @@ Archive Agent
 
     - `required string Name`
 
-    - `required string Name`
-
     - `required string Url`
 
   - `required IReadOnlyDictionary<string, string> Metadata`
@@ -29401,8 +29363,6 @@ Archive Agent
 
       - `required string SkillID`
 
-      - `required string SkillID`
-
       - `required string Version`
 
     - `class BetaManagedAgentsCustomSkill`
@@ -29410,8 +29370,6 @@ Archive Agent
       A resolved user-created custom skill.
 
       - `JsonElement Type = "custom"`
-
-      - `required string SkillID`
 
       - `required string SkillID`
 
@@ -30334,8 +30292,6 @@ List Agent Versions
           A resolved agent reference with a concrete version.
 
           - `JsonElement Type = "agent"`
-
-          - `required string ID`
 
           - `required string ID`
 
@@ -35069,10 +35025,6 @@ Get statistics about the work queue for an environment.
 
     The type of object
 
-  - `JsonElement Type = "work_queue_stats"`
-
-    The type of object
-
   - `required long Depth`
 
     Number of work items waiting to be picked up
@@ -36486,8 +36438,6 @@ Create Session
     - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
       - `JsonElement Type = "url"`
-
-      - `required string Name`
 
       - `required string Name`
 
@@ -38240,8 +38190,6 @@ List Sessions
 
               - `required string Name`
 
-              - `required string Name`
-
               - `required string Url`
 
             - `required BetaManagedAgentsModelConfig Model`
@@ -38260,8 +38208,6 @@ List Sessions
 
                 - `required string SkillID`
 
-                - `required string SkillID`
-
                 - `required string Version`
 
               - `class BetaManagedAgentsCustomSkill`
@@ -38269,8 +38215,6 @@ List Sessions
                 A resolved user-created custom skill.
 
                 - `JsonElement Type = "custom"`
-
-                - `required string SkillID`
 
                 - `required string SkillID`
 
@@ -39586,8 +39530,6 @@ Get Session
     - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
       - `JsonElement Type = "url"`
-
-      - `required string Name`
 
       - `required string Name`
 
@@ -41115,8 +41057,6 @@ Update Session
 
       - `required string Name`
 
-      - `required string Name`
-
       - `required string Url`
 
     - `required BetaManagedAgentsModelConfig Model`
@@ -42583,8 +42523,6 @@ Delete Session
 
   - `required string ID`
 
-  - `required string ID`
-
 #### Example
 
 ```csharp
@@ -42789,8 +42727,6 @@ Archive Session
     - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
       - `JsonElement Type = "url"`
-
-      - `required string Name`
 
       - `required string Name`
 
@@ -46152,8 +46088,6 @@ List Events
 
         - `required string Name`
 
-        - `required string Name`
-
         - `required string Url`
 
       - `required BetaManagedAgentsModelConfig Model`
@@ -48549,261 +48483,9 @@ Stream Events
 
 #### Returns
 
-  - `class BetaManagedAgentsWorkflowRunCreatedEvent`
+- `class BetaManagedAgentsStreamSessionEvents: union`
 
-    A workflow run was created. A workflow run is background work that the session's agent starts. Emitted once per run, before the run's other `workflow_run.*` events.
-
-    - `JsonElement Type = "workflow_run.created"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required string? Description`
-
-      Description that the agent gave the run, passed on as written, or `null` if it gave none.
-
-    - `required string Name`
-
-      Name that the agent gave the run, passed on as written, or a name that the server assigned.
-
-    - `required IReadOnlyList<BetaManagedAgentsWorkflowRunPhase> Phases`
-
-      The phases that the run's plan declares, in the plan's order. Can be empty.
-
-      - `required string ID`
-
-        Unique identifier for the phase.
-
-      - `required string? Description`
-
-        Description that the agent gave the phase, passed on as written, or `null` if it gave none.
-
-      - `required string Name`
-
-        Name that the agent gave the phase, passed on as written.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required string WorkflowRunID`
-
-      Identifier of the run. The same value is on all of the run's `workflow_run.*` events.
-
-  - `class BetaManagedAgentsWorkflowRunStatusEndedEvent`
-
-    A workflow run ended. Emitted once per run, as the last of the run's `workflow_run.*` events.
-
-    - `JsonElement Type = "workflow_run.status_ended"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required BetaManagedAgentsWorkflowRunResult Result`
-
-      How the run ended.
-
-      - `class BetaManagedAgentsWorkflowRunResultCompleted`
-
-        The run's plan, a program that the agent wrote, finished. This does not say whether the work succeeded.
-
-        - `JsonElement Type = "completed"`
-
-      - `class BetaManagedAgentsWorkflowRunResultError`
-
-        The run failed or reached its time limit.
-
-        - `JsonElement Type = "error"`
-
-        - `required BetaManagedAgentsWorkflowRunError Error`
-
-          Why the run did not finish.
-
-          - `class BetaManagedAgentsTimeoutWorkflowRunError`
-
-            The run reached its time limit.
-
-            - `JsonElement Type = "timeout_error"`
-
-            - `required string Message`
-
-              Short explanation written by the server. It never contains content from the run or its agents.
-
-          - `class BetaManagedAgentsProgramWorkflowRunError`
-
-            The plan, a program that the agent wrote, failed, or the server refused it.
-
-            - `JsonElement Type = "program_error"`
-
-            - `required string Message`
-
-              Short explanation written by the server. It never contains content from the run or its agents.
-
-          - `class BetaManagedAgentsUnknownWorkflowRunError`
-
-            A failure that has no type of its own.
-
-            - `JsonElement Type = "unknown_error"`
-
-            - `required string Message`
-
-              Short explanation written by the server. It never contains content from the run or its agents.
-
-          - `class BetaManagedAgentsThreadLimitWorkflowRunError`
-
-            The run exceeded the limit on the number of threads that a run can create.
-
-            - `JsonElement Type = "thread_limit_error"`
-
-            - `required string Message`
-
-              Short explanation written by the server. It never contains content from the run or its agents.
-
-          - `class BetaManagedAgentsMaxWorkflowRunsWorkflowRunError`
-
-            No run was created, because the session was at its limit of open workflow runs, which are runs that have not ended. Only `workflow_run.error` carries this type.
-
-            - `JsonElement Type = "max_workflow_runs_error"`
-
-            - `required string Message`
-
-              Short explanation written by the server. It never contains content from the run or its agents.
-
-      - `class BetaManagedAgentsWorkflowRunResultStopped`
-
-        The agent stopped the run.
-
-        - `JsonElement Type = "stopped"`
-
-    - `required string WorkflowRunID`
-
-      Identifier of the run. The same value is on all of the run's `workflow_run.*` events.
-
-  - `class BetaManagedAgentsWorkflowRunPhaseStartedEvent`
-
-    A workflow run's plan entered a phase.
-
-    - `JsonElement Type = "workflow_run.phase_started"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required string WorkflowRunID`
-
-      Identifier of the run. The same value is on all of the run's `workflow_run.*` events.
-
-    - `required string WorkflowRunPhaseID`
-
-      Identifier of the phase, as in `phases` on the run's `workflow_run.created` event.
-
-  - `class BetaManagedAgentsWorkflowRunPhaseEndedEvent`
-
-    A workflow run's plan left a phase, or the run's end closed it. Emitted once for every `workflow_run.phase_started` event, before the run's `workflow_run.status_ended` event. The event does not say whether the plan finished the phase's work, or why it left.
-
-    - `JsonElement Type = "workflow_run.phase_ended"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required string PhaseStartedID`
-
-      Identifier of the `workflow_run.phase_started` event that opened the phase.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required string WorkflowRunID`
-
-      Identifier of the run. The same value is on all of the run's `workflow_run.*` events.
-
-    - `required string WorkflowRunPhaseID`
-
-      Identifier of the phase, as in `phases` on the run's `workflow_run.created` event.
-
-  - `class BetaManagedAgentsWorkflowRunStatusRunningEvent`
-
-    A workflow run is running. Emitted when the run starts to execute, and each time it resumes after being idle. A run that starts idle emits `workflow_run.status_idle` first.
-
-    - `JsonElement Type = "workflow_run.status_running"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required string WorkflowRunID`
-
-      Identifier of the run. The same value is on all of the run's `workflow_run.*` events.
-
-  - `class BetaManagedAgentsWorkflowRunStatusIdleEvent`
-
-    A workflow run is idle. Emitted each time the run goes idle, whatever the cause. If the run ends while idle, no `workflow_run.status_running` comes between this event and its `workflow_run.status_ended`.
-
-    - `JsonElement Type = "workflow_run.status_idle"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required string WorkflowRunID`
-
-      Identifier of the run. The same value is on all of the run's `workflow_run.*` events.
-
-  - `class BetaManagedAgentsWorkflowRunErrorEvent`
-
-    A workflow run met an error, or an error kept a run from being created. A run that ends with a `result.type` of `error` emits this event before its `workflow_run.status_ended`, with the same `error`.
-
-    - `JsonElement Type = "workflow_run.error"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required BetaManagedAgentsWorkflowRunError Error`
-
-      Why the run did not finish, or was not created.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required string? WorkflowRunID`
-
-      Identifier of the run that met the error, or `null` when the error kept a run from being created.
+  Server-sent event in the session stream.
 
   - `class BetaManagedAgentsUserMessageEvent`
 
@@ -54433,8 +54115,6 @@ Get Session Thread
 
         - `required string Name`
 
-        - `required string Name`
-
         - `required string Url`
 
       - `required BetaManagedAgentsModelConfig Model`
@@ -54577,8 +54257,6 @@ Get Session Thread
 
           - `required string SkillID`
 
-          - `required string SkillID`
-
           - `required string Version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -54586,8 +54264,6 @@ Get Session Thread
           A resolved user-created custom skill.
 
           - `JsonElement Type = "custom"`
-
-          - `required string SkillID`
 
           - `required string SkillID`
 
@@ -55531,8 +55207,6 @@ Archive Session Thread
 
         - `required string Name`
 
-        - `required string Name`
-
         - `required string Url`
 
       - `required BetaManagedAgentsModelConfig Model`
@@ -55675,8 +55349,6 @@ Archive Session Thread
 
           - `required string SkillID`
 
-          - `required string SkillID`
-
           - `required string Version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -55684,8 +55356,6 @@ Archive Session Thread
           A resolved user-created custom skill.
 
           - `JsonElement Type = "custom"`
-
-          - `required string SkillID`
 
           - `required string SkillID`
 
@@ -69430,7 +69100,7 @@ List Deployment Runs
 
     - `JsonElement Type = "agent"`
 
-    Unique identifier for this run (`drun_...`).
+    - `required string ID`
 
     - `required int Version`
 
@@ -73992,7 +73662,7 @@ Create a Memory Store
 
     format: date-time
 
-  - `required DateTimeOffset? ArchivedAt`
+  - `required DateTimeOffset CreatedAt`
 
     When the memory store was created, in RFC 3339.
 
@@ -74455,7 +74125,7 @@ Retrieve a Memory Store
 
     format: date-time
 
-  - `required DateTimeOffset? ArchivedAt`
+  - `required DateTimeOffset CreatedAt`
 
     When the memory store was created, in RFC 3339.
 
@@ -74698,7 +74368,7 @@ Update a Memory Store
 
     format: date-time
 
-  - `required DateTimeOffset? ArchivedAt`
+  - `required DateTimeOffset CreatedAt`
 
     When the memory store was created, in RFC 3339.
 
@@ -75098,7 +74768,7 @@ Archive a Memory Store
 
     format: date-time
 
-  - `required DateTimeOffset? ArchivedAt`
+  - `required DateTimeOffset CreatedAt`
 
     When the memory store was created, in RFC 3339.
 
@@ -75330,8 +75000,6 @@ Create a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=csharp#view-and-edit-memories) to learn more about working with memories.
 
   - `JsonElement Type = "memory"`
-
-  - `required Type Type`
 
   - `required string ID`
 
@@ -75867,8 +75535,6 @@ Retrieve a Memory
 
   - `JsonElement Type = "memory"`
 
-  - `required Type Type`
-
   - `required string ID`
 
     The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -76132,8 +75798,6 @@ Update a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=csharp#view-and-edit-memories) to learn more about working with memories.
 
   - `JsonElement Type = "memory"`
-
-  - `required Type Type`
 
   - `required string ID`
 
@@ -76952,8 +76616,6 @@ Retrieve a Memory Version
 
   - `JsonElement Type = "memory_version"`
 
-  - `required Type Type`
-
   - `required string ID`
 
     Unique identifier for this version (a `memver_...` value).
@@ -77276,8 +76938,6 @@ Redact a Memory Version
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=csharp#audit-memory-changes) to learn more about memory versions.
 
   - `JsonElement Type = "memory_version"`
-
-  - `required Type Type`
 
   - `required string ID`
 
@@ -82710,12 +82370,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
-    - `required string MemoryStoreID`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
-
   - `required string? SessionID`
 
     The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
@@ -83630,12 +83284,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
-    - `required string MemoryStoreID`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
-
   - `required string? SessionID`
 
     The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
@@ -84057,12 +83705,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
       With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
-    - `required string MemoryStoreID`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
-
   - `required string? SessionID`
 
     The ID of the session that runs the dream (`sesn_...`), or `null` if that session hasn't started.
@@ -84477,12 +84119,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
     See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams?sdk_languages=csharp#use-the-output) for how to review and use the result.
 
     - `JsonElement Type = "memory_store"`
-
-    - `required string MemoryStoreID`
-
-      The ID of the memory store that the dream writes its result to (`memstore_...`).
-
-      With `output_behavior` set to `create_new`, this is a new memory store. With `update_existing`, it is the input memory store.
 
     - `required string MemoryStoreID`
 

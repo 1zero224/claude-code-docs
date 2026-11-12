@@ -25,8 +25,6 @@ Create Session
 
     - `type: "agent"`
 
-    - `type: "agent"`
-
     - `id: string`
 
       The `agent` ID.

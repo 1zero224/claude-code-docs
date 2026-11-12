@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "URLs confirmed gone upstream. Kept so a page that died once does not report as a fresh failure on every later run, which would bury the failure that is actually new. An entry clears itself if the URL answers again -- but only while something still probes it. Entries whose local file was removed are no longer fetched, so they stay as a record of the restructure rather than a live check.",
-  "updated": "2026-11-10",
+  "updated": "2026-11-12",
   "urls": {
     "https://claude.com/docs/claude-science/annotations": {
       "since": "2026-09-01",
@@ -18,6 +18,10 @@
     "https://claude.com/docs/claude-science/whats-not-available-yet": {
       "since": "2026-09-09",
       "reason": "moved -> https://claude.com/docs/claude-science/admin-controls"
+    },
+    "https://claude.com/docs/claude-tag/admins/managed-by": {
+      "since": "2026-11-12",
+      "reason": "moved -> https://claude.com/docs/claude-tag/admins/attach-to-scope"
     },
     "https://claude.com/docs/claude-tag/admins/pair-workspace": {
       "since": "2026-08-28",
@@ -1571,6 +1575,10 @@
       "since": "2026-10-30",
       "reason": "moved -> https://support.claude.com/en/articles/17444146-claude-haiku-4-5-was-removed-from-the-model-selector"
     },
+    "https://support.claude.com/en/articles/17454700-get-started-with-claude-dashboards": {
+      "since": "2026-11-12",
+      "reason": "moved -> https://support.claude.com/en/articles/17454700-get-started-with-claude-data"
+    },
     "https://support.claude.com/en/articles/7996906-reporting-blocking-and-removing-content-from-claude": {
       "since": "2026-08-25",
       "reason": "moved -> https://support.claude.com/en/articles/7996906-report-block-and-remove-content-from-claude"
@@ -1642,6 +1650,30 @@
     "https://support.claude.com/en/articles/9927533-disable-public-projects-for-your-organization": {
       "since": "2026-09-22",
       "reason": "moved -> https://support.claude.com/en/articles/9927533-control-project-sharing-for-your-organization"
+    },
+    "https://support.claude.com/zh-CN/articles/10949351-claude-desktop-\u4e0a\u672c\u5730-mcp-\u670d\u52a1\u5668\u5165\u95e8": {
+      "since": "2026-11-12",
+      "reason": "moved -> https://support.claude.com/zh-CN/articles/10949351-\u5728claude-desktop\u4e0a\u5f00\u59cb\u4f7f\u7528\u672c\u5730mcp\u670d\u52a1\u5668"
+    },
+    "https://support.claude.com/zh-CN/articles/13799932-\u5728-enterprise-\u8ba1\u5212\u4e2d\u7ba1\u7406\u7fa4\u7ec4\u548c\u7fa4\u7ec4\u652f\u51fa\u9650\u989d": {
+      "since": "2026-11-12",
+      "reason": "moved -> https://support.claude.com/zh-CN/articles/13799932-\u5728\u4f01\u4e1a\u8ba1\u5212\u4e2d\u7ba1\u7406\u7fa4\u7ec4\u548c\u7fa4\u7ec4\u652f\u51fa\u9650\u989d"
+    },
+    "https://support.claude.com/zh-CN/articles/13837433-\u4e3a\u60a8\u7684\u7ec4\u7ec7\u7ba1\u7406\u63d2\u4ef6": {
+      "since": "2026-11-12",
+      "reason": "moved -> https://support.claude.com/zh-CN/articles/13837433-\u7ba1\u7406\u60a8\u7ec4\u7ec7\u7684\u63d2\u4ef6"
+    },
+    "https://support.claude.com/zh-CN/articles/14555399-claude-\u4ee3\u7801\u5021\u5bfc\u8005\u5de5\u5177\u5305": {
+      "since": "2026-11-12",
+      "reason": "moved -> https://support.claude.com/zh-CN/articles/14555399-claude-code-\u51a0\u519b\u5de5\u5177\u5305"
+    },
+    "https://support.claude.com/zh-CN/articles/14555877-claude-code-\u901a\u4fe1\u5de5\u5177\u5305": {
+      "since": "2026-11-12",
+      "reason": "moved -> https://support.claude.com/zh-CN/articles/14555877-claude-code-\u901a\u8baf\u5de5\u5177\u5305"
+    },
+    "https://support.claude.com/zh-CN/articles/16923645-claude-docs-\u5165\u95e8\u6307\u5357": {
+      "since": "2026-11-12",
+      "reason": "moved -> https://support.claude.com/zh-CN/articles/16923645-claude-docs-\u5165\u95e8"
     }
   }
 }

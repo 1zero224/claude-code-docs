@@ -2359,42 +2359,6 @@ Give an incident responder room to work while an incident is open: raise their s
 
 4. When your incident system marks the incident closed, roll both changes back: restore the spend limit you recorded in step 1 (or delete the override with `DELETE /v1/organizations/spend_limits/{spend_limit_id}` if the member had none), and remove the member from the group with `DELETE /v1/organizations/rbac_groups/{rbac_group_id}/members/{user_id}`.
 
-### Temporarily raise a member's spend limit during an incident
-
-Give an incident responder room to work while an incident is open: raise their spend cap when the incident starts, and roll it back after the incident closes. Gate the raise on your incident management system, for example by requiring a live incident ID with the member assigned to it.
-
-1. Read the member's current cap, and record it for the rollback:
-
-   ```bash cURL
-   curl --globoff "https://api.anthropic.com/v1/organizations/spend_limits/effective?user_ids[]=user_01AbCdEfGh&period[]=monthly" \
-     --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
-     --header "anthropic-version: 2023-06-01"
-   ```
-
-2. Raise the cap:
-
-   ```bash cURL
-   curl --request POST "https://api.anthropic.com/v1/organizations/spend_limits" \
-     --header "content-type: application/json" \
-     --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
-     --header "anthropic-version: 2023-06-01" \
-     --data '{"scope": {"type": "user", "user_id": "user_01AbCdEfGh"}, "amount": "500000", "period": "monthly"}'
-   ```
-
-3. If responders need broader access during an incident, pre-provision an incident-responders group whose [custom role](https://platform.claude.com/docs/en/manage-claude/user-management#custom-roles) grants it, and add the member for the duration:
-
-   ```bash cURL
-   curl --request POST "https://api.anthropic.com/v1/organizations/rbac_groups/rbac_group_01UvWxYzAbCdEfGhIjKlMn/members" \
-     --header "content-type: application/json" \
-     --header "x-api-key: $ANTHROPIC_ADMIN_KEY" \
-     --header "anthropic-version: 2023-06-01" \
-     --data '{"user_id": "user_01AbCdEfGh"}'
-   ```
-
-   See [User management](https://platform.claude.com/docs/en/manage-claude/user-management#groups) for the group endpoints.
-
-4. When your incident system marks the incident closed, roll both changes back: restore the spend limit you recorded in step 1 (or delete the override with `DELETE /v1/organizations/spend_limits/{spend_limit_id}` if the member had none), and remove the member from the group with `DELETE /v1/organizations/rbac_groups/{rbac_group_id}/members/{user_id}`.
-
 ## Frequently asked questions
 
 ### Does setting a spend limit directly resolve a member’s pending increase request?

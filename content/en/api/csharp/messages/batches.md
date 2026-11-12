@@ -116,8 +116,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `JsonElement Type = "text"`
 
-                - `JsonElement Type = "text"`
-
                 - `required string Text`
 
                   minLength: 1
@@ -540,8 +538,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                         All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                         maxItems: 100
-
-                        - `JsonElement Type = "tab_opened"`
 
                         - `required string TabID`
 
@@ -4500,8 +4496,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `JsonElement Type = "encrypted_code_execution_result"`
 
-                - `JsonElement Type = "encrypted_code_execution_result"`
-
                 - `required IReadOnlyList<CodeExecutionOutputBlock> Content`
 
                   - `JsonElement Type = "code_execution_output"`
@@ -5932,8 +5926,6 @@ await foreach (var messageBatchIndividualResponse in client.Messages.Batches.Res
 
                 - `JsonElement Type = "encrypted_code_execution_result"`
 
-                - `JsonElement Type = "encrypted_code_execution_result"`
-
                 - `required IReadOnlyList<CodeExecutionOutputBlock> Content`
 
                   - `JsonElement Type = "code_execution_output"`
@@ -7142,8 +7134,6 @@ await foreach (var messageBatchIndividualResponse in client.Messages.Batches.Res
 
               - `JsonElement Type = "encrypted_code_execution_result"`
 
-              - `JsonElement Type = "encrypted_code_execution_result"`
-
               - `required IReadOnlyList<CodeExecutionOutputBlock> Content`
 
                 - `JsonElement Type = "code_execution_output"`
@@ -8311,8 +8301,6 @@ await foreach (var messageBatchIndividualResponse in client.Messages.Batches.Res
             The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
             See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=csharp) to learn more about programmatic tool calling.
-
-            - `JsonElement Type = "encrypted_code_execution_result"`
 
             - `JsonElement Type = "encrypted_code_execution_result"`
 

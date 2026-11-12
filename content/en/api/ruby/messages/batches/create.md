@@ -112,8 +112,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `type: :text`
 
-              - `type: :text`
-
               - `text: String`
 
                 minLength: 1
@@ -536,8 +534,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                       All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                       maxItems: 100
-
-                      - `type: :tab_opened`
 
                       - `tab_id: String`
 
@@ -1686,8 +1682,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
         REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
 
         See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=ruby#tool-versions) to learn what each tool version adds.
-
-        - `type: :code_execution_20260120`
 
         - `type: :code_execution_20260120`
 
@@ -3110,12 +3104,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
   The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
 
 - `workspace_id: optional String` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspace_id: String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 

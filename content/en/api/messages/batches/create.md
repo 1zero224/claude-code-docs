@@ -31,12 +31,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `"anthropic-workspace-id": optional string`
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ## Body parameters
 
 - `requests: array of object`
@@ -131,8 +125,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
           - `array of ContentBlockParam`
 
             - `TextBlockParam object`
-
-              - `type: "text"`
 
               - `type: "text"`
 
@@ -558,8 +550,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                       All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                       maxItems: 100
-
-                      - `type: "tab_opened"`
 
                       - `tab_id: string`
 
@@ -1708,8 +1698,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
         REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
 
         See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=http#tool-versions) to learn what each tool version adds.
-
-        - `type: "code_execution_20260120"`
 
         - `type: "code_execution_20260120"`
 

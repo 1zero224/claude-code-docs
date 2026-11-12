@@ -11813,21 +11813,21 @@ print(beta_managed_agents_session.id)
 
             - `type: Literal["disabled"]`
 
-      - `type: Literal["multiagent_20261001"]`
+    - `name: str`
 
-      - `advisor: BetaManagedAgentsMultiagentAdvisor`
+    - `skills: List[Skill]`
 
       - `class BetaManagedAgentsAnthropicSkill`
 
-        - `class BetaManagedAgentsMultiagentAdvisorEnabled`
+        A resolved Anthropic-managed skill.
 
       - `class BetaManagedAgentsCustomSkill`
 
-          - `type: Literal["enabled"]`
+        A resolved user-created custom skill.
 
-          - `model: str`
+    - `system: Optional[str]`
 
-            The advisor model id.
+    - `tools: List[Tool]`
 
       - `class BetaManagedAgentsAgentToolset20260401`
 
@@ -11835,81 +11835,81 @@ print(beta_managed_agents_session.id)
 
       - `class BetaManagedAgentsCustomTool`
 
-      - `subagents: BetaManagedAgentsSessionMultiagentSubagents`
+        A custom tool as returned in API responses.
 
     - `version: int`
 
-          The agent can spawn session threads.
+      format: int32
 
-          - `type: Literal["enabled"]`
+  - `archived_at: Optional[datetime]`
 
     When the session was archived. Null if not archived.
 
-            Whether the agent can define inline agents, which are not saved, when it spawns session threads.
+    format: date-time
 
-            - `class BetaManagedAgentsMultiagentInlineAgentsEnabled`
+  - `budget: Optional[BetaManagedAgentsBudgetLimit]`
 
     The session's enforced spend ceiling, or null when no budget is set.
 
     - `type: Literal["limit"]`
 
-              - `type: Literal["enabled"]`
+    - `max_list_cost: BetaMonetaryAmount`
 
       Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
 
-              The agent cannot define inline agents.
+      - `amount: str`
 
-              - `type: Literal["disabled"]`
+        Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
         pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
-            Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
+        Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
   - `created_at: datetime`
 
-            - `description: Optional[str]`
+    A timestamp in RFC 3339 format
 
-            - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
+    format: date-time
 
-            - `model: BetaManagedAgentsModelConfig`
+  - `environment_id: str`
 
-              Model identifier and configuration.
+  - `metadata: Dict[str, str]`
 
-            - `name: str`
+  - `outcome_evaluations: List[BetaManagedAgentsOutcomeEvaluationResource]`
 
     Per-outcome evaluation state. One entry per `define_outcome` event sent to the session.
 
     - `type: Literal["outcome_evaluation"]`
 
-            - `system: Optional[str]`
+    - `completed_at: Optional[datetime]`
 
       When the outcome reached a terminal result. Null while `pending`/`running`/`evaluating`.
 
-            - `version: int`
+      format: date-time
 
-              format: int32
+    - `description: str`
 
-        - `class BetaManagedAgentsMultiagentSubagentsDisabled`
+      What the agent should produce.
 
-          The agent cannot spawn session threads.
+    - `explanation: Optional[str]`
 
       Grader's verdict text from the most recent evaluation. For `satisfied`, explains why criteria are met; for `needs_revision` (intermediate), what's missing; for `failed`, why unrecoverable.
 
-      - `workflows: BetaManagedAgentsSessionMultiagentWorkflows`
+    - `iteration: int`
 
-        Whether the agent can start workflow runs.
+      0-indexed revision cycle the outcome is currently on.
 
-        - `class BetaManagedAgentsSessionMultiagentWorkflowsEnabled`
+      format: int32
 
-          The agent can start workflow runs.
+    - `outcome_id: str`
 
-          - `type: Literal["enabled"]`
+      Server-generated outc_ ID for this outcome.
 
-          - `inline_agents: BetaManagedAgentsMultiagentInlineAgents`
+    - `result: str`
 
-            Whether a run's plan can define inline agents, which are not saved.
+      Current evaluation state. `pending` before the agent begins work; `running` while producing or revising; `evaluating` while the grader scores; `satisfied`/`max_iterations_reached`/`failed`/`interrupted` are terminal.
 
   - `resources: List[BetaManagedAgentsSessionResource]`
 
@@ -11917,43 +11917,43 @@ print(beta_managed_agents_session.id)
 
       - `type: Literal["github_repository"]`
 
-            - `id: str`
+      - `id: str`
 
-            - `description: Optional[str]`
+      - `created_at: datetime`
 
-            - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
+        A timestamp in RFC 3339 format
 
-            - `model: BetaManagedAgentsModelConfig`
+        format: date-time
 
-              Model identifier and configuration.
+      - `mount_path: str`
 
       - `updated_at: datetime`
 
-            - `system: Optional[str]`
+        A timestamp in RFC 3339 format
 
-            - `tools: List[Tool]`
+        format: date-time
 
-            - `version: int`
+      - `url: str`
 
-              format: int32
+      - `checkout: Optional[Checkout]`
 
         - `class BetaManagedAgentsBranchCheckout`
 
           - `type: Literal["branch"]`
 
-          The agent cannot start workflow runs.
+          - `name: str`
 
-          - `type: Literal["disabled"]`
+            Branch name to check out.
 
-  - `name: str`
+            minLength: 1, maxLength: 255
 
         - `class BetaManagedAgentsCommitCheckout`
 
           - `type: Literal["commit"]`
 
-      A resolved Anthropic-managed skill.
+          - `sha: str`
 
-    - `class BetaManagedAgentsCustomSkill`
+            Full commit SHA to check out.
 
             minLength: 7, maxLength: 64, pattern: ^[0-9a-fA-F]+$
 
@@ -11961,23 +11961,23 @@ print(beta_managed_agents_session.id)
 
       - `type: Literal["file"]`
 
-    - `class BetaManagedAgentsAgentToolset20260401`
+      - `id: str`
 
-    - `class BetaManagedAgentsMCPToolset`
+      - `created_at: datetime`
 
-    - `class BetaManagedAgentsCustomTool`
+        A timestamp in RFC 3339 format
 
-      A custom tool as returned in API responses.
+        format: date-time
 
-  - `version: int`
+      - `file_id: str`
 
-    format: int32
+      - `mount_path: str`
 
       - `updated_at: datetime`
 
-  Mid-session agent configuration update. Only `tools` and `mcp_servers` are updatable. Full replacement: the provided array becomes the new value. To preserve existing entries, GET the session, modify the array, and POST it back.
+        A timestamp in RFC 3339 format
 
-  - `mcp_servers: Optional[Iterable[BetaManagedAgentsURLMCPServerParams]]`
+        format: date-time
 
     - `class BetaManagedAgentsMemoryStoreResource`
 
@@ -12171,15 +12171,15 @@ print(beta_managed_agents_session.id)
 
     - `url: str`
 
-      Endpoint URL for the MCP server.
+  - `model: BetaManagedAgentsModelConfig`
 
-      maxLength: 2048
+    Model identifier and configuration.
 
-  - `tools: Optional[Iterable[Tool]]`
+    - `id: BetaManagedAgentsModel`
 
-    Replacement tool list. Full replacement: the provided array becomes the new value. Send an empty array to clear; omit to preserve.
+      The model that will power your agent.
 
-    - `class BetaManagedAgentsAgentToolset20260401Params`
+      See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
       - `"claude-fable-5-2"`
 
@@ -12253,53 +12253,53 @@ print(beta_managed_agents_session.id)
 
         High-performance model for agents and coding
 
-            Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
+      - `str`
 
-            - `class BetaManagedAgentsAlwaysAllowPolicy`
+    - `effort: Optional[Effort]`
 
       How hard Claude works on each inference call. One of `low`, `medium`, `high`, `xhigh`, `max`. Always present; resolved to the per-model default at save time when not supplied.
 
       - `class BetaManagedAgentsEffortLow`
 
-              Tool calls require user confirmation before execution.
+        Low effort. Favors latency over reasoning depth.
 
-            - `class BetaManagedAgentsAutoPolicy`
+        - `type: Literal["low"]`
 
       - `class BetaManagedAgentsEffortMedium`
 
-        - `class BetaManagedAgentsReadToolConfigParams`
+        Medium effort. Balances latency and reasoning depth.
 
-          Configuration override for the read tool.
+        - `type: Literal["medium"]`
 
       - `class BetaManagedAgentsEffortHigh`
 
-          - `name: Literal["read"]`
+        High effort. Favors reasoning depth.
 
-            Must be "read".
+        - `type: Literal["high"]`
 
       - `class BetaManagedAgentsEffortXhigh`
 
-            Whether this tool is enabled and available to Claude. Overrides the default_config setting.
+        Extra-high effort. Not all models accept this level.
 
-          - `permission_policy: Optional[PermissionPolicy]`
+        - `type: Literal["xhigh"]`
 
       - `class BetaManagedAgentsEffortMax`
 
-            - `class BetaManagedAgentsAlwaysAllowPolicy`
+        Maximum effort. Favors reasoning depth over latency.
 
-              Tool calls are automatically approved without user confirmation.
+        - `type: Literal["max"]`
 
-            - `class BetaManagedAgentsAlwaysAskPolicy`
+    - `inference_geo: Optional[str]`
 
-              Tool calls require user confirmation before execution.
+      Geographic region for model inference. When unset, requests fall through to the workspace's default_inference_geo.
 
-            - `class BetaManagedAgentsAutoPolicy`
+    - `speed: Optional[Literal["standard", "fast"]]`
 
       Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
-        - `class BetaManagedAgentsWriteToolConfigParams`
+      - `"standard"`
 
-          Configuration override for the write tool.
+      - `"fast"`
 
   - `multiagent: Optional[BetaManagedAgentsSessionMultiagent]`
 
@@ -12957,21 +12957,21 @@ print(beta_managed_agents_session.id)
 
           - `type: Literal["disabled"]`
 
-    - `type: Literal["multiagent_20261001"]`
+  - `name: str`
 
-    - `advisor: BetaManagedAgentsMultiagentAdvisor`
+  - `skills: List[Skill]`
 
     - `class BetaManagedAgentsAnthropicSkill`
 
-      - `class BetaManagedAgentsMultiagentAdvisorEnabled`
+      A resolved Anthropic-managed skill.
 
     - `class BetaManagedAgentsCustomSkill`
 
-        - `type: Literal["enabled"]`
+      A resolved user-created custom skill.
 
-        - `model: str`
+  - `system: Optional[str]`
 
-          The advisor model id.
+  - `tools: List[Tool]`
 
     - `class BetaManagedAgentsAgentToolset20260401`
 
@@ -12979,53 +12979,53 @@ print(beta_managed_agents_session.id)
 
     - `class BetaManagedAgentsCustomTool`
 
-    - `subagents: BetaManagedAgentsSessionMultiagentSubagents`
+      A custom tool as returned in API responses.
 
   - `version: int`
 
-        The agent can spawn session threads.
+    format: int32
 
-        - `type: Literal["enabled"]`
+### Beta Managed Agents Session Agent Update
 
 - `class BetaManagedAgentsSessionAgentUpdateParam`
 
-          Whether the agent can define inline agents, which are not saved, when it spawns session threads.
+  Mid-session agent configuration update. Only `tools` and `mcp_servers` are updatable. Full replacement: the provided array becomes the new value. To preserve existing entries, GET the session, modify the array, and POST it back.
 
   - `mcp_servers: Optional[Iterable[BetaManagedAgentsURLMCPServerParams]]`
 
-            The agent can define inline agents.
+    Replacement MCP server list. Full replacement: the provided array becomes the new value. Send an empty array to clear; omit to preserve.
 
     - `type: Literal["url"]`
 
     - `name: str`
 
-          - `class BetaManagedAgentsMultiagentInlineAgentsDisabled`
+      Unique name for this server, referenced by mcp_toolset configurations. 1-255 characters.
 
-            The agent cannot define inline agents.
+      minLength: 1, maxLength: 255
 
     - `url: str`
 
-          Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
+      Endpoint URL for the MCP server.
 
-          - `type: Literal["agent"]`
+      maxLength: 2048
 
   - `tools: Optional[Iterable[Tool]]`
 
-          - `description: Optional[str]`
+    Replacement tool list. Full replacement: the provided array becomes the new value. Send an empty array to clear; omit to preserve.
 
     - `class BetaManagedAgentsAgentToolset20260401Params`
 
-          - `model: BetaManagedAgentsModelConfig`
+      Configuration for built-in agent tools. Use this to enable or disable groups of tools available to the agent.
 
-            Model identifier and configuration.
+      - `type: Literal["agent_toolset_20260401"]`
 
       - `configs: Optional[Iterable[BetaManagedAgentsAgentToolConfigParams]]`
 
-          - `skills: List[Skill]`
+        Per-tool configuration overrides.
 
         - `class BetaManagedAgentsBashToolConfigParams`
 
-          - `tools: List[Tool]`
+          Configuration override for the bash tool.
 
           - `type: Optional[Literal["bash"]]`
 
@@ -13237,17 +13237,17 @@ print(beta_managed_agents_session.id)
 
             format: int32
 
-      - `class BetaManagedAgentsMultiagentSubagentsDisabled`
+          - `permission_policy: Optional[PermissionPolicy]`
 
             Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
             - `class BetaManagedAgentsAlwaysAllowPolicy`
 
-    - `workflows: BetaManagedAgentsSessionMultiagentWorkflows`
+              Tool calls are automatically approved without user confirmation.
 
             - `class BetaManagedAgentsAlwaysAskPolicy`
 
-      - `class BetaManagedAgentsSessionMultiagentWorkflowsEnabled`
+              Tool calls require user confirmation before execution.
 
             - `class BetaManagedAgentsAutoPolicy`
 
@@ -13351,37 +13351,37 @@ print(beta_managed_agents_session.id)
 
         - `class BetaManagedAgentsWebSearchToolConfigParams`
 
-        - `inline_agents: BetaManagedAgentsMultiagentInlineAgents`
+          Configuration override for the web_search tool.
 
           - `type: Optional[Literal["web_search"]]`
 
           - `name: Literal["web_search"]`
 
-        - `predefined_agents: List[BetaManagedAgentsSessionThreadAgent]`
+            Must be "web_search".
 
           - `allowed_domains: Optional[Sequence[str]]`
 
-          - `type: Literal["agent"]`
+            Only return search results whose host is one of these domains or a subdomain of one. Each entry is a plain hostname like "docs.example.com" (no scheme or port; an optional path suffix is accepted). At most 64 entries; an empty list is rejected (omit the field instead). Cannot be combined with blocked_domains.
 
           - `blocked_domains: Optional[Sequence[str]]`
 
-          - `description: Optional[str]`
+            Never return search results whose host is one of these domains or a subdomain of one. Each entry is a plain hostname like "ads.example.com" (no scheme or port; an optional path suffix is accepted). At most 64 entries; an empty list is rejected (omit the field instead). Cannot be combined with allowed_domains.
 
-          - `mcp_servers: List[BetaManagedAgentsMCPServerURLDefinition]`
+          - `enabled: Optional[bool]`
 
-          - `model: BetaManagedAgentsModelConfig`
+            Whether this tool is enabled and available to Claude. Overrides the default_config setting.
 
-            Model identifier and configuration.
+          - `permission_policy: Optional[PermissionPolicy]`
 
             Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
             - `class BetaManagedAgentsAlwaysAllowPolicy`
 
-          - `system: Optional[str]`
+              Tool calls are automatically approved without user confirmation.
 
             - `class BetaManagedAgentsAlwaysAskPolicy`
 
-          - `version: int`
+              Tool calls require user confirmation before execution.
 
             - `class BetaManagedAgentsAutoPolicy`
 
@@ -13389,7 +13389,7 @@ print(beta_managed_agents_session.id)
 
           - `user_location: Optional[BetaManagedAgentsUserLocationParam]`
 
-        The agent cannot start workflow runs.
+            Approximate user location for search result localization.
 
             - `type: Literal["approximate"]`
 
@@ -13597,9 +13597,9 @@ print(beta_managed_agents_session.id)
 
           - `id: BetaManagedAgentsModel`
 
-            Fastest model for high-volume, real-time tasks
+            The model that will power your agent.
 
-          - `"claude-sonnet-5-5"`
+            See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
             - `"claude-fable-5-2"`
 
@@ -13621,53 +13621,53 @@ print(beta_managed_agents_session.id)
 
               Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
 
-          - `"claude-opus-5-5"`
+            - `"claude-sonnet-5"`
 
               Efficient model for coding and agents
 
-          - `"claude-fable-5-1"`
+            - `"claude-fable-5"`
 
-            Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+              Next generation of intelligence for the hardest knowledge work and coding problems
 
-          - `"claude-sonnet-5"`
+            - `"claude-opus-5"`
 
-            Efficient model for coding and agents
+              Powerful intelligence for long-running agents and coding
 
-          - `"claude-fable-5"`
+            - `"claude-opus-4-8"`
 
-            Next generation of intelligence for the hardest knowledge work and coding problems
+              Powerful intelligence for long-running agents and coding
 
-          - `"claude-opus-5"`
+            - `"claude-opus-4-7"`
 
-            Powerful intelligence for long-running agents and coding
+              Powerful intelligence for long-running agents and coding
 
-          - `"claude-opus-4-8"`
+            - `"claude-opus-4-6"`
 
-            Powerful intelligence for long-running agents and coding
+              Powerful intelligence for long-running agents and coding
 
-          - `"claude-opus-4-7"`
+            - `"claude-sonnet-4-6"`
 
-            Powerful intelligence for long-running agents and coding
+              Best combination of speed and intelligence
 
-          - `"claude-opus-4-6"`
+            - `"claude-haiku-4-5"`
 
             - `"claude-haiku-4-5-20251001"`
 
             - `"claude-opus-4-5"`
 
-          - `"claude-haiku-4-5-20251001"`
+              Powerful intelligence for long-running agents and coding
 
-          - `"claude-opus-4-5"`
+            - `"claude-opus-4-5-20251101"`
 
-            Powerful intelligence for long-running agents and coding
+              Powerful intelligence for long-running agents and coding
 
-          - `"claude-opus-4-5-20251101"`
+            - `"claude-sonnet-4-5"`
 
               **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
               High-performance model for agents and coding
 
-          - `"claude-sonnet-4-5"`
+            - `"claude-sonnet-4-5-20250929"`
 
               **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -14093,8 +14093,6 @@ print(beta_managed_agents_session.id)
 
               Resolved default configuration for agent tools.
 
-              - `type: Literal["bash"]`
-
               - `enabled: bool`
 
               - `permission_policy: PermissionPolicy`
@@ -14119,8 +14117,6 @@ print(beta_managed_agents_session.id)
 
             - `configs: List[BetaManagedAgentsMCPToolConfig]`
 
-              - `type: Literal["edit"]`
-
               - `enabled: bool`
 
               - `name: str`
@@ -14144,8 +14140,6 @@ print(beta_managed_agents_session.id)
             - `default_config: BetaManagedAgentsMCPToolsetDefaultConfig`
 
               Resolved default configuration for all tools from an MCP server.
-
-              - `type: Literal["read"]`
 
               - `enabled: bool`
 
@@ -14349,7 +14343,7 @@ print(beta_managed_agents_session.id)
 
   Resolved coordinator topology with full agent definitions for each roster member.
 
-- `type BetaManagedAgentsSessionMultiagentSubagents = ...`
+  - `type: Literal["coordinator"]`
 
   - `agents: List[Agent]`
 
@@ -19257,12 +19251,6 @@ print(beta_managed_agents_session.id)
 
         A resolved user-created custom skill.
 
-        - `type: Literal["custom"]`
-
-        - `skill_id: str`
-
-        - `version: str`
-
     - `system: Optional[str]`
 
     - `tools: List[Tool]`
@@ -19279,39 +19267,39 @@ print(beta_managed_agents_session.id)
 
       format: int32
 
-### Beta Managed Agents Session Multiagent Workflows
+  - `budget: Optional[BetaManagedAgentsBudgetLimit]`
 
     The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
     - `type: Literal["limit"]`
 
-  Whether the agent can start workflow runs.
+    - `max_list_cost: BetaMonetaryAmount`
 
       Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
 
-    The agent can start workflow runs.
+      - `amount: str`
 
-    - `type: Literal["enabled"]`
+        Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
         pattern: ^(0|[1-9]\d*)$
 
       - `currency: BetaCurrency`
 
-      Whether a run's plan can define inline agents, which are not saved.
+        Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
   - `metadata: Optional[Dict[str, str]]`
 
-        - `type: Literal["enabled"]`
+    The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
 
-      - `class BetaManagedAgentsMultiagentInlineAgentsDisabled`
+  - `title: Optional[str]`
 
-        The agent cannot define inline agents.
+    The session's new title. Present only when the update changed it.
 
-        - `type: Literal["disabled"]`
+### Beta Managed Agents Session Usage
 
 - `class BetaManagedAgentsSessionUsage`
 
-      Full `agent` definitions of the predefined agents, which are saved agents that a run's plan can use.
+  Cumulative token usage for a session across all turns.
 
   - `active_seconds: Optional[float]`
 
@@ -21911,53 +21899,53 @@ List Events
 
             High-performance model for agents and coding
 
-            - `str`
+          - `str`
 
-          - `effort: Optional[Effort]`
+        - `effort: Optional[Effort]`
 
           How hard Claude works on each inference call. One of `low`, `medium`, `high`, `xhigh`, `max`. Always present; resolved to the per-model default at save time when not supplied.
 
           - `class BetaManagedAgentsEffortLow`
 
-              Low effort. Favors latency over reasoning depth.
+            Low effort. Favors latency over reasoning depth.
 
-              - `type: Literal["low"]`
+            - `type: Literal["low"]`
 
           - `class BetaManagedAgentsEffortMedium`
 
-              Medium effort. Balances latency and reasoning depth.
+            Medium effort. Balances latency and reasoning depth.
 
-              - `type: Literal["medium"]`
+            - `type: Literal["medium"]`
 
           - `class BetaManagedAgentsEffortHigh`
 
-              High effort. Favors reasoning depth.
+            High effort. Favors reasoning depth.
 
-              - `type: Literal["high"]`
+            - `type: Literal["high"]`
 
           - `class BetaManagedAgentsEffortXhigh`
 
-              Extra-high effort. Not all models accept this level.
+            Extra-high effort. Not all models accept this level.
 
-              - `type: Literal["xhigh"]`
+            - `type: Literal["xhigh"]`
 
           - `class BetaManagedAgentsEffortMax`
 
-              Maximum effort. Favors reasoning depth over latency.
+            Maximum effort. Favors reasoning depth over latency.
 
-              - `type: Literal["max"]`
+            - `type: Literal["max"]`
 
-          - `inference_geo: Optional[str]`
+        - `inference_geo: Optional[str]`
 
-            Geographic region for model inference. When unset, requests fall through to the workspace's default_inference_geo.
+          Geographic region for model inference. When unset, requests fall through to the workspace's default_inference_geo.
 
-          - `speed: Optional[Literal["standard", "fast"]]`
+        - `speed: Optional[Literal["standard", "fast"]]`
 
           Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
-            - `"standard"`
+          - `"standard"`
 
-            - `"fast"`
+          - `"fast"`
 
       - `multiagent: Optional[BetaManagedAgentsSessionMultiagent]`
 

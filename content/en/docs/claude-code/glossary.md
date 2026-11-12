@@ -54,7 +54,7 @@ Learn more: [Auto memory](https://code.claude.com/docs/en/memory.md#auto-memory)
 
 ### Auto mode
 
-A [permission mode](#permission-mode) where a separate classifier model reviews actions instead of you, so Claude Code runs most of them without asking you. Claude Code still asks you before actions your explicit ask rules match. The classifier blocks scope escalation, untrusted infrastructure, and [prompt injection](#prompt-injection). Tool results are stripped from what it sees, so hostile content in a file or web page can't manipulate it directly.
+A [permission mode](#permission-mode) where a separate classifier model reviews actions instead of you, so Claude Code runs most of them without asking you. Claude Code still asks you before actions your explicit ask rules match. The classifier blocks scope escalation, untrusted infrastructure, and [prompt injection](#prompt-injection).
 
 * **Claude Code v2.1.283 or later**: auto mode is the [built-in starting permission mode](https://code.claude.com/docs/en/permission-modes.md#which-mode-a-session-starts-in) for interactive terminal and VS Code sessions
 * **Earlier versions**: auto mode is the built-in starting permission mode only on Pro, Max, Ultra, and Team plans
@@ -113,12 +113,6 @@ A session in your terminal, IDE, or the Desktop app with **Local** selected is a
 
 Learn more: [Use Claude Code in the cloud](https://code.claude.com/docs/en/claude-code-on-the-web.md)
 
-### Cloud session
-
-A Claude Code session that keeps running after you close your laptop, because it runs on cloud infrastructure instead of your machine: Anthropic-managed by default, or a [self-hosted environment](/docs/en/self-hosted-environments) your organization operates. You start one from claude.ai/code, the Claude mobile app, the Desktop app with **Cloud** selected, `claude --cloud`, or a [routine](/docs/en/routines). A session in your terminal, IDE, or the Desktop app with **Local** selected is a local session; to reach a local session from another device, use [Remote Control](#remote-control).
-
-Learn more: [Use Claude Code in the cloud](/docs/en/claude-code-on-the-web)
-
 ### Command
 
 A reusable instruction you invoke by typing `/name` in the prompt. Built-in commands such as `/clear`, `/model`, and `/compact` control the session. You can define your own commands as files in `.claude/commands/`, or install them from a [plugin](#plugin). [Skills](#skill) are the recommended way to package multi-step commands.
@@ -174,14 +168,6 @@ Learn more: [Use extended thinking](https://code.claude.com/docs/en/model-config
 A block of YAML settings at the very top of a Markdown file, between an opening `---` line and a closing `---` line. Skills, subagents, output styles, and rules each read their configuration from frontmatter, such as a skill's `description` or a subagent's `tools`, and treat everything after the closing `---` as the instructions. The opening `---` must be the file's first line. Each file type accepts its own set of fields.
 
 Learn more: [Skill frontmatter](https://code.claude.com/docs/en/skills.md#frontmatter-reference), [Subagent frontmatter](https://code.claude.com/docs/en/sub-agents.md#supported-frontmatter-fields), [Output style frontmatter](https://code.claude.com/docs/en/output-styles.md#frontmatter), [Rule frontmatter](https://code.claude.com/docs/en/memory.md#rules-frontmatter-reference)
-
-## F
-
-### Frontmatter
-
-A block of YAML settings at the very top of a Markdown file, between an opening `---` line and a closing `---` line. Skills, subagents, output styles, and rules each read their configuration from frontmatter, such as a skill's `description` or a subagent's `tools`, and treat everything after the closing `---` as the instructions. The opening `---` must be the file's first line. Each file type accepts its own set of fields.
-
-Learn more: [Skill frontmatter](/docs/en/skills#frontmatter-reference), [Subagent frontmatter](/docs/en/sub-agents#supported-frontmatter-fields), [Output style frontmatter](/docs/en/output-styles#frontmatter), [Rule frontmatter](/docs/en/memory#rules-frontmatter-reference)
 
 ## H
 
@@ -275,7 +261,7 @@ Learn more: [The `.claude` directory](https://code.claude.com/docs/en/claude-dir
 
 ### Prompt injection
 
-Hostile instructions embedded in a file, web page, or tool result that attempt to redirect Claude toward actions you never asked for. Claude Code's defenses include the permission system, command injection detection, and trust verification. [Auto mode](#auto-mode) adds a server-side probe that scans tool results for suspicious content and a classifier that reviews actions with tool results stripped, so injected text can't manipulate it directly.
+Hostile instructions embedded in a file, web page, or tool result that attempt to redirect Claude toward actions you didn't ask for. Claude Code's defenses include the permission system, command injection detection, and trust verification. In [auto mode](#auto-mode), a server-side probe scans tool results for suspicious content, and a classifier reviews actions.
 
 Learn more: [Protect against prompt injection](https://code.claude.com/docs/en/security.md#protect-against-prompt-injection)
 
@@ -358,29 +344,6 @@ In a logged API request, a system reminder appears wrapped in `<system-reminder>
 
 Learn more: [Context Claude Code adds outside the system prompt](https://code.claude.com/docs/en/agent-sdk/modifying-system-prompts.md#context-claude-code-adds-outside-the-system-prompt)
 
-### System prompt
-
-The instructions Claude Code sends ahead of your conversation on every request, covering how Claude uses tools, behaves safely, and formats its responses. You can add to the system prompt with `--append-system-prompt` or replace it with `--system-prompt`. The system prompt is the first layer of the [prompt cache](/docs/en/prompt-caching#how-the-cache-is-organized).
-
-Your [CLAUDE.md](#claude-md) files and the instructions of your [output style](#output-style) aren't part of the system prompt. Claude Code delivers them in the conversation as [system reminders](#system-reminder).
-
-Learn more: [System prompt flags](/docs/en/cli-reference#system-prompt-flags)
-
-### System reminder
-
-A message that Claude Code, as the [harness](#agentic-harness), adds to the conversation to give Claude context. You don't send system reminders yourself. Claude Code inserts them as a session runs, for example when the session starts, when a hook returns text, or when a file changes on disk. Claude reads them alongside your messages. The following all reach Claude as system reminders:
-
-* Your [CLAUDE.md](#claude-md) files
-* The instructions of your [output style](#output-style)
-* Text a [hook](#hook) returns as `additionalContext`
-* The list of available [skills](#skill)
-* A note that a file Claude read earlier has changed on disk
-* The commit and pull request attribution lines
-
-In a logged API request, a system reminder appears wrapped in `<system-reminder>` tags inside a user message, or on some models as a separate message with the `system` role.
-
-Learn more: [Context Claude Code adds outside the system prompt](/docs/en/agent-sdk/modifying-system-prompts#context-claude-code-adds-outside-the-system-prompt)
-
 ## T
 
 ### Teleport
@@ -400,12 +363,6 @@ Learn more: [Tools available to Claude](https://code.claude.com/docs/en/tools-re
 The stored record of a [session](#session). The conversation is what you and Claude exchange; the transcript is that conversation kept as a file, by default at `~/.claude/projects/<project>/<session-id>.jsonl`. Claude Code reads the file back when you resume, which is how a conversation continues after the session ends. For the on-screen view of the same conversation, see the [transcript viewer](https://code.claude.com/docs/en/interactive-mode.md#transcript-viewer).
 
 Learn more: [Where transcripts are stored](https://code.claude.com/docs/en/sessions.md#where-transcripts-are-stored)
-
-### Transcript
-
-The stored record of a [session](#session). The conversation is what you and Claude exchange; the transcript is that conversation kept as a file, by default at `~/.claude/projects/<project>/<session-id>.jsonl`. Claude Code reads the file back when you resume, which is how a conversation continues after the session ends. For the on-screen view of the same conversation, see the [transcript viewer](/docs/en/interactive-mode#transcript-viewer).
-
-Learn more: [Where transcripts are stored](/docs/en/sessions#where-transcripts-are-stored)
 
 ### Turn
 

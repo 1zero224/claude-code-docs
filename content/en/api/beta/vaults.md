@@ -387,8 +387,6 @@ List Vaults
 
   - `type: "vault"`
 
-  - `type: "vault"`
-
   - `id: string`
 
     The unique ID of the vault (`vlt_...`).
@@ -2008,8 +2006,6 @@ List Credentials
 - `data: optional array of BetaManagedAgentsCredential`
 
   The credentials on this page, newest first.
-
-  - `type: "vault_credential"`
 
   - `type: "vault_credential"`
 

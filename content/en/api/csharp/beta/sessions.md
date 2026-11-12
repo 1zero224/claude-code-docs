@@ -1375,8 +1375,6 @@ Create Session
 
       - `required string Name`
 
-      - `required string Name`
-
       - `required string Url`
 
     - `required BetaManagedAgentsModelConfig Model`
@@ -3126,8 +3124,6 @@ List Sessions
 
               - `required string Name`
 
-              - `required string Name`
-
               - `required string Url`
 
             - `required BetaManagedAgentsModelConfig Model`
@@ -3146,8 +3142,6 @@ List Sessions
 
                 - `required string SkillID`
 
-                - `required string SkillID`
-
                 - `required string Version`
 
               - `class BetaManagedAgentsCustomSkill`
@@ -3155,8 +3149,6 @@ List Sessions
                 A resolved user-created custom skill.
 
                 - `JsonElement Type = "custom"`
-
-                - `required string SkillID`
 
                 - `required string SkillID`
 
@@ -4472,8 +4464,6 @@ Get Session
     - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
       - `JsonElement Type = "url"`
-
-      - `required string Name`
 
       - `required string Name`
 
@@ -6001,8 +5991,6 @@ Update Session
 
       - `required string Name`
 
-      - `required string Name`
-
       - `required string Url`
 
     - `required BetaManagedAgentsModelConfig Model`
@@ -7469,8 +7457,6 @@ Delete Session
 
   - `required string ID`
 
-  - `required string ID`
-
 ### Example
 
 ```csharp
@@ -7675,8 +7661,6 @@ Archive Session
     - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
       - `JsonElement Type = "url"`
-
-      - `required string Name`
 
       - `required string Name`
 
@@ -9976,8 +9960,6 @@ Console.WriteLine(betaManagedAgentsSession);
 
   - `required string ID`
 
-  - `required string ID`
-
 ### Beta Managed Agents Delta Content
 
 - `class BetaManagedAgentsDeltaContent`
@@ -10583,8 +10565,6 @@ Console.WriteLine(betaManagedAgentsSession);
     - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
       - `JsonElement Type = "url"`
-
-      - `required string Name`
 
       - `required string Name`
 
@@ -11376,7 +11356,7 @@ Console.WriteLine(betaManagedAgentsSession);
 
     - `required string Name`
 
-      Unique name for this server, referenced by mcp_toolset configurations. 1-255 characters.
+    - `required IReadOnlyList<Skill> Skills`
 
       - `class BetaManagedAgentsAnthropicSkill`
 
@@ -11732,15 +11712,15 @@ Console.WriteLine(betaManagedAgentsSession);
 
     - `required string Url`
 
-      Endpoint URL for the MCP server.
+  - `required BetaManagedAgentsModelConfig Model`
 
-      maxLength: 2048
+    Model identifier and configuration.
 
-  - `IReadOnlyList<Tool> Tools`
+    - `required BetaManagedAgentsModel ID`
 
-    Replacement tool list. Full replacement: the provided array becomes the new value. Send an empty array to clear; omit to preserve.
+      The model that will power your agent.
 
-    - `class BetaManagedAgentsAgentToolset20260401Params`
+      See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
       - `ClaudeFable5_2("claude-fable-5-2")`
 
@@ -11768,27 +11748,27 @@ Console.WriteLine(betaManagedAgentsSession);
 
       - `ClaudeFable5("claude-fable-5")`
 
-        Per-tool configuration overrides.
+        Next generation of intelligence for the hardest knowledge work and coding problems
 
       - `ClaudeOpus5("claude-opus-5")`
 
-          Configuration override for the bash tool.
+        Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_8("claude-opus-4-8")`
 
-          - `JsonElement Name = "bash"`
+        Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_7("claude-opus-4-7")`
 
-          - `bool? Enabled`
+        Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_6("claude-opus-4-6")`
 
-          - `PermissionPolicy? PermissionPolicy`
+        Powerful intelligence for long-running agents and coding
 
       - `ClaudeSonnet4_6("claude-sonnet-4-6")`
 
-            - `class BetaManagedAgentsAlwaysAllowPolicy`
+        Best combination of speed and intelligence
 
       - `ClaudeHaiku4_5("claude-haiku-4-5")`
 
@@ -11796,63 +11776,63 @@ Console.WriteLine(betaManagedAgentsSession);
 
       - `ClaudeOpus4_5("claude-opus-4-5")`
 
-            - `class BetaManagedAgentsAutoPolicy`
+        Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
 
-              - `JsonElement Type = "auto"`
+        Powerful intelligence for long-running agents and coding
 
       - `ClaudeSonnet4_5("claude-sonnet-4-5")`
 
         **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
-          Configuration override for the edit tool.
+        High-performance model for agents and coding
 
       - `ClaudeSonnet4_5_20250929("claude-sonnet-4-5-20250929")`
 
         **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
-          - `JsonElement Name = "edit"`
+        High-performance model for agents and coding
 
-            Must be "edit".
+    - `Effort Effort`
 
       How hard Claude works on each inference call. One of `low`, `medium`, `high`, `xhigh`, `max`. Always present; resolved to the per-model default at save time when not supplied.
 
       - `class BetaManagedAgentsEffortLow`
 
-          - `PermissionPolicy? PermissionPolicy`
+        Low effort. Favors latency over reasoning depth.
 
         - `JsonElement Type = "low"`
 
       - `class BetaManagedAgentsEffortMedium`
 
-              Tool calls are automatically approved without user confirmation.
+        Medium effort. Balances latency and reasoning depth.
 
         - `JsonElement Type = "medium"`
 
       - `class BetaManagedAgentsEffortHigh`
 
-            - `class BetaManagedAgentsAutoPolicy`
+        High effort. Favors reasoning depth.
 
         - `JsonElement Type = "high"`
 
       - `class BetaManagedAgentsEffortXhigh`
 
-          Configuration override for the read tool.
+        Extra-high effort. Not all models accept this level.
 
         - `JsonElement Type = "xhigh"`
 
       - `class BetaManagedAgentsEffortMax`
 
-            Must be "read".
+        Maximum effort. Favors reasoning depth over latency.
 
         - `JsonElement Type = "max"`
 
-            Whether this tool is enabled and available to Claude. Overrides the default_config setting.
+    - `string InferenceGeo`
 
-          - `PermissionPolicy? PermissionPolicy`
+      Geographic region for model inference. When unset, requests fall through to the workspace's default_inference_geo.
 
-            Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
+    - `Speed Speed`
 
       Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
@@ -19016,10 +18996,6 @@ Console.WriteLine(betaManagedAgentsSession);
 
       Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
 
-    - `required BetaMonetaryAmount MaxListCost`
-
-      Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
-
 ### Beta Managed Agents Start Event
 
 - `class BetaManagedAgentsStartEvent`
@@ -21359,8 +21335,6 @@ List Events
       - `required IReadOnlyList<BetaManagedAgentsMcpServerUrlDefinition> McpServers`
 
         - `JsonElement Type = "url"`
-
-        - `required string Name`
 
         - `required string Name`
 
@@ -23759,261 +23733,9 @@ Stream Events
 
 #### Returns
 
-  - `class BetaManagedAgentsWorkflowRunCreatedEvent`
+- `class BetaManagedAgentsStreamSessionEvents: union`
 
-    A workflow run was created. A workflow run is background work that the session's agent starts. Emitted once per run, before the run's other `workflow_run.*` events.
-
-    - `JsonElement Type = "workflow_run.created"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required string? Description`
-
-      Description that the agent gave the run, passed on as written, or `null` if it gave none.
-
-    - `required string Name`
-
-      Name that the agent gave the run, passed on as written, or a name that the server assigned.
-
-    - `required IReadOnlyList<BetaManagedAgentsWorkflowRunPhase> Phases`
-
-      The phases that the run's plan declares, in the plan's order. Can be empty.
-
-      - `required string ID`
-
-        Unique identifier for the phase.
-
-      - `required string? Description`
-
-        Description that the agent gave the phase, passed on as written, or `null` if it gave none.
-
-      - `required string Name`
-
-        Name that the agent gave the phase, passed on as written.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required string WorkflowRunID`
-
-      Identifier of the run. The same value is on all of the run's `workflow_run.*` events.
-
-  - `class BetaManagedAgentsWorkflowRunStatusEndedEvent`
-
-    A workflow run ended. Emitted once per run, as the last of the run's `workflow_run.*` events.
-
-    - `JsonElement Type = "workflow_run.status_ended"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required BetaManagedAgentsWorkflowRunResult Result`
-
-      How the run ended.
-
-      - `class BetaManagedAgentsWorkflowRunResultCompleted`
-
-        The run's plan, a program that the agent wrote, finished. This does not say whether the work succeeded.
-
-        - `JsonElement Type = "completed"`
-
-      - `class BetaManagedAgentsWorkflowRunResultError`
-
-        The run failed or reached its time limit.
-
-        - `JsonElement Type = "error"`
-
-        - `required BetaManagedAgentsWorkflowRunError Error`
-
-          Why the run did not finish.
-
-          - `class BetaManagedAgentsTimeoutWorkflowRunError`
-
-            The run reached its time limit.
-
-            - `JsonElement Type = "timeout_error"`
-
-            - `required string Message`
-
-              Short explanation written by the server. It never contains content from the run or its agents.
-
-          - `class BetaManagedAgentsProgramWorkflowRunError`
-
-            The plan, a program that the agent wrote, failed, or the server refused it.
-
-            - `JsonElement Type = "program_error"`
-
-            - `required string Message`
-
-              Short explanation written by the server. It never contains content from the run or its agents.
-
-          - `class BetaManagedAgentsUnknownWorkflowRunError`
-
-            A failure that has no type of its own.
-
-            - `JsonElement Type = "unknown_error"`
-
-            - `required string Message`
-
-              Short explanation written by the server. It never contains content from the run or its agents.
-
-          - `class BetaManagedAgentsThreadLimitWorkflowRunError`
-
-            The run exceeded the limit on the number of threads that a run can create.
-
-            - `JsonElement Type = "thread_limit_error"`
-
-            - `required string Message`
-
-              Short explanation written by the server. It never contains content from the run or its agents.
-
-          - `class BetaManagedAgentsMaxWorkflowRunsWorkflowRunError`
-
-            No run was created, because the session was at its limit of open workflow runs, which are runs that have not ended. Only `workflow_run.error` carries this type.
-
-            - `JsonElement Type = "max_workflow_runs_error"`
-
-            - `required string Message`
-
-              Short explanation written by the server. It never contains content from the run or its agents.
-
-      - `class BetaManagedAgentsWorkflowRunResultStopped`
-
-        The agent stopped the run.
-
-        - `JsonElement Type = "stopped"`
-
-    - `required string WorkflowRunID`
-
-      Identifier of the run. The same value is on all of the run's `workflow_run.*` events.
-
-  - `class BetaManagedAgentsWorkflowRunPhaseStartedEvent`
-
-    A workflow run's plan entered a phase.
-
-    - `JsonElement Type = "workflow_run.phase_started"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required string WorkflowRunID`
-
-      Identifier of the run. The same value is on all of the run's `workflow_run.*` events.
-
-    - `required string WorkflowRunPhaseID`
-
-      Identifier of the phase, as in `phases` on the run's `workflow_run.created` event.
-
-  - `class BetaManagedAgentsWorkflowRunPhaseEndedEvent`
-
-    A workflow run's plan left a phase, or the run's end closed it. Emitted once for every `workflow_run.phase_started` event, before the run's `workflow_run.status_ended` event. The event does not say whether the plan finished the phase's work, or why it left.
-
-    - `JsonElement Type = "workflow_run.phase_ended"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required string PhaseStartedID`
-
-      Identifier of the `workflow_run.phase_started` event that opened the phase.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required string WorkflowRunID`
-
-      Identifier of the run. The same value is on all of the run's `workflow_run.*` events.
-
-    - `required string WorkflowRunPhaseID`
-
-      Identifier of the phase, as in `phases` on the run's `workflow_run.created` event.
-
-  - `class BetaManagedAgentsWorkflowRunStatusRunningEvent`
-
-    A workflow run is running. Emitted when the run starts to execute, and each time it resumes after being idle. A run that starts idle emits `workflow_run.status_idle` first.
-
-    - `JsonElement Type = "workflow_run.status_running"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required string WorkflowRunID`
-
-      Identifier of the run. The same value is on all of the run's `workflow_run.*` events.
-
-  - `class BetaManagedAgentsWorkflowRunStatusIdleEvent`
-
-    A workflow run is idle. Emitted each time the run goes idle, whatever the cause. If the run ends while idle, no `workflow_run.status_running` comes between this event and its `workflow_run.status_ended`.
-
-    - `JsonElement Type = "workflow_run.status_idle"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required string WorkflowRunID`
-
-      Identifier of the run. The same value is on all of the run's `workflow_run.*` events.
-
-  - `class BetaManagedAgentsWorkflowRunErrorEvent`
-
-    A workflow run met an error, or an error kept a run from being created. A run that ends with a `result.type` of `error` emits this event before its `workflow_run.status_ended`, with the same `error`.
-
-    - `JsonElement Type = "workflow_run.error"`
-
-    - `required string ID`
-
-      Unique identifier for this event.
-
-    - `required BetaManagedAgentsWorkflowRunError Error`
-
-      Why the run did not finish, or was not created.
-
-    - `required DateTimeOffset ProcessedAt`
-
-      Timestamp when this event was processed.
-
-      format: date-time
-
-    - `required string? WorkflowRunID`
-
-      Identifier of the run that met the error, or `null` when the error kept a run from being created.
+  Server-sent event in the session stream.
 
   - `class BetaManagedAgentsUserMessageEvent`
 
@@ -29643,8 +29365,6 @@ Get Session Thread
 
         - `required string Name`
 
-        - `required string Name`
-
         - `required string Url`
 
       - `required BetaManagedAgentsModelConfig Model`
@@ -29787,8 +29507,6 @@ Get Session Thread
 
           - `required string SkillID`
 
-          - `required string SkillID`
-
           - `required string Version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -29796,8 +29514,6 @@ Get Session Thread
           A resolved user-created custom skill.
 
           - `JsonElement Type = "custom"`
-
-          - `required string SkillID`
 
           - `required string SkillID`
 
@@ -30741,8 +30457,6 @@ Archive Session Thread
 
         - `required string Name`
 
-        - `required string Name`
-
         - `required string Url`
 
       - `required BetaManagedAgentsModelConfig Model`
@@ -30885,8 +30599,6 @@ Archive Session Thread
 
           - `required string SkillID`
 
-          - `required string SkillID`
-
           - `required string Version`
 
         - `class BetaManagedAgentsCustomSkill`
@@ -30894,8 +30606,6 @@ Archive Session Thread
           A resolved user-created custom skill.
 
           - `JsonElement Type = "custom"`
-
-          - `required string SkillID`
 
           - `required string SkillID`
 

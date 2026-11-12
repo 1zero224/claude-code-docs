@@ -118,26 +118,6 @@ The servers in `managed-mcp.json` need no `allowedMcpServers` entry, with one ex
 
 If you used `allowedMcpServers` to keep some of your `managed-mcp.json` servers from loading, add `deniedMcpServers` entries for them, or deploy a separate `managed-mcp.json` per group, before your users upgrade. Unless they use `${VAR}` expansion outside `env`, these servers start loading on each user's first launch of a version that doesn't check them, with no prompt or notice.
 
-### Servers passed with `--mcp-config` or `--strict-mcp-config`
-
-When a session receives servers through `--mcp-config` while a `managed-mcp.json` that Claude Code can read and parse is deployed, what the user sees differs between a workstation and a cloud session:
-
-* On a workstation, Claude Code exits at startup with `You cannot dynamically configure MCP servers when an enterprise MCP config is present`.
-* In [cloud sessions](/docs/en/claude-code-on-the-web) on a host where the file is deployed, such as a [self-hosted runner](/docs/en/self-hosted-environments-configuration#mcp-servers), Claude Code starts with the managed servers only and skips the claude.ai connectors and other servers the cloud host delivers through `--mcp-config`. Nothing in the session tells the user which servers were left out. Claude Code names them in a warning on its stderr, which a self-hosted runner records at the `debug` log level.
-
-The `--strict-mcp-config` flag asks to replace the managed set. If a user passes it while such a file is deployed, Claude Code exits at startup on a workstation and in a cloud session alike.
-
-### How allowlists and denylists apply to the managed set
-
-The denylist can further filter the servers in `managed-mcp.json`:
-
-* `deniedMcpServers` applies to managed servers too, so a managed server that matches an entry won't load.
-* A user's own `deniedMcpServers` merges in from their settings, so users can block a managed server for themselves.
-
-`allowedMcpServers` doesn't apply to the servers in `managed-mcp.json`, with one exception: Claude Code still checks a server whose definition uses [`${VAR}` expansion](/docs/en/mcp#environment-variable-expansion-in-mcp-json) against the allowlist, because that server's effective configuration comes from each user's environment rather than from the file alone. Before v2.1.259, every managed server had to pass the allowlist whenever one was set. See [How a server is evaluated](#how-a-server-is-evaluated) for which fields trigger the `${VAR}` check and the full order of checks.
-
-If you used `allowedMcpServers` to keep some of your own `managed-mcp.json` servers from loading, those servers start loading on each user's first launch of v2.1.259 or later unless they use `${VAR}` expansion, with no prompt or notice: only `deniedMcpServers` still subtracts from those servers. Add denylist entries for them, or deploy a separate `managed-mcp.json` per group, before your users upgrade.
-
 ### Validate the configuration
 
 To confirm the file is in effect, run two checks on a managed machine:
@@ -207,7 +187,7 @@ Claude Code loads an entry only when it passes every check below. It drops an en
 
 * `type` is `http` or `sse`. As in `.mcp.json`, `streamable-http` is accepted as an alias for `http`.
 * `url` is an `https://` URL. Claude Code refuses a plain `http://` URL, including one that points at `localhost`.
-* The entry has no `command`, `args`, `env`, or `headersHelper` member, so a managed settings document never names a program to run on a user's machine.
+* The entry has no `command`, `args`, `env`, or `headersHelper` member.
 * No value contains a `${VAR}` reference. Claude Code doesn't expand environment variables in these entries, so write literal values.
 * The server name contains only letters, numbers, hyphens, and underscores, and no key or value contains control or invisible formatting characters.
 

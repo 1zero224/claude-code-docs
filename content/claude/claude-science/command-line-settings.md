@@ -24,7 +24,7 @@ claude-science serve starts Claude Science and opens the web app in your browser
 | `claude-science sandbox approve` | Linux only, version 0.1.71 or later. Approve your own copy of bubblewrap or socat for the sandbox. `--bwrap <path>` and `--socat <path>` name the programs, `--yes` skips the confirmation and is required when no terminal is attached, and `--remove` (alone, or with `--bwrap` or `--socat` and no path) removes the approval. Stop Claude Science first. See [Approve your own copy of bubblewrap or socat](https://claude.com/docs/claude-science/run-on-remote-linux-server.md#approve-your-own-copy-of-bubblewrap-or-socat). |
 | `claude-science sandbox status` | On Linux, version 0.1.71 or later, print which bubblewrap and socat the next start would try, the system's first, then yours. |
 | `claude-science install` | Windows only. Install the app for your user account, with a PATH entry, a Start menu shortcut, and an uninstall entry under Windows **Settings > Apps > Installed apps**. Run it again to repair them. |
-| `claude-science uninstall` | Windows only. Remove the app, its shortcuts, and its PATH entry while keeping your data; `--purge` also deletes the data directory. Quit Claude Science first. |
+| `claude-science uninstall` | Windows only. Remove the app, its shortcuts, and its PATH entry while keeping your data. `--purge` also permanently deletes your whole data directory, even if you moved it, with your projects, your conversation history, and any files of your own in it. It doesn't ask you to confirm. Quit Claude Science first. See [Uninstall Claude Science](https://claude.com/docs/claude-science/get-started.md#uninstall-claude-science). |
 | `claude-science --version` | Print the version. |
 | `claude-science <command> --help` | Print help for any command. |
 
@@ -43,18 +43,6 @@ If a newer build has already changed how your data directory stores sessions, th
 > [!NOTE]
 >
 > An older build that does install can still refuse to start if a newer build has already updated the database in your data directory. When it does, it stops at startup and changes nothing in your data. At a terminal, it says the data was `written by a NEWER version`. To start the app again, run `claude-science update`, which installs the latest build.
-
-### Roll back to an earlier build
-
-`claude-science update --to <build>` installs one specific build. `<build>` is an 8-character build ID such as `3f9a01bc`, not a version number. `claude-science update --check` prints the ID of the installed build as `Current`.
-
-Claude Science checks for updates in the background and shows **Update available** when one is ready. Note the `Current` ID before you choose **Restart to update**, so you know which build to go back to.
-
-If a newer build has already changed how your data directory stores sessions, the command refuses an older build and installs nothing, because an older build can permanently lose part of every session it writes to. The refusal names a flag that overrides it, `--accept-layout-downgrade`, and says when that is safe. If you cannot tell from the message whether it is safe for you, do not add the flag.
-
-<Note>
-  An older build that does install can still refuse to start if a newer build has already updated the database in your data directory. When it does, it stops at startup and changes nothing in your data. At a terminal, it says the data was `written by a NEWER version`. To start the app again, run `claude-science update`, which installs the latest build.
-</Note>
 
 ## Global flags
 
@@ -98,8 +86,6 @@ The app listens on 127.0.0.1 unless you change `--host`, so it is reachable only
 > These flags are acceptable only on a machine that is already isolated, such as a container or a disposable virtual machine. Never use them with data or prompts that came from someone else, because Claude may follow instructions hidden in them. Neither belongs in everyday use.
 
 If your organization [manages the network allowlist](https://claude.com/docs/claude-science/admin-controls.md#network-allowlist), the app ignores `--dangerously-no-sandbox` and keeps the sandbox on. If the app learns of that setting only after it has started without the sandbox, it pauses new sessions and messages until you restart it.
-
-If your organization [manages the network allowlist](/docs/claude-science/admin-controls#network-allowlist), the app ignores `--dangerously-no-sandbox` and keeps the sandbox on. If the app learns of that setting only after it has started without the sandbox, it pauses new sessions and messages until you restart it.
 
 ## Environment variables
 

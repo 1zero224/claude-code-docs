@@ -197,8 +197,6 @@ List Memories
 
     - `type: Literal["memory"]`
 
-    - `type: Literal["memory"]`
-
     - `id: str`
 
       The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.

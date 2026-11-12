@@ -152,7 +152,7 @@ After launch, Claude reaches your other tools through personal connectors and th
 * **Personal connectors**: Claude can use a member's own claude.ai connectors for that member's requests in a channel. You don't connect anything for these. See [Personal connectors in channels](https://claude.com/docs/claude-tag/concepts/personal-connectors.md) for how members approve that use.
 * **Access you give Claude**: you connect a tool on the Claude Tag admin page with credentials that belong to Claude rather than to a person. Claude then works in that tool and can use it for [work it starts on its own](https://claude.com/docs/claude-tag/users/proactivity.md).
 
-Claude's work in channels draws from your organization's usage balance, and this step adds credits to that balance. The setup page shows the step only when your organization is on a Team or self-serve Enterprise plan, pays by card in US dollars, and has no usage credits.
+### Connect GitHub
 
 When your organization hasn't installed the Claude GitHub App, the setup page offers a **Connect GitHub** step after you pair your workspace. To connect GitHub later, click **Skip** on that step.
 

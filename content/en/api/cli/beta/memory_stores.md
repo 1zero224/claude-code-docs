@@ -181,7 +181,7 @@ Create a Memory Store
 
     format: date-time
 
-  - `archived_at: string`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -417,7 +417,7 @@ List Memory Stores
 
       format: date-time
 
-    - `archived_at: string`
+    - `created_at: string`
 
       When the memory store was created, in RFC 3339.
 
@@ -611,12 +611,6 @@ Retrieve a Memory Store
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `beta_managed_agents_memory_store: object`
@@ -639,7 +633,7 @@ Retrieve a Memory Store
 
     format: date-time
 
-  - `archived_at: string`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -871,7 +865,7 @@ Update a Memory Store
 
     format: date-time
 
-  - `archived_at: string`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -1061,12 +1055,6 @@ Delete a Memory Store
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `beta_managed_agents_deleted_memory_store: object`
@@ -1233,12 +1221,6 @@ Archive a Memory Store
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `beta_managed_agents_memory_store: object`
@@ -1261,7 +1243,7 @@ Archive a Memory Store
 
     format: date-time
 
-  - `archived_at: string`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -1349,7 +1331,7 @@ ant beta:memory-stores archive \
 
     format: date-time
 
-  - `archived_at: string`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -1552,8 +1534,6 @@ Create a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=cli#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: "memory"`
 
   - `type: "memory"`
 
@@ -1831,8 +1811,6 @@ List Memories
 
       - `type: "memory"`
 
-      - `type: "memory"`
-
       - `id: string`
 
         The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -2093,8 +2071,6 @@ Retrieve a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=cli#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: "memory"`
 
   - `type: "memory"`
 
@@ -2364,8 +2340,6 @@ Update a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=cli#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: "memory"`
 
   - `type: "memory"`
 
@@ -3181,8 +3155,6 @@ Retrieve a Memory Version
 
   - `type: "memory_version"`
 
-  - `type: "memory_version"`
-
   - `id: string`
 
     Unique identifier for this version (a `memver_...` value).
@@ -3492,8 +3464,6 @@ Redact a Memory Version
   Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=cli#audit-memory-changes) to learn more about memory versions.
-
-  - `type: "memory_version"`
 
   - `type: "memory_version"`
 

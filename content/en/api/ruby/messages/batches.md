@@ -114,8 +114,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `type: :text`
 
-              - `type: :text`
-
               - `text: String`
 
                 minLength: 1
@@ -538,8 +536,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                       All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                       maxItems: 100
-
-                      - `type: :tab_opened`
 
                       - `tab_id: String`
 
@@ -1688,8 +1684,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
         REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
 
         See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=ruby#tool-versions) to learn what each tool version adds.
-
-        - `type: :code_execution_20260120`
 
         - `type: :code_execution_20260120`
 
@@ -3117,12 +3111,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspace_id: String` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class MessageBatch`
@@ -4371,8 +4359,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `type: :encrypted_code_execution_result`
 
-                - `type: :encrypted_code_execution_result`
-
                 - `content: Array[CodeExecutionOutputBlock]`
 
                   - `type: :code_execution_output`
@@ -4932,8 +4918,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class AuthenticationError`
 
             - `type: :authentication_error`
@@ -4943,8 +4927,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BillingError`
 
@@ -4956,8 +4938,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class PermissionError`
 
             - `type: :permission_error`
@@ -4967,8 +4947,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class NotFoundError`
 
@@ -4980,8 +4958,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class RateLimitError`
 
             - `type: :rate_limit_error`
@@ -4991,8 +4967,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class GatewayTimeoutError`
 
@@ -5004,8 +4978,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class APIErrorObject`
 
             - `type: :api_error`
@@ -5015,8 +4987,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class OverloadedError`
 
@@ -5194,8 +5164,6 @@ end
 
           A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-        - `message: String`
-
       - `class AuthenticationError`
 
         - `type: :authentication_error`
@@ -5205,8 +5173,6 @@ end
         - `message: String`
 
           A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-        - `message: String`
 
       - `class BillingError`
 
@@ -5218,8 +5184,6 @@ end
 
           A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-        - `message: String`
-
       - `class PermissionError`
 
         - `type: :permission_error`
@@ -5229,8 +5193,6 @@ end
         - `message: String`
 
           A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-        - `message: String`
 
       - `class NotFoundError`
 
@@ -5242,8 +5204,6 @@ end
 
           A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-        - `message: String`
-
       - `class RateLimitError`
 
         - `type: :rate_limit_error`
@@ -5253,8 +5213,6 @@ end
         - `message: String`
 
           A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-        - `message: String`
 
       - `class GatewayTimeoutError`
 
@@ -5266,8 +5224,6 @@ end
 
           A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-        - `message: String`
-
       - `class APIErrorObject`
 
         - `type: :api_error`
@@ -5277,8 +5233,6 @@ end
         - `message: String`
 
           A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-        - `message: String`
 
       - `class OverloadedError`
 
@@ -5837,8 +5791,6 @@ end
 
                 - `type: :encrypted_code_execution_result`
 
-                - `type: :encrypted_code_execution_result`
-
                 - `content: Array[CodeExecutionOutputBlock]`
 
                   - `type: :code_execution_output`
@@ -6398,8 +6350,6 @@ end
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class AuthenticationError`
 
             - `type: :authentication_error`
@@ -6409,8 +6359,6 @@ end
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BillingError`
 
@@ -6422,8 +6370,6 @@ end
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class PermissionError`
 
             - `type: :permission_error`
@@ -6433,8 +6379,6 @@ end
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class NotFoundError`
 
@@ -6446,8 +6390,6 @@ end
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class RateLimitError`
 
             - `type: :rate_limit_error`
@@ -6457,8 +6399,6 @@ end
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class GatewayTimeoutError`
 
@@ -6470,8 +6410,6 @@ end
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class APIErrorObject`
 
             - `type: :api_error`
@@ -6481,8 +6419,6 @@ end
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class OverloadedError`
 
@@ -7065,8 +7001,6 @@ end
 
               - `type: :encrypted_code_execution_result`
 
-              - `type: :encrypted_code_execution_result`
-
               - `content: Array[CodeExecutionOutputBlock]`
 
                 - `type: :code_execution_output`
@@ -7626,8 +7560,6 @@ end
 
             A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-          - `message: String`
-
         - `class AuthenticationError`
 
           - `type: :authentication_error`
@@ -7637,8 +7569,6 @@ end
           - `message: String`
 
             A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-          - `message: String`
 
         - `class BillingError`
 
@@ -7650,8 +7580,6 @@ end
 
             A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-          - `message: String`
-
         - `class PermissionError`
 
           - `type: :permission_error`
@@ -7661,8 +7589,6 @@ end
           - `message: String`
 
             A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-          - `message: String`
 
         - `class NotFoundError`
 
@@ -7674,8 +7600,6 @@ end
 
             A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-          - `message: String`
-
         - `class RateLimitError`
 
           - `type: :rate_limit_error`
@@ -7685,8 +7609,6 @@ end
           - `message: String`
 
             A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-          - `message: String`
 
         - `class GatewayTimeoutError`
 
@@ -7698,8 +7620,6 @@ end
 
             A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-          - `message: String`
-
         - `class APIErrorObject`
 
           - `type: :api_error`
@@ -7709,8 +7629,6 @@ end
           - `message: String`
 
             A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-          - `message: String`
 
         - `class OverloadedError`
 
@@ -8252,8 +8170,6 @@ end
             The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
             See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=ruby) to learn more about programmatic tool calling.
-
-            - `type: :encrypted_code_execution_result`
 
             - `type: :encrypted_code_execution_result`
 

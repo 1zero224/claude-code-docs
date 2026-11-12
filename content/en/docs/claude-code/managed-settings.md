@@ -52,7 +52,7 @@ The file in the steps above is one of four ways to get managed settings onto a m
 * **Delivery controls**: [`policyHelper`](https://code.claude.com/docs/en/settings-reference#policyhelper), [`wslInheritsWindowsSettings`](https://code.claude.com/docs/en/settings-reference#wslinheritswindowssettings), and [`managedSourcesBehavior`](https://code.claude.com/docs/en/settings-reference#managedsourcesbehavior)
 * **Gateway login keys**: [`forceLoginGatewayUrl`](https://code.claude.com/docs/en/settings-reference#forcelogingatewayurl), [`gatewayInternalNetworks`](https://code.claude.com/docs/en/settings-reference#gatewayinternalnetworks), and the `"gateway"` value of [`forceLoginMethod`](https://code.claude.com/docs/en/settings-reference#forceloginmethod)
 
-A managed settings file, an MDM profile, or the claude.ai console applies one policy to everyone it reaches. To give one group of developers a different policy, deploy a different file or profile to that group; the claude.ai console [can't target a group yet](https://code.claude.com/docs/en/server-managed-settings.md#current-limitations), while a self-hosted [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) delivers managed settings per IdP group.
+With a managed settings file or an MDM profile, everyone it reaches gets one policy. To give one group of developers a different policy, deploy a different file or profile to that group. On an Enterprise plan, you can also [give each group its own configuration](https://code.claude.com/docs/en/server-managed-settings.md#give-groups-different-settings) in server-managed settings. A self-hosted [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) delivers managed settings per IdP group.
 
 When more than one mechanism delivers a policy to the same machine, Claude Code by default uses one and ignores the others. [How Claude Code combines managed sources](#how-claude-code-combines-managed-sources) gives the order and the opt-in that applies every source.
 
@@ -213,33 +213,6 @@ This table shows how Claude Code combines each kind of key under `"merge"`. The 
 | Keys read from the highest-ranked source only | Ignores the key in every lower source, even when the highest-ranked source leaves it unset | `modelPicker`, `permissions.defaultMode`, and credential helpers such as `apiKeyHelper` |
 | `env` | Merges per variable across admin sources under either setting, as [Keys read from every admin source](#keys-read-from-every-admin-source) describes | |
 | Login keys | Under either setting, takes them from the MDM policy or managed settings file, whichever is the higher-ranked one carrying a [policy key](#how-claude-code-combines-managed-sources), [ahead of remote settings](#which-managed-source-supplies-login-keys) | `forceLoginOrgUUID`, `forceLoginMethod`, and the [gateway login keys](#choose-a-delivery-mechanism) |
-| Every other key | Takes the value from the highest-ranked source that sets it | `model`, `cleanupPeriodDays` |
-
-To confirm which sources combined on a machine, [read the `Setting sources` line in `/status`](#read-the-source-in-/status); that section says what each label means.
-
-The [gateway login keys](#choose-a-delivery-mechanism) follow a separate rule. Claude Code never reads them from server-managed settings, so while server-managed settings are the selected source, the highest-ranked admin source on the machine that carries a policy key still supplies them. A value in an admin source ranked below that one, or in the HKCU registry, is ignored.
-
-[`allowedProviders`](/docs/en/settings-reference#allowedproviders) has its own rule: its entry's Scope note says how a list set on the machine combines with a server-managed one. Requires Claude Code v2.1.285 or later.
-
-When an admin source sets `allowManagedMcpServersOnly` or an `allowedMcpServers` list and that value isn't the one in force, `/status` and `claude doctor` name that source and key.
-
-### Compose every managed source
-
-To have Claude Code apply every admin source your organization delivers, set [`managedSourcesBehavior`](/docs/en/settings-reference#managedsourcesbehavior) to `"merge"` in the highest-ranked source you deploy. Claude Code reads the key only from the highest-ranked source that carries either the key or a policy key, so a lower source can't opt itself into merging with the source above it, and a machine that never receives server-managed settings needs the key in its MDM profile too. The user-writable HKCU registry never merges with another source. Requires Claude Code v2.1.242 or later.
-
-Under `"merge"`, Claude Code adds a lower source's list entries, such as `permissions.allow` rules and hooks, to the policy, so turn it on only when every source ranked below your highest one is under an administrator's control.
-
-This table shows how Claude Code combines each kind of key under `"merge"`. The [`managedSourcesBehavior` entry](/docs/en/settings-reference#managedsourcesbehavior) names every key in three of the rows: restriction allowlists, values taken whole, and keys read from the highest-ranked source only.
-
-| Kind of key | How Claude Code combines it | Examples |
-| :- | :- | :- |
-| Lists | Combines the entries from every source | `permissions.allow`, `hooks`, `sandbox.network.allowedDomains`, `deniedMcpServers`, `deniedModels` |
-| Locks | Applies the strictest value any source sets; a looser value applies only from the highest-ranked source | `allowManagedHooksOnly`, `permissions.disableBypassPermissionsMode`, `crossSessionInbound`, `availableModelsMatch` |
-| Restriction allowlists | Takes the list whole from the highest-ranked source that sets it, without adding entries from lower sources | `availableModels`, `allowedMcpServers`, `strictKnownMarketplaces`, `allowedChannelPlugins`, and the `fallbackModel` chain |
-| Values taken whole | Takes the value whole from the highest-ranked source that sets it, without combining entries or fields from lower sources | `sandbox.credentials.awsPairs`, `sandbox.ripgrep` |
-| Provided MCP servers | Combines the server names from every source; when two sources set the same name, applies the higher-ranked source's whole entry | `managedMcpServers` |
-| Keys read from the highest-ranked source only | Ignores the key in every lower source, even when the highest-ranked source leaves it unset | Credential helpers such as `apiKeyHelper`, login pins such as `forceLoginOrgUUID`, `modelPicker`, `permissions.defaultMode` |
-| `env` | Merges per variable across admin sources under either setting, as [Keys read from every admin source](#keys-read-from-every-admin-source) describes | |
 | Every other key | Takes the value from the highest-ranked source that sets it | `model`, `cleanupPeriodDays` |
 
 To confirm which sources combined on a machine, [read the `Setting sources` line in `/status`](#read-the-source-in-/status); that section says what each label means.
@@ -482,26 +455,6 @@ If you turn telemetry off, Claude Code stops sending the usage data that feeds y
 [Where and when a policy applies](#where-and-when-a-policy-applies) says which delivery mechanism reaches each surface, and [Platform availability](https://code.claude.com/docs/en/server-managed-settings.md#platform-availability) says which sessions skip the server-managed settings fetch.
 
 If your organization uses customer-managed encryption keys and routes Claude Code through a gateway, [Configure proxies and gateways](https://code.claude.com/docs/en/third-party-integrations.md#configure-proxies-and-gateways) says why those sessions need this variable.
-
-## Turn telemetry off for your organization
-
-Claude Code sends Anthropic operational [telemetry](/docs/en/data-usage#telemetry-services) by default on sessions that use the Anthropic API, whether directly, through an LLM gateway, or through a custom `ANTHROPIC_BASE_URL`; [Default behaviors by API provider](/docs/en/data-usage#default-behaviors-by-api-provider) says which providers send it. To turn it off for every developer without relying on each person's shell, deliver `DISABLE_TELEMETRY` through the `env` block of your managed settings. This example sets `DISABLE_TELEMETRY` for everyone the policy reaches:
-
-```json theme={null}
-{
-  "env": {
-    "DISABLE_TELEMETRY": "1"
-  }
-}
-```
-
-Claude Code applies a value of `1` without showing the user the [approval dialog](/docs/en/server-managed-settings#environment-variables-and-the-approval-dialog).
-
-If you turn telemetry off, Claude Code stops sending the usage data that feeds your organization's [analytics dashboard](/docs/en/analytics) for the developers the policy reaches. The variable also turns off [feature-flag fetching](/docs/en/env-vars#features-that-need-feature-flag-fetching) for those developers. For Remote Control, see the [Remote Control requirements](/docs/en/remote-control#requirements).
-
-[Where and when a policy applies](#where-and-when-a-policy-applies) says which delivery mechanism reaches each surface, and [Platform availability](/docs/en/server-managed-settings#platform-availability) says which sessions skip the server-managed settings fetch.
-
-If your organization uses customer-managed encryption keys and routes Claude Code through a gateway, [Configure proxies and gateways](/docs/en/third-party-integrations#configure-proxies-and-gateways) says why those sessions need this variable.
 
 ## See also
 

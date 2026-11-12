@@ -54,22 +54,6 @@ Python examples on this page that make HTTP requests use [httpx](https://www.pyt
 > pip install httpx
 > ```
 
-Python examples on this page that make HTTP requests use [httpx](https://www.python-httpx.org/). Add it with the package manager your project uses:
-
-<Tabs>
-  <Tab title="Python (uv)">
-    ```bash theme={null}
-    uv add httpx
-    ```
-  </Tab>
-
-  <Tab title="Python (pip)">
-    ```bash theme={null}
-    pip install httpx
-    ```
-  </Tab>
-</Tabs>
-
 ### Weather tool example
 
 This example defines a `get_temperature` tool and wraps it in an MCP server, without passing the server to `query`. To run the tool, see [Call a custom tool](#call-a-custom-tool).

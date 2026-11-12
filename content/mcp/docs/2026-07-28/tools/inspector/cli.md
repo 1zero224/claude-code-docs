@@ -251,23 +251,6 @@ mcp-inspector --cli --method servers/remove --server my-renamed-server
 
 Only the writable catalog (`--catalog`, `MCP_CATALOG_PATH`, or the default) can be written; `--config` is refused. With an in-memory secret store, a write that supplies `-e` values (and a `--rename`) is refused, since the secrets would be lost when the run exits.
 
-### Editing the catalog
-
-`servers/add`, `servers/edit`, and `servers/remove` write the catalog without connecting to anything. They go through the same code as the web client's server list, so `env` values and client secrets land in the [secret store](/docs/2026-07-28/tools/inspector/configuration#where-secrets-are-stored) exactly as they would from the UI, and a running web client picks up the change.
-
-```bash theme={null}
-# Add: the positional target or --server-url describes the entry, not a server to connect to
-mcp-inspector --cli node build/index.js -e API_KEY=secret --method servers/add --server my-server
-
-# Edit: change the target, -e, --cwd, --header, or --protocol-era, or rename it
-mcp-inspector --cli --method servers/edit --server my-server --rename my-renamed-server
-
-# Remove the entry and its stored secrets
-mcp-inspector --cli --method servers/remove --server my-renamed-server
-```
-
-Only the writable catalog (`--catalog`, `MCP_CATALOG_PATH`, or the default) can be written; `--config` is refused. With an in-memory secret store, a write that supplies `-e` values (and a `--rename`) is refused, since the secrets would be lost when the run exits.
-
 ## Proxies
 
 Connections to remote HTTP/SSE servers honor the conventional proxy variables: `HTTPS_PROXY` / `HTTP_PROXY` (and their lowercase forms) select the proxy and `NO_PROXY` exempts hosts. No Inspector-specific flag is needed, and the proxy agent is loaded lazily, so runs without a proxy pay nothing. The same applies to the web client's backend.

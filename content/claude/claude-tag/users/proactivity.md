@@ -106,14 +106,6 @@ If a routine's results start posting at the channel's top level instead, disable
 
 For a routine you set up at the channel's top level, Claude usually announces each run in a short top-level message and does the work in the thread under it. To follow up on any routine post, mention `@Claude` in a reply under it.
 
-## Where a routine posts its results
-
-A routine you set up from inside a thread usually reports back in that thread each time it runs, for as long as the thread's [session](/docs/claude-tag/concepts/how-it-works#what-survives-between-replies) lasts. To keep the results in the thread, ask Claude to report back there when you set the routine up. If you send [`@Claude !restart`](/docs/claude-tag/users/commands#restart-a-stuck-or-wrong-context-session) in the thread, the routine moves to the thread's new session and keeps reporting there.
-
-If the thread's session [gets stuck](/docs/claude-tag/users/troubleshooting#claude-reacted-or-started-thinking-then-never-replied), the routine doesn't move to the session that replaces it, and its later runs usually post at the channel's top level instead. To bring the results back into a thread, disable the routine and set it up again from that thread.
-
-For a routine you set up at the channel's top level, Claude usually announces each run in a short top-level message and does the work in the thread under it. To follow up on any routine post, mention `@Claude` in a reply under it.
-
 ## Manage standing work
 
 Anyone in the channel can manage its standing work:

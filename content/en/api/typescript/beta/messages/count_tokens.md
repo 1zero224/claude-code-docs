@@ -82,8 +82,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
             - `type: "text"`
 
-            - `type: "text"`
-
             - `text: string`
 
               minLength: 1
@@ -354,8 +352,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
             - `type: "search_result"`
 
             - `content: Array<BetaTextBlockParam>`
-
-              - `type: "text"`
 
               - `type: "text"`
 
@@ -3329,7 +3325,7 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                 The tool's input schema as the MCP server lists it, verbatim.
 
-              - `type: "tool_addition"`
+              - `name: string`
 
                 The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -3452,38 +3448,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
           - `"xhigh"`
 
           - `"max"`
-
-    - `clear_at?: "next_user_message" | "never" | null`
-
-      How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-      - `"next_user_message"`
-
-      - `"never"`
-
-    - `output_config?: BetaSystemMessageOutputConfig | null`
-
-      Per-message output configuration on a role:"system" input message.
-
-      Fields here apply per-turn; `format` remains top-level only. An
-      empty `{}` is accepted on a message that carries content; a message
-      with neither content nor output_config fields is rejected.
-
-      - `effort?: "low" | "medium" | "high" | 2 more | null`
-
-        How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-        Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-        - `"low"`
-
-        - `"medium"`
-
-        - `"high"`
-
-        - `"xhigh"`
-
-        - `"max"`
 
   - `model: Model`
 

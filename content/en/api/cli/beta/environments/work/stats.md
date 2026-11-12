@@ -147,10 +147,6 @@ Get statistics about the work queue for an environment.
 
     The type of object
 
-  - `type: "work_queue_stats"`
-
-    The type of object
-
   - `depth: number`
 
     Number of work items waiting to be picked up

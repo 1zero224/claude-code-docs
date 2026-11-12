@@ -420,37 +420,6 @@ When you ask Claude to run a non-fork subagent at a specific effort level, it ca
 
 On the main conversation's model, the subagent runs at the level you pick in the session, such as with `/effort`, or set with `--effort`. On another model, [that level doesn't apply](https://code.claude.com/docs/en/model-config.md#effort-level-of-subagents-and-teammates). To choose its level, set the `effort` field.
 
-#### Run every subagent on one model
-
-`CLAUDE_CODE_SUBAGENT_MODEL` is a default, so a subagent's definition or a model Claude passes still takes precedence over it. To apply one model to every subagent, [teammate](/docs/en/agent-teams#specify-teammates-and-models), and [workflow agent](/docs/en/workflows), also set `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` to `1`. Requires Claude Code v2.1.257 or later.
-
-* If you set both variables, subagents run on the model in `CLAUDE_CODE_SUBAGENT_MODEL`.
-* If you set only `CLAUDE_CODE_SUBAGENT_MODEL_FORCE`, subagents run on the main conversation's model, except that the built-in Explore subagent runs on the [model listed for it under Built-in subagents](#built-in-subagents).
-
-For example, to run every subagent on Haiku, set both variables in the `env` block of a [settings file](/docs/en/settings):
-
-```json theme={null}
-{
-  "env": {
-    "CLAUDE_CODE_SUBAGENT_MODEL": "haiku",
-    "CLAUDE_CODE_SUBAGENT_MODEL_FORCE": "1"
-  }
-}
-```
-
-To check that the setting took effect, run [`/tasks`](/docs/en/commands) while a subagent is running. The subagent's row shows the model it runs on.
-
-While `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` is [on](/docs/en/env-vars), Claude Code ignores the `model` field in subagent definitions, and Claude can't pass a model when it starts a subagent. These subagents still run on the main conversation's model:
-
-* A [fork](#fork-the-current-conversation)
-* A [skill that runs in a subagent](/docs/en/skills#run-skills-in-a-subagent) with `model: inherit`
-
-### Choose an effort level
-
-To run a subagent at its own [effort level](/docs/en/model-config#adjust-effort-level), set the [`effort`](#supported-frontmatter-fields) field in its definition.
-
-When you ask Claude to run a non-fork subagent at a specific effort level, it can also pass an `effort` parameter for that invocation. The parameter overrides the `effort` field and stays in effect when the subagent is [resumed](#resume-subagents). The [`CLAUDE_CODE_EFFORT_LEVEL`](/docs/en/env-vars#variables) environment variable takes precedence over both. The per-invocation parameter requires Claude Code v2.1.292 or later.
-
 ### Control subagent capabilities
 
 You can control what subagents can do through tool access, permission modes, and conditional rules.

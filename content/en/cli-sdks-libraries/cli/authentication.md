@@ -83,16 +83,6 @@ ant messages create \
   --message '{role: user, content: "Hello, Claude"}'
 ```
 
-If you are using an API key scoped to multiple workspaces, such as a [personal or service account key](https://platform.claude.com/docs/en/manage-claude/authentication#key-types), you must [specify the workspace](https://platform.claude.com/docs/en/manage-claude/authentication#select-a-workspace) to run your command in. Do this by setting an `ANTHROPIC_WORKSPACE_ID` environment variable, which the CLI reads automatically, or by using the [`--workspace-id` flag](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/using#global-flags). The value must be a `wrkspc_...` ID.
-
-```bash CLI
-ant messages create \
-  --workspace-id wrkspc_01... \
-  --model claude-opus-5-5 \
-  --max-tokens 1024 \
-  --message '{role: user, content: "Hello, Claude"}'
-```
-
 ## Check authentication status
 
 `ant auth status` prints the credential source the CLI selected (API key environment variable, OAuth login, federation, Google Cloud, or profile), the active profile, the workspace the active token is bound to, and the configuration directory paths. Use it to diagnose why a workload picked the wrong credential or workspace.

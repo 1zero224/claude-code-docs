@@ -198,7 +198,7 @@ Groups connect members to custom roles (role-based access control, the `rbac` in
 
 ## Versioning
 
-Send the `anthropic-version` header on every request; see [Versions](https://platform.claude.com/docs/en/api/versioning) for the available versions.
+Send the `anthropic-version` header on every request; see [API versions](https://platform.claude.com/docs/en/api/versioning) for the available versions.
 
 ## Rate limits
 
@@ -2163,8 +2163,6 @@ For complete parameter details and response schemas, see [Remove group member](h
 Custom roles are read-only through the API: these endpoints catalog your organization’s custom roles (defined in [claude.ai organization settings](https://claude.ai/admin-settings) or provisioned by Anthropic) and the permissions each role grants. Custom-role reads use the `read:members` scope (there is no separate role scope) and work with an organization-level key, and the catalog returned is your organization’s own.
 
 Read a role’s name from its `display_name` field. For a role provisioned by Anthropic, `display_name` can differ from the label claude.ai shows, and Anthropic might change the name. To keep a lasting reference to a role, store its `id`.
-
-Read a role's name from its `display_name` field. The deprecated `name` field is still returned, always equal to `display_name`. For a role provisioned by Anthropic, `display_name` can differ from the label claude.ai shows, and Anthropic might change the name. To keep a lasting reference to a role, store its `id`.
 
 ### List roles
 

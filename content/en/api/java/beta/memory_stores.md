@@ -1623,8 +1623,6 @@ Create a Memory
 
   - `JsonValue type = "memory"`
 
-  - `Type type`
-
   - `String id`
 
     The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -1906,8 +1904,6 @@ List Memories
 
     - `JsonValue type = "memory"`
 
-    - `Type type`
-
     - `String id`
 
       The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -2174,8 +2170,6 @@ Retrieve a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#view-and-edit-memories) to learn more about working with memories.
 
   - `JsonValue type = "memory"`
-
-  - `Type type`
 
   - `String id`
 
@@ -2448,8 +2442,6 @@ Update a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#view-and-edit-memories) to learn more about working with memories.
 
   - `JsonValue type = "memory"`
-
-  - `Type type`
 
   - `String id`
 
@@ -2949,8 +2941,6 @@ List Memory Versions
 
   - `JsonValue type = "memory_version"`
 
-  - `Type type`
-
   - `String id`
 
     Unique identifier for this version (a `memver_...` value).
@@ -3289,8 +3279,6 @@ Retrieve a Memory Version
 
   - `JsonValue type = "memory_version"`
 
-  - `Type type`
-
   - `String id`
 
     Unique identifier for this version (a `memver_...` value).
@@ -3621,8 +3609,6 @@ Redact a Memory Version
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=java#audit-memory-changes) to learn more about memory versions.
 
   - `JsonValue type = "memory_version"`
-
-  - `Type type`
 
   - `String id`
 

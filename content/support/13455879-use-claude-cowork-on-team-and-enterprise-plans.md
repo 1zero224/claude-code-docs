@@ -1,7 +1,5 @@
 # Use Claude Cowork on Team and Enterprise plans
 
-**Note:** Claude Cowork and chat are now one Claude, rolling out gradually to Pro and Max plans. Ask for what you need, and Claude decides whether that's a quick answer or a task. Team and Enterprise organizations keep chat and Claude Cowork as they are today, so everything in this article still applies. Learn more in our **[blog post](https://claude.com/blog/cowork-is-now-claude)**.
-
 This article explains important limitations and considerations for Team and Enterprise organizations using Claude Cowork.
 
 ## Availability

@@ -367,21 +367,6 @@ These attributes appear on the spans below, and `Gated by` names the variable an
 
 Under detailed beta tracing with `OTEL_LOG_USER_PROMPTS=1`, Claude Code also emits a `claude_code.system_prompt` event that carries the complete system prompt, truncated at the content limit. It arrives the first time a session sends each distinct system prompt, and again after compaction.
 
-These attributes appear on the spans below, and `Gated by` names the variable an attribute needs on top of detailed beta tracing. Values longer than the content limit (60 KB by default) are truncated.
-
-| Attribute | Span | Description | Gated by |
-| - | - | - | - |
-| `new_context` | `claude_code.interaction` | The user prompt | `OTEL_LOG_USER_PROMPTS` |
-| `new_context` | `claude_code.llm_request` | The new user messages and tool results sent with the request | `OTEL_LOG_USER_PROMPTS` |
-| `system_reminders` | `claude_code.llm_request` | The text of the [system reminders](/docs/en/glossary#system-reminder) among the request's new messages | `OTEL_LOG_USER_PROMPTS` |
-| `system_prompt_preview` | `claude_code.llm_request` | First 500 characters of the complete system prompt sent with the request | `OTEL_LOG_USER_PROMPTS` |
-| `user_system_prompt` | `claude_code.llm_request` | Only the system prompt text you provide via the `systemPrompt` SDK option or `--system-prompt` and `--append-system-prompt` flags. Emitted once per session rather than per request | `OTEL_LOG_USER_PROMPTS` |
-| `response.model_output` | `claude_code.llm_request` | Text of the model's response to the request | `OTEL_LOG_USER_PROMPTS` |
-| `new_context` | `claude_code.tool` | The tool call's result, whatever the tool | `OTEL_LOG_TOOL_CONTENT` |
-| `tool_input` | `claude_code.tool` | The tool call's serialized input | `OTEL_LOG_TOOL_DETAILS` |
-
-Under detailed beta tracing with `OTEL_LOG_USER_PROMPTS=1`, Claude Code also emits a `claude_code.system_prompt` event that carries the complete system prompt, truncated at the content limit. It arrives the first time a session sends each distinct system prompt, and again after compaction.
-
 ### Dynamic headers
 
 For enterprise environments that require dynamic authentication, you can configure a script to generate headers dynamically. Dynamic headers apply only to the `http/protobuf` and `http/json` protocols. With the `grpc` protocol, Claude Code uses only the static headers variables, `OTEL_EXPORTER_OTLP_HEADERS` and its per-signal variants.
@@ -493,36 +478,6 @@ If the name doesn't arrive, check for one of these causes:
 * **A value has a space inside it**: Claude Code then copies none of the keys onto events or datapoints and reports no error. [Take the space out of the value](#multi-team-organization-support).
 * **Something else already sets the variable**: in a session that the desktop app starts, a variable already set in the launch environment [takes precedence over settings files](https://code.claude.com/docs/en/settings-reference.md#how-env-values-interact-with-your-shell). The [debug log](https://code.claude.com/docs/en/debug-your-config.md) names each ignored variable. When a third-party Desktop deployment [names an OTLP endpoint](#how-managed-settings-lock-the-otlp-destination) in the environment it provides, that environment carries Desktop's own `OTEL_RESOURCE_ATTRIBUTES`.
 
-### Attribute telemetry to Desktop SSH sessions
-
-To see which remote machine a [Desktop SSH session](/docs/en/desktop#ssh-sessions) ran on, name each machine in a custom attribute. Metrics and events don't name the machine a session ran on.
-
-On each remote machine, add [`OTEL_RESOURCE_ATTRIBUTES`](#multi-team-organization-support) to the `env` block that turns telemetry on, in the [managed settings file the session reads](/docs/en/desktop#managed-settings). Write the name out in each machine's file. Claude Code doesn't expand the value, so `host.name=$(hostname)` arrives as those characters.
-
-The following example names the machine `build-7`:
-
-```json theme={null}
-{
-  "env": {
-    "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
-    "OTEL_METRICS_EXPORTER": "otlp",
-    "OTEL_LOGS_EXPORTER": "otlp",
-    "OTEL_EXPORTER_OTLP_PROTOCOL": "grpc",
-    "OTEL_EXPORTER_OTLP_ENDPOINT": "http://collector.example.com:4317",
-    "OTEL_RESOURCE_ATTRIBUTES": "host.name=build-7"
-  }
-}
-```
-
-When nothing else sets the variable, `host.name` arrives in the resource block, in Desktop SSH sessions and in the CLI on that machine. For where else custom attributes appear, see [Multi-team organization support](#multi-team-organization-support).
-
-If the name doesn't arrive, check for one of these causes:
-
-* **You set it on the computer that runs Desktop**: Desktop doesn't pass a value you set there to the SSH session
-* **You exported it in a login file**: only login shells read a file such as `/etc/profile`. A value you `export` there reaches Claude Code that you start from a login shell. It doesn't reach a Desktop SSH session, because Desktop doesn't start Claude Code through a login shell.
-* **A value has a space inside it**: Claude Code then copies none of the keys onto events or datapoints and reports no error. [Take the space out of the value](#multi-team-organization-support).
-* **Something else already sets the variable**: in a session that the desktop app starts, a variable already set in the launch environment [takes precedence over settings files](/docs/en/settings-reference#how-env-values-interact-with-your-shell). The [debug log](/docs/en/debug-your-config) names each ignored variable. When a third-party Desktop deployment [names an OTLP endpoint](#how-managed-settings-lock-the-otlp-destination) in the environment it provides, that environment carries Desktop's own `OTEL_RESOURCE_ATTRIBUTES`.
-
 ### Example configurations
 
 Set these environment variables before running `claude`. Each scenario below shows a complete configuration, and each variable is described under [Common configuration variables](#common-configuration-variables). To confirm a configuration took effect, check your backend for the `claude_code.session.count` metric after starting a session; the [Quick start](#quick-start) covers logs-only verification and what to check when nothing arrives.
@@ -568,7 +523,7 @@ export CLAUDE_CODE_ENABLE_TELEMETRY=1
 export OTEL_METRICS_EXPORTER=otlp
 export OTEL_LOGS_EXPORTER=otlp
 export OTEL_EXPORTER_OTLP_METRICS_PROTOCOL=http/protobuf
-export OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://metrics.example.com:4318
+export OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://metrics.example.com:4318/v1/metrics
 export OTEL_EXPORTER_OTLP_LOGS_PROTOCOL=grpc
 export OTEL_EXPORTER_OTLP_LOGS_ENDPOINT=http://logs.example.com:4317
 ```
@@ -756,7 +711,8 @@ The `agent.name`, `skill.name`, `plugin.name`, `mcp_server.name`, and `mcp_tool.
 * `plugin.name`: Owning plugin when the active skill or subagent is provided by a plugin. Official-marketplace plugin names appear verbatim. Third-party plugin names are replaced with `"third-party"`. Absent when neither the skill nor the subagent has an owning plugin.
 * `marketplace.name`: Marketplace the owning plugin was installed from. Only emitted for official-marketplace plugins, even with `OTEL_LOG_TOOL_DETAILS=1` set. Absent otherwise.
 * `mcp_server.name`: MCP server whose tool result this request consumed. Built-in, claude.ai-proxied, and official-registry server names appear verbatim. User-configured server names are replaced with `"custom"`. Absent when the request consumed no MCP tool result. Before v2.1.222, Claude Code set this attribute on every request after an MCP tool call, not only on requests that consumed a tool result, so dashboards that aggregate it show a step down after you upgrade.
-* `mcp_tool.name`: MCP tool whose result this request consumed, with the same redaction and version behavior as `mcp_server.name`. Absent when the request consumed no MCP tool result.
+  * From v2.1.312, the name of a remote server with a fixed URL that a plugin from Anthropic's official marketplace declares also appears verbatim, as `plugin_<plugin>_<server>`. That name is replaced with `"custom"` when the plugin's marketplace copy didn't come from Anthropic's registered source, such as one mounted from a seed directory in a cloud session.
+* `mcp_tool.name`: MCP tool whose result this request consumed, with the same redaction and version behavior as `mcp_server.name`, except that it can read `"custom"` when `mcp_server.name` shows a `plugin_<plugin>_<server>` name. Absent when the request consumed no MCP tool result.
 
 #### Token counter
 
@@ -1043,7 +999,7 @@ Logged when a tool permission decision is made (accept/reject).
     * A grant for the rest of the session, given at an earlier permission prompt in the same interactive CLI session
     * The tool being inherently safe
 
-    The `source` value doesn't indicate which of these sources matched. To find which one refused a call, look for the [Safety event](#safety-event) with the same `tool_use_id` and read its `category` and `rule_source` attributes. Some refused calls [have no safety event](#calls-without-a-safety-event).
+    The `source` value doesn't indicate which of these sources matched. When `classifier_verdict` is present, it gives the classifier outcome that decided the call. No `tool_decision` attribute names the permission rule or setting that refused the call.
 
     Claude Code also reports `"config"` when the permission prompt request itself fails. For example, that request fails when the Agent SDK's [`canUseTool`](https://code.claude.com/docs/en/agent-sdk/typescript#canusetool) callback or the [`--permission-prompt-tool`](https://code.claude.com/docs/en/cli-reference#cli-flags) tool returns an invalid result, or when the input stream closes while the request is pending.
   * `"hook"`: A `PreToolUse` or `PermissionRequest` hook returned the decision.
@@ -1091,7 +1047,18 @@ If you lower the OpenTelemetry SDK's `OTEL_LOGRECORD_ATTRIBUTE_COUNT_LIMIT` belo
 
 #### Safety event
 
-Logged when a check refuses a tool call or requires a permission prompt, except for [calls without a safety event](#calls-without-a-safety-event). Also logged when the [sandbox's network proxy](https://code.claude.com/docs/en/sandboxing.md#network-isolation) refuses a connection or request, and when a hook blocks a result. Requires Claude Code v2.1.307 or later.
+Claude Code has stopped sending `claude_code.safety_event`:
+
+* **v2.1.312 and later**: these versions don't send the event, and no setting turns it on
+* **v2.1.307 through v2.1.311**: a session stops sending the event at its next feature-flag refresh. A session that doesn't [fetch feature flags](https://code.claude.com/docs/en/env-vars.md#features-that-need-feature-flag-fetching), such as on Amazon Bedrock, Google Cloud's Agent Platform, or Microsoft Foundry, can keep sending it.
+
+To see refused tool calls, query [`tool_decision`](#tool-decision-event) events, which show that a call was refused but not always which check refused it.
+
+The event details here describe events from v2.1.307 through v2.1.311, where a safety event records [cases](#safety-event-categories) such as these:
+
+* A check refuses a tool call or requires a permission prompt, except for [calls without a safety event](#calls-without-a-safety-event)
+* The [sandbox's network proxy](https://code.claude.com/docs/en/sandboxing.md#network-isolation) refuses a connection or request
+* A hook blocks a result or the end of a turn
 
 The event exports with the other events and has no separate setting. The event's own attributes hold no command text, file paths, host names, or MCP server and tool names. The record also carries the [standard attributes](#standard-attributes) every event has, which can include `workspace.host_paths` and the [repository attributes](#repository-attributes). To see the command or MCP tool behind an event, set `OTEL_LOG_TOOL_DETAILS=1` and read `tool_parameters` on the matching `tool_decision` event.
 
@@ -1503,7 +1470,12 @@ Logged once per run of the retention cleanup sweep, which deletes [session trans
 
 Like every OTel event on this page, it goes only to the telemetry backend you configure. Requires Claude Code v2.1.227 or later.
 
-When Claude Code can't safely determine the retention period, it pauses the sweep and emits the event with `result` set to `"skipped"` and a `skip_reason`. When [managed settings](https://code.claude.com/docs/en/server-managed-settings.md) set `cleanupPeriodDays`, the managed value pins the retention period and the sweep runs even when a settings file in a lower-priority scope is broken or invalid. When `managed-settings.json` itself can't be read, Claude Code still pauses the sweep unless the [managed tier](https://code.claude.com/docs/en/managed-settings.md#how-claude-code-combines-managed-sources) supplies `cleanupPeriodDays` from elsewhere, such as server-managed settings or a `managed-settings.d/` drop-in beside the broken file. The deletion counter attributes are present only when `result` is `"complete"`.
+Read `result` to see whether the sweep ran:
+
+* `"complete"`: the sweep ran, and the event carries its counts
+* `"skipped"`: Claude Code couldn't safely determine the retention period, so it paused the sweep and the event carries no counts. If `skip_reason` is `"settings_unknowable"` or `"settings_invalid_key_set"`, fix the settings error that `/status` reports on that machine so a later session can run the sweep
+
+When [managed settings](https://code.claude.com/docs/en/server-managed-settings.md) set `cleanupPeriodDays`, the managed value pins the retention period and the sweep runs even when a settings file in a lower-priority scope is broken or invalid.
 
 **Event Name**: `claude_code.retention_sweep`
 
@@ -1514,8 +1486,8 @@ When Claude Code can't safely determine the retention period, it pauses the swee
 * `event.timestamp`: ISO 8601 timestamp
 * `event.sequence`: per-process counter for ordering events, described under [Event correlation attributes](#event-correlation-attributes)
 * `result`: `"complete"` when the sweep ran, `"skipped"` when Claude Code paused it
-* `period_days`: The `cleanupPeriodDays` value from merged settings, in days, or `30` when no source sets it. On skipped events, the value the sweep would have used, computed from the settings sources Claude Code could read
-* `used_default`: `"true"` when no readable settings source sets `cleanupPeriodDays`, `"false"` otherwise. On complete events, `"true"` means the 30-day default applied
+* `period_days`: The retention period the sweep started with, in days: `cleanupPeriodDays` from merged settings, with any change from a [`settings.read` hook](https://code.claude.com/docs/en/plugins/mods/events#settings-read-hook) applied. `30` when that leaves the key unset. On skipped events, the value the sweep would have used, computed from the settings sources Claude Code could read
+* `used_default`: `"true"` when `period_days` fell back to `30`, `"false"` otherwise. On complete events, `"true"` means the 30-day default applied
 * `skip_reason`: Why Claude Code paused the sweep. Present only when `result` is `"skipped"`:
   * `"user_source_disabled"`: User settings are excluded, for example by the [`--setting-sources`](https://code.claude.com/docs/en/cli-reference#cli-flags) flag or the SDK's [`settingSources`](https://code.claude.com/docs/en/agent-sdk/typescript#options) option, and no enabled source provides `cleanupPeriodDays`
   * `"settings_unknowable"`: A settings file couldn't be read or parsed, so `cleanupPeriodDays` or `desktopSessionCleanupPeriodDays` may be set to a value Claude Code can't see
@@ -1703,6 +1675,8 @@ Without `OTEL_LOG_TOOL_DETAILS`, these events drop the identifying detail:
 
 ### Map security questions to events
 
+Rows for `safety_event` apply only to a session on v2.1.307 through v2.1.311 that [still sends the event](#safety-event).
+
 When building detection rules, look up the signal you want to monitor and query your backend for the corresponding event and attributes:
 
 | Signal | Event | Key attributes |
@@ -1712,8 +1686,9 @@ When building detection rules, look up the signal you want to monitor and query 
 | Auto mode classifier allowed or blocked a tool call, or Claude Code denied the call without a classifier verdict | [`tool_decision`](#tool-decision-event) where `classifier_verdict` is present. For a denial without a verdict, `classifier_verdict` is `"no_verdict"` or `"unavailable"` | `classifier_verdict`, `permission_mode`, `tool_name`; `classifier_category` when you set `OTEL_LOG_TOOL_DETAILS=1` |
 | Permission mode escalation | `permission_mode_changed` | `from_mode`, `to_mode`, `trigger` |
 | Which permission mode each tool call was checked in, including calls subagents make | [`tool_decision`](#tool-decision-event) | `permission_mode`, `session.id` |
-| Policy hook blocked an action | `hook_execution_complete` | `hook_event`, `num_blocking` |
-| Which tool call a hook refused, and which result or turn end a hook blocked | [`safety_event`](#safety-event) where `category` is `"hook"` and `decision` is `"reject"` for a refused call, or `category` is `"hook_review"` for a blocked result or turn end | `category`, `decision`, `hook_event`; `tool_use_id` for a tool call |
+| Policy hook blocked an action | `hook_execution_complete`, which isn't tied to a call or to `tool_use_id` | `hook_event`, `num_blocking` |
+| Tool call a hook refused | [`tool_decision`](#tool-decision-event) where `decision` is `"reject"` and `source` is `"hook"` | `decision`, `source`, `tool_use_id` |
+| Which result or turn end a hook blocked | [`safety_event`](#safety-event) where `category` is `"hook_review"` | `category`, `hook_event`; `tool_use_id` for a tool call |
 | Sandbox's network proxy refused a connection or request from a Bash or PowerShell command | [`safety_event`](#safety-event) where `sandbox_violation_count` is present and isn't `"0"` | `sandbox_violation_count`, `category`, `sandbox_enabled`, `tool_use_id` |
 | Login, logout, and authentication failure | `auth` | `action`, `success`, `error_category` |
 | MCP server connect or failure | `mcp_server_connection` | `status`, `server_name`, `is_plugin`, `error_code` |
@@ -1831,7 +1806,7 @@ For a comprehensive guide on measuring return on investment for Claude Code, inc
 ## Security and privacy
 
 * OpenTelemetry export to your backend is opt-in and requires explicit configuration. For Anthropic's separate operational telemetry and how to disable it, see [Data usage](https://code.claude.com/docs/en/data-usage.md#telemetry-services)
-* Raw file contents and code snippets are not included in metrics or events. Trace spans are a separate data path: see the `OTEL_LOG_TOOL_CONTENT` bullet below
+* By default, raw file contents and code snippets aren't included in metrics or events. If you set a variable such as `OTEL_LOG_TOOL_DETAILS` or `OTEL_LOG_RAW_API_BODIES`, events can include them. Trace spans are a separate data path: see the `OTEL_LOG_TOOL_CONTENT` bullet below
 * When authenticated via OAuth, `user.email` is included in telemetry attributes, sent only to the OTel endpoint you configure, never to Anthropic. If this is a concern for your organization, work with your telemetry backend to filter or redact this field
 * User prompt content is not collected by default. Only prompt length is recorded. To include prompt content, set `OTEL_LOG_USER_PROMPTS=1`. When enabled:
   * `user_prompt` events carry the prompt text in two attributes, `prompt` and [`prompt_text`](#user-prompt-event). If you drop or mask the event's prompt text by attribute name in your collector, name both attributes in the rule

@@ -4866,8 +4866,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `type: "encrypted_code_execution_result"`
 
-          - `type: "encrypted_code_execution_result"`
-
           - `content: array of BetaCodeExecutionOutputBlock`
 
             - `type: "code_execution_output"`
@@ -8114,34 +8112,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       - `server_tool_use: object`
 
         The number of server tool requests.
-
-    - `input_transformations: optional array of BetaInputTransformation`
-
-      Changes the API made to the request's input before showing it to the model,
-      and blocks that failed a binding check but were left unchanged: one entry per
-      block, in request order. Two entry types today. `thinking_dropped` — a
-      `thinking`, `redacted_thinking` or `connector_text` block from the request's
-      `messages` that was removed from the prompt instead of being shown to the
-      model because it failed a binding check. `thinking_mismatch_allowed` — a
-      `thinking` or `redacted_thinking` block that failed the conversation check
-      (the conversation before it differs from the one it was created in, or it
-      carries no record of one on a model that requires it) and was shown to the
-      model all the same, because that check is not enforced for this request.
-      More entry types may be added over time; ignore types you do not recognize.
-
-      Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
-      every such response from a model that supports extended thinking, as `[]`
-      when there is no entry to report; without the beta, blocks are removed or
-      left in place all the same but nothing is reported. Removed blocks contribute
-      nothing to `usage.input_tokens`; blocks left in place count as sent. When
-      streaming, the array is final in `message_start`; the final `message_delta`
-      event carries it only when a server-side model fallback happened mid-stream,
-      in which case it holds the serving model's entries and replaces the one in
-      `message_start`.
-
-      - `beta_thinking_dropped_input_transformation: object`
-
-      - `beta_thinking_mismatch_allowed_input_transformation: object`
 
     - `input_transformations: optional array of BetaInputTransformation`
 
@@ -23033,8 +23003,6 @@ ant beta:messages count-tokens \
 
   - `type: "code_execution_20260120"`
 
-  - `type: "code_execution_20260120"`
-
   - `name: "code_execution"`
 
     Name of the tool.
@@ -23181,8 +23149,6 @@ ant beta:messages count-tokens \
 
       - `type: "encrypted_code_execution_result"`
 
-      - `type: "encrypted_code_execution_result"`
-
       - `content: array of BetaCodeExecutionOutputBlock`
 
         - `type: "code_execution_output"`
@@ -23243,8 +23209,6 @@ ant beta:messages count-tokens \
 
     - `type: "encrypted_code_execution_result"`
 
-    - `type: "encrypted_code_execution_result"`
-
     - `content: array of BetaCodeExecutionOutputBlock`
 
       - `type: "code_execution_output"`
@@ -23298,8 +23262,6 @@ ant beta:messages count-tokens \
     - `beta_encrypted_code_execution_result_block_param: object`
 
       The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-      - `type: "encrypted_code_execution_result"`
 
       - `type: "encrypted_code_execution_result"`
 
@@ -23377,8 +23339,6 @@ ant beta:messages count-tokens \
   - `beta_encrypted_code_execution_result_block_param: object`
 
     The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-    - `type: "encrypted_code_execution_result"`
 
     - `type: "encrypted_code_execution_result"`
 
@@ -30874,8 +30834,6 @@ ant beta:messages count-tokens \
 
         - `type: "encrypted_code_execution_result"`
 
-        - `type: "encrypted_code_execution_result"`
-
         - `content: array of BetaCodeExecutionOutputBlock`
 
           - `type: "code_execution_output"`
@@ -34127,8 +34085,6 @@ ant beta:messages count-tokens \
 
         - `type: "encrypted_code_execution_result"`
 
-        - `type: "encrypted_code_execution_result"`
-
         - `content: array of BetaCodeExecutionOutputBlockParam`
 
           - `type: "code_execution_output"`
@@ -36588,8 +36544,6 @@ ant beta:messages count-tokens \
 
     - `type: "fallback"`
 
-    - `type: "fallback"`
-
     - `from: object`
 
       Identifies one hop of a fallback transition.
@@ -37334,8 +37288,6 @@ ant beta:messages count-tokens \
 
   - `type: "encrypted_code_execution_result"`
 
-  - `type: "encrypted_code_execution_result"`
-
   - `content: array of BetaCodeExecutionOutputBlock`
 
     - `type: "code_execution_output"`
@@ -37353,8 +37305,6 @@ ant beta:messages count-tokens \
 - `beta_encrypted_code_execution_result_block_param: object`
 
   The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-  - `type: "encrypted_code_execution_result"`
 
   - `type: "encrypted_code_execution_result"`
 
@@ -37545,8 +37495,6 @@ ant beta:messages count-tokens \
   `tool_use` block you left out.
 
   See the [refusals and fallback guide](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback?sdk_languages=cli#continuing-the-conversation) to learn which blocks to keep.
-
-  - `type: "fallback"`
 
   - `type: "fallback"`
 
@@ -40417,8 +40365,6 @@ ant beta:messages count-tokens \
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=cli) to learn more about programmatic tool calling.
-
-          - `type: "encrypted_code_execution_result"`
 
           - `type: "encrypted_code_execution_result"`
 
@@ -44144,8 +44090,6 @@ ant beta:messages count-tokens \
 
         - `type: "text"`
 
-        - `type: "text"`
-
         - `text: string`
 
           minLength: 1
@@ -44416,8 +44360,6 @@ ant beta:messages count-tokens \
         - `type: "search_result"`
 
         - `content: array of BetaTextBlockParam`
-
-          - `type: "text"`
 
           - `type: "text"`
 
@@ -47527,38 +47469,6 @@ ant beta:messages count-tokens \
 
       The `id` of the previous response in this Thread.
 
-  - `clear_at: optional "next_user_message" or "never"`
-
-    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-    - `"next_user_message"`
-
-    - `"never"`
-
-  - `output_config: optional object`
-
-    Per-message output configuration on a role:"system" input message.
-
-    Fields here apply per-turn; `format` remains top-level only. An
-    empty `{}` is accepted on a message that carries content; a message
-    with neither content nor output_config fields is rejected.
-
-    - `effort: optional "low" or "medium" or "high" or 2 more`
-
-      How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-      Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-      - `"low"`
-
-      - `"medium"`
-
-      - `"high"`
-
-      - `"xhigh"`
-
-      - `"max"`
-
 ### Beta Message Tokens Count
 
 - `beta_message_tokens_count: object`
@@ -48502,8 +48412,6 @@ ant beta:messages count-tokens \
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=cli) to learn more about programmatic tool calling.
-
-          - `type: "encrypted_code_execution_result"`
 
           - `type: "encrypted_code_execution_result"`
 
@@ -52243,8 +52151,6 @@ ant beta:messages count-tokens \
 
             - `type: "encrypted_code_execution_result"`
 
-            - `type: "encrypted_code_execution_result"`
-
             - `content: array of BetaCodeExecutionOutputBlock`
 
               - `type: "code_execution_output"`
@@ -55977,8 +55883,6 @@ ant beta:messages count-tokens \
 
               - `type: "encrypted_code_execution_result"`
 
-              - `type: "encrypted_code_execution_result"`
-
               - `content: array of BetaCodeExecutionOutputBlock`
 
                 - `type: "code_execution_output"`
@@ -59217,34 +59121,6 @@ ant beta:messages count-tokens \
       - `server_tool_use: object`
 
         The number of server tool requests.
-
-    - `input_transformations: optional array of BetaInputTransformation`
-
-      Changes the API made to the request's input before showing it to the model,
-      and blocks that failed a binding check but were left unchanged: one entry per
-      block, in request order. Two entry types today. `thinking_dropped` — a
-      `thinking`, `redacted_thinking` or `connector_text` block from the request's
-      `messages` that was removed from the prompt instead of being shown to the
-      model because it failed a binding check. `thinking_mismatch_allowed` — a
-      `thinking` or `redacted_thinking` block that failed the conversation check
-      (the conversation before it differs from the one it was created in, or it
-      carries no record of one on a model that requires it) and was shown to the
-      model all the same, because that check is not enforced for this request.
-      More entry types may be added over time; ignore types you do not recognize.
-
-      Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
-      every such response from a model that supports extended thinking, as `[]`
-      when there is no entry to report; without the beta, blocks are removed or
-      left in place all the same but nothing is reported. Removed blocks contribute
-      nothing to `usage.input_tokens`; blocks left in place count as sent. When
-      streaming, the array is final in `message_start`; the final `message_delta`
-      event carries it only when a server-side model fallback happened mid-stream,
-      in which case it holds the serving model's entries and replaces the one in
-      `message_start`.
-
-      - `beta_thinking_dropped_input_transformation: object`
-
-      - `beta_thinking_mismatch_allowed_input_transformation: object`
 
     - `input_transformations: optional array of BetaInputTransformation`
 
@@ -64608,8 +64484,6 @@ ant beta:messages count-tokens \
     REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
 
     See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=cli#tool-versions) to learn what each tool version adds.
-
-    - `type: "code_execution_20260120"`
 
     - `type: "code_execution_20260120"`
 
@@ -91985,8 +91859,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `type: "encrypted_code_execution_result"`
 
-                - `type: "encrypted_code_execution_result"`
-
                 - `content: array of BetaCodeExecutionOutputBlock`
 
                   - `type: "code_execution_output"`
@@ -95154,8 +95026,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `beta_authentication_error: object`
 
             - `type: "authentication_error"`
@@ -95165,8 +95035,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `beta_billing_error: object`
 
@@ -95178,8 +95046,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `beta_permission_error: object`
 
             - `type: "permission_error"`
@@ -95189,8 +95055,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `beta_not_found_error: object`
 
@@ -95202,8 +95066,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `beta_rate_limit_error: object`
 
             - `type: "rate_limit_error"`
@@ -95213,8 +95075,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `beta_gateway_timeout_error: object`
 
@@ -95226,8 +95086,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `beta_api_error: object`
 
             - `type: "api_error"`
@@ -95237,8 +95095,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `beta_overloaded_error: object`
 

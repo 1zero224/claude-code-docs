@@ -193,8 +193,6 @@ Archive Session Thread
 
         - `Name string`
 
-        - `Name string`
-
         - `URL string`
 
       - `Model BetaManagedAgentsModelConfig`
@@ -337,8 +335,6 @@ Archive Session Thread
 
           - `SkillID string`
 
-          - `SkillID string`
-
           - `Version string`
 
         - `type BetaManagedAgentsCustomSkill`
@@ -346,8 +342,6 @@ Archive Session Thread
           A resolved user-created custom skill.
 
           - `Type Custom`
-
-          - `SkillID string`
 
           - `SkillID string`
 

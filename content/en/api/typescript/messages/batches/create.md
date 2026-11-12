@@ -114,8 +114,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `type: "text"`
 
-                - `type: "text"`
-
                 - `text: string`
 
                   minLength: 1
@@ -538,8 +536,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                         All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                         maxItems: 100
-
-                        - `type: "tab_opened"`
 
                         - `tab_id: string`
 

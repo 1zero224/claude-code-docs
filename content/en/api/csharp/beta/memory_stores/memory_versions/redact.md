@@ -159,8 +159,6 @@ Redact a Memory Version
 
   - `JsonElement Type = "memory_version"`
 
-  - `required Type Type`
-
   - `required string ID`
 
     Unique identifier for this version (a `memver_...` value).

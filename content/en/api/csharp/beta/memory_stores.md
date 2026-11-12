@@ -183,7 +183,7 @@ Create a Memory Store
 
     format: date-time
 
-  - `required DateTimeOffset? ArchivedAt`
+  - `required DateTimeOffset CreatedAt`
 
     When the memory store was created, in RFC 3339.
 
@@ -646,7 +646,7 @@ Retrieve a Memory Store
 
     format: date-time
 
-  - `required DateTimeOffset? ArchivedAt`
+  - `required DateTimeOffset CreatedAt`
 
     When the memory store was created, in RFC 3339.
 
@@ -889,7 +889,7 @@ Update a Memory Store
 
     format: date-time
 
-  - `required DateTimeOffset? ArchivedAt`
+  - `required DateTimeOffset CreatedAt`
 
     When the memory store was created, in RFC 3339.
 
@@ -1289,7 +1289,7 @@ Archive a Memory Store
 
     format: date-time
 
-  - `required DateTimeOffset? ArchivedAt`
+  - `required DateTimeOffset CreatedAt`
 
     When the memory store was created, in RFC 3339.
 
@@ -1386,7 +1386,7 @@ Console.WriteLine(betaManagedAgentsMemoryStore);
 
     format: date-time
 
-  - `required DateTimeOffset? ArchivedAt`
+  - `required DateTimeOffset CreatedAt`
 
     When the memory store was created, in RFC 3339.
 
@@ -1585,8 +1585,6 @@ Create a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=csharp#view-and-edit-memories) to learn more about working with memories.
 
   - `JsonElement Type = "memory"`
-
-  - `required Type Type`
 
   - `required string ID`
 
@@ -2122,8 +2120,6 @@ Retrieve a Memory
 
   - `JsonElement Type = "memory"`
 
-  - `required Type Type`
-
   - `required string ID`
 
     The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -2387,8 +2383,6 @@ Update a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=csharp#view-and-edit-memories) to learn more about working with memories.
 
   - `JsonElement Type = "memory"`
-
-  - `required Type Type`
 
   - `required string ID`
 
@@ -3207,8 +3201,6 @@ Retrieve a Memory Version
 
   - `JsonElement Type = "memory_version"`
 
-  - `required Type Type`
-
   - `required string ID`
 
     Unique identifier for this version (a `memver_...` value).
@@ -3531,8 +3523,6 @@ Redact a Memory Version
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=csharp#audit-memory-changes) to learn more about memory versions.
 
   - `JsonElement Type = "memory_version"`
-
-  - `required Type Type`
 
   - `required string ID`
 

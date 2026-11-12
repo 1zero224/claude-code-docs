@@ -533,8 +533,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                         maxItems: 100
 
-                        - `Type TabOpened`
-
                         - `TabID string`
 
                           The caller-assigned identifier for this tab, unique within the inventory.

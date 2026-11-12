@@ -54,16 +54,6 @@ alias claude-work='CLAUDE_CONFIG_DIR=~/.claude-work claude'
 
 After you open a new terminal and run `claude-work` for the first time, Claude Code walks you through login and setup for the new directory. Separate directories don't keep two Claude Console sign-ins [without an API key](#sign-in-without-an-api-key) apart, because Claude Code stores that kind of sign-in outside the configuration directory.
 
-### Log in with multiple accounts
-
-To stay signed in to multiple accounts at once, such as work and personal accounts, give each account its own configuration directory. When you start `claude`, set the [`CLAUDE_CONFIG_DIR`](/docs/en/env-vars#variables) environment variable to the directory for the account you want to use. Each directory has its own settings, session history, and claude.ai login or API key. For example, in Bash or Zsh, add this alias to `~/.bashrc` or `~/.zshrc` so that `claude-work` uses your work account while `claude` keeps your personal one:
-
-```bash theme={null}
-alias claude-work='CLAUDE_CONFIG_DIR=~/.claude-work claude'
-```
-
-After you open a new terminal and run `claude-work` for the first time, Claude Code walks you through login and setup for the new directory. Separate directories don't keep two Claude Console sign-ins [without an API key](#sign-in-without-an-api-key) apart, because Claude Code stores that kind of sign-in outside the configuration directory.
-
 ## Set up team authentication
 
 For teams and organizations, you can configure Claude Code access in one of these ways:
@@ -160,31 +150,6 @@ With only `forceLoginMethod` set to `"console"`, developers can retry a failed s
 * **Keyless sign-ins**: to move a developer to an API key, have them log out and then log in to Console again, which creates the key. For a keyless sign-in, they run `claude auth logout` in their shell. For an `ant auth login` profile, they run `ant auth logout`. Claude Code refuses the session if a profile and an API key are both on the machine, so they log out first.
 * **Environment and helper credentials**: Claude Code refuses sessions that authenticate with `ANTHROPIC_API_KEY`, `ANTHROPIC_AUTH_TOKEN`, or `apiKeyHelper`, even when managed settings supply them. Remove those credentials, then have developers run `/login` to create a saved API key.
 * **claude.ai logins**: Claude Code [refuses a login](#restrict-login-to-your-organization) to an organization you haven't listed, including one already in use on the machine. To keep one, add it to a `forceLoginOrgUUID` array.
-
-#### Sign in without an API key
-
-You can sign in to your Console account without creating an API key, even when your organization doesn't let developers create them. Choose the Anthropic Console account at the `/login` prompt and Claude Code asks how you want to sign in. Requires Claude Code v2.1.242 or later. Both routes sign you in to Console in the browser and differ in what Claude Code stores afterwards:
-
-* **Sign in with your Console account**, labeled `(recommended)`: Claude Code keeps the OAuth token from that sign-in and stores it as an [Anthropic profile](#anthropic-profiles-and-federation-credentials). It creates no API key
-* **Create an API key**, labeled `(legacy)`: Claude Code creates a Console API key for you and stores it with your other credentials
-
-In practice, the profile stores an OAuth login while an API key is a static credential. Claude Code refreshes the profile's login automatically, and when refresh fails, requests fail with an [expired profile login error](/docs/en/errors#anthropic-profile-login-expired) until you sign in again.
-
-You don't get the choice on every machine. Claude Code creates an API key without asking in these cases:
-
-* You run against a cloud provider, such as [Amazon Bedrock, Google Cloud's Agent Platform, or Microsoft Foundry](/docs/en/third-party-integrations) or [Claude Platform on AWS](/docs/en/claude-platform-on-aws)
-* Any settings file sets [`forceLoginOrgUUID`](#restrict-login-to-your-organization), or sets `forceLoginMethod` to `"claudeai"` or `"console"`
-* A managed settings source on your machine, such as the managed settings file, an MDM profile, or the cached server-managed settings, exists but Claude Code [can't read it](/docs/en/managed-settings#invalid-entries-in-managed-settings) and no other managed source supplies a policy
-
-Unset `ANTHROPIC_API_KEY` before you sign in without a key.
-
-After you sign in without a key, you have a profile instead of a stored API key:
-
-* **Which profile it writes**: Claude Code writes the profile named by `ANTHROPIC_PROFILE`, or your active profile, or `default`. If that profile is a federation profile, Claude Code refuses the sign-in instead of overwriting it
-* **What it signs you out of**: Claude Code signs you out of any claude.ai login stored on the machine
-* **How to undo it**: run `/logout`, which removes and revokes the credential this sign-in wrote
-
-Everything else about profiles applies to this sign-in, including where it ranks against your other credentials, the `Profile` row you get in `/status`, and the features that need a claude.ai login. See [Anthropic profiles and federation credentials](#anthropic-profiles-and-federation-credentials).
 
 ### Cloud provider authentication
 

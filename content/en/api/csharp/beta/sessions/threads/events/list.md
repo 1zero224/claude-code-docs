@@ -2085,8 +2085,6 @@ List Session Thread Events
 
                 - `required string Name`
 
-                - `required string Name`
-
                 - `required string Url`
 
               - `required BetaManagedAgentsModelConfig Model`
@@ -2105,8 +2103,6 @@ List Session Thread Events
 
                   - `required string SkillID`
 
-                  - `required string SkillID`
-
                   - `required string Version`
 
                 - `class BetaManagedAgentsCustomSkill`
@@ -2114,8 +2110,6 @@ List Session Thread Events
                   A resolved user-created custom skill.
 
                   - `JsonElement Type = "custom"`
-
-                  - `required string SkillID`
 
                   - `required string SkillID`
 
@@ -2831,7 +2825,7 @@ List Session Thread Events
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-              The agent can spawn session threads.
+          format: int32
 
         - `int Ephemeral5mInputTokens`
 
@@ -2903,7 +2897,7 @@ List Session Thread Events
 
       The phases that the run's plan declares, in the plan's order. Can be empty.
 
-                - `required BetaManagedAgentsModelConfig Model`
+      - `required string ID`
 
         Unique identifier for the phase.
 

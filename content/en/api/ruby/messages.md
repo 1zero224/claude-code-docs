@@ -94,8 +94,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `type: :text`
 
-          - `type: :text`
-
           - `text: String`
 
             minLength: 1
@@ -518,8 +516,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
                   All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                   maxItems: 100
-
-                  - `type: :tab_opened`
 
                   - `tab_id: String`
 
@@ -1662,8 +1658,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
     REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
 
     See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=ruby#tool-versions) to learn what each tool version adds.
-
-    - `type: :code_execution_20260120`
 
     - `type: :code_execution_20260120`
 
@@ -3610,8 +3604,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `type: :encrypted_code_execution_result`
 
-          - `type: :encrypted_code_execution_result`
-
           - `content: Array[CodeExecutionOutputBlock]`
 
             - `type: :code_execution_output`
@@ -4489,8 +4481,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
           - `type: :text`
 
-          - `type: :text`
-
           - `text: String`
 
             minLength: 1
@@ -4913,8 +4903,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
                   All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                   maxItems: 100
-
-                  - `type: :tab_opened`
 
                   - `tab_id: String`
 
@@ -5973,8 +5961,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
     REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
 
     See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=ruby#tool-versions) to learn what each tool version adds.
-
-    - `type: :code_execution_20260120`
 
     - `type: :code_execution_20260120`
 
@@ -7402,12 +7388,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspace_id: String` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 ### Returns
 
 - `class MessageTokensCount`
@@ -8496,8 +8476,6 @@ Streams a message like `stream_raw` and returns a MessageStream, which accumulat
       - `String = String`
 
       - `Blocks = Array[TextBlockParam]`
-
-        - `type: :text`
 
         - `type: :text`
 
@@ -12540,8 +12518,6 @@ puts(result)
       Seconds to hold the key down (maximum 30).
 
       minimum: 0, maximum: 30
-
-    - `type: :text`
 
     - `text: String`
 
@@ -21103,8 +21079,6 @@ puts(result)
 
         - `type: :char_location`
 
-        - `type: :char_location`
-
         - `cited_text: String`
 
         - `document_index: Integer`
@@ -21125,8 +21099,6 @@ puts(result)
 
         - `type: :page_location`
 
-        - `type: :page_location`
-
         - `cited_text: String`
 
         - `document_index: Integer`
@@ -21144,8 +21116,6 @@ puts(result)
           minimum: 1
 
       - `class CitationContentBlockLocation`
-
-        - `type: :content_block_location`
 
         - `type: :content_block_location`
 
@@ -21179,8 +21149,6 @@ puts(result)
 
         - `type: :web_search_result_location`
 
-        - `type: :web_search_result_location`
-
         - `cited_text: String`
 
         - `encrypted_index: String`
@@ -21192,8 +21160,6 @@ puts(result)
         - `url: String`
 
       - `class CitationsSearchResultLocation`
-
-        - `type: :search_result_location`
 
         - `type: :search_result_location`
 
@@ -23509,8 +23475,6 @@ puts(result)
 
   - `type: :encrypted_code_execution_result`
 
-  - `type: :encrypted_code_execution_result`
-
   - `content: Array[CodeExecutionOutputBlock]`
 
     - `type: :code_execution_output`
@@ -23528,8 +23492,6 @@ puts(result)
 - `class EncryptedCodeExecutionResultBlockParam`
 
   The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-  - `type: :encrypted_code_execution_result`
 
   - `type: :encrypted_code_execution_result`
 
@@ -24233,8 +24195,6 @@ puts(result)
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=ruby) to learn more about programmatic tool calling.
-
-          - `type: :encrypted_code_execution_result`
 
           - `type: :encrypted_code_execution_result`
 
@@ -25935,8 +25895,6 @@ puts(result)
 
     - `type: :code_execution_20260120`
 
-    - `type: :code_execution_20260120`
-
     - `name: :code_execution`
 
       Name of the tool.
@@ -27474,8 +27432,6 @@ puts(result)
 
           - `type: :text`
 
-          - `type: :text`
-
           - `text: String`
 
             minLength: 1
@@ -27898,8 +27854,6 @@ puts(result)
                   All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                   maxItems: 100
-
-                  - `type: :tab_opened`
 
                   - `tab_id: String`
 
@@ -29403,8 +29357,6 @@ puts(result)
 
           - `type: :encrypted_code_execution_result`
 
-          - `type: :encrypted_code_execution_result`
-
           - `content: Array[CodeExecutionOutputBlock]`
 
             - `type: :code_execution_output`
@@ -30284,8 +30236,6 @@ puts(result)
             The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
             See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=ruby) to learn more about programmatic tool calling.
-
-            - `type: :encrypted_code_execution_result`
 
             - `type: :encrypted_code_execution_result`
 
@@ -31356,8 +31306,6 @@ puts(result)
               The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
               See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=ruby) to learn more about programmatic tool calling.
-
-              - `type: :encrypted_code_execution_result`
 
               - `type: :encrypted_code_execution_result`
 
@@ -35182,8 +35130,6 @@ puts(result)
     REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
 
     See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=ruby#tool-versions) to learn what each tool version adds.
-
-    - `type: :code_execution_20260120`
 
     - `type: :code_execution_20260120`
 
@@ -41806,8 +41752,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `type: :text`
 
-              - `type: :text`
-
               - `text: String`
 
                 minLength: 1
@@ -42230,8 +42174,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                       All tabs open in the browser after this call — the full inventory, not a delta. May be empty. Whenever non-empty, exactly one entry carries `active: true`.
 
                       maxItems: 100
-
-                      - `type: :tab_opened`
 
                       - `tab_id: String`
 
@@ -43380,8 +43322,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
         REPL state persistence applies with programmatic tool calling. With it, the Python interpreter state, such as variable bindings, persists across requests that reuse the container.
 
         See the [code execution tool guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool?sdk_languages=ruby#tool-versions) to learn what each tool version adds.
-
-        - `type: :code_execution_20260120`
 
         - `type: :code_execution_20260120`
 
@@ -44809,12 +44749,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `workspace_id: String` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `class MessageBatch`
@@ -46063,8 +45997,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `type: :encrypted_code_execution_result`
 
-                - `type: :encrypted_code_execution_result`
-
                 - `content: Array[CodeExecutionOutputBlock]`
 
                   - `type: :code_execution_output`
@@ -46624,8 +46556,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class AuthenticationError`
 
             - `type: :authentication_error`
@@ -46635,8 +46565,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BillingError`
 
@@ -46648,8 +46576,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class PermissionError`
 
             - `type: :permission_error`
@@ -46659,8 +46585,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class NotFoundError`
 
@@ -46672,8 +46596,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class RateLimitError`
 
             - `type: :rate_limit_error`
@@ -46683,8 +46605,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class GatewayTimeoutError`
 
@@ -46696,8 +46616,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class APIErrorObject`
 
             - `type: :api_error`
@@ -46707,8 +46625,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class OverloadedError`
 

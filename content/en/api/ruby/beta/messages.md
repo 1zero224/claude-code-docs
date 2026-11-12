@@ -94,8 +94,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `type: :text`
 
-          - `type: :text`
-
           - `text: String`
 
             minLength: 1
@@ -366,8 +364,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           - `type: :search_result`
 
           - `content: Array[BetaTextBlockParam]`
-
-            - `type: :text`
 
             - `type: :text`
 
@@ -3465,38 +3461,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
         - `:max`
 
-  - `clear_at: :next_user_message | :never`
-
-    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-    - `:next_user_message`
-
-    - `:never`
-
-  - `output_config: BetaSystemMessageOutputConfig`
-
-    Per-message output configuration on a role:"system" input message.
-
-    Fields here apply per-turn; `format` remains top-level only. An
-    empty `{}` is accepted on a message that carries content; a message
-    with neither content nor output_config fields is rejected.
-
-    - `effort: :low | :medium | :high | 2 more`
-
-      How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-      Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-      - `:low`
-
-      - `:medium`
-
-      - `:high`
-
-      - `:xhigh`
-
-      - `:max`
-
 - `model: Model`
 
   The model that will complete your prompt.
@@ -4917,8 +4881,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=ruby) to learn more about programmatic tool calling.
-
-          - `type: :encrypted_code_execution_result`
 
           - `type: :encrypted_code_execution_result`
 
@@ -8547,8 +8509,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
           - `type: :text`
 
-          - `type: :text`
-
           - `text: String`
 
             minLength: 1
@@ -8819,8 +8779,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
           - `type: :search_result`
 
           - `content: Array[BetaTextBlockParam]`
-
-            - `type: :text`
 
             - `type: :text`
 
@@ -11917,38 +11875,6 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
         - `:xhigh`
 
         - `:max`
-
-  - `clear_at: :next_user_message | :never`
-
-    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-    - `:next_user_message`
-
-    - `:never`
-
-  - `output_config: BetaSystemMessageOutputConfig`
-
-    Per-message output configuration on a role:"system" input message.
-
-    Fields here apply per-turn; `format` remains top-level only. An
-    empty `{}` is accepted on a message that carries content; a message
-    with neither content nor output_config fields is rejected.
-
-    - `effort: :low | :medium | :high | 2 more`
-
-      How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-      Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-      - `:low`
-
-      - `:medium`
-
-      - `:high`
-
-      - `:xhigh`
-
-      - `:max`
 
 - `model: Model`
 
@@ -21776,8 +21702,6 @@ puts(result)
       Seconds to hold the key down (maximum 30).
 
       minimum: 0, maximum: 30
-
-    - `type: :text`
 
     - `text: String`
 
@@ -34822,8 +34746,6 @@ puts(result)
 
         - `type: :char_location`
 
-        - `type: :char_location`
-
         - `cited_text: String`
 
         - `document_index: Integer`
@@ -34844,8 +34766,6 @@ puts(result)
 
         - `type: :page_location`
 
-        - `type: :page_location`
-
         - `cited_text: String`
 
         - `document_index: Integer`
@@ -34863,8 +34783,6 @@ puts(result)
           minimum: 1
 
       - `class BetaCitationContentBlockLocation`
-
-        - `type: :content_block_location`
 
         - `type: :content_block_location`
 
@@ -34898,8 +34816,6 @@ puts(result)
 
         - `type: :web_search_result_location`
 
-        - `type: :web_search_result_location`
-
         - `cited_text: String`
 
         - `encrypted_index: String`
@@ -34911,8 +34827,6 @@ puts(result)
         - `url: String`
 
       - `class BetaCitationSearchResultLocation`
-
-        - `type: :search_result_location`
 
         - `type: :search_result_location`
 
@@ -41768,8 +41682,6 @@ puts(result)
 
   - `type: :encrypted_code_execution_result`
 
-  - `type: :encrypted_code_execution_result`
-
   - `content: Array[BetaCodeExecutionOutputBlock]`
 
     - `type: :code_execution_output`
@@ -41787,8 +41699,6 @@ puts(result)
 - `class BetaEncryptedCodeExecutionResultBlockParam`
 
   The output and exit code of Python code that Claude ran with the code execution tool, with standard output in encrypted form, sent back in a later request.
-
-  - `type: :encrypted_code_execution_result`
 
   - `type: :encrypted_code_execution_result`
 
@@ -41981,8 +41891,6 @@ puts(result)
   `tool_use` block you left out.
 
   See the [refusals and fallback guide](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback?sdk_languages=ruby#continuing-the-conversation) to learn which blocks to keep.
-
-  - `type: :fallback`
 
   - `type: :fallback`
 
@@ -43767,83 +43675,6 @@ puts(result)
 
     The tool's description as the MCP server lists it.
 
-### Beta MCP Tool Listing Block
-
-- `class BetaMCPToolListingBlock`
-
-  The tool listing the server fetched from an MCP server while producing
-  this response. Send the assistant message back unchanged, this block
-  included, so later requests use this listing instead of asking the MCP
-  server again.
-
-  - `type: :mcp_tool_listing`
-
-  - `mcp_server_name: String`
-
-  - `tools: Array[BetaMCPTool]`
-
-    - `input_schema: Hash[Symbol, untyped]`
-
-    - `name: String`
-
-    - `description: String`
-
-### Beta MCP Tool Listing Block Param
-
-- `class BetaMCPToolListingBlockParam`
-
-  The tool listing an MCP server returned while an earlier response was
-  produced, as that response carried it. Send the assistant message back
-  unchanged, this block included, and the server uses this listing for the
-  matching `mcp_toolset` instead of asking the MCP server again.
-
-  - `type: :mcp_tool_listing`
-
-  - `mcp_server_name: String`
-
-    The name of the MCP server this listing came from, as `mcp_servers` declares it.
-
-    minLength: 1, maxLength: 255
-
-  - `tools: Array[BetaMCPToolParam]`
-
-    The server's tools, exactly as the response listed them.
-
-    - `input_schema: Hash[Symbol, untyped]`
-
-      The tool's input schema as the MCP server lists it, verbatim.
-
-    - `name: String`
-
-      The tool's name as the MCP server lists it (not prefixed with the server name).
-
-      minLength: 1
-
-    - `description: String`
-
-      The tool's description as the MCP server lists it.
-
-### Beta MCP Tool Param
-
-- `class BetaMCPToolParam`
-
-  A tool as an MCP server lists it: its name on that server, its
-  description, and its input schema.
-
-  - `input_schema: Hash[Symbol, untyped]`
-
-    The tool's input schema as the MCP server lists it, verbatim.
-
-  - `name: String`
-
-    The tool's name as the MCP server lists it (not prefixed with the server name).
-
-    minLength: 1
-
-  - `description: String`
-
-    The tool's description as the MCP server lists it.
-
 ### Beta MCP Tool Result Block
 
 - `class BetaMCPToolResultBlock`
@@ -44118,24 +43949,6 @@ puts(result)
       minLength: 1
 
     - `description: optional String | nil`
-
-      The tool's description as the MCP server lists it.
-
-  - `tools: Array[BetaMCPToolParam]`
-
-    The server's tool listing, pinned: when present, the server is not asked for its tools before sampling and exactly these entries, with `default_config` and `configs` applied, are the toolset's tools. Copy it from the `mcp_tool_listing` block of an earlier response.
-
-    - `input_schema: Hash[Symbol, untyped]`
-
-      The tool's input schema as the MCP server lists it, verbatim.
-
-    - `name: String`
-
-      The tool's name as the MCP server lists it (not prefixed with the server name).
-
-      minLength: 1
-
-    - `description: String`
 
       The tool's description as the MCP server lists it.
 
@@ -44962,8 +44775,6 @@ puts(result)
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=ruby) to learn more about programmatic tool calling.
-
-          - `type: :encrypted_code_execution_result`
 
           - `type: :encrypted_code_execution_result`
 
@@ -52006,8 +51817,6 @@ puts(result)
 
           - `type: :text`
 
-          - `type: :text`
-
           - `text: String`
 
             minLength: 1
@@ -52278,8 +52087,6 @@ puts(result)
           - `type: :search_result`
 
           - `content: Array[BetaTextBlockParam]`
-
-            - `type: :text`
 
             - `type: :text`
 
@@ -55399,38 +55206,6 @@ puts(result)
 
       The `id` of the previous response in this Thread.
 
-  - `clear_at: :next_user_message | :never`
-
-    How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-    - `:next_user_message`
-
-    - `:never`
-
-  - `output_config: BetaSystemMessageOutputConfig`
-
-    Per-message output configuration on a role:"system" input message.
-
-    Fields here apply per-turn; `format` remains top-level only. An
-    empty `{}` is accepted on a message that carries content; a message
-    with neither content nor output_config fields is rejected.
-
-    - `effort: :low | :medium | :high | 2 more`
-
-      How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-      Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-      - `:low`
-
-      - `:medium`
-
-      - `:high`
-
-      - `:xhigh`
-
-      - `:max`
-
 ### Beta Message Tokens Count
 
 - `class BetaMessageTokensCount`
@@ -56374,8 +56149,6 @@ puts(result)
           The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
           See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=ruby) to learn more about programmatic tool calling.
-
-          - `type: :encrypted_code_execution_result`
 
           - `type: :encrypted_code_execution_result`
 
@@ -60119,8 +59892,6 @@ puts(result)
 
             - `type: :encrypted_code_execution_result`
 
-            - `type: :encrypted_code_execution_result`
-
             - `content: Array[BetaCodeExecutionOutputBlock]`
 
               - `type: :code_execution_output`
@@ -63852,8 +63623,6 @@ puts(result)
               The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
               See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=ruby) to learn more about programmatic tool calling.
-
-              - `type: :encrypted_code_execution_result`
 
               - `type: :encrypted_code_execution_result`
 
@@ -76993,7 +76762,7 @@ puts(result)
 
         - `cache_control: optional BetaCacheControlEphemeral | nil`
 
-              Defaults to `5m`. See [prompt caching pricing](https://platform.claude.com/docs/en/build-with-claude/prompt-caching?sdk_languages=ruby) for details.
+          Create a cache control breakpoint at this content block.
 
   - `output_config: optional BetaSystemMessageOutputConfig | nil`
 
@@ -77163,23 +76932,24 @@ puts(result)
 
   - `cache_control: optional BetaCacheControlEphemeral | nil`
 
-              - `enabled: bool`
+    Create a cache control breakpoint at this content block.
 
-                Whether this member is offered to the model. Default is per member, per the toolset's documentation. A member whose enabled resolves false is withheld from the served schema.
+    - `type: :ephemeral`
 
     - `ttl: optional :"5m" | :"1h"`
 
-              `form_input`'s config overrides.
+      The time-to-live for the cache control breakpoint.
 
-              - `defer_loading: bool`
+      This may be one the following values:
 
-                Defer loading for this member. Must resolve to the same value on every enabled member of the toolset.
+      - `5m`: 5 minutes
+      - `1h`: 1 hour
 
       Defaults to `5m`. See [prompt caching pricing](https://platform.claude.com/docs/en/build-with-claude/prompt-caching?sdk_languages=ruby) for details.
 
-                Whether this member is offered to the model. Default is per member, per the toolset's documentation. A member whose enabled resolves false is withheld from the served schema.
+      - `:"5m"`
 
-            - `get_page_text: BetaBrowserGetPageTextConfig`
+      - `:"1h"`
 
   - `citations: optional Array[BetaTextCitationParam] | nil`
 
@@ -77619,13 +77389,13 @@ puts(result)
 
       - `error_code: :invalid_tool_input | :unavailable | :too_many_requests | 2 more`
 
-              `left_click_drag`'s config overrides.
+        - `:invalid_tool_input`
 
-              - `defer_loading: bool`
+        - `:unavailable`
 
-                Defer loading for this member. Must resolve to the same value on every enabled member of the toolset.
+        - `:too_many_requests`
 
-              - `enabled: bool`
+        - `:execution_time_exceeded`
 
         - `:file_not_found`
 
@@ -77671,9 +77441,9 @@ puts(result)
 
       - `old_start: Integer | nil`
 
-              `left_mouse_up`'s config overrides.
+  - `tool_use_id: String`
 
-              - `defer_loading: bool`
+    pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
 ### Beta Text Editor Code Execution Tool Result Block Param
 
@@ -77689,13 +77459,13 @@ puts(result)
 
       - `error_code: :invalid_tool_input | :unavailable | :too_many_requests | 2 more`
 
-                Defer loading for this member. Must resolve to the same value on every enabled member of the toolset.
+        - `:invalid_tool_input`
 
-              - `enabled: bool`
+        - `:unavailable`
 
-                Whether this member is offered to the model. Default is per member, per the toolset's documentation. A member whose enabled resolves false is withheld from the served schema.
+        - `:too_many_requests`
 
-            - `middle_click: BetaBrowserMiddleClickConfig`
+        - `:execution_time_exceeded`
 
         - `:file_not_found`
 
@@ -77741,13 +77511,13 @@ puts(result)
 
       - `old_start: optional Integer | nil`
 
-              `new_tab`'s config overrides.
+  - `tool_use_id: String`
 
-              - `defer_loading: bool`
+    pattern: ^srvtoolu_[a-zA-Z0-9_]+$
 
   - `cache_control: optional BetaCacheControlEphemeral | nil`
 
-                Whether this member is offered to the model. Default is per member, per the toolset's documentation. A member whose enabled resolves false is withheld from the served schema.
+    Create a cache control breakpoint at this content block.
 
     - `type: :ephemeral`
 
@@ -77774,13 +77544,13 @@ puts(result)
 
   - `error_code: :invalid_tool_input | :unavailable | :too_many_requests | 2 more`
 
-                Defer loading for this member. Must resolve to the same value on every enabled member of the toolset.
+    - `:invalid_tool_input`
 
-              - `enabled: bool`
+    - `:unavailable`
 
-                Whether this member is offered to the model. Default is per member, per the toolset's documentation. A member whose enabled resolves false is withheld from the served schema.
+    - `:too_many_requests`
 
-            - `read_network: BetaBrowserReadNetworkConfig`
+    - `:execution_time_exceeded`
 
     - `:file_not_found`
 
@@ -77794,13 +77564,13 @@ puts(result)
 
   - `error_code: :invalid_tool_input | :unavailable | :too_many_requests | 2 more`
 
-            - `read_page: BetaBrowserReadPageConfig`
+    - `:invalid_tool_input`
 
-              `read_page`'s config overrides.
+    - `:unavailable`
 
-              - `defer_loading: bool`
+    - `:too_many_requests`
 
-                Defer loading for this member. Must resolve to the same value on every enabled member of the toolset.
+    - `:execution_time_exceeded`
 
     - `:file_not_found`
 
@@ -78158,7 +77928,7 @@ puts(result)
 
   - `value: Integer`
 
-            Create a cache control breakpoint at this content block.
+    minimum: 1
 
 ### Beta Thread Continue Params
 
@@ -78277,7 +78047,7 @@ puts(result)
 
   - `strict: optional bool`
 
-            If true, tool will not be included in initial system prompt. Only loaded when returned via tool_reference from tool search.
+    When true, guarantees schema validation on tool names and inputs
 
 ### Beta Tool Bash 20241022
 
@@ -80180,9 +79950,9 @@ puts(result)
 
       - `model: Model`
 
-        Fastest model for high-volume, real-time tasks
+        The model that will complete your prompt.
 
-      - `:"claude-sonnet-5-5"`
+        See [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
 
         - `:"claude-fable-5-2"`
 
@@ -80216,25 +79986,25 @@ puts(result)
 
           Efficient model for coding and agents
 
-        Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+        - `:"claude-fable-5"`
 
-      - `:"claude-opus-5-5"`
+          Next generation of intelligence for the hardest knowledge work and coding problems
 
-        Powerful intelligence for coding, knowledge work, and long-running agents
+        - `:"claude-mythos-5"`
 
-      - `:"claude-mythos-5-1"`
+          Most capable model for cybersecurity and biology research
 
-        Our most capable model for cybersecurity and biology research, available through trusted access programs
+        - `:"claude-opus-5"`
 
-      - `:"claude-sonnet-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Efficient model for coding and agents
+        - `:"claude-opus-4-8"`
 
-      - `:"claude-fable-5"`
+          Powerful intelligence for long-running agents and coding
 
-        Next generation of intelligence for the hardest knowledge work and coding problems
+        - `:"claude-opus-4-7"`
 
-      - `:"claude-mythos-5"`
+          Powerful intelligence for long-running agents and coding
 
         - `:"claude-opus-4-6"`
 
@@ -82276,23 +82046,23 @@ puts(result)
 
         - `:"claude-opus-4-6"`
 
-      - `:"claude-opus-4-8"`
+          Powerful intelligence for long-running agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `:"claude-sonnet-4-6"`
 
-      - `:"claude-opus-4-7"`
+          Best combination of speed and intelligence
 
-        Powerful intelligence for long-running agents and coding
+        - `:"claude-haiku-4-5"`
 
         - `:"claude-haiku-4-5-20251001"`
 
         - `:"claude-opus-4-5"`
 
-      - `:"claude-haiku-4-5"`
+          Powerful intelligence for long-running agents and coding
 
-      - `:"claude-haiku-4-5-20251001"`
+        - `:"claude-opus-4-5-20251101"`
 
-      - `:"claude-opus-4-5"`
+          Powerful intelligence for long-running agents and coding
 
         - `:"claude-mythos-preview"`
 
@@ -82306,7 +82076,7 @@ puts(result)
 
           High-performance model for agents and coding
 
-        Powerful intelligence for long-running agents and coding
+        - `:"claude-sonnet-4-5-20250929"`
 
           **Deprecated**: Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
@@ -85892,24 +85662,6 @@ puts(result)
         minLength: 1
 
       - `description: optional String | nil`
-
-        The tool's description as the MCP server lists it.
-
-    - `tools: Array[BetaMCPToolParam]`
-
-      The server's tool listing, pinned: when present, the server is not asked for its tools before sampling and exactly these entries, with `default_config` and `configs` applied, are the toolset's tools. Copy it from the `mcp_tool_listing` block of an earlier response.
-
-      - `input_schema: Hash[Symbol, untyped]`
-
-        The tool's input schema as the MCP server lists it, verbatim.
-
-      - `name: String`
-
-        The tool's name as the MCP server lists it (not prefixed with the server name).
-
-        minLength: 1
-
-      - `description: String`
 
         The tool's description as the MCP server lists it.
 
@@ -93816,8 +93568,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               - `type: :text`
 
-              - `type: :text`
-
               - `text: String`
 
                 minLength: 1
@@ -94088,8 +93838,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               - `type: :search_result`
 
               - `content: Array[BetaTextBlockParam]`
-
-                - `type: :text`
 
                 - `type: :text`
 
@@ -97187,38 +96935,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
             - `:max`
 
-      - `clear_at: :next_user_message | :never`
-
-        How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-        - `:next_user_message`
-
-        - `:never`
-
-      - `output_config: BetaSystemMessageOutputConfig`
-
-        Per-message output configuration on a role:"system" input message.
-
-        Fields here apply per-turn; `format` remains top-level only. An
-        empty `{}` is accepted on a message that carries content; a message
-        with neither content nor output_config fields is rejected.
-
-        - `effort: :low | :medium | :high | 2 more`
-
-          How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-          Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-          - `:low`
-
-          - `:medium`
-
-          - `:high`
-
-          - `:xhigh`
-
-          - `:max`
-
     - `model: Model`
 
       The model that will complete your prompt.
@@ -98070,12 +97786,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
   The user profile ID to attribute the requests in this batch to. Use when acting on behalf of a party other than your organization. Applies to every request in the batch; an individual request whose `user_profile_id` body field conflicts with this header is errored.
 
 - `workspace_id: optional String` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
-- `workspace_id: String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
 
@@ -99970,8 +99680,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
                 The API returns this block in place of `code_execution_result` when the code called the web search tool.
 
                 See the [programmatic tool calling guide](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling?sdk_languages=ruby) to learn more about programmatic tool calling.
-
-                - `type: :encrypted_code_execution_result`
 
                 - `type: :encrypted_code_execution_result`
 
@@ -103144,8 +102852,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class BetaAuthenticationError`
 
             - `type: :authentication_error`
@@ -103155,8 +102861,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BetaBillingError`
 
@@ -103168,8 +102872,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class BetaPermissionError`
 
             - `type: :permission_error`
@@ -103179,8 +102881,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BetaNotFoundError`
 
@@ -103192,8 +102892,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class BetaRateLimitError`
 
             - `type: :rate_limit_error`
@@ -103203,8 +102901,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BetaGatewayTimeoutError`
 
@@ -103216,8 +102912,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: String`
-
           - `class BetaAPIError`
 
             - `type: :api_error`
@@ -103227,8 +102921,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: String`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: String`
 
           - `class BetaOverloadedError`
 

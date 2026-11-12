@@ -19,8 +19,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-  - `message: string`
-
 ### Beta Authentication Error
 
 - `beta_authentication_error: object`
@@ -33,8 +31,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-  - `message: string`
-
 ### Beta Billing Error
 
 - `beta_billing_error: object`
@@ -46,8 +42,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
   - `message: string`
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-  - `message: string`
 
 ### Beta Currency
 
@@ -69,8 +63,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-    - `message: string`
-
   - `beta_authentication_error: object`
 
     - `type: "authentication_error"`
@@ -80,8 +72,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
     - `message: string`
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-    - `message: string`
 
   - `beta_billing_error: object`
 
@@ -93,8 +83,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-    - `message: string`
-
   - `beta_permission_error: object`
 
     - `type: "permission_error"`
@@ -104,8 +92,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
     - `message: string`
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-    - `message: string`
 
   - `beta_not_found_error: object`
 
@@ -117,8 +103,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-    - `message: string`
-
   - `beta_rate_limit_error: object`
 
     - `type: "rate_limit_error"`
@@ -128,8 +112,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
     - `message: string`
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-    - `message: string`
 
   - `beta_gateway_timeout_error: object`
 
@@ -141,8 +123,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-    - `message: string`
-
   - `beta_api_error: object`
 
     - `type: "api_error"`
@@ -153,8 +133,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-    - `message: string`
-
   - `beta_overloaded_error: object`
 
     - `type: "overloaded_error"`
@@ -164,8 +142,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
     - `message: string`
 
       A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-    - `message: string`
 
 ### Beta Error Response
 
@@ -185,8 +161,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-      - `message: string`
-
     - `beta_authentication_error: object`
 
       - `type: "authentication_error"`
@@ -196,8 +170,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
       - `message: string`
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-      - `message: string`
 
     - `beta_billing_error: object`
 
@@ -209,8 +181,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-      - `message: string`
-
     - `beta_permission_error: object`
 
       - `type: "permission_error"`
@@ -220,8 +190,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
       - `message: string`
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-      - `message: string`
 
     - `beta_not_found_error: object`
 
@@ -233,8 +201,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-      - `message: string`
-
     - `beta_rate_limit_error: object`
 
       - `type: "rate_limit_error"`
@@ -244,8 +210,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
       - `message: string`
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-      - `message: string`
 
     - `beta_gateway_timeout_error: object`
 
@@ -257,8 +221,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-      - `message: string`
-
     - `beta_api_error: object`
 
       - `type: "api_error"`
@@ -268,8 +230,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
       - `message: string`
 
         A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-      - `message: string`
 
     - `beta_overloaded_error: object`
 
@@ -295,8 +255,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-  - `message: string`
-
 ### Beta Invalid Request Error
 
 - `beta_invalid_request_error: object`
@@ -308,8 +266,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
   - `message: string`
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-  - `message: string`
 
 ### Beta Monetary Amount
 
@@ -347,8 +303,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
   - `error_code: "organization_not_enrolled_in_beta"`
 
-  - `message: string`
-
 ### Beta Overloaded Error
 
 - `beta_overloaded_error: object`
@@ -361,8 +315,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-  - `message: string`
-
 ### Beta Permission Error
 
 - `beta_permission_error: object`
@@ -374,8 +326,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
   - `message: string`
 
     A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-  - `message: string`
 
 ### Beta Rate Limit Error
 
@@ -396,8 +346,6 @@ url: https://platform.claude.com/docs/en/api/cli/beta
   The request's `Content-Type` header names a charset other than UTF-8, ISO-8859-1 or US-ASCII. Send the request with no charset, or with one of these.
 
   - `error_code: "unsupported_charset"`
-
-  - `message: string`
 
 ## Beta › Models
 
@@ -6226,8 +6174,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
           - `type: "encrypted_code_execution_result"`
 
-          - `type: "encrypted_code_execution_result"`
-
           - `content: array of BetaCodeExecutionOutputBlock`
 
             - `type: "code_execution_output"`
@@ -9474,34 +9420,6 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
       - `server_tool_use: object`
 
         The number of server tool requests.
-
-    - `input_transformations: optional array of BetaInputTransformation`
-
-      Changes the API made to the request's input before showing it to the model,
-      and blocks that failed a binding check but were left unchanged: one entry per
-      block, in request order. Two entry types today. `thinking_dropped` — a
-      `thinking`, `redacted_thinking` or `connector_text` block from the request's
-      `messages` that was removed from the prompt instead of being shown to the
-      model because it failed a binding check. `thinking_mismatch_allowed` — a
-      `thinking` or `redacted_thinking` block that failed the conversation check
-      (the conversation before it differs from the one it was created in, or it
-      carries no record of one on a model that requires it) and was shown to the
-      model all the same, because that check is not enforced for this request.
-      More entry types may be added over time; ignore types you do not recognize.
-
-      Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
-      every such response from a model that supports extended thinking, as `[]`
-      when there is no entry to report; without the beta, blocks are removed or
-      left in place all the same but nothing is reported. Removed blocks contribute
-      nothing to `usage.input_tokens`; blocks left in place count as sent. When
-      streaming, the array is final in `message_start`; the final `message_delta`
-      event carries it only when a server-side model fallback happened mid-stream,
-      in which case it holds the serving model's entries and replaces the one in
-      `message_start`.
-
-      - `beta_thinking_dropped_input_transformation: object`
-
-      - `beta_thinking_mismatch_allowed_input_transformation: object`
 
     - `input_transformations: optional array of BetaInputTransformation`
 
@@ -20074,8 +19992,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `type: "encrypted_code_execution_result"`
 
-                - `type: "encrypted_code_execution_result"`
-
                 - `content: array of BetaCodeExecutionOutputBlock`
 
                   - `type: "code_execution_output"`
@@ -23243,8 +23159,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `beta_authentication_error: object`
 
             - `type: "authentication_error"`
@@ -23254,8 +23168,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `beta_billing_error: object`
 
@@ -23267,8 +23179,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `beta_permission_error: object`
 
             - `type: "permission_error"`
@@ -23278,8 +23188,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `beta_not_found_error: object`
 
@@ -23291,8 +23199,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `beta_rate_limit_error: object`
 
             - `type: "rate_limit_error"`
@@ -23302,8 +23208,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `beta_gateway_timeout_error: object`
 
@@ -23315,8 +23219,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
 
-            - `message: string`
-
           - `beta_api_error: object`
 
             - `type: "api_error"`
@@ -23326,8 +23228,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
             - `message: string`
 
               A human-readable explanation of the error. Its wording can change, so don't match on it.
-
-            - `message: string`
 
           - `beta_overloaded_error: object`
 
@@ -29733,12 +29633,6 @@ Archive Agent
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_managed_agents_agent: object`
@@ -35589,10 +35483,6 @@ Get statistics about the work queue for an environment.
 
     The type of object
 
-  - `type: "work_queue_stats"`
-
-    The type of object
-
   - `depth: number`
 
     Number of work items waiting to be picked up
@@ -35649,8 +35539,6 @@ Create Session
   - `beta_managed_agents_agent_params: object`
 
     Specification for an Agent. Provide a specific `version` or use the short-form `agent="agent_id"` for the most recent version
-
-    - `type: "agent"`
 
     - `type: "agent"`
 
@@ -40052,12 +39940,6 @@ Get Session
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_managed_agents_session: object`
@@ -43624,12 +43506,6 @@ Delete Session
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_managed_agents_deleted_session: object`
@@ -43783,12 +43659,6 @@ Archive Session
   - `"analytics-usage-cost-2026-08-24"`
 
   - `"experimental-claude-tag-2026-10-21"`
-
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -45977,22 +45847,6 @@ List Events
 
         Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
 
-      - `evaluation: optional BetaManagedAgentsAgentToolEvaluationAlwaysAllow or BetaManagedAgentsAgentToolEvaluationAlwaysAsk or BetaManagedAgentsAgentToolEvaluationAuto`
-
-        Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
-
-        - `beta_managed_agents_agent_tool_evaluation_always_allow: object`
-
-          The resolved permission_policy was always_allow; accompanies evaluated_permission "allow".
-
-        - `beta_managed_agents_agent_tool_evaluation_always_ask: object`
-
-          The resolved permission_policy was always_ask; accompanies evaluated_permission "ask".
-
-        - `beta_managed_agents_agent_tool_evaluation_auto: object`
-
-          The resolved permission_policy was auto: the server judged this invocation individually.
-
       - `session_thread_id: optional string`
 
         When set, this event was cross-posted from a subagent's thread to surface its permission request on the primary thread's stream. Empty on the thread's own events. Informational only: the server routes the matching `user.tool_confirmation` or `user.tool_result` by `tool_use_id`, so clients do not send it back.
@@ -47995,59 +47849,59 @@ List Events
 
                 - `type: "disabled"`
 
-          - `type: "multiagent_20261001"`
+        - `name: string`
 
-          - `advisor: BetaManagedAgentsMultiagentAdvisorEnabled or BetaManagedAgentsMultiagentAdvisorDisabled`
+        - `skills: array of BetaManagedAgentsAnthropicSkill or BetaManagedAgentsCustomSkill`
 
-            Whether the session's primary thread can consult an advisor model.
+          - `beta_managed_agents_anthropic_skill: object`
 
-            - `beta_managed_agents_multiagent_advisor_enabled: object`
+            A resolved Anthropic-managed skill.
 
-              The session's primary thread can consult `model` mid-turn.
+          - `beta_managed_agents_custom_skill: object`
 
-              - `type: "enabled"`
+            A resolved user-created custom skill.
 
-              - `model: string`
+        - `system: string`
 
-                The advisor model id.
+        - `tools: array of BetaManagedAgentsAgentToolset20260401 or BetaManagedAgentsMCPToolset or BetaManagedAgentsCustomTool`
 
-            - `beta_managed_agents_multiagent_advisor_disabled: object`
+          - `beta_managed_agents_agent_toolset20260401: object`
 
-              The agent has no advisor.
+          - `beta_managed_agents_mcp_toolset: object`
 
-              - `type: "disabled"`
+          - `beta_managed_agents_custom_tool: object`
 
-          - `subagents: BetaManagedAgentsSessionMultiagentSubagentsEnabled or BetaManagedAgentsMultiagentSubagentsDisabled`
+            A custom tool as returned in API responses.
 
         - `version: number`
 
-              The agent can spawn session threads.
+          format: int32
 
-              - `type: "enabled"`
+      - `budget: optional object`
 
         The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
         - `type: "limit"`
 
-                Whether the agent can define inline agents, which are not saved, when it spawns session threads.
+        - `max_list_cost: object`
 
           Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
 
-                  The agent can define inline agents.
+          - `amount: string`
 
-                  - `type: "enabled"`
+            Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
             pattern: ^(0|[1-9]\d*)$
 
           - `currency: "USD"`
 
-                  The agent cannot define inline agents.
+            Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
       - `metadata: optional map[string]`
 
-                Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
+        The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
 
-                - `type: "agent"`
+      - `title: optional string`
 
         The session's new title. Present only when the update changed it.
 
@@ -57823,22 +57677,6 @@ List Session Thread Events
 
         Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
 
-      - `evaluation: optional BetaManagedAgentsAgentToolEvaluationAlwaysAllow or BetaManagedAgentsAgentToolEvaluationAlwaysAsk or BetaManagedAgentsAgentToolEvaluationAuto`
-
-        Which resolved permission_policy produced evaluated_permission: always_allow, always_ask, or auto (with the server's per-invocation judgement). Absent only when the server refused the call before any policy applied (for example, the named tool is not enabled in the session); such a refusal has evaluated_permission deny. An event recorded before this field existed reads as the arm its evaluated_permission implies (always_allow for allow, always_ask for ask).
-
-        - `beta_managed_agents_agent_tool_evaluation_always_allow: object`
-
-          The resolved permission_policy was always_allow; accompanies evaluated_permission "allow".
-
-        - `beta_managed_agents_agent_tool_evaluation_always_ask: object`
-
-          The resolved permission_policy was always_ask; accompanies evaluated_permission "ask".
-
-        - `beta_managed_agents_agent_tool_evaluation_auto: object`
-
-          The resolved permission_policy was auto: the server judged this invocation individually.
-
       - `session_thread_id: optional string`
 
         When set, this event was cross-posted from a subagent's thread to surface its permission request on the primary thread's stream. Empty on the thread's own events. Informational only: the server routes the matching `user.tool_confirmation` or `user.tool_result` by `tool_use_id`, so clients do not send it back.
@@ -59841,59 +59679,59 @@ List Session Thread Events
 
                 - `type: "disabled"`
 
-          - `type: "multiagent_20261001"`
+        - `name: string`
 
-          - `advisor: BetaManagedAgentsMultiagentAdvisorEnabled or BetaManagedAgentsMultiagentAdvisorDisabled`
+        - `skills: array of BetaManagedAgentsAnthropicSkill or BetaManagedAgentsCustomSkill`
 
-            Whether the session's primary thread can consult an advisor model.
+          - `beta_managed_agents_anthropic_skill: object`
 
-            - `beta_managed_agents_multiagent_advisor_enabled: object`
+            A resolved Anthropic-managed skill.
 
-              The session's primary thread can consult `model` mid-turn.
+          - `beta_managed_agents_custom_skill: object`
 
-              - `type: "enabled"`
+            A resolved user-created custom skill.
 
-              - `model: string`
+        - `system: string`
 
-                The advisor model id.
+        - `tools: array of BetaManagedAgentsAgentToolset20260401 or BetaManagedAgentsMCPToolset or BetaManagedAgentsCustomTool`
 
-            - `beta_managed_agents_multiagent_advisor_disabled: object`
+          - `beta_managed_agents_agent_toolset20260401: object`
 
-              The agent has no advisor.
+          - `beta_managed_agents_mcp_toolset: object`
 
-              - `type: "disabled"`
+          - `beta_managed_agents_custom_tool: object`
 
-          - `subagents: BetaManagedAgentsSessionMultiagentSubagentsEnabled or BetaManagedAgentsMultiagentSubagentsDisabled`
+            A custom tool as returned in API responses.
 
         - `version: number`
 
-              The agent can spawn session threads.
+          format: int32
 
-              - `type: "enabled"`
+      - `budget: optional object`
 
         The session's budget after the update: the new budget when set or replaced, or null when the update removed it. Present only when the update changed the budget.
 
         - `type: "limit"`
 
-                Whether the agent can define inline agents, which are not saved, when it spawns session threads.
+        - `max_list_cost: object`
 
           Maximum list cost the session may accrue. List price is used regardless of any negotiated discount, so the cap fires at or before the actual charge.
 
-                  The agent can define inline agents.
+          - `amount: string`
 
-                  - `type: "enabled"`
+            Amount in minor units of the currency, as an integer decimal string with no leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a number so no float rounding is ever applied.
 
             pattern: ^(0|[1-9]\d*)$
 
           - `currency: "USD"`
 
-                  The agent cannot define inline agents.
+            Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
       - `metadata: optional map[string]`
 
-                Full `agent` definitions of the predefined agents, which are saved agents that this agent can spawn as session threads.
+        The session's full metadata bag after the update. Present when the update set non-empty metadata; absent when metadata was unchanged or cleared to empty.
 
-                - `type: "agent"`
+      - `title: optional string`
 
         The session's new title. Present only when the update changed it.
 
@@ -65566,12 +65404,6 @@ Get Deployment
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_managed_agents_deployment: object`
@@ -67440,12 +67272,6 @@ Archive Deployment
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_managed_agents_deployment: object`
@@ -68178,12 +68004,6 @@ Run Deployment Now
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_managed_agents_deployment_run: object`
@@ -68569,12 +68389,6 @@ Pause Deployment
   - `"analytics-usage-cost-2026-08-24"`
 
   - `"experimental-claude-tag-2026-10-21"`
-
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -69307,12 +69121,6 @@ Unpause Deployment
   - `"analytics-usage-cost-2026-08-24"`
 
   - `"experimental-claude-tag-2026-10-21"`
-
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -70508,12 +70316,6 @@ Get Deployment Run
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_managed_agents_deployment_run: object`
@@ -71133,8 +70935,6 @@ List Vaults
 
     - `type: "vault"`
 
-    - `type: "vault"`
-
     - `id: string`
 
       The unique ID of the vault (`vlt_...`).
@@ -71325,12 +71125,6 @@ Retrieve a Vault
   - `"analytics-usage-cost-2026-08-24"`
 
   - `"experimental-claude-tag-2026-10-21"`
-
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -71742,12 +71536,6 @@ Delete a Vault
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_managed_agents_deleted_vault: object`
@@ -71905,12 +71693,6 @@ Archive a Vault
   - `"analytics-usage-cost-2026-08-24"`
 
   - `"experimental-claude-tag-2026-10-21"`
-
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -72637,8 +72419,6 @@ List Credentials
   - `data: optional array of BetaManagedAgentsCredential`
 
     The credentials on this page, newest first.
-
-    - `type: "vault_credential"`
 
     - `type: "vault_credential"`
 
@@ -74568,7 +74348,7 @@ Create a Memory Store
 
     format: date-time
 
-  - `archived_at: string`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -74804,7 +74584,7 @@ List Memory Stores
 
       format: date-time
 
-    - `archived_at: string`
+    - `created_at: string`
 
       When the memory store was created, in RFC 3339.
 
@@ -74998,12 +74778,6 @@ Retrieve a Memory Store
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_managed_agents_memory_store: object`
@@ -75026,7 +74800,7 @@ Retrieve a Memory Store
 
     format: date-time
 
-  - `archived_at: string`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -75258,7 +75032,7 @@ Update a Memory Store
 
     format: date-time
 
-  - `archived_at: string`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -75448,12 +75222,6 @@ Delete a Memory Store
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_managed_agents_deleted_memory_store: object`
@@ -75620,12 +75388,6 @@ Archive a Memory Store
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_managed_agents_memory_store: object`
@@ -75648,7 +75410,7 @@ Archive a Memory Store
 
     format: date-time
 
-  - `archived_at: string`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -75875,8 +75637,6 @@ Create a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=cli#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: "memory"`
 
   - `type: "memory"`
 
@@ -76154,8 +75914,6 @@ List Memories
 
       - `type: "memory"`
 
-      - `type: "memory"`
-
       - `id: string`
 
         The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -76416,8 +76174,6 @@ Retrieve a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=cli#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: "memory"`
 
   - `type: "memory"`
 
@@ -76687,8 +76443,6 @@ Update a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=cli#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: "memory"`
 
   - `type: "memory"`
 
@@ -77504,8 +77258,6 @@ Retrieve a Memory Version
 
   - `type: "memory_version"`
 
-  - `type: "memory_version"`
-
   - `id: string`
 
     Unique identifier for this version (a `memver_...` value).
@@ -77815,8 +77567,6 @@ Redact a Memory Version
   Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=cli#audit-memory-changes) to learn more about memory versions.
-
-  - `type: "memory_version"`
 
   - `type: "memory_version"`
 
@@ -83943,12 +83693,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_dream: object`
@@ -84362,12 +84106,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_dream: object`
@@ -84774,12 +84512,6 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
   - `"analytics-usage-cost-2026-08-24"`
 
   - `"experimental-claude-tag-2026-10-21"`
-
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `--workspace-id: optional string` (header parameter)
 
@@ -85391,12 +85123,6 @@ Fetches a tunnel by ID.
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_tunnel: object`
@@ -85799,12 +85525,6 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
   Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
-
 #### Returns
 
 - `beta_tunnel: object`
@@ -85988,12 +85708,6 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
   - `"analytics-usage-cost-2026-08-24"`
 
   - `"experimental-claude-tag-2026-10-21"`
-
-- `--workspace-id: optional string` (header parameter)
-
-  Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
-
-  Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace.
 
 - `--workspace-id: optional string` (header parameter)
 

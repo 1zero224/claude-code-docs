@@ -438,8 +438,6 @@ const blockEtcWrites: HookCallback = async (input, toolUseID, { signal }) => {
 
 To confirm the block, register the callback under `PreToolUse` with a `Write|Edit` matcher and ask the agent to create a file under `/etc`: the Write tool's result in the message stream contains `Writing to /etc is not allowed`, and no file is created.
 
-To confirm the block, register the callback under `PreToolUse` with a `Write|Edit` matcher and ask the agent to create a file under `/etc`: the Write tool's result in the message stream contains `Writing to /etc is not allowed`, and no file is created.
-
 ### Auto-approve specific tools
 
 By default, the agent may prompt for permission before using certain tools. This example auto-approves read-only filesystem tools (Read, Glob, Grep) by returning `permissionDecision: 'allow'`, letting them run without user confirmation, apart from reads from [network paths](https://code.claude.com/docs/en/permissions.md#network-paths), while leaving all other tools subject to normal permission checks:
@@ -590,8 +588,6 @@ const options = {
   }
 };
 ```
-
-To confirm the hook fires, register the callback and ask the agent to delegate a small task to a subagent, such as listing the files in the current directory: when the subagent finishes, the callback prints the `[SUBAGENT] Completed:` lines with the subagent's ID and transcript path.
 
 To confirm the hook fires, register the callback and ask the agent to delegate a small task to a subagent, such as listing the files in the current directory: when the subagent finishes, the callback prints the `[SUBAGENT] Completed:` lines with the subagent's ID and transcript path.
 

@@ -185,7 +185,7 @@ Create a Memory Store
 
     format: date-time
 
-  - `archived_at: string | null`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -428,7 +428,7 @@ List Memory Stores
 
     format: date-time
 
-  - `archived_at: string | null`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -653,7 +653,7 @@ Retrieve a Memory Store
 
     format: date-time
 
-  - `archived_at: string | null`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -898,7 +898,7 @@ Update a Memory Store
 
     format: date-time
 
-  - `archived_at: string | null`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -1303,7 +1303,7 @@ Archive a Memory Store
 
     format: date-time
 
-  - `archived_at: string | null`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -1398,7 +1398,7 @@ console.log(betaManagedAgentsMemoryStore.id);
 
     format: date-time
 
-  - `archived_at: string | null`
+  - `created_at: string`
 
     When the memory store was created, in RFC 3339.
 
@@ -1605,8 +1605,6 @@ Create a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=typescript#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: "memory"`
 
   - `type: "memory"`
 
@@ -1892,8 +1890,6 @@ List Memories
 
     - `type: "memory"`
 
-    - `type: "memory"`
-
     - `id: string`
 
       The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -2164,8 +2160,6 @@ Retrieve a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=typescript#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: "memory"`
 
   - `type: "memory"`
 
@@ -2447,8 +2441,6 @@ Update a Memory
   `content` is `null` when the response uses `view=basic`. `content_size_bytes` and `content_sha256` are always set, so you can detect changes without fetching the content. To retrieve, update, or delete a memory, pass its ID, which stays the same when its path changes.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=typescript#view-and-edit-memories) to learn more about working with memories.
-
-  - `type: "memory"`
 
   - `type: "memory"`
 
@@ -2957,8 +2949,6 @@ List Memory Versions
 
   - `type: "memory_version"`
 
-  - `type: "memory_version"`
-
   - `id: string`
 
     Unique identifier for this version (a `memver_...` value).
@@ -3303,8 +3293,6 @@ Retrieve a Memory Version
 
   - `type: "memory_version"`
 
-  - `type: "memory_version"`
-
   - `id: string`
 
     Unique identifier for this version (a `memver_...` value).
@@ -3627,8 +3615,6 @@ Redact a Memory Version
   Retrieving a redacted version succeeds, with `content`, `path`, `content_size_bytes`, and `content_sha256` set to `null`. Check `redacted_at` to find out whether a version was redacted.
 
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=typescript#audit-memory-changes) to learn more about memory versions.
-
-  - `type: "memory_version"`
 
   - `type: "memory_version"`
 

@@ -42,9 +42,9 @@ Both paths move the same content for each person. Before you confirm, the last s
 
 - Custom skills.  There's no migration path for skills. Download any you want to keep before you migrate.
 
-- Claude Docs. Export any docs you want to keep before you migrate.
+- Claude Docs and Claude Sheets. Export any docs or sheets you want to keep before you migrate.
 
-- Claude Dashboards, other artifacts that **[store data](https://support.claude.com/en/articles/17153992-what-are-artifacts-and-how-do-i-use-them#h_97446f855f)**, and a few other kinds of artifacts
+- Claude Data artifacts, other artifacts that[**store data**](https://support.claude.com/en/articles/17153992-what-are-artifacts-and-how-do-i-use-them#h_97446f855f), and a few other kinds of artifacts.
 
 - Projects on the new version of projects (beta), and the chats in them. If we've switched a project of yours to the new version, only its earlier version moves: an archived project with the chats from before the switch.
 
@@ -78,9 +78,9 @@ Before you migrate, do the following in **[your personal account](#h_c20f7490d4)
 
 1. To keep a copy of your chats, **[export your data](https://support.claude.com/en/articles/9450526-export-your-claude-data)**. Download the file before you start the move: that export's link stops working once the account closes. The export doesn't include the original files you uploaded.
 
-2. Export any Claude Docs you want to keep. You can **[export a doc](https://support.claude.com/en/articles/16923645-get-started-with-claude-docs#h_9920271284)** as Word, PDF, Markdown, or Google Docs.
+2. Export any Claude Docs or Claude Sheets you want to keep. You can **[export a doc](https://support.claude.com/en/articles/16923645-get-started-with-claude-docs#h_9920271284)** as Word, PDF, Markdown, or Google Docs.
 
-3. Download any custom skills you want to keep: go to **[Customize > Skills](https://claude.ai/customize/skills)**, open the skill's menu, and click "Download."
+3. Download any custom skills you want to keep: go to **[Customize > Skills](https://claude.ai/customize/skills)**, click the skill to open it, then click "..." and select "Download."
 
 4. Download any files you want from **[Cowork tasks in the cloud](https://support.claude.com/en/articles/15520349-use-claude-cowork-on-web-desktop-and-mobile#h_fd499216c4)**.
 
@@ -99,8 +99,6 @@ Before you migrate, do the following in **[your personal account](#h_c20f7490d4)
 ### Will my organization be able to see my old conversations?
 
 Yes. Your organization can access what moves, the same way it can access the rest of its data. For example, its Primary Owner can export it. Any data retention policy your organization has set applies to it too. For more information, see **[Who owns and manages the data of my team?](https://support.claude.com/en/articles/9265372-who-owns-and-manages-the-data-of-my-team)**
-
-**Note:** After a migration, your chat list can take a little while to fill in. Searching by chat title works right away. The first time Claude searches your past chats in your new organization, it rebuilds its search index, so Claude might not find everything at first. If chats still seem to be missing, sign out, sign back in, and search again.
 
 ---
 
@@ -190,7 +188,7 @@ If you subscribed to the Pro, Max, or Ultra plan through the Apple App Store, yo
 
 - **Cancel your subscription yourself:** We can't cancel or refund it. **[Cancel your iOS subscription](https://support.claude.com/en/articles/8325617-cancel-your-pro-max-or-ultra-subscription#h_54384c9962)** in your Apple ID settings. Until you do, Apple keeps charging you, even after your personal account closes. To ask Apple for a refund, see **[Request a refund for a paid Claude plan](https://support.claude.com/en/articles/12386328-request-a-refund-for-a-paid-claude-plan#h_0d726f5bbf)**.
 
-- **When your personal account closes:** A few weeks after you move. It's then deleted, per our **[data retention practices](https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data)**. Chats you start in your personal account before it closes move to your organization too, and your organization can access them. Credits you buy after you move aren't refunded.
+- **When your personal account closes:** A few weeks after you move. It's then deleted, per our **[data retention practices](https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data)**. Chats you start in your personal account before it closes usually move to your organization too, and your organization can access them. Credits you buy after you move aren't refunded.
 
 **Start fresh** isn't offered until your App Store plan has ended.
 
@@ -210,7 +208,7 @@ For the full walkthrough of your options, deadlines, and what happens to your su
 
 You may have both a personal account and an organization account tied to the same email address. You can switch between them by clicking your initials or name in the lower left corner of the screen.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2312193347/712f763fc290b2488c103849f20c/0c135a6f-3442-4ee1-9ab7-98673f03ef6e?expires=1794298500&amp;signature=e5b575aae13121326c9a6826b6414cc0bebf398f029d9de85e50553decd0de34&amp;req=diMmFMh3noJbXvMW1HO4zXhPnNQ0wRdkufhmlOXMdYY%2BX0xpesCcTk6B6pkG%0AhLtloj%2FqjpJMR1TMZb4%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2312193347/712f763fc290b2488c103849f20c/0c135a6f-3442-4ee1-9ab7-98673f03ef6e?expires=1794465000&amp;signature=d8baac09ee38cf539eb87764ba330179ad374f1658e07b493a2f6f938c35a819&amp;req=diMmFMh3noJbXvMW1HO4zXhPnNQyzhphufhmlOXMdYYVONnAklUFTk%2F4v7Uj%0AmP2xl2NGlyoivgk92A0%3D%0A)
 
 A blue checkmark shows which account you're currently using. Click the other account to switch to it and access its separate chats and projects.
 

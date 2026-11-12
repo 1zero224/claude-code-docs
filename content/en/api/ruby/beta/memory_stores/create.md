@@ -209,16 +209,6 @@ Create a Memory Store
 
     format: date-time
 
-  - `name: String`
-
-    Human-readable name for the store. 1–255 characters. The store's mount-path slug under `/mnt/memory/` is derived from this name.
-
-  - `updated_at: Time`
-
-    Timestamp when the store's `name`, `description`, or `metadata` was last modified. Memory writes inside the store do not advance this.
-
-    format: date-time
-
 ## Example
 
 ```ruby

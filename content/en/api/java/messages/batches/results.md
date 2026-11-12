@@ -568,8 +568,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                 - `JsonValue type = "encrypted_code_execution_result"`
 
-                - `JsonValue type = "encrypted_code_execution_result"`
-
                 - `List<CodeExecutionOutputBlock> content`
 
                   - `JsonValue type = "code_execution_output"`

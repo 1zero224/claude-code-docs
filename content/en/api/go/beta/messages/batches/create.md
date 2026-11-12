@@ -359,7 +359,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     - `Type File`
 
-                  - `Content []BetaCodeExecutionOutputBlockParam`
+                    - `FileID string`
 
                 - `CacheControl BetaCacheControlEphemeralParam Optional`
 
@@ -3351,7 +3351,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                     The tool's input schema as the MCP server lists it, verbatim.
 
-                  - `Type ToolAddition`
+                  - `Name string`
 
                     The tool's name as the MCP server lists it (not prefixed with the server name).
 
@@ -3472,38 +3472,6 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
               - `const BetaSystemMessageOutputConfigEffortXhigh BetaSystemMessageOutputConfigEffort = "xhigh"`
 
               - `const BetaSystemMessageOutputConfigEffortMax BetaSystemMessageOutputConfigEffort = "max"`
-
-        - `ClearAt BetaMessageParamClearAt Optional`
-
-          How long this system message's text stays in front of the model. `"never"` (the default) renders it on every request that includes it. `"next_user_message"` renders it only for the user turn it follows: once a later `role: "user"` message exists in `messages` the message stays in the array (send it unchanged) but is no longer shown to the model. Only permitted on `role: "system"` messages.
-
-          - `const BetaMessageParamClearAtNextUserMessage BetaMessageParamClearAt = "next_user_message"`
-
-          - `const BetaMessageParamClearAtNever BetaMessageParamClearAt = "never"`
-
-        - `OutputConfig BetaSystemMessageOutputConfigParam Optional`
-
-          Per-message output configuration on a role:"system" input message.
-
-          Fields here apply per-turn; `format` remains top-level only. An
-          empty `{}` is accepted on a message that carries content; a message
-          with neither content nor output_config fields is rejected.
-
-          - `Effort BetaSystemMessageOutputConfigEffort Optional`
-
-            How much effort the model should put into its response. Higher effort levels may result in more thorough analysis but take longer.
-
-            Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
-
-            - `const BetaSystemMessageOutputConfigEffortLow BetaSystemMessageOutputConfigEffort = "low"`
-
-            - `const BetaSystemMessageOutputConfigEffortMedium BetaSystemMessageOutputConfigEffort = "medium"`
-
-            - `const BetaSystemMessageOutputConfigEffortHigh BetaSystemMessageOutputConfigEffort = "high"`
-
-            - `const BetaSystemMessageOutputConfigEffortXhigh BetaSystemMessageOutputConfigEffort = "xhigh"`
-
-            - `const BetaSystemMessageOutputConfigEffortMax BetaSystemMessageOutputConfigEffort = "max"`
 
       - `Model Model`
 
@@ -3784,7 +3752,7 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
               A schema to specify Claude's output format in responses. See [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs?sdk_languages=go)
 
-            - `TaskBudget BetaTokenTaskBudgetParam Optional`
+              - `Type JSONSchema`
 
               - `Schema map[string]any`
 

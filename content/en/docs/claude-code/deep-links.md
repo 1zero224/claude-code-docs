@@ -173,10 +173,6 @@ The VS Code extension registers its own handler at `vscode://anthropic.claude-co
 
 Claude Desktop handles its own `claude://` links. To open a Desktop session on a remote machine over SSH, see [Open an SSH session from a link](https://code.claude.com/docs/en/desktop.md#open-an-ssh-session-from-a-link).
 
-## Open a Claude Desktop session on an SSH connection
-
-Claude Desktop handles its own `claude://` links. To open a Desktop session on a remote machine over SSH, see [Open an SSH session from a link](/docs/en/desktop#open-an-ssh-session-from-a-link).
-
 ## Troubleshooting
 
 ### Clicking the link does nothing

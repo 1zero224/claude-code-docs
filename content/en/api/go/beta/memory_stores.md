@@ -183,7 +183,7 @@ Create a Memory Store
 
     format: date-time
 
-  - `ArchivedAt Time`
+  - `CreatedAt Time`
 
     When the memory store was created, in RFC 3339.
 
@@ -437,7 +437,7 @@ List Memory Stores
 
     format: date-time
 
-  - `ArchivedAt Time`
+  - `CreatedAt Time`
 
     When the memory store was created, in RFC 3339.
 
@@ -670,7 +670,7 @@ Retrieve a Memory Store
 
     format: date-time
 
-  - `ArchivedAt Time`
+  - `CreatedAt Time`
 
     When the memory store was created, in RFC 3339.
 
@@ -926,7 +926,7 @@ Update a Memory Store
 
     format: date-time
 
-  - `ArchivedAt Time`
+  - `CreatedAt Time`
 
     When the memory store was created, in RFC 3339.
 
@@ -1352,7 +1352,7 @@ Archive a Memory Store
 
     format: date-time
 
-  - `ArchivedAt Time`
+  - `CreatedAt Time`
 
     When the memory store was created, in RFC 3339.
 
@@ -1462,7 +1462,7 @@ func main() {
 
     format: date-time
 
-  - `ArchivedAt Time`
+  - `CreatedAt Time`
 
     When the memory store was created, in RFC 3339.
 
@@ -1661,8 +1661,6 @@ Create a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#view-and-edit-memories) to learn more about working with memories.
 
   - `Type Memory`
-
-  - `Type BetaManagedAgentsMemoryType`
 
   - `ID string`
 
@@ -1951,8 +1949,6 @@ List Memories
 
     - `Type Memory`
 
-    - `Type BetaManagedAgentsMemoryType`
-
     - `ID string`
 
       The unique ID of the memory (`mem_...`). It stays the same when the memory's path changes.
@@ -2227,8 +2223,6 @@ Retrieve a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#view-and-edit-memories) to learn more about working with memories.
 
   - `Type Memory`
-
-  - `Type BetaManagedAgentsMemoryType`
 
   - `ID string`
 
@@ -2507,8 +2501,6 @@ Update a Memory
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#view-and-edit-memories) to learn more about working with memories.
 
   - `Type Memory`
-
-  - `Type BetaManagedAgentsMemoryType`
 
   - `ID string`
 
@@ -3020,8 +3012,6 @@ List Memory Versions
 
   - `Type MemoryVersion`
 
-  - `Type BetaManagedAgentsMemoryVersionType`
-
   - `ID string`
 
     Unique identifier for this version (a `memver_...` value).
@@ -3368,8 +3358,6 @@ Retrieve a Memory Version
 
   - `Type MemoryVersion`
 
-  - `Type BetaManagedAgentsMemoryVersionType`
-
   - `ID string`
 
     Unique identifier for this version (a `memver_...` value).
@@ -3706,8 +3694,6 @@ Redact a Memory Version
   See the [memory guide](https://platform.claude.com/docs/en/managed-agents/memory?sdk_languages=go#audit-memory-changes) to learn more about memory versions.
 
   - `Type MemoryVersion`
-
-  - `Type BetaManagedAgentsMemoryVersionType`
 
   - `ID string`
 

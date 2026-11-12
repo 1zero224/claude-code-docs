@@ -17828,8 +17828,6 @@ curl https://api.anthropic.com/v1/sessions/$SESSION_ID/events/stream \
 
   - `type: "tool_use_limit_reached_error"`
 
-  - `type: "unknown_error"`
-
   - `message: string`
 
     Human-readable error description.

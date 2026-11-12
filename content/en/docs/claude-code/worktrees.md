@@ -330,8 +330,6 @@ Pair it with a `WorktreeRemove` hook to clean up when the session ends. See the 
 
 A `WorktreeCreate` hook also lets you run [`/batch`](https://code.claude.com/docs/en/commands#all-commands) outside a git repository. Each `/batch` subagent then publishes its change with your project's version-control commands and, when it can't open a pull request, reports what it published instead. Running `/batch` outside a git repository requires Claude Code v2.1.281 or later.
 
-A `WorktreeCreate` hook also lets you run [`/batch`](/docs/en/commands#all-commands) outside a git repository. Each `/batch` subagent then publishes its change with your project's version-control commands and, when it can't open a pull request, reports what it published instead. Running `/batch` outside a git repository requires Claude Code v2.1.281 or later.
-
 ## Troubleshooting
 
 Claude Code reports the errors below when it creates a worktree, enters one at startup, or returns a resumed session to one.

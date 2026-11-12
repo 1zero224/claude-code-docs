@@ -1275,8 +1275,6 @@ Delete Session Resource
 
   - `ID string`
 
-  - `ID string`
-
 ### Example
 
 ```go
@@ -1326,8 +1324,6 @@ func main() {
   Confirmation of resource deletion.
 
   - `Type SessionResourceDeleted`
-
-  - `ID string`
 
   - `ID string`
 
