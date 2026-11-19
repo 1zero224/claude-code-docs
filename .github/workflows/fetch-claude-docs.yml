@@ -2,9 +2,12 @@ name: Fetch Claude Code Docs
 
 on:
   schedule:
-    # Every 2 days at 06:00 UTC. Day-of-month */2 is the closest cron can get
-    # to a 48h cadence; month boundaries can stretch the gap to 2 days.
-    - cron: "0 6 */2 * *"
+    # Every 2 days at 06:00 UTC. Day-of-month 1-31/2 is the closest cron can
+    # get to a 48h cadence; month boundaries can stretch the gap to 2 days.
+    # Spelled out rather than */2 (the two are equivalent) so that editing this
+    # block forces GitHub to re-register the timer: schedules silently stopped
+    # firing after 2026-10-14 while the workflow still reported state=active.
+    - cron: "0 6 1-31/2 * *"
   workflow_dispatch: # Allow manual trigger
 
 jobs:
