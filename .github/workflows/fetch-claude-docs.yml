@@ -8,6 +8,9 @@ on:
     # block forces GitHub to re-register the timer: schedules silently stopped
     # firing after 2026-10-14 while the workflow still reported state=active.
     - cron: "0 6 1-31/2 * *"
+    # TEMP probe: remove once a run with event=schedule appears and proves the
+    # timer is registered again.
+    - cron: "*/20 * * * *"
   workflow_dispatch: # Allow manual trigger
 
 jobs:
